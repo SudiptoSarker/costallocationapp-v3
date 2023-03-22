@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Salary Unit Price Registration";
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/salaries.css" />
+}
+<div class="content container-fluid">
+    <!--Salaries List-->
+    <h4 style="text-align:left;">List</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="">
+                <table class="" id="salary_table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Salary Unit Price</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salary_list_tbody"></tbody>
+                </table>
+                <label id="salary_delete_btn">
+                    <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();"  data-target="#inactive_salary_modal">Delete</a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!-- Salary Reg. -->
+    <div class="modal-content" id="salary_body">
+        <div class="modal-body">
+            <form>
+                <div id="main-div">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="lowUnitPrice" style="padding-top: 37px;">Unit Price <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="lowUnitPrice">From</label>
+                                <input class="form-control" id="lowUnitPrice" type="text" placeholder="">
+
+                                <div class="salary_error_msg" id="lowPrice">
+                                    Please provide a unit price.
+                                </div>
+                            </div>
+                        </div>
+                        <label style="padding-top:40px;">～</label>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="highPrice">To</label>
+                                <input class="form-control" id="hightUnitPrice" type="text" placeholder="">
+                                <div class="salary_error_msg" id="highPrice">
+                                    Please provide a unit price.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="department-name" style="padding-top:1px;">Grade <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <input class="form-control" id="gradePoints" type="text" placeholder="">
+                            <div class="salary_error_msg" id="salaryGradePoints">
+                                Please provide a grade.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="cutom_button_group_salary">
+                        <a href="javascript:void(0);" id="salary_cancel">Cancel</a>
+                        <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">Registration</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br>
+</div>
+<input type="hidden" id="salary_warning_text" />
+<!-- Inactive Salary Modal -->
+<div class="modal custom-modal fade" id="inactive_salary_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Salary</h3>
+                    <ol class="salary_count" style="text-align:left;"></ol>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="salary_inactive_confirm_btn">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script> 
+    <script src="/Scripts/salaries.js"></script>     
+}

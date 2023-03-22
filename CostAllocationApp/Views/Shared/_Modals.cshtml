@@ -1,0 +1,273 @@
+﻿<!--section registration modal: start-->
+<div id="section_registration" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Section Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-4 module-label-txt">
+                                <label for="section-name" id="section_name_lbl">Section Name <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="section-name" type="text" placeholder="section name..">
+                                    <div class="section_name_err">
+                                        Please provide a section name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cutom_button_group_section">
+                            <a href="javascript:void(0);" id="section_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="section_registration_btn" onclick="InsertSection();">Registration</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--section registration modal: end-->
+
+<!--department registration modal: start-->
+<div id="department_registration" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Department Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-sm-4 module-label-txt">
+                                <div class="form-group">
+                                    <label for="department_name">Department Name <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="department_name" type="text" placeholder="department name...">
+                                    <div class="dept_name_err" id="department_name_err">
+                                        Please provide a department name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 module-label-txt">
+                                <div class="form-group">
+                                    <label for="section_list">Section Name <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <select id="section_list" class="form-control col-12" style="width:100% !important; border:1px solid #e3e3e3 !important;">
+                                    </select>
+                                    <div class="section_with_dept_err" id="section_list_error">
+                                        Please select a section!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="cutom_button_group_department">
+                            <a href="javascript:void(0);" id="department_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="department_registration_btn" onclick="InsertDepartment();">Registration</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--section registration modal: end-->
+
+<!--in-charge_registration modal: start-->
+<div id="in-charge_registration" class="modal custom-modal fade" role="dialog">
+    @*<div class="modal-dialog modal-dialog-centered modal-md" role="document">*@
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    In-Charge Registration
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-4 module-label-txt">
+                            <div class="form-group">
+                                <label for="in_charge_name">In-Charge Name <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <input class="form-control" id="in_charge_name" type="text" placeholder="incharge name...">
+                                <div class="incharge_name_err">
+                                    Please provide a In-Charge name.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_btn_icharge">
+                            <a href="javascript:void(0);" id="incharge_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="incharge_registration" onclick="InsertInCharge();">Registration</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--Section Create End-->
+        </div>
+    </div>
+</div>
+<!--section registration modal: end-->
+
+<!--Role Modal-->
+<div id="role_registration_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Role Registration
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-sm-4 module-label-txt">
+                                <div class="form-group">
+                                    <label for="role_name">Role Name <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="role_name" type="text" placeholder="role name...">
+                                    <div class="role_name_err">
+                                        Please provide a role name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_btn_role">
+                            <a href="javascript:void(0);" id="role_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="role_registration" onclick="InsertRoles();">Registration</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Explanation Modal-->
+<div id="explanation_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Explanation Registration
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-sm-4 module-label-txt">
+                                <div class="form-group">
+                                    <label for="explanation_name">Explanation <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="explanation_name" type="text" placeholder="explanation  name...">
+                                    <div class="explanations_name_err">
+                                        Please provide a explanation  name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_btn_explanations">
+                            <a href="javascript:void(0);" id="explanation_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="explanation_registration" onclick="InsertExplanations();">Registration</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Company Modal-->
+<div id="company_reg_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Company Registration
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-sm-4 module-label-txt">
+                                <div class="form-group">
+                                    <label for="companyName">Company Name <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="companyName" type="text" placeholder="company name...">
+                                    <div class="company_name_err">
+                                        Please provide a company name.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_btn_company">
+                            <a href="javascript:void(0);" id="company_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" id="company_registration" onclick="InsertCompanies();">Registration</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

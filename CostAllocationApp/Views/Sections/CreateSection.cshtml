@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Section Registration";
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/sections.css" />
+}
+
+<div class="content container-fluid">
+    <h4 style="text-align:left;">List</h4>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="" id="section_table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Section Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="section_list_tbody"></tbody>
+                </table>
+                <label id="section_delete_btn">
+                    <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">Delete</a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="modal-content" id="section_body">
+        <style>
+        </style>
+        <div class="modal-body">
+            <form>
+                <div id="main-div">
+                    <div class="row">
+                        <div class="col-4 module-label-txt">
+                            <label for="section-name" id="section_name_lbl">Section Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <input class="form-control" id="section-name" type="text" placeholder="section name..">
+                                <div class="section_name_err">
+                                    Please provide a section name.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="cutom_button_group_section">
+                        <a href="javascript:void(0);" id="section_cancel">Cancel</a>
+                        <a href="javascript:void(0);" id="section_registration" onclick="InsertSection();">Registration</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br>
+</div>
+
+<input type="hidden" id="section_warning_text" />
+<input type="hidden" id="section_chk_ids" />
+<!-- Inactive section modal -->
+<div class="modal custom-modal fade" id="delete_section" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Section</h3>
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/sections.js"></script>
+}

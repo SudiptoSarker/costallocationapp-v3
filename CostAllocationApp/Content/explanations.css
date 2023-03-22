@@ -1,0 +1,75 @@
+﻿/*-----------------Explanation Master-----------------------*/
+#explanation_registration {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+}
+#explanation_cancel {
+    background-color: #FC4136;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+}
+#explanations_inactive_btn {
+    background: indianred;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+}
+#explanation_table td, th {
+    border: 1px solid;
+    padding: 0px !important;
+}
+#explanation_table {
+    width: 47%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+#explanation_table thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.cutom_button_group_explanation {
+    float: right;
+    margin-left: 69%;
+}
+#explanation_table tbody tr td:last-child {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#explanation_delete_btn {
+    padding-left: 429px;
+}
+.explanations_name_err {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+#explanation_body {
+    width: 59% !important;
+}
+#explanations_list_tbody {
+    text-align: center;
+    /*height: 133px;*/
+}
+#explanation_table thead th:nth-of-type(1) {
+    width: 45px;
+}
+#explanation_table thead th:nth-of-type(2) {
+    width: 200px
+}
+
+

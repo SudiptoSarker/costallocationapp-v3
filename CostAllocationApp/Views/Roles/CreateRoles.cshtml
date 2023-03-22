@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Roles Registration";
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/roles.css" />
+}
+<div class="content container-fluid">
+    <h4 style="text-align:left;">List</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="">
+                <table id="role_table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Role Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="role_list_tbody"></tbody>
+                </table>
+                <label id="role_delete_btn">
+                    <a id="role_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onRoleInactiveClick();" data-target="#inactive_role_modal">Delete</a>
+                </label>
+            </div>
+        </div>
+    </div>    
+    <br />
+
+    <!-- Role Reg. -->
+    <div class="modal-content" id="role_body">
+        <style>
+        </style>
+        <div class="modal-body">
+            <form>
+                <div id="main-div">
+
+                    <div class="row">
+                        <div class="col-sm-4 module-label-txt">
+                            <div class="form-group">
+                                <label for="role_name">Role Name <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <input class="form-control" id="role_name" type="text" placeholder="role name...">
+                                <div class="role_name_err">
+                                    Please provide a role name.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="cutom_button_group_role">
+                        <a href="javascript:void(0);" id="role_cancel">Cancel</a>
+                        <a href="javascript:void(0);" id="role_registration" onclick="InsertRoles();">Registration</a>
+                    </div>
+                </div>                
+            </form>
+        </div>
+    </div>
+    <br><br>
+</div>
+<input type="hidden" id="role_warning_text" />
+<!-- Role Inactive Modal -->
+<div class="modal custom-modal fade" id="inactive_role_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Roles</h3>
+                    <ol class="role_count" style="text-align:left;"></ol>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="role_inactive_confirm_btn">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{    
+    <script src="/Scripts/common.js"></script> 
+    <script src="/Scripts/roles.js"></script>           
+}

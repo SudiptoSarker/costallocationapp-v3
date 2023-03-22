@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Department Registration";
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/departments.css" />    
+}
+<div class="content container-fluid">
+    <!--List-->
+    <h4 style="text-align:left;">List</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="">
+                <table class="" id="department_table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Department Name</th>
+                            <th>Section</th>
+                        </tr>
+                    </thead>
+                    <tbody id="department_list_tbody"></tbody>
+                </table>
+                <label id="department_delete_btn">
+                    <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onDepartmentInactiveClick();" data-target="#inactive_department_modal">Delete</a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="modal-content" id="department_body">
+        <style>
+        </style>
+        <div class="modal-body">
+            <form>
+                <div id="main-div">
+                    <div class="row">
+                        <div class="col-4 module-label-txt">
+                            <label for="department_name">Department Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <input class="form-control" id="department_name" type="text" placeholder="department name..">
+                                <div class="department_name_err" id="department_name_err">
+                                    Please provide a department name.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 module-label-txt">
+                            <div class="form-group">
+                                <label for="section_list">Section Name <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <select id="section_list" class="form-control col-12" style="width:100% !important; border:1px solid #e3e3e3 !important;"></select>
+                                <div class="section_err" id="section_ist_error">
+                                    Please select a section!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="cutom_button_group_department">
+                        <a href="javascript:void(0);" id="department_cancel">Cancel</a>
+                        <a href="javascript:void(0);" id="department_registration" onclick="InsertDepartment();">Registration</a>
+                    </div>
+                </div>
+                <style>
+                    #plus-icon {
+                        visibility: hidden;
+                    }
+                </style>
+            </form>
+        </div>
+    </div>
+    <br><br>
+
+</div>
+<input type="hidden" id="department_warning_text" />
+
+<!-- Inactive Department Modal -->
+<div class="modal custom-modal fade" id="inactive_department_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Department</h3>
+                    <ol class="department_count" style="text-align:left;"></ol>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="department_inactive_confirm_btn">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>   
+    <script src="/Scripts/departments.js"></script>         
+}

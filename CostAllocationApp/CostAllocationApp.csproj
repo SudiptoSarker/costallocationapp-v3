@@ -46,16 +46,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.Interfaces">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.Interfaces.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.System.Drawing">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.System.Drawing.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.System.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>

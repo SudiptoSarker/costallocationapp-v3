@@ -1,4 +1,7 @@
-﻿function onSectionInactiveClick() {
+﻿/***************************\                           
+ js                      
+\***************************/	
+function onSectionInactiveClick() {
     let sectionIds = GetCheckedIds("section_list_tbody");
     var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
     $.ajax({
@@ -15,6 +18,7 @@
         }
     });  
 }
+
 $(document).ready(function () {
     //------------------Section Master----------------------//
 
@@ -93,6 +97,7 @@ function IsSectionAssigned(sectionIds) {
 function InsertSection() {
     var apiurl = "/api/sections/";
     let sectionName = $("#section-name").val().trim();
+    
     if (sectionName == "") {
         $(".section_name_err").show();
         return false;

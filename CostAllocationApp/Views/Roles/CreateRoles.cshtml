@@ -5,68 +5,76 @@
 
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/roles.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/roles_ver02.css" />
 }
 <div class="content container-fluid">
-    <h4 style="text-align:left;">List</h4>
+    <!-----------------Roles Master: Roles Registration Form----------------->
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <table id="role_table">
-                    <thead>
-                        <tr>
-                            <th>Check</th>
-                            <th>Role Name</th>
-                        </tr>
-                    </thead>
-                    <tbody id="role_list_tbody"></tbody>
-                </table>
-                <label id="role_delete_btn">
-                    <a id="role_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onRoleInactiveClick();" data-target="#inactive_role_modal">Delete</a>
-                </label>
+            <div class="row">
+                <div class="col-md-5">                     
+                    <table id="roles_reg_tbl" >
+                        <thead style="border:none;">
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>Roles Name</th>       
+                                <th>Actions</th>                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="roles_reg_frm_td">
+                                    <input type="text" value="" placeholder="roles name" id="role_name">
+                                    @* <div class="department_name_err" id="department_name_err">
+                                        Please provide a department name.
+                                    </div> *@
+                                </td>
+                                <td id="roles_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="roles_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn" onclick="InsertRoles();">Save</a>
+                                </td>
+                            </tr>                                       
+                        </tbody>
+                    </table>  
+                </div>
             </div>
         </div>
-    </div>    
-    <br />
-
-    <!-- Role Reg. -->
-    <div class="modal-content" id="role_body">
-        <style>
-        </style>
-        <div class="modal-body">
-            <form>
-                <div id="main-div">
-
-                    <div class="row">
-                        <div class="col-sm-4 module-label-txt">
-                            <div class="form-group">
-                                <label for="role_name">Role Name <span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <input class="form-control" id="role_name" type="text" placeholder="role name...">
-                                <div class="role_name_err">
-                                    Please provide a role name.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+    </div>
+    <br/><br/>
+    
+    <!-----------------Roles Master: Roles list are showing on this part----------------->
+    <div id="roles_list" style="display: block;">        
+        <div class="row">            
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="roles_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Roles List</th>
+                            </tr>
+                            <tr>
+                                <th class="roles_list_theader">Check</th>
+                                <th class="roles_list_theader">Roles Name</th>
+                            </tr>                               
+                        </thead>
+                        <tbody id="role_list_tbody">                                
+                        </tbody>
+                    </table>
+                    <label id="roles_delete_btn">
+                        <a id="role_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_role_modal" onClick="onRoleInactiveClick()">Delete</a>
+                    </label>
                 </div>
-                <div class="row">
-                    <div class="cutom_button_group_role">
-                        <a href="javascript:void(0);" id="role_cancel">Cancel</a>
-                        <a href="javascript:void(0);" id="role_registration" onclick="InsertRoles();">Registration</a>
-                    </div>
-                </div>                
-            </form>
+            </div>
         </div>
     </div>
-    <br><br>
+    <br />
 </div>
+<br><br>
+
 <input type="hidden" id="role_warning_text" />
-<!-- Role Inactive Modal -->
+
+<!-----------------Modal: Delete Roles----------------->
 <div class="modal custom-modal fade" id="inactive_role_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -93,5 +101,5 @@
 
 @section Scripts{    
     <script src="/Scripts/common.js"></script> 
-    <script src="/Scripts/roles.js"></script>           
+    <script src="/Scripts/roles_ver02.js"></script>           
 }

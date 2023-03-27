@@ -4,68 +4,76 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/explanations.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" />
 }
-
 <div class="content container-fluid">
-    <!--Explanations List-->
-    <h4 style="text-align:left;">List</h4>
+    <!-----------------Explanation Master: Explanation Registration Form----------------->
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <table id="explanation_table">
-                    <thead>
-                        <tr>
-                            <th>Check</th>
-                            <th>Explanation</th>
-                        </tr>
-                    </thead>
-                    <tbody id="explanations_list_tbody"></tbody>
-                </table>
-                <label id="explanation_delete_btn">
-                    <a id="explanations_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onExplanationInactiveClick();" data-target="#inactive_explanation_modal">Delete</a>
-                </label>
+            <div class="row">
+                <div class="col-md-5">                     
+                    <table id="exp_reg_tbl" >
+                        <thead style="border:none;">
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>Explanation Name</th>       
+                                <th>Actions</th>                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="exp_reg_frm_td">
+                                    <input type="text" value="" placeholder="Explanation name" id="explanation_name">
+                                    @* <div class="department_name_err" id="department_name_err">
+                                        Please provide a department name.
+                                    </div> *@
+                                </td>
+                                <td id="exp_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="exp_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn" onclick="InsertExplanations();">Save</a>
+                                </td>
+                            </tr>                                       
+                        </tbody>
+                    </table>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    
+    <!-----------------Explanation Master: Explanation list are showing on this part----------------->
+    <div id="exp_list" style="display: block;">        
+        <div class="row">            
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="" id="exp_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Explanation List</th>
+                            </tr>
+                            <tr>
+                                <th class="exp_list_theader">Check</th>
+                                <th class="exp_list_theader">Explanation Name</th>
+                            </tr>                               
+                        </thead>
+                        <tbody id="explanations_list_tbody">                                
+                        </tbody>
+                    </table>
+                    <label id="explanation_delete_btn">
+                        <a id="explanations_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_explanation_modal" onClick="onExplanationInactiveClick()">Delete</a>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
     <br />
-
-    <!-- Explanations Reg. -->
-    <div class="modal-content" id="explanation_body">
-        <div class="modal-body">
-            <form>
-                <div id="main-div">
-                    <div class="row">
-                        <div class="col-sm-4 module-label-txt">
-                            <div class="form-group">
-                                <label for="explanation_name">Explanation <span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <input class="form-control" id="explanation_name" type="text" placeholder="explanation  name...">
-                                <div class="explanations_name_err">
-                                    Please provide a explanation  name.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="cutom_button_group_explanation">
-                        <a href="javascript:void(0);" id="explanation_cancel">Cancel</a>
-                        <a href="javascript:void(0);" id="explanation_registration" onclick="InsertExplanations();">Registration</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <br><br>
 </div>
+<br><br>
+
 <input type="hidden" id="explanation_warning_text" />
 
-<!-- Inactive Explanations Modal -->
+<!-----------------Modal: Delete Roles----------------->
 <div class="modal custom-modal fade" id="inactive_explanation_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -92,5 +100,5 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/explanations.js"></script>
+    <script src="/Scripts/explanations_ver02.js"></script>
 }

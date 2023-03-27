@@ -5,7 +5,7 @@
 
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/nameregistration_ver02.css" rel="stylesheet" type="text/css" />    
+    <link href="/Content/nameregistration.css" rel="stylesheet" type="text/css" />    
     <link href="/Content/modal_registrations.css" rel="stylesheet" type="text/css" /> 
 }
 
@@ -49,8 +49,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @* <input type="text" id="identity_new" value="" placeholder="name"> *@
-                                        <select id="employee_list" class="select_employee"></select>
+                                        <input type="text" id="identity_new" value="" placeholder="name">
                                     </td>
                                     <td>
                                         <input type="text" id="memo_new" value="" placeholder="memo">
@@ -115,7 +114,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/nameregistration_ver02.js"></script>
+    <script src="/Scripts/nameregistration.js"></script>
     <script src="/Scripts/modal_registrations.js"></script>
 
     <script>
@@ -141,78 +140,9 @@
                     });
             });
 
-            function formatState (state) {
-                if (!state.id) {
-                    return state.text;
-                }
-                var baseUrl = "/api/incharges/";
-                var $state = $(
-                    '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.png" class="img-flag" /> ' + state.InChargeName + '</span>'
-                );
-                return $state;
-            };
-
-            @* $(".js-example-templating").select2({
-                templateResult: formatState
-            }); *@
             function FillDropdownOfNameRegistration() {
                 SetRegistrationValueInHiddenField();
 
-                
-                //Employee list dropdown
-                @* $("#employee_list").select2({
-                    ajax: {
-                        url: '/api/incharges/',
-                        processResults: function (data) {
-                        // Transforms the top-level key of the response object from 'items' to 'results'
-                        return {
-                            $.each(data, function (key, item) {
-                                $('#employee_list').append(`<option selected value='${item.Id}'>${item.InChargeName}</option>`);
-                            });
-                            "results": [
-                                {
-                                "id": 1,
-                                "text": "Option 1"
-                                },
-                                {
-                                "id": 2,
-                                "text": "Option 2"
-                                }
-                            ],                            
-                        };
-                        }
-                    } *@
-                    //templateResult: formatState
-                    @* $.getJSON('/api/incharges/')
-                    .done(function (data) {
-                        $('#employee_list').empty();
-                        $('#employee_list').append(`<option value=''>Select Employee</option>`);
-                        var inchargeId = $("#hid_inchargeId").val();
-                        $.each(data, function (key, item) {
-                            if (inchargeId == item.Id) {
-                                $('#employee_list').append(`<option selected value='${item.Id}'>${item.InChargeName}</option>`);
-                            } else {
-                                $('#employee_list').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
-                            }
-                        });
-                    }); *@
-                @* }); *@
-
-
-                $.getJSON('/api/incharges/')
-                    .done(function (data) {
-                        $('#employee_list').empty();
-                        $('#employee_list').append(`<option value=''>Select Employee</option>`);
-                        var inchargeId = $("#hid_inchargeId").val();
-                        $.each(data, function (key, item) {
-                            if (inchargeId == item.Id) {
-                                $('#employee_list').append(`<option selected value='${item.Id}'>${item.InChargeName}</option>`);
-                            } else {
-                                $('#employee_list').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
-                            }
-                        });
-                    });
-                $("#employee_list").select2();
                 //SectionDropdown fill
                 $.getJSON('/api/sections/')
                     .done(function (data) {
@@ -227,7 +157,6 @@
                             }
                         });
                     });
-                $("#section_new").select2();
 
                 var tempSectionId = $('#section_new').find(":selected").val();
 
@@ -247,7 +176,6 @@
                         });
 
                 }
-                $("#department_new").select2();
 
                 //InCharge dropdown fill
                 $.getJSON('/api/incharges/')
@@ -263,8 +191,6 @@
                             }
                         });
                     });
-                $("#incharge_new").select2();
-
                 //Role dropdown fill
                 $.getJSON('/api/Roles/')
                     .done(function (data) {
@@ -279,7 +205,6 @@
                             }
                         });
                     });
-                $("#role_new").select2();
 
                 //Explanation dropdown fill
                 $.getJSON('/api/Explanations/')
@@ -295,8 +220,6 @@
                             }
                         });
                     });
-                $("#explanation_new").select2();
-
                 //Company dropdown fill
                 $.getJSON('/api/Companies/')
                     .done(function (data) {
@@ -311,8 +234,6 @@
                             }
                         });
                     });
-                $("#company_new").select2();
-
             }
             FillDropdownOfNameRegistration();
 
@@ -372,8 +293,6 @@
 
             function SetRegistrationValueInHiddenField() {
                 let name = $("#identity_new").val();
-                let employeeId = $('#employee_list').find(":selected").val();
-
                 let memo = $("#memo_new").val();
                 let sectionId = $('#section_new').find(":selected").val();
                 console.log("set: sectionId: " + sectionId);
@@ -471,8 +390,6 @@
         $('#add_name_add_new').on('click', function () {
 
             var employeeName = $('#identity_new').val();
-            var employeeId = $('#employee_list').find(":selected").val();
-
             var sectionId = $('#section_new').find(":selected").val();
             var inchargeId = $('#incharge_new').find(":selected").val();
             var departmentId = $('#department_new').find(":selected").val();

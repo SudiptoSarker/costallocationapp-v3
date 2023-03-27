@@ -2135,12 +2135,11 @@ table.dataTable thead > tr > td.sorting {
 .select2-container .select2-selection--single {
     border: 1px solid #e3e3e3;
     border-radius: 0.25rem;
-    /* height: 44px; */
-	height: 25px;
+    height: 44px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-	height: 26px;
-	right: 3px;
+	height: 42px;
+	right: 7px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
 	border-color: #ccc transparent transparent;
@@ -2159,16 +2158,14 @@ table.dataTable thead > tr > td.sorting {
 	border-width: 0 6px 6px;
 }
 .select2-container .select2-selection--single .select2-selection__rendered {
-	padding-right: 28px;
-	padding-left: 3px;
+	padding-right: 30px;
+	padding-left: 15px;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
 	color: #676767;
-	font-size: 10px;
-	font-family: Yu Gothic;
+	font-size: 15px;
 	font-weight: normal;
-	/* line-height: 42px; */
-	line-height: 25px;
+	line-height: 42px;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
 	background-color: #ff9b44;

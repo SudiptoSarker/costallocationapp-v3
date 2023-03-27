@@ -7,33 +7,34 @@
 }
     <div class="content container-fluid">         
         <!-----------------Section Master: Section Registration Form----------------->
-        <div class="content container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-5">                     
-                            <table id="section_reg_tbl" >
-                                <thead style="border: none;">
-                                    <tr>
-                                    </tr>
-                                    <tr>
-                                        <th>Section Name</th>       
-                                        <th>Actions</th>                                                                                
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="section_reg_frm_td">
-                                            <input type="text" value="" placeholder="section name" id="section-name">
-                                        </td>
-                                        <td id="section_reg_frm_td">
-                                            <a href="javascript:void(0);" class="" id="section_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                            <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertSection();">Save</a>
-                                        </td>
-                                    </tr>                                       
-                                </tbody>
-                            </table>  
-                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5">                     
+                        <table id="section_reg_tbl" >
+                            <thead style="border: none;">
+                                <tr>
+                                </tr>
+                                <tr>
+                                    <th>Section Name</th>       
+                                    <th>Actions</th>                                                                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="section_reg_frm_td">
+                                        <input type="text" value="" placeholder="section name" id="section-name">
+                                        @* <div class="" id="section_name_err">
+                                            Please provide a department name.
+                                        </div> *@
+                                    </td>
+                                    <td id="section_reg_frm_td">
+                                        <a href="javascript:void(0);" class="" id="section_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                        <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertSection();">Save</a>
+                                    </td>
+                                </tr>                                       
+                            </tbody>
+                        </table>  
                     </div>
                 </div>
             </div>
@@ -100,5 +101,5 @@
     </div>
     @section Scripts{
         <script src="/Scripts/common.js"></script>
-        <script src="/Scripts/sections.js"></script>
+        <script src="/Scripts/sections_ver02.js"></script>
     }

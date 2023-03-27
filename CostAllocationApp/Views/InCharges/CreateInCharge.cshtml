@@ -2,76 +2,80 @@
 @{
     ViewBag.Title = "In-Charge Registration";
 }
+
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/incharge.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/incharge_ver02.css" />
 }
 
 <div class="content container-fluid">
-
-    <!--List-->
-    <h4 style="text-align:left;">List</h4>
+    <!-----------------In-Charge Master: In-Charge Registration Form----------------->
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <table class="" id="incharge_table">
-                    <thead>
-                        <tr>
-                            <th>Check</th>
-                            <th>In-Charge Name</th>
-                        </tr>
-                    </thead>
-                    <tbody id="incharge_list_tbody"></tbody>
-                </table>
-                <label id="incharge_delete_btn">
-                    <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onInchargeInactiveClick();" data-target="#del_incharge_modal">Delete</a>
-                </label>
+            <div class="row">
+                <div class="col-md-5">                     
+                    <table id="incharge_reg_tbl" >
+                        <thead style="border:none;">
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>In-Charge Name</th>       
+                                <th>Actions</th>                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="incharge_reg_frm_td">
+                                    <input type="text" value="" placeholder="in-charge name" id="in_charge_name">
+                                    @* <div class="department_name_err" id="department_name_err">
+                                        Please provide a department name.
+                                    </div> *@
+                                </td>
+                                <td id="incharge_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn" onclick="InsertInCharge();">Save</a>
+                                </td>
+                            </tr>                                       
+                        </tbody>
+                    </table>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    
+    <!-----------------In-Charge Master: In-Charge list are showing on this part----------------->
+    <div id="incharge_list" style="display: block;">        
+        <div class="row">            
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="incharge_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">In-Charge List</th>
+                            </tr>
+                            <tr>
+                                <th class="incharge_list_theader">Check</th>
+                                <th class="incharge_list_theader">In-Charge Name</th>
+                            </tr>                               
+                        </thead>
+                        <tbody id="incharge_list_tbody">                                
+                        </tbody>
+                    </table>
+                    <label id="incharge_delete_btn">
+                        <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">Delete</a>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
     <br />
-
-    <div class="modal-content" id="incharge_body">
-        <div class="modal-body">
-            <form>
-                <div id="main-div">
-                    <div class="row">
-                        <div class="col-sm-4 module-label-txt">
-                            <div class="form-group">
-                                <label for="in_charge_name">In-Charge Name <span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <input class="form-control" id="in_charge_name" type="text" placeholder="incharge name...">
-                                <div class="incharge_name_err">
-                                    Please provide a In-Charge name.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="cutom_button_group_incharge">
-                        <a href="javascript:void(0);" id="incharge_cancel">Cancel</a>
-                        <a href="javascript:void(0);" id="incharge_registration" onclick="InsertInCharge();">Registration</a>
-                    </div>
-                </div>
-                <style>
-
-                    #plus-icon {
-                        visibility: hidden;
-                    }
-                </style>
-            </form>
-        </div>
-    </div>
-    <br><br>
-    <!--Section Create End-->
-
 </div>
+<br><br>
+
 <input type="hidden" id="incharge_warning_text" />
-<!-- incharge inactive modal -->
+
+<!-----------------Modal: Delete In-Charge----------------->
 <div class="modal custom-modal fade" id="del_incharge_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -98,6 +102,6 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>    
-    <script src="/Scripts/incharge.js"></script>            
+    <script src="/Scripts/incharge_ver02.js"></script>            
 }
 

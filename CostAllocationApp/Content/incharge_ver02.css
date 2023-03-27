@@ -1,12 +1,12 @@
-﻿/*-----------------Section Master-----------------------*/
+﻿/*-----------------In-Charge Master-----------------------*/
 body {
     overflow-x: auto;
 }
 
 /***************************\                           
-	Section Registration Form
+	In-Charge Registration Form
 \***************************/ 
-#section_reg_tbl {
+#incharge_reg_tbl {
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
@@ -14,12 +14,12 @@ body {
     font-family: Yu Gothic;
 }
 
-#section_reg_tbl thead {
+#incharge_reg_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-#section_reg_frm_td{
+#incharge_reg_frm_td{
     height: 25px;
     border: none;
     border: 1px solid #f5e7e7 !important;
@@ -27,7 +27,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#section-name{
+#in_charge_name{
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -36,7 +36,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#section_reg_cancel_btn {
+#incharge_reg_cancel_btn {
     background-color: #3c4b5d;
     color: white;
     padding: 5px;
@@ -45,7 +45,7 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-#section_reg_save_btn {
+#incharge_reg_save_btn {
     background-color: #3c4b5d;
     color: white;
     padding: 5px;
@@ -54,76 +54,70 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-/* #section_name_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-} */
+
 /***************************\                           
-	Section List Show
+	In-Charge List Show
 \***************************/ 
-#section_list{
+#incharge_list{
     margin-left: 17px
 }
-#section_list_tbl{
+#incharge_list_tbl{
     width: 85%;
     border-collapse: collapse;
     font-size: 10px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
-#section_list_tbl td, th {
+#incharge_list_tbl td, th {
     border: 1px solid;
     padding: 0px !important;
     text-align: center;
 }
 
-#section_list_tbl td, th:nth-of-type(9) {
+#incharge_list_tbl td, th:nth-of-type(9) {
     text-align: center;
     width: 20px;
 }
 
-#section_list_tbl td:nth-of-type(2) {
+#incharge_list_tbl td:nth-of-type(2) {
     border: 1px solid;
     padding: 2px !important;
     text-align: left;
     text-indent: 1em;
 }
-#section_list_tbl {
+#incharge_list_tbl {
     width: 85%;
     border-collapse: collapse;
     font-size: 14px;
     border: 1px solid;
 }
 
-#section_list_tbl thead tr:nth-of-type(1) {
+#incharge_list_tbl thead tr:nth-of-type(1) {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
 
-#section_list_tbl thead th:nth-of-type(2) {
+#incharge_list_tbl thead th:nth-of-type(2) {
     width: 200px
 }
 
-#section_list_tbl thead th:nth-of-type(3) {
+#incharge_list_tbl thead th:nth-of-type(3) {
     width: 100px
 }
 
-#section_list_tbl thead th:nth-of-type(1) {
+#incharge_list_tbl thead th:nth-of-type(1) {
     /* width: 45px; */
     width: 10%;
 }
-.section_list_theader{
+.incharge_list_theader{
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
 /***************************\                           
-	Section List Delete Button
+	In-Charge List Delete Button
 \***************************/ 
-#section_inactive_btn {
+#incharge_inactive_btn {
     width: 83%;
     font-size: 10px;
     font-family: Yu Gothic;
@@ -134,6 +128,6 @@ body {
     margin: 5px;
     display: inline-block;
 }
-#section_delete_btn {
+#incharge_delete_btn {
     padding-left: 382px;
 }

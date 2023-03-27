@@ -4,67 +4,77 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/companies.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/companies_ver02.css" />
 }
 
 <div class="content container-fluid">
-    <!--Company List-->
-    <h4 style="text-align:left;">List</h4>
+    <!-----------------Company Master: Company Registration Form----------------->
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <table id="copmany_table">
-                    <thead>
-                        <tr>
-                            <th>Check</th>
-                            <th>Company Name</th>
-                        </tr>
-                    </thead>
-                    <tbody id="company_list_tbody"></tbody>
-                </table>
-                <label id="company_delete_btn">
-                    <a id="company_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onCompanyInactiveClick();" data-target="#inactive_company_modal">Delete</a>
-                </label>
+            <div class="row">
+                <div class="col-md-5">                     
+                    <table id="company_reg_tbl" >
+                        <thead style="border:none;">
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>Company Name</th>       
+                                <th>Actions</th>                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="company_reg_frm_td">
+                                    <input type="text" value="" placeholder="Company name" id="companyName">
+                                    @* <div class="department_name_err" id="department_name_err">
+                                        Please provide a department name.
+                                    </div> *@
+                                </td>
+                                <td id="company_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="company_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn" onclick="InsertCompanies();">Save</a>
+                                </td>
+                            </tr>                                       
+                        </tbody>
+                    </table>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    
+    <!-----------------Company Master: Company list are showing on this part----------------->
+    <div id="company_list" style="display: block;">        
+        <div class="row">            
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="company_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Company List</th>
+                            </tr>
+                            <tr>
+                                <th class="company_list_theader">Check</th>
+                                <th class="company_list_theader">Company Name</th>
+                            </tr>                               
+                        </thead>
+                        <tbody id="company_list_tbody">                                
+                        </tbody>
+                    </table>
+                    <label id="company_delete_btn">
+                        <a id="company_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_company_modal" onClick="onCompanyInactiveClick()">Delete</a>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
     <br />
-
-    <!-- Company Reg. -->
-    <div class="modal-content" id="company_body">
-        <div class="modal-body">
-            <form>
-                <div id="main-div">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="companyName">Company Name <span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <input class="form-control" id="companyName" type="text" placeholder="company name...">
-                                <div class="company_name_err">
-                                    Please provide a company name.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="cutom_button_group_company">
-                        <a href="javascript:void(0);" id="company_cancel">Cancel</a>
-                        <a href="javascript:void(0);" id="company_registration" onclick="InsertCompanies();">Registration</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <br><br>
 </div>
+<br><br>
+
 <input type="hidden" id="company_warning_text" />
 
-<!-- Inactive company Modal -->
+<!-----------------Modal: Delete Company----------------->
 <div class="modal custom-modal fade" id="inactive_company_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -91,5 +101,5 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/companies.js"></script>
+    <script src="/Scripts/companies_ver02.js"></script>
 }

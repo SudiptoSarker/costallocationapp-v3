@@ -46,16 +46,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.Interfaces">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.Interfaces.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus.System.Drawing">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.System.Drawing.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\EPPlus.System.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
+      <HintPath>..\..\costallocationapp\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
@@ -235,6 +235,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
+    <Content Include="Content\employee.css" />
     <Content Include="Content\Custom.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\departments.css" />
@@ -611,6 +612,7 @@
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\departments.js" />
     <Content Include="Scripts\dropfiles.js" />
+    <Content Include="Scripts\employee.js" />
     <Content Include="Scripts\explanations.js" />
     <Content Include="Scripts\forecast.js" />
     <Content Include="Scripts\forecast_ver02.js" />
@@ -689,6 +691,7 @@
     <Content Include="Views\Forecasts\CreateForecast.cshtml" />
     <Content Include="Views\Employees\NameRegistration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

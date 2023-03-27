@@ -14,10 +14,11 @@ namespace CostAllocationApp.Controllers.Api
             explanationsBLL = new ExplanationsBLL();
         }
 
+        // creating explanations
         [HttpPost]
         public IHttpActionResult CreateExplanation(Explanation explanation)
         {
-
+            // checking null or empty
             if (String.IsNullOrEmpty(explanation.ExplanationName))
             {
                 return BadRequest("Explanation Name Required");
@@ -28,6 +29,7 @@ namespace CostAllocationApp.Controllers.Api
                 explanation.CreatedDate = DateTime.Now;
                 explanation.IsActive = true;
 
+                // save an explanation
                 int result = explanationsBLL.CreateExplanation(explanation);
                 if (result > 0)
                 {
@@ -39,6 +41,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
+        // retrive all the explanations
         [HttpGet]
         public IHttpActionResult Explanations()
         {
@@ -46,6 +49,7 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(explanations);
         }
 
+        // remove explanations
         [HttpDelete]
         public IHttpActionResult RemoveExplanations([FromUri] string explanationIds)
         {

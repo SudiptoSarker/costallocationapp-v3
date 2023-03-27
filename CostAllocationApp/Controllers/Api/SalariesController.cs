@@ -14,11 +14,11 @@ namespace CostAllocationApp.Controllers.Api
         {
             salaryBLL = new SalaryBLL();
         }
-
+        // create grade
         [HttpPost]
         public IHttpActionResult CreateSalary(Salary salary)
         {
-
+            // checking salary null or empty
             if (String.IsNullOrEmpty(salary.SalaryGrade))
             {
                 return BadRequest("Grade Required");
@@ -29,13 +29,14 @@ namespace CostAllocationApp.Controllers.Api
                 salary.CreatedDate = DateTime.Now;
                 salary.IsActive = true;
 
-
+                // checking existing salary
                 if (salaryBLL.CheckGrade(salary))
                 {
                     return BadRequest("Data Already Exists!!!");
                 }
                 else
                 {
+                    // create salary
                     int result = salaryBLL.CreateSalary(salary);
                     if (result > 0)
                     {
@@ -50,6 +51,7 @@ namespace CostAllocationApp.Controllers.Api
                 
             }
         }
+        // get all the salaries
         [HttpGet]
         public IHttpActionResult Salaries()
         {
@@ -57,18 +59,20 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(salaries);
         }
 
+        // remove salaries
         [HttpDelete]
         public IHttpActionResult RemoveSalary([FromUri] string salaryIds)
         {
             int result = 0;
 
-
+            // checking salaries ID null or empty
             if (!String.IsNullOrEmpty(salaryIds))
             {
                 string[] ids = salaryIds.Split(',');
 
                 foreach (var item in ids)
                 {
+                    // remove salary
                     result += salaryBLL.RemoveSalary(Convert.ToInt32(item));
                 }
 
@@ -87,5 +91,7 @@ namespace CostAllocationApp.Controllers.Api
             }
 
         }
+
+
     }
 }

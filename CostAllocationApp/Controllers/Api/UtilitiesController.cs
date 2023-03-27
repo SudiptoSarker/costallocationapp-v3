@@ -22,6 +22,7 @@ namespace CostAllocationApp.Controllers.Api
         RoleBLL roleBLL = null;
         ExplanationsBLL explanationsBLL = null;
         ForecastBLL forecastBLL = null;
+        EmployeeBLL employeeBLL = null;
 
         public UtilitiesController()
         {
@@ -34,6 +35,7 @@ namespace CostAllocationApp.Controllers.Api
             roleBLL = new RoleBLL();
             explanationsBLL = new ExplanationsBLL();
             forecastBLL = new ForecastBLL();
+            employeeBLL = new EmployeeBLL();
         }
 
 
@@ -889,6 +891,47 @@ namespace CostAllocationApp.Controllers.Api
             forecast.Points = point;
 
             return forecast;
+        }
+
+
+        [HttpPost]
+        [Route("api/utilities/CreateEmployee/")]
+        public IHttpActionResult CreateNewEmployee(Employee employee)
+        {
+            if (!String.IsNullOrEmpty(employee.FullName))
+            {
+                employee.IsActive = true;
+                employee.CreatedBy = "";
+                employee.CreatedDate = DateTime.Now;
+                int result = employeeBLL.CreateEmployee(employee);
+                if (result>0)
+                {
+                    return Ok("Saved Successfully");
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong");
+                }
+            }
+            else
+            {
+                return BadRequest("Invalid Employee Name");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/EmployeeList/")]
+        public IHttpActionResult GetEmployeeList()
+        {
+            List<Employee> employees = employeeBLL.GetAllEmployees();
+            if (employees.Count>0)
+            {
+                return Ok(employees);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
     }

@@ -132,6 +132,14 @@
                                     {
                                         <li><a href="/Salaries/CreateSalary">Salary Master</a></li>
                                     }
+                                    if (url.ToLower().Contains("createnewemployee"))
+                                    {
+                                        <li><a href="/Employees/CreateNewEmployee" class="active">Employee Master</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Employees/CreateNewEmployee">Employee Master</a></li>
+                                    }
                                 }
                             </ul>
                         </li>

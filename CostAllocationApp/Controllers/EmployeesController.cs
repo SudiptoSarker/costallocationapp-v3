@@ -26,5 +26,10 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        public ActionResult CreateNewEmployee()
+        {
+            return View();
+        }
     }
 }

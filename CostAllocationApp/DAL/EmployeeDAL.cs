@@ -13,18 +13,12 @@ namespace CostAllocationApp.DAL
         public int CreateEmployee(Employee employee)
         {
             int result = 0;
-            string query = $@"insert into Employees(FirstName,LastName,Memo,Sex,MobileNo,PresentAddress,PermanentAddress,CreatedBy,CreatedDate,IsActive) values(@firstName,@lastName,@memo,@sex,@mobileNo,@presentAddress,@permanentAddress,@createdBy,@createdDate,@isActive)";
+            string query = $@"insert into Employees(FullName,CreatedBy,CreatedDate,IsActive) values(@fullName,@createdBy,@createdDate,@isActive)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@firstName", employee.FirstName);
-                cmd.Parameters.AddWithValue("@lastName", employee.LastName);
-                cmd.Parameters.AddWithValue("@memo", employee.Memo);
-                cmd.Parameters.AddWithValue("@sex", employee.Sex);
-                cmd.Parameters.AddWithValue("@mobileNo", employee.MobileNo);
-                cmd.Parameters.AddWithValue("@presentAddress", employee.PresentAddress);
-                cmd.Parameters.AddWithValue("@permanentAddress", employee.PermanentAddress);
+                cmd.Parameters.AddWithValue("@fullName", employee.FullName);
                 cmd.Parameters.AddWithValue("@createdBy", employee.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", employee.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", employee.IsActive);
@@ -41,6 +35,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<Employee> GetAllEmployees()
         {
             List<Employee> employees = new List<Employee>();
@@ -61,13 +56,7 @@ namespace CostAllocationApp.DAL
                         {
                             Employee employee = new Employee();
                             employee.Id = Convert.ToInt32(rdr["Id"]);
-                            employee.FirstName = rdr["FirstName"].ToString();
-                            employee.LastName = rdr["LastName"].ToString();
-                            employee.Memo = rdr["Memo"].ToString();
-                            employee.Sex = rdr["Sex"].ToString();
-                            employee.MobileNo = rdr["MobileNo"].ToString();
-                            employee.PresentAddress = rdr["PresentAddress"].ToString();
-                            employee.PermanentAddress = rdr["PermanentAddress"].ToString();
+                            employee.FullName = rdr["FullName"].ToString();
                             employee.CreatedBy = rdr["CreatedBy"].ToString();
                             employee.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
 

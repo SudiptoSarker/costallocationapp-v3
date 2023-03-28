@@ -73,5 +73,57 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public int UpdateEmployee(Employee employee)
+        {
+            int result = 0;
+            string query = $@"update Employees set FullName=@fullName,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@fullName", employee.FullName);
+                cmd.Parameters.AddWithValue("@updatedBy", employee.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", employee.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", employee.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int InactiveEmployee(Employee employee)
+        {
+            int result = 0;
+            string query = $@"update Employees set IsActive=@isActive,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@isActive", employee.IsActive);
+                cmd.Parameters.AddWithValue("@updatedBy", employee.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", employee.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", employee.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
     }
 }

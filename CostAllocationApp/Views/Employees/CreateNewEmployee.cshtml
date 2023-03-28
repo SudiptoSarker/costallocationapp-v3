@@ -29,8 +29,8 @@
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" id="employee_cancel">Cancel</a>
-                            <a href="javascript:void(0);" id="employee_registration" onclick="InsertEmployee();">Registration</a>
+                            <a href="javascript:void(0);" class="employee_cancel">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Registration</a>
                         </div>
                     </div>
                 </form>
@@ -57,11 +57,63 @@
 
 
 </div>
+<input type="hidden" id="employee_id_hidden" />
+<div class="modal custom-modal fade" id="edit_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Edit Employee Name</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="employee_name_edit">Employee Name</label>
+                        <input type="text" class="form-control" id="employee_name_edit">
+                        <div class="employee_err_edit">
+                            Please provide employee name.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_button_group_employee">
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">Update</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Inactive employee modal -->
+<div class="modal custom-modal fade" id="inactive_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Inactive Employee</h3>
+                    <p>Are you sure want to inactive?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div id="employeeContextMenu" class="dropdown clearfix">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-        <li><a tabindex="-1" href="#">edit</a></li>
-        <li><a tabindex="-1" href="#">inactive</a></li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li><a tabindex="-1" href="#">Edit</a></li>
+        <li><a tabindex="-1" href="#">Inactive</a></li>
     </ul>
 </div>
 

@@ -26,5 +26,14 @@ namespace CostAllocationApp.BLL
         //{
         //    return employeeDAL.RemoveEmployee(employeeIds);
         //}
+
+        public int UpdateEmployee(Employee employee)
+        {
+            return employeeDAL.UpdateEmployee(employee);
+        }
+        public int InactiveEmployee(Employee employee)
+        {
+            return employeeDAL.InactiveEmployee(employee);
+        }
     }
 }

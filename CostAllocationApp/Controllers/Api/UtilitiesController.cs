@@ -934,5 +934,49 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpPut]
+        [Route("api/utilities/UpdateEmployee/")]
+        public IHttpActionResult UpdateEmployee(Employee employee)
+        {
+            if(!String.IsNullOrEmpty(employee.FullName))
+            {
+                employee.UpdatedBy = "";
+                employee.UpdatedDate = DateTime.Now;
+                int result = employeeBLL.UpdateEmployee(employee);
+                if (result > 0)
+                {
+                    return Ok("Updated Successfully");
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong");
+                }
+
+            }
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/InactiveEmployee/")]
+        public IHttpActionResult InactiveEmployee(Employee employee)
+        {
+            employee.IsActive = false;
+            employee.UpdatedBy = "";
+            employee.UpdatedDate = DateTime.Now;
+            int result = employeeBLL.InactiveEmployee(employee);
+            if (result > 0)
+            {
+                return Ok("Deactivated Successfully");
+            }
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
+        }
+
     }
 }

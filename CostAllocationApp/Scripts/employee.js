@@ -5,31 +5,6 @@ $(document).ready(function () {
     //show employee list on page load
     GetEmployeeList();
 
-    //inactive section
-    //$('#section_inactive_confirm_btn').on('click', function (event) {
-    //    event.preventDefault();
-    //    let id = GetCheckedIds("section_list_tbody");
-
-    //    var sectionWarningTxt = $("#section_warning_text").val();
-    //    $("#section_warning").html(sectionWarningTxt);
-    //    var tempVal = $("#section_warning").html();
-    //    //alert(tempVal)
-
-
-    //    id = id.slice(0, -1);
-    //    $.ajax({
-    //        url: '/api/sections?sectionIds=' + id,
-    //        type: 'DELETE',
-    //        success: function (data) {
-    //            ToastMessageSuccess(data);
-    //            GetSectionList();
-    //        },
-    //        error: function (data) {
-    //            ToastMessageFailed(data);
-    //        }
-    //    });
-    //    $('#delete_section').modal('toggle');
-    //});
 });
 
 //employee insert
@@ -66,9 +41,9 @@ function InsertEmployee() {
 
 //Get employee list
 function GetEmployeeList() {
+    $('#employee_list_tbody').empty();
     $.getJSON('/api/utilities/EmployeeList/')
         .done(function (data) {
-            $('#employee_list_tbody').empty();
             $.each(data, function (key, item) {
                 $('#employee_list_tbody').append(`<tr><td>${item.Id}</td><td>${item.FullName}</td></tr>`);
             });
@@ -86,6 +61,8 @@ $(function () {
             left: e.pageX-230,
             top: e.pageY-25
         });
+        $('#employee_id_hidden').val($(this)[0].cells[0].innerText);
+        $('#employee_name_edit').val($(this)[0].cells[1].innerText);
         //debugger;
         return false;
     });
@@ -96,7 +73,75 @@ $(function () {
 
     $("#employeeContextMenu li a").click(function (e) {
         var f = $(this);
+        var elementText = f[0].innerText;
+        if (elementText.toLowerCase() == 'edit') {
+            $('#edit_employee_modal').modal();
+        }
+        if (elementText.toLowerCase() == 'inactive') {
+            $('#inactive_employee_modal').modal();
+        }
+        
         //debugger;
     });
 
 });
+
+//employee update
+function UpdateEmployee() {
+    var apiurl = "/api/utilities/UpdateEmployee/";
+    let employeeName = $("#employee_name_edit").val().trim();
+    let employeeId = $('#employee_id_hidden').val();
+    if (employeeName == "") {
+        $(".employee_err_edit").show();
+        return false;
+    } else {
+        $(".employee_err_edit").hide();
+        var data = {
+            Id: employeeId,
+            FullName: employeeName
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'PUT',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                $("#page_load_after_modal_close").val("yes");
+                ToastMessageSuccess(data);
+
+                GetEmployeeList();
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    }
+}
+
+
+// inactive employee
+function InactiveEmployee() {
+    var apiurl = "/api/utilities/InactiveEmployee/";
+    let employeeId = $('#employee_id_hidden').val();
+    var data = {
+        Id: employeeId
+    };
+    $.ajax({
+        url: apiurl,
+        type: 'DELETE',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            $("#page_load_after_modal_close").val("yes");
+            ToastMessageSuccess(data);
+            $('#inactive_employee_modal').modal('hide');
+            GetEmployeeList();
+            
+            
+        },
+        error: function (data) {
+            alert(data.responseJSON.Message);
+        }
+    });
+}

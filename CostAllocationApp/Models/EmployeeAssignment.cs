@@ -9,6 +9,7 @@ namespace CostAllocationApp.Models
     {
         public int Id { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeeId { get; set; }
         public int? SectionId { get; set; }
         public int? DepartmentId { get; set; }
         public int? InchargeId { get; set; }
@@ -20,7 +21,7 @@ namespace CostAllocationApp.Models
         public string IsActive { get; set; }
         public string Remarks { get; set; }
         public int SubCode { get; set; }
-
+        public string Year { get; set; }
 
         //public int Id { get; set; }
         //public string EmployeeName { get; set; }

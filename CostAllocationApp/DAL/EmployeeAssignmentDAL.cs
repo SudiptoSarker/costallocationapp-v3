@@ -15,12 +15,12 @@ namespace CostAllocationApp.DAL
         public int CreateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeesAssignments(EmployeeName,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode) values(@employeeName,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode);";
+            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
+                cmd.Parameters.AddWithValue("@employeeId", employeeAssignment.EmployeeId);
                 cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
                 cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
                 cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
@@ -52,6 +52,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@isActive", employeeAssignment.IsActive);
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
                 cmd.Parameters.AddWithValue("@subCode", employeeAssignment.SubCode);
+                cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
 
                 try
                 {
@@ -319,7 +320,7 @@ namespace CostAllocationApp.DAL
 
             where += " 1=1 ";
 
-            string query = $@"select ea.id as AssignmentId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
@@ -328,8 +329,9 @@ namespace CostAllocationApp.DAL
                             left join Roles rl on ea.RoleId = rl.Id
                             left join InCharges inc on ea.InChargeId = inc.Id 
                             left join Grades gd on ea.GradeId = gd.Id
+                            Inner join Employees ep on ea.EmployeeId = ep.Id
                             where {where}
-                            order by ea.EmployeeName asc, ea.Id";
+                            order by ep.FullName asc, ea.Id";
                             //ORDER BY ea.EmployeeName asc, ea.Id";
 
 
@@ -350,7 +352,7 @@ namespace CostAllocationApp.DAL
                         {
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            employeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();

@@ -1,4 +1,14 @@
-﻿/*-----------------Section Master-----------------------*/
+﻿/***************************\                           
+ This is the comment body. 
+ Variation Two.                                       
+\***************************/	
+
+
+/*-----------------Section Master-----------------------*/
+body {
+    overflow-x: auto;
+}
+
 #section_inactive_btn {
     background: indianred;
     color: white;

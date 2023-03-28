@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
-
+ 
 namespace CostAllocationApp.Controllers.Api
 {
     public class SectionsController : ApiController
@@ -16,6 +16,10 @@ namespace CostAllocationApp.Controllers.Api
         {
             sectionBLL = new SectionBLL();
         }
+
+        /***************************\                           
+            Section Master Api: Section created through this api.                               
+        \***************************/ 
         [HttpPost]
         public IHttpActionResult CreateSection(Section section)
         {
@@ -55,6 +59,9 @@ namespace CostAllocationApp.Controllers.Api
             
         }
 
+        /***************************\                           
+            Section Master Api: All the sections are fetched using this api.                            
+        \***************************/
         [HttpGet]
         public IHttpActionResult Sections()
         {
@@ -62,6 +69,9 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(sections);
         }
 
+        /***************************\                           
+            Section Master Api: Sections are removed using this api.                          
+        \***************************/
         [HttpDelete]
         public IHttpActionResult RemoveSection([FromUri] string sectionIds)
         {

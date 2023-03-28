@@ -1,0 +1,133 @@
+﻿/*-----------------Explanation Master-----------------------*/
+body {
+    overflow-x: auto;
+}
+
+/***************************\                           
+	Explanation Registration Form
+\***************************/ 
+#exp_reg_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#exp_reg_tbl thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#exp_reg_frm_td{
+    height: 25px;
+    border: none;
+    border: 1px solid #f5e7e7 !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#explanation_name{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#exp_reg_cancel_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#exp_reg_save_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+/***************************\                           
+	Explanation List Show
+\***************************/ 
+#exp_list{
+    margin-left: 17px
+}
+#exp_list_tbl{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+#exp_list_tbl td, th {
+    border: 1px solid;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#exp_list_tbl td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#exp_list_tbl td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#exp_list_tbl {
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+
+#exp_list_tbl thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+#exp_list_tbl thead th:nth-of-type(2) {
+    width: 200px
+}
+
+#exp_list_tbl thead th:nth-of-type(3) {
+    width: 100px
+}
+
+#exp_list_tbl thead th:nth-of-type(1) {
+    /* width: 45px; */
+    width: 10%;
+}
+.exp_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
+}
+/***************************\                           
+	Explanation List Delete Button
+\***************************/ 
+#explanations_inactive_btn {
+    width: 83%;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: indianred;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+}
+#explanation_delete_btn {
+    padding-left: 582px;
+}

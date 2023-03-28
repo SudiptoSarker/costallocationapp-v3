@@ -1,5 +1,6 @@
 ﻿/***************************\                           
- js                      
+    Section In-Active/Remove 
+    Also,shows that in how many projec that section is assigned                
 \***************************/	
 function onSectionInactiveClick() {
     let sectionIds = GetCheckedIds("section_list_tbody");
@@ -20,12 +21,14 @@ function onSectionInactiveClick() {
 }
 
 $(document).ready(function () {
-    //------------------Section Master----------------------//
-
-    //show sections on page load
+    /***************************\                           
+        Show section list on page load           
+    \***************************/	
     GetSectionList();
 
-    //inactive section
+    /***************************\                           
+        Section Delete/Remove Confirm Button           
+    \***************************/	
     $('#section_inactive_confirm_btn').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("section_list_tbody");
@@ -51,49 +54,21 @@ $(document).ready(function () {
         $('#delete_section').modal('toggle');
     });
 });
-$('#section_inactive_btn').on('click', function (event) {
 
+/***************************\                           
+    Check if the section is checked for delete/remove
+\***************************/
+$('#section_inactive_btn').on('click', function (event) {
     let id = GetCheckedIds("section_list_tbody");
     if (id == "") {
         alert("Please check first to delete.");
         return false;
     }
 });
-//function GetCheckedIds(sectionId) {
-//    var hidSectionIds = $("#section_chk_ids").val();
-//    if (hidSectionIds == '') {
-//        $("#section_chk_ids").val(hidSectionIds);
-//    } else {
 
-//    }
-//    alert("test: " + sectionId);
-//}
-
-//Get Assgined Section Count
-function IsSectionAssigned(sectionIds) {
-    var returnVal = "";
-    var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, function (key, item) {
-                if (returnVal == "") {
-                    returnVal = item;
-                } else {
-                    returnVal = returnVal + ". " + item;
-                }
-            });
-            $("#section_warning_text").val(returnVal);
-        },
-        error: function (data) {
-            $("#section_warning_text").val(returnVal);
-        }
-    });    
-}
-
-//sections insert
+/***************************\                           
+    Section Insertion is done by this function. 
+\***************************/
 function InsertSection() {
     var apiurl = "/api/sections/";
     let sectionName = $("#section-name").val().trim();
@@ -126,7 +101,9 @@ function InsertSection() {
     }
 }
 
-//Get section list
+/***************************\                           
+    Get all the section list from database.
+\***************************/
 function GetSectionList() {
     $.getJSON('/api/sections/')
         .done(function (data) {

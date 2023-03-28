@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
-
+ 
 namespace CostAllocationApp.Controllers.Api
 {
     public class SectionsController : ApiController

@@ -49,7 +49,7 @@ namespace CostAllocationApp
                     "~/Content/jsuites.css",
                     "~/Content/bootstrap-datetimepicker.min.css",
                     "~/Content/toastr.min.css",
-                    "~/Content/style.css"
+                    "~/Content/style_ver02.css"
                     //,
                     //"~/Content/custom.css"
                     ));

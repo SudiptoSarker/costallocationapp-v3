@@ -1946,7 +1946,7 @@ $(document).ready(function () {
                 });
             }
         });
-        var employeesForJexcel = []; 
+
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
         var inchargesForJexcel = []; 
@@ -1954,18 +1954,6 @@ $(document).ready(function () {
         var explanationsForJexcel = [];
         var companiesForJexcel = [];
         var gradesForJexcel = [];
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -1989,7 +1977,7 @@ $(document).ready(function () {
                 $.each(data, (index, value) => {
                     departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
                 });
-                //console.log(data);
+                console.log(data);
             }
         });
         $.ajax({
@@ -2066,7 +2054,7 @@ $(document).ready(function () {
             lazyLoading: true,   
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "Employee Name", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "Employee Name", name:"EmployeeName", width: 150 },
                 { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
                 { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
                 { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
@@ -2138,81 +2126,81 @@ $(document).ready(function () {
                 {
                     title: "10",
                     type: "number",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
                     title: "11",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
                     title: "12",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
                     title: "1",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JanTotal"
                 },
                 {
                     title: "2",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
                     title: "3",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
                     title: "4",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "AprTotal"
                 },
                 {
                     title: "5",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
                     title: "6",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
                     title: "7",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JulTotal"
                 },
                 {
                     title: "8",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
                 {
                     title: "9",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "SepTotal"
                 }
@@ -2233,44 +2221,37 @@ $(document).ready(function () {
 
         });
 
-        jss.deleteColumn(34,16);
+        jss.deleteColumn(34,15);
     });
 
     var newRowCount = 1;
     var changed = function (instance, cell, x, y, value) {
 
         var checkId = jss.getValueFromCoords(0, y);
-        
-        
         if (checkId == null || checkId == '' || checkId == undefined) {
-           
+            jss.setValueFromCoords(0, y, "new-" + newRowCount, false);
+            
             var retrivedData = retrivedObject(jss.getRowData(y));
             retrivedData.assignmentId = "new-" + newRowCount;
             
             jssInsertedData.push(retrivedData);
             newRowCount++;
-            jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-            jss.setValueFromCoords(22, y, `=J${parseInt(y) + 1}*K${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(23, y, `=J${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(24, y, `=J${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(25, y, `=J${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(26, y, `=J${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(27, y, `=J${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(28, y, `=J${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(29, y, `=J${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(30, y, `=J${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(31, y, `=J${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(32, y, `=J${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(33, y, `=J${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
         } 
         else {
             var retrivedData = retrivedObject(jss.getRowData(y));
-            if (retrivedData.assignmentId.toString().includes('new')) {
-                updateArrayForInsert(jssInsertedData, retrivedData);   
+            if (retrivedData.assignmentId.contains('new')) {
+                var insertedDataCheck = jssInsertedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                updateArray(jssInsertedData, retrivedData);
+
+                if (insertedDataCheck.length == 0) {
+                    
+                }
+                else {   
+                }
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(dataCheck);
+
                 if (x == 10) {
                     if (isNaN(value) || x < 0) {
                         alert('Input not valid');
@@ -2508,8 +2489,8 @@ $(document).ready(function () {
     }
 
     function updateArrayForInsert(array, retrivedData) {
-        var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
-        array[index].employeeId = retrivedData.employeeId;
+        var index = jssInsertedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
+        array[index].employeeName = retrivedData.employeeName;
         array[index].sectionId = retrivedData.sectionId;
         array[index].departmentId = retrivedData.departmentId;
         array[index].inchargeId = retrivedData.inchargeId;
@@ -2534,8 +2515,8 @@ $(document).ready(function () {
 
     function retrivedObject(rowData) {
         return {
-            assignmentId: rowData[0],
-            employeeId: rowData[1],
+            assignmentId: parseInt(rowData[0]),
+            employeeName: rowData[1],
             sectionId: rowData[2],
             departmentId: rowData[3],
             inchargeId: rowData[4],
@@ -2773,21 +2754,20 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
-        console.log(jssUpdatedData);
-        console.log(jssInsertedData);
+
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
-            //$.ajax({
-            //    url: `/api/utilities/CreateHistory`,
-            //    contentType: 'application/json',
-            //    type: 'POST',
-            //    async: false,
-            //    dataType: 'json',
-            //    data: JSON.stringify(jssUpdatedData),
-            //    success: function (data) {
-            //        alert('success!!');
-            //    }
-            //});
+            $.ajax({
+                url: `/api/utilities/CreateHistory`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(jssUpdatedData),
+                success: function (data) {
+                    alert('success!!');
+                }
+            });
         }
         else {
             alert('no recored found to update!!!');

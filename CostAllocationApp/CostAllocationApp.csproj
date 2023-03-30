@@ -617,6 +617,8 @@
     <Content Include="Scripts\forecast.js" />
     <Content Include="Scripts\forecast_ver02.js" />
     <Content Include="Scripts\forecast_ver03.js" />
+    <Content Include="Scripts\forecast_ver04 -29_Mar_2023.js" />
+    <Content Include="Scripts\forecast_ver04.js" />
     <Content Include="Scripts\form-validation.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\glimpse.js" />
@@ -692,6 +694,7 @@
     <Content Include="Views\Employees\NameRegistration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
+    <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

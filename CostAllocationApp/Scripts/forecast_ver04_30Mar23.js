@@ -1865,7 +1865,7 @@ $(document).ready(function () {
 
     var jss;
     var jssUpdatedData = [];
-    var jssInsertedData = [];    
+    var jssInsertedData = [];
 
     $('#forecast_search_button').on('click', function () {
         // var sectionId = $('#section_search').find(":selected").val();
@@ -1946,7 +1946,6 @@ $(document).ready(function () {
                 });
             }
         });
-
         var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
@@ -1955,7 +1954,6 @@ $(document).ready(function () {
         var explanationsForJexcel = [];
         var companiesForJexcel = [];
         var gradesForJexcel = [];
-
         $.ajax({
             url: `/api/utilities/EmployeeList/`,
             contentType: 'application/json',
@@ -2061,7 +2059,7 @@ $(document).ready(function () {
         
 
         //jexcel.destroy(document.getElementById('jspreadsheet'));
-        
+
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
@@ -2585,115 +2583,6 @@ $(document).ready(function () {
         }
         globalSearchObject.timeStampId = timeStampId;
 
-        
-        var employeesForJexcel = []; 
-        var sectionsForJexcel = []; 
-        var departmentsForJexcel = []; 
-        var inchargesForJexcel = []; 
-        var rolesForJexcel = []; 
-        var explanationsForJexcel = [];
-        var companiesForJexcel = [];
-        var gradesForJexcel = [];
-
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Sections`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    sectionsForJexcel.push({ id: value.Id, name: value.SectionName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Departments`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                
-                $.each(data, (index, value) => {
-                    departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-                });
-                //console.log(data);
-            }
-        });
-        $.ajax({
-            url: `/api/InCharges`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    inchargesForJexcel.push({ id: value.Id, name: value.InChargeName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Roles`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    rolesForJexcel.push({ id: value.Id, name: value.RoleName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Explanations`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    explanationsForJexcel.push({ id: value.Id, name: value.ExplanationName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Companies`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    companiesForJexcel.push({ id: value.Id, name: value.CompanyName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Salaries`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-                });
-            }
-        });
-        
         if (jss != undefined) {
             jss.destroy();
             $('#jspreadsheet').empty();
@@ -2720,16 +2609,27 @@ $(document).ready(function () {
             data: _retriveddata,
 
             columns: [
-                { title: "Id", type: 'hidden', name: "Id" },
-                { title: "Employee Name", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
-                { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "Role Name", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "Explanation Name", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                
+                { title: "Id", type: 'hidden', name: 'Id' },
+                { title: "Employee Name", name: "EmployeeName", width: 150 },
+                { title: "Section Name", name: "SectionName", width: 85 },
+                { title: "Department Name", name: "DepartmentName", width: 85 },
+                { title: "Incharge Name", name: "InchargeName", width: 85 },
+                { title: "Role Name", name: "RoleName", width: 85 },
+                { title: "Explanation Name", name: "ExplanationName", width: 150 },
+                { title: "Company Name", name: "CompanyName", width: 85 },
+                { title: "Grade", name: "GradePoint" },
+                { title: "Unit Price", name: "UnitPrice", type: "number", mask: "#,##0", width: 85 },
+                
+                // { title: "Id", type: 'hidden', name: "Id" },
+                // { title: "Employee Name", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                // { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
+                // { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
+                // { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
+                // { title: "Role Name", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
+                // { title: "Explanation Name", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
+                // { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
+                // { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
+                // { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
 
                 {
                     title: "10",

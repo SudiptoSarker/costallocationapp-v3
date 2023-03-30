@@ -416,10 +416,10 @@ namespace CostAllocationApp.DAL
         {
 
             string where = "";
-            if (!string.IsNullOrEmpty(employeeAssignment.EmployeeName))
-            {
-                where += $" ea.EmployeeName like N'%{employeeAssignment.EmployeeName}%' and ";
-            }
+            //if (!string.IsNullOrEmpty(employeeAssignment.EmployeeName))
+            //{
+            //    where += $" ea.EmployeeName like N'%{employeeAssignment.EmployeeName}%' and ";
+            //}
             if (!string.IsNullOrEmpty(employeeAssignment.SectionId))
             {
                 string tempSectionIds = "";
@@ -585,7 +585,7 @@ namespace CostAllocationApp.DAL
 
             where += " 1=1 ";
 
-            string query = $@"select ea.id as AssignmentId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,ea.EmployeeId,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
@@ -595,7 +595,7 @@ namespace CostAllocationApp.DAL
                             left join InCharges inc on ea.InChargeId = inc.Id 
                             left join Grades gd on ea.GradeId = gd.Id
                             where {where}
-                            order by ea.EmployeeName asc";
+                            order by ea.EmployeeId asc";
 
 
             List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
@@ -615,7 +615,7 @@ namespace CostAllocationApp.DAL
                         {
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();

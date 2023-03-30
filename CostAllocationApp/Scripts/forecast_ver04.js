@@ -2061,19 +2061,19 @@ $(document).ready(function () {
         
 
         //jexcel.destroy(document.getElementById('jspreadsheet'));
-        
+
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
             lazyLoading: true,   
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "Employee Name", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
-                { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "Role Name", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "Explanation Name", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
+                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
+                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
+                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
+                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
+                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
                 { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
                 { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
                 { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
@@ -2721,12 +2721,12 @@ $(document).ready(function () {
 
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "Employee Name", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
-                { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "Role Name", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "Explanation Name", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
+                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
+                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
+                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
+                { title: "役割( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
+                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
                 { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
                 { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
                 { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                

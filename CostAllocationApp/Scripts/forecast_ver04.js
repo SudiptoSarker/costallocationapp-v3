@@ -2773,21 +2773,37 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
-        console.log(jssUpdatedData);
-        console.log(jssInsertedData);
+        if (jssInsertedData.length > 0) {
+            $.ajax({
+                url: `/api/utilities/ExcelAssignment/`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(jssInsertedData),
+                success: function (data) {
+                    alert('data successfully inserted!!');
+                }
+            });
+        }
+        else {
+            alert('no recored found to insert!!!');
+            return false;
+        }
+
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
-            //$.ajax({
-            //    url: `/api/utilities/CreateHistory`,
-            //    contentType: 'application/json',
-            //    type: 'POST',
-            //    async: false,
-            //    dataType: 'json',
-            //    data: JSON.stringify(jssUpdatedData),
-            //    success: function (data) {
-            //        alert('success!!');
-            //    }
-            //});
+            $.ajax({
+                url: `/api/utilities/CreateHistory`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(jssUpdatedData),
+                success: function (data) {
+                    alert('data successfully updated!!');
+                }
+            });
         }
         else {
             alert('no recored found to update!!!');

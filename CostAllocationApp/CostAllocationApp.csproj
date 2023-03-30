@@ -200,6 +200,7 @@
     <Compile Include="DAL\SectionDAL.cs" />
     <Compile Include="DAL\UploadExcelDAL.cs" />
     <Compile Include="Dtos\EmployeeAssignmentDTO.cs" />
+    <Compile Include="Dtos\ExcelAssignmentDto.cs" />
     <Compile Include="Dtos\ForecastDto.cs" />
     <Compile Include="Dtos\ForecastUpdateHistoryDto.cs" />
     <Compile Include="Dtos\SendToForecaseApiDto.cs" />

@@ -978,5 +978,43 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpPost]
+        [Route("api/utilities/ExcelAssignment/")]
+        public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
+        {
+            if (excelAssignmentDtos.Count>0)
+            {
+                foreach (var item in excelAssignmentDtos)
+                {
+                    EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                    employeeAssignment.EmployeeId = item.EmployeeId;
+                    employeeAssignment.SectionId = item.SectionId;
+                    employeeAssignment.DepartmentId = item.DepartmentId;
+                    employeeAssignment.InchargeId = item.InchargeId;
+                    employeeAssignment.RoleId = item.RoleId;
+                    employeeAssignment.ExplanationId = item.ExplanationId;
+                    employeeAssignment.CompanyId = item.CompanyId;
+                    employeeAssignment.UnitPrice = item.UnitPrice;
+                    employeeAssignment.GradeId = item.GradeId;
+                    employeeAssignment.Year = item.Year;
+                    employeeAssignment.IsActive = true.ToString();
+                    employeeAssignment.SubCode = 1;
+                    employeeAssignment.CreatedBy = "";
+                    employeeAssignment.CreatedDate = DateTime.Now;
+                    employeeAssignment.Remarks = "";
+
+
+                    int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
+                }
+                
+            }
+           
+
+            
+
+            return Ok();
+        }
+
     }
 }

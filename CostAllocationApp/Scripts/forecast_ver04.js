@@ -2256,6 +2256,7 @@ $(document).ready(function () {
                     });
                 }
 
+
                 items.push({
                     title: '要員を追加する (Add Emp.)',
                     onclick: function () {
@@ -2268,6 +2269,14 @@ $(document).ready(function () {
                         GetEmployeeList();
                     }
                 });
+                if (obj.options.allowDeleteRow == true) {
+                    items.push({
+                        title: '選択した要員を削除 (Delete)',
+                        onclick: function () {
+                            obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                        }
+                    });
+                }
 
                 //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
                 //Delete Employee -> 選択した要員を削除 (Delete)
@@ -2666,7 +2675,7 @@ $(document).ready(function () {
         globalSearchObject.timeStampId = timeStampId;
 
         
-        var employeesForJexcel = []; 
+        //var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
         var inchargesForJexcel = []; 
@@ -2675,18 +2684,18 @@ $(document).ready(function () {
         var companiesForJexcel = [];
         var gradesForJexcel = [];
 
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
+        //$.ajax({
+        //    url: `/api/utilities/EmployeeList/`,
+        //    contentType: 'application/json',
+        //    type: 'GET',
+        //    async: false,
+        //    dataType: 'json',
+        //    success: function (data) {
+        //        $.each(data, (index, value) => {
+        //            employeesForJexcel.push({ id: value.Id, name: value.FullName });
+        //        });
+        //    }
+        //});
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -2801,7 +2810,7 @@ $(document).ready(function () {
 
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
                 { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
                 { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
                 { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
@@ -2951,7 +2960,8 @@ $(document).ready(function () {
                     readOnly: true,
                     mask: "#,##0",
                     name: "SepTotal"
-                }
+                },
+                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
             columnSorting: true,
             onchange: changed
@@ -2960,7 +2970,7 @@ $(document).ready(function () {
 
         });
 
-        jss.deleteColumn(34, 15);
+        jss.deleteColumn(35, 16);
 
     });
 
@@ -2978,6 +2988,8 @@ $(document).ready(function () {
                     alert('data successfully inserted!!');
                 }
             });
+            jssInsertedData = [];
+            newRowCount = 1;
         }
         // else {
         //     alert('no recored found to insert!!!');
@@ -2997,6 +3009,7 @@ $(document).ready(function () {
                     alert('data successfully updated!!');
                 }
             });
+            jssUpdatedData = [];
         }
         // else {
         //     alert('no recored found to update!!!');

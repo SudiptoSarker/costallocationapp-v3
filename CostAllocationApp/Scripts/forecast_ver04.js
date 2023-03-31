@@ -1,6 +1,9 @@
 ﻿var globalSearchObject = '';
 var globalPreviousValue = '0.0';
 var globalPreviousId = '';
+var jss;
+var globalX = 0;
+var globalY = 0;
 
 function DismissOtherDropdown(requestType) {
     var section_display = "";
@@ -1101,6 +1104,18 @@ $(document).on("click", function (event) {
     }
 });
 $(document).ready(function () {
+    /***************************\                           
+     Add Employee through Modal                      
+    \***************************/
+    $('#employee_list').on('change',function (){
+        var employeeId = $(this).val();        
+        var employeeName = $(this).find("option:selected").text();
+        
+        jss.setValueFromCoords(1, globalY, employeeName, false);
+        jss.setValueFromCoords(34, globalY, employeeId, false);
+
+    });
+
     var count = 1;
     $('#forecast_search tbody tr:eq(0) th').each(function () {
         if (count == 1) {
@@ -1863,8 +1878,7 @@ $(document).ready(function () {
 
 
     });   
-
-    var jss;
+    
     var jssUpdatedData = [];
     var jssInsertedData = [];    
 
@@ -1948,7 +1962,7 @@ $(document).ready(function () {
             }
         });
 
-        var employeesForJexcel = []; 
+        //var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
         var inchargesForJexcel = []; 
@@ -1957,18 +1971,18 @@ $(document).ready(function () {
         var companiesForJexcel = [];
         var gradesForJexcel = [];
 
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
+        // $.ajax({
+        //     url: `/api/utilities/EmployeeList/`,
+        //     contentType: 'application/json',
+        //     type: 'GET',
+        //     async: false,
+        //     dataType: 'json',
+        //     success: function (data) {
+        //         $.each(data, (index, value) => {
+        //             employeesForJexcel.push({ id: value.Id, name: value.FullName });
+        //         });
+        //     }
+        // });
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -2062,163 +2076,163 @@ $(document).ready(function () {
         
 
         //jexcel.destroy(document.getElementById('jspreadsheet'));
-
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
             lazyLoading: true,   
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
                 { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
                 { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
                 { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
                 { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
                 { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
+                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
+                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
+                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
                 {
-                    title: "10",
+                    title: "10月",
                     type: "decimal",
                     name: "OctPoints"
                 },
                 {
-                    title: "11",
+                    title: "11月",
                     type: "decimal",
                     name: "NovPoints"
                 },
                 {
-                    title: "12",
+                    title: "12月",
                     type: "decimal",
                     name: "DecPoints"
                 },
                 {
-                    title: "1",
+                    title: "1月",
                     type: "decimal",
                     name: "JanPoints"
                 },
                 {
-                    title: "2",
+                    title: "2月",
                     type: "decimal",
                     name: "FebPoints"
                 },
                 {
-                    title: "3",
+                    title: "3月",
                     type: "decimal",
                     name: "MarPoints"
                 },
                 {
-                    title: "4",
+                    title: "4月",
                     type: "decimal",
                     name: "AprPoints"
                 },
                 {
-                    title: "5",
+                    title: "5月",
                     type: "decimal",
                     name: "MayPoints"
                 },
                 {
-                    title: "6",
+                    title: "6月",
                     type: "decimal",
                     name: "JunPoints"
                 },
                 {
-                    title: "7",
+                    title: "7月",
                     type: "decimal",
                     name: "JulPoints"
                 },
                 {
-                    title: "8",
+                    title: "8月",
                     type: "decimal",
                     name: "AugPoints"
                 },
                 {
-                    title: "9",
+                    title: "9月",
                     type: "decimal",
                     name: "SepPoints"
                 },
                 {
-                    title: "10",
+                    title: "10月",
                     type: "number",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
-                    title: "11",
+                    title: "11月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
-                    title: "12",
+                    title: "12月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
-                    title: "1",
+                    title: "1月",
                     type: "decimal",
                     //readOnly: true,
                     name: "JanTotal"
                 },
                 {
-                    title: "2",
+                    title: "2月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
-                    title: "3",
+                    title: "3月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
-                    title: "4",
+                    title: "4月",
                     type: "decimal",
                     //readOnly: true,
                     name: "AprTotal"
                 },
                 {
-                    title: "5",
+                    title: "5月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
-                    title: "6",
+                    title: "6月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
-                    title: "7",
+                    title: "7月",
                     type: "decimal",
                     //readOnly: true,
                     name: "JulTotal"
                 },
                 {
-                    title: "8",
+                    title: "8月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
                 {
-                    title: "9",
+                    title: "9月",
                     type: "decimal",
                     //readOnly: true,
                     mask: "#,##0",
                     name: "SepTotal"
-                }
+                },
+                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
             columnSorting: true,
             onchange: changed,
@@ -2235,7 +2249,7 @@ $(document).ready(function () {
                 if (obj.options.allowInsertRow == true) {
                     
                     items.push({
-                        title: 'insert row',
+                        title: '新しい行を挿入する (New Row)',
                         onclick: function () {
                             obj.insertRow(1, parseInt(y));
                         }
@@ -2243,12 +2257,21 @@ $(document).ready(function () {
                 }
 
                 items.push({
-                    title: 'add employee',
+                    title: '要員を追加する (Add Emp.)',
                     onclick: function () {
                         $('#jexcel_add_employee_modal').modal('show');
+                        globalY = y;
+                        
+                        console.log("y: "+y);
+                        console.log("globalY: "+globalY);
+
                         GetEmployeeList();
                     }
                 });
+
+                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
+                //Delete Employee -> 選択した要員を削除 (Delete)
+
                 return items;
             }
             //sorting: customSortingHandler,
@@ -2264,7 +2287,7 @@ $(document).ready(function () {
 
         });
 
-        jss.deleteColumn(34, 16);
+        jss.deleteColumn(35, 16);
         console.log(jss);
     });
 
@@ -2595,7 +2618,7 @@ $(document).ready(function () {
     function retrivedObject(rowData) {
         return {
             assignmentId: rowData[0],
-            employeeId: rowData[1],
+            employeeId: rowData[34],
             sectionId: rowData[2],
             departmentId: rowData[3],
             inchargeId: rowData[4],
@@ -2784,146 +2807,146 @@ $(document).ready(function () {
                 { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
                 { title: "役割( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
                 { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                
+                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
+                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
+                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                
 
                 {
-                    title: "10",
+                    title: "10月",
                     type: "decimal",
                     name: "OctPoints"
                 },
                 {
-                    title: "11",
+                    title: "11月",
                     type: "decimal",
                     name: "NovPoints"
                 },
                 {
-                    title: "12",
+                    title: "12月",
                     type: "decimal",
                     name: "DecPoints"
                 },
                 {
-                    title: "1",
+                    title: "1月",
                     type: "decimal",
                     name: "JanPoints"
                 },
                 {
-                    title: "2",
+                    title: "2月",
                     type: "decimal",
                     name: "FebPoints"
                 },
                 {
-                    title: "3",
+                    title: "3月",
                     type: "decimal",
                     name: "MarPoints"
                 },
                 {
-                    title: "4",
+                    title: "4月",
                     type: "decimal",
                     name: "AprPoints"
                 },
                 {
-                    title: "5",
+                    title: "5月",
                     type: "decimal",
                     name: "MayPoints"
                 },
                 {
-                    title: "6",
+                    title: "6月",
                     type: "decimal",
                     name: "JunPoints"
                 },
                 {
-                    title: "7",
+                    title: "7月",
                     type: "decimal",
                     name: "JulPoints"
                 },
                 {
-                    title: "8",
+                    title: "8月",
                     type: "decimal",
                     name: "AugPoints"
                 },
                 {
-                    title: "9",
+                    title: "9月",
                     type: "decimal",
                     name: "SepPoints"
                 },
                 {
-                    title: "10",
+                    title: "10月",
                     type: "number",
                     readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
-                    title: "11",
+                    title: "11月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
-                    title: "12",
+                    title: "12月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
-                    title: "1",
+                    title: "1月",
                     type: "decimal",
                     readOnly: true,
                     name: "JanTotal"
                 },
                 {
-                    title: "2",
+                    title: "2月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
-                    title: "3",
+                    title: "3月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
-                    title: "4",
+                    title: "4月",
                     type: "decimal",
                     readOnly: true,
                     name: "AprTotal"
                 },
                 {
-                    title: "5",
+                    title: "5月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
-                    title: "6",
+                    title: "6月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
-                    title: "7",
+                    title: "7月",
                     type: "decimal",
                     readOnly: true,
                     name: "JulTotal"
                 },
                 {
-                    title: "8",
+                    title: "8月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
                 {
-                    title: "9",
+                    title: "9月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",

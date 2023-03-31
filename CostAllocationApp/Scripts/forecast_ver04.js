@@ -2244,19 +2244,25 @@ $(document).ready(function () {
         var assignmentIds = [];
         if (value.length > 0) {
             for (let i = 0; i < value.length; i++) {
-                assignmentIds.push(value[i][0].innerText);
-            }
-            $.ajax({
-                url: `/api/utilities/ExcelDeleteAssignment/`,
-                contentType: 'application/json',
-                type: 'DELETE',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(assignmentIds),
-                success: function (data) {
-                    alert(data);
+                if (value[i][0].innerText != '' && value[i][0].innerText.toString().includes('new') == false) {
+                    assignmentIds.push(value[i][0].innerText);
                 }
-            });
+                
+            }
+            if (assignmentIds.length>0) {
+                $.ajax({
+                    url: `/api/utilities/ExcelDeleteAssignment/`,
+                    contentType: 'application/json',
+                    type: 'DELETE',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify(assignmentIds),
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+            }
+           
         }
         
     }

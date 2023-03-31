@@ -1035,5 +1035,23 @@ namespace CostAllocationApp.Controllers.Api
             return Ok();
         }
 
+
+        [HttpDelete]
+        [Route("api/utilities/ExcelDeleteAssignment/")]
+        public IHttpActionResult DeleteAssignment_Excel(int[] ids)
+        {
+            if (ids.Length > 0)
+            {
+                foreach (var item in ids)
+                {
+                    employeeAssignmentBLL.DeleteAssignment_Excel(item);
+                }
+            }
+
+            return Ok("Operation Completed!");
+        }
+
+
+
     }
 }

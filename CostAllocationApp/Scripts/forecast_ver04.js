@@ -2222,6 +2222,7 @@ $(document).ready(function () {
             columnSorting: true,
             onchange: changed,
             oninsertrow: newRowInserted,
+            ondeleterow: deleted,
             //sorting: customSortingHandler,
             //persistance:'/api/utilities/CreateHistory/'
             //updateTable: function (instance, cell, col, row, val, label, cellName) {
@@ -2235,8 +2236,30 @@ $(document).ready(function () {
 
         });
 
-        jss.deleteColumn(34,16);
+        jss.deleteColumn(34, 16);
+        console.log(jss);
     });
+
+    var deleted = function (instance, x, y, value) {
+        var assignmentIds = [];
+        if (value.length > 0) {
+            for (let i = 0; i < value.length; i++) {
+                assignmentIds.push(value[i][0].innerText);
+            }
+            $.ajax({
+                url: `/api/utilities/ExcelDeleteAssignment/`,
+                contentType: 'application/json',
+                type: 'DELETE',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(assignmentIds),
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+        
+    }
 
     var newRowCount = 1;
     var changed = function (instance, cell, x, y, value) {

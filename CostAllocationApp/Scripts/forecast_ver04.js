@@ -1783,6 +1783,7 @@ $(document).ready(function () {
         //$("#hidCompanyid").val(companyIds);
     });
 
+    $('#employee_list').select2();
 
 
     // var expanded = false;
@@ -2223,6 +2224,33 @@ $(document).ready(function () {
             onchange: changed,
             oninsertrow: newRowInserted,
             ondeleterow: deleted,
+            contextMenu: function (obj, x, y, e) {
+                console.log(obj);
+                console.log(x);
+                console.log(y);
+                console.log(e);
+                var items = [];
+
+                // Insert new row
+                if (obj.options.allowInsertRow == true) {
+                    
+                    items.push({
+                        title: 'insert row',
+                        onclick: function () {
+                            obj.insertRow(1, parseInt(y));
+                        }
+                    });
+                }
+
+                items.push({
+                    title: 'add employee',
+                    onclick: function () {
+                        $('#jexcel_add_employee_modal').modal('show');
+                        GetEmployeeList();
+                    }
+                });
+                return items;
+            }
             //sorting: customSortingHandler,
             //persistance:'/api/utilities/CreateHistory/'
             //updateTable: function (instance, cell, col, row, val, label, cellName) {
@@ -3053,4 +3081,47 @@ function GetListDropdownValue() {
         $('#period_multi_search').empty();
         $('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
         $('#period_multi_search').multiselect('rebuild');
+}
+
+//employee insert
+function InsertEmployee() {
+    var apiurl = "/api/utilities/CreateEmployee/";
+    let employeeName = $("#employee_name").val();
+    if (employeeName == "" || employeeName == null || employeeName == undefined) {
+        $(".employee_err").show();
+        return false;
+    } else {
+        $(".employee_err").hide();
+        var data = {
+            FullName: employeeName.trim()
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                $("#page_load_after_modal_close").val("yes");
+                ToastMessageSuccess(data);
+
+                $('#employee_name').val('');
+                GetEmployeeList();
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    }
+}
+
+//Get employee list
+function GetEmployeeList() {
+    $('#employee_list').empty();
+    $.getJSON('/api/utilities/EmployeeList/')
+        .done(function (data) {
+            $.each(data, function (key, item) {
+                $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
+            });
+        });
 }

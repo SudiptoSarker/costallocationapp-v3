@@ -21,19 +21,39 @@ namespace CostAllocationApp.DAL
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@employeeId", employeeAssignment.EmployeeId);
-                cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
-                cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
-                cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
-                cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                if (employeeAssignment.SectionId == null)
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
+                }
+                if (employeeAssignment.DepartmentId == null)
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
+                }
+                if (employeeAssignment.InchargeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
+                }
 
-                //if (String.IsNullOrEmpty(employeeAssignment.RoleId.ToString()))
-                //{
-                //    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
-                //}
-                //else
-                //{
-                //    cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
-                //}
+                if (employeeAssignment.RoleId==null)
+                {
+                    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                }
 
                 if (String.IsNullOrEmpty(employeeAssignment.ExplanationId))
                 {
@@ -44,9 +64,24 @@ namespace CostAllocationApp.DAL
                     cmd.Parameters.AddWithValue("@explanationId", employeeAssignment.ExplanationId);
                 }
 
-                cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                if (employeeAssignment.CompanyId==null)
+                {
+                    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                }
+
+                if (employeeAssignment.GradeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
+                }
                 cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);
-                cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
                 cmd.Parameters.AddWithValue("@createdBy", employeeAssignment.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", employeeAssignment.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", employeeAssignment.IsActive);
@@ -95,15 +130,46 @@ namespace CostAllocationApp.DAL
         public int UpdateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"update EmployeesAssignments set  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks where Id=@id";
+            string query = $@"update EmployeesAssignments set EmployeeId=@employeeId,  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks where Id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
-                cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
-                cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
-                cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                cmd.Parameters.AddWithValue("@employeeId", employeeAssignment.EmployeeId);
+                if (employeeAssignment.SectionId == null)
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
+                }
+                if (employeeAssignment.DepartmentId == null)
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
+                }
+                if (employeeAssignment.InchargeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
+                }
+
+                if (employeeAssignment.RoleId == null)
+                {
+                    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                }
+
                 if (String.IsNullOrEmpty(employeeAssignment.ExplanationId))
                 {
                     cmd.Parameters.AddWithValue("@explanationId", DBNull.Value);
@@ -113,9 +179,24 @@ namespace CostAllocationApp.DAL
                     cmd.Parameters.AddWithValue("@explanationId", employeeAssignment.ExplanationId);
                 }
 
-                cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                if (employeeAssignment.CompanyId == null)
+                {
+                    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                }
+
+                if (employeeAssignment.GradeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
+                }
                 cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);
-                cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
                 cmd.Parameters.AddWithValue("@updatedBy", employeeAssignment.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedDate", employeeAssignment.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", employeeAssignment.Id);

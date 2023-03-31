@@ -1063,5 +1063,35 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public void DeleteAssignment_Excel(int assignmentId)
+        {
+            string queryForAssignment = $@"delete from EmployeesAssignments where id=@assignmentId";
+            string queryForCost = $@"delete from Costs where EmployeeAssignmentsId=@assignmentId";
+            string queryForCostHistories = $@"delete from CostHistories where EmployeeAssignmentsId=@assignmentId";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmdForAssignment = new SqlCommand(queryForAssignment, sqlConnection);
+                SqlCommand cmdForCost = new SqlCommand(queryForCost, sqlConnection);
+                SqlCommand cmdForCostHistories = new SqlCommand(queryForCostHistories, sqlConnection);
+
+                cmdForAssignment.Parameters.AddWithValue("@assignmentId", assignmentId);
+                cmdForCost.Parameters.AddWithValue("@assignmentId", assignmentId);
+                cmdForCostHistories.Parameters.AddWithValue("@assignmentId", assignmentId);
+                try
+                {
+                    cmdForAssignment.ExecuteNonQuery();
+                    cmdForCost.ExecuteNonQuery();
+                    cmdForCostHistories.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+        }
+
     }
 }

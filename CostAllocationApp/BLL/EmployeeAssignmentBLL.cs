@@ -605,6 +605,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetLastId();
         }
+        public void DeleteAssignment_Excel(int assignmentId)
+        {
+            employeeAssignmentDAL.DeleteAssignment_Excel(assignmentId);
+        }
 
     }
 }

@@ -4,72 +4,136 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/employee.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/employee_ver02.css" />
 }
-<div class="content container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div id="employee_body">
-                <form>
-                    <div id="main-div">
-                        <div class="row">
-                            <div class="col-4 module-label-txt">
-                                <label for="employee-name" id="employee_lbl">Employee Name <span class="text-danger">*</span></label>
-                            </div>
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <input class="form-control" id="employee-name" type="text" placeholder="employee name..">
-                                    <div class="employee_err">
-                                        Please provide employee name.
-                                    </div>
-                                </div>
-                            </div>
 
+<div class="content container-fluid">         
+    <!-----------------Employee Master: Employee Registration Form----------------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-5">                     
+                    <table id="employee_reg_tbl" >
+                        <thead style="border: none;">
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>要員 氏名 (Name)</th>       
+                                <th>Actions</th>                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="employee_reg_frm_td">
+                                    <input type="text" value="" placeholder="要員 氏名 (employee name)" id="employee-name">
+                                    <!-- <div class="employee_err">
+                                        Please provide employee name.
+                                    </div>                                     -->
+                                </td>
+                                <td id="employee_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="employee_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="employee_reg_save_btn" onclick="InsertEmployee();">Save</a>
+                                </td>
+                            </tr>                                       
+                        </tbody>
+                    </table>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    
+    <!-----------------Employee Master: Employee list are showing on this part----------------->
+    <div id="employee_list" style="display: block;">        
+        <div class="row">            
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="employee_table">
+                        <thead>
+                            <tr>
+                                <th colspan="6">氏名リスト (Employeee List)</th>
+                            </tr>
+                            <tr>
+                                <th class="employee_list_theader">ID</th>
+                                <th class="employee_list_theader">氏名 (Name)</th>
+                            </tr>                               
+                        </thead>
+                        <tbody id="employee_list_tbody">                                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+<br><br>
+<br><br>
+
+<input type="hidden" id="employee_id_hidden" />
+
+<!-----------------Modal: Edit Employee----------------->
+<div class="modal custom-modal fade" id="edit_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Edit 要員 氏名(Name)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="employee_name_edit">要員 氏名 (Name)</label>
+                        <input type="text" class="form-control" id="employee_name_edit" placeholder="要員 氏名 (employee name)">
+                        <div class="employee_err_edit">
+                            Please provide 要員 氏名 (Name).
                         </div>
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" id="employee_cancel">Cancel</a>
-                            <a href="javascript:void(0);" id="employee_registration" onclick="InsertEmployee();">Registration</a>
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">Update</a>
                         </div>
                     </div>
-                </form>
+
+                </div>
             </div>
         </div>
-
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h4 style="text-align:left;">List</h4>
-            <table class="table" id="employee_table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Employee Name</th>
-                    </tr>
-                </thead>
-                <tbody id="employee_list_tbody"></tbody>
-            </table>
+<!-----------------Modal: Delete Employee----------------->
+<div class="modal custom-modal fade" id="inactive_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Inactive 要員(Employee)</h3>
+                    <p>Are you sure want to inactive?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
 </div>
 
 <div id="employeeContextMenu" class="dropdown clearfix">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-        <li><a tabindex="-1" href="#">edit</a></li>
-        <li><a tabindex="-1" href="#">inactive</a></li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li><a tabindex="-1" href="#">Edit</a></li>
+        <li><a tabindex="-1" href="#">Inactive</a></li>
     </ul>
 </div>
-
-
-
 
 @section Scripts{
 
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/employee.js"></script>
+    <script src="/Scripts/employee_ver02.js"></script>
 }

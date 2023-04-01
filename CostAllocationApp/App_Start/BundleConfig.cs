@@ -22,6 +22,7 @@ namespace CostAllocationApp
                             "~/Scripts/select2.min.js",
                             //"~/Scripts/jspreadsheet.js",
                             "~/Scripts/jexcel.js",
+                            //"~/Scripts/jexcel_modified.js",
                             "~/Scripts/jsuites.js",
                             "~/Scripts/moment.min.js",
                             "~/Scripts/bootstrap-datetimepicker.min.js",
@@ -49,7 +50,7 @@ namespace CostAllocationApp
                     "~/Content/jsuites.css",
                     "~/Content/bootstrap-datetimepicker.min.css",
                     "~/Content/toastr.min.css",
-                    "~/Content/style.css"
+                    "~/Content/style_ver02.css"
                     //,
                     //"~/Content/custom.css"
                     ));

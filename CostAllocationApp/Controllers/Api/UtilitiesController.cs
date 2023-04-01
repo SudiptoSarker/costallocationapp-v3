@@ -934,5 +934,124 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpPut]
+        [Route("api/utilities/UpdateEmployee/")]
+        public IHttpActionResult UpdateEmployee(Employee employee)
+        {
+            if(!String.IsNullOrEmpty(employee.FullName))
+            {
+                employee.UpdatedBy = "";
+                employee.UpdatedDate = DateTime.Now;
+                int result = employeeBLL.UpdateEmployee(employee);
+                if (result > 0)
+                {
+                    return Ok("Updated Successfully");
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong");
+                }
+
+            }
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/InactiveEmployee/")]
+        public IHttpActionResult InactiveEmployee(Employee employee)
+        {
+            employee.IsActive = false;
+            employee.UpdatedBy = "";
+            employee.UpdatedDate = DateTime.Now;
+            int result = employeeBLL.InactiveEmployee(employee);
+            if (result > 0)
+            {
+                return Ok("Deactivated Successfully");
+            }
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
+        }
+
+        [HttpPost]
+        [Route("api/utilities/ExcelAssignment/")]
+        public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
+        {
+            if (excelAssignmentDtos.Count>0)
+            {
+                foreach (var item in excelAssignmentDtos)
+                {
+                    EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                    employeeAssignment.EmployeeId = item.EmployeeId;
+                    employeeAssignment.SectionId = item.SectionId;
+                    employeeAssignment.DepartmentId = item.DepartmentId;
+                    employeeAssignment.InchargeId = item.InchargeId;
+                    employeeAssignment.RoleId = item.RoleId;
+                    employeeAssignment.ExplanationId = item.ExplanationId;
+                    employeeAssignment.CompanyId = item.CompanyId;
+                    employeeAssignment.UnitPrice = item.UnitPrice;
+                    employeeAssignment.GradeId = item.GradeId;
+                    employeeAssignment.Year = item.Year;
+                    employeeAssignment.IsActive = true.ToString();
+                    employeeAssignment.SubCode = 1;
+                    employeeAssignment.CreatedBy = "";
+                    employeeAssignment.CreatedDate = DateTime.Now;
+                    employeeAssignment.Remarks = "";
+
+
+                    int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
+                    if (result == 1)
+                    {
+                        int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                        List<Forecast> forecasts = new List<Forecast>();
+                        
+                        forecasts.Add(new Forecast { EmployeeAssignmentId=employeeAssignmentLastId ,Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        foreach (var forecastItem in forecasts)
+                        {
+                            int resultSave = forecastBLL.CreateForecast(forecastItem);
+                        }
+                    }                  
+                }
+
+            }           
+
+            return Ok();
+        }
+
+
+        [HttpDelete]
+        [Route("api/utilities/ExcelDeleteAssignment/")]
+        public IHttpActionResult DeleteAssignment_Excel(int[] ids)
+        {
+            if (ids.Length > 0)
+            {
+                foreach (var item in ids)
+                {
+                    employeeAssignmentBLL.DeleteAssignment_Excel(item);
+                }
+            }
+
+            return Ok("Operation Completed!");
+        }
+
+
+
     }
 }

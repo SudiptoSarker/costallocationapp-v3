@@ -83,7 +83,6 @@ $(function () {
         
         //debugger;
     });
-
 });
 
 //employee update
@@ -109,7 +108,7 @@ function UpdateEmployee() {
             success: function (data) {
                 $("#page_load_after_modal_close").val("yes");
                 ToastMessageSuccess(data);
-
+                $('#edit_employee_modal').modal('hide');
                 GetEmployeeList();
             },
             error: function (data) {

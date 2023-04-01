@@ -2,7 +2,7 @@
     float: right;
     margin-left: 69%;
 }
-#employee_cancel {
+.employee_cancel {
     background-color: #FC4136;
     color: white;
     padding: 5px;
@@ -10,7 +10,7 @@
     margin-top: 10px;
     display: inline-block;
 }
-#employee_registration {
+.employee_registration, .employee_update {
     background-color: #3c4b5d;
     color: white;
     padding: 5px;
@@ -18,12 +18,18 @@
     margin-top: 10px;
     display: inline-block;
 }
+.employee_cancel:hover {
+    color: white;
+}
+.employee_registration:hover, .employee_update:hover {
+    color: white;
+}
 
 #employee_lbl {
     padding-top: 10px;
 }
 
-.employee_err {
+.employee_err, .employee_err_edit {
     display: none;
     width: 100%;
     margin-top: 0.25rem;
@@ -84,6 +90,19 @@
     display: none;
     top:0px;
     left:0px;
+}
+#employeeContextMenu ul {
+    display: block;
+    position: static;
+    margin-bottom: 5px;
+    background-color: #202020;
+}
+#employeeContextMenu ul li a{
+    color: white;
+    padding: 10px;
+}
+#employeeContextMenu ul li:hover {
+    background-color: #616161;
 }
 #employee_table tbody tr {
     position: relative;

@@ -1859,3 +1859,50 @@ table.dataTable > thead .sorting .sorting_desc, {
     /* line-height: 0; */
     white-space: nowrap !important;
 }
+
+/***************************\                           
+	Employee Registration : Modal Deisgn
+\***************************/
+
+.employee_cancel {
+    background-color: #FC4136;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.employee_cancel:hover {
+    color: white;
+}
+
+.employee_registration {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.employee_registration:hover {
+    color: white;
+}
+
+.employee_err {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+
+.custom_button_group_employee {
+    float: right;
+    margin-left: 69%;
+}
+
+.select2-container{
+    width:100% !important;
+}

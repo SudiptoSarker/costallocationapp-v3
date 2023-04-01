@@ -1,9 +1,6 @@
 ﻿var globalSearchObject = '';
 var globalPreviousValue = '0.0';
 var globalPreviousId = '';
-var jss;
-var globalX = 0;
-var globalY = 0;
 
 function DismissOtherDropdown(requestType) {
     var section_display = "";
@@ -1104,18 +1101,6 @@ $(document).on("click", function (event) {
     }
 });
 $(document).ready(function () {
-    /***************************\                           
-     Add Employee through Modal                      
-    \***************************/
-    $('#employee_list').on('change',function (){
-        var employeeId = $(this).val();        
-        var employeeName = $(this).find("option:selected").text();
-        
-        jss.setValueFromCoords(1, globalY, employeeName, false);
-        jss.setValueFromCoords(34, globalY, employeeId, false);
-
-    });
-
     var count = 1;
     $('#forecast_search tbody tr:eq(0) th').each(function () {
         if (count == 1) {
@@ -1798,7 +1783,6 @@ $(document).ready(function () {
         //$("#hidCompanyid").val(companyIds);
     });
 
-    $('#employee_list').select2();
 
 
     // var expanded = false;
@@ -1878,9 +1862,10 @@ $(document).ready(function () {
 
 
     });   
-    
+
+    var jss;
     var jssUpdatedData = [];
-    var jssInsertedData = [];    
+    var jssInsertedData = [];
 
     $('#forecast_search_button').on('click', function () {
         // var sectionId = $('#section_search').find(":selected").val();
@@ -1962,7 +1947,6 @@ $(document).ready(function () {
             }
         });
 
-        //var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
         var inchargesForJexcel = []; 
@@ -1970,19 +1954,6 @@ $(document).ready(function () {
         var explanationsForJexcel = [];
         var companiesForJexcel = [];
         var gradesForJexcel = [];
-
-        // $.ajax({
-        //     url: `/api/utilities/EmployeeList/`,
-        //     contentType: 'application/json',
-        //     type: 'GET',
-        //     async: false,
-        //     dataType: 'json',
-        //     success: function (data) {
-        //         $.each(data, (index, value) => {
-        //             employeesForJexcel.push({ id: value.Id, name: value.FullName });
-        //         });
-        //     }
-        // });
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -2006,7 +1977,7 @@ $(document).ready(function () {
                 $.each(data, (index, value) => {
                     departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
                 });
-                //console.log(data);
+                console.log(data);
             }
         });
         $.ajax({
@@ -2076,204 +2047,167 @@ $(document).ready(function () {
         
 
         //jexcel.destroy(document.getElementById('jspreadsheet'));
+
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
             lazyLoading: true,   
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
+                { title: "Employee Name", name:"EmployeeName", width: 150 },
+                { title: "Section Name", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
+                { title: "Department Name", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
+                { title: "Incharge Name", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
+                { title: "Role Name", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
+                { title: "Explanation Name", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
+                { title: "Company Name", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
+                { title: "Grade", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
+                { title: "Unit Price", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
                 {
-                    title: "10月",
+                    title: "10",
                     type: "decimal",
                     name: "OctPoints"
                 },
                 {
-                    title: "11月",
+                    title: "11",
                     type: "decimal",
                     name: "NovPoints"
                 },
                 {
-                    title: "12月",
+                    title: "12",
                     type: "decimal",
                     name: "DecPoints"
                 },
                 {
-                    title: "1月",
+                    title: "1",
                     type: "decimal",
                     name: "JanPoints"
                 },
                 {
-                    title: "2月",
+                    title: "2",
                     type: "decimal",
                     name: "FebPoints"
                 },
                 {
-                    title: "3月",
+                    title: "3",
                     type: "decimal",
                     name: "MarPoints"
                 },
                 {
-                    title: "4月",
+                    title: "4",
                     type: "decimal",
                     name: "AprPoints"
                 },
                 {
-                    title: "5月",
+                    title: "5",
                     type: "decimal",
                     name: "MayPoints"
                 },
                 {
-                    title: "6月",
+                    title: "6",
                     type: "decimal",
                     name: "JunPoints"
                 },
                 {
-                    title: "7月",
+                    title: "7",
                     type: "decimal",
                     name: "JulPoints"
                 },
                 {
-                    title: "8月",
+                    title: "8",
                     type: "decimal",
                     name: "AugPoints"
                 },
                 {
-                    title: "9月",
+                    title: "9",
                     type: "decimal",
                     name: "SepPoints"
                 },
                 {
-                    title: "10月",
+                    title: "10",
                     type: "number",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
-                    title: "11月",
+                    title: "11",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
-                    title: "12月",
+                    title: "12",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
-                    title: "1月",
+                    title: "1",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JanTotal"
                 },
                 {
-                    title: "2月",
+                    title: "2",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
-                    title: "3月",
+                    title: "3",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
-                    title: "4月",
+                    title: "4",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "AprTotal"
                 },
                 {
-                    title: "5月",
+                    title: "5",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
-                    title: "6月",
+                    title: "6",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
-                    title: "7月",
+                    title: "7",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JulTotal"
                 },
                 {
-                    title: "8月",
+                    title: "8",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
                 {
-                    title: "9月",
+                    title: "9",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "SepTotal"
-                },
-                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
+                }
             ],
             columnSorting: true,
             onchange: changed,
             oninsertrow: newRowInserted,
-            ondeleterow: deleted,
-            contextMenu: function (obj, x, y, e) {
-                console.log(obj);
-                console.log(x);
-                console.log(y);
-                console.log(e);
-                var items = [];
-
-                // Insert new row
-                if (obj.options.allowInsertRow == true) {
-                    
-                    items.push({
-                        title: '新しい行を挿入する (New Row)',
-                        onclick: function () {
-                            obj.insertRow(1, parseInt(y));
-                        }
-                    });
-                }
-
-                items.push({
-                    title: '要員を追加する (Add Emp.)',
-                    onclick: function () {
-                        $('#jexcel_add_employee_modal').modal('show');
-                        globalY = y;
-                        
-                        console.log("y: "+y);
-                        console.log("globalY: "+globalY);
-
-                        GetEmployeeList();
-                    }
-                });
-
-                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
-                //Delete Employee -> 選択した要員を削除 (Delete)
-
-                return items;
-            }
             //sorting: customSortingHandler,
             //persistance:'/api/utilities/CreateHistory/'
             //updateTable: function (instance, cell, col, row, val, label, cellName) {
@@ -2287,72 +2221,37 @@ $(document).ready(function () {
 
         });
 
-        jss.deleteColumn(35, 16);
-        console.log(jss);
+        jss.deleteColumn(34,15);
     });
-
-    var deleted = function (instance, x, y, value) {
-        var assignmentIds = [];
-        if (value.length > 0) {
-            for (let i = 0; i < value.length; i++) {
-                if (value[i][0].innerText != '' && value[i][0].innerText.toString().includes('new') == false) {
-                    assignmentIds.push(value[i][0].innerText);
-                }
-                
-            }
-            if (assignmentIds.length>0) {
-                $.ajax({
-                    url: `/api/utilities/ExcelDeleteAssignment/`,
-                    contentType: 'application/json',
-                    type: 'DELETE',
-                    async: false,
-                    dataType: 'json',
-                    data: JSON.stringify(assignmentIds),
-                    success: function (data) {
-                        alert(data);
-                    }
-                });
-            }
-           
-        }
-        
-    }
 
     var newRowCount = 1;
     var changed = function (instance, cell, x, y, value) {
 
         var checkId = jss.getValueFromCoords(0, y);
-        
-        
         if (checkId == null || checkId == '' || checkId == undefined) {
-           
+            jss.setValueFromCoords(0, y, "new-" + newRowCount, false);
+            
             var retrivedData = retrivedObject(jss.getRowData(y));
             retrivedData.assignmentId = "new-" + newRowCount;
             
             jssInsertedData.push(retrivedData);
             newRowCount++;
-            jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-            jss.setValueFromCoords(22, y, `=J${parseInt(y) + 1}*K${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(23, y, `=J${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(24, y, `=J${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(25, y, `=J${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(26, y, `=J${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(27, y, `=J${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(28, y, `=J${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(29, y, `=J${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(30, y, `=J${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(31, y, `=J${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(32, y, `=J${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(33, y, `=J${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
         } 
         else {
             var retrivedData = retrivedObject(jss.getRowData(y));
-            if (retrivedData.assignmentId.toString().includes('new')) {
-                updateArrayForInsert(jssInsertedData, retrivedData);   
+            if (retrivedData.assignmentId.contains('new')) {
+                var insertedDataCheck = jssInsertedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                updateArray(jssInsertedData, retrivedData);
+
+                if (insertedDataCheck.length == 0) {
+                    
+                }
+                else {   
+                }
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(dataCheck);
+
                 if (x == 10) {
                     if (isNaN(value) || x < 0) {
                         alert('Input not valid');
@@ -2590,8 +2489,8 @@ $(document).ready(function () {
     }
 
     function updateArrayForInsert(array, retrivedData) {
-        var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
-        array[index].employeeId = retrivedData.employeeId;
+        var index = jssInsertedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
+        array[index].employeeName = retrivedData.employeeName;
         array[index].sectionId = retrivedData.sectionId;
         array[index].departmentId = retrivedData.departmentId;
         array[index].inchargeId = retrivedData.inchargeId;
@@ -2599,7 +2498,6 @@ $(document).ready(function () {
         array[index].explanationId = retrivedData.explanationId;
         array[index].companyId = retrivedData.companyId;
         array[index].gradeId = retrivedData.gradeId;
-        array[index].unitPrice = retrivedData.unitPrice;
         array[index].octPoint = retrivedData.octPoint;
         array[index].novPoint = retrivedData.novPoint;
         array[index].decPoint = retrivedData.decPoint;
@@ -2617,8 +2515,8 @@ $(document).ready(function () {
 
     function retrivedObject(rowData) {
         return {
-            assignmentId: rowData[0],
-            employeeId: rowData[34],
+            assignmentId: parseInt(rowData[0]),
+            employeeName: rowData[1],
             sectionId: rowData[2],
             departmentId: rowData[3],
             inchargeId: rowData[4],
@@ -2665,115 +2563,6 @@ $(document).ready(function () {
         }
         globalSearchObject.timeStampId = timeStampId;
 
-        
-        var employeesForJexcel = []; 
-        var sectionsForJexcel = []; 
-        var departmentsForJexcel = []; 
-        var inchargesForJexcel = []; 
-        var rolesForJexcel = []; 
-        var explanationsForJexcel = [];
-        var companiesForJexcel = [];
-        var gradesForJexcel = [];
-
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Sections`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    sectionsForJexcel.push({ id: value.Id, name: value.SectionName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Departments`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                
-                $.each(data, (index, value) => {
-                    departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-                });
-                //console.log(data);
-            }
-        });
-        $.ajax({
-            url: `/api/InCharges`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    inchargesForJexcel.push({ id: value.Id, name: value.InChargeName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Roles`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    rolesForJexcel.push({ id: value.Id, name: value.RoleName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Explanations`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    explanationsForJexcel.push({ id: value.Id, name: value.ExplanationName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Companies`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    companiesForJexcel.push({ id: value.Id, name: value.CompanyName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Salaries`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-                });
-            }
-        });
-        
         if (jss != undefined) {
             jss.destroy();
             $('#jspreadsheet').empty();
@@ -2800,153 +2589,152 @@ $(document).ready(function () {
             data: _retriveddata,
 
             columns: [
-                { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "役割( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                
-
+                { title: "Id", type: 'hidden', name: 'Id' },
+                { title: "Employee Name", name: "EmployeeName", width: 150 },
+                { title: "Section Name", name: "SectionName", width: 85 },
+                { title: "Department Name", name: "DepartmentName", width: 85 },
+                { title: "Incharge Name", name: "InchargeName", width: 85 },
+                { title: "Role Name", name: "RoleName", width: 85 },
+                { title: "Explanation Name", name: "ExplanationName", width: 150 },
+                { title: "Company Name", name: "CompanyName", width: 85 },
+                { title: "Grade", name: "GradePoint" },
+                { title: "Unit Price", name: "UnitPrice", type: "number", mask: "#,##0", width: 85 },
                 {
-                    title: "10月",
+                    title: "10",
                     type: "decimal",
                     name: "OctPoints"
                 },
                 {
-                    title: "11月",
+                    title: "11",
                     type: "decimal",
                     name: "NovPoints"
                 },
                 {
-                    title: "12月",
+                    title: "12",
                     type: "decimal",
                     name: "DecPoints"
                 },
                 {
-                    title: "1月",
+                    title: "1",
                     type: "decimal",
                     name: "JanPoints"
                 },
                 {
-                    title: "2月",
+                    title: "2",
                     type: "decimal",
                     name: "FebPoints"
                 },
                 {
-                    title: "3月",
+                    title: "3",
                     type: "decimal",
                     name: "MarPoints"
                 },
                 {
-                    title: "4月",
+                    title: "4",
                     type: "decimal",
                     name: "AprPoints"
                 },
                 {
-                    title: "5月",
+                    title: "5",
                     type: "decimal",
                     name: "MayPoints"
                 },
                 {
-                    title: "6月",
+                    title: "6",
                     type: "decimal",
                     name: "JunPoints"
                 },
                 {
-                    title: "7月",
+                    title: "7",
                     type: "decimal",
                     name: "JulPoints"
                 },
                 {
-                    title: "8月",
+                    title: "8",
                     type: "decimal",
                     name: "AugPoints"
                 },
                 {
-                    title: "9月",
+                    title: "9",
                     type: "decimal",
                     name: "SepPoints"
                 },
                 {
-                    title: "10月",
+                    title: "10",
                     type: "number",
                     readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
-                    title: "11月",
+                    title: "11",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
-                    title: "12月",
+                    title: "12",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
-                    title: "1月",
+                    title: "1",
                     type: "decimal",
                     readOnly: true,
                     name: "JanTotal"
                 },
                 {
-                    title: "2月",
+                    title: "2",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
-                    title: "3月",
+                    title: "3",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
-                    title: "4月",
+                    title: "4",
                     type: "decimal",
                     readOnly: true,
                     name: "AprTotal"
                 },
                 {
-                    title: "5月",
+                    title: "5",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
-                    title: "6月",
+                    title: "6",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
-                    title: "7月",
+                    title: "7",
                     type: "decimal",
                     readOnly: true,
                     name: "JulTotal"
                 },
                 {
-                    title: "8月",
+                    title: "8",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
                 {
-                    title: "9月",
+                    title: "9",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
@@ -2966,23 +2754,6 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
-        if (jssInsertedData.length > 0) {
-            $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(jssInsertedData),
-                success: function (data) {
-                    alert('data successfully inserted!!');
-                }
-            });
-        }
-        // else {
-        //     alert('no recored found to insert!!!');
-        //     return false;
-        // }
 
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
@@ -2994,14 +2765,14 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: JSON.stringify(jssUpdatedData),
                 success: function (data) {
-                    alert('data successfully updated!!');
+                    alert('success!!');
                 }
             });
         }
-        // else {
-        //     alert('no recored found to update!!!');
-        //     return false;
-        // }
+        else {
+            alert('no recored found to update!!!');
+            return false;
+        }
     });
 
 
@@ -3104,47 +2875,4 @@ function GetListDropdownValue() {
         $('#period_multi_search').empty();
         $('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
         $('#period_multi_search').multiselect('rebuild');
-}
-
-//employee insert
-function InsertEmployee() {
-    var apiurl = "/api/utilities/CreateEmployee/";
-    let employeeName = $("#employee_name").val();
-    if (employeeName == "" || employeeName == null || employeeName == undefined) {
-        $(".employee_err").show();
-        return false;
-    } else {
-        $(".employee_err").hide();
-        var data = {
-            FullName: employeeName.trim()
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess(data);
-
-                $('#employee_name').val('');
-                GetEmployeeList();
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
-}
-
-//Get employee list
-function GetEmployeeList() {
-    $('#employee_list').empty();
-    $.getJSON('/api/utilities/EmployeeList/')
-        .done(function (data) {
-            $.each(data, function (key, item) {
-                $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
-            });
-        });
 }

@@ -2079,7 +2079,9 @@ $(document).ready(function () {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
-            lazyLoading: true,   
+            lazyLoading: true,  
+            tableWidth: '1200px',
+            freezeColumns: 10,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
@@ -2154,74 +2156,74 @@ $(document).ready(function () {
                 {
                     title: "10月",
                     type: "number",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
                     title: "11月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
                     title: "12月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
                     title: "1月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JanTotal"
                 },
                 {
                     title: "2月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
                     title: "3月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
                     title: "4月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "AprTotal"
                 },
                 {
                     title: "5月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
                     title: "6月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
                     title: "7月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     name: "JulTotal"
                 },
                 {
                     title: "8月",
                     type: "decimal",
-                    //readOnly: true,
+                    readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
@@ -2239,10 +2241,6 @@ $(document).ready(function () {
             oninsertrow: newRowInserted,
             ondeleterow: deleted,
             contextMenu: function (obj, x, y, e) {
-                console.log(obj);
-                console.log(x);
-                console.log(y);
-                console.log(e);
                 var items = [];
 
                 // Insert new row
@@ -2256,6 +2254,7 @@ $(document).ready(function () {
                     });
                 }
 
+
                 items.push({
                     title: '要員を追加する (Add Emp.)',
                     onclick: function () {
@@ -2268,6 +2267,14 @@ $(document).ready(function () {
                         GetEmployeeList();
                     }
                 });
+                if (obj.options.allowDeleteRow == true) {
+                    items.push({
+                        title: '選択した要員を削除 (Delete)',
+                        onclick: function () {
+                            obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                        }
+                    });
+                }
 
                 //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
                 //Delete Employee -> 選択した要員を削除 (Delete)
@@ -2352,7 +2359,71 @@ $(document).ready(function () {
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(dataCheck);
+                console.log(retrivedData);
+                if (x==2) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 3) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 4) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 5) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 6) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 7) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 8) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
+                if (x == 9) {
+                    if (dataCheck.length == 0) {
+                        jssUpdatedData.push(retrivedData);
+                    }
+                    else {
+                        updateArray(jssUpdatedData, retrivedData);
+                    }
+                }
                 if (x == 10) {
                     if (isNaN(value) || x < 0) {
                         alert('Input not valid');
@@ -2574,6 +2645,15 @@ $(document).ready(function () {
     function updateArray(array, retrivedData) {
         var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
+        array[index].employeeId = retrivedData.employeeId;
+        array[index].sectionId = retrivedData.sectionId;
+        array[index].departmentId = retrivedData.departmentId;
+        array[index].inchargeId = retrivedData.inchargeId;
+        array[index].roleId = retrivedData.roleId;
+        array[index].explanationId = retrivedData.explanationId;
+        array[index].companyId = retrivedData.companyId;
+        array[index].gradeId = retrivedData.gradeId;
+        array[index].unitPrice = retrivedData.unitPrice;
         array[index].octPoint = retrivedData.octPoint;
         array[index].novPoint = retrivedData.novPoint;
         array[index].decPoint = retrivedData.decPoint;
@@ -2666,7 +2746,7 @@ $(document).ready(function () {
         globalSearchObject.timeStampId = timeStampId;
 
         
-        var employeesForJexcel = []; 
+        //var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
         var departmentsForJexcel = []; 
         var inchargesForJexcel = []; 
@@ -2675,18 +2755,18 @@ $(document).ready(function () {
         var companiesForJexcel = [];
         var gradesForJexcel = [];
 
-        $.ajax({
-            url: `/api/utilities/EmployeeList/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    employeesForJexcel.push({ id: value.Id, name: value.FullName });
-                });
-            }
-        });
+        //$.ajax({
+        //    url: `/api/utilities/EmployeeList/`,
+        //    contentType: 'application/json',
+        //    type: 'GET',
+        //    async: false,
+        //    dataType: 'json',
+        //    success: function (data) {
+        //        $.each(data, (index, value) => {
+        //            employeesForJexcel.push({ id: value.Id, name: value.FullName });
+        //        });
+        //    }
+        //});
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -2801,7 +2881,7 @@ $(document).ready(function () {
 
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "dropdown", source: employeesForJexcel, name:"EmployeeId", width: 150 },
+                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
                 { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
                 { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
                 { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
@@ -2951,16 +3031,58 @@ $(document).ready(function () {
                     readOnly: true,
                     mask: "#,##0",
                     name: "SepTotal"
-                }
+                },
+                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
             columnSorting: true,
-            onchange: changed
+            onchange: changed,
+            contextMenu: function (obj, x, y, e) {
+                var items = [];
+
+                // Insert new row
+                if (obj.options.allowInsertRow == true) {
+
+                    items.push({
+                        title: '新しい行を挿入する (New Row)',
+                        onclick: function () {
+                            obj.insertRow(1, parseInt(y));
+                        }
+                    });
+                }
+
+
+                items.push({
+                    title: '要員を追加する (Add Emp.)',
+                    onclick: function () {
+                        $('#jexcel_add_employee_modal').modal('show');
+                        globalY = y;
+
+                        console.log("y: " + y);
+                        console.log("globalY: " + globalY);
+
+                        GetEmployeeList();
+                    }
+                });
+                if (obj.options.allowDeleteRow == true) {
+                    items.push({
+                        title: '選択した要員を削除 (Delete)',
+                        onclick: function () {
+                            obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                        }
+                    });
+                }
+
+                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
+                //Delete Employee -> 選択した要員を削除 (Delete)
+
+                return items;
+            }
 
 
 
         });
 
-        jss.deleteColumn(34, 15);
+        jss.deleteColumn(35, 16);
 
     });
 
@@ -2978,6 +3100,8 @@ $(document).ready(function () {
                     alert('data successfully inserted!!');
                 }
             });
+            jssInsertedData = [];
+            newRowCount = 1;
         }
         // else {
         //     alert('no recored found to insert!!!');
@@ -2997,6 +3121,7 @@ $(document).ready(function () {
                     alert('data successfully updated!!');
                 }
             });
+            jssUpdatedData = [];
         }
         // else {
         //     alert('no recored found to update!!!');

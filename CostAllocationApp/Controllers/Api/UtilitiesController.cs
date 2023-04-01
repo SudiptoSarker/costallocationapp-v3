@@ -824,6 +824,21 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     foreach (var item in historyDtos)
                     {
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        employeeAssignment.Id = item.AssignmentId;
+                        employeeAssignment.Remarks = "";
+                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedDate = DateTime.Now;
+                        employeeAssignment.EmployeeId = item.EmployeeId;
+                        employeeAssignment.SectionId = item.SectionId;
+                        employeeAssignment.DepartmentId = item.DepartmentId;
+                        employeeAssignment.InchargeId = item.InchargeId;
+                        employeeAssignment.RoleId = item.RoleId;
+                        employeeAssignment.ExplanationId = item.ExplanationId;
+                        employeeAssignment.CompanyId = item.CompanyId;
+                        employeeAssignment.GradeId = item.GradeId;
+                        employeeAssignment.UnitPrice = item.UnitPrice;
+                        int updateResult =  employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId,item.Year,10,item.OctPoint));
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 11, item.NovPoint));
@@ -987,13 +1002,16 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in excelAssignmentDtos)
                 {
                     EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-
+                    if (item.EmployeeId=="" || item.EmployeeId==null)
+                    {
+                        continue;
+                    }
                     employeeAssignment.EmployeeId = item.EmployeeId;
                     employeeAssignment.SectionId = item.SectionId;
                     employeeAssignment.DepartmentId = item.DepartmentId;
                     employeeAssignment.InchargeId = item.InchargeId;
                     employeeAssignment.RoleId = item.RoleId;
-                    employeeAssignment.ExplanationId = item.ExplanationId;
+                    employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
                     employeeAssignment.CompanyId = item.CompanyId;
                     employeeAssignment.UnitPrice = item.UnitPrice;
                     employeeAssignment.GradeId = item.GradeId;

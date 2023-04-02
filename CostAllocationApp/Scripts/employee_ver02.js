@@ -25,12 +25,15 @@ function InsertEmployee() {
             type: 'POST',
             dataType: 'json',
             data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess(data);
+            success: function (result) {
+                if (result > 0) {
+                    $("#page_load_after_modal_close").val("yes");
+                    ToastMessageSuccess('Data Save Successfully!');
 
-                $('#employee-name').val('');
-                GetEmployeeList();
+                    $('#employee-name').val('');
+                    GetEmployeeList();
+                }
+
             },
             error: function (data) {
                 alert(data.responseJSON.Message);

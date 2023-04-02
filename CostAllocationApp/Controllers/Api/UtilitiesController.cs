@@ -921,7 +921,7 @@ namespace CostAllocationApp.Controllers.Api
                 int result = employeeBLL.CreateEmployee(employee);
                 if (result>0)
                 {
-                    return Ok("Saved Successfully");
+                    return Ok(result);
                 }
                 else
                 {

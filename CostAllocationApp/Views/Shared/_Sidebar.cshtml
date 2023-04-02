@@ -25,7 +25,7 @@
                     }
                     else
                     {
-                        if (url.ToLower().Contains("namelist"))
+                        @*if (url.ToLower().Contains("namelist"))
                         {
                             <li>
                                 <a href="/Employees/NameList" class="active"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
@@ -36,8 +36,8 @@
                             <li>
                                 <a href="/Employees/NameList"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
                             </li>
-                        }
-                        if (url.ToLower().Contains("createassignment"))
+                        }*@
+                        @*if (url.ToLower().Contains("createassignment"))
                         {
                             <li>
                                 <a href="javascriopt:void(0);" class="active"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
@@ -48,17 +48,17 @@
                             <li>
                                 <a href="/Employees/CreateAssignment"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
                             </li>
-                        }
+                        }*@
                         if (url.ToLower().Contains("createforecast"))
                         {
                             <li>
-                                <a href="/Forecasts/CreateForecast" class="active"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data Create)">年度データー(Yearly Data Create)</span></a>
+                                <a href="/Forecasts/CreateForecast" class="active"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
                             </li>
                         }
                         else
                         {
                             <li>
-                                <a href="/Forecasts/CreateForecast"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data Create)">年度データー(Yearly Data Create)</span></a>
+                                <a href="/Forecasts/CreateForecast"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
                             </li>
                         }
                         @* <li>

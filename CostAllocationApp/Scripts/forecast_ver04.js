@@ -1104,17 +1104,7 @@ $(document).on("click", function (event) {
     }
 });
 $(document).ready(function () {
-    /***************************\                           
-     Add Employee through Modal                      
-    \***************************/
-    $('#employee_list').on('change',function (){
-        var employeeId = $(this).val();        
-        var employeeName = $(this).find("option:selected").text();
-        
-        jss.setValueFromCoords(1, globalY, employeeName, false);
-        jss.setValueFromCoords(34, globalY, employeeId, false);
 
-    });
 
     var count = 1;
     $('#forecast_search tbody tr:eq(0) th').each(function () {
@@ -3249,15 +3239,20 @@ function InsertEmployee() {
             type: 'POST',
             dataType: 'json',
             data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess(data);
+            success: function (result) {
+                if (result > 0) {
+                    jss.setValueFromCoords(1, globalY, data.FullName, false);
+                    jss.setValueFromCoords(34, globalY, result, false);
+                    $("#page_load_after_modal_close").val("yes");
+                    ToastMessageSuccess('Data Save Successfully!');
+                    $('#employee_name').val('');
+                    $('#jexcel_add_employee_modal').modal('hide');
+                }
 
-                $('#employee_name').val('');
-                GetEmployeeList();
+                //GetEmployeeList();
             },
-            error: function (data) {
-                alert(data.responseJSON.Message);
+            error: function (result) {
+                alert(result.responseJSON.Message);
             }
         });
     }
@@ -3272,4 +3267,15 @@ function GetEmployeeList() {
                 $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
             });
         });
+}
+
+/***************************\                           
+  Add Employee through Modal                      
+\***************************/
+function AddEmployee() {
+    var employeeId = $('#employee_list').val();        
+    var employeeName = $('#employee_list').find("option:selected").text();
+    jss.setValueFromCoords(1, globalY, employeeName, false);
+    jss.setValueFromCoords(34, globalY, employeeId, false);
+    $('#jexcel_add_employee_modal').modal('hide');
 }

@@ -10,6 +10,27 @@ namespace CostAllocationApp.DAL
 {
     public class EmployeeDAL : DbContext
     {
+        public int GetLastId()
+        {
+            int result = 0;
+            string query = $@"select max(Id) from Employees;";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
         public int CreateEmployee(Employee employee)
         {
             int result = 0;
@@ -25,6 +46,10 @@ namespace CostAllocationApp.DAL
                 try
                 {
                     result = cmd.ExecuteNonQuery();
+                    if (result>0)
+                    {
+                        result = GetLastId();
+                    }
                 }
                 catch (Exception ex)
                 {

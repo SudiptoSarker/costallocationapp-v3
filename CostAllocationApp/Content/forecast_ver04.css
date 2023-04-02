@@ -1877,7 +1877,7 @@ table.dataTable > thead .sorting .sorting_desc, {
     color: white;
 }
 
-.employee_registration {
+.employee_registration, .employee_add {
     background-color: #3c4b5d;
     color: white;
     padding: 5px;

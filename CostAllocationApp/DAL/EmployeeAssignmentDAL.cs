@@ -966,10 +966,9 @@ namespace CostAllocationApp.DAL
 
         public List<EmployeeAssignmentViewModel> GetEmployeesByName(string employeeName)
         {
+            string where = $"emp.FullName = N'{employeeName}'";
 
-            string where = $"ea.EmployeeName = N'{employeeName}'";
-
-            string query = $@"select ea.id as AssignmentId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode,ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,emp.FullName,ea.EmployeeId,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode,ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive
                             from EmployeesAssignments ea join Sections sec on ea.SectionId = sec.Id
@@ -978,6 +977,7 @@ namespace CostAllocationApp.DAL
                             join Roles rl on ea.RoleId = rl.Id
                             join InCharges inc on ea.InChargeId = inc.Id 
                             join Grades gd on ea.GradeId = gd.Id
+                            join Employees emp on ea.EmployeeId = emp.Id
                             where {where} order by ea.SubCode asc";
 
             List<EmployeeAssignmentViewModel> employeeAssignments = new List<EmployeeAssignmentViewModel>();

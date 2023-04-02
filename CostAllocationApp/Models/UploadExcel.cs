@@ -7,7 +7,7 @@ namespace CostAllocationApp.Models
 {
     public class UploadExcel
     {
-        public string EmployeeName { get; set; }
+        public int EmployeeId { get; set; }
         public int? SectionId { get; set; }
         public int? DepartmentId { get; set; }
         public int? InchargeId { get; set; }

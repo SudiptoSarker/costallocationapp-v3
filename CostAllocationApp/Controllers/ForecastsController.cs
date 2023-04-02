@@ -25,6 +25,7 @@ namespace CostAllocationApp.Controllers
         SectionBLL sectionBLL = new SectionBLL();
         Utility _utility = new Utility();
         EmployeeBLL employeeBLL = new EmployeeBLL();
+        Employee employee = new Employee();
 
         // GET: Forecasts
         public ActionResult CreateForecast()
@@ -156,15 +157,14 @@ namespace CostAllocationApp.Controllers
                                 continue;
                             }
                             else
-                            {
-                                Employee employee = new Employee();
-
+                            {                                
                                 employee.IsActive = true;
                                 employee.CreatedBy = "";
                                 employee.CreatedDate = DateTime.Now;
-                                int result = employeeBLL.CreateEmployee(employee);
-                                
-                                _uploadExcel.EmployeeName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                int result = employeeBLL.CreateEmployee(employee);                               
+
+                                _uploadExcel.EmployeeId = result;
                             }                            
 
                             //compnay
@@ -209,7 +209,8 @@ namespace CostAllocationApp.Controllers
                                 _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
                             }
 
-                            var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(_uploadExcel.EmployeeName);
+
+                            var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
                             if (assignmentViewModels.Count > 0)
                             {
                                 CreateAssignmentForExcelUpload(_uploadExcel, i, assignmentViewModels.Count);
@@ -321,7 +322,8 @@ namespace CostAllocationApp.Controllers
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             employeeAssignmentDTO = new EmployeeAssignmentDTO();
-            employeeAssignment.EmployeeName = dt_.EmployeeName;
+            //employeeAssignment.EmployeeName = dt_.EmployeeName;
+            employeeAssignment.EmployeeId = dt_.EmployeeId.ToString();
             //employeeAssignment.SectionId = Convert.ToInt32(dt_.SectionId.ToString().Trim(trimElements));
             employeeAssignment.SectionId = String.IsNullOrEmpty(dt_.SectionId.ToString()) ? null : dt_.SectionId;
             //employeeAssignment.InchargeId = Convert.ToInt32(dt_.InchargeId.ToString().Trim(trimElements));
@@ -342,7 +344,7 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = "";
-
+            employeeAssignment.Year = "2023";
 
             int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             if (result == 0)

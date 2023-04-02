@@ -199,9 +199,9 @@ namespace CostAllocationApp.Controllers
                             }
                             else
                             {
-                                _uploadExcel.EmployeeName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                _uploadExcel.EmployeeId = 0;//dt_.Rows[i][5].ToString().Trim(trimElements);
                             }                            
-                            var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(_uploadExcel.EmployeeName);
+                            var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(dt_.Rows[i][5].ToString().Trim(trimElements));
                             
                             
 
@@ -320,7 +320,7 @@ namespace CostAllocationApp.Controllers
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             employeeAssignmentDTO = new EmployeeAssignmentDTO();
-            employeeAssignment.EmployeeName = dt_.EmployeeName;
+            employeeAssignment.EmployeeId = dt_.EmployeeId.ToString();
             employeeAssignment.SectionId = Convert.ToInt32(dt_.SectionId.ToString().Trim(trimElements));
             employeeAssignment.InchargeId = Convert.ToInt32(dt_.InchargeId.ToString().Trim(trimElements));
             employeeAssignment.DepartmentId = Convert.ToInt32(dt_.DepartmentId.ToString().Trim(trimElements));

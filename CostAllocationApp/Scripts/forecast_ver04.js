@@ -4,6 +4,7 @@ var globalPreviousId = '';
 var jss;
 var globalX = 0;
 var globalY = 0;
+var newRowCount = 1;
 
 function DismissOtherDropdown(requestType) {
     var section_display = "";
@@ -2146,74 +2147,74 @@ $(document).ready(function () {
                 {
                     title: "10月",
                     type: "number",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
                     title: "11月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
                     title: "12月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
                     title: "1月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "JanTotal"
                 },
                 {
                     title: "2月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
                     title: "3月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
                     title: "4月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "AprTotal"
                 },
                 {
                     title: "5月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
                     title: "6月",
                     type: "decimal",
-                    readOnly: true,
+                   // readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
                     title: "7月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "JulTotal"
                 },
                 {
                     title: "8月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
@@ -2259,7 +2260,61 @@ $(document).ready(function () {
                         GetEmployeeList();
                     }
                 });
-                //同じ要員を複製する(emp duplication)
+                items.push({
+                    title: '同じ要員を複製する(emp duplication)',
+                    onclick: function () {
+                        //debugger;
+                        let nextRow = parseInt(y) + 1;
+
+                        obj.insertRow(1, parseInt(y));
+
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        retrivedData.assignmentId = "new-" + newRowCount;
+
+                        
+                        obj.setValueFromCoords(34, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                        obj.setValueFromCoords(2, nextRow, retrivedData.sectionId, false);
+                        obj.setValueFromCoords(3, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(4, nextRow, retrivedData.inchargeId, false);
+                        obj.setValueFromCoords(5, nextRow, retrivedData.roleId, false);
+                        obj.setValueFromCoords(6, nextRow, retrivedData.explanationId, false);
+                        obj.setValueFromCoords(7, nextRow, retrivedData.companyId, false);
+                        obj.setValueFromCoords(8, nextRow, retrivedData.gradeId, false);
+                        obj.setValueFromCoords(9, nextRow, retrivedData.unitPrice, false);
+
+
+                        obj.setValueFromCoords(10, nextRow, '0.0', false);
+                        obj.setValueFromCoords(11, nextRow, '0.0', false);
+                        obj.setValueFromCoords(12, nextRow, '0.0', false);
+                        obj.setValueFromCoords(13, nextRow, '0.0', false);
+                        obj.setValueFromCoords(14, nextRow, '0.0', false);
+                        obj.setValueFromCoords(15, nextRow, '0.0', false);
+                        obj.setValueFromCoords(16, nextRow, '0.0', false);
+                        obj.setValueFromCoords(17, nextRow, '0.0', false);
+                        obj.setValueFromCoords(18, nextRow, '0.0', false);
+                        obj.setValueFromCoords(19, nextRow, '0.0', false);
+                        obj.setValueFromCoords(20, nextRow, '0.0', false);
+                        obj.setValueFromCoords(21, nextRow, '0.0', false);
+
+                        jss.setValueFromCoords(22, nextRow, `=J${nextRow+1}*K${nextRow+1}`, false);
+                        jss.setValueFromCoords(23, nextRow, `=J${nextRow+1}*L${nextRow+1}`, false);
+                        jss.setValueFromCoords(24, nextRow, `=J${nextRow+1}*M${nextRow+1}`, false);
+                        jss.setValueFromCoords(25, nextRow, `=J${nextRow+1}*N${nextRow+1}`, false);
+                        jss.setValueFromCoords(26, nextRow, `=J${nextRow+1}*O${nextRow+1}`, false);
+                        jss.setValueFromCoords(27, nextRow, `=J${nextRow+1}*P${nextRow+1}`, false);
+                        jss.setValueFromCoords(28, nextRow, `=J${nextRow+1}*Q${nextRow+1}`, false);
+                        jss.setValueFromCoords(29, nextRow, `=J${nextRow+1}*R${nextRow+1}`, false);
+                        jss.setValueFromCoords(30, nextRow, `=J${nextRow+1}*S${nextRow+1}`, false);
+                        jss.setValueFromCoords(31, nextRow, `=J${nextRow+1}*T${nextRow+1}`, false);
+                        jss.setValueFromCoords(32, nextRow, `=J${nextRow+1}*U${nextRow+1}`, false);
+                        jss.setValueFromCoords(33, nextRow, `=J${nextRow+1}*V${nextRow+1}`, false);
+
+                        newRowCount++;
+                    }
+                });
+
+                
                 if (obj.options.allowDeleteRow == true) {
                     items.push({
                         title: '選択した要員を削除(selected emp delete)',
@@ -2269,19 +2324,9 @@ $(document).ready(function () {
                     });
                 }
 
-                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
-                //Delete Employee -> 選択した要員を削除 (Delete)
-
                 return items;
             }
-            //sorting: customSortingHandler,
-            //persistance:'/api/utilities/CreateHistory/'
-            //updateTable: function (instance, cell, col, row, val, label, cellName) {
-            //    console.log(cell);
-            //}
-            //onevent: function (event, a, b, c, d, e, f) {
-            //    console.log(event);
-            //}
+          
 
 
 
@@ -2318,9 +2363,10 @@ $(document).ready(function () {
         
     }
 
-    var newRowCount = 1;
+   
     var changed = function (instance, cell, x, y, value) {
 
+        //debugger;
         var checkId = jss.getValueFromCoords(0, y);
         
         

@@ -372,29 +372,10 @@ namespace CostAllocationApp.Controllers.Api
             //    datas.Add(d);
             //}
 
-            if (forecsatEmployeeAssignmentViewModels.Count>0)
-            {
-                var countedRow = forecsatEmployeeAssignmentViewModels.Count;
-                forecsatEmployeeAssignmentViewModels.Add(new ForecastAssignmentViewModel {
-                    EmployeeName = "Total",
-                    
-                    OctPoints = $@"=SUM(K1:K{countedRow})",
-                    NovPoints = $@"=SUM(L1:L{countedRow})",
-                    DecPoints = $@"=SUM(M1:M{countedRow})",
-                    JanPoints = $@"=SUM(N1:N{countedRow})",
-                    FebPoints = $@"=SUM(O1:O{countedRow})",
-                    MarPoints = $@"=SUM(P1:P{countedRow})",
-                    AprPoints = $@"=SUM(Q1:Q{countedRow})",
-                    MayPoints = $@"=SUM(R1:R{countedRow})",
-                    JunPoints = $@"=SUM(S1:S{countedRow})",
-                    JulPoints = $@"=SUM(T1:T{countedRow})",
-                    AugPoints = $@"=SUM(U1:U{countedRow})",
-                    SepPoints = $@"=SUM(V1:V{countedRow})",
-                });
-            }
+            
+
 
             return Ok(forecsatEmployeeAssignmentViewModels);
-            //return Ok();
 
         }
 

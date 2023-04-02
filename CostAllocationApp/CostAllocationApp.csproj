@@ -250,6 +250,7 @@
     <Content Include="Content\forecast_ver02.css" />
     <Content Include="Content\forecast_ver03.css" />
     <Content Include="Content\fullcalendar.min.css" />
+    <Content Include="Content\histories.css" />
     <Content Include="Content\incharge.css" />
     <Content Include="Content\jexcel.css" />
     <Content Include="Content\jspreadsheet.css" />
@@ -628,6 +629,7 @@
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\glimpse.js" />
     <Content Include="Scripts\glimpse.toastr.js" />
+    <Content Include="Scripts\histories.js" />
     <Content Include="Scripts\html5shiv.min.js" />
     <Content Include="Scripts\incharge.js" />
     <Content Include="Scripts\jexcel.js" />
@@ -700,6 +702,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
     <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
+    <Content Include="Views\Forecasts\GetHistories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

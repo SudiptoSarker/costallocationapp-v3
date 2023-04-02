@@ -157,13 +157,6 @@ namespace CostAllocationApp.Controllers
                             }
                             else
                             {
-                                Employee employee = new Employee();
-
-                                employee.IsActive = true;
-                                employee.CreatedBy = "";
-                                employee.CreatedDate = DateTime.Now;
-                                int result = employeeBLL.CreateEmployee(employee);
-                                
                                 _uploadExcel.EmployeeName = dt_.Rows[i][5].ToString().Trim(trimElements);
                             }                            
 

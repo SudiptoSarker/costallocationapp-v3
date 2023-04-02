@@ -278,51 +278,51 @@ namespace CostAllocationApp.Controllers.Api
                         var x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).FirstOrDefault();
                         if (item.Month==10)
                         {
-                            x.OctPoints = item.Points;
+                            x.OctPoints = item.Points.ToString();
                         }
                         if (item.Month == 11)
                         {
-                            x.NovPoints = item.Points;
+                            x.NovPoints = item.Points.ToString();
                         }
                         if (item.Month == 12)
                         {
-                            x.DecPoints = item.Points;
+                            x.DecPoints = item.Points.ToString();
                         }
                         if (item.Month == 1)
                         {
-                            x.JanPoints = item.Points;
+                            x.JanPoints = item.Points.ToString();
                         }
                         if (item.Month == 2)
                         {
-                            x.FebPoints = item.Points;
+                            x.FebPoints = item.Points.ToString();
                         }
                         if (item.Month == 3)
                         {
-                            x.MarPoints = item.Points;
+                            x.MarPoints = item.Points.ToString();
                         }
                         if (item.Month == 4)
                         {
-                            x.AprPoints = item.Points;
+                            x.AprPoints = item.Points.ToString();
                         }
                         if (item.Month == 5)
                         {
-                            x.MayPoints = item.Points;
+                            x.MayPoints = item.Points.ToString();
                         }
                         if (item.Month == 6)
                         {
-                            x.JunPoints = item.Points;
+                            x.JunPoints = item.Points.ToString();
                         }
                         if (item.Month == 7)
                         {
-                            x.JulPoints = item.Points;
+                            x.JulPoints = item.Points.ToString();
                         }
                         if (item.Month == 8)
                         {
-                            x.AugPoints = item.Points;
+                            x.AugPoints = item.Points.ToString();
                         }
                         if (item.Month == 9)
                         {
-                            x.SepPoints = item.Points;
+                            x.SepPoints = item.Points.ToString();
                         }
                     }
                 }
@@ -371,6 +371,27 @@ namespace CostAllocationApp.Controllers.Api
 
             //    datas.Add(d);
             //}
+
+            if (forecsatEmployeeAssignmentViewModels.Count>0)
+            {
+                var countedRow = forecsatEmployeeAssignmentViewModels.Count;
+                forecsatEmployeeAssignmentViewModels.Add(new ForecastAssignmentViewModel {
+                    EmployeeName = "Total",
+                    
+                    OctPoints = $@"=SUM(K1:K{countedRow})",
+                    NovPoints = $@"=SUM(L1:L{countedRow})",
+                    DecPoints = $@"=SUM(M1:M{countedRow})",
+                    JanPoints = $@"=SUM(N1:N{countedRow})",
+                    FebPoints = $@"=SUM(O1:O{countedRow})",
+                    MarPoints = $@"=SUM(P1:P{countedRow})",
+                    AprPoints = $@"=SUM(Q1:Q{countedRow})",
+                    MayPoints = $@"=SUM(R1:R{countedRow})",
+                    JunPoints = $@"=SUM(S1:S{countedRow})",
+                    JulPoints = $@"=SUM(T1:T{countedRow})",
+                    AugPoints = $@"=SUM(U1:U{countedRow})",
+                    SepPoints = $@"=SUM(V1:V{countedRow})",
+                });
+            }
 
             return Ok(forecsatEmployeeAssignmentViewModels);
             //return Ok();

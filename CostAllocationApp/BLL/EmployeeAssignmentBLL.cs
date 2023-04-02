@@ -233,18 +233,18 @@ namespace CostAllocationApp.BLL
                 {
                     if (item.forecasts.Count>0)
                     {
-                        item.OctPoints = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points;
-                        item.NovPoints = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points;
-                        item.DecPoints = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points;
-                        item.JanPoints = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points;
-                        item.FebPoints = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points;
-                        item.MarPoints = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points;
-                        item.AprPoints = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points;
-                        item.MayPoints = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points;
-                        item.JunPoints = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points;
-                        item.JulPoints = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points;
-                        item.AugPoints = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points;
-                        item.SepPoints = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points;
+                        item.OctPoints = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
+                        item.NovPoints = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
+                        item.DecPoints = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
+                        item.JanPoints = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
+                        item.FebPoints = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
+                        item.MarPoints = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
+                        item.AprPoints = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
+                        item.MayPoints = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
+                        item.JunPoints = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
+                        item.JulPoints = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
+                        item.AugPoints = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
+                        item.SepPoints = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
 
                         item.OctTotal = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Total;
                         item.NovTotal = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Total;
@@ -263,18 +263,18 @@ namespace CostAllocationApp.BLL
                     }
                     else
                     {
-                        item.OctPoints = 0;
-                        item.NovPoints = 0;
-                        item.DecPoints = 0;
-                        item.JanPoints = 0;
-                        item.FebPoints = 0;
-                        item.MarPoints = 0;
-                        item.AprPoints = 0;
-                        item.MayPoints = 0;
-                        item.JunPoints = 0;
-                        item.JulPoints = 0;
-                        item.AugPoints = 0;
-                        item.SepPoints = 0;
+                        item.OctPoints = "0";
+                        item.NovPoints = "0";
+                        item.DecPoints = "0";
+                        item.JanPoints ="0";
+                        item.FebPoints ="0";
+                        item.MarPoints ="0";
+                        item.AprPoints ="0";
+                        item.MayPoints ="0";
+                        item.JunPoints ="0";
+                        item.JulPoints ="0";
+                        item.AugPoints ="0";
+                        item.SepPoints ="0";
 
                         item.OctTotal = "";
                         item.NovTotal = "";

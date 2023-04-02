@@ -2226,6 +2226,7 @@ $(document).ready(function () {
                 },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
+            minDimensions:[6,10],
             columnSorting: true,
             onchange: changed,
             oninsertrow: newRowInserted,
@@ -2234,32 +2235,34 @@ $(document).ready(function () {
                 var items = [];
 
                 // Insert new row
-                if (obj.options.allowInsertRow == true) {
+                //if (obj.options.allowInsertRow == true) {
                     
-                    items.push({
-                        title: '新しい行を挿入する (New Row)',
-                        onclick: function () {
-                            obj.insertRow(1, parseInt(y));
-                        }
-                    });
-                }
+                //    items.push({
+                //        title: '新しい行を挿入する (New Row)',
+                //        onclick: function () {
+                //            obj.insertRow(1, parseInt(y));
+                //        }
+                //    });
+                //}
 
 
                 items.push({
-                    title: '要員を追加する (Add Emp.)',
+                    title: '要員を追加する(emp add)',
                     onclick: function () {
+                        obj.insertRow(1, parseInt(y));
                         $('#jexcel_add_employee_modal').modal('show');
-                        globalY = y;
+                        globalY = parseInt(y)+1;
                         
-                        console.log("y: "+y);
-                        console.log("globalY: "+globalY);
+                        //console.log("y: "+y);
+                        //console.log("globalY: "+globalY);
 
                         GetEmployeeList();
                     }
                 });
+                //同じ要員を複製する(emp duplication)
                 if (obj.options.allowDeleteRow == true) {
                     items.push({
-                        title: '選択した要員を削除 (Delete)',
+                        title: '選択した要員を削除(selected emp delete)',
                         onclick: function () {
                             obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                         }
@@ -2349,7 +2352,8 @@ $(document).ready(function () {
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(retrivedData);
+                console.log(jssUpdatedData);
+                
                 if (x==2) {
                     if (dataCheck.length == 0) {
                         jssUpdatedData.push(retrivedData);
@@ -2688,6 +2692,7 @@ $(document).ready(function () {
     function retrivedObject(rowData) {
         return {
             assignmentId: rowData[0],
+            employeeName: rowData[1],
             employeeId: rowData[34],
             sectionId: rowData[2],
             departmentId: rowData[3],
@@ -3024,38 +3029,41 @@ $(document).ready(function () {
                 },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
+            minDimensions: [6, 10],
             columnSorting: true,
             onchange: changed,
             contextMenu: function (obj, x, y, e) {
                 var items = [];
 
                 // Insert new row
-                if (obj.options.allowInsertRow == true) {
+                //if (obj.options.allowInsertRow == true) {
 
-                    items.push({
-                        title: '新しい行を挿入する (New Row)',
-                        onclick: function () {
-                            obj.insertRow(1, parseInt(y));
-                        }
-                    });
-                }
+                //    items.push({
+                //        title: '新しい行を挿入する (New Row)',
+                //        onclick: function () {
+                //            obj.insertRow(1, parseInt(y));
+                //        }
+                //    });
+                //}
 
 
                 items.push({
-                    title: '要員を追加する (Add Emp.)',
+                    title: '要員を追加する(emp add)',
                     onclick: function () {
+                        obj.insertRow(1, parseInt(y));
                         $('#jexcel_add_employee_modal').modal('show');
-                        globalY = y;
+                        globalY = parseInt(y) + 1;
 
-                        console.log("y: " + y);
-                        console.log("globalY: " + globalY);
+                        //console.log("y: "+y);
+                        //console.log("globalY: "+globalY);
 
                         GetEmployeeList();
                     }
                 });
+                //同じ要員を複製する(emp duplication)
                 if (obj.options.allowDeleteRow == true) {
                     items.push({
-                        title: '選択した要員を削除 (Delete)',
+                        title: '選択した要員を削除(selected emp delete)',
                         onclick: function () {
                             obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                         }
@@ -3078,6 +3086,20 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
+        console.log(jssInsertedData);
+        console.log(jssUpdatedData);
+
+        if (jssInsertedData.length > 0) {
+            var elementIndex = jssInsertedData.findIndex(object => {
+
+                return object.employeeName.toLowerCase() == 'total';
+
+            });
+            if (elementIndex>=0) {
+                jssInsertedData.splice(elementIndex, 1);
+            }
+            
+        }
         if (jssInsertedData.length > 0) {
             $.ajax({
                 url: `/api/utilities/ExcelAssignment/`,
@@ -3093,10 +3115,7 @@ $(document).ready(function () {
             jssInsertedData = [];
             newRowCount = 1;
         }
-        // else {
-        //     alert('no recored found to insert!!!');
-        //     return false;
-        // }
+    
 
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
@@ -3113,10 +3132,7 @@ $(document).ready(function () {
             });
             jssUpdatedData = [];
         }
-        // else {
-        //     alert('no recored found to update!!!');
-        //     return false;
-        // }
+        
     });
 
 

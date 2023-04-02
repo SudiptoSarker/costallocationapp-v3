@@ -38,18 +38,18 @@ namespace CostAllocationApp.ViewModels
         public List<ForecastDto> forecasts { get; set; }
 
         // points
-        public decimal OctPoints { get; set; }
-        public decimal NovPoints { get; set; }
-        public decimal DecPoints { get; set; }
-        public decimal JanPoints { get; set; }
-        public decimal FebPoints { get; set; }
-        public decimal MarPoints { get; set; }
-        public decimal AprPoints { get; set; }
-        public decimal MayPoints { get; set; }
-        public decimal JunPoints { get; set; }
-        public decimal JulPoints { get; set; }
-        public decimal AugPoints { get; set; }
-        public decimal SepPoints { get; set; }
+        public string OctPoints { get; set; }
+        public string NovPoints { get; set; }
+        public string DecPoints { get; set; }
+        public string JanPoints { get; set; }
+        public string FebPoints { get; set; }
+        public string MarPoints { get; set; }
+        public string AprPoints { get; set; }
+        public string MayPoints { get; set; }
+        public string JunPoints { get; set; }
+        public string JulPoints { get; set; }
+        public string AugPoints { get; set; }
+        public string SepPoints { get; set; }
         //total
         public string OctTotal { get; set; }
         public string NovTotal { get; set; }

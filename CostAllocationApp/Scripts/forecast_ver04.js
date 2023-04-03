@@ -4,6 +4,7 @@ var globalPreviousId = '';
 var jss;
 var globalX = 0;
 var globalY = 0;
+var newRowCount = 1;
 
 function DismissOtherDropdown(requestType) {
     var section_display = "";
@@ -1139,11 +1140,11 @@ $(document).ready(function () {
     //     nonSelectedText: 'select 配置作成(allocation)',
     // });
     //allocation multi search
-    $('#period_multi_search').multiselect({
-        includeSelectAllOption: true,
-        enableFiltering: true,
-        nonSelectedText: 'select 期間(period)',
-    });
+    //$('#period_multi_search').multiselect({
+    //    includeSelectAllOption: true,
+    //    enableFiltering: true,
+    //    nonSelectedText: 'select 期間(period)',
+    //});
     //incharge multi search
     $('#incharge_multi_search').multiselect({
        includeSelectAllOption: true,
@@ -1936,21 +1937,6 @@ $(document).ready(function () {
             }
         });
 
-        $.ajax({
-            url: `/api/utilities/GetTimeStamps`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: { year: year},
-            success: function (data) {
-                $('#forecast_timestamp').empty();
-                $('#forecast_timestamp').append(`<option value=''>Select Item</option>`);
-                $.each(data, function (index, element) {
-                    $('#forecast_timestamp').append(`<option value='${element.Id}'>${element.TimeStamp}</option>`);
-                });
-            }
-        });
 
         //var employeesForJexcel = []; 
         var sectionsForJexcel = []; 
@@ -2146,74 +2132,74 @@ $(document).ready(function () {
                 {
                     title: "10月",
                     type: "number",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal"
                 },
                 {
                     title: "11月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "NovTotal"
                 },
                 {
                     title: "12月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "DecTotal"
                 },
                 {
                     title: "1月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "JanTotal"
                 },
                 {
                     title: "2月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "FebTotal"
                 },
                 {
                     title: "3月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "MarTotal"
                 },
                 {
                     title: "4月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "AprTotal"
                 },
                 {
                     title: "5月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "MayTotal"
                 },
                 {
                     title: "6月",
                     type: "decimal",
-                    readOnly: true,
+                   // readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
                 {
                     title: "7月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     name: "JulTotal"
                 },
                 {
                     title: "8月",
                     type: "decimal",
-                    readOnly: true,
+                    //readOnly: true,
                     mask: "#,##0",
                     name: "AugTotal"
                 },
@@ -2226,6 +2212,7 @@ $(document).ready(function () {
                 },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
+            minDimensions:[6,10],
             columnSorting: true,
             onchange: changed,
             oninsertrow: newRowInserted,
@@ -2234,51 +2221,97 @@ $(document).ready(function () {
                 var items = [];
 
                 // Insert new row
-                if (obj.options.allowInsertRow == true) {
+                //if (obj.options.allowInsertRow == true) {
                     
-                    items.push({
-                        title: '新しい行を挿入する (New Row)',
-                        onclick: function () {
-                            obj.insertRow(1, parseInt(y));
-                        }
-                    });
-                }
+                //    items.push({
+                //        title: '新しい行を挿入する (New Row)',
+                //        onclick: function () {
+                //            obj.insertRow(1, parseInt(y));
+                //        }
+                //    });
+                //}
 
 
                 items.push({
-                    title: '要員を追加する (Add Emp.)',
+                    title: '要員を追加する(emp add)',
                     onclick: function () {
+                        obj.insertRow(1, parseInt(y));
                         $('#jexcel_add_employee_modal').modal('show');
-                        globalY = y;
+                        globalY = parseInt(y)+1;
                         
-                        console.log("y: "+y);
-                        console.log("globalY: "+globalY);
+                        //console.log("y: "+y);
+                        //console.log("globalY: "+globalY);
 
                         GetEmployeeList();
                     }
                 });
+                items.push({
+                    title: '同じ要員を複製する(emp duplication)',
+                    onclick: function () {
+                        //debugger;
+                        let nextRow = parseInt(y) + 1;
+
+                        obj.insertRow(1, parseInt(y));
+
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        retrivedData.assignmentId = "new-" + newRowCount;
+
+                        
+                        obj.setValueFromCoords(34, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                        obj.setValueFromCoords(2, nextRow, retrivedData.sectionId, false);
+                        obj.setValueFromCoords(3, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(4, nextRow, retrivedData.inchargeId, false);
+                        obj.setValueFromCoords(5, nextRow, retrivedData.roleId, false);
+                        obj.setValueFromCoords(6, nextRow, retrivedData.explanationId, false);
+                        obj.setValueFromCoords(7, nextRow, retrivedData.companyId, false);
+                        obj.setValueFromCoords(8, nextRow, retrivedData.gradeId, false);
+                        obj.setValueFromCoords(9, nextRow, retrivedData.unitPrice, false);
+
+
+                        obj.setValueFromCoords(10, nextRow, '0.0', false);
+                        obj.setValueFromCoords(11, nextRow, '0.0', false);
+                        obj.setValueFromCoords(12, nextRow, '0.0', false);
+                        obj.setValueFromCoords(13, nextRow, '0.0', false);
+                        obj.setValueFromCoords(14, nextRow, '0.0', false);
+                        obj.setValueFromCoords(15, nextRow, '0.0', false);
+                        obj.setValueFromCoords(16, nextRow, '0.0', false);
+                        obj.setValueFromCoords(17, nextRow, '0.0', false);
+                        obj.setValueFromCoords(18, nextRow, '0.0', false);
+                        obj.setValueFromCoords(19, nextRow, '0.0', false);
+                        obj.setValueFromCoords(20, nextRow, '0.0', false);
+                        obj.setValueFromCoords(21, nextRow, '0.0', false);
+
+                        jss.setValueFromCoords(22, nextRow, `=J${nextRow+1}*K${nextRow+1}`, false);
+                        jss.setValueFromCoords(23, nextRow, `=J${nextRow+1}*L${nextRow+1}`, false);
+                        jss.setValueFromCoords(24, nextRow, `=J${nextRow+1}*M${nextRow+1}`, false);
+                        jss.setValueFromCoords(25, nextRow, `=J${nextRow+1}*N${nextRow+1}`, false);
+                        jss.setValueFromCoords(26, nextRow, `=J${nextRow+1}*O${nextRow+1}`, false);
+                        jss.setValueFromCoords(27, nextRow, `=J${nextRow+1}*P${nextRow+1}`, false);
+                        jss.setValueFromCoords(28, nextRow, `=J${nextRow+1}*Q${nextRow+1}`, false);
+                        jss.setValueFromCoords(29, nextRow, `=J${nextRow+1}*R${nextRow+1}`, false);
+                        jss.setValueFromCoords(30, nextRow, `=J${nextRow+1}*S${nextRow+1}`, false);
+                        jss.setValueFromCoords(31, nextRow, `=J${nextRow+1}*T${nextRow+1}`, false);
+                        jss.setValueFromCoords(32, nextRow, `=J${nextRow+1}*U${nextRow+1}`, false);
+                        jss.setValueFromCoords(33, nextRow, `=J${nextRow+1}*V${nextRow+1}`, false);
+
+                        newRowCount++;
+                    }
+                });
+
+                
                 if (obj.options.allowDeleteRow == true) {
                     items.push({
-                        title: '選択した要員を削除 (Delete)',
+                        title: '選択した要員を削除(selected emp delete)',
                         onclick: function () {
                             obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                         }
                     });
                 }
 
-                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
-                //Delete Employee -> 選択した要員を削除 (Delete)
-
                 return items;
             }
-            //sorting: customSortingHandler,
-            //persistance:'/api/utilities/CreateHistory/'
-            //updateTable: function (instance, cell, col, row, val, label, cellName) {
-            //    console.log(cell);
-            //}
-            //onevent: function (event, a, b, c, d, e, f) {
-            //    console.log(event);
-            //}
+          
 
 
 
@@ -2315,9 +2348,10 @@ $(document).ready(function () {
         
     }
 
-    var newRowCount = 1;
+   
     var changed = function (instance, cell, x, y, value) {
 
+        //debugger;
         var checkId = jss.getValueFromCoords(0, y);
         
         
@@ -2349,7 +2383,8 @@ $(document).ready(function () {
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(retrivedData);
+                console.log(jssUpdatedData);
+                
                 if (x==2) {
                     if (dataCheck.length == 0) {
                         jssUpdatedData.push(retrivedData);
@@ -2688,6 +2723,7 @@ $(document).ready(function () {
     function retrivedObject(rowData) {
         return {
             assignmentId: rowData[0],
+            employeeName: rowData[1],
             employeeId: rowData[34],
             sectionId: rowData[2],
             departmentId: rowData[3],
@@ -2713,371 +2749,22 @@ $(document).ready(function () {
         };
     }
 
-    //on change function: time stamp dropdown change to show the history  
-    $('#forecast_timestamp').on('change', function () {
-       //get the multi search values
-        var employeeName = $('#name_search').val();
-        var sectionId = $('#section_multi_search').val();  
-        var inchargeId = $('#incharge_multi_search').val();
-        var roleId = $('#role_multi_search').val();      
-        var companyId = $('#company_multi_search').val();
-        var departmentId = $('#dept_multi_search').val();        
-        var explanationId = $('#explanation_multi_search').val();
-        var year = $('#period_multi_search').val();                           
-
-        var timeStampId = $(this).val();
-        jssUpdatedData= [];
-
-
-        if (timeStampId == '') {
-            alert('Select Item');
-            return false;
-        }
-        globalSearchObject.timeStampId = timeStampId;
-
-        
-        //var employeesForJexcel = []; 
-        var sectionsForJexcel = []; 
-        var departmentsForJexcel = []; 
-        var inchargesForJexcel = []; 
-        var rolesForJexcel = []; 
-        var explanationsForJexcel = [];
-        var companiesForJexcel = [];
-        var gradesForJexcel = [];
-
-        //$.ajax({
-        //    url: `/api/utilities/EmployeeList/`,
-        //    contentType: 'application/json',
-        //    type: 'GET',
-        //    async: false,
-        //    dataType: 'json',
-        //    success: function (data) {
-        //        $.each(data, (index, value) => {
-        //            employeesForJexcel.push({ id: value.Id, name: value.FullName });
-        //        });
-        //    }
-        //});
-        $.ajax({
-            url: `/api/Sections`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    sectionsForJexcel.push({ id: value.Id, name: value.SectionName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Departments`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                
-                $.each(data, (index, value) => {
-                    departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-                });
-                //console.log(data);
-            }
-        });
-        $.ajax({
-            url: `/api/InCharges`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    inchargesForJexcel.push({ id: value.Id, name: value.InChargeName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Roles`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    rolesForJexcel.push({ id: value.Id, name: value.RoleName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Explanations`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    explanationsForJexcel.push({ id: value.Id, name: value.ExplanationName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Companies`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    companiesForJexcel.push({ id: value.Id, name: value.CompanyName });
-                });
-            }
-        });
-        $.ajax({
-            url: `/api/Salaries`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, (index, value) => {
-                    gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-                });
-            }
-        });
-        
-        if (jss != undefined) {
-            jss.destroy();
-            $('#jspreadsheet').empty();
-        }
-
-        var _retriveddata = [];
-
-        //get the history data
-        $.ajax({
-            url: `/api/utilities/SearchForecastEmployee`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            //data: globalSearchObject,
-            data: "employeeName="+employeeName+"&sectionId="+sectionId+"&departmentId="+departmentId+"&inchargeId="+inchargeId+"&roleId="+roleId+"&explanationId="+explanationId+"&companyId="+companyId+"&status="+year+"&year="+year+"&timeStampId="+timeStampId,
-            success: function (data) {
-                _retriveddata = data;
-            }
-        });
-        
-        //show history data like excel: plugin: jspreadsheet
-        jss = $('#jspreadsheet').jspreadsheet({
-            data: _retriveddata,
-
-            columns: [
-                { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "役割( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
-                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},                                
-
-                {
-                    title: "10月",
-                    type: "decimal",
-                    name: "OctPoints"
-                },
-                {
-                    title: "11月",
-                    type: "decimal",
-                    name: "NovPoints"
-                },
-                {
-                    title: "12月",
-                    type: "decimal",
-                    name: "DecPoints"
-                },
-                {
-                    title: "1月",
-                    type: "decimal",
-                    name: "JanPoints"
-                },
-                {
-                    title: "2月",
-                    type: "decimal",
-                    name: "FebPoints"
-                },
-                {
-                    title: "3月",
-                    type: "decimal",
-                    name: "MarPoints"
-                },
-                {
-                    title: "4月",
-                    type: "decimal",
-                    name: "AprPoints"
-                },
-                {
-                    title: "5月",
-                    type: "decimal",
-                    name: "MayPoints"
-                },
-                {
-                    title: "6月",
-                    type: "decimal",
-                    name: "JunPoints"
-                },
-                {
-                    title: "7月",
-                    type: "decimal",
-                    name: "JulPoints"
-                },
-                {
-                    title: "8月",
-                    type: "decimal",
-                    name: "AugPoints"
-                },
-                {
-                    title: "9月",
-                    type: "decimal",
-                    name: "SepPoints"
-                },
-                {
-                    title: "10月",
-                    type: "number",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "OctTotal"
-                },
-                {
-                    title: "11月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "NovTotal"
-                },
-                {
-                    title: "12月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "DecTotal"
-                },
-                {
-                    title: "1月",
-                    type: "decimal",
-                    readOnly: true,
-                    name: "JanTotal"
-                },
-                {
-                    title: "2月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "FebTotal"
-                },
-                {
-                    title: "3月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "MarTotal"
-                },
-                {
-                    title: "4月",
-                    type: "decimal",
-                    readOnly: true,
-                    name: "AprTotal"
-                },
-                {
-                    title: "5月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "MayTotal"
-                },
-                {
-                    title: "6月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "JunTotal"
-                },
-                {
-                    title: "7月",
-                    type: "decimal",
-                    readOnly: true,
-                    name: "JulTotal"
-                },
-                {
-                    title: "8月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "AugTotal"
-                },
-                {
-                    title: "9月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "SepTotal"
-                },
-                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
-            ],
-            columnSorting: true,
-            onchange: changed,
-            contextMenu: function (obj, x, y, e) {
-                var items = [];
-
-                // Insert new row
-                if (obj.options.allowInsertRow == true) {
-
-                    items.push({
-                        title: '新しい行を挿入する (New Row)',
-                        onclick: function () {
-                            obj.insertRow(1, parseInt(y));
-                        }
-                    });
-                }
-
-
-                items.push({
-                    title: '要員を追加する (Add Emp.)',
-                    onclick: function () {
-                        $('#jexcel_add_employee_modal').modal('show');
-                        globalY = y;
-
-                        console.log("y: " + y);
-                        console.log("globalY: " + globalY);
-
-                        GetEmployeeList();
-                    }
-                });
-                if (obj.options.allowDeleteRow == true) {
-                    items.push({
-                        title: '選択した要員を削除 (Delete)',
-                        onclick: function () {
-                            obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
-                        }
-                    });
-                }
-
-                //Duplicate Employee -> 同じ要員を複製する (Duplicate Emp.)
-                //Delete Employee -> 選択した要員を削除 (Delete)
-
-                return items;
-            }
-
-
-
-        });
-
-        jss.deleteColumn(35, 16);
-
-    });
-
 
     $('#update_forecast_history').on('click', function () {
+        console.log(jssInsertedData);
+        console.log(jssUpdatedData);
+
+        if (jssInsertedData.length > 0) {
+            var elementIndex = jssInsertedData.findIndex(object => {
+
+                return object.employeeName.toLowerCase() == 'total';
+
+            });
+            if (elementIndex>=0) {
+                jssInsertedData.splice(elementIndex, 1);
+            }
+            
+        }
         if (jssInsertedData.length > 0) {
             $.ajax({
                 url: `/api/utilities/ExcelAssignment/`,
@@ -3093,10 +2780,7 @@ $(document).ready(function () {
             jssInsertedData = [];
             newRowCount = 1;
         }
-        // else {
-        //     alert('no recored found to insert!!!');
-        //     return false;
-        // }
+    
 
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
@@ -3113,10 +2797,7 @@ $(document).ready(function () {
             });
             jssUpdatedData = [];
         }
-        // else {
-        //     alert('no recored found to update!!!');
-        //     return false;
-        // }
+        
     });
 
 
@@ -3216,9 +2897,9 @@ function GetListDropdownValue() {
             $('#company_multi_search').multiselect('rebuild');
         });
     
-        $('#period_multi_search').empty();
-        $('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
-        $('#period_multi_search').multiselect('rebuild');
+        //$('#period_multi_search').empty();
+        //$('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
+        //$('#period_multi_search').multiselect('rebuild');
 }
 
 //employee insert

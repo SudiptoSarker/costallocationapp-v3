@@ -150,11 +150,181 @@ namespace CostAllocationApp.BLL
                 item.EmployeeNameWithCodeRemarks += "$" + item.MarkedAsRed.ToString().ToLower() + "$" + item.Id; ;
             }
 
+
+            // head count...
+            if (employees.Count > 0)
+            {
+                List<int> OctHeadCount = new List<int>();
+                List<int> NovHeadCount = new List<int>();
+                List<int> DecHeadCount = new List<int>();
+                List<int> JanHeadCount = new List<int>();
+                List<int> FebHeadCount = new List<int>();
+                List<int> MarHeadCount = new List<int>();
+                List<int> AprHeadCount = new List<int>();
+                List<int> MayHeadCount = new List<int>();
+                List<int> JunHeadCount = new List<int>();
+                List<int> JulHeadCount = new List<int>();
+                List<int> AugHeadCount = new List<int>();
+                List<int> SepHeadCount = new List<int>();
+
+                foreach (var item in employees.ToList())
+                {
+                    if (item.forecasts!=null && item.forecasts.Count>0)
+                    {
+
+                        if(item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points > 0)
+                        {
+                            if (!OctHeadCount.Contains(item.EmployeeId))
+                            {
+                                OctHeadCount.Add(item.EmployeeId);
+                            }
+                            
+                        }
+                        if (item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points > 0)
+                        {
+                            if (!NovHeadCount.Contains(item.EmployeeId))
+                            {
+                                NovHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points > 0)
+                        {
+                            if (!DecHeadCount.Contains(item.EmployeeId))
+                            {
+                                DecHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points > 0)
+                        {
+                            if (!JanHeadCount.Contains(item.EmployeeId))
+                            {
+                                JanHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points > 0)
+                        {
+                            if (!FebHeadCount.Contains(item.EmployeeId))
+                            {
+                                FebHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points > 0)
+                        {
+                            if (!MarHeadCount.Contains(item.EmployeeId))
+                            {
+                                MarHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points > 0)
+                        {
+                            if (!AprHeadCount.Contains(item.EmployeeId))
+                            {
+                                AprHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points > 0)
+                        {
+                            if (!MayHeadCount.Contains(item.EmployeeId))
+                            {
+                                MayHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points > 0)
+                        {
+                            if (!JunHeadCount.Contains(item.EmployeeId))
+                            {
+                                JunHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points > 0)
+                        {
+                            if (!JulHeadCount.Contains(item.EmployeeId))
+                            {
+                                JulHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points > 0)
+                        {
+                            if (!AugHeadCount.Contains(item.EmployeeId))
+                            {
+                                AugHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                        if (item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points > 0)
+                        {
+                            if (!SepHeadCount.Contains(item.EmployeeId))
+                            {
+                                SepHeadCount.Add(item.EmployeeId);
+                            }
+
+                        }
+                    }
+                }
+
+                employees.Add(new ForecastAssignmentViewModel
+                {
+                    EmployeeName = "Head Count",
+                    OctPoints = OctHeadCount.Count().ToString(),
+                    NovPoints = NovHeadCount.Count().ToString(),
+                    DecPoints = DecHeadCount.Count().ToString(),
+                    JanPoints = JanHeadCount.Count().ToString(),
+                    FebPoints = FebHeadCount.Count().ToString(),
+                    MarPoints = MarHeadCount.Count().ToString(),
+                    AprPoints = AprHeadCount.Count().ToString(),
+                    MayPoints = MayHeadCount.Count().ToString(),
+                    JunPoints = JunHeadCount.Count().ToString(),
+                    JulPoints = JulHeadCount.Count().ToString(),
+                    AugPoints = AugHeadCount.Count().ToString(),
+                    SepPoints = SepHeadCount.Count().ToString(),
+                });
+
+            }
+
+            // calculate total...
+            if (employees.Count > 0)
+            {
+                
+                var countedRow = employees.Count-1;
+                employees.Add(new ForecastAssignmentViewModel
+                {
+                    EmployeeName = "Total",
+
+                    OctPoints = $@"=SUM(K1:K{countedRow})",
+                    NovPoints = $@"=SUM(L1:L{countedRow})",
+                    DecPoints = $@"=SUM(M1:M{countedRow})",
+                    JanPoints = $@"=SUM(N1:N{countedRow})",
+                    FebPoints = $@"=SUM(O1:O{countedRow})",
+                    MarPoints = $@"=SUM(P1:P{countedRow})",
+                    AprPoints = $@"=SUM(Q1:Q{countedRow})",
+                    MayPoints = $@"=SUM(R1:R{countedRow})",
+                    JunPoints = $@"=SUM(S1:S{countedRow})",
+                    JulPoints = $@"=SUM(T1:T{countedRow})",
+                    AugPoints = $@"=SUM(U1:U{countedRow})",
+                    SepPoints = $@"=SUM(V1:V{countedRow})",
+                });
+            }
+
+            
+
             if (employees.Count > 0)
             {
                 int count = 1;
                 foreach (var item in employees)
                 {
+                    if (item.EmployeeName.ToLower() == "head count" || item.EmployeeName.ToLower()=="total")
+                    {
+                        continue;
+                    }
                     if (item.forecasts.Count==0)
                     {
                         item.forecasts = new List<ForecastDto>();
@@ -231,20 +401,24 @@ namespace CostAllocationApp.BLL
                 }
                 foreach (var item in employees)
                 {
+                    if (item.EmployeeName.ToLower() == "head count" || item.EmployeeName.ToLower() == "total")
+                    {
+                        continue;
+                    }
                     if (item.forecasts.Count>0)
                     {
-                        item.OctPoints = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points;
-                        item.NovPoints = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points;
-                        item.DecPoints = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points;
-                        item.JanPoints = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points;
-                        item.FebPoints = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points;
-                        item.MarPoints = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points;
-                        item.AprPoints = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points;
-                        item.MayPoints = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points;
-                        item.JunPoints = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points;
-                        item.JulPoints = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points;
-                        item.AugPoints = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points;
-                        item.SepPoints = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points;
+                        item.OctPoints = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
+                        item.NovPoints = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
+                        item.DecPoints = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
+                        item.JanPoints = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
+                        item.FebPoints = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
+                        item.MarPoints = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
+                        item.AprPoints = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
+                        item.MayPoints = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
+                        item.JunPoints = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
+                        item.JulPoints = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
+                        item.AugPoints = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
+                        item.SepPoints = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
 
                         item.OctTotal = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Total;
                         item.NovTotal = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Total;
@@ -263,18 +437,18 @@ namespace CostAllocationApp.BLL
                     }
                     else
                     {
-                        item.OctPoints = 0;
-                        item.NovPoints = 0;
-                        item.DecPoints = 0;
-                        item.JanPoints = 0;
-                        item.FebPoints = 0;
-                        item.MarPoints = 0;
-                        item.AprPoints = 0;
-                        item.MayPoints = 0;
-                        item.JunPoints = 0;
-                        item.JulPoints = 0;
-                        item.AugPoints = 0;
-                        item.SepPoints = 0;
+                        item.OctPoints = "0";
+                        item.NovPoints = "0";
+                        item.DecPoints = "0";
+                        item.JanPoints ="0";
+                        item.FebPoints ="0";
+                        item.MarPoints ="0";
+                        item.AprPoints ="0";
+                        item.MayPoints ="0";
+                        item.JunPoints ="0";
+                        item.JulPoints ="0";
+                        item.AugPoints ="0";
+                        item.SepPoints ="0";
 
                         item.OctTotal = "";
                         item.NovTotal = "";

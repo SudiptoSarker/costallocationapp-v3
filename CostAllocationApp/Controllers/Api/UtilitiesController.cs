@@ -267,113 +267,89 @@ namespace CostAllocationApp.Controllers.Api
 
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
-
+            List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
             if (!String.IsNullOrEmpty(timeStampId))
             {
                 List<Forecast> forecastHistories = forecastBLL.GetForecastHistories(Convert.ToInt32(timeStampId));
+                List<int> forecastAssignmentIds = new List<int>();
                 if (forecastHistories.Count > 0)
                 {
+                    forecastAssignmentIds = forecastHistories.Select(f => f.EmployeeAssignmentId).Distinct().ToList();
+
                     foreach (var item in forecastHistories)
                     {
-                        var x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).FirstOrDefault();
+                        var _x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).FirstOrDefault();
                         if (item.Month==10)
                         {
-                            x.OctPoints = item.Points;
+                            _x.OctPoints = item.Points.ToString();
                         }
                         if (item.Month == 11)
                         {
-                            x.NovPoints = item.Points;
+                            _x.NovPoints = item.Points.ToString();
                         }
                         if (item.Month == 12)
                         {
-                            x.DecPoints = item.Points;
+                            _x.DecPoints = item.Points.ToString();
                         }
                         if (item.Month == 1)
                         {
-                            x.JanPoints = item.Points;
+                            _x.JanPoints = item.Points.ToString();
                         }
                         if (item.Month == 2)
                         {
-                            x.FebPoints = item.Points;
+                            _x.FebPoints = item.Points.ToString();
                         }
                         if (item.Month == 3)
                         {
-                            x.MarPoints = item.Points;
+                            _x.MarPoints = item.Points.ToString();
                         }
                         if (item.Month == 4)
                         {
-                            x.AprPoints = item.Points;
+                            _x.AprPoints = item.Points.ToString();
                         }
                         if (item.Month == 5)
                         {
-                            x.MayPoints = item.Points;
+                            _x.MayPoints = item.Points.ToString();
                         }
                         if (item.Month == 6)
                         {
-                            x.JunPoints = item.Points;
+                            _x.JunPoints = item.Points.ToString();
                         }
                         if (item.Month == 7)
                         {
-                            x.JulPoints = item.Points;
+                            _x.JulPoints = item.Points.ToString();
                         }
                         if (item.Month == 8)
                         {
-                            x.AugPoints = item.Points;
+                            _x.AugPoints = item.Points.ToString();
                         }
                         if (item.Month == 9)
                         {
-                            x.SepPoints = item.Points;
+                            _x.SepPoints = item.Points.ToString();
+                        }
+                        
+                    }
+
+                    if (forecastAssignmentIds.Count > 0)
+                    {
+                        foreach (var item in forecastAssignmentIds)
+                        {
+                            _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
                         }
                     }
+                    
                 }
             }
 
-            //List<ForecastAssignmentViewModel1> datas = new List<ForecastAssignmentViewModel1>();
-            //foreach (var item in forecsatEmployeeAssignmentViewModels)
-            //{
-            //    ForecastAssignmentViewModel1 d = new ForecastAssignmentViewModel1();
-            //    d.Id = item.Id;
-            //    d.EmployeeName = item.EmployeeName;
-            //    d.SectionId = item.SectionId;
-            //    d.DepartmentId = item.DepartmentId;
-            //    d.InchargeId = item.InchargeId;
-            //    d.RoleId = item.RoleId;
-            //    d.ExplanationId = item.ExplanationId;
-            //    d.CompanyId = item.CompanyId;
-            //    d.GradeId = item.GradeId;
-            //    d.UnitPrice = item.UnitPrice;
-
-            //    d.OctPoints = item.OctPoints;
-            //    d.NovPoints = item.NovPoints;
-            //    d.DecPoints = item.DecPoints;
-            //    d.JanPoints = item.JanPoints;
-            //    d.FebPoints = item.FebPoints;
-            //    d.MarPoints = item.MarPoints;
-            //    d.AprPoints = item.AprPoints;
-            //    d.MayPoints = item.MayPoints;
-            //    d.JunPoints = item.JunPoints;
-            //    d.JulPoints = item.JulPoints;
-            //    d.AugPoints = item.AugPoints;
-            //    d.SepPoints = item.SepPoints;
-
-            //    d.OctTotal = item.OctTotal;
-            //    d.NovTotal = item.NovTotal;
-            //    d.DecTotal = item.DecTotal;
-            //    d.JanTotal = item.JanTotal;
-            //    d.FebTotal = item.FebTotal;
-            //    d.MarTotal = item.MarTotal;
-            //    d.AprTotal = item.AprTotal;
-            //    d.MayTotal = item.MayTotal;
-            //    d.JunTotal = item.JunTotal;
-            //    d.JulTotal = item.JulTotal;
-            //    d.AugTotal = item.AugTotal;
-            //    d.SepTotal = item.SepTotal;
-
-            //    datas.Add(d);
-            //}
-
-            return Ok(forecsatEmployeeAssignmentViewModels);
-            //return Ok();
+            if (_forecsatEmployeeAssignmentViewModels.Count>0)
+            {
+                return Ok(_forecsatEmployeeAssignmentViewModels);
+            }
+            else
+            {
+                return Ok(forecsatEmployeeAssignmentViewModels);
+            }
+            
 
         }
 

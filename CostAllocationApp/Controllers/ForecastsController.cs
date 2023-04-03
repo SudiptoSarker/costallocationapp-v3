@@ -353,5 +353,10 @@ namespace CostAllocationApp.Controllers
             }
             return result;
         }
+
+        public ActionResult GetHistories()
+        {
+            return View();
+        }
     }
 }

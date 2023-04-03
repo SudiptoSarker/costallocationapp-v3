@@ -26,29 +26,29 @@
                     else
                     {
                         @*if (url.ToLower().Contains("namelist"))
-                        {
-                            <li>
-                                <a href="/Employees/NameList" class="active"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a href="/Employees/NameList"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
-                            </li>
-                        }*@
+                {
+                    <li>
+                        <a href="/Employees/NameList" class="active"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/NameList"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }*@
                         @*if (url.ToLower().Contains("createassignment"))
-                        {
-                            <li>
-                                <a href="javascriopt:void(0);" class="active"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a href="/Employees/CreateAssignment"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
-                            </li>
-                        }*@
+                {
+                    <li>
+                        <a href="javascriopt:void(0);" class="active"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/CreateAssignment"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }*@
                         if (url.ToLower().Contains("createforecast"))
                         {
                             <li>
@@ -62,8 +62,8 @@
                             </li>
                         }
                         @* <li>
-                            <a href="javascript:void(0);"><i class="la la-files-o"></i> <span>データ作成(Data Create)</span></a>
-                        </li> *@
+                    <a href="javascript:void(0);"><i class="la la-files-o"></i> <span>データ作成(Data Create)</span></a>
+                </li> *@
 
                         <li class="submenu">
                             <a href="javascript:void(0);">
@@ -140,6 +140,28 @@
                                     {
                                         <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Name Mast)">人員マスター (Name Mast)</a></li>
                                     }
+                                }
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="la la-files-o"></i>
+                                <span title="歴史 (History)">歴史 (History)</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul style="display: none;">
+                                @{
+                                    if (url.ToLower().Contains("createsection"))
+                                    {
+                                        <li><a href="/Forecasts/GetHistories" class="active" title="履歴年度データー">履歴年度データー</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/Forecasts/GetHistories" title="履歴年度データー">履歴年度データー</a>
+                                        </li>
+                                    }
+                                  
                                 }
                             </ul>
                         </li>

@@ -363,7 +363,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         
                     }
-                    
+
                     //if (forecastAssignmentIds.Count > 0)
                     //{
                     //    foreach (var item in forecastAssignmentIds)
@@ -371,7 +371,17 @@ namespace CostAllocationApp.Controllers.Api
                     //        _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
                     //    }
                     //}
+                    var removableList = forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeId == 0).ToList();
+                    foreach (var item in removableList)
+                    {
+                        forecsatEmployeeAssignmentViewModels.Remove(item);
+                    }
 
+                    //forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "total").SingleOrDefault().EmployeeId = maxEmployeeId + 2;
+
+                    forecsatEmployeeAssignmentViewModels = (from x in forecsatEmployeeAssignmentViewModels
+                                                            orderby x.EmployeeId ascending
+                                                            select x).ToList();
                 }
             }
 
@@ -384,17 +394,10 @@ namespace CostAllocationApp.Controllers.Api
             //    return Ok(forecsatEmployeeAssignmentViewModels);
             //}
 
-            var maxEmployeeId = forecsatEmployeeAssignmentViewModels.Max(f => f.EmployeeId);
-            forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "head count").SingleOrDefault().EmployeeId = maxEmployeeId + 1;
-            forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "total").SingleOrDefault().EmployeeId = maxEmployeeId + 2;
-
-            forecsatEmployeeAssignmentViewModels = (from x in forecsatEmployeeAssignmentViewModels
-                                                    orderby x.EmployeeId ascending
-                                                    select x).ToList();
+            //var maxEmployeeId = forecsatEmployeeAssignmentViewModels.Max(f => f.EmployeeId);
+            
 
             return Ok(forecsatEmployeeAssignmentViewModels);
-
-
         }
 
         //[HttpGet]

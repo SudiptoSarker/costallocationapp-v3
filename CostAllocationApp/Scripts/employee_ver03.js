@@ -67,7 +67,8 @@ function ShowNameList_Datatable(data){
         orderCellsTop: true,
         pageLength: 10,
         searching: false,
-        bLengthChange: false,        
+        bLengthChange: false,    
+        dom: 'lifrtip',
         columns: [            
             {
                 data: 'Id'

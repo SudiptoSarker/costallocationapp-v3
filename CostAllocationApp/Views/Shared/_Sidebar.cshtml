@@ -11,7 +11,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">
-                    <span title="人件費配賦システム (Cost Management)">人件費配賦システム (Cost Management)</span>
+                    <span title="要員管理システム">要員管理システム</span>
                 </li>
                 @{
                     //string url = HttpContext.Current.Request.Url.AbsoluteUri;
@@ -64,7 +64,28 @@
                         @* <li>
                     <a href="javascript:void(0);"><i class="la la-files-o"></i> <span>データ作成(Data Create)</span></a>
                 </li> *@
-
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="la la-files-o"></i>
+                                <span title="歴史 (History)">履歴年度データー (History)</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul style="display: none;">
+                                @{
+                                    if (url.ToLower().Contains("createsection"))
+                                    {
+                                        <li><a href="/Forecasts/GetHistories" class="active" title="履歴年度データー">履歴年度データー</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/Forecasts/GetHistories" title="履歴年度データー">履歴年度データー</a>
+                                        </li>
+                                    }
+                                
+                                }
+                            </ul>
+                        </li>
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="la la-files-o"></i>
@@ -142,29 +163,7 @@
                                     }
                                 }
                             </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="la la-files-o"></i>
-                                <span title="歴史 (History)">歴史 (History)</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul style="display: none;">
-                                @{
-                                    if (url.ToLower().Contains("createsection"))
-                                    {
-                                        <li><a href="/Forecasts/GetHistories" class="active" title="履歴年度データー">履歴年度データー</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/GetHistories" title="履歴年度データー">履歴年度データー</a>
-                                        </li>
-                                    }
-                                  
-                                }
-                            </ul>
-                        </li>
+                        </li>                        
                     }
                 }
             </ul>

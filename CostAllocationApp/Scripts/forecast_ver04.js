@@ -1140,11 +1140,11 @@ $(document).ready(function () {
     //     nonSelectedText: 'select 配置作成(allocation)',
     // });
     //allocation multi search
-    $('#period_multi_search').multiselect({
-        includeSelectAllOption: true,
-        enableFiltering: true,
-        nonSelectedText: 'select 期間(period)',
-    });
+    //$('#period_multi_search').multiselect({
+    //    includeSelectAllOption: true,
+    //    enableFiltering: true,
+    //    nonSelectedText: 'select 期間(period)',
+    //});
     //incharge multi search
     $('#incharge_multi_search').multiselect({
        includeSelectAllOption: true,
@@ -2897,9 +2897,9 @@ function GetListDropdownValue() {
             $('#company_multi_search').multiselect('rebuild');
         });
     
-        $('#period_multi_search').empty();
-        $('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
-        $('#period_multi_search').multiselect('rebuild');
+        //$('#period_multi_search').empty();
+        //$('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
+        //$('#period_multi_search').multiselect('rebuild');
 }
 
 //employee insert

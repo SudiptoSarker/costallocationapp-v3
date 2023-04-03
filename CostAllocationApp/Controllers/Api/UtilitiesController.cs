@@ -271,14 +271,48 @@ namespace CostAllocationApp.Controllers.Api
             if (!String.IsNullOrEmpty(timeStampId))
             {
                 List<Forecast> forecastHistories = forecastBLL.GetForecastHistories(Convert.ToInt32(timeStampId));
-                List<int> forecastAssignmentIds = new List<int>();
+                //List<int> forecastAssignmentIds = new List<int>();
                 if (forecastHistories.Count > 0)
                 {
-                    forecastAssignmentIds = forecastHistories.Select(f => f.EmployeeAssignmentId).Distinct().ToList();
-
+                    //forecastAssignmentIds = forecastHistories.Select(f => f.EmployeeAssignmentId).Distinct().ToList();
+                    ForecastAssignmentViewModel _x = null;
+                    int previousId = 0;
                     foreach (var item in forecastHistories)
                     {
-                        var _x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).FirstOrDefault();
+                        
+                        if (previousId != item.EmployeeAssignmentId)
+                        {
+                            var x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).SingleOrDefault();
+                            previousId = item.EmployeeAssignmentId;
+                            _x = new ForecastAssignmentViewModel();
+
+                            _x.Id = x.Id;
+                            _x.EmployeeId = x.EmployeeId;
+                            _x.EmployeeName = x.EmployeeName+" (updated)";
+                            _x.CompanyId = x.CompanyId;
+                            _x.DepartmentId = x.DepartmentId;
+                            _x.SectionId = x.SectionId;
+                            _x.RoleId = x.RoleId;
+                            _x.InchargeId = x.InchargeId;
+                            _x.GradeId = x.GradeId;
+                            _x.UnitPrice = x.UnitPrice;
+
+                            _x.OctPoints = x.OctPoints;
+                            _x.NovPoints = x.NovPoints;
+                            _x.DecPoints = x.DecPoints;
+                            _x.JanPoints = x.JanPoints;
+                            _x.FebPoints = x.FebPoints;
+                            _x.MarPoints = x.MarPoints;
+                            _x.AprPoints = x.AprPoints;
+                            _x.MayPoints = x.MayPoints;
+                            _x.JunPoints = x.JunPoints;
+                            _x.JulPoints = x.JulPoints;
+                            _x.AugPoints = x.AugPoints;
+                            _x.SepPoints = x.SepPoints;
+
+                            forecsatEmployeeAssignmentViewModels.Add(_x);
+                        }
+                       
                         if (item.Month==10)
                         {
                             _x.OctPoints = item.Points.ToString();
@@ -329,27 +363,37 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         
                     }
-
-                    if (forecastAssignmentIds.Count > 0)
-                    {
-                        foreach (var item in forecastAssignmentIds)
-                        {
-                            _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
-                        }
-                    }
                     
+                    //if (forecastAssignmentIds.Count > 0)
+                    //{
+                    //    foreach (var item in forecastAssignmentIds)
+                    //    {
+                    //        _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
+                    //    }
+                    //}
+
                 }
             }
 
-            if (_forecsatEmployeeAssignmentViewModels.Count>0)
-            {
-                return Ok(_forecsatEmployeeAssignmentViewModels);
-            }
-            else
-            {
-                return Ok(forecsatEmployeeAssignmentViewModels);
-            }
-            
+            //if (_forecsatEmployeeAssignmentViewModels.Count>0)
+            //{
+            //    return Ok(_forecsatEmployeeAssignmentViewModels);
+            //}
+            //else
+            //{
+            //    return Ok(forecsatEmployeeAssignmentViewModels);
+            //}
+
+            var maxEmployeeId = forecsatEmployeeAssignmentViewModels.Max(f => f.EmployeeId);
+            forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "head count").SingleOrDefault().EmployeeId = maxEmployeeId + 1;
+            forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "total").SingleOrDefault().EmployeeId = maxEmployeeId + 2;
+
+            forecsatEmployeeAssignmentViewModels = (from x in forecsatEmployeeAssignmentViewModels
+                                                    orderby x.EmployeeId ascending
+                                                    select x).ToList();
+
+            return Ok(forecsatEmployeeAssignmentViewModels);
+
 
         }
 

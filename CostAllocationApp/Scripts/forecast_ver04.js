@@ -2659,7 +2659,10 @@ $(document).ready(function () {
     }
 
     var newRowInserted = function (instance, x, y, newRow) {
-        //console.log(jss);
+        console.log(jss.getData(false));
+        var totalRow = jss.getData(false);
+        console.log(`A${totalRow.length - 2}`);
+        jss.setStyle(`A${totalRow.length - 2}`,'color','red');
         //console.log(newRow.options);
         //var sectionCell = newRow[0][2];
         //$(sectionCell).append();

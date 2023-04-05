@@ -23,6 +23,7 @@ namespace CostAllocationApp.Controllers.Api
         ExplanationsBLL explanationsBLL = null;
         ForecastBLL forecastBLL = null;
         EmployeeBLL employeeBLL = null;
+        UserBLL userBLL = null;
 
         public UtilitiesController()
         {
@@ -36,6 +37,7 @@ namespace CostAllocationApp.Controllers.Api
             explanationsBLL = new ExplanationsBLL();
             forecastBLL = new ForecastBLL();
             employeeBLL = new EmployeeBLL();
+            userBLL = new UserBLL();
         }
 
 
@@ -1073,7 +1075,7 @@ namespace CostAllocationApp.Controllers.Api
 
             }           
 
-            return Ok();
+            return Ok("Data Inserted Successfully!!!");
         }
 
 
@@ -1090,6 +1092,13 @@ namespace CostAllocationApp.Controllers.Api
             }
 
             return Ok("Operation Completed!");
+        }
+        [HttpGet]
+        [Route("api/utilities/GetUserLogs/")]
+        public IHttpActionResult GetUserLogs()
+        {
+            var result = userBLL.GetUserLogs();
+            return Ok(result);
         }
 
 

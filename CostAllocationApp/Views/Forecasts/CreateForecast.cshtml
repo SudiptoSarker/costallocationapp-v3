@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-6">
                 @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
                 {
                     <div class="form-group mb-2">
@@ -48,6 +48,9 @@
                         @ViewBag.Success
                     </div>
                 }
+            </div>
+            <div class="offset-3 col-3">
+                <ul id="save_notifications"></ul>
             </div>
         </div>
     </div>
@@ -178,8 +181,8 @@
     <div class="row">
         <div class="col-md-12">
             @*<div class="form-group col-2 mb-2">
-                <select id="forecast_timestamp" class="form-control"></select>
-            </div>*@
+                    <select id="forecast_timestamp" class="form-control"></select>
+                </div>*@
             <button class="btn btn-dark" id="update_forecast_history">save</button>
         </div>
         <div class="col-md-12">
@@ -220,16 +223,16 @@
                             <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Add</a>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <label for="employee_list" style="display:block;width:100%;">Select from Name List</label>
                     <select id="employee_list" style=""></select>
 
-                        <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">Add</a>
-                        </div>
+                    <div class="custom_button_group_employee">
+                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">Add</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,7 +243,7 @@
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/forecast_ver04.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
-
+    <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {
             $("table1").DataTable();

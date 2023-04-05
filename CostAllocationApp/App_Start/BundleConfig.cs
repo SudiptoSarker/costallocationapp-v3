@@ -28,8 +28,10 @@ namespace CostAllocationApp
                             "~/Scripts/bootstrap-datetimepicker.min.js",
                             "~/Scripts/jquery.dataTables.min.js",
                             "~/Scripts/dataTables.bootstrap4.min.js",
-                            "~/Scripts/toastr.min.js"
- 
+                            "~/Scripts/toastr.min.js",
+                            "~/Scripts/toastr.min.js",
+                            "~/Scripts/jquery.signalR-2.4.3.js"
+
                             //,
                             //"~/Scripts/loader.js",
                             //"~/Scripts/Chart.min.js"

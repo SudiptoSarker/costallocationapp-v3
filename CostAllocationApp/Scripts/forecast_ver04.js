@@ -2769,6 +2769,8 @@ $(document).ready(function () {
             
         }
         if (jssInsertedData.length > 0) {
+            //console.log('clicked');
+            
             $.ajax({
                 url: `/api/utilities/ExcelAssignment/`,
                 contentType: 'application/json',
@@ -2777,7 +2779,12 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: JSON.stringify(jssInsertedData),
                 success: function (data) {
-                    alert('data successfully inserted!!');
+                    var chat = $.connection.chatHub;
+                    $.connection.hub.start();
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                        chat.server.send('data has been inserted by', 'user');
+                    });
                 }
             });
             jssInsertedData = [];
@@ -2795,7 +2802,12 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: JSON.stringify(jssUpdatedData),
                 success: function (data) {
-                    alert('data successfully updated!!');
+                    var chat = $.connection.chatHub;
+                    $.connection.hub.start();
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                        chat.server.send('data has been updated by', 'user');
+                    });
                 }
             });
             jssUpdatedData = [];
@@ -2803,6 +2815,15 @@ $(document).ready(function () {
         
     });
 
+    $(function () {
+        var chat = $.connection.chatHub;
+        $.connection.hub.start();
+        chat.client.addNewMessageToPage = function (name, message) {
+            // Add the message to the page.
+            $('#save_notifications').append(`<li>${name} ${message}</li>`);
+        };
+
+    });
 
     $(document).on('change', '#section_search', function () {
 

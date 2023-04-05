@@ -31,4 +31,53 @@
     <script src="/Scripts/loader.js"></script>
     <script src="/Scripts/Chart.min.js"></script>
     <script src="/Scripts/Custome-Reporting.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var chat = $.connection.chatHub;
+            $.connection.hub.start();
+            chat.client.addNewMessageToPage = function (name, message) {
+                alert(name + ' logged in');
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+
+                    $('#user_log').empty();
+                    $.each(data,(index, value) => {
+                        $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                    });
+
+                }
+            });
+
+            
+        });
+
+
+       
+        
+    </script>
 }

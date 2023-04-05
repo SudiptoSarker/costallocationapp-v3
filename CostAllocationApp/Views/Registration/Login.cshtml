@@ -50,26 +50,59 @@
                             </div>
                         </div>
                         <div class="form-group text-center">
-                            <button class="btn btn-primary account-btn" type="button" onclick="Login();">ログイン</button>
+                            <button class="btn btn-primary account-btn" type="button" id="login">ログイン</button>
                         </div>
                     </form>
                     <!-- /Account Form -->
-                    <script>function Login() {
-                            var loginUserName = $("#login_id").val();
-                            var loginPassword = $("#login_pass").val();
-
-                            if (loginUserName == "123" && loginPassword == "123") {
-                                $(".username-error").hide();
-                                $(".password-error").hide();
-                                window.location.href = "/Dashboard/Index";
-                            } else {
-                                $(".username-error").show();
-                                $(".password-error").show();
-                            }
-                        }</script>
+                
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- /Main Wrapper -->
+
+@section Scripts{
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#login').click(function () {
+                var loginUserName = $("#login_id").val();
+                var loginPassword = $("#login_pass").val();
+
+
+                $.ajax({
+                    url: `/api/Users/`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify({ userName: loginUserName, password: loginPassword}),
+                    success: function (data) {
+                        if (data == true) {
+                            var chat = $.connection.chatHub;
+                            // Start the connection.
+                            $.connection.hub.start().done(function () {
+                                chat.server.send(loginUserName, 'Logged In');
+                            });
+                            $(".username-error").hide();
+                            $(".password-error").hide();
+
+                            window.location.href = "/Dashboard/Index";
+                        }
+                        else {
+                            $(".username-error").show();
+                            $(".password-error").show();
+                        }
+                       
+                    }
+                });
+            });
+
+           
+        });
+    </script>
+}

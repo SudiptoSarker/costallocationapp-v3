@@ -1,11 +1,11 @@
-﻿<style>
+﻿        <!-- Sidebar -->
+<style>
     .sidebar-menu ul a.active {
         background-color: #ffebda;
         color: #000;
         text-decoration: underline;
     }
 </style>
-
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -14,6 +14,7 @@
                     <span title="要員管理システム">要員管理システム</span>
                 </li>
                 @{
+                    //string url = HttpContext.Current.Request.Url.AbsoluteUri;
                     string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
                     string url = System.IO.Path.GetFileName(fullPath);
                     if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url))
@@ -23,46 +24,32 @@
                         </li>
                     }
                     else
-                    {           
-                        /***************************\                           
-                            Add Employee through Modal                      
-                        \***************************/
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="la la-files-o"></i>
-                                <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul style="display: none;">
-                                @{
-                                    if (url.ToLower().Contains("createsection"))
-                                    {
-                                        <li><a href="/Forecasts/CreateForecast?forecastType=imprt" class="active" title="Import Yearly Data">Import Yearly Data</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/CreateForecast?forecastType=imprt" title="Import Yearly Data">Import Yearly Data</a>
-                                        </li>
-                                    }
-                                    if (url.ToLower().Contains("createsection"))
-                                    {
-                                        <li><a href="/Forecasts/CreateForecast" class="active" title="2023">2023</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/CreateForecast" title="2023">2023</a>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                        </li>
-
-
-
-
-                        @* if (url.ToLower().Contains("createforecast"))
+                    {
+                        @*if (url.ToLower().Contains("namelist"))
+                {
+                    <li>
+                        <a href="/Employees/NameList" class="active"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/NameList"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }*@
+                        @*if (url.ToLower().Contains("createassignment"))
+                {
+                    <li>
+                        <a href="javascriopt:void(0);" class="active"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/CreateAssignment"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }*@
+                        if (url.ToLower().Contains("createforecast"))
                         {
                             <li>
                                 <a href="/Forecasts/CreateForecast" class="active"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
@@ -73,7 +60,10 @@
                             <li>
                                 <a href="/Forecasts/CreateForecast"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
                             </li>
-                        }                         *@
+                        }
+                        @* <li>
+                    <a href="javascript:void(0);"><i class="la la-files-o"></i> <span>データ作成(Data Create)</span></a>
+                </li> *@
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="la la-files-o"></i>
@@ -180,3 +170,4 @@
         </div>
     </div>
 </div>
+<!-- /Sidebar -->

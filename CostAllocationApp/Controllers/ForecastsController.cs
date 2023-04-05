@@ -29,7 +29,10 @@ namespace CostAllocationApp.Controllers
 
         // GET: Forecasts
         public ActionResult CreateForecast()
-        {            
+        {
+            string requestType = Request.QueryString["forecastType"];
+            Response.Write("requestType: "+ requestType);
+
             if (TempData["seccess"]!=null)
             {
                 ViewBag.Success = TempData["seccess"];

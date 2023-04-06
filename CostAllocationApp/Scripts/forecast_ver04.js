@@ -521,11 +521,11 @@ function LoaderHide() {
 
 function LoadForecastData() {
     var employeeName = $('#name_search').val();
-    var sectionId = $('#section_multi_search').val();  
+    var sectionId = $('#section_multi_search').val();
     var inchargeId = $('#incharge_multi_search').val();
-    var roleId = $('#role_multi_search').val();      
+    var roleId = $('#role_multi_search').val();
     var companyId = $('#company_multi_search').val();
-    var departmentId = $('#dept_multi_search').val();        
+    var departmentId = $('#dept_multi_search').val();
     var explanationId = $('#explanation_multi_search').val();
     var year = $('#period_multi_search').val();
 
@@ -548,7 +548,7 @@ function LoadForecastData() {
             async: true,
             dataType: 'json',
             //data: globalSearchObject,
-            data: "employeeName="+employeeName+"&sectionId="+sectionId+"&departmentId="+departmentId+"&inchargeId="+inchargeId+"&roleId="+roleId+"&explanationId="+explanationId+"&companyId="+companyId+"&status="+year+"&year="+year+"&timeStampId=",
+            data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
             success: function (data) {
                 LoaderHide();
                 $('#forecast_table>thead').empty();
@@ -1105,7 +1105,10 @@ $(document).on("click", function (event) {
     }
 });
 $(document).ready(function () {
-
+    var year = $('#hidForecastYear').val();
+    if (year.toLowerCase() != "imprt") {
+        ShowForecastResults();
+    }
 
     var count = 1;
     $('#forecast_search tbody tr:eq(0) th').each(function () {
@@ -1147,21 +1150,21 @@ $(document).ready(function () {
     //});
     //incharge multi search
     $('#incharge_multi_search').multiselect({
-       includeSelectAllOption: true,
-       enableFiltering: true,
-       nonSelectedText: 'select 担当(in-chrg)',
+        includeSelectAllOption: true,
+        enableFiltering: true,
+        nonSelectedText: 'select 担当(in-chrg)',
     });
     //role multi search
     $('#role_multi_search').multiselect({
-       includeSelectAllOption: true,
-       enableFiltering: true,
-       nonSelectedText: 'select 役割(role)',
+        includeSelectAllOption: true,
+        enableFiltering: true,
+        nonSelectedText: 'select 役割(role)',
     });
     //explanation multi search
     $('#explanation_multi_search').multiselect({
-       includeSelectAllOption: true,
-       enableFiltering: true,
-       nonSelectedText: 'select 説明 (exp.)',
+        includeSelectAllOption: true,
+        enableFiltering: true,
+        nonSelectedText: 'select 説明 (exp.)',
     });
 
 
@@ -1868,47 +1871,46 @@ $(document).ready(function () {
         }
 
 
-    });   
-    
+    });
+
     var jssUpdatedData = [];
-    var jssInsertedData = [];    
+    var jssInsertedData = [];
 
-    $('#forecast_search_button').on('click', function () {
-        // var sectionId = $('#section_search').find(":selected").val();
-        // var inchargeId = $('#incharge_search').find(":selected").val();
-        // var departmentId = $('#department_search').find(":selected").val();
-        // var roleId = $('#role_search').find(":selected").val();
-        // var companyId = $('#company_search').find(":selected").val();
-        // var explanationId = $('#explanation_search').find(":selected").val();
-        // var employeeName = $('#identity_search').val();
-
-        // var year = $('#period_search').find(":selected").val();
+    function ShowForecastResults() {
         var employeeName = $('#name_search').val();
-        var sectionId = $('#section_multi_search').val();  
+        employeeName = "";
+        var sectionId = $('#section_multi_search').val();
+        sectionId = "";
         var inchargeId = $('#incharge_multi_search').val();
-        var roleId = $('#role_multi_search').val();      
+        inchargeId = "";
+        var roleId = $('#role_multi_search').val();
+        roleId = "";
         var companyId = $('#company_multi_search').val();
-        var departmentId = $('#dept_multi_search').val();        
+        companyId = "";
+        var departmentId = $('#dept_multi_search').val();
+        departmentId = "";
         var explanationId = $('#explanation_multi_search').val();
-        var year = $('#period_multi_search').val();
+        explanationId = "";
+
+        // var year = $('#hidForecastYear').val();
 
         if (year == '' || year == undefined) {
 
             alert('select year');
             return false;
         }
+
         LoaderShow();
 
         $('#cancel_forecast').css('display', 'inline-block');
         $('#save_forecast').css('display', 'inline-block');
 
-        //var employeeName = "";
         var sectionCheck = [];
         var departmentCheck = [];
         var inchargeCheck = [];
         var roleCheck = [];
         var explanationCheck = [];
-        var companyCheck = [];           
+        var companyCheck = [];
 
         var data_info = {
             employeeName: employeeName,
@@ -1918,7 +1920,7 @@ $(document).ready(function () {
             roleId: roleId,
             explanationId: explanationId,
             companyId: companyId,
-            status: '', year: '',timeStampId:''
+            status: '', year: '', timeStampId: ''
         };
 
         globalSearchObject = data_info;
@@ -1930,35 +1932,19 @@ $(document).ready(function () {
             type: 'GET',
             async: false,
             dataType: 'json',
-            //data: globalSearchObject,
-            data: "employeeName="+employeeName+"&sectionId="+sectionId+"&departmentId="+departmentId+"&inchargeId="+inchargeId+"&roleId="+roleId+"&explanationId="+explanationId+"&companyId="+companyId+"&status="+year+"&year="+year+"&timeStampId=",
+            data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
             success: function (data) {
                 _retriveddata = data;
             }
         });
-
-
-        //var employeesForJexcel = []; 
-        var sectionsForJexcel = []; 
-        var departmentsForJexcel = []; 
-        var inchargesForJexcel = []; 
-        var rolesForJexcel = []; 
+        var sectionsForJexcel = [];
+        var departmentsForJexcel = [];
+        var inchargesForJexcel = [];
+        var rolesForJexcel = [];
         var explanationsForJexcel = [];
         var companiesForJexcel = [];
         var gradesForJexcel = [];
 
-        // $.ajax({
-        //     url: `/api/utilities/EmployeeList/`,
-        //     contentType: 'application/json',
-        //     type: 'GET',
-        //     async: false,
-        //     dataType: 'json',
-        //     success: function (data) {
-        //         $.each(data, (index, value) => {
-        //             employeesForJexcel.push({ id: value.Id, name: value.FullName });
-        //         });
-        //     }
-        // });
         $.ajax({
             url: `/api/Sections`,
             contentType: 'application/json',
@@ -1978,11 +1964,10 @@ $(document).ready(function () {
             async: false,
             dataType: 'json',
             success: function (data) {
-                
+
                 $.each(data, (index, value) => {
                     departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
                 });
-                //console.log(data);
             }
         });
         $.ajax({
@@ -2049,26 +2034,23 @@ $(document).ready(function () {
             jss.destroy();
             $('#jspreadsheet').empty();
         }
-        
-
-        //jexcel.destroy(document.getElementById('jspreadsheet'));
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             tableOverflow: true,
-            lazyLoading: true,  
+            lazyLoading: true,
             tableWidth: '1200px',
             freezeColumns: 10,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "text", name:"EmployeeName", width: 150 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name:"SectionId", width: 85 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name:"DepartmentId", width: 85},
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId",  width: 85},
-                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId",  width: 85},
-                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId",  width: 150},
+                { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
+                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 85 },
+                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 85 },
+                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 85 },
+                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 85 },
+                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
                 { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
                 { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
-                { title: "単価(Unit Price)", type: "number",name:"UnitPrice", mask: "#,##0" , width: 85},
+                { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
                 {
                     title: "10月",
                     type: "decimal",
@@ -2186,7 +2168,7 @@ $(document).ready(function () {
                 {
                     title: "6月",
                     type: "decimal",
-                   // readOnly: true,
+                    // readOnly: true,
                     mask: "#,##0",
                     name: "JunTotal"
                 },
@@ -2212,7 +2194,7 @@ $(document).ready(function () {
                 },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             ],
-            minDimensions:[6,10],
+            minDimensions: [6, 10],
             columnSorting: true,
             onchange: changed,
             oninsertrow: newRowInserted,
@@ -2222,7 +2204,7 @@ $(document).ready(function () {
 
                 // Insert new row
                 //if (obj.options.allowInsertRow == true) {
-                    
+
                 //    items.push({
                 //        title: '新しい行を挿入する (New Row)',
                 //        onclick: function () {
@@ -2237,8 +2219,8 @@ $(document).ready(function () {
                     onclick: function () {
                         obj.insertRow(1, parseInt(y));
                         $('#jexcel_add_employee_modal').modal('show');
-                        globalY = parseInt(y)+1;
-                        
+                        globalY = parseInt(y) + 1;
+
                         //console.log("y: "+y);
                         //console.log("globalY: "+globalY);
 
@@ -2256,7 +2238,7 @@ $(document).ready(function () {
                         var retrivedData = retrivedObject(jss.getRowData(y));
                         retrivedData.assignmentId = "new-" + newRowCount;
 
-                        
+
                         obj.setValueFromCoords(34, nextRow, retrivedData.employeeId, false);
                         obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                         obj.setValueFromCoords(2, nextRow, retrivedData.sectionId, false);
@@ -2282,24 +2264,24 @@ $(document).ready(function () {
                         obj.setValueFromCoords(20, nextRow, '0.0', false);
                         obj.setValueFromCoords(21, nextRow, '0.0', false);
 
-                        jss.setValueFromCoords(22, nextRow, `=J${nextRow+1}*K${nextRow+1}`, false);
-                        jss.setValueFromCoords(23, nextRow, `=J${nextRow+1}*L${nextRow+1}`, false);
-                        jss.setValueFromCoords(24, nextRow, `=J${nextRow+1}*M${nextRow+1}`, false);
-                        jss.setValueFromCoords(25, nextRow, `=J${nextRow+1}*N${nextRow+1}`, false);
-                        jss.setValueFromCoords(26, nextRow, `=J${nextRow+1}*O${nextRow+1}`, false);
-                        jss.setValueFromCoords(27, nextRow, `=J${nextRow+1}*P${nextRow+1}`, false);
-                        jss.setValueFromCoords(28, nextRow, `=J${nextRow+1}*Q${nextRow+1}`, false);
-                        jss.setValueFromCoords(29, nextRow, `=J${nextRow+1}*R${nextRow+1}`, false);
-                        jss.setValueFromCoords(30, nextRow, `=J${nextRow+1}*S${nextRow+1}`, false);
-                        jss.setValueFromCoords(31, nextRow, `=J${nextRow+1}*T${nextRow+1}`, false);
-                        jss.setValueFromCoords(32, nextRow, `=J${nextRow+1}*U${nextRow+1}`, false);
-                        jss.setValueFromCoords(33, nextRow, `=J${nextRow+1}*V${nextRow+1}`, false);
+                        jss.setValueFromCoords(22, nextRow, `=J${nextRow + 1}*K${nextRow + 1}`, false);
+                        jss.setValueFromCoords(23, nextRow, `=J${nextRow + 1}*L${nextRow + 1}`, false);
+                        jss.setValueFromCoords(24, nextRow, `=J${nextRow + 1}*M${nextRow + 1}`, false);
+                        jss.setValueFromCoords(25, nextRow, `=J${nextRow + 1}*N${nextRow + 1}`, false);
+                        jss.setValueFromCoords(26, nextRow, `=J${nextRow + 1}*O${nextRow + 1}`, false);
+                        jss.setValueFromCoords(27, nextRow, `=J${nextRow + 1}*P${nextRow + 1}`, false);
+                        jss.setValueFromCoords(28, nextRow, `=J${nextRow + 1}*Q${nextRow + 1}`, false);
+                        jss.setValueFromCoords(29, nextRow, `=J${nextRow + 1}*R${nextRow + 1}`, false);
+                        jss.setValueFromCoords(30, nextRow, `=J${nextRow + 1}*S${nextRow + 1}`, false);
+                        jss.setValueFromCoords(31, nextRow, `=J${nextRow + 1}*T${nextRow + 1}`, false);
+                        jss.setValueFromCoords(32, nextRow, `=J${nextRow + 1}*U${nextRow + 1}`, false);
+                        jss.setValueFromCoords(33, nextRow, `=J${nextRow + 1}*V${nextRow + 1}`, false);
 
                         newRowCount++;
                     }
                 });
 
-                
+
                 if (obj.options.allowDeleteRow == true) {
                     items.push({
                         title: '選択した要員を削除(selected emp delete)',
@@ -2311,15 +2293,10 @@ $(document).ready(function () {
 
                 return items;
             }
-          
-
-
-
         });
 
         jss.deleteColumn(35, 16);
-        console.log(jss);
-    });
+    }
 
     var deleted = function (instance, x, y, value) {
         var assignmentIds = [];
@@ -2328,9 +2305,9 @@ $(document).ready(function () {
                 if (value[i][0].innerText != '' && value[i][0].innerText.toString().includes('new') == false) {
                     assignmentIds.push(value[i][0].innerText);
                 }
-                
+
             }
-            if (assignmentIds.length>0) {
+            if (assignmentIds.length > 0) {
                 $.ajax({
                     url: `/api/utilities/ExcelDeleteAssignment/`,
                     contentType: 'application/json',
@@ -2343,23 +2320,23 @@ $(document).ready(function () {
                     }
                 });
             }
-           
+
         }
-        
+
     }
 
-   
+
     var changed = function (instance, cell, x, y, value) {
 
         //debugger;
         var checkId = jss.getValueFromCoords(0, y);
-        
-        
+
+
         if (checkId == null || checkId == '' || checkId == undefined) {
-           
+
             var retrivedData = retrivedObject(jss.getRowData(y));
             retrivedData.assignmentId = "new-" + newRowCount;
-            
+
             jssInsertedData.push(retrivedData);
             newRowCount++;
             jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
@@ -2375,17 +2352,17 @@ $(document).ready(function () {
             jss.setValueFromCoords(31, y, `=J${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
             jss.setValueFromCoords(32, y, `=J${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
             jss.setValueFromCoords(33, y, `=J${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-        } 
+        }
         else {
             var retrivedData = retrivedObject(jss.getRowData(y));
             if (retrivedData.assignmentId.toString().includes('new')) {
-                updateArrayForInsert(jssInsertedData, retrivedData);   
+                updateArrayForInsert(jssInsertedData, retrivedData);
             }
             else {
                 var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
                 console.log(jssUpdatedData);
-                
-                if (x==2) {
+
+                if (x == 2) {
                     if (dataCheck.length == 0) {
                         jssUpdatedData.push(retrivedData);
                     }
@@ -2655,14 +2632,14 @@ $(document).ready(function () {
             }
 
         }
-        
+
     }
 
     var newRowInserted = function (instance, x, y, newRow) {
         console.log(jss.getData(false));
         var totalRow = jss.getData(false);
         console.log(`A${totalRow.length - 2}`);
-        jss.setStyle(`A${totalRow.length - 2}`,'color','red');
+        jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
         //console.log(newRow.options);
         //var sectionCell = newRow[0][2];
         //$(sectionCell).append();
@@ -2748,7 +2725,7 @@ $(document).ready(function () {
             julPoint: parseFloat(rowData[19]),
             augPoint: parseFloat(rowData[20]),
             sepPoint: parseFloat(rowData[21]),
-            year:2023
+            year: 2023
         };
     }
 
@@ -2763,14 +2740,14 @@ $(document).ready(function () {
                 return object.employeeName.toLowerCase() == 'total';
 
             });
-            if (elementIndex>=0) {
+            if (elementIndex >= 0) {
                 jssInsertedData.splice(elementIndex, 1);
             }
-            
+
         }
         if (jssInsertedData.length > 0) {
             //console.log('clicked');
-            
+
             $.ajax({
                 url: `/api/utilities/ExcelAssignment/`,
                 contentType: 'application/json',
@@ -2790,7 +2767,7 @@ $(document).ready(function () {
             jssInsertedData = [];
             newRowCount = 1;
         }
-    
+
 
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
@@ -2812,7 +2789,7 @@ $(document).ready(function () {
             });
             jssUpdatedData = [];
         }
-        
+
     });
 
     $(function () {
@@ -2864,7 +2841,7 @@ function GetListDropdownValue() {
         });
     // var tempDepartmentId = $("#hid_departmentId").val();
     // $.getJSON('/api/Departments/')
-        
+
     //     .done(function (data) {
     //         $('#dept_multi_search').empty();
     //         $.each(data, function (key, item) {
@@ -2884,34 +2861,34 @@ function GetListDropdownValue() {
             });
             $('#dept_multi_search').multiselect('rebuild');
         });
-        // incharge multi select dropdown 
-        $.getJSON('/api/InCharges/')
-            .done(function(data) {
-                $('#incharge_multi_search').empty();
-                $.each(data, function(key, item) {
-                    $('#incharge_multi_search').append(`<option class='incharge_checkbox' id="incharge_checkbox_${item.Id}" value='${item.Id}'>${item.InChargeName}</option>`)
-                });
-                $('#incharge_multi_search').multiselect('rebuild');
+    // incharge multi select dropdown 
+    $.getJSON('/api/InCharges/')
+        .done(function (data) {
+            $('#incharge_multi_search').empty();
+            $.each(data, function (key, item) {
+                $('#incharge_multi_search').append(`<option class='incharge_checkbox' id="incharge_checkbox_${item.Id}" value='${item.Id}'>${item.InChargeName}</option>`)
             });
-        //Role multi select dropdown 
-        $.getJSON('/api/Roles/')
-            .done(function(data) {
-                $('#role_multi_search').empty();
-                $.each(data, function(key, item) {                    
-                    $('#role_multi_search').append(`<option class='role_checkbox' id="role_checkbox_${item.Id}" value='${item.Id}'>${item.RoleName}</option>`)
-                });
-                $('#role_multi_search').multiselect('rebuild');
+            $('#incharge_multi_search').multiselect('rebuild');
+        });
+    //Role multi select dropdown 
+    $.getJSON('/api/Roles/')
+        .done(function (data) {
+            $('#role_multi_search').empty();
+            $.each(data, function (key, item) {
+                $('#role_multi_search').append(`<option class='role_checkbox' id="role_checkbox_${item.Id}" value='${item.Id}'>${item.RoleName}</option>`)
             });
+            $('#role_multi_search').multiselect('rebuild');
+        });
 
-        //explanation multi search dropdown
-        $.getJSON('/api/Explanations/')
-            .done(function(data) {
-                $('#explanation_multi_search').empty();
-                $.each(data, function(key, item) {                    
-                    $('#explanation_multi_search').append(`<option class='explanation_checkbox' id="explanation_checkbox_${item.Id}" value='${item.Id}'>${item.ExplanationName}</option>`)
-                });
-                $('#explanation_multi_search').multiselect('rebuild');
+    //explanation multi search dropdown
+    $.getJSON('/api/Explanations/')
+        .done(function (data) {
+            $('#explanation_multi_search').empty();
+            $.each(data, function (key, item) {
+                $('#explanation_multi_search').append(`<option class='explanation_checkbox' id="explanation_checkbox_${item.Id}" value='${item.Id}'>${item.ExplanationName}</option>`)
             });
+            $('#explanation_multi_search').multiselect('rebuild');
+        });
     $.getJSON('/api/Companies/')
         .done(function (data) {
             $('#company_multi_search').empty();
@@ -2920,10 +2897,10 @@ function GetListDropdownValue() {
             });
             $('#company_multi_search').multiselect('rebuild');
         });
-    
-        //$('#period_multi_search').empty();
-        //$('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
-        //$('#period_multi_search').multiselect('rebuild');
+
+    //$('#period_multi_search').empty();
+    //$('#period_multi_search').append(`<option class='period_checkbox' id="period_checkbox" value='2023'>2023</option>`)
+    //$('#period_multi_search').multiselect('rebuild');
 }
 
 //employee insert
@@ -2978,7 +2955,7 @@ function GetEmployeeList() {
   Add Employee through Modal                      
 \***************************/
 function AddEmployee() {
-    var employeeId = $('#employee_list').val();        
+    var employeeId = $('#employee_list').val();
     var employeeName = $('#employee_list').find("option:selected").text();
     jss.setValueFromCoords(1, globalY, employeeName, false);
     jss.setValueFromCoords(34, globalY, employeeId, false);

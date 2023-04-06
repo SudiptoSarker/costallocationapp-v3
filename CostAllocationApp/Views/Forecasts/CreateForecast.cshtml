@@ -11,184 +11,75 @@
 }
 
 <div class="content container-fluid" style="position:relative">
-    <!-- Page Header -->
-    <div class="page-header" id="data_import">
-        <div class="row align-items-center">
-            <div class="col">
-                <h5>年度データー (Year Data)</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
-                {
-                    <div class="form-group mb-2">
-                        <input type="file" class="form-control-file" name="uploaded_file">
-                    </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <select id="inputState" class="form-control" name="upload_year">
-                            <option value="0">Select Year</option>
-                            <option value="2023">2023</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i> Upload Excel</button>
-                    @Html.AntiForgeryToken()
 
+    @{
+        /***************************\
+         Employee Assignment: Import Excel
+        \***************************/
 
-                }
-                @if ((Int32)ViewBag.ErrorCount > 0)
-                {
-                    <div class="alert alert-danger col-4">
-                        @Html.ValidationSummary()
+        if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
+        {
+            <div class="page-header" id="data_import">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h5>年度データー (Year Data)</h5>
                     </div>
-                }
-                @if (ViewBag.Success != null)
-                {
-                    <div class="alert alert-success col-4">
-                        @ViewBag.Success
-                    </div>
-                }
-            </div>
-            <div class="offset-3 col-3">
-                <ul id="save_notifications"></ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- /Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <section class="container" tabIndex="1">
-                @*<button id="get_row">get Row</button>*@
-                <div>
-                    <table id="forecast_search">
-                        <!-- <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Section</th>
-                                <th>Department</th>
-                                <th>In-Charge</th>
-                                <th>Role</th>
-                                <th>Explanation</th>
-                                <th>Company</th>
-                                <th>Period</th>
-                            </tr>
-                        </thead> -->
-                        <thead id="forecast_search_thead">
-                            <tr>
-                                <th>Name</th>
-                                <th>Section</th>
-                                <th>Company</th>
-                                <th>Department</th>
-                                <th>In-Charge</th>
-                                <th>Role</th>
-                                <th>Explanation</th>
-                                <th>Period</th>
-                            </tr>
-                        </thead>
-                        <tbody id="forecast_search_tbody">
-                            <tr>
-                                <th class="namelist_td name">氏名(Name)</th>
-                                <th class="namelist_td section">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="section_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td company">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="company_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td department">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="dept_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td incharge">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="incharge_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td role">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="role_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td explanation">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="explanation_multi_search" name="multiselect[]" multiple="multiple"></select>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="namelist_td period">
-                                    <div class="form-group mb-0">
-                                        <div class="col-sm-10">
-                                            <select id="period_multi_search">
-                                                <option value="">Select Year</option>
-                                                <option value="2023">2023</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td colspan="7"></td>
-                                <td>
-                                    <a href="javascript:void(0);" class="" id="forecast_search_button">Search</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-            </section>
+                <div class="row">
+                    <div class="col-6">
+                        @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
+                        {
+                            <div class="form-group mb-2">
+                                <input type="file" class="form-control-file" name="uploaded_file">
+                            </div>
+                            <div class="form-group mx-sm-3 mb-2">
+                                <select id="inputState" class="form-control" name="upload_year">
+                                    <option value="0">Select Year</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i> Upload Excel</button>
+                            @Html.AntiForgeryToken()
 
-            @*<div class="row">
-                    <div class="col-md-12">
-                        <div class="forecast">
-                            <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                                <center>
-                                    <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                                    <br>
-                                    <strong>Please wait a moment...</strong>
-                                    <br>
-                                    <br>
-                                </center>
+
+                        }
+                        @if ((Int32)ViewBag.ErrorCount > 0)
+                        {
+                            <div class="alert alert-danger col-4">
+                                @Html.ValidationSummary()
                             </div>
-                            <table class="" id="forecast_table">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
-                            <div class="add_name_tbl_2_btn">
-                                <a href="javascript:void(0);" class="" id="cancel_forecast" onclick="onCancel()" style="display:none;">Cancel</a>
-                                <a href="javascript:void(0);" class="" id="save_forecast" onclick="onSave(event)" style="display:none;">Save</a>
+                        }
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success col-4">
+                                @ViewBag.Success
                             </div>
-                        </div>
+                        }
                     </div>
-                </div>*@
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @*<div class="form-group col-2 mb-2">
-                    <select id="forecast_timestamp" class="form-control"></select>
-                </div>*@
-            <button class="btn btn-dark" id="update_forecast_history">save</button>
-        </div>
-        <div class="col-md-12">
-            <div id="jspreadsheet"></div>
-        </div>
-    </div>
+                    <div class="offset-3 col-3">
+                        <ul id="save_notifications"></ul>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            /***************************\
+             Employee Assignment: Create Forecast
+            \***************************/
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-dark" id="update_forecast_history">save</button>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="jspreadsheet"></div>
+                </div>
+            </div>
+        }
+    }
+
 </div>
 
 <input type="hidden" id="hidSectionId" />
@@ -197,6 +88,7 @@
 <input type="hidden" id="hidRoleId" />
 <input type="hidden" id="hidExplanationId" />
 <input type="hidden" id="hidCompanyid" />
+<input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
 
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">

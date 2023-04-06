@@ -31,25 +31,25 @@ namespace CostAllocationApp.Controllers
         public ActionResult CreateForecast()
         {
             string requestType = Request.QueryString["forecastType"];
-            Response.Write("requestType: "+ requestType);
 
-            if (TempData["seccess"]!=null)
+            if (TempData["seccess"] != null)
             {
                 ViewBag.Success = TempData["seccess"];
             }
             else
             {
                 ViewBag.Success = null;
-                
+
             }
             ForecastViewModal forecastViewModal = new ForecastViewModal
             {
                 _sections = sectionBLL.GetAllSections()
-            };            
+            };
             ViewBag.ErrorCount = 0;
+            ViewBag.ImportViewOrForecastView = requestType;
             return View(forecastViewModal);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(HttpPostedFileBase uploaded_file, int upload_year)
@@ -101,12 +101,12 @@ namespace CostAllocationApp.Controllers
 
                         for (int i = 2; i < rowcount; i++)
                         {
-                            _uploadExcel = new UploadExcel();    
-                            
-                            if(i == 127)
+                            _uploadExcel = new UploadExcel();
+
+                            if (i == 127)
                             {
 
-                            } 
+                            }
 
                             //section 
                             if (!string.IsNullOrEmpty(dt_.Rows[i][0].ToString()))
@@ -117,8 +117,8 @@ namespace CostAllocationApp.Controllers
                             else
                             {
                                 _uploadExcel.SectionId = 0;
-                            }                           
-                            
+                            }
+
                             //department 
                             if (!string.IsNullOrEmpty(dt_.Rows[i][1].ToString()))
                             {
@@ -127,7 +127,7 @@ namespace CostAllocationApp.Controllers
                             else
                             {
                                 _uploadExcel.DepartmentId = 0;
-                            }                            
+                            }
 
                             //incharge
                             if (!string.IsNullOrEmpty(dt_.Rows[i][2].ToString()))
@@ -137,7 +137,7 @@ namespace CostAllocationApp.Controllers
                             else
                             {
                                 _uploadExcel.InchargeId = 0;
-                            }                           
+                            }
                             //role
                             if (!string.IsNullOrEmpty(dt_.Rows[i][3].ToString()))
                             {
@@ -147,28 +147,28 @@ namespace CostAllocationApp.Controllers
                             {
                                 _uploadExcel.RoleId = 0;
                             }
-                            
+
                             //explanation
                             if (!string.IsNullOrEmpty(dt_.Rows[i][4].ToString()))
                             {
                                 _uploadExcel.ExplanationId = _uploadExcelBll.GetExplanationIdByName(dt_.Rows[i][4].ToString().Trim(trimElements));
-                            }                            
-                            
+                            }
+
                             //name
                             if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
                             {
                                 continue;
                             }
                             else
-                            {                                
+                            {
                                 employee.IsActive = true;
                                 employee.CreatedBy = "";
                                 employee.CreatedDate = DateTime.Now;
                                 employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
-                                int result = employeeBLL.CreateEmployee(employee);                               
+                                int result = employeeBLL.CreateEmployee(employee);
 
                                 _uploadExcel.EmployeeId = result;
-                            }                            
+                            }
 
                             //compnay
                             if (!string.IsNullOrEmpty(dt_.Rows[i][6].ToString()))
@@ -185,23 +185,23 @@ namespace CostAllocationApp.Controllers
                             bool isUnitPriceEmpty = false;
                             if (string.IsNullOrEmpty(dt_.Rows[i][7].ToString()))
                             {
-                                isGradeEmpty = true;                                  
+                                isGradeEmpty = true;
                             }
                             if (string.IsNullOrEmpty(dt_.Rows[i][8].ToString()))
                             {
                                 isUnitPriceEmpty = true;
                             }
-                            else if(Convert.ToInt32(dt_.Rows[i][8]) < 0)
+                            else if (Convert.ToInt32(dt_.Rows[i][8]) < 0)
                             {
                                 isUnitPriceEmpty = true;
                             }
 
-                            if(!isGradeEmpty && !isUnitPriceEmpty)
+                            if (!isGradeEmpty && !isUnitPriceEmpty)
                             {
                                 _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
                                 _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
                             }
-                            else if(!isGradeEmpty)
+                            else if (!isGradeEmpty)
                             {
                                 _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
                                 _uploadExcel.UnitPrice = _uploadExcelBll.GetUnitPriceByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
@@ -287,7 +287,7 @@ namespace CostAllocationApp.Controllers
                 else
                 {
                     ViewBag.ErrorCount = 1;
-                    ModelState.AddModelError("File", "invalid File or Year");                    
+                    ModelState.AddModelError("File", "invalid File or Year");
                 }
             }
             return View("CreateForecast", forecastViewModal);
@@ -302,8 +302,8 @@ namespace CostAllocationApp.Controllers
             sendToForecaseApiDto.AssignmentId = assignmentId;
 
             using (var client = new HttpClient())
-            {                
-                client.BaseAddress = new Uri(""+ _utility.Address + "/api/Forecasts?data=" + row + "&year=" + year + "&assignmentId=" + assignmentId);
+            {
+                client.BaseAddress = new Uri("" + _utility.Address + "/api/Forecasts?data=" + row + "&year=" + year + "&assignmentId=" + assignmentId);
 
                 //HTTP POST
                 var postTask = client.GetAsync("");

@@ -23,9 +23,9 @@
                         </li>
                     }
                     else
-                    {           
-                        /***************************\                           
-                            Add Employee through Modal                      
+                    {
+                        /***************************\
+                            Add Employee through Modal
                         \***************************/
                         <li class="submenu">
                             <a href="javascript:void(0);">
@@ -35,7 +35,10 @@
                             </a>
                             <ul style="display: none;">
                                 @{
-                                    if (url.ToLower().Contains("createsection"))
+                                    string forecastViewType = Request.QueryString["forecastType"];
+                                    Response.Write("<br>forecastViewType: " + forecastViewType);
+
+                                    if (url.ToLower().Contains("createforecast") && forecastViewType.ToLower() == "imprt")
                                     {
                                         <li><a href="/Forecasts/CreateForecast?forecastType=imprt" class="active" title="Import Yearly Data">Import Yearly Data</a></li>
                                     }
@@ -45,57 +48,34 @@
                                             <a href="/Forecasts/CreateForecast?forecastType=imprt" title="Import Yearly Data">Import Yearly Data</a>
                                         </li>
                                     }
-                                    if (url.ToLower().Contains("createsection"))
+
+                                    if (url.ToLower().Contains("createforecast") && forecastViewType.ToLower() == "2023")
                                     {
-                                        <li><a href="/Forecasts/CreateForecast" class="active" title="2023">2023</a></li>
+                                        <li><a href="/Forecasts/CreateForecast?forecastType=2023" class="active" title="2023">2023</a></li>
                                     }
                                     else
                                     {
                                         <li>
-                                            <a href="/Forecasts/CreateForecast" title="2023">2023</a>
+                                            <a href="/Forecasts/CreateForecast?forecastType=2023" title="2023">2023</a>
                                         </li>
                                     }
                                 }
                             </ul>
                         </li>
 
-
-
-
-                        @* if (url.ToLower().Contains("createforecast"))
+                        if (url.ToLower().Contains("gethistories"))
                         {
                             <li>
-                                <a href="/Forecasts/CreateForecast" class="active"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
+                                <a href="/Forecasts/GetHistories" class="active"><i class="la la-files-o"></i><span title="履歴年度データー (History)">履歴年度データー (History)</span></a>
                             </li>
                         }
                         else
                         {
                             <li>
-                                <a href="/Forecasts/CreateForecast"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
+                                <a href="/Forecasts/GetHistories"><i class="la la-files-o"></i> <span title="履歴年度データー (History)">履歴年度データー (History)</span></a>
                             </li>
-                        }                         *@
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="la la-files-o"></i>
-                                <span title="歴史 (History)">履歴年度データー (History)</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul style="display: none;">
-                                @{
-                                    if (url.ToLower().Contains("createsection"))
-                                    {
-                                        <li><a href="/Forecasts/GetHistories" class="active" title="履歴年度データー">履歴年度データー</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/GetHistories" title="履歴年度データー">履歴年度データー</a>
-                                        </li>
-                                    }
-                                
-                                }
-                            </ul>
-                        </li>
+                        }
+
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="la la-files-o"></i>
@@ -173,7 +153,7 @@
                                     }
                                 }
                             </ul>
-                        </li>                        
+                        </li>
                     }
                 }
             </ul>

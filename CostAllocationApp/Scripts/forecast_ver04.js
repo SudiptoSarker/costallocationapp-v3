@@ -2036,10 +2036,7 @@ $(document).ready(function () {
         }
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
-            tableOverflow: true,
-            lazyLoading: true,
-            tableWidth: '1200px',
-            freezeColumns: 10,
+            filters: true,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -2054,62 +2051,86 @@ $(document).ready(function () {
                 {
                     title: "10月",
                     type: "decimal",
-                    name: "OctPoints"
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal:'.'
                 },
                 {
                     title: "11月",
                     type: "decimal",
-                    name: "NovPoints"
+                    name: "NovPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "12月",
                     type: "decimal",
-                    name: "DecPoints"
+                    name: "DecPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "1月",
                     type: "decimal",
-                    name: "JanPoints"
+                    name: "JanPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "2月",
                     type: "decimal",
-                    name: "FebPoints"
+                    name: "FebPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "3月",
                     type: "decimal",
-                    name: "MarPoints"
+                    name: "MarPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "4月",
                     type: "decimal",
-                    name: "AprPoints"
+                    name: "AprPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "5月",
                     type: "decimal",
-                    name: "MayPoints"
+                    name: "MayPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "6月",
                     type: "decimal",
-                    name: "JunPoints"
+                    name: "JunPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "7月",
                     type: "decimal",
-                    name: "JulPoints"
+                    name: "JulPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "8月",
                     type: "decimal",
-                    name: "AugPoints"
+                    name: "AugPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "9月",
                     type: "decimal",
-                    name: "SepPoints"
+                    name: "SepPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
                 },
                 {
                     title: "10月",
@@ -2196,7 +2217,412 @@ $(document).ready(function () {
             ],
             minDimensions: [6, 10],
             columnSorting: true,
-            onchange: changed,
+            onchange: function (instance, cell, x, y, value) {
+                //debugger;
+                var checkId = jss.getValueFromCoords(0, y);
+                var employeeId = jss.getValueFromCoords(34, y);
+
+                if (checkId == null || checkId == '' || checkId == undefined) {
+
+                    var retrivedData = retrivedObject(jss.getRowData(y));
+                    retrivedData.assignmentId = "new-" + newRowCount;
+
+                    jssInsertedData.push(retrivedData);
+                    newRowCount++;
+                    jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
+                    jss.setValueFromCoords(22, y, `=J${parseInt(y) + 1}*K${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(23, y, `=J${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(24, y, `=J${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(25, y, `=J${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(26, y, `=J${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(27, y, `=J${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(28, y, `=J${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(29, y, `=J${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(30, y, `=J${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(31, y, `=J${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(32, y, `=J${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(33, y, `=J${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
+                }
+                else {
+                    var retrivedData = retrivedObject(jss.getRowData(y));
+                    if (retrivedData.assignmentId.toString().includes('new')) {
+                        updateArrayForInsert(jssInsertedData, retrivedData);
+                    }
+                    else {
+                        var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                        //console.log(checkId);
+
+                        if (x == 2) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 3) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 4) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 5) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 6) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 7) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 8) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 9) {
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
+                            }
+                            else {
+                                updateArray(jssUpdatedData, retrivedData);
+                            }
+                        }
+                        if (x == 10) {
+                            var octSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    octSum += parseFloat(value.childNodes[11].innerText);
+                                }
+                                
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                                
+                            }
+                            else {
+
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+                                    updateArray(jssUpdatedData, retrivedData);
+                                }
+
+                            }
+                            $(cell).css('color', 'red');
+                            
+                            
+                        }
+                        if (x == 11) {
+                            var novSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    novSum += parseFloat(value.childNodes[12].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
+                                novSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 12) {
+                            var decSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    decSum += parseFloat(value.childNodes[13].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
+                                decSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 13) {
+                            var janSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    janSum += parseFloat(value.childNodes[14].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
+                                janSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 14) {
+                            var febSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    febSum += parseFloat(value.childNodes[15].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
+                                febSum = 1;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 15) {
+                            var marSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    marSum += parseFloat(value.childNodes[16].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
+                                marSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 16) {
+                            var aprSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    aprSum += parseFloat(value.childNodes[17].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
+                                aprSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 17) {
+                            var maySum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    maySum += parseFloat(value.childNodes[18].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 18) {
+                            var junSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    junSum += parseFloat(value.childNodes[19].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
+                                junSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 19) {
+                            var julSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    julSum += parseFloat(value.childNodes[20].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 20) {
+                            var augSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    augSum += parseFloat(value.childNodes[21].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
+                                augSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                        if (x == 21) {
+                            var sepSum = 0;
+                            $.each(jss.rows, (index, value) => {
+                                if (value.childNodes[35].innerText == employeeId.toString()) {
+                                    sepSum += parseFloat(value.childNodes[22].innerText);
+                                }
+
+                            });
+                            if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
+                                sepSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, '0', false);
+                            }
+                            else {
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+
+                                    updateArray(jssUpdatedData, retrivedData);
+
+                                }
+                            }
+                            $(cell).css('color', 'red');
+                        }
+                    }
+
+                }
+
+            },
             oninsertrow: newRowInserted,
             ondeleterow: deleted,
             contextMenu: function (obj, x, y, e) {
@@ -2326,315 +2752,6 @@ $(document).ready(function () {
     }
 
 
-    var changed = function (instance, cell, x, y, value) {
-
-        //debugger;
-        var checkId = jss.getValueFromCoords(0, y);
-
-
-        if (checkId == null || checkId == '' || checkId == undefined) {
-
-            var retrivedData = retrivedObject(jss.getRowData(y));
-            retrivedData.assignmentId = "new-" + newRowCount;
-
-            jssInsertedData.push(retrivedData);
-            newRowCount++;
-            jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-            jss.setValueFromCoords(22, y, `=J${parseInt(y) + 1}*K${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(23, y, `=J${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(24, y, `=J${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(25, y, `=J${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(26, y, `=J${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(27, y, `=J${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(28, y, `=J${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(29, y, `=J${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(30, y, `=J${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(31, y, `=J${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(32, y, `=J${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-            jss.setValueFromCoords(33, y, `=J${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-        }
-        else {
-            var retrivedData = retrivedObject(jss.getRowData(y));
-            if (retrivedData.assignmentId.toString().includes('new')) {
-                updateArrayForInsert(jssInsertedData, retrivedData);
-            }
-            else {
-                var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                console.log(jssUpdatedData);
-
-                if (x == 2) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 3) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 4) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 5) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 6) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 7) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 8) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 9) {
-                    if (dataCheck.length == 0) {
-                        jssUpdatedData.push(retrivedData);
-                    }
-                    else {
-                        updateArray(jssUpdatedData, retrivedData);
-                    }
-                }
-                if (x == 10) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 11) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 12) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 13) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 14) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 15) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 16) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 17) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 18) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 19) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 20) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-                if (x == 21) {
-                    if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
-                        jss.setValueFromCoords(x, y, '0', false);
-                    }
-                    else {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-
-                            updateArray(jssUpdatedData, retrivedData);
-
-                        }
-                    }
-                    $(cell).css('color', 'red');
-                }
-            }
-
-        }
-
-    }
-
     var newRowInserted = function (instance, x, y, newRow) {
         console.log(jss.getData(false));
         var totalRow = jss.getData(false);
@@ -2731,64 +2848,76 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
-        console.log(jssInsertedData);
-        console.log(jssUpdatedData);
+        var dateObj = new Date();
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getDate();
+        var year = dateObj.getUTCFullYear();
 
-        if (jssInsertedData.length > 0) {
-            var elementIndex = jssInsertedData.findIndex(object => {
+        var timestamp = `${year}${month}${day}_`;
+        var promptValue = prompt("History Save As", timestamp);
+        console.log(promptValue);
+        if (promptValue == null || promptValue == undefined || promptValue == "") {
+            return false;
+        }
+        else {
+            if (jssInsertedData.length > 0) {
+                var elementIndex = jssInsertedData.findIndex(object => {
 
-                return object.employeeName.toLowerCase() == 'total';
+                    return object.employeeName.toLowerCase() == 'total';
 
-            });
-            if (elementIndex >= 0) {
-                jssInsertedData.splice(elementIndex, 1);
+                });
+                if (elementIndex >= 0) {
+                    jssInsertedData.splice(elementIndex, 1);
+                }
+
+            }
+            if (jssInsertedData.length > 0) {
+                //console.log('clicked');
+
+                $.ajax({
+                    url: `/api/utilities/ExcelAssignment/`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify(jssInsertedData),
+                    success: function (data) {
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been inserted by', 'user');
+                        });
+                    }
+                });
+                jssInsertedData = [];
+                newRowCount = 1;
             }
 
-        }
-        if (jssInsertedData.length > 0) {
-            //console.log('clicked');
 
-            $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(jssInsertedData),
-                success: function (data) {
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by', 'user');
-                    });
-                }
-            });
-            jssInsertedData = [];
-            newRowCount = 1;
+            if (jssUpdatedData.length > 0) {
+                console.log(jssUpdatedData);
+                $.ajax({
+                    url: `/api/utilities/CreateHistory`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify({ ForecastUpdateHistoryDtos:jssUpdatedData, HistoryName: promptValue }),
+                    success: function (data) {
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been updated by', 'user');
+                        });
+                    }
+                });
+                jssUpdatedData = [];
+            }
         }
 
 
-        if (jssUpdatedData.length > 0) {
-            console.log(jssUpdatedData);
-            $.ajax({
-                url: `/api/utilities/CreateHistory`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(jssUpdatedData),
-                success: function (data) {
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by', 'user');
-                    });
-                }
-            });
-            jssUpdatedData = [];
-        }
 
     });
 

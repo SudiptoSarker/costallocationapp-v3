@@ -839,15 +839,15 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpPost]
         [Route("api/utilities/CreateHistory/")]
-        public IHttpActionResult CreateForecastHistory(List<ForecastUpdateHistoryDto> historyDtos)
+        public IHttpActionResult CreateForecastHistory(ForecastHistoryDto forecastHistoryDto)
         {
             List<Forecast> forecasts = new List<Forecast>();
             string message = "Something went wrong!!!";
-            if (historyDtos != null)
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
-                if (historyDtos.Count > 0)
+                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
                 {
-                    foreach (var item in historyDtos)
+                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.AssignmentId;
@@ -882,8 +882,8 @@ namespace CostAllocationApp.Controllers.Api
                     }
 
                     ForecastHisory forecastHisory = new ForecastHisory();
-                    forecastHisory.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-                    forecastHisory.Year = historyDtos[0].Year;
+                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                    forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
                     forecastHisory.Forecasts = forecasts;
                     forecastHisory.CreatedBy = "";
                     forecastHisory.CreatedDate = DateTime.Now;

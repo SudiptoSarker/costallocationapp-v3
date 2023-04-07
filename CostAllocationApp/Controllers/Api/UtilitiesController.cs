@@ -441,6 +441,25 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [Route("api/utilities/EmployeeListByNameFilter/{employeeName}")]
+        [HttpGet]
+        public IHttpActionResult EmployeeListByNameFilter(string employeeName)
+        {
+            List<Employee> employees = employeeBLL.EmployeeListByNameFilter(employeeName);
+            return Ok(employees);
+
+            //if (!string.IsNullOrEmpty(employeeName))
+            //{
+            //    List<Employee> employees = employeeBLL.EmployeeListByNameFilter(employeeName);
+            //    return Ok(employees);
+            //}
+            //else
+            //{
+            //    return BadRequest("Employee Name is empty");
+            //}                       
+        }
+
+
         [Route("api/utilities/GetEmployeesByName/{employeeName}")]
         [HttpGet]
         public IHttpActionResult GetEmployeesByName(string employeeName)

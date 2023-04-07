@@ -678,6 +678,7 @@
     <Content Include="Scripts\namelist_modal_registrations.js" />
     <Content Include="Scripts\namelist_ver02.js" />
     <Content Include="Scripts\nameregistration.js" />
+    <Content Include="Scripts\nameregistration_ver02.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />

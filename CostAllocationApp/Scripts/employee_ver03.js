@@ -1,10 +1,25 @@
 ﻿
 $(document).ready(function () {
+    $('#example').DataTable();
     //------------------Employee Master----------------------//
-
     //show employee list on page load
     GetEmployeeList();
 
+    /***************************\                           
+     Name Registration: get all the employees.                
+    \***************************/
+    //GetEmployeeListWithDropdownSearch();
+
+    /***************************\                           
+        Name Registration: namelist dropdown using select2 plugin.                
+    \***************************/
+    //$("#employee_list").select2();
+
+});
+
+//search by employee name
+$(document).on('change', '#name_search', function () {
+    GetEmployeeSearchResults();
 });
 
 //employee insert
@@ -44,13 +59,9 @@ function InsertEmployee() {
 
 //Get employee list
 function GetEmployeeList() {
-    // $('#employee_list_tbody').empty();
     $.getJSON('/api/utilities/EmployeeList/')
     .done(function (data) {
         ShowNameList_Datatable(data);
-        // $.each(data, function (key, item) {
-        //     $('#employee_list_tbody').append(`<tr><td>${item.Id}</td><td>${item.FullName}</td></tr>`);
-        // });
     });
 
     
@@ -60,15 +71,15 @@ function GetEmployeeList() {
  Showing namelist using datatable.                        
 \***************************/
 function ShowNameList_Datatable(data){	
-    $('#employee_table').DataTable({
+    $('#employeeList_datatable').DataTable({
         destroy: true,
         data: data,
-        //ordering: true,
-        //orderCellsTop: true,
-        pageLength: 10,
+        ordering: false,
+        orderCellsTop: false,
+        pageLength: 100,
         searching: false,
         bLengthChange: false,    
-        dom: 'lifrtip',
+        //dom: 'lifrtip',
         columns: [            
             {
                 data: 'Id'
@@ -84,7 +95,7 @@ $(function () {
 
     var employeeContextMenu = $("#employeeContextMenu");
 
-    $("body").on("contextmenu", "#employee_table tbody tr", function (e) {
+    $("body").on("contextmenu", "#employeeList_datatable tbody tr", function (e) {
         employeeContextMenu.css({
             display:'block',
             left: e.pageX-230,
@@ -170,6 +181,22 @@ function InactiveEmployee() {
         },
         error: function (data) {
             alert(data.responseJSON.Message);
+        }
+    });
+}
+function GetEmployeeSearchResults() {
+    var employeeName = $('#name_search').val();
+    if (employeeName == '') {
+        employeeName = 'all';
+    }
+    $.ajax({
+        url: `/api/utilities/EmployeeListByNameFilter/${employeeName}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            ShowNameList_Datatable(data)
+        },
+        error: function () {            
         }
     });
 }

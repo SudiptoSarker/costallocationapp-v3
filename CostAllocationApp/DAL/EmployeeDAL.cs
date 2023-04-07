@@ -96,6 +96,49 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public List<Employee> EmployeeListByNameFilter(string employeeName)
+        {
+            List<Employee> employees = new List<Employee>();
+            string whereSql = "";
+            if (employeeName.ToLower() == "all")
+            {
+                whereSql = "IsActive = 1";
+            }
+            else
+            {
+                whereSql = "FullName like N'%" + employeeName + "%' and IsActive = 1";
+            }
+            string query = "select * from employees where "+ whereSql + "  order by FullName asc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Employee employee = new Employee();
+                            employee.Id = Convert.ToInt32(rdr["Id"]);
+                            employee.FullName = rdr["FullName"].ToString();
+                            employee.CreatedBy = rdr["CreatedBy"].ToString();
+                            employee.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+
+                            employees.Add(employee);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return employees;
+            }
+        }
+
         public int UpdateEmployee(Employee employee)
         {
             int result = 0;

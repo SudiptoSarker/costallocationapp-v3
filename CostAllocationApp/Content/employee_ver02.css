@@ -54,74 +54,89 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-/* #section_name_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-} */
+#name_search {
+    width: 100% !important;
+    text-indent: 1em;
+}
 /***************************\                           
 	Employee List Show
-\***************************/ 
-#employee_list{
+\***************************/
+#employeeList_datatable {
+    //table-layout: fixed;
+}
+#employeelist_thead {
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    /*line-height: -1;*/
+    white-space: nowrap !important;
+}
+#employeelist_tbody {
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    line-height: 0;
+    white-space: nowrap !important;
+}
+#employee_list {
     margin-left: 17px
 }
-#employee_table{
+#employee_tbl{
     width: 85%;
     border-collapse: collapse;
     font-size: 10px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
-#employee_table td, th {
-    border: 1px solid;
-    padding: 0px !important;
-    text-align: center;
-}
+    #employee_tbl td, th {
+        border: 1px solid;
+        padding: 0px !important;
+        text-align: center;
+    }
 
-#employee_table td, th:nth-of-type(9) {
-    text-align: center;
-    width: 20px;
-}
+        #employee_tbl td, th:nth-of-type(9) {
+            text-align: center;
+            width: 20px;
+        }
 
-#employee_table td:nth-of-type(2) {
-    border: 1px solid;
-    padding: 2px !important;
-    text-align: left;
-    text-indent: 1em;
-}
-#employee_table {
+            #employee_tbl td:nth-of-type(2) {
+                border: 1px solid;
+                padding: 2px !important;
+                text-align: left;
+                text-indent: 1em;
+            }
+#employee_tbl {
     width: 85%;
     border-collapse: collapse;
     font-size: 14px;
     border: 1px solid;
 }
 
-#employee_table thead tr:nth-of-type(1) {
-    background-color: #3c4b5d;
-    color: white;
-    text-align: center;
-}
+    #employee_tbl thead tr:nth-of-type(1) {
+        background-color: #3c4b5d;
+        color: white;
+        text-align: center;
+    }
 
-#employee_table thead th:nth-of-type(2) {
-    width: 200px
-}
+    #employee_tbl thead th:nth-of-type(2) {
+        width: 200px
+    }
 
-#employee_table thead th:nth-of-type(3) {
-    width: 100px
-}
+    #employee_tbl thead th:nth-of-type(3) {
+        width: 100px
+    }
 
-#employee_table thead th:nth-of-type(1) {
-    /* width: 45px; */
-    width: 10%;
-}
+    #employee_tbl thead th:nth-of-type(1) {
+        /* width: 45px; */
+        width: 10%;
+    }
 .employee_list_theader{
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
-#employee_list_tbody {
-    text-align: center;
+#employeelist_tbody {
+    text-align: left;
+    text-indent: 1em;
 }
 /***************************\                           
 	Employee List Delete Button
@@ -163,7 +178,7 @@ body {
 #employeeContextMenu ul li:hover {
     background-color: #616161;
 }
-#employee_table tbody tr {
+#employee_tbl tbody tr {
     position: relative;
 }
 

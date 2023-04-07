@@ -147,6 +147,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public bool CheckEmployeeDuplication(string employeeName)
+        {
+            string query = "select * from Employees where FullName=N'" + employeeName + "'";
+            bool result = false;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
 
     }
 }

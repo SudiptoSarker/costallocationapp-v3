@@ -35,5 +35,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.InactiveEmployee(employee);
         }
+        public bool CheckEmployeeDuplication(string employeeName)
+        {
+            return employeeDAL.CheckEmployeeDuplication(employeeName);
+        }
     }
 }

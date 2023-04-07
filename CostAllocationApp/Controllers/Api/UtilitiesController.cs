@@ -940,18 +940,26 @@ namespace CostAllocationApp.Controllers.Api
         {
             if (!String.IsNullOrEmpty(employee.FullName))
             {
-                employee.IsActive = true;
-                employee.CreatedBy = "";
-                employee.CreatedDate = DateTime.Now;
-                int result = employeeBLL.CreateEmployee(employee);
-                if (result>0)
+                if (employeeBLL.CheckEmployeeDuplication(employee.FullName))
                 {
-                    return Ok(result);
+                    return BadRequest("Employee Already Exists!!!");
                 }
                 else
                 {
-                    return BadRequest("Something Went Wrong");
+                    employee.IsActive = true;
+                    employee.CreatedBy = "";
+                    employee.CreatedDate = DateTime.Now;
+                    int result = employeeBLL.CreateEmployee(employee);
+                    if (result > 0)
+                    {
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return BadRequest("Something Went Wrong");
+                    }
                 }
+                
             }
             else
             {

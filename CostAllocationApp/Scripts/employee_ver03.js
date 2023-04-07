@@ -63,8 +63,8 @@ function ShowNameList_Datatable(data){
     $('#employee_table').DataTable({
         destroy: true,
         data: data,
-        ordering: true,
-        orderCellsTop: true,
+        //ordering: true,
+        //orderCellsTop: true,
         pageLength: 10,
         searching: false,
         bLengthChange: false,    

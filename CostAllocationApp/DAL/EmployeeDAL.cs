@@ -64,10 +64,8 @@ namespace CostAllocationApp.DAL
         public List<Employee> GetAllEmployees()
         {
             List<Employee> employees = new List<Employee>();
-            string query = "";
-            query = "SELECT * ";
-            query = query + "FROM Employees ";
-            query = query + "WHERE Isactive=1 ";
+            string query = "select * from employees where IsActive = 1 order by FullName asc";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

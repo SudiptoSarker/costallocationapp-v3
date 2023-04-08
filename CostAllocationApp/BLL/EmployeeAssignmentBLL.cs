@@ -348,51 +348,51 @@ namespace CostAllocationApp.BLL
                     {
                         if (innerCount == 1)
                         {
-                            forecast.Total = $"=J{count}*K{count}";
+                            forecast.Total = $"=K{count}*L{count}";
                         }
                         if (innerCount == 2)
                         {
-                            forecast.Total = $"=J{count}*L{count}";
+                            forecast.Total = $"=K{count}*M{count}";
                         }
                         if (innerCount == 3)
                         {
-                            forecast.Total = $"=J{count}*M{count}";
+                            forecast.Total = $"=K{count}*N{count}";
                         }
                         if (innerCount == 4)
                         {
-                            forecast.Total = $"=J{count}*N{count}";
+                            forecast.Total = $"=K{count}*O{count}";
                         }
                         if (innerCount == 5)
                         {
-                            forecast.Total = $"=J{count}*O{count}";
+                            forecast.Total = $"=K{count}*P{count}";
                         }
                         if (innerCount == 6)
                         {
-                            forecast.Total = $"=J{count}*P{count}";
+                            forecast.Total = $"=K{count}*Q{count}";
                         }
                         if (innerCount == 7)
                         {
-                            forecast.Total = $"=J{count}*Q{count}";
+                            forecast.Total = $"=K{count}*R{count}";
                         }
                         if (innerCount == 8)
                         {
-                            forecast.Total = $"=J{count}*R{count}";
+                            forecast.Total = $"=K{count}*S{count}";
                         }
                         if (innerCount == 9)
                         {
-                            forecast.Total = $"=J{count}*S{count}";
+                            forecast.Total = $"=K{count}*T{count}";
                         }
                         if (innerCount == 10)
                         {
-                            forecast.Total = $"=J{count}*T{count}";
+                            forecast.Total = $"=K{count}*U{count}";
                         }
                         if (innerCount == 11)
                         {
-                            forecast.Total = $"=J{count}*U{count}";
+                            forecast.Total = $"=K{count}*V{count}";
                         }
                         if (innerCount == 12)
                         {
-                            forecast.Total = $"=J{count}*V{count}";
+                            forecast.Total = $"=K{count}*W{count}";
                         }
                         innerCount++;
                     }

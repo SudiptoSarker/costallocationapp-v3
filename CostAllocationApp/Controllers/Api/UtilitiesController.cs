@@ -870,7 +870,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.AssignmentId;
-                        employeeAssignment.Remarks = "";
+                        employeeAssignment.Remarks = item.Remarks;
                         employeeAssignment.UpdatedBy = "";
                         employeeAssignment.UpdatedDate = DateTime.Now;
                         employeeAssignment.EmployeeId = item.EmployeeId;
@@ -1072,7 +1072,7 @@ namespace CostAllocationApp.Controllers.Api
                     employeeAssignment.SubCode = 1;
                     employeeAssignment.CreatedBy = "";
                     employeeAssignment.CreatedDate = DateTime.Now;
-                    employeeAssignment.Remarks = "";
+                    employeeAssignment.Remarks = item.Remarks;
 
 
                     int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);

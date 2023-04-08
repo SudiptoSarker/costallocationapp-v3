@@ -18,7 +18,7 @@ namespace CostAllocationApp.Dtos
         public decimal UnitPrice { get; set; }
         public int? GradeId { get; set; }
         public bool IsActive { get; set; }
-        //public string Remarks { get; set; }
+        public string Remarks { get; set; }
         //public int SubCode { get; set; }
         public string Year { get; set; }
 

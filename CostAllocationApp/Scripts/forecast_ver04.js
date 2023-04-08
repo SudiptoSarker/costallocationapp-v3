@@ -1895,7 +1895,6 @@ $(document).ready(function () {
         // var year = $('#hidForecastYear').val();
 
         if (year == '' || year == undefined) {
-
             alert('select year');
             return false;
         }
@@ -2040,14 +2039,14 @@ $(document).ready(function () {
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-                { title: "Remarks", type: "text", name: "Remarks", width: 150 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 85 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 85 },
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 85 },
-                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 85 },
+                { title: "Remarks", type: "text", name: "Remarks", width: 60 },
+                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
+                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
+                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
+                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60 },
                 { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
-                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 85 },
-                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId" },
+                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
+                { title: "グレード(Grade)", type: "dropdown", source: gradesForJexcel, name: "GradeId", width: 60  },
                 { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
                 {
                     title: "10月",
@@ -2131,14 +2130,15 @@ $(document).ready(function () {
                     type: "decimal",
                     name: "SepPoints",
                     mask: '#.##,0',
-                    decimal: '.'
+                    decimal: '.'                    
                 },
                 {
                     title: "10月",
                     type: "number",
                     //readOnly: true,
                     mask: "#,##0",
-                    name: "OctTotal"
+                    name: "OctTotal",
+                    width: 60
                 },
                 {
                     title: "11月",
@@ -2718,10 +2718,12 @@ $(document).ready(function () {
                         }
                     });
                 }
-
+                
                 return items;
             }
         });
+        
+        $("#update_forecast_history").css("display", "block");
 
         jss.deleteColumn(36, 15);
     }
@@ -2852,6 +2854,9 @@ $(document).ready(function () {
 
 
     $('#update_forecast_history').on('click', function () {
+        
+        $("#loading").css("display", "block");       
+        
         console.log(jssInsertedData);
         var dateObj = new Date();
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -2920,7 +2925,7 @@ $(document).ready(function () {
                 jssUpdatedData = [];
             }
         }
-
+        $("#loading").css("display", "none");
 
 
     });

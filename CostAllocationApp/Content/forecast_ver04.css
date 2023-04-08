@@ -1330,14 +1330,7 @@ td {
     width: 150px;
 }
 
-#jspreadsheet {
-    z-index: 10;
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    /* line-height: -1; */
-    white-space: nowrap !important;
-}
+
 
 /* #sectionChks{
     position: absolute;
@@ -1800,7 +1793,7 @@ table.dataTable > thead .sorting .sorting_desc, {
 }
 
 /*-----------jSpreadsheet---------------*/
-
+/* 
 #jspreadsheet tbody tr td:nth-of-type(2) {
     text-align:left !important;
 }
@@ -1848,7 +1841,7 @@ table.dataTable > thead .sorting .sorting_desc, {
 }
 #jspreadsheet tbody tr td:nth-of-type(34) {
     text-align:right !important;
-}
+} */
 
 /*--------forecast multi search filter design---------*/
 #forecast_search_tbody{
@@ -1904,4 +1897,40 @@ table.dataTable > thead .sorting .sorting_desc, {
 
 .select2-container{
     width:100% !important;
+}
+
+/***************************\                           
+	Employee Registration : Modal Deisgn
+\***************************/
+.jexcel {
+    z-index: 10;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    /* line-height: -1; */
+    white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(3) {
+    text-align:left !important;
+}
+.jexcel tbody tr td:nth-of-type(4) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(5) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(6) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(7) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(8) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(9) {
+    text-align:left !important;
+}
+.jexcel tbody tr td:nth-of-type(12) {
+    text-align:right !important;
 }

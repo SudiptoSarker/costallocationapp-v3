@@ -5,6 +5,7 @@ var jss;
 var globalX = 0;
 var globalY = 0;
 var newRowCount = 1;
+var beforeChangedValue = 0;
 
 function DismissOtherDropdown(requestType) {
     var section_display = "";
@@ -1941,7 +1942,7 @@ $(document).ready(function () {
         if (_retriveddata.length > 0) {
             var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
             var total = _retriveddata.find(x => x.EmployeeName == 'Total');
-            $("#head_total").css("display", "block");
+            $("#head_total").css("display", "inline-table");
             $('#head_total tbody').append(`<tr>
                     <td>Head Count</td>
                     <td>${headCount.OctPoints}</td>
@@ -2262,6 +2263,46 @@ $(document).ready(function () {
             ],
             minDimensions: [6, 10],
             columnSorting: true,
+            onbeforechange: function (instance, cell, x, y, value) {
+                
+                //alert(value);
+                if (x==11) {
+                    beforeChangedValue = jss.getValueFromCoords(x,y);
+                }
+                if (x == 12) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 13) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 14) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 15) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 16) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 17) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 18) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 19) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 20) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 21) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 22) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+            },
             onchange: function (instance, cell, x, y, value) {
                 //debugger;
                 var checkId = jss.getValueFromCoords(0, y);
@@ -2373,7 +2414,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                                 
                             }
                             else {
@@ -2401,7 +2442,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2426,7 +2467,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2451,7 +2492,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2476,7 +2517,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2501,7 +2542,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2526,7 +2567,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2550,7 +2591,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2575,7 +2616,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2599,7 +2640,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2624,7 +2665,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {
@@ -2649,7 +2690,7 @@ $(document).ready(function () {
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
                                 alert('Input not valid');
-                                jss.setValueFromCoords(x, y, '0', false);
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
                                 if (dataCheck.length == 0) {

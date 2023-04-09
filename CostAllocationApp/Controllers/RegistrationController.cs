@@ -13,5 +13,11 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        public JsonResult SetSession(string userName)
+        {
+            Session["userName"] = userName;
+            return Json("",JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -94,7 +94,17 @@
                             });
                             $(".username-error").hide();
                             $(".password-error").hide();
+                            $.ajax({
+                                url: `/Registration/SetSession`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                data: { userName: loginUserName },
+                                success: function () {
 
+                                }
+                            });
                             window.location.href = "/Dashboard/Index";
                         }
                         else {

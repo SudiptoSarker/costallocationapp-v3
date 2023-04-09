@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.BLL;
 using CostAllocationApp.Models;
+using System;
 
 namespace CostAllocationApp.Controllers.Api
 {
@@ -26,7 +27,6 @@ namespace CostAllocationApp.Controllers.Api
                 userCheck = _userBLL.CheckUser(user.UserName.ToString(), user.Password.ToString());
                 if (userCheck==true)
                 {
-                    Session["userName"] = user.UserName;
                     var result = _userBLL.CreateUserLog(user.UserName);
                 }
             }

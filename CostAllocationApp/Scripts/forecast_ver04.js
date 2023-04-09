@@ -2658,16 +2658,27 @@ $(document).ready(function () {
                     title: '同じ要員を複製する(emp duplication)',
                     onclick: function () {
                         //debugger;
+                        var allData = jss.getData();
                         let nextRow = parseInt(y) + 1;
 
                         obj.insertRow(1, parseInt(y));
 
                         var retrivedData = retrivedObject(jss.getRowData(y));
                         retrivedData.assignmentId = "new-" + newRowCount;
+                        debugger;
+                        var allSpecificObjectsCount = 0;
+                        for (let x of allData) {
+                            console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+                                allSpecificObjectsCount++;
+                            }
+                        }
 
-
+                        var firstIndex = retrivedData.employeeName.indexOf('(');
+                        var totalLength = retrivedData.employeeName.length;
+                        retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - firstIndex));
                         obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount+1})`, false);
                         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
                         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
@@ -2852,6 +2863,11 @@ $(document).ready(function () {
         };
     }
 
+    //$.connection.chatHub.disconnected(function () {
+    //    setTimeout(function () {
+    //        $.connection.hub.start();
+    //    }, 3000); // Restart connection after 3 seconds.
+    //});
 
     $('#update_forecast_history').on('click', function () {
         

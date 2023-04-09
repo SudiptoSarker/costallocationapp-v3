@@ -33,10 +33,17 @@
     <script src="/Scripts/Custome-Reporting.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
 
         $(function () {
             var chat = $.connection.chatHub;
-            $.connection.hub.start();
+            //$.connection.hub.start();
+            //debugger;
+            //console.log(chat);
             chat.client.addNewMessageToPage = function (name, message) {
                 alert(name + ' logged in');
                 $.ajax({

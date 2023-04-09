@@ -35,8 +35,7 @@
                             </a>
                             <ul style="display: none;">
                                 @{
-                                    string forecastViewType = Request.QueryString["forecastType"];
-                                    Response.Write("<br>forecastViewType: " + forecastViewType);
+                                    string forecastViewType = Request.QueryString["forecastType"];                                    
 
                                     if (url.ToLower().Contains("createforecast") && forecastViewType.ToLower() == "imprt")
                                     {

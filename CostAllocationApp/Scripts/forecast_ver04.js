@@ -1940,6 +1940,7 @@ $(document).ready(function () {
         if (_retriveddata.length > 0) {
             var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
             var total = _retriveddata.find(x => x.EmployeeName == 'Total');
+            $("#head_total").css("display", "block");
             $('#head_total tbody').append(`<tr>
                                                 <td>Head Count</td>
                                                 <td>${headCount.OctPoints}</td>
@@ -2197,6 +2198,7 @@ $(document).ready(function () {
                     title: "1月",
                     type: "decimal",
                     //readOnly: true,
+                    mask: "#,##0",
                     name: "JanTotal"
                 },
                 {
@@ -2217,6 +2219,7 @@ $(document).ready(function () {
                     title: "4月",
                     type: "decimal",
                     //readOnly: true,
+                    mask: "#,##0",
                     name: "AprTotal"
                 },
                 {
@@ -2237,6 +2240,7 @@ $(document).ready(function () {
                     title: "7月",
                     type: "decimal",
                     //readOnly: true,
+                    mask: "#,##0",
                     name: "JulTotal"
                 },
                 {

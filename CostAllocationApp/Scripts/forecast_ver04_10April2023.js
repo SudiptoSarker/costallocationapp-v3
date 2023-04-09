@@ -2707,27 +2707,19 @@ $(document).ready(function () {
                         obj.insertRow(1, parseInt(y));
 
                         var retrivedData = retrivedObject(jss.getRowData(y));
-                        
                         retrivedData.assignmentId = "new-" + newRowCount;
                         debugger;
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            //console.log(x);
+                            console.log(x);
                             if (x[35] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                             }
                         }
 
-                        //var firstIndex = retrivedData.employeeName.indexOf('(');
-                        var firstIndex = retrivedData.employeeName.lastIndexOf(' ');
+                        var firstIndex = retrivedData.employeeName.indexOf('(');
                         var totalLength = retrivedData.employeeName.length;
-                        console.log("retrivedData1: "+retrivedData.employeeName);
-                        console.log("totalLength: "+totalLength);
-                        console.log("firstIndex: "+firstIndex);
-
                         retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - firstIndex));
-                        console.log("retrivedData2: "+retrivedData.employeeName);
-                        
                         obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                         obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount+1})`, false);
                         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);

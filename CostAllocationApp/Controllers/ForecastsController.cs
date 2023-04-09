@@ -361,5 +361,26 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+        public ActionResult ActualCosts()
+        {
+            string requestType = Request.QueryString["forecastType"];
+
+            if (TempData["seccess"] != null)
+            {
+                ViewBag.Success = TempData["seccess"];
+            }
+            else
+            {
+                ViewBag.Success = null;
+
+            }
+            ForecastViewModal forecastViewModal = new ForecastViewModal
+            {
+                _sections = sectionBLL.GetAllSections()
+            };
+            ViewBag.ErrorCount = 0;
+            ViewBag.ImportViewOrForecastView = requestType;
+            return View(forecastViewModal);
+        }
     }
 }

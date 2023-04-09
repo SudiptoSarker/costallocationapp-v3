@@ -155,6 +155,7 @@ namespace CostAllocationApp.BLL
             {
                 employees = employees.OrderBy(e => e.EmployeeName).GroupBy(e=>e.EmployeeName).SelectMany(e=>e).ToList();
             }
+
             if (employees.Count > 0)
             {
                 string previousEmployeeName = "";
@@ -165,7 +166,8 @@ namespace CostAllocationApp.BLL
                     {
                         previousEmployeeName = item.EmployeeName;
                         count = 1;
-                        item.EmployeeName = item.EmployeeName + " (" + count + ")";
+                        //item.EmployeeName = item.EmployeeName + " (" + count + ")";
+                        item.EmployeeName = item.EmployeeName;
                         count++;
                         
                     }

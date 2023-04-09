@@ -725,6 +725,7 @@
     <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
     <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
     <Content Include="Views\Forecasts\GetHistories.cshtml" />
+    <Content Include="Views\Forecasts\ActualCosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

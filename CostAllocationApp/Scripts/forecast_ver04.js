@@ -1877,6 +1877,8 @@ $(document).ready(function () {
     var jssInsertedData = [];
 
     function ShowForecastResults() {
+        LoaderShow();
+        
         var employeeName = $('#name_search').val();
         employeeName = "";
         var sectionId = $('#section_multi_search').val();
@@ -1899,7 +1901,6 @@ $(document).ready(function () {
             return false;
         }
 
-        LoaderShow();
 
         $('#cancel_forecast').css('display', 'inline-block');
         $('#save_forecast').css('display', 'inline-block');
@@ -1942,36 +1943,36 @@ $(document).ready(function () {
             var total = _retriveddata.find(x => x.EmployeeName == 'Total');
             $("#head_total").css("display", "block");
             $('#head_total tbody').append(`<tr>
-                                                <td>Head Count</td>
-                                                <td>${headCount.OctPoints}</td>
-                                                <td>${headCount.NovPoints}</td>
-                                                <td>${headCount.DecPoints}</td>
-                                                <td>${headCount.JanPoints}</td>
-                                                <td>${headCount.FebPoints}</td>
-                                                <td>${headCount.MarPoints}</td>
-                                                <td>${headCount.AprPoints}</td>
-                                                <td>${headCount.MayPoints}</td>
-                                                <td>${headCount.JunPoints}</td>
-                                                <td>${headCount.JulPoints}</td>
-                                                <td>${headCount.AugPoints}</td>
-                                                <td>${headCount.SepPoints}</td>
-                                            </tr>`);
+                    <td>Head Count</td>
+                    <td>${headCount.OctPoints}</td>
+                    <td>${headCount.NovPoints}</td>
+                    <td>${headCount.DecPoints}</td>
+                    <td>${headCount.JanPoints}</td>
+                    <td>${headCount.FebPoints}</td>
+                    <td>${headCount.MarPoints}</td>
+                    <td>${headCount.AprPoints}</td>
+                    <td>${headCount.MayPoints}</td>
+                    <td>${headCount.JunPoints}</td>
+                    <td>${headCount.JulPoints}</td>
+                    <td>${headCount.AugPoints}</td>
+                    <td>${headCount.SepPoints}</td>
+                </tr>`);
 
             $('#head_total tbody').append(`<tr>
-                                                <td>Total</td>
-                                                <td>${headCount.OctPoints}</td>
-                                                <td>${headCount.NovPoints}</td>
-                                                <td>${headCount.DecPoints}</td>
-                                                <td>${headCount.JanPoints}</td>
-                                                <td>${headCount.FebPoints}</td>
-                                                <td>${headCount.MarPoints}</td>
-                                                <td>${headCount.AprPoints}</td>
-                                                <td>${headCount.MayPoints}</td>
-                                                <td>${headCount.JunPoints}</td>
-                                                <td>${headCount.JulPoints}</td>
-                                                <td>${headCount.AugPoints}</td>
-                                                <td>${headCount.SepPoints}</td>
-                                            </tr>`);
+                <td>Total</td>
+                <td>${headCount.OctPoints}</td>
+                <td>${headCount.NovPoints}</td>
+                <td>${headCount.DecPoints}</td>
+                <td>${headCount.JanPoints}</td>
+                <td>${headCount.FebPoints}</td>
+                <td>${headCount.MarPoints}</td>
+                <td>${headCount.AprPoints}</td>
+                <td>${headCount.MayPoints}</td>
+                <td>${headCount.JunPoints}</td>
+                <td>${headCount.JulPoints}</td>
+                <td>${headCount.AugPoints}</td>
+                <td>${headCount.SepPoints}</td>
+            </tr>`);
 
             _retriveddata = _retriveddata.filter(d => d.EmployeeId!==0);
         }
@@ -2719,17 +2720,31 @@ $(document).ready(function () {
                         }
 
                         //var firstIndex = retrivedData.employeeName.indexOf('(');
-                        var firstIndex = retrivedData.employeeName.lastIndexOf(' ');
+                        var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
                         var totalLength = retrivedData.employeeName.length;
                         console.log("retrivedData1: "+retrivedData.employeeName);
                         console.log("totalLength: "+totalLength);
-                        console.log("firstIndex: "+firstIndex);
+                        //console.log("firstIndex: "+firstIndex);
 
-                        retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - firstIndex));
-                        console.log("retrivedData2: "+retrivedData.employeeName);
+                        if(lastIndex<0){
+                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount+1}`, false);
+                        }
+                        else{
+                            var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
+                            if(isNaN(empNumber)){
+                                obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount+1}`, false);
+                            }
+                            else{
+                                retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
+                                obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount+1}`, false);
+                                console.log("retrivedData2: "+retrivedData.employeeName);
+                               
+                            }
+                        }
+                       
+                        
                         
                         obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount+1})`, false);
                         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
                         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
@@ -2788,6 +2803,7 @@ $(document).ready(function () {
         $("#update_forecast_history").css("display", "block");
 
         jss.deleteColumn(36, 15);
+        LoaderHide();
     }
 
     var deleted = function (instance, x, y, value) {

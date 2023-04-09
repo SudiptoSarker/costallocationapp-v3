@@ -101,5 +101,56 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>   
-    <script src="/Scripts/departments_ver02.js"></script>         
+    <script src="/Scripts/departments_ver02.js"></script>   
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+
+                    $('#user_log').empty();
+                    $.each(data,(index, value) => {
+                        $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                    });
+
+                }
+            });
+                    
+        });
+        $.connection.hub.disconnected(function () {
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000); // Restart connection after 5 seconds.
+            });
+
+            $(function () {
+                var chat = $.connection.chatHub;
+                //$.connection.hub.start();
+                //debugger;
+                //console.log(chat);
+                chat.client.addNewMessageToPage = function (name, message) {
+                    alert(name + ' logged in');
+                    $.ajax({
+                        url: `/api/utilities/GetUserLogs/`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#user_log').empty();
+                            $.each(data, (index, value) => {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            });
+
+                        }
+                    });
+                };
+            });
+    </script>      
 }

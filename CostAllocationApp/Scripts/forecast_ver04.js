@@ -1936,6 +1936,45 @@ $(document).ready(function () {
                 _retriveddata = data;
             }
         });
+
+        if (_retriveddata.length > 0) {
+            var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
+            var total = _retriveddata.find(x => x.EmployeeName == 'Total');
+            $('#head_total tbody').append(`<tr>
+                                                <td>Head Count</td>
+                                                <td>${headCount.OctPoints}</td>
+                                                <td>${headCount.NovPoints}</td>
+                                                <td>${headCount.DecPoints}</td>
+                                                <td>${headCount.JanPoints}</td>
+                                                <td>${headCount.FebPoints}</td>
+                                                <td>${headCount.MarPoints}</td>
+                                                <td>${headCount.AprPoints}</td>
+                                                <td>${headCount.MayPoints}</td>
+                                                <td>${headCount.JunPoints}</td>
+                                                <td>${headCount.JulPoints}</td>
+                                                <td>${headCount.AugPoints}</td>
+                                                <td>${headCount.SepPoints}</td>
+                                            </tr>`);
+
+            $('#head_total tbody').append(`<tr>
+                                                <td>Total</td>
+                                                <td>${headCount.OctPoints}</td>
+                                                <td>${headCount.NovPoints}</td>
+                                                <td>${headCount.DecPoints}</td>
+                                                <td>${headCount.JanPoints}</td>
+                                                <td>${headCount.FebPoints}</td>
+                                                <td>${headCount.MarPoints}</td>
+                                                <td>${headCount.AprPoints}</td>
+                                                <td>${headCount.MayPoints}</td>
+                                                <td>${headCount.JunPoints}</td>
+                                                <td>${headCount.JulPoints}</td>
+                                                <td>${headCount.AugPoints}</td>
+                                                <td>${headCount.SepPoints}</td>
+                                            </tr>`);
+
+            _retriveddata = _retriveddata.filter(d => d.EmployeeId!==0);
+        }
+
         var sectionsForJexcel = [];
         var departmentsForJexcel = [];
         var inchargesForJexcel = [];

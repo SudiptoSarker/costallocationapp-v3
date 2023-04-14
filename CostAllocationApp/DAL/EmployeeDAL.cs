@@ -215,6 +215,30 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public bool CheckUserNameDuplication(string userName)
+        {
+            string query = "select * from Users where UserName=N'" + userName + "'";
+            bool result = false;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
 
     }
 }

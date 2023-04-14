@@ -88,7 +88,7 @@
             \***************************/
             <div class="row">
                 <div class="col-md-12" >
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;" data-toggle="modal" data-target="#update_forecast">save</button>
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;" data-toggle="modal" data-target="#delete_section">save</button>
                 </div>
 
                 <div class="col-md-12">
@@ -172,38 +172,25 @@
         </div>
     </div>
 </div>
-
-<!-----------------Modal: Update Forecast Confirm Dialog box----------------->
-<div class="modal custom-modal fade" id="update_forecast" role="dialog">
+@* <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">Delete</a> *@
+<!-----------------Modal: Delete sections----------------->
+<div class="modal custom-modal fade" id="delete_section" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>年度データー(Emp. Assignments)</h3>
+                    <h3>Delete Section</h3>
                     <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
-                    <style>
-                        .forecast_save_confirm_text{
-                            text-align: left;
-                        }
-                    </style>
-                    <label class="forecast_save_confirm_text">
-                        Edited and saved by <span id="last_edited_user">user1</span> 
-                        <br>                       
-                        データを上書きをする可能性があります。
-                        <br>
-                        戻るボタンをクリックし、変更履歴をチェックし、問題がないことを確認できます。
-                        <br>
-                        今、保存しますか？
-                    </label>
+                    <p>Are you sure want to delete?</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()" href="/Forecasts/GetHistories" >戻る(Back)</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">Delete</a>
                         </div>
                     </div>
                 </div>
@@ -214,7 +201,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/forecast_ver06.js"></script>
+    <script src="/Scripts/forecast_ver04.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
 

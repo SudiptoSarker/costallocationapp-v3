@@ -28,5 +28,13 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.GetUserLogs();
         }
+        public int CreateUserName(User user)
+        {
+            return userDAL.CreateUserName(user);
+        }
+        public List<User> GetAllUsers()
+        {
+            return userDAL.GetAllUsers();
+        }
     }
 }

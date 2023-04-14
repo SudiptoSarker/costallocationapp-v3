@@ -204,6 +204,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalariesController.cs" />
     <Compile Include="Controllers\SectionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\CompanyDAL.cs" />
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DepartmentDAL.cs" />
@@ -726,13 +727,14 @@
     <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
     <Content Include="Views\Forecasts\GetHistories.cshtml" />
     <Content Include="Views\Forecasts\ActualCosts.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\CreateUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Explanation\" />
     <Folder Include="Views\Exports\" />
     <Folder Include="Views\InCharge\" />
-    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -39,23 +39,23 @@
 
                                     if (url.ToLower().Contains("createforecast") && forecastViewType.ToLower() == "imprt")
                                     {
-                                        <li><a href="/Forecasts/CreateForecast?forecastType=imprt" class="active" title="Import Yearly Data">Import Yearly Data</a></li>
+                                        <li><a href="/Forecasts/CreateForecast?forecastType=imprt" class="active" title="Import Yearly Data">予算策定・編集 (Budget)</a></li>
                                     }
                                     else
                                     {
                                         <li>
-                                            <a href="/Forecasts/CreateForecast?forecastType=imprt" title="Import Yearly Data">Import Yearly Data</a>
+                                            <a href="/Forecasts/CreateForecast?forecastType=imprt" title="Import Yearly Data">予算策定・編集 (Budget)</a>
                                         </li>
                                     }
 
                                     if (url.ToLower().Contains("createforecast") && forecastViewType.ToLower() == "2023")
                                     {
-                                        <li><a href="/Forecasts/CreateForecast?forecastType=2023" class="active" title="2023">2023</a></li>
+                                        <li><a href="/Forecasts/CreateForecast?forecastType=2023" class="active" title="年度データの編集 (Edit)">年度データの編集 (Edit)</a></li>
                                     }
                                     else
                                     {
                                         <li>
-                                            <a href="/Forecasts/CreateForecast?forecastType=2023" title="2023">2023</a>
+                                            <a href="/Forecasts/CreateForecast?forecastType=2023" title="年度データの編集 (Edit)">年度データの編集 (Edit)</a>
                                         </li>
                                     }
                                 }
@@ -65,16 +65,16 @@
                         if (url.ToLower().Contains("gethistories"))
                         {
                             <li>
-                                <a href="/Forecasts/GetHistories" class="active"><i class="la la-files-o"></i><span title="履歴年度データー (History)">履歴年度データー (History)</span></a>
+                                <a href="/Forecasts/GetHistories" class="active"><i class="la la-files-o"></i><span title="変更履歴 (Change History)">変更履歴 (Change History)</span></a>
                             </li>
                         }
                         else
                         {
                             <li>
-                                <a href="/Forecasts/GetHistories"><i class="la la-files-o"></i> <span title="履歴年度データー (History)">履歴年度データー (History)</span></a>
+                                <a href="/Forecasts/GetHistories"><i class="la la-files-o"></i> <span title="変更履歴 (Change History)">変更履歴 (Change History)</span></a>
                             </li>
                         }
-                        if (url.ToLower().Contains("actualcosts"))
+                        @* if (url.ToLower().Contains("actualcosts"))
                         {
                             <li>
                                 <a href="/Forecasts/ActualCosts" class="active"><i class="la la-files-o"></i><span title="実績作成 (Actual Cost)">実績作成 (Actual Cost)</span></a>
@@ -85,7 +85,7 @@
                             <li>
                                 <a href="/Forecasts/ActualCosts"><i class="la la-files-o"></i> <span title="実績作成 (Actual Cost)">実績作成 (Actual Cost)</span></a>
                             </li>
-                        }
+                        } *@
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="la la-files-o"></i>
@@ -160,6 +160,14 @@
                                     else
                                     {
                                         <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Name Mast)">人員マスター (Name Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createusers"))
+                                    {
+                                        <li><a href="/Users/CreateUsers" class="active" title="利用者マスター（User Mast">利用者マスター（User Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Users/CreateUsers" title="利用者マスター（User Mast">利用者マスター（User Mast)</a></li>
                                     }
                                 }
                             </ul>

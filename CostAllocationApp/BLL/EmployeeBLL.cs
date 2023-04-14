@@ -17,7 +17,7 @@ namespace CostAllocationApp.BLL
         public int CreateEmployee(Employee employee)
         {
             return employeeDAL.CreateEmployee(employee);
-        }
+        }        
         public List<Employee> GetAllEmployees()
         {
             return employeeDAL.GetAllEmployees();
@@ -38,6 +38,10 @@ namespace CostAllocationApp.BLL
         public bool CheckEmployeeDuplication(string employeeName)
         {
             return employeeDAL.CheckEmployeeDuplication(employeeName);
+        }
+        public bool CheckUserNameDuplication(string userName)
+        {
+            return employeeDAL.CheckUserNameDuplication(userName);
         }
         public List<Employee> EmployeeListByNameFilter(string employeeName)
         {

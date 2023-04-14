@@ -922,6 +922,85 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
 
+        [HttpPost]
+        [Route("api/utilities/UpdateForecastData/")]
+        public IHttpActionResult UpdateForecastData(ForecastHistoryDto forecastHistoryDto)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string message = "Something went wrong!!!";
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
+            {
+                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
+                {
+                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                    {
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        employeeAssignment.Id = item.AssignmentId;
+                        employeeAssignment.Remarks = item.Remarks;
+                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedDate = DateTime.Now;
+                        employeeAssignment.EmployeeId = item.EmployeeId;
+                        employeeAssignment.SectionId = item.SectionId;
+                        employeeAssignment.DepartmentId = item.DepartmentId;
+                        employeeAssignment.InchargeId = item.InchargeId;
+                        employeeAssignment.RoleId = item.RoleId;
+                        employeeAssignment.ExplanationId = item.ExplanationId;
+                        employeeAssignment.CompanyId = item.CompanyId;
+                        employeeAssignment.GradeId = item.GradeId;
+                        employeeAssignment.UnitPrice = item.UnitPrice;
+                        int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 11, item.NovPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 12, item.DecPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 1, item.JanPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 2, item.FebPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 3, item.MarPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 4, item.AprPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 5, item.MayPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 6, item.JunPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 7, item.JulPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 8, item.AugPoint));
+                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 9, item.SepPoint));
+
+
+                    }
+
+                    ForecastHisory forecastHisory = new ForecastHisory();
+                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                    forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                    forecastHisory.Forecasts = forecasts;
+                    forecastHisory.CreatedBy = "";
+                    forecastHisory.CreatedDate = DateTime.Now;
+                    forecastHisory.UpdatedDate = DateTime.Now;
+                    //int resultEdit = forecastBLL.UpdateForecast(forecastHisory.Forecasts);
+                    int resultEdit = 0;
+                    foreach (var item in forecastHisory.Forecasts)
+                    {
+                        var result = forecastBLL.CheckAssignmentId(item.EmployeeAssignmentId, item.Year,item.Month);
+                        if (result == true)
+                        {
+                            resultEdit = forecastBLL.UpdateForecast(item);
+                        }
+                        else
+                        {
+                            int resultSave = forecastBLL.CreateForecast(item);
+                        }                        
+                    }
+                    //var result = forecastBLL.CreateTimeStamp(forecastHisory);
+
+                    if (resultEdit > 0)
+                    {
+                        message = "Data Saved Successfully!!!";
+                    }
+                }
+            }
+
+
+
+            return Ok(message);
+        }
+
         [HttpGet]
         public IHttpActionResult GetTimeStamps(int year)
         {
@@ -986,6 +1065,40 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+          [HttpPost]
+        [Route("api/utilities/CreateUserName/")]
+        public IHttpActionResult CreateUserName(User user)
+        {
+            if (!String.IsNullOrEmpty(user.UserName))
+            {
+                if (employeeBLL.CheckUserNameDuplication(user.UserName))
+                {
+                    return BadRequest("User Name Already Exists!!!");
+                }
+                else
+                {
+                    user.IsActive = true;
+                    user.CreatedBy = "";
+                    user.CreatedDate = DateTime.Now;
+                    int result = userBLL.CreateUserName(user);
+                    if (result > 0)
+                    {
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return BadRequest("Something Went Wrong");
+                    }
+                }
+                
+            }
+            else
+            {
+                return BadRequest("Invalid Employee Name");
+            }
+        }
+
+
         [HttpGet]
         [Route("api/utilities/EmployeeList/")]
         public IHttpActionResult GetEmployeeList()
@@ -1000,7 +1113,20 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
-
+        [HttpGet]
+        [Route("api/utilities/GetUserList/")]
+        public IHttpActionResult GetUserList()
+        {
+            List<User> users = userBLL.GetAllUsers();
+            if (users.Count > 0)
+            {
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]
         public IHttpActionResult UpdateEmployee(Employee employee)

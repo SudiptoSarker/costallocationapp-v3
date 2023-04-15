@@ -3304,3 +3304,21 @@ function UpdateForecast(){
 function CompareUpdatedData(){
     window.location.replace("/Forecasts/GetHistories");
 }
+function ImportCSVFile(){
+    $.ajax({
+        url: `/Forecasts/Index/`,
+        contentType: 'application/json',
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        data: JSON.stringify(jssInsertedData),
+        success: function (data) {
+            var chat = $.connection.chatHub;
+            $.connection.hub.start();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                chat.server.send('data has been inserted by', 'user');
+            });
+        }
+    });
+}

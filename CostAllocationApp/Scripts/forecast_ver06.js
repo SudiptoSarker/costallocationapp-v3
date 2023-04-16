@@ -3319,29 +3319,8 @@ function UpdateForecast(){
     $("#loading").css("display", "none");
 
 }
-function CompareUpdatedData() {
-    
-    //window.location.replace("/Forecasts/GetHistories");
-    if (jssUpdatedData.length > 0) {
-        $('#display_matched_rows').css('display', 'block');
-
-        $.ajax({
-            // url: `/api/utilities/CreateHistory`,
-            url: `/api/utilities/GetMatchedRows`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
-            success: function (data) {
-                $('#display_matched_rows table tbody').empty();
-                $.each(data, function (index, element) {
-                    console.log(element);
-                    $('#display_matched_rows table tbody').append(`<tr><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
-                });
-            }
-        });
-    }
+function CompareUpdatedData(){
+    window.location.replace("/Forecasts/GetHistories");
 }
 function ImportCSVFile(){
     $.ajax({

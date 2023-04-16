@@ -221,7 +221,7 @@ namespace CostAllocationApp.Controllers
                             }
                             else
                             {
-                                CreateAssignmentForExcelUpload(_uploadExcel, i, assignmentViewModels.Count, upload_year);
+                                CreateAssignmentForExcelUpload(_uploadExcel, i, upload_year);
                                 tempAssignmentId = employeeAssignmentBLL.GetLastId();
                             }
 
@@ -282,7 +282,7 @@ namespace CostAllocationApp.Controllers
                     //DataTable tmp = result.Tables[0];
                     //Session["tmpdata"] = tmp;  //store datatable into session
                     TempData["seccess"] = "Data imported successfully";
-                    return RedirectToAction("CreateForecast", new { forecastType = "imprt" });
+                    return RedirectToAction("CreateForecast");
                 }
                 else
                 {
@@ -290,8 +290,7 @@ namespace CostAllocationApp.Controllers
                     ModelState.AddModelError("File", "invalid File or Year");
                 }
             }
-            //return View("CreateForecast", forecastViewModal);
-            return View("CreateForecast",new { forecastType = "imprt" });
+            return View("CreateForecast", forecastViewModal);
         }
 
         public void SendToApi(int assignmentId, string row, int year)
@@ -348,7 +347,7 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = "";
-            employeeAssignment.Year = upload_year.ToString();
+            employeeAssignment.Year = dt_;
 
             int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             if (result == 0)

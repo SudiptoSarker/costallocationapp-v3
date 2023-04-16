@@ -3320,29 +3320,8 @@ function UpdateForecast(){
     $("#loading").css("display", "none");
 
 }
-function CompareUpdatedData() {
-    
-    //window.location.replace("/Forecasts/GetHistories");
-    if (jssUpdatedData.length > 0) {
-        $('#display_matched_rows').css('display', 'block');
-
-        $.ajax({
-            // url: `/api/utilities/CreateHistory`,
-            url: `/api/utilities/GetMatchedRows`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
-            success: function (data) {
-                $('#display_matched_rows table tbody').empty();
-                $.each(data, function (index, element) {
-                    console.log(element);
-                    $('#display_matched_rows table tbody').append(`<tr><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
-                });
-            }
-        });
-    }
+function CompareUpdatedData(){
+    window.location.replace("/Forecasts/GetHistories");
 }
 function ImportCSVFile(){
     $.ajax({
@@ -3361,64 +3340,4 @@ function ImportCSVFile(){
             });
         }
     });
-}
-
-function GetAllForecastYears() {
-    $.ajax({
-        url: `/api/utilities/GetForecatYear`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            $('#assignment_year_list').append(`<option value=''>select year</option>`);
-            $.each(data, function (index, element) {
-                $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-            });
-        }
-    });
-}
-function CheckForecastYear(){
-    var year = $('#assignment_year_list').find(":selected").val();
-    if(year!=""){
-        $('#inputState').val(parseInt(year)+1);
-    }
-}
-function ValidateYear(){
-    var selectedYear = $('#inputState').find(":selected").val();
-    if(selectedYear ==""){
-        return false;
-    }
-    
-}
-function CheckDuplicateYear(){
-    var year = $('#assignment_year_list').find(":selected").val();
-    if(year!=""){
-        $('#duplciateYear').val(parseInt(year)+1);
-    }
-}
-function DuplicateForecast(){
-    var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#assignment_year_list').find(":selected").val();
-
-    if(copyYear!="" && insertYear!=""){
-        $.ajax({
-            url: `/api/utilities/DuplicateForecastYear`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "copyYear=" + copyYear+"&insertYear="+insertYear,
-            success: function (data) {
-                // $('#assignment_year_list').append(`<option value=''>select year</option>`);
-                // $.each(data, function (index, element) {
-                //     $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                // });
-            }
-        });
-    }else{
-        alert("please select year!");
-        return false;
-    }
 }

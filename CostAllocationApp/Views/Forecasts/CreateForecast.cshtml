@@ -19,49 +19,35 @@
 
         if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
         {
-            <div class="page-header" id="data_import">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5>年度データー (Year Data)</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
-                        {
-                            <div class="form-group mb-2">
-                                <input type="file" class="form-control-file" name="uploaded_file">
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2">
-                                <select id="inputState" class="form-control" name="upload_year">
-                                    <option value="0">Select Year</option>
-                                    <option value="2023">2023</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i> Upload Excel</button>
-                            @Html.AntiForgeryToken()
-
-
-                        }
-                        @if ((Int32)ViewBag.ErrorCount > 0)
-                        {
-                            <div class="alert alert-danger col-4">
-                                @Html.ValidationSummary()
-                            </div>
-                        }
-                        @if (ViewBag.Success != null)
-                        {
-                            <div class="alert alert-success col-4">
-                                @ViewBag.Success
-                            </div>
-                        }
-                    </div>
-                    <div class="offset-3 col-3">
-                        <ul id="save_notifications"></ul>
-                    </div>
-                </div>
+            <div class="import_year_wise_data" id="">
+                <h5>予算策定・編集する年度のデータを選択 (Impot Year Wise Data)</h5>
+                <select>
+                    <option>select year</option>
+                    <option>2023</option>
+                </select>
+                <br /> <br />
+                <table class="" id="">
+                    <thead>
+                        <tr>
+                            <th class="section_list_theader">新規…(Create New Data…)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="section_list_tbody">
+                        <tr>
+                            <td style="text-align:left">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal">CSVからインポート (CSV import)</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year">過去データの複製 (Replicate data)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
+            <br />
+            <br />
         }
         else
         {   /***************************\
@@ -85,66 +71,38 @@
 
             /***************************\
              Employee Assignment: Create Forecast
-            \***************************/
+            \***************************/            
             <div class="row">
-                <div class="col-md-12" >
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;" data-toggle="modal" data-target="#update_forecast">save</button>
                 </div>
-                <div class="offset-md-2 col-md-8">
-                    <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
-                        <h5>Matched Rows</h5>
-                        <table style="width:100%;font-size:12px;text-align:center;">
-                            <thead>
-                                <tr>
-                                    <th>Employee Name</th>
-                                    <th>10月</th>
-                                    <th>11月</th>
-                                    <th>12月</th>
-                                    <th>1月</th>
-                                    <th>2月</th>
-                                    <th>3月</th>
-                                    <th>4月</th>
-                                    <th>5月</th>
-                                    <th>6月</th>
-                                    <th>7月</th>
-                                    <th>8月</th>
-                                    <th>9月</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
                 <div class="col-md-12">
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">
-                    <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>10月</th>
-                                <th>11月</th>
-                                <th>12月</th>
-                                <th>1月</th>
-                                <th>2月</th>
-                                <th>3月</th>
-                                <th>4月</th>
-                                <th>5月</th>
-                                <th>6月</th>
-                                <th>7月</th>
-                                <th>8月</th>
-                                <th>9月</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
+                <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                
+                    </tbody>
+                </table>
+            </div>
             </div>
         }
     }
@@ -210,7 +168,7 @@
                     <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
                     <style>
-                        .forecast_save_confirm_text{
+                        .forecast_save_confirm_text {
                             text-align: left;
                         }
                     </style>

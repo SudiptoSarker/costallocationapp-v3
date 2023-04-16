@@ -46,13 +46,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
         }
-        public bool MatchForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        public bool MatchForecastHistoryByAssignmentId(int assignmentId)
         {
-            return forecastDAL.MatchForecastHistoryByAssignmentId(assignmentId,date);
+            return forecastDAL.MatchForecastHistoryByAssignmentId(assignmentId);
         }
-        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId)
         {
-            return forecastDAL.GetMatchedForecastHistoryByAssignmentId(assignmentId, date);
+            return forecastDAL.GetMatchedForecastHistoryByAssignmentId(assignmentId);
         }
         public List<ForecastYear> GetForecastYear()
         {

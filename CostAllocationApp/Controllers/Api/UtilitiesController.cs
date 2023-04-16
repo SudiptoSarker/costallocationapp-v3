@@ -1277,7 +1277,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,DateTime.Now);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId);
                     if (result)
                     {
                         matchedCount++;
@@ -1298,29 +1298,145 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId, DateTime.Now);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId);
                     if (result)
                     {
-                        var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId, DateTime.Now);
+                        // latest assignment history
+                        var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId);
                         //EmployeeAssignmentViewModel employeeAssignmentViewModel = employeeAssignmentBLL.GetAssignmentById(resultList[0].EmployeeAssignmentId);
                         //matchedCount++;
                         //string employeeName = employeeBLL.GetEmployeeNameByAssignmentId(resultList[0].EmployeeAssignmentId);
+                        // current assignment
+                        var singleForecastList = forecastBLL.GetForecastsByAssignmentId(item.AssignmentId);
+
+
+                        string _octP = "";
+                        if (resultList.Where(f => f.Month == 10).SingleOrDefault().Points== singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points)
+                        {
+                            _octP = "";
+                        }
+                        else
+                        {
+                            _octP = "(" + resultList.Where(f => f.Month == 10).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points;
+                        }
+                        string _novP = "";
+                        if (resultList.Where(f => f.Month == 11).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 11).SingleOrDefault().Points)
+                        {
+                            _novP = "";
+                        }
+                        else
+                        {
+                            _novP = "(" + resultList.Where(f => f.Month == 11).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 11).SingleOrDefault().Points;
+                        }
+
+                        string _decP = "";
+                        if (resultList.Where(f => f.Month == 12).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 12).SingleOrDefault().Points)
+                        {
+                            _decP = "";
+                        }
+                        else
+                        {
+                            _decP = "(" + resultList.Where(f => f.Month == 12).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 12).SingleOrDefault().Points;
+                        }
+                        string _janP = "";
+                        if (resultList.Where(f => f.Month == 1).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 1).SingleOrDefault().Points)
+                        {
+                            _janP = "";
+                        }
+                        else
+                        {
+                            _janP = "(" + resultList.Where(f => f.Month == 1).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 1).SingleOrDefault().Points;
+                        }
+                        string _febP = "";
+                        if (resultList.Where(f => f.Month == 2).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 2).SingleOrDefault().Points)
+                        {
+                            _febP = "";
+                        }
+                        else
+                        {
+                            _febP = "(" + resultList.Where(f => f.Month == 2).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 2).SingleOrDefault().Points;
+                        }
+                        string _marP = "";
+                        if (resultList.Where(f => f.Month == 3).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 3).SingleOrDefault().Points)
+                        {
+                            _marP = "";
+                        }
+                        else
+                        {
+                            _marP = "(" + resultList.Where(f => f.Month == 3).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 3).SingleOrDefault().Points;
+                        }
+                        string _aprP = "";
+                        if (resultList.Where(f => f.Month == 4).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 4).SingleOrDefault().Points)
+                        {
+                            _aprP = "";
+                        }
+                        else
+                        {
+                            _aprP = "(" + resultList.Where(f => f.Month == 4).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 4).SingleOrDefault().Points;
+                        }
+                        string _mayP = "";
+                        if (resultList.Where(f => f.Month == 5).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 5).SingleOrDefault().Points)
+                        {
+                            _mayP = "";
+                        }
+                        else
+                        {
+                            _mayP = "(" + resultList.Where(f => f.Month == 5).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 5).SingleOrDefault().Points;
+                        }
+                        string _junP = "";
+                        if (resultList.Where(f => f.Month == 6).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 6).SingleOrDefault().Points)
+                        {
+                            _junP = "";
+                        }
+                        else
+                        {
+                            _junP = "(" + resultList.Where(f => f.Month == 6).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 6).SingleOrDefault().Points;
+                        }
+
+                        string _julP = "";
+                        if (resultList.Where(f => f.Month == 7).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 7).SingleOrDefault().Points)
+                        {
+                            _julP = "";
+                        }
+                        else
+                        {
+                            _julP = "(" + resultList.Where(f => f.Month == 7).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 7).SingleOrDefault().Points;
+                        }
+                        string _augP = "";
+                        if (resultList.Where(f => f.Month == 8).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 8).SingleOrDefault().Points)
+                        {
+                            _augP = "";
+                        }
+                        else
+                        {
+                            _augP = "(" + resultList.Where(f => f.Month == 8).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 8).SingleOrDefault().Points;
+                        }
+
+                        string _sepP = "";
+                        if (resultList.Where(f => f.Month == 9).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 9).SingleOrDefault().Points)
+                        {
+                            _sepP = "";
+                        }
+                        else
+                        {
+                            _sepP = "(" + resultList.Where(f => f.Month == 9).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 9).SingleOrDefault().Points;
+                        }
 
                         matchedRows.Add(new
                         {
                             EmployeeName = item.EmployeeName,
-                            OctPoints = "("+resultList.Where(f=>f.Month==10).SingleOrDefault().Points+") "+item.OctPoint,
-                            NovPoints = "("+resultList.Where(f => f.Month == 11).SingleOrDefault().Points + ") "+item.NovPoint,
-                            DecPoints = "("+resultList.Where(f => f.Month == 12).SingleOrDefault().Points+") "+item.DecPoint,
-                            JanPoints = "("+resultList.Where(f => f.Month == 1).SingleOrDefault().Points+") "+item.JanPoint,
-                            FebPoints = "("+resultList.Where(f => f.Month == 2).SingleOrDefault().Points+") "+item.FebPoint,
-                            MarPoints = "("+resultList.Where(f => f.Month == 3).SingleOrDefault().Points+") "+item.MarPoint,
-                            AprPoints = "("+resultList.Where(f => f.Month == 4).SingleOrDefault().Points+") "+item.AprPoint,
-                            MayPoints = "("+resultList.Where(f => f.Month == 5).SingleOrDefault().Points+") "+item.MayPoint,
-                            JunPoints = "("+resultList.Where(f => f.Month == 6).SingleOrDefault().Points+") "+item.JunPoint,
-                            JulPoints = "("+resultList.Where(f => f.Month == 7).SingleOrDefault().Points+") "+item.JulPoint,
-                            AugPoints = "("+resultList.Where(f => f.Month == 8).SingleOrDefault().Points+") "+item.AugPoint,
-                            SepPoints = "("+resultList.Where(f => f.Month == 9).SingleOrDefault().Points+") "+item.SepPoint,
+                            OctPoints = _octP,
+                            NovPoints = _novP,
+                            DecPoints = _decP,
+                            JanPoints = _janP,
+                            FebPoints = _febP,
+                            MarPoints = _marP,
+                            AprPoints = _aprP,
+                            MayPoints = _mayP,
+                            JunPoints = _junP,
+                            JulPoints = _julP,
+                            AugPoints = _augP,
+                            SepPoints = _sepP,
                         });
                        
                        

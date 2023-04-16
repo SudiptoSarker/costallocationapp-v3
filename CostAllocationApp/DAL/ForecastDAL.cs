@@ -316,11 +316,11 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public bool MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
+        public bool MatchForecastHistoryByAssignmentId(int assignmentId)
         {
             bool result = false;
             string query = "";
-            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" and CreatedDate='"+ date + "' group by EmployeeAssignmentsId,Id order by ID,EmployeeAssignmentsId desc";
+            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" group by EmployeeAssignmentsId,Id order by ID,EmployeeAssignmentsId desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -342,11 +342,11 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId)
         {
             List<Forecast> forecastHistories = new List<Forecast>();
             string query = "";
-            query = "SELECT top 12 * FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " and CreatedDate='" + date + "' order by ID desc";
+            query = "SELECT top 12 * FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " order by ID desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

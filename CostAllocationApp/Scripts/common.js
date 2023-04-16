@@ -54,3 +54,4 @@ function ToastMessageFailed(response_data){
         "hideMethod": "fadeOut"
     }
 }  
+

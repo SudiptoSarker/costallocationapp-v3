@@ -88,7 +88,34 @@
             \***************************/
             <div class="row">
                 <div class="col-md-12" >
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;" data-toggle="modal" data-target="#update_forecast">save</button>
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
+                </div>
+                <div class="offset-md-2 col-md-8">
+                    <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
+                        <h5>Matched Rows</h5>
+                        <table style="width:100%;font-size:12px;text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>1月</th>
+                                    <th>2月</th>
+                                    <th>3月</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-md-12">
@@ -188,7 +215,8 @@
                         }
                     </style>
                     <label class="forecast_save_confirm_text">
-                        Edited and saved by <span id="last_edited_user">user1</span> 
+                        @*Edited and saved by <span id="last_edited_user">user1</span>*@ 
+                        <span id="row_count"></span> rows are modified by users! Click Back button to view details.
                         <br>                       
                         データを上書きをする可能性があります。
                         <br>
@@ -200,7 +228,7 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()" href="/Forecasts/GetHistories" >戻る(Back)</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()">戻る(Back)</a>
                         </div>
                         <div class="col-6">
                             <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>

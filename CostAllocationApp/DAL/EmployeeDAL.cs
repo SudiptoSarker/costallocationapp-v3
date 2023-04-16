@@ -240,5 +240,34 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public string GetEmployeeNameByAssignmentId(int assignmentId)
+        {
+            string fullName = "";
+            string query = " select Employees.FullName from EmployeesAssignments join Employees on Employees.Id = EmployeesAssignments.EmployeeId where EmployeesAssignments.Id="+ assignmentId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            fullName = rdr["FullName"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return fullName;
+            }
+        }
+
     }
 }

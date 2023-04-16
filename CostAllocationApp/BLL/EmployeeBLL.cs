@@ -47,5 +47,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.EmployeeListByNameFilter(employeeName);
         }
+        public string GetEmployeeNameByAssignmentId(int assignmentId)
+        {
+            return employeeDAL.GetEmployeeNameByAssignmentId(assignmentId);
+        }
     }
 }

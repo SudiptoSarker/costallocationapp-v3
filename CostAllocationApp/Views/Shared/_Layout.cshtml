@@ -280,7 +280,33 @@
     @RenderSection("Scripts", false/*required*/)
 
     
-    <script>
+    <script type="text/javascript">
+
+        function RemoveSession() {
+            $('#logout').click(function () {
+                var user_name = $('#hidden_username').val();
+                if (user_name != null || user_name != undefined || user_name!='') {
+                    $.ajax({
+                        url: `/Registration/RemoveSession?userName=${user_name}`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        //dataType: 'json',
+                        success: function (data) {
+                            $('#hidden_username').val('');
+                            var chat = $.connection.chatHub;
+                            // Start the connection.
+                            $.connection.hub.start().done(function () {
+                                chat.server.send(user_name, ' Logged Out');
+                            });
+                            location.href = '/';
+                        }
+                    });
+                }
+               
+            });
+        }
+
         //$(document).ready(function () {
         //    $('#name-list').DataTable({
         //        scrollY: false,
@@ -302,7 +328,7 @@
         //    "sScrollY": "200px",
         //    "sScrollX": "100%"
         //});
-        
+
     </script>
 </body>
 </html>

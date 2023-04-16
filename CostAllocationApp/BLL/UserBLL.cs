@@ -36,5 +36,9 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.GetAllUsers();
         }
+        public int RemoveUser(string userName)
+        {
+            return userDAL.RemoveUser(userName);
+        }
     }
 }

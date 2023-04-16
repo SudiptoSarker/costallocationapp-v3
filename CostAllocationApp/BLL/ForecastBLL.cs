@@ -38,5 +38,17 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastHistories(timeStampId);
         }
+        public List<Forecast> GetForecastsByAssignmentId(int assignmentId)
+        {
+            return forecastDAL.GetForecastsByAssignmentId(assignmentId);
+        }
+        public bool MatchForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        {
+            return forecastDAL.MatchForecastHistoryByAssignmentId(assignmentId,date);
+        }
+        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        {
+            return forecastDAL.GetMatchedForecastHistoryByAssignmentId(assignmentId, date);
+        }
     }
 }

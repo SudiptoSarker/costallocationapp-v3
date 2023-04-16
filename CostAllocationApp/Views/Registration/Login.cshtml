@@ -90,7 +90,7 @@
                             var chat = $.connection.chatHub;
                             // Start the connection.
                             $.connection.hub.start().done(function () {
-                                chat.server.send(loginUserName, 'Logged In');
+                                chat.server.send(loginUserName, ' Logged In');
                             });
                             $(".username-error").hide();
                             $(".password-error").hide();

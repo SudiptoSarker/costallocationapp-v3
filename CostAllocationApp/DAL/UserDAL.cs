@@ -158,6 +158,28 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public int RemoveUser(string userName)
+        {
+            int result = 0;
+            string query = $@"delete from UserLogs where UserName=@userName";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@userName", userName);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
 
     }
 }

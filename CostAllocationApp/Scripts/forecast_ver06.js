@@ -2977,7 +2977,25 @@ $(document).ready(function () {
     //        $.connection.hub.start();
     //    }, 3000); // Restart connection after 3 seconds.
     //});
-    
+
+    $('#update_forecast_history').on('click', function () {
+        if (jssUpdatedData.length > 0) {
+            $.ajax({
+            url: `/api/utilities/GetMatchedRowNumber/`,
+            contentType: 'application/json',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+            success: function (data) {
+                $('#row_count').empty();
+                $('#row_count').append(data);
+                }
+            });
+        }
+        $('#update_forecast').modal('show');
+    });
+
     // $('#update_forecast_history').on('click', function () {
         
                   
@@ -3225,7 +3243,7 @@ function AddEmployee() {
 }
 function UpdateForecast(){    
     $('#update_forecast').modal('hide');
-    $("#loading").css("display", "block");     
+    $("#loading").css("display", "block"); 
 
     console.log(jssInsertedData); 
     var dateObj = new Date();
@@ -3301,24 +3319,27 @@ function UpdateForecast(){
     $("#loading").css("display", "none");
 
 }
-function CompareUpdatedData(){
-    window.location.replace("/Forecasts/GetHistories");
-}
-function ImportCSVFile(){
-    $.ajax({
-        url: `/Forecasts/Index/`,
-        contentType: 'application/json',
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        data: JSON.stringify(jssInsertedData),
-        success: function (data) {
-            var chat = $.connection.chatHub;
-            $.connection.hub.start();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                chat.server.send('data has been inserted by', 'user');
-            });
-        }
-    });
+function CompareUpdatedData() {
+    
+    //window.location.replace("/Forecasts/GetHistories");
+    if (jssUpdatedData.length > 0) {
+        $('#display_matched_rows').css('display', 'block');
+
+        $.ajax({
+            // url: `/api/utilities/CreateHistory`,
+            url: `/api/utilities/GetMatchedRows`,
+            contentType: 'application/json',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+            success: function (data) {
+                $('#display_matched_rows table tbody').empty();
+                $.each(data, function (index, element) {
+                    console.log(element);
+                    $('#display_matched_rows table tbody').append(`<tr><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
+                });
+            }
+        });
+    }
 }

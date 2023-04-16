@@ -46,14 +46,14 @@ namespace CostAllocationApp.DAL
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                
-                
+
+
                 cmd.Parameters.AddWithValue("@points", forecast.Points);
                 cmd.Parameters.AddWithValue("@total", forecast.Total);
                 cmd.Parameters.AddWithValue("@year", forecast.Year);
                 cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
                 cmd.Parameters.AddWithValue("@monthId", forecast.Month);
-                
+
                 //cmd.Parameters.AddWithValue("@updatedBy", forecast.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedBy", "sudipto");
                 cmd.Parameters.AddWithValue("@updatedDate", DateTime.Now);
@@ -101,9 +101,9 @@ namespace CostAllocationApp.DAL
         }
 
 
-        public bool CheckAssignmentId(int assignmentId,int year,int month)
+        public bool CheckAssignmentId(int assignmentId, int year, int month)
         {
-            string query = "select * from costs where EmployeeAssignmentsId="+assignmentId+" and year = "+year+" and monthid="+month;
+            string query = "select * from costs where EmployeeAssignmentsId=" + assignmentId + " and year = " + year + " and monthid=" + month;
             bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -153,6 +153,8 @@ namespace CostAllocationApp.DAL
 
                     foreach (var item in forecastHisory.Forecasts)
                     {
+                        item.CreatedDate = DateTime.Now;
+                        item.CreatedBy = "";
                         CreateForecastHistory(item, lastId);
                     }
                 }
@@ -160,7 +162,7 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int CreateForecastHistory(Forecast forecast,int timeStampId)
+        public int CreateForecastHistory(Forecast forecast, int timeStampId)
         {
             int result = 0;
             string query = $@"insert into CostHistories(Year,MonthId,Points,EmployeeAssignmentsId,TimeStampId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@employeeAssignmentsId,@timeStampId,@createdBy,@createdDate)";
@@ -191,7 +193,7 @@ namespace CostAllocationApp.DAL
         public int GetLastId(string tableName)
         {
             int result = 0;
-            string query = $@"select max(Id) from "+tableName;
+            string query = $@"select max(Id) from " + tableName;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -214,7 +216,7 @@ namespace CostAllocationApp.DAL
         {
             List<ForecastHisory> forecastHisories = new List<ForecastHisory>();
             string query = "";
-            query = "SELECT * FROM TimeStamps WHERE year="+year;
+            query = "SELECT * FROM TimeStamps WHERE year=" + year;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -273,6 +275,104 @@ namespace CostAllocationApp.DAL
                 }
 
                 return forecastHisories;
+            }
+        }
+
+        public List<Forecast> GetForecastsByAssignmentId(int assignmentId)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string query = "";
+            query = "SELECT * FROM Costs WHERE EmployeeAssignmentsId=" + assignmentId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            forecasts.Add(forecast);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecasts;
+            }
+        }
+
+        public bool MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
+        {
+            bool result = false;
+            string query = "";
+            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" and CreatedDate='"+ date + "' group by EmployeeAssignmentsId,Id order by ID,EmployeeAssignmentsId desc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public List<Forecast> GetMatchedForecastHistoryByAssignmentId(int assignmentId, DateTime date)
+        {
+            List<Forecast> forecastHistories = new List<Forecast>();
+            string query = "";
+            query = "SELECT top 12 * FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " and CreatedDate='" + date + "' order by ID desc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while(rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+
+                            forecastHistories.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecastHistories;
             }
         }
     }

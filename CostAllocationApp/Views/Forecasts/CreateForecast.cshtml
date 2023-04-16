@@ -19,38 +19,7 @@
 
         if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
         {
-
-            <div class="import_year_wise_data" id="">
-                <h5>予算策定・編集する年度のデータを選択 (Impot Year Wise Data)</h5>
-                <select>
-                    <option>select year</option>
-                    <option>2023</option>
-                </select>
-                <br /> <br />
-                <table class="" id="">
-                    <thead>
-                        <tr>
-                            <th class="section_list_theader">新規…(Create New Data…)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="section_list_tbody">
-                        <tr>
-                            <td style="text-align:left">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal">CSVからインポート (CSV import)</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:left">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year">過去データの複製 (Replicate data)</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <br />
-            <br />
-            @*<div class="page-header" id="data_import">
+            <div class="page-header" id="data_import">
                 <div class="row align-items-center">
                     <div class="col">
                         <h5>年度データー (Year Data)</h5>
@@ -91,64 +60,93 @@
                         <ul id="save_notifications"></ul>
                     </div>
                 </div>
-            </div>*@
+            </div>
 
         }
         else
         {   /***************************\
-Show Loader
-\***************************/
-<div class="row">
-    <div class="col-md-12">
-        <div class="forecast">
-            <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                <center>
-                    <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                    <br>
-                    <strong>Please wait a moment...</strong>
-                    <br>
-                    <br>
-                </center>
+             Show Loader
+            \***************************/
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="forecast">
+                        <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                            <center>
+                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                                <br>
+                                <strong>Please wait a moment...</strong>
+                                <br>
+                                <br>
+                            </center>
+                        </div>                        
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-/***************************\
- Employee Assignment: Create Forecast
-\***************************/
-<div class="row">
-    <div class="col-md-12">
-        <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;" data-toggle="modal" data-target="#update_forecast">save</button>
-    </div>
+            /***************************\
+             Employee Assignment: Create Forecast
+            \***************************/
+            <div class="row">
+                <div class="col-md-12" >
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
+                </div>
+                <div class="offset-md-2 col-md-8">
+                    <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
+                        <h5>Matched Rows</h5>
+                        <table style="width:100%;font-size:12px;text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>1月</th>
+                                    <th>2月</th>
+                                    <th>3月</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-    <div class="col-md-12">
-        <div id="jspreadsheet"></div>
-    </div>
-    <div class="col-12">
-        <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>10月</th>
-                    <th>11月</th>
-                    <th>12月</th>
-                    <th>1月</th>
-                    <th>2月</th>
-                    <th>3月</th>
-                    <th>4月</th>
-                    <th>5月</th>
-                    <th>6月</th>
-                    <th>7月</th>
-                    <th>8月</th>
-                    <th>9月</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
-}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="jspreadsheet"></div>
+                </div>
+                <div class="col-12">
+                    <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>10月</th>
+                                <th>11月</th>
+                                <th>12月</th>
+                                <th>1月</th>
+                                <th>2月</th>
+                                <th>3月</th>
+                                <th>4月</th>
+                                <th>5月</th>
+                                <th>6月</th>
+                                <th>7月</th>
+                                <th>8月</th>
+                                <th>9月</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
     }
 
 </div>
@@ -212,13 +210,14 @@ Show Loader
                     <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
                     <style>
-                        .forecast_save_confirm_text {
+                        .forecast_save_confirm_text{
                             text-align: left;
                         }
                     </style>
                     <label class="forecast_save_confirm_text">
-                        Edited and saved by <span id="last_edited_user">user1</span>
-                        <br>
+                        @*Edited and saved by <span id="last_edited_user">user1</span>*@ 
+                        <span id="row_count"></span> rows are modified by users! Click Back button to view details.
+                        <br>                       
                         データを上書きをする可能性があります。
                         <br>
                         戻るボタンをクリックし、変更履歴をチェックし、問題がないことを確認できます。
@@ -233,82 +232,6 @@ Show Loader
                         </div>
                         <div class="col-6">
                             <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-----------------Modal: CSV Import----------------->
-<div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" })){
-                <div class="form-header">
-                    <h3>予算策定・編集 (CSV Import)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
-                    <div class="row">                        
-                        <div class="col-6">
-                            <label>策定する年度を選択</label>
-                            <select id="inputState" class="form-control" name="upload_year">
-                                <option>select year</option>
-                                <option>2023</option>
-                                <option selected="selected">2024</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 12px;">
-                        </div>                                               
-                    </div>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
-                        </div>
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
-                            @Html.AntiForgeryToken()
-                            @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<!-----------------Modal: Replciate from previous year----------------->
-<div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-header">
-                    <h3>予算策定・編集 (Replicate Data)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
-                    <div class="row">
-                        <div class="col-12">
-                            <label>@*策定する年度を選択 (select replicate year)*@</label>
-                            <select>
-                                <option>策定する年度を選択 (select year)</option>
-                                <option>2023</option>
-                                <option selected="selected">2024</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
-                        </div>
-                        <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a>
                         </div>
                     </div>
                 </div>
@@ -337,7 +260,7 @@ Show Loader
                 success: function (data) {
                     var userName = $('#user_name').text();
                     $('#user_log').empty();
-                    $.each(data, (index, value) => {
+                    $.each(data,(index, value) => {
                         if (userName !== value.UserName) {
                             $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
                         }

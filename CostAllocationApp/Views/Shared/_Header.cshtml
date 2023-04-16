@@ -273,14 +273,15 @@
                 else
                 {
                     <span id="user_name">@Session["userName"].ToString()</span>
+                    <input type="hidden" id="hidden_username" value="@Session["userName"].ToString()" />
                 }
 
             </a>
-            @*<div class="dropdown-menu">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
-                </div>*@
+            <div class="dropdown-menu">
+                    @*<a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>*@
+                    <a class="dropdown-item" id="logout" href="javascript:void(0);" onclick="RemoveSession();">Logout</a>
+            </div>
         </li>
     </ul>
     <!-- /Header Menu -->

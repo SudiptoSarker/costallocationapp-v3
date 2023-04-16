@@ -270,122 +270,122 @@ namespace CostAllocationApp.Controllers.Api
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
-            if (!String.IsNullOrEmpty(timeStampId))
-            {
-                List<Forecast> forecastHistories = forecastBLL.GetForecastHistories(Convert.ToInt32(timeStampId));
-                //List<int> forecastAssignmentIds = new List<int>();
-                if (forecastHistories.Count > 0)
-                {
-                    //forecastAssignmentIds = forecastHistories.Select(f => f.EmployeeAssignmentId).Distinct().ToList();
-                    ForecastAssignmentViewModel _x = null;
-                    int previousId = 0;
-                    foreach (var item in forecastHistories)
-                    {
+            //if (!String.IsNullOrEmpty(timeStampId))
+            //{
+            //    List<Forecast> forecastHistories = forecastBLL.GetForecastHistories(Convert.ToInt32(timeStampId));
+            //    //List<int> forecastAssignmentIds = new List<int>();
+            //    if (forecastHistories.Count > 0)
+            //    {
+            //        //forecastAssignmentIds = forecastHistories.Select(f => f.EmployeeAssignmentId).Distinct().ToList();
+            //        ForecastAssignmentViewModel _x = null;
+            //        int previousId = 0;
+            //        foreach (var item in forecastHistories)
+            //        {
                         
-                        if (previousId != item.EmployeeAssignmentId)
-                        {
-                            var x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).SingleOrDefault();
-                            previousId = item.EmployeeAssignmentId;
-                            _x = new ForecastAssignmentViewModel();
+            //            if (previousId != item.EmployeeAssignmentId)
+            //            {
+            //                var x = forecsatEmployeeAssignmentViewModels.Where(a => a.Id == item.EmployeeAssignmentId).SingleOrDefault();
+            //                previousId = item.EmployeeAssignmentId;
+            //                _x = new ForecastAssignmentViewModel();
 
-                            _x.Id = x.Id;
-                            _x.EmployeeId = x.EmployeeId;
-                            _x.EmployeeName = x.EmployeeName+" (updated)";
-                            _x.CompanyId = x.CompanyId;
-                            _x.DepartmentId = x.DepartmentId;
-                            _x.SectionId = x.SectionId;
-                            _x.RoleId = x.RoleId;
-                            _x.InchargeId = x.InchargeId;
-                            _x.GradeId = x.GradeId;
-                            _x.UnitPrice = x.UnitPrice;
+            //                _x.Id = x.Id;
+            //                _x.EmployeeId = x.EmployeeId;
+            //                _x.EmployeeName = x.EmployeeName+" (updated)";
+            //                _x.CompanyId = x.CompanyId;
+            //                _x.DepartmentId = x.DepartmentId;
+            //                _x.SectionId = x.SectionId;
+            //                _x.RoleId = x.RoleId;
+            //                _x.InchargeId = x.InchargeId;
+            //                _x.GradeId = x.GradeId;
+            //                _x.UnitPrice = x.UnitPrice;
 
-                            _x.OctPoints = x.OctPoints;
-                            _x.NovPoints = x.NovPoints;
-                            _x.DecPoints = x.DecPoints;
-                            _x.JanPoints = x.JanPoints;
-                            _x.FebPoints = x.FebPoints;
-                            _x.MarPoints = x.MarPoints;
-                            _x.AprPoints = x.AprPoints;
-                            _x.MayPoints = x.MayPoints;
-                            _x.JunPoints = x.JunPoints;
-                            _x.JulPoints = x.JulPoints;
-                            _x.AugPoints = x.AugPoints;
-                            _x.SepPoints = x.SepPoints;
+            //                _x.OctPoints = x.OctPoints;
+            //                _x.NovPoints = x.NovPoints;
+            //                _x.DecPoints = x.DecPoints;
+            //                _x.JanPoints = x.JanPoints;
+            //                _x.FebPoints = x.FebPoints;
+            //                _x.MarPoints = x.MarPoints;
+            //                _x.AprPoints = x.AprPoints;
+            //                _x.MayPoints = x.MayPoints;
+            //                _x.JunPoints = x.JunPoints;
+            //                _x.JulPoints = x.JulPoints;
+            //                _x.AugPoints = x.AugPoints;
+            //                _x.SepPoints = x.SepPoints;
 
-                            forecsatEmployeeAssignmentViewModels.Add(_x);
-                        }
+            //                forecsatEmployeeAssignmentViewModels.Add(_x);
+            //            }
                        
-                        if (item.Month==10)
-                        {
-                            _x.OctPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 11)
-                        {
-                            _x.NovPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 12)
-                        {
-                            _x.DecPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 1)
-                        {
-                            _x.JanPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 2)
-                        {
-                            _x.FebPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 3)
-                        {
-                            _x.MarPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 4)
-                        {
-                            _x.AprPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 5)
-                        {
-                            _x.MayPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 6)
-                        {
-                            _x.JunPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 7)
-                        {
-                            _x.JulPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 8)
-                        {
-                            _x.AugPoints = item.Points.ToString();
-                        }
-                        if (item.Month == 9)
-                        {
-                            _x.SepPoints = item.Points.ToString();
-                        }
+            //            if (item.Month==10)
+            //            {
+            //                _x.OctPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 11)
+            //            {
+            //                _x.NovPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 12)
+            //            {
+            //                _x.DecPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 1)
+            //            {
+            //                _x.JanPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 2)
+            //            {
+            //                _x.FebPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 3)
+            //            {
+            //                _x.MarPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 4)
+            //            {
+            //                _x.AprPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 5)
+            //            {
+            //                _x.MayPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 6)
+            //            {
+            //                _x.JunPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 7)
+            //            {
+            //                _x.JulPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 8)
+            //            {
+            //                _x.AugPoints = item.Points.ToString();
+            //            }
+            //            if (item.Month == 9)
+            //            {
+            //                _x.SepPoints = item.Points.ToString();
+            //            }
                         
-                    }
+            //        }
 
-                    //if (forecastAssignmentIds.Count > 0)
-                    //{
-                    //    foreach (var item in forecastAssignmentIds)
-                    //    {
-                    //        _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
-                    //    }
-                    //}
-                    var removableList = forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeId == 0).ToList();
-                    foreach (var item in removableList)
-                    {
-                        forecsatEmployeeAssignmentViewModels.Remove(item);
-                    }
+            //        //if (forecastAssignmentIds.Count > 0)
+            //        //{
+            //        //    foreach (var item in forecastAssignmentIds)
+            //        //    {
+            //        //        _forecsatEmployeeAssignmentViewModels.Add(forecsatEmployeeAssignmentViewModels.Where(f=>f.Id==item).SingleOrDefault());
+            //        //    }
+            //        //}
+            //        var removableList = forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeId == 0).ToList();
+            //        foreach (var item in removableList)
+            //        {
+            //            forecsatEmployeeAssignmentViewModels.Remove(item);
+            //        }
 
-                    //forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "total").SingleOrDefault().EmployeeId = maxEmployeeId + 2;
+            //        //forecsatEmployeeAssignmentViewModels.Where(f => f.EmployeeName.ToLower() == "total").SingleOrDefault().EmployeeId = maxEmployeeId + 2;
 
-                    forecsatEmployeeAssignmentViewModels = (from x in forecsatEmployeeAssignmentViewModels
-                                                            orderby x.EmployeeId ascending
-                                                            select x).ToList();
-                }
-            }
+            //        forecsatEmployeeAssignmentViewModels = (from x in forecsatEmployeeAssignmentViewModels
+            //                                                orderby x.EmployeeId ascending
+            //                                                select x).ToList();
+            //    }
+            //}
 
             //if (_forecsatEmployeeAssignmentViewModels.Count>0)
             //{
@@ -927,6 +927,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult UpdateForecastData(ForecastHistoryDto forecastHistoryDto)
         {
             List<Forecast> forecasts = new List<Forecast>();
+            List<Forecast> forecastsPrevious = new List<Forecast>();
             string message = "Something went wrong!!!";
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -948,7 +949,12 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.CompanyId = item.CompanyId;
                         employeeAssignment.GradeId = item.GradeId;
                         employeeAssignment.UnitPrice = item.UnitPrice;
+
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+
+                        forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(item.AssignmentId));
+
+
 
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 11, item.NovPoint));
@@ -963,33 +969,42 @@ namespace CostAllocationApp.Controllers.Api
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 8, item.AugPoint));
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 9, item.SepPoint));
 
+                        if (forecasts.Count>0)
+                        {
+                            foreach (var forecast in forecasts)
+                            {
+                                forecastBLL.UpdateForecast(forecast);
+                            }
+                            forecasts = new List<Forecast>();
+                        }
 
                     }
 
                     ForecastHisory forecastHisory = new ForecastHisory();
-                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                    forecastHisory.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                    forecastHisory.Forecasts = forecasts;
+                    forecastHisory.Forecasts = forecastsPrevious;
                     forecastHisory.CreatedBy = "";
                     forecastHisory.CreatedDate = DateTime.Now;
-                    forecastHisory.UpdatedDate = DateTime.Now;
+                    //forecastHisory.UpdatedDate = DateTime.Now;
+                    //forecastHisory.UpdatedBy = "";
                     //int resultEdit = forecastBLL.UpdateForecast(forecastHisory.Forecasts);
-                    int resultEdit = 0;
-                    foreach (var item in forecastHisory.Forecasts)
-                    {
-                        var result = forecastBLL.CheckAssignmentId(item.EmployeeAssignmentId, item.Year,item.Month);
-                        if (result == true)
-                        {
-                            resultEdit = forecastBLL.UpdateForecast(item);
-                        }
-                        else
-                        {
-                            int resultSave = forecastBLL.CreateForecast(item);
-                        }                        
-                    }
-                    //var result = forecastBLL.CreateTimeStamp(forecastHisory);
+                    //int resultEdit = 0;
+                    //foreach (var item in forecastHisory.Forecasts)
+                    //{
+                    //    var result = forecastBLL.CheckAssignmentId(item.EmployeeAssignmentId, item.Year,item.Month);
+                    //    if (result == true)
+                    //    {
+                    //        resultEdit = forecastBLL.UpdateForecast(item);
+                    //    }
+                    //    else
+                    //    {
+                    //        int resultSave = forecastBLL.CreateForecast(item);
+                    //    }                        
+                    //}
+                    var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
 
-                    if (resultEdit > 0)
+                    if (resultTimeStamp > 0)
                     {
                         message = "Data Saved Successfully!!!";
                     }
@@ -1207,18 +1222,18 @@ namespace CostAllocationApp.Controllers.Api
                         int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
                         List<Forecast> forecasts = new List<Forecast>();
                         
-                        forecasts.Add(new Forecast { EmployeeAssignmentId=employeeAssignmentLastId ,Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "" });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId=employeeAssignmentLastId ,Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
+                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "",Year= Convert.ToInt32(item.Year) });
                         foreach (var forecastItem in forecasts)
                         {
                             int resultSave = forecastBLL.CreateForecast(forecastItem);
@@ -1253,7 +1268,68 @@ namespace CostAllocationApp.Controllers.Api
             var result = userBLL.GetUserLogs();
             return Ok(result);
         }
+        [HttpPost]
+        [Route("api/utilities/GetMatchedRowNumber/")]
+        public IHttpActionResult GetMatchedRowNumber(ForecastHistoryDto forecastHistoryDto)
+        {
+            int matchedCount = 0;
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count>0)
+            {
+                foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                {
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,DateTime.Now);
+                    if (result)
+                    {
+                        matchedCount++;
+                    }
+                }
+                
+            }
+            return Ok(matchedCount);
+        }
 
+        [HttpPost]
+        [Route("api/utilities/GetMatchedRows/")]
+        public IHttpActionResult GetMatchedRows(ForecastHistoryDto forecastHistoryDto)
+        {
+            List<Object> matchedRows = new List<object>();
+            int matchedCount = 0;
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
+            {
+                foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                {
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId, DateTime.Now);
+                    if (result)
+                    {
+                        var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId, DateTime.Now);
+                        //EmployeeAssignmentViewModel employeeAssignmentViewModel = employeeAssignmentBLL.GetAssignmentById(resultList[0].EmployeeAssignmentId);
+                        //matchedCount++;
+                        string employeeName = employeeBLL.GetEmployeeNameByAssignmentId(resultList[0].EmployeeAssignmentId);
+
+                        matchedRows.Add(new
+                        {
+                            EmployeeName = employeeName,
+                            OctPoints = resultList.Where(f=>f.Month==10).SingleOrDefault().Points,
+                            NovPoints = resultList.Where(f => f.Month == 11).SingleOrDefault().Points,
+                            DecPoints = resultList.Where(f => f.Month == 12).SingleOrDefault().Points,
+                            JanPoints = resultList.Where(f => f.Month == 1).SingleOrDefault().Points,
+                            FebPoints = resultList.Where(f => f.Month == 2).SingleOrDefault().Points,
+                            MarPoints = resultList.Where(f => f.Month == 3).SingleOrDefault().Points,
+                            AprPoints = resultList.Where(f => f.Month == 4).SingleOrDefault().Points,
+                            MayPoints = resultList.Where(f => f.Month == 5).SingleOrDefault().Points,
+                            JunPoints = resultList.Where(f => f.Month == 6).SingleOrDefault().Points,
+                            JulPoints = resultList.Where(f => f.Month == 7).SingleOrDefault().Points,
+                            AugPoints = resultList.Where(f => f.Month == 8).SingleOrDefault().Points,
+                            SepPoints = resultList.Where(f => f.Month == 9).SingleOrDefault().Points,
+                        });
+                       
+                       
+                    }
+                }
+
+            }
+            return Ok(matchedRows);
+        }
 
 
     }

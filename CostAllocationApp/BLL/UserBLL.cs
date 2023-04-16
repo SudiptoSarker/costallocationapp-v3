@@ -40,5 +40,9 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.RemoveUser(userName);
         }
+        public List<User> GetAllUserLogs()
+        {
+            return userDAL.GetAllUserLogs();
+        }
     }
 }

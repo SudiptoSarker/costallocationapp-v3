@@ -82,9 +82,10 @@ namespace CostAllocationApp.DAL
                     cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
                 }
                 cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);
-                cmd.Parameters.AddWithValue("@createdBy", employeeAssignment.CreatedBy);
-                cmd.Parameters.AddWithValue("@createdDate", employeeAssignment.CreatedDate);
-                cmd.Parameters.AddWithValue("@isActive", employeeAssignment.IsActive);
+                //cmd.Parameters.AddWithValue("@createdBy", employeeAssignment.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdBy", "");
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@isActive", 1);
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
                 cmd.Parameters.AddWithValue("@subCode", employeeAssignment.SubCode);
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);

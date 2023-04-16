@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using CostAllocationApp.Models;
 using System.Data.SqlClient;
-
+using System.Data;
+using CostAllocationApp.ViewModels;
+using CostAllocationApp.Dtos;
 
 namespace CostAllocationApp.DAL
 {
@@ -374,6 +376,149 @@ namespace CostAllocationApp.DAL
 
                 return forecastHistories;
             }
+        }
+        public List<ForecastYear> GetForecastYear()
+        {
+            List<ForecastYear> forecastYears = new List<ForecastYear>();
+            string query = "";
+            query = "select distinct Year from EmployeesAssignments";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {                        
+                        while (rdr.Read())
+                        {
+                            ForecastYear forecastYear = new ForecastYear();
+                            forecastYear.Year = Convert.ToInt32(rdr["Year"]);
+                            forecastYears.Add(forecastYear);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecastYears;
+            }
+        }
+
+        public List<ExcelAssignmentDto> GetEmployeesForecastByYear(int year)
+        {
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId
+                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            where ea.Year={year} and 1=1
+                            order by emp.Id asc";
+
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();            
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ExcelAssignmentDto excelAssignmentDto = new ExcelAssignmentDto();
+                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);                            
+                            if (rdr["EmployeeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeId = rdr["EmployeeId"].ToString();
+                            }
+                            if (rdr["SectionId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.SectionId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.SectionId = Convert.ToInt32(rdr["SectionId"]);
+                            }
+                            if (rdr["DepartmentId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.DepartmentId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                            }
+                            if (rdr["InchargeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.InchargeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.InchargeId = Convert.ToInt32(rdr["InchargeId"]);
+                            }
+                            if (rdr["RoleId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.RoleId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.RoleId = Convert.ToInt32(rdr["RoleId"]);
+                            }
+
+                            if (rdr["ExplanationId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.ExplanationId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.ExplanationId = Convert.ToInt32(rdr["ExplanationId"]);                                
+                            }                            
+                            if (rdr["CompanyId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.CompanyId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.CompanyId = Convert.ToInt32(rdr["CompanyId"]);
+                            }
+                            excelAssignmentDto.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]);
+                            
+                            if (rdr["GradeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.GradeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.GradeId = Convert.ToInt32(rdr["GradeId"]);
+                            }
+                            excelAssignmentDto.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            excelAssignmentDto.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+
+                            excelAssignmentDtos.Add(excelAssignmentDto);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return excelAssignmentDtos;
         }
     }
 }

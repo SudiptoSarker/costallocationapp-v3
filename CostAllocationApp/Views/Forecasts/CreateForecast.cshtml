@@ -19,48 +19,33 @@
 
         if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
         {
-            <div class="page-header" id="data_import">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5>年度データー (Year Data)</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
-                        {
-                            <div class="form-group mb-2">
-                                <input type="file" class="form-control-file" name="uploaded_file">
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2">
-                                <select id="inputState" class="form-control" name="upload_year">
-                                    <option value="0">Select Year</option>
-                                    <option value="2023">2023</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i> Upload Excel</button>
-                            @Html.AntiForgeryToken()
-
-
-                        }
-                        @if ((Int32)ViewBag.ErrorCount > 0)
-                        {
-                            <div class="alert alert-danger col-4">
-                                @Html.ValidationSummary()
-                            </div>
-                        }
-                        @if (ViewBag.Success != null)
-                        {
-                            <div class="alert alert-success col-4">
-                                @ViewBag.Success
-                            </div>
-                        }
-                    </div>
-                    <div class="offset-3 col-3">
-                        <ul id="save_notifications"></ul>
-                    </div>
-                </div>
+            <div class="import_year_wise_data" id="">
+                <h5>予算策定・編集する年度のデータを選択 (Impot Year Wise Data)</h5>
+                <select id="assignment_year_list">
+                </select>
+                <br /> <br />
+                <table class="" id="">
+                    <thead>
+                        <tr>
+                            <th class="section_list_theader">新規…(Create New Data…)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="section_list_tbody">
+                        <tr>
+                            <td style="text-align:left">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();">CSVからインポート (CSV import)</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();">過去データの複製 (Replicate data)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            <br />
+            <br />  
 
         }
         else
@@ -232,6 +217,87 @@
                         </div>
                         <div class="col-6">
                             <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-----------------Modal: CSV Import----------------->
+<div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" })){
+                <div class="form-header">
+                    <h3>予算策定・編集 (CSV Import)</h3>
+                    <ol class="company_count" style="text-align:left;"></ol>
+                    <div class="row">                        
+                        <div class="col-6">
+                            <label>策定する年度を選択</label>
+                            <select id="inputState" class="form-control" name="upload_year">
+                                <option value="">select year</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 12px;">
+                        </div>                                               
+                    </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                        </div>
+                        <div class="col-6">
+                            @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
+                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
+                            @Html.AntiForgeryToken()
+                            @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------Modal: Replciate from previous year----------------->
+<div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>策定する年度を選択 (Replicate Data)</h3>
+                    <ol class="company_count" style="text-align:left;"></ol>
+                    <div class="row">
+                        <div class="col-12">
+                            <label>@*策定する年度を選択 (select replicate year)*@</label>
+                            <select id="duplciateYear">
+                                <option value="">select year</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year" onclick="DuplicateForecast();">作成 (Create)</a>
                         </div>
                     </div>
                 </div>

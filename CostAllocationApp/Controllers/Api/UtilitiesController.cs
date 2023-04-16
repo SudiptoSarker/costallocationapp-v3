@@ -1331,6 +1331,19 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(matchedRows);
         }
 
-
+        [HttpGet]
+        [Route("api/utilities/GetForecatYear/")]
+        public IHttpActionResult GetForecatYear()
+        {
+            var result = forecastBLL.GetForecastYear();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("api/utilities/DuplicateForecastYear/")]
+        public IHttpActionResult DuplicateForecastYear(int copyYear, int insertYear)
+        {
+            var result = forecastBLL.DuplicateForecastYear(copyYear, insertYear);
+            return Ok(result);
+        }
     }
 }

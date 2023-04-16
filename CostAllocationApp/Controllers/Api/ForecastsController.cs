@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
-
+using CostAllocationApp.ViewModels;
 
 namespace CostAllocationApp.Controllers.Api
 {
@@ -144,7 +144,14 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(true);
 
         }
+        [HttpGet]
+        public IHttpActionResult GetForecatYear()
+        {
+            List<ForecastYear> forecastYears = new List<ForecastYear>();
 
+            forecastYears = forecastBLL.GetForecastYear();
+            return Ok(forecastYears);
+        }
 
     }
 }

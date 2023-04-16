@@ -216,7 +216,7 @@ namespace CostAllocationApp.Controllers
                             var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
                             if (assignmentViewModels.Count > 0)
                             {
-                                CreateAssignmentForExcelUpload(_uploadExcel, i, assignmentViewModels.Count, upload_year);
+                                CreateAssignmentForExcelUpload(_uploadExcel, i, upload_year, assignmentViewModels.Count);
                                 tempAssignmentId = employeeAssignmentBLL.GetLastId();
                             }
                             else
@@ -282,7 +282,7 @@ namespace CostAllocationApp.Controllers
                     //DataTable tmp = result.Tables[0];
                     //Session["tmpdata"] = tmp;  //store datatable into session
                     TempData["seccess"] = "Data imported successfully";
-                    return RedirectToAction("CreateForecast");
+                    return RedirectToAction("CreateForecast", new { forecastType = "imprt" });
                 }
                 else
                 {
@@ -290,7 +290,8 @@ namespace CostAllocationApp.Controllers
                     ModelState.AddModelError("File", "invalid File or Year");
                 }
             }
-            return View("CreateForecast", forecastViewModal);
+            //return View("CreateForecast", forecastViewModal);
+            return View("CreateForecast",new { forecastType = "imprt" });
         }
 
         public void SendToApi(int assignmentId, string row, int year)
@@ -319,7 +320,7 @@ namespace CostAllocationApp.Controllers
         }
 
         //public int CreateAssignmentForExcelUpload(DataTable dt_, int i, int subCodeCount = 0)
-        public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i, int subCodeCount = 0,int upload_year=0)
+        public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0)
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
@@ -347,7 +348,7 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = "";
-            employeeAssignment.Year = dt_;
+            employeeAssignment.Year = upload_year.ToString();
 
             int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             if (result == 0)

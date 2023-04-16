@@ -249,6 +249,7 @@
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
+    <Compile Include="ViewModels\ForecastYear.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\addname.css" />
@@ -644,6 +645,7 @@
     <Content Include="Scripts\forecast_ver03.js" />
     <Content Include="Scripts\forecast_ver04 -29_Mar_2023.js" />
     <Content Include="Scripts\forecast_ver04.js" />
+    <Content Include="Scripts\forecast_ver06.js" />
     <Content Include="Scripts\form-validation.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\glimpse.js" />

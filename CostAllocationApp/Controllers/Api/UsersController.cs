@@ -27,7 +27,15 @@ namespace CostAllocationApp.Controllers.Api
                 userCheck = _userBLL.CheckUser(user.UserName.ToString(), user.Password.ToString());
                 if (userCheck==true)
                 {
-                    var result = _userBLL.CreateUserLog(user.UserName);
+                    var loggedInUsers = _userBLL.GetAllUserLogs().Where(u=>u.UserName== user.UserName).ToList();
+                    if (loggedInUsers.Count>0)
+                    {
+                        userCheck = false;
+                    }
+                    else
+                    {
+                        var result = _userBLL.CreateUserLog(user.UserName);
+                    }  
                 }
             }
 

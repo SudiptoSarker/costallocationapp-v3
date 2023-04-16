@@ -10,6 +10,7 @@ namespace CostAllocationApp.Dtos
         public int AssignmentId { get; set; }
         //public int Id { get; set; }
         public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
         public int? SectionId { get; set; }
         public int? DepartmentId { get; set; }
         public int? InchargeId { get; set; }

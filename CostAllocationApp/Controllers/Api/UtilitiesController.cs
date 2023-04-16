@@ -1304,23 +1304,23 @@ namespace CostAllocationApp.Controllers.Api
                         var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId, DateTime.Now);
                         //EmployeeAssignmentViewModel employeeAssignmentViewModel = employeeAssignmentBLL.GetAssignmentById(resultList[0].EmployeeAssignmentId);
                         //matchedCount++;
-                        string employeeName = employeeBLL.GetEmployeeNameByAssignmentId(resultList[0].EmployeeAssignmentId);
+                        //string employeeName = employeeBLL.GetEmployeeNameByAssignmentId(resultList[0].EmployeeAssignmentId);
 
                         matchedRows.Add(new
                         {
-                            EmployeeName = employeeName,
-                            OctPoints = resultList.Where(f=>f.Month==10).SingleOrDefault().Points,
-                            NovPoints = resultList.Where(f => f.Month == 11).SingleOrDefault().Points,
-                            DecPoints = resultList.Where(f => f.Month == 12).SingleOrDefault().Points,
-                            JanPoints = resultList.Where(f => f.Month == 1).SingleOrDefault().Points,
-                            FebPoints = resultList.Where(f => f.Month == 2).SingleOrDefault().Points,
-                            MarPoints = resultList.Where(f => f.Month == 3).SingleOrDefault().Points,
-                            AprPoints = resultList.Where(f => f.Month == 4).SingleOrDefault().Points,
-                            MayPoints = resultList.Where(f => f.Month == 5).SingleOrDefault().Points,
-                            JunPoints = resultList.Where(f => f.Month == 6).SingleOrDefault().Points,
-                            JulPoints = resultList.Where(f => f.Month == 7).SingleOrDefault().Points,
-                            AugPoints = resultList.Where(f => f.Month == 8).SingleOrDefault().Points,
-                            SepPoints = resultList.Where(f => f.Month == 9).SingleOrDefault().Points,
+                            EmployeeName = item.EmployeeName,
+                            OctPoints = "("+resultList.Where(f=>f.Month==10).SingleOrDefault().Points+") "+item.OctPoint,
+                            NovPoints = "("+resultList.Where(f => f.Month == 11).SingleOrDefault().Points + ") "+item.NovPoint,
+                            DecPoints = "("+resultList.Where(f => f.Month == 12).SingleOrDefault().Points+") "+item.DecPoint,
+                            JanPoints = "("+resultList.Where(f => f.Month == 1).SingleOrDefault().Points+") "+item.JanPoint,
+                            FebPoints = "("+resultList.Where(f => f.Month == 2).SingleOrDefault().Points+") "+item.FebPoint,
+                            MarPoints = "("+resultList.Where(f => f.Month == 3).SingleOrDefault().Points+") "+item.MarPoint,
+                            AprPoints = "("+resultList.Where(f => f.Month == 4).SingleOrDefault().Points+") "+item.AprPoint,
+                            MayPoints = "("+resultList.Where(f => f.Month == 5).SingleOrDefault().Points+") "+item.MayPoint,
+                            JunPoints = "("+resultList.Where(f => f.Month == 6).SingleOrDefault().Points+") "+item.JunPoint,
+                            JulPoints = "("+resultList.Where(f => f.Month == 7).SingleOrDefault().Points+") "+item.JulPoint,
+                            AugPoints = "("+resultList.Where(f => f.Month == 8).SingleOrDefault().Points+") "+item.AugPoint,
+                            SepPoints = "("+resultList.Where(f => f.Month == 9).SingleOrDefault().Points+") "+item.SepPoint,
                         });
                        
                        

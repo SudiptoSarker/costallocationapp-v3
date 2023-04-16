@@ -180,6 +180,36 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public List<User> GetAllUserLogs()
+        {
+            List<User> users = new List<User>();
+            string query = "select * from UserLogs";
 
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            User user = new User();
+                            user.UserName = rdr["UserName"].ToString();
+
+                            users.Add(user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return users;
+            }
+        }
     }
 }

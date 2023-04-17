@@ -24,9 +24,23 @@
     <!-- /Header Title -->
     @* <div class="col-md-12" >
         <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
-    </div> *@
-    @* <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;height:33px;line-height:1;">save</button> *@
+    </div> *@    
+    @{
+        string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+        string paramsVal = Request.QueryString["forecastType"];
 
+        string url = System.IO.Path.GetFileName(fullPath);
+        if(!string.IsNullOrEmpty(paramsVal) && paramsVal == "2023"){
+            if (url.ToLower().Contains("createforecast") ){
+                <div class="page-title-box">
+                    <h3>
+                        <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;">save</button>
+                    </h3>
+                </div>
+            }
+        }        
+    }
+    
     <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
 
     <!-- Header Menu -->

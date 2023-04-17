@@ -655,7 +655,11 @@ namespace CostAllocationApp.DAL
                 }
                 where += $" ea.CompanyId In ({tempCompanyIds}) and ";
             }
-
+            if (!string.IsNullOrEmpty(employeeAssignment.Year))
+            {
+                where += $" ea.Year={employeeAssignment.Year} and ";
+            }
+            
             if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
             {
                 where += $" ea.IsActive={employeeAssignment.IsActive} and ";

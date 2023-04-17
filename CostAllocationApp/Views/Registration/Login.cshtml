@@ -86,7 +86,7 @@
                     dataType: 'json',
                     data: JSON.stringify({ userName: loginUserName, password: loginPassword}),
                     success: function (data) {
-                        if (data == true) {
+                        if (data == 'done') {
                             var chat = $.connection.chatHub;
                             // Start the connection.
                             $.connection.hub.start().done(function () {
@@ -107,9 +107,14 @@
                             });
                             window.location.href = "/Dashboard/Index";
                         }
-                        else {
+                        else if (data == 'invalid') {
                             $(".username-error").show();
                             $(".password-error").show();
+                        }
+                        else {
+                            $(".username-error").hide();
+                            $(".password-error").hide();
+                            alert("already logged in");
                         }
                        
                     }

@@ -258,6 +258,15 @@ namespace CostAllocationApp.Controllers.Api
                 employeeAssignment.CompanyId = "";
             }
 
+            if (!string.IsNullOrEmpty(year))
+            {
+                employeeAssignment.Year = year;
+            }
+            else
+            {
+                employeeAssignment.Year = "";
+            }
+
             if (!string.IsNullOrEmpty(status))
             {
                 employeeAssignment.IsActive = status;

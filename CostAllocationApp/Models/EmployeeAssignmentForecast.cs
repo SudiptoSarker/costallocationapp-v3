@@ -20,5 +20,6 @@ namespace CostAllocationApp.Models
         public string IsActive { get; set; }
         public string Remarks { get; set; }
         public int SubCode { get; set; }
+        public string Year { get; set; }
     }
 }

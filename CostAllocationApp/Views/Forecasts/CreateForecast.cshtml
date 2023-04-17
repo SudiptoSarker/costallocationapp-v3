@@ -68,6 +68,11 @@
                 </div>
             </div>
 
+            <h5>Show Year Wise Data</h5>
+            <select id="assignment_year_list">
+            </select>
+            <br><br>
+
             /***************************\
              Employee Assignment: Create Forecast
             \***************************/
@@ -143,6 +148,7 @@
 <input type="hidden" id="hidExplanationId" />
 <input type="hidden" id="hidCompanyid" />
 <input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
+<input type="hidden" id="hidDefaultForecastYear" value="" />
 
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
@@ -308,7 +314,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/forecast_ver06.js"></script>
+    <script src="/Scripts/forecast_ver07.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
 

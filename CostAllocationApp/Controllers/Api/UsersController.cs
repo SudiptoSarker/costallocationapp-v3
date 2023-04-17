@@ -21,20 +21,21 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CheckUser(User user)
         {
-            bool userCheck = false;
+            string userCheck = "invalid";
             if (!String.IsNullOrEmpty(user.UserName) && !String.IsNullOrEmpty(user.Password))
             {
-                userCheck = _userBLL.CheckUser(user.UserName.ToString(), user.Password.ToString());
-                if (userCheck==true)
+                var result = _userBLL.CheckUser(user.UserName.ToString(), user.Password.ToString());
+                if (result == true)
                 {
                     var loggedInUsers = _userBLL.GetAllUserLogs().Where(u=>u.UserName== user.UserName).ToList();
                     if (loggedInUsers.Count>0)
                     {
-                        userCheck = false;
+                        userCheck = "invalid-1"; ;
                     }
                     else
                     {
-                        var result = _userBLL.CreateUserLog(user.UserName);
+                        _userBLL.CreateUserLog(user.UserName);
+                        userCheck = "done";
                     }  
                 }
             }

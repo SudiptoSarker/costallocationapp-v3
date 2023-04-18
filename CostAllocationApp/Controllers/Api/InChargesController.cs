@@ -17,6 +17,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateInCharge(InCharge inCharge)
         {
+            var session = System.Web.HttpContext.Current.Session;
 
             if (String.IsNullOrEmpty(inCharge.InChargeName))
             {
@@ -24,7 +25,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                inCharge.CreatedBy = "";
+                inCharge.CreatedBy = session["userName"].ToString();
                 inCharge.CreatedDate = DateTime.Now;
                 inCharge.IsActive = true;
 

@@ -18,6 +18,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateCompany(Company company)
         {
+            var session = System.Web.HttpContext.Current.Session;
             // checking null or empty
             if (String.IsNullOrEmpty(company.CompanyName))
             {
@@ -25,7 +26,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                company.CreatedBy = "";
+                company.CreatedBy = session["userName"].ToString();
                 company.CreatedDate = DateTime.Now;
                 company.IsActive = true;
 

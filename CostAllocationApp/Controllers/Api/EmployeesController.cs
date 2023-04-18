@@ -25,6 +25,8 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateAssignment(EmployeeAssignmentDTO employeeAssignmentDTO)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             int tempValue = 0;
@@ -242,7 +244,7 @@ namespace CostAllocationApp.Controllers.Api
             #endregion
 
             //employeeAssignment.ExplanationId = employeeAssignmentDTO.ExplanationId;
-            employeeAssignment.CreatedBy = "";
+            employeeAssignment.CreatedBy = session["userName"].ToString();
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = employeeAssignmentDTO.Remarks.Trim();
@@ -264,6 +266,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPut]
         public IHttpActionResult UpdateAssignment([FromBody]  EmployeeAssignmentDTO employeeAssignmentDTO)
         {
+            var session = System.Web.HttpContext.Current.Session;
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             int tempValue = 0;
@@ -390,7 +393,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             #endregion
             employeeAssignment.ExplanationId = employeeAssignmentDTO.ExplanationId;
-            employeeAssignment.UpdatedBy = "";
+            employeeAssignment.UpdatedBy = session["userName"].ToString();
             employeeAssignment.UpdatedDate = DateTime.Now;
             employeeAssignment.Id = employeeAssignmentDTO.Id;
             employeeAssignment.Remarks = employeeAssignmentDTO.Remarks.Trim();

@@ -155,8 +155,6 @@ namespace CostAllocationApp.DAL
 
                     foreach (var item in forecastHisory.Forecasts)
                     {
-                        item.CreatedDate = DateTime.Now;
-                        item.CreatedBy = "";
                         CreateForecastHistory(item, lastId);
                     }
                 }
@@ -218,7 +216,8 @@ namespace CostAllocationApp.DAL
         {
             List<ForecastHisory> forecastHisories = new List<ForecastHisory>();
             string query = "";
-            query = "SELECT * FROM TimeStamps WHERE year=" + year;
+            query = "SELECT * FROM TimeStamps WHERE year=" + year+" order by Id desc";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -233,6 +232,7 @@ namespace CostAllocationApp.DAL
                             ForecastHisory forecastHisory = new ForecastHisory();
                             forecastHisory.Id = Convert.ToInt32(rdr["Id"]);
                             forecastHisory.TimeStamp = rdr["TimeStamp"].ToString();
+                            forecastHisory.CreatedBy = rdr["CreatedBy"].ToString();
 
                             forecastHisories.Add(forecastHisory);
                         }
@@ -244,6 +244,41 @@ namespace CostAllocationApp.DAL
                 }
 
                 return forecastHisories;
+            }
+        }
+
+        public List<Forecast> GetHistoriesByTimeStampId(int timeStampId)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string query = "";
+            query = "SELECT * FROM CostHistories WHERE TimeStampId=" + timeStampId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecasts;
             }
         }
 
@@ -302,6 +337,7 @@ namespace CostAllocationApp.DAL
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             forecast.Points = Convert.ToDecimal(rdr["Points"]);
                             forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            forecast.UpdatedBy = rdr["UpdatedBy"].ToString();
                             forecasts.Add(forecast);
 
                         }
@@ -364,7 +400,7 @@ namespace CostAllocationApp.DAL
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             forecast.Points = Convert.ToDecimal(rdr["Points"]);
                             forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
-
+                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
                             forecastHistories.Add(forecast);
                         }
                     }

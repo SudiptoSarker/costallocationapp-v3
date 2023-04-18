@@ -268,6 +268,7 @@ namespace CostAllocationApp.DAL
                             forecast.Id = Convert.ToInt32(rdr["Id"]);
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
                             forecast.CreatedBy = rdr["CreatedBy"].ToString();
                             forecasts.Add(forecast);
                         }

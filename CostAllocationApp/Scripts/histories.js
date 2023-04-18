@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 function GetHistories(timeStampId) {
 
-
+    
     $.ajax({
         url: `/api/utilities/GetHistoriesByTimeStampId`,
         contentType: 'application/json',
@@ -45,6 +45,7 @@ function GetHistories(timeStampId) {
         dataType: 'json',
         data: { timeStampId: timeStampId },
         success: function (data) {
+            $('#forecast_histories table').css('display', 'inline-table');
             $('#forecast_histories table tbody').empty();
             $.each(data, function (index, element) {
                 //console.log(element);

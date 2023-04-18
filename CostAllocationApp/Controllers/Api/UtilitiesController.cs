@@ -999,7 +999,7 @@ namespace CostAllocationApp.Controllers.Api
                     }
 
                     ForecastHisory forecastHisory = new ForecastHisory();
-                    forecastHisory.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
                     forecastHisory.Forecasts = forecastsPrevious;
                     forecastHisory.CreatedBy = session["userName"].ToString();
@@ -1519,20 +1519,35 @@ namespace CostAllocationApp.Controllers.Api
                     var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
 
+                    var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+
+                    var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janPOriginal = originalForecastData.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febPOriginal = originalForecastData.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marPOriginal = originalForecastData.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprPOriginal = originalForecastData.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayPOriginal = originalForecastData.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junPOriginal = originalForecastData.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+
                     forecastHistoryList.Add(new
                     {
-                        OctPoints = octP,
-                        NovPoints = novP,
-                        DecPoints = decP,
-                        JanPoints = janP,
-                        FebPoints = febP,
-                        MarPoints = marP,
-                        AprPoints = aprP,
-                        MayPoints = mayP,
-                        JunPoints = junP,
-                        JulPoints = julP,
-                        AugPoints = augP,
-                        SepPoints = sepP,
+                        OctPoints = octP == octPOriginal ? "": "("+ octP+") "+ octPOriginal,
+                        NovPoints = novP == novPOriginal ? "" : "(" + novP + ") " + novPOriginal,
+                        DecPoints = decP == decPOriginal ? "" : "(" + decP + ") " + decPOriginal,
+                        JanPoints = janP == janPOriginal ? "" : "(" + janP + ") " + janPOriginal,
+                        FebPoints = febP == febPOriginal ? "" : "(" + febP + ") " + febPOriginal,
+                        MarPoints = marP == marPOriginal ? "" : "(" + marP + ") " + marPOriginal,
+                        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP + ") " + aprPOriginal,
+                        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP + ") " + mayPOriginal,
+                        JunPoints = junP == junPOriginal ? "" : "(" + junP + ") " + junPOriginal,
+                        JulPoints = julP == julPOriginal ? "" : "(" + julP + ") " + julPOriginal,
+                        AugPoints = augP == augPOriginal ? "" : "(" + augP + ") " + augPOriginal,
+                        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP + ") " + sepPOriginal,
                     });
                 }
             }

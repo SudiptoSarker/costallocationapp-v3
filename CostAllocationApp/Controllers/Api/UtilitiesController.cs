@@ -1508,16 +1508,16 @@ namespace CostAllocationApp.Controllers.Api
 
                     var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
                     var novP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var decP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var janP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var febP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var marP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var aprP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var mayP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var junP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var julP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var augP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var sepP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decP = tempList.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janP = tempList.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febP = tempList.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marP = tempList.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprP = tempList.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayP = tempList.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junP = tempList.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julP = tempList.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
 
                     forecastHistoryList.Add(new
                     {

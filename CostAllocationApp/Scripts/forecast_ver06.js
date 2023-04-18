@@ -3293,7 +3293,7 @@ function UpdateForecast(){
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by', 'user');
+                        chat.server.send('data has been inserted', '');
                     });
                 }
             });
@@ -3311,13 +3311,13 @@ function UpdateForecast(){
                 type: 'POST',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos:jssUpdatedData, HistoryName: promptValue }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: promptValue }),
                 success: function (data) {
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by', 'user');
+                        chat.server.send('data has been updated','');
                     });
                 }
             });
@@ -3343,9 +3343,10 @@ function CompareUpdatedData() {
             data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
             success: function (data) {
                 $('#display_matched_rows table tbody').empty();
+                console.log(data);
                 $.each(data, function (index, element) {
-                    console.log(element);
-                    $('#display_matched_rows table tbody').append(`<tr><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
+                    console.log(element.CreatedBy);
+                    $('#display_matched_rows table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
                 });
             }
         });

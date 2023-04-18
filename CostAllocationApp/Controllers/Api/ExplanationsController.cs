@@ -18,6 +18,8 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateExplanation(Explanation explanation)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             // checking null or empty
             if (String.IsNullOrEmpty(explanation.ExplanationName))
             {
@@ -25,7 +27,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                explanation.CreatedBy = "";
+                explanation.CreatedBy = session["userName"].ToString();
                 explanation.CreatedDate = DateTime.Now;
                 explanation.IsActive = true;
 

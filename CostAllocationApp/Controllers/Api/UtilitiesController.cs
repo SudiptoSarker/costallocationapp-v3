@@ -24,6 +24,7 @@ namespace CostAllocationApp.Controllers.Api
         ForecastBLL forecastBLL = null;
         EmployeeBLL employeeBLL = null;
         UserBLL userBLL = null;
+        
 
         public UtilitiesController()
         {
@@ -869,6 +870,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/CreateHistory/")]
         public IHttpActionResult CreateForecastHistory(ForecastHistoryDto forecastHistoryDto)
         {
+            var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecasts = new List<Forecast>();
             string message = "Something went wrong!!!";
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
@@ -880,7 +882,7 @@ namespace CostAllocationApp.Controllers.Api
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.AssignmentId;
                         employeeAssignment.Remarks = item.Remarks;
-                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedBy = session["userName"].ToString();
                         employeeAssignment.UpdatedDate = DateTime.Now;
                         employeeAssignment.EmployeeId = item.EmployeeId;
                         employeeAssignment.SectionId = item.SectionId;
@@ -913,7 +915,7 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
                     forecastHisory.Forecasts = forecasts;
-                    forecastHisory.CreatedBy = "";
+                    forecastHisory.CreatedBy = session["userName"].ToString();
                     forecastHisory.CreatedDate = DateTime.Now;
 
 
@@ -935,6 +937,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/UpdateForecastData/")]
         public IHttpActionResult UpdateForecastData(ForecastHistoryDto forecastHistoryDto)
         {
+            var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecasts = new List<Forecast>();
             List<Forecast> forecastsPrevious = new List<Forecast>();
             string message = "Something went wrong!!!";
@@ -947,7 +950,7 @@ namespace CostAllocationApp.Controllers.Api
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.AssignmentId;
                         employeeAssignment.Remarks = item.Remarks;
-                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedBy = session["userName"].ToString();
                         employeeAssignment.UpdatedDate = DateTime.Now;
                         employeeAssignment.EmployeeId = item.EmployeeId;
                         employeeAssignment.SectionId = item.SectionId;
@@ -989,12 +992,19 @@ namespace CostAllocationApp.Controllers.Api
 
                     }
 
+                    foreach (var forecastPrevious in forecastsPrevious)
+                    {
+                        forecastPrevious.CreatedBy = session["userName"].ToString();
+                        forecastPrevious.CreatedDate = DateTime.Now;
+                    }
+
                     ForecastHisory forecastHisory = new ForecastHisory();
                     forecastHisory.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
                     forecastHisory.Forecasts = forecastsPrevious;
-                    forecastHisory.CreatedBy = "";
+                    forecastHisory.CreatedBy = session["userName"].ToString();
                     forecastHisory.CreatedDate = DateTime.Now;
+
                     //forecastHisory.UpdatedDate = DateTime.Now;
                     //forecastHisory.UpdatedBy = "";
                     //int resultEdit = forecastBLL.UpdateForecast(forecastHisory.Forecasts);
@@ -1044,9 +1054,11 @@ namespace CostAllocationApp.Controllers.Api
 
         public Forecast ExtraxctToForecast(int assignmentId,int year, int monthId,decimal point)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             Forecast forecast = new Forecast();
             forecast.EmployeeAssignmentId = assignmentId;
-            forecast.CreatedBy = "";
+            forecast.CreatedBy = session["userName"].ToString();
             forecast.CreatedDate = DateTime.Now;
             forecast.Year = year;
             forecast.Month = monthId;
@@ -1060,6 +1072,8 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/CreateEmployee/")]
         public IHttpActionResult CreateNewEmployee(Employee employee)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             if (!String.IsNullOrEmpty(employee.FullName))
             {
                 if (employeeBLL.CheckEmployeeDuplication(employee.FullName))
@@ -1069,7 +1083,7 @@ namespace CostAllocationApp.Controllers.Api
                 else
                 {
                     employee.IsActive = true;
-                    employee.CreatedBy = "";
+                    employee.CreatedBy = session["userName"].ToString();
                     employee.CreatedDate = DateTime.Now;
                     int result = employeeBLL.CreateEmployee(employee);
                     if (result > 0)
@@ -1093,6 +1107,8 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/CreateUserName/")]
         public IHttpActionResult CreateUserName(User user)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             if (!String.IsNullOrEmpty(user.UserName))
             {
                 if (employeeBLL.CheckUserNameDuplication(user.UserName))
@@ -1102,7 +1118,7 @@ namespace CostAllocationApp.Controllers.Api
                 else
                 {
                     user.IsActive = true;
-                    user.CreatedBy = "";
+                    user.CreatedBy = session["userName"].ToString();
                     user.CreatedDate = DateTime.Now;
                     int result = userBLL.CreateUserName(user);
                     if (result > 0)
@@ -1155,9 +1171,11 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/UpdateEmployee/")]
         public IHttpActionResult UpdateEmployee(Employee employee)
         {
-            if(!String.IsNullOrEmpty(employee.FullName))
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (!String.IsNullOrEmpty(employee.FullName))
             {
-                employee.UpdatedBy = "";
+                employee.UpdatedBy = session["userName"].ToString();
                 employee.UpdatedDate = DateTime.Now;
                 int result = employeeBLL.UpdateEmployee(employee);
                 if (result > 0)
@@ -1181,8 +1199,9 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/InactiveEmployee/")]
         public IHttpActionResult InactiveEmployee(Employee employee)
         {
+            var session = System.Web.HttpContext.Current.Session;
             employee.IsActive = false;
-            employee.UpdatedBy = "";
+            employee.UpdatedBy = session["userName"].ToString();
             employee.UpdatedDate = DateTime.Now;
             int result = employeeBLL.InactiveEmployee(employee);
             if (result > 0)
@@ -1208,6 +1227,8 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         continue;
                     }
+                    var session = System.Web.HttpContext.Current.Session;
+
                     employeeAssignment.EmployeeId = item.EmployeeId;
                     employeeAssignment.SectionId = item.SectionId;
                     employeeAssignment.DepartmentId = item.DepartmentId;
@@ -1220,7 +1241,7 @@ namespace CostAllocationApp.Controllers.Api
                     employeeAssignment.Year = item.Year;
                     employeeAssignment.IsActive = true.ToString();
                     employeeAssignment.SubCode = 1;
-                    employeeAssignment.CreatedBy = "";
+                    employeeAssignment.CreatedBy = session["userName"].ToString();
                     employeeAssignment.CreatedDate = DateTime.Now;
                     employeeAssignment.Remarks = item.Remarks;
 
@@ -1434,6 +1455,7 @@ namespace CostAllocationApp.Controllers.Api
                         matchedRows.Add(new
                         {
                             EmployeeName = item.EmployeeName,
+                            CreatedBy = resultList[0].CreatedBy,
                             OctPoints = _octP,
                             NovPoints = _novP,
                             DecPoints = _decP,
@@ -1469,6 +1491,52 @@ namespace CostAllocationApp.Controllers.Api
         {
             var result = forecastBLL.DuplicateForecastYear(copyYear, insertYear);
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetHistoriesByTimeStampId/")]
+        public IHttpActionResult GetHistoriesByTimeStampId(int timeStampId)
+        {
+            List<object> forecastHistoryList = new List<object>();
+            List<Forecast> historyList =  forecastBLL.GetHistoriesByTimeStampId(timeStampId);
+            List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+            if (distinctAssignmentId.Count>0)
+            {
+                foreach (var item in distinctAssignmentId)
+                {
+                    var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
+
+                    var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var janP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var febP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var marP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var aprP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var mayP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var junP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var julP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var augP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var sepP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+
+                    forecastHistoryList.Add(new
+                    {
+                        OctPoints = octP,
+                        NovPoints = novP,
+                        DecPoints = decP,
+                        JanPoints = janP,
+                        FebPoints = febP,
+                        MarPoints = marP,
+                        AprPoints = aprP,
+                        MayPoints = mayP,
+                        JunPoints = junP,
+                        JulPoints = julP,
+                        AugPoints = augP,
+                        SepPoints = sepP,
+                    });
+                }
+            }
+            return Ok(forecastHistoryList);
         }
     }
 }

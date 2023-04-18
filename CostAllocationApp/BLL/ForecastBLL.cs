@@ -112,5 +112,10 @@ namespace CostAllocationApp.BLL
                
             return resultSave;
         }
+
+        public List<Forecast> GetHistoriesByTimeStampId(int timeStampId)
+        {
+            return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
+        }
     }
 }

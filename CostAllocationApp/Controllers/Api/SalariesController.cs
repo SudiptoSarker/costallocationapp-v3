@@ -18,6 +18,8 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateSalary(Salary salary)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             // checking salary null or empty
             if (String.IsNullOrEmpty(salary.SalaryGrade))
             {
@@ -25,7 +27,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                salary.CreatedBy = "";
+                salary.CreatedBy = session["userName"].ToString();
                 salary.CreatedDate = DateTime.Now;
                 salary.IsActive = true;
 

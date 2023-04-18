@@ -275,27 +275,36 @@
         </li>
         <li class="nav-item dropdown has-arrow main-drop">
             @*<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">*@
-            <a href="#" class="" data-toggle="dropdown">
-                <span class="user-img">
-                    <img src="/assets/img/profiles/avatar-21.jpg" alt="">
-                    <span class="status online"></span>
-                </span>
-                @if (Session["userName"] == null)
-                {
-                    <span></span>
-                }
-                else
-                {
-                    <span id="user_name">@Session["userName"].ToString()</span>
-                    <input type="hidden" id="hidden_username" value="@Session["userName"].ToString()" />
-                }
+            
+            @{
+                string fullPath2 = HttpContext.Current.Request.Url.AbsolutePath;
+                string url2 = System.IO.Path.GetFileName(fullPath2);
+                if (url2.ToLower().Contains("login") || string.IsNullOrEmpty(url2)){
+                }else{
+                    <a href="#" class="" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img src="/assets/img/profiles/avatar-21.jpg" alt="">
+                            <span class="status online"></span>
+                        </span>
+                        @if (Session["userName"] == null)
+                        {
+                            <span></span>
+                        }
+                        else
+                        {
+                            <span id="user_name">@Session["userName"].ToString()</span>
+                            <input type="hidden" id="hidden_username" value="@Session["userName"].ToString()" />
+                        }
 
-            </a>
-            <div class="dropdown-menu">
-                    @*<a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>*@
-                    <a class="dropdown-item" id="logout" href="javascript:void(0);" onclick="RemoveSession();">Logout</a>
-            </div>
+                    </a>
+                
+                    <div class="dropdown-menu" id="logout_dropdown">
+                        @*<a class="dropdown-item" href="profile.html">My Profile</a>
+                        <a class="dropdown-item" href="settings.html">Settings</a>*@
+                        <a class="dropdown-item" id="logout" href="javascript:void(0);" onclick="RemoveSession();">Logout</a>
+                    </div>
+                }      
+            }            
         </li>
     </ul>
     <!-- /Header Menu -->

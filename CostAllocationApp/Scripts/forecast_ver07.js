@@ -3253,16 +3253,16 @@ function UpdateForecast(){
     $('#update_forecast').modal('hide');
     $("#loading").css("display", "block"); 
 
-    console.log(jssInsertedData); 
+    //console.log(jssInsertedData); 
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
     var day = dateObj.getDate();
     var year = dateObj.getUTCFullYear();
 
     var timestamp = `${year}${month}${day}_`;
-    //var promptValue = prompt("History Save As", timestamp);
+    var promptValue = prompt("History Save As", '');
     
-    var promptValue = "nothing";
+    //var promptValue = "";
     if (promptValue == null || promptValue == undefined || promptValue == "") {
         return false;
     }
@@ -3311,7 +3311,7 @@ function UpdateForecast(){
                 type: 'POST',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos:jssUpdatedData, HistoryName: promptValue }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp+promptValue }),
                 success: function (data) {
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();

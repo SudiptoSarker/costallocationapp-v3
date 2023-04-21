@@ -17,7 +17,11 @@ namespace CostAllocationApp.BLL
         public int CreateEmployee(Employee employee)
         {
             return employeeDAL.CreateEmployee(employee);
-        }        
+        }
+        public int CheckForEmployeeName(string employeeName)
+        {
+            return employeeDAL.CheckForEmployeeName(employeeName);
+        }
         public List<Employee> GetAllEmployees()
         {
             return employeeDAL.GetAllEmployees();

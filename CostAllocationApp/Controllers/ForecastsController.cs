@@ -175,7 +175,15 @@ namespace CostAllocationApp.Controllers
                                 employee.CreatedBy = "";
                                 employee.CreatedDate = DateTime.Now;
                                 employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
-                                int result = employeeBLL.CreateEmployee(employee);
+                                int result = employeeBLL.CheckForEmployeeName(employee.FullName);
+                                if (result > 0)
+                                {
+                                    _uploadExcel.EmployeeId = result;
+                                }
+                                else
+                                {
+                                    result = employeeBLL.CreateEmployee(employee);
+                                }
 
                                 _uploadExcel.EmployeeId = result;
                             }
@@ -221,8 +229,16 @@ namespace CostAllocationApp.Controllers
                                 _uploadExcel.GradeId = 0;
                                 _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
                             }
-
-
+                            //remarks
+                            if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
+                            {
+                                _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
+                            }
+                            else
+                            {
+                                _uploadExcel.Remarks = "";
+                            }
+                            
                             var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
                             if (assignmentViewModels.Count > 0)
                             {
@@ -357,7 +373,7 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.CreatedBy = "";
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
-            employeeAssignment.Remarks = "";
+            employeeAssignment.Remarks = dt_.Remarks;
             employeeAssignment.Year = upload_year.ToString();
 
             int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);

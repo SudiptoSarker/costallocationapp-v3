@@ -283,7 +283,8 @@
     <script type="text/javascript">
 
         function RemoveSession() {
-                var user_name = $('#hidden_username').val();
+            //$('#logout').click(function () {
+                var user_name = $('#hidden_username').val();                
                 if (user_name != null || user_name != undefined || user_name!='') {
                     $.ajax({
                         url: `/Registration/RemoveSession?userName=${user_name}`,
@@ -302,6 +303,8 @@
                         }
                     });
                 }
+               
+            //});
         }
 
         //$(document).ready(function () {

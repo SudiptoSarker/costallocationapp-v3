@@ -30,6 +30,16 @@ namespace CostAllocationApp.Controllers
         // GET: Forecasts
         public ActionResult CreateForecast()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             string requestType = Request.QueryString["forecastType"];
 
             if (TempData["seccess"] != null)
@@ -360,6 +370,16 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult GetHistories()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
         public ActionResult ActualCosts()

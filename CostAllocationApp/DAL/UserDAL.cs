@@ -34,16 +34,17 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int CreateUserLog(string userName)
+        public int CreateUserLog(string userName,string token)
         {
             int result = 0;
-            string query = $@"insert into UserLogs(UserName,LoginTime) values(@userName,@loginTime)";
+            string query = $@"insert into UserLogs(UserName,LoginTime,Token) values(@userName,@loginTime,@token)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@userName", userName);
                 cmd.Parameters.AddWithValue("@loginTime", DateTime.Now);
+                cmd.Parameters.AddWithValue("@token", token);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -241,6 +242,32 @@ namespace CostAllocationApp.DAL
                 }
 
                 return user;
+            }
+        }
+
+        public bool GetUserLogByToken(string token)
+        {
+            bool result = false;
+            string query = "select * from UserLogs where token='" + token + "'";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
             }
         }
     }

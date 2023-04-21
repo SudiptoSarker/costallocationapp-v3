@@ -20,9 +20,9 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.CheckUser(userName, password);
         }
-        public int CreateUserLog(string userName)
+        public int CreateUserLog(string userName,string token)
         {
-            return userDAL.CreateUserLog(userName);
+            return userDAL.CreateUserLog(userName,token);
         }
         public List<User> GetUserLogs()
         {
@@ -47,6 +47,11 @@ namespace CostAllocationApp.BLL
         public User GetUserLog(string userName)
         {
             return userDAL.GetUserLog(userName);
+        }
+        public static bool GetUserLogByToken(string token)
+        {
+            UserDAL user_dal = new UserDAL();
+            return user_dal.GetUserLogByToken(token);
         }
     }
 }

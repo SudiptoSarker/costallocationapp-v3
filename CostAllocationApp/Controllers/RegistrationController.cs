@@ -21,9 +21,10 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
-        public JsonResult SetSession(string userName)
+        public JsonResult SetSession(string userName,string token)
         {
             Session["userName"] = userName;
+            Session["token"] = token;
             return Json("",JsonRequestBehavior.AllowGet);
         }
 
@@ -33,9 +34,16 @@ namespace CostAllocationApp.Controllers
         }
 
         [HttpGet]
+        public JsonResult RemoveOtherSessions(string userName)
+        {
+            int result = userBLL.RemoveUser(userName);
+            return Json("ok", JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult RemoveSession(string userName)
         {
             Session["userName"] = null;
+            Session["token"] = null;
             int result = userBLL.RemoveUser(userName);
             return Json("ok", JsonRequestBehavior.AllowGet);
         }

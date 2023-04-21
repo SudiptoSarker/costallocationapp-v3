@@ -21,7 +21,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CheckUser(User user)
         {
-            string userCheck = "invalid";
+            string userToken = "invalid";
             if (!String.IsNullOrEmpty(user.UserName) && !String.IsNullOrEmpty(user.Password))
             {
                 var result = _userBLL.CheckUser(user.UserName.ToString(), user.Password.ToString());
@@ -30,17 +30,18 @@ namespace CostAllocationApp.Controllers.Api
                     var loggedInUsers = _userBLL.GetAllUserLogs().Where(u=>u.UserName== user.UserName).ToList();
                     if (loggedInUsers.Count>0)
                     {
-                        userCheck = "invalid-1"; ;
+                        userToken = "invalid-1";
                     }
                     else
                     {
-                        _userBLL.CreateUserLog(user.UserName);
-                        userCheck = "done";
+                        userToken = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                        _userBLL.CreateUserLog(user.UserName, userToken);
+                       
                     }  
                 }
             }
 
-            return Ok(userCheck);
+            return Ok(userToken);
         }
     }
 }

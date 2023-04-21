@@ -62,7 +62,9 @@ namespace CostAllocationApp.Controllers.Api
                 forecast.Month = Convert.ToInt32(temp[0]);
                 forecast.Year = Convert.ToInt32(year);
                 forecast.EmployeeAssignmentId = Convert.ToInt32(assignmentId);
-                forecast.CreatedBy = session["userName"].ToString();
+                //forecast.CreatedBy = session["userName"].ToString();
+                //commented by sudipto on 19April2023
+                forecast.CreatedBy = "user4";
                 forecast.CreatedDate = DateTime.Now;
                 forecast.UpdatedBy = "";
                 forecast.UpdatedDate = DateTime.Now;

@@ -1311,11 +1311,16 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
                     var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
+                    //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay,result.CreatedDate.TimeOfDay);
+                    var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
+                    //if (compareDate>=0)
+                    //{
+                        if (compareDate >= 0)
+                        {
+                            matchedCount++;
+                        }
+                    //}
                     
-                    if (result)
-                    {
-                        matchedCount++;
-                    }
                 }
                 
             }
@@ -1336,8 +1341,18 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
                     var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(item.AssignmentId, user.LoginTime);
-
-                    userNames += result+",";
+                    //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay, result.CreatedDate.TimeOfDay);
+                    var compareDate = DateTime.Compare(result.CreatedDate,user.LoginTime);
+                    if (compareDate>=0)
+                    {
+                        userNames += result.CreatedBy;
+                        //if (compareResult >= 0)
+                        //{
+                        //    userNames += result + ",";
+                        //}
+                    }
+                    
+                        
                 }
 
             }
@@ -1360,7 +1375,8 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
                     var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
-                    if (result)
+                    var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
+                    if (compareDate >= 0)
                     {
                         // latest assignment history
                         var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId);

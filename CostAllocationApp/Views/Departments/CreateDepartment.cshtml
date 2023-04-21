@@ -146,9 +146,13 @@
                         async: false,
                         dataType: 'json',
                         success: function (data) {
+                            var userName = $('#user_name').text();
                             $('#user_log').empty();
                             $.each(data, (index, value) => {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                if (userName != value.UserName) {
+                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                }
+                                
                             });
 
                         }

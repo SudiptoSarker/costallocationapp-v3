@@ -353,37 +353,11 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public bool MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
+        public Forecast MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
         {
-            bool result = false;
+            Forecast forecast = new Forecast();
             string query = "";
-            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" and CreatedDate >='"+date+ "' group by EmployeeAssignmentsId,Id,CreatedDate order by ID,EmployeeAssignmentsId,CreatedDate desc";
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        result = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return result;
-            }
-        }
-
-        public string MatchForecastHistoryUsernamesByAssignmentId(int assignmentId, DateTime date)
-        {
-            string result = "";
-            string query = "";
-            query = "SELECT top 1 EmployeeAssignmentsId,Id,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " and CreatedDate >='" + date + "' group by EmployeeAssignmentsId,Id,CreatedBy,CreatedDate order by ID,EmployeeAssignmentsId,CreatedBy,CreatedDate desc";
+            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" order by Id desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -395,7 +369,39 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            result = rdr["CreatedBy"].ToString();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecast;
+            }
+        }
+
+        public Forecast MatchForecastHistoryUsernamesByAssignmentId(int assignmentId, DateTime date)
+        {
+            Forecast forecast = new Forecast();
+            string query = "";
+            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " order by Id desc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                         }
                         
                     }
@@ -405,7 +411,7 @@ namespace CostAllocationApp.DAL
 
                 }
 
-                return result;
+                return forecast;
             }
         }
 

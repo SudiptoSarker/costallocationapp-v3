@@ -353,11 +353,11 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public bool MatchForecastHistoryByAssignmentId(int assignmentId)
+        public bool MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
         {
             bool result = false;
             string query = "";
-            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" group by EmployeeAssignmentsId,Id order by ID,EmployeeAssignmentsId desc";
+            query = "SELECT top 1 EmployeeAssignmentsId,Id FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" and CreatedDate >='"+date+ "' group by EmployeeAssignmentsId,Id,CreatedDate order by ID,EmployeeAssignmentsId,CreatedDate desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -368,6 +368,36 @@ namespace CostAllocationApp.DAL
                     if (rdr.HasRows)
                     {
                         result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public string MatchForecastHistoryUsernamesByAssignmentId(int assignmentId, DateTime date)
+        {
+            string result = "";
+            string query = "";
+            query = "SELECT top 1 EmployeeAssignmentsId,Id,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " and CreatedDate >='" + date + "' group by EmployeeAssignmentsId,Id,CreatedBy,CreatedDate order by ID,EmployeeAssignmentsId,CreatedBy,CreatedDate desc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            result = rdr["CreatedBy"].ToString();
+                        }
+                        
                     }
                 }
                 catch (Exception ex)

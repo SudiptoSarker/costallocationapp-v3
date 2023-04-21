@@ -197,19 +197,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="form-header">
-                    <h3>年度データー(Emp. Assignments)</h3>
+                <h3>年度データー(Emp. Assignments)</h3>
+                <div class="form-header" id="header_show">
+
                     <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
                     <style>
-                        .forecast_save_confirm_text{
+                        .forecast_save_confirm_text {
                             text-align: left;
                         }
                     </style>
                     <label class="forecast_save_confirm_text">
-                        @*Edited and saved by <span id="last_edited_user">user1</span>*@ 
-                        <span id="row_count"></span> rows are modified by users! Click Back button to view details.
-                        <br>                       
+                        @*Edited and saved by <span id="last_edited_user">user1</span>*@
+                        <span id="row_count"></span> rows are modified by <span id="user_names"></span> Click Back button to view details.
+                        <br>
                         データを上書きをする可能性があります。
                         <br>
                         戻るボタンをクリックし、変更履歴をチェックし、問題がないことを確認できます。
@@ -220,7 +221,7 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()">戻る(Back)</a>
+                            <a href="javascript:void(0);" id="back_button_show" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()">戻る(Back)</a>
                         </div>
                         <div class="col-6">
                             <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
@@ -353,7 +354,7 @@
                 //debugger;
                 //console.log(chat);
                 chat.client.addNewMessageToPage = function (name, message) {
-                    alert(name + ' logged in');
+                    alert(name + message);
                     $.ajax({
                         url: `/api/utilities/GetUserLogs/`,
                         contentType: 'application/json',

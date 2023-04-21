@@ -44,5 +44,9 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.GetAllUserLogs();
         }
+        public User GetUserLog(string userName)
+        {
+            return userDAL.GetUserLog(userName);
+        }
     }
 }

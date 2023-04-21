@@ -27,6 +27,11 @@ namespace CostAllocationApp.Controllers
             return Json("",JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSession()
+        {
+            return Json(Session["userName"].ToString(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult RemoveSession(string userName)
         {

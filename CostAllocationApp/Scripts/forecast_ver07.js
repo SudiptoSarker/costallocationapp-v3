@@ -2983,6 +2983,23 @@ $(document).ready(function () {
     //});
 
     $('#update_forecast_history').on('click', function () {
+
+        var employeeCount = 0;
+        var rowCount = 0;
+        $.ajax({
+            url: `/api/utilities/GetUserLogs/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                employeeCount = data.length;
+                console.log(employeeCount);
+            }
+        });
+
+
+
         if (jssUpdatedData.length > 0) {
             $.ajax({
             url: `/api/utilities/GetMatchedRowNumber/`,
@@ -2991,12 +3008,42 @@ $(document).ready(function () {
             async: false,
             dataType: 'json',
             data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
-            success: function (data) {
+                success: function (data) {
+                    rowCount = data;
+                    console.log(rowCount);
+                    $.ajax({
+                        url: `/api/utilities/GetMatchedUserNames/`,
+                        contentType: 'application/json',
+                        type: 'POST',
+                        async: false,
+                        dataType: 'json',
+                        data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+                        success: function (userNames) {
+                            $('#user_names').empty();
+                            $('#user_names').append(userNames);
+                        }
+                    });
                 $('#row_count').empty();
                 $('#row_count').append(data);
                 }
             });
         }
+        if (employeeCount == 1) {
+            $('#header_show').css('display', 'none');
+            $('#back_button_show').css('display', 'none');
+        }
+        else {
+            if (rowCount == 0) {
+                $('#header_show').css('display', 'none');
+                $('#back_button_show').css('display', 'none');
+            }
+            else {
+                $('#header_show').css('display', 'block');
+                $('#back_button_show').css('display', 'block');
+            }
+         
+        }
+      
         $('#update_forecast').modal('show');
     });
 
@@ -3253,6 +3300,20 @@ function UpdateForecast(){
     $('#update_forecast').modal('hide');
     $("#loading").css("display", "block"); 
 
+    var userName = '';
+
+
+    $.ajax({
+        url: `/Registration/GetSession/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            userName = data;
+        }
+    });
+
     //console.log(jssInsertedData); 
     var dateObj = new Date();
     var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -3293,7 +3354,7 @@ function UpdateForecast(){
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by', 'user');
+                        chat.server.send('data has been inserted by ', userName);
                     });
                 }
             });
@@ -3317,7 +3378,7 @@ function UpdateForecast(){
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by', 'user');
+                        chat.server.send('data has been updated by ', userName);
                     });
                 }
             });
@@ -3351,7 +3412,21 @@ function CompareUpdatedData() {
         });
     }
 }
-function ImportCSVFile(){
+function ImportCSVFile() {
+    var userName = '';
+
+
+    $.ajax({
+        url: `/Registration/GetSession/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            userName = data;
+        }
+    });
+
     $.ajax({
         url: `/Forecasts/Index/`,
         contentType: 'application/json',
@@ -3364,7 +3439,7 @@ function ImportCSVFile(){
             $.connection.hub.start();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                chat.server.send('data has been inserted by', 'user');
+                chat.server.send('data has been inserted by ', userName);
             });
         }
     });

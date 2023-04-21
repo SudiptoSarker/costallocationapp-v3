@@ -37,12 +37,13 @@ namespace CostAllocationApp.DAL
         public int CreateUserLog(string userName)
         {
             int result = 0;
-            string query = $@"insert into UserLogs(UserName) values(@userName)";
+            string query = $@"insert into UserLogs(UserName,LoginTime) values(@userName,@loginTime)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@loginTime", DateTime.Now);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -209,6 +210,37 @@ namespace CostAllocationApp.DAL
                 }
 
                 return users;
+            }
+        }
+
+        public User GetUserLog(string userName)
+        {
+            User user = new User();
+            string query = "select * from UserLogs where username='"+userName+"'";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            
+                            user.UserName = rdr["UserName"].ToString();
+                            user.LoginTime = Convert.ToDateTime(rdr["LoginTime"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return user;
             }
         }
     }

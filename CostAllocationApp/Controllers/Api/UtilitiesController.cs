@@ -1302,12 +1302,16 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetMatchedRowNumber/")]
         public IHttpActionResult GetMatchedRowNumber(ForecastHistoryDto forecastHistoryDto)
         {
+            var session = System.Web.HttpContext.Current.Session;
+            User user = userBLL.GetUserLog(session["userName"].ToString());
+
             int matchedCount = 0;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count>0)
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
+                    
                     if (result)
                     {
                         matchedCount++;
@@ -1319,16 +1323,43 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [HttpPost]
+        [Route("api/utilities/GetMatchedUserNames/")]
+        public IHttpActionResult GetMatchedUserNames(ForecastHistoryDto forecastHistoryDto)
+        {
+            string userNames = "";
+            var session = System.Web.HttpContext.Current.Session;
+            User user = userBLL.GetUserLog(session["userName"].ToString());
+
+            //int matchedCount = 0;
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
+            {
+                foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                {
+                    var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(item.AssignmentId, user.LoginTime);
+
+                    userNames += result+",";
+                }
+
+            }
+
+            userNames = userNames.TrimEnd(',');
+            return Ok(userNames);
+        }
+
+        [HttpPost]
         [Route("api/utilities/GetMatchedRows/")]
         public IHttpActionResult GetMatchedRows(ForecastHistoryDto forecastHistoryDto)
         {
+            var session = System.Web.HttpContext.Current.Session;
+            User user = userBLL.GetUserLog(session["userName"].ToString());
+
             List<Object> matchedRows = new List<object>();
             int matchedCount = 0;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
                     if (result)
                     {
                         // latest assignment history
@@ -1504,6 +1535,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in distinctAssignmentId)
                 {
+                    var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
                     var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
@@ -1536,6 +1568,7 @@ namespace CostAllocationApp.Controllers.Api
 
                     forecastHistoryList.Add(new
                     {
+                        EmployeeName = employeeName,
                         OctPoints = octP == octPOriginal ? "": "("+ octP+") "+ octPOriginal,
                         NovPoints = novP == novPOriginal ? "" : "(" + novP + ") " + novPOriginal,
                         DecPoints = decP == decPOriginal ? "" : "(" + decP + ") " + decPOriginal,
@@ -1551,7 +1584,18 @@ namespace CostAllocationApp.Controllers.Api
                     });
                 }
             }
+
             return Ok(forecastHistoryList);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetTimeWiseChanges/")]
+        public IHttpActionResult GetTimeWiseChanges()
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            User user = userBLL.GetUserLog(session["userName"].ToString());
+
+            return Ok();
         }
     }
 }

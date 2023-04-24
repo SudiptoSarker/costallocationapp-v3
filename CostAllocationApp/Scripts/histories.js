@@ -30,13 +30,15 @@ $(document).ready(function () {
 
     });
 
-
-
 });
+
+
+
 
 function GetHistories(timeStampId) {
 
-    
+    $('#modal_change_history').modal('show');
+
     $.ajax({
         url: `/api/utilities/GetHistoriesByTimeStampId`,
         contentType: 'application/json',
@@ -45,11 +47,11 @@ function GetHistories(timeStampId) {
         dataType: 'json',
         data: { timeStampId: timeStampId },
         success: function (data) {
-            $('#forecast_histories table').css('display', 'inline-table');
+            //$('#display_matched_rows table').css('display', 'inline-table');
             $('#forecast_histories table tbody').empty();
             $.each(data, function (index, element) {
                 //console.log(element);
-                $('#forecast_histories table tbody').append(`<tr><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
+                $('#forecast_histories table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
             });
         }
     });

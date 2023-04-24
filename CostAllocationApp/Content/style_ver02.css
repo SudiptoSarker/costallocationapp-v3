@@ -8507,3 +8507,16 @@ ul.comment-list li ul.children {
 	will-change: transform;
 	width: 63px !important;
 }
+
+/* modal forecast change hostory */
+/*.modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
+}*/
+
+#update_forecast.modal.custom-class {
+    z-index: 1029
+}

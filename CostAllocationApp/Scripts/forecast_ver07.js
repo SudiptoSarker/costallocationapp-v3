@@ -2084,6 +2084,9 @@ $(document).ready(function () {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
+            tableOverflow: true,
+            tableWidth: '1200px',
+            freezeColumns: 2,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -3152,6 +3155,33 @@ $(document).ready(function () {
         var assignmentYear = $("#hidDefaultForecastYear").val();
         ShowForecastResults(assignmentYear);
     });
+
+    //$(document).on('click', '#back_button_show', function () {
+    //    //debugger;
+    //    $('#modal_change_history').modal('show');
+
+    //    if (jssUpdatedData.length > 0) {
+
+    //        $.ajax({
+    //            // url: `/api/utilities/CreateHistory`,
+    //            url: `/api/utilities/GetMatchedRows`,
+    //            contentType: 'application/json',
+    //            type: 'POST',
+    //            async: false,
+    //            dataType: 'json',
+    //            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+    //            success: function (data) {
+    //                $('#display_matched_rows table tbody').empty();
+    //                $.each(data, function (index, element) {
+    //                    console.log(element);
+    //                    $('#display_matched_rows table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
+    //                });
+    //                //debugger;
+                    
+    //            }
+    //        });
+    //    }
+    //});
 
 });
 

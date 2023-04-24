@@ -1110,7 +1110,7 @@ $(document).on("click", function (event) {
 
 $(document).ready(function () {
     GetAllForecastYears();
-    GetAllImportYear();
+    // GetAllImportYear();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
         var assignmentYear = $("#hidDefaultForecastYear").val();
@@ -3487,38 +3487,44 @@ function GetAllForecastYears() {
         //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
             $('#assignment_year_list').append(`<option value=''>select year</option>`);
+            $('#select_year_to_import').append(`<option value=''>select year</option>`);
+            $('#replicate_from').append(`<option value=''>select year</option>`);
             var count =1;
             $.each(data, function (index, element) {
                 if(count==1){
                     $("#hidDefaultForecastYear").val(element.Year)
                 }
                 $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                count++;
-            });
-        }
-    });
-}
-function GetAllImportYear() {
-    $.ajax({
-        url: `/api/utilities/GetForecatYear`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            $('#select_year_to_import').append(`<option value=''>select year</option>`);
-            var count =1;
-            $.each(data, function (index, element) {
-                if(count==1){
-                    $("#hidDefaultForecastYear").val(element.Year)
-                }
                 $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
+                $('#replicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);
                 count++;
             });
         }
     });
 }
+
+// function GetAllImportYear() {
+//     $.ajax({
+//         url: `/api/utilities/GetForecatYear`,
+//         contentType: 'application/json',
+//         type: 'GET',
+//         async: false,
+//         dataType: 'json',
+//         //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
+//         success: function (data) {
+//             $('#select_year_to_import').append(`<option value=''>select year</option>`);
+//             var count =1;
+//             $.each(data, function (index, element) {
+//                 if(count==1){
+//                     $("#hidDefaultForecastYear").val(element.Year)
+//                 }
+//                 $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
+//                 count++;
+//             });
+//         }
+//     });
+// }
+
 function CheckForecastYear(){
     //var year = $('#assignment_year_list').find(":selected").val();
     var year = $('#select_year_to_import').find(":selected").val();
@@ -3542,11 +3548,15 @@ function CheckDuplicateYear(){
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!=""){
         $('#duplciateYear').val(parseInt(year)+1);
+        $('#replicate_from').val(year);
+    }else{
+        $('#duplciateYear').val('');
+        $('#replicate_from').val('');
     }
 }
 function DuplicateForecast(){    
     var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#select_year_to_import').find(":selected").val();
+    var copyYear = $('#replicate_from').find(":selected").val();
 
     if(copyYear!="" && insertYear!=""){
         $("#replicate_from_previous_year").modal("hide");
@@ -3566,7 +3576,7 @@ function DuplicateForecast(){
             }
         });
     }else{
-        alert("please select year!");
+        alert("please select From and To year!");
         return false;
     }
 }

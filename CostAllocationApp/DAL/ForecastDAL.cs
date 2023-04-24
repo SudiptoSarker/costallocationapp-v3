@@ -593,5 +593,103 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
+        public List<Forecast> GetForecastDetails(int assignmentId,int copyYear)
+        {
+            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = "+assignmentId+ " and Year=" + copyYear;
+
+            List<Forecast> forecasts = new List<Forecast>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            if (rdr["EmployeeAssignmentsId"] == DBNull.Value)
+                            {
+                                forecast.EmployeeAssignmentId = 0;
+                            }
+                            else
+                            {
+                                forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            }
+                            if (rdr["Year"] == DBNull.Value)
+                            {
+                                forecast.Year = 0;
+                            }
+                            else
+                            {
+                                forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            }
+                            if (rdr["MonthId"] == DBNull.Value)
+                            {
+                                forecast.Month = 0;
+                            }
+                            else
+                            {
+                                forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            }
+                            if (rdr["Points"] == DBNull.Value)
+                            {
+                                forecast.Points = 0;
+                            }
+                            else
+                            {
+                                forecast.Points = Convert.ToInt32(rdr["Points"]);
+                            }
+                            if (rdr["Total"] == DBNull.Value)
+                            {
+                                forecast.Total = 0;
+                            }
+                            else
+                            {
+                                forecast.Total = Convert.ToInt32(rdr["Total"]);
+                            }
+                            if (rdr["CreatedBy"] == DBNull.Value)
+                            {
+                                forecast.CreatedBy = null;
+                            }
+                            else
+                            {
+                                forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            }
+
+                            if (rdr["CreatedDate"] == DBNull.Value)
+                            {
+                                forecast.CreatedDate = DateTime.Now;
+                            }
+                            else
+                            {
+                                forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            }
+                            if (rdr["UpdatedDate"] == DBNull.Value)
+                            {
+                                forecast.UpdatedDate = DateTime.Now; ;
+                            }
+                            else
+                            {
+                                forecast.UpdatedDate = Convert.ToDateTime(rdr["UpdatedDate"]);
+                            }
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+
     }
 }

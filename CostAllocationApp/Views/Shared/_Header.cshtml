@@ -30,7 +30,7 @@
         string paramsVal = Request.QueryString["forecastType"];
 
         string url = System.IO.Path.GetFileName(fullPath);
-        if(!string.IsNullOrEmpty(paramsVal) && paramsVal == "2023"){
+        if(!string.IsNullOrEmpty(paramsVal) && paramsVal == "edit"){
             if (url.ToLower().Contains("createforecast") ){
                 <div class="page-title-box">
                     <h3>

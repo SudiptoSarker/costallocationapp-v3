@@ -3152,7 +3152,8 @@ $(document).ready(function () {
     });
     
     $(document).on('change', '#assignment_year_list', function () {
-        var assignmentYear = $("#hidDefaultForecastYear").val();
+        //var assignmentYear = $("#hidDefaultForecastYear").val();
+        var assignmentYear = $('#assignment_year_list').find("option:selected").text();
         ShowForecastResults(assignmentYear);
     });
 
@@ -3560,6 +3561,7 @@ function DuplicateForecast(){
             data: "copyYear=" + copyYear+"&insertYear="+insertYear,
             success: function (data) {               
                 LoaderHide();
+                window.location.reload();
                 alert("data has been replicated.")
             }
         });

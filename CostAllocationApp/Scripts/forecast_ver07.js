@@ -1110,9 +1110,9 @@ $(document).on("click", function (event) {
 
 $(document).ready(function () {
     GetAllForecastYears();
+    GetAllImportYear();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
-        //var assignmentYear = $('#assignment_year_list').find(":selected").val();
         var assignmentYear = $("#hidDefaultForecastYear").val();
         $('#assignment_year_list').val(assignmentYear);
         ShowForecastResults(assignmentYear);
@@ -1947,6 +1947,7 @@ $(document).ready(function () {
             var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
             var total = _retriveddata.find(x => x.EmployeeName == 'Total');
             $("#head_total").css("display", "inline-table");
+            $('#head_total tbody').empty();
             $('#head_total tbody').append(`<tr>
                     <td>Head Count</td>
                     <td>${headCount.OctPoints}</td>
@@ -3466,43 +3467,70 @@ function GetAllForecastYears() {
         }
     });
 }
-
+function GetAllImportYear() {
+    $.ajax({
+        url: `/api/utilities/GetForecatYear`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
+        success: function (data) {
+            $('#select_year_to_import').append(`<option value=''>select year</option>`);
+            var count =1;
+            $.each(data, function (index, element) {
+                if(count==1){
+                    $("#hidDefaultForecastYear").val(element.Year)
+                }
+                $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
+                count++;
+            });
+        }
+    });
+}
 function CheckForecastYear(){
-    var year = $('#assignment_year_list').find(":selected").val();
-    if(year!=""){
-        $('#inputState').val(parseInt(year)+1);
+    //var year = $('#assignment_year_list').find(":selected").val();
+    var year = $('#select_year_to_import').find(":selected").val();
+    if(year!="" && typeof year != "undefined"){
+        // $('#inputState').val(parseInt(year)+1);
+        $('#select_import_year').val(parseInt(year)+1);
     }
 }
 function ValidateYear(){
-    var selectedYear = $('#inputState').find(":selected").val();
-    if(selectedYear ==""){
+    $("#csv_import_modal").modal("hide");
+    LoaderShow();
+    // var selectedYear = $('#inputState').find(":selected").val();
+    var selectedYear = $('#select_import_year').find(":selected").val();
+    if(selectedYear =="" || typeof selectedYear === "undefined"){
+        alert("please select year!");
         return false;
     }
     
 }
 function CheckDuplicateYear(){
-    var year = $('#assignment_year_list').find(":selected").val();
+    var year = $('#select_year_to_import').find(":selected").val();
     if(year!=""){
         $('#duplciateYear').val(parseInt(year)+1);
     }
 }
-function DuplicateForecast(){
+function DuplicateForecast(){    
     var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#assignment_year_list').find(":selected").val();
+    var copyYear = $('#select_year_to_import').find(":selected").val();
 
     if(copyYear!="" && insertYear!=""){
+        $("#replicate_from_previous_year").modal("hide");
+        $("#loading").css("display", "block");
+        //LoaderShow();
         $.ajax({
             url: `/api/utilities/DuplicateForecastYear`,
             contentType: 'application/json',
             type: 'GET',
-            async: false,
+            async: true,
             dataType: 'json',
             data: "copyYear=" + copyYear+"&insertYear="+insertYear,
-            success: function (data) {
-                // $('#assignment_year_list').append(`<option value=''>select year</option>`);
-                // $.each(data, function (index, element) {
-                //     $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                // });
+            success: function (data) {               
+                LoaderHide();
+                alert("data has been replicated.")
             }
         });
     }else{

@@ -1727,7 +1727,11 @@ table.dataTable > thead .sorting .sorting_desc, {
     font-size: 13px;
     height: 34px;
 }
-
+#select_import_year {
+    box-shadow: none;
+    font-size: 13px;
+    height: 34px;
+}
 /* #import_data_btn {
     box-shadow: none;
     font-size: 13px;
@@ -1980,4 +1984,25 @@ table.dataTable > thead .sorting .sorting_desc, {
 }
 .jexcel tbody tr td:nth-of-type(36) {
     text-align:right !important;
+}
+/***************************\                           
+	Import and Replicate Data
+\***************************/
+.import_forecast_data{
+    color: black;
+    text-decoration: underline;
+    margin-left: -5px;
+    font-size: 13px !important;
+}
+.replicate_forecast_data{
+    color: black;
+    text-decoration: underline;
+    margin-left: 28px;
+    font-size: 13px !important;
+}
+.section_list_theader{
+    border: none !important;
+    padding: 0px !important;
+    text-align: left;
+    font-size: 0.875rem;
 }

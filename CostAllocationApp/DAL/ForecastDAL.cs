@@ -454,7 +454,7 @@ namespace CostAllocationApp.DAL
         {
             List<ForecastYear> forecastYears = new List<ForecastYear>();
             string query = "";
-            query = "select distinct Year from EmployeesAssignments";
+            query = "select distinct Year from EmployeesAssignments order by Year asc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

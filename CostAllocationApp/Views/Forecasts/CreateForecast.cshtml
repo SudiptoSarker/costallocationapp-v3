@@ -40,7 +40,7 @@
 
             <div class="import_year_wise_data" id="">
                 <h5>予算策定・編集する年度のデータを選択 (Impot Year Wise Data)</h5>
-                <select id="select_year_to_import">
+                <select id="assignment_year_list">
                 </select>
                 <br /> <br />
                 <table class="" id="">
@@ -64,78 +64,48 @@
                 </table>
             </div>
             <br />
-            <br />  
+            <br />
 
         }
         else
         {   /***************************\
-             Show Loader
-            \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="forecast">
-                        <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                            <center>
-                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                                <br>
-                                <strong>Please wait a moment...</strong>
-                                <br>
-                                <br>
-                            </center>
-                        </div>                        
-                    </div>
+     Show Loader
+    \***************************/
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                        <br>
+                        <strong>Please wait a moment...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <h5>Show Year Wise Data</h5>
-            <select id="assignment_year_list">
-            </select>
-            <br><br>
+    <h5>Show Year Wise Data</h5>
+    <select id="assignment_year_list"></select>
+    <br><br>
 
-            /***************************\
-             Employee Assignment: Create Forecast
-            \***************************/
-            <div class="row">
-                <div class="col-md-12" >
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
-                </div>
-                <div class="offset-md-2 col-md-8">
-                    <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
-                        <h5>Matched Rows</h5>
-                        <table style="width:100%;font-size:12px;text-align:center;">
-                            <thead>
-                                <tr>
-                                    <th>Edited By</th>
-                                    <th>Employee Name</th>
-                                    <th>10月</th>
-                                    <th>11月</th>
-                                    <th>12月</th>
-                                    <th>1月</th>
-                                    <th>2月</th>
-                                    <th>3月</th>
-                                    <th>4月</th>
-                                    <th>5月</th>
-                                    <th>6月</th>
-                                    <th>7月</th>
-                                    <th>8月</th>
-                                    <th>9月</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div id="jspreadsheet"></div>
-                </div>
-                <div class="col-12">
-                    <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
+    /***************************\
+     Employee Assignment: Create Forecast
+    \***************************/
+        <div class="row">
+            <div class="col-md-12">
+                <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
+            </div>
+            <div class="offset-md-2 col-md-8">
+                <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
+                    <h5>Matched Rows</h5>
+                    <table style="width:100%;font-size:12px;text-align:center;">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Edited By</th>
+                                <th>Employee Name</th>
                                 <th>10月</th>
                                 <th>11月</th>
                                 <th>12月</th>
@@ -150,16 +120,43 @@
                                 <th>9月</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
-        }
+
+            <div class="col-md-12">
+                <div id="jspreadsheet"></div>
+            </div>
+            <div class="col-12">
+                <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+}
     }
 
 </div>
+
+
 
 <input type="hidden" id="hidSectionId" />
 <input type="hidden" id="hidDepartmentId" />
@@ -212,7 +209,7 @@
 </div>
 
 <!-----------------Modal: Update Forecast Confirm Dialog box----------------->
-<div class="modal custom-modal fade" id="update_forecast" role="dialog">
+<div class="modal custom-modal fade" id="update_forecast">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
@@ -240,7 +237,7 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" id="back_button_show" data-dismiss="modal" class="btn btn-primary cancel-btn" onclick="CompareUpdatedData()">戻る(Back)</a>
+                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" onclick="CompareUpdatedData();">戻る(Back)</a>
                         </div>
                         <div class="col-6">
                             <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
@@ -262,15 +259,11 @@
                 @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" })){
                 <div class="form-header">
                     <h3>予算策定・編集 (CSV Import)</h3>
-                     @* <select id="select_import_year">
-                        <option>select year</option>
-                        <option>2023</option>
-                        <option>2024</option>
-                     </select>                    *@
+                    <ol class="company_count" style="text-align:left;"></ol>
                     <div class="row">                        
                         <div class="col-6">
                             <label>策定する年度を選択</label>
-                            <select id="select_import_year" class="form-control" name="upload_year">
+                            <select id="inputState" class="form-control" name="upload_year">
                                 <option value="">select year</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
@@ -337,13 +330,63 @@
     </div>
 </div>
 
+
+<!-- Modal History -->
+@*<div class="modal fade" id="modal_change_history">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">Change Summary</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="display_matched_rows">
+                                <h5>Matched Rows</h5>
+                                <table style="width:100%;font-size:12px;text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th>Edited By</th>
+                                            <th>Employee Name</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
 @section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/forecast_ver07.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $("table1").DataTable();
 
@@ -357,7 +400,7 @@
                 success: function (data) {
                     var userName = $('#user_name').text();
                     $('#user_log').empty();
-                    $.each(data,(index, value) => {
+                    $.each(data, (index, value) => {
                         if (userName !== value.UserName) {
                             $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
                         }
@@ -391,7 +434,7 @@
                                 if (userName != value.UserName) {
                                     $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
                                 }
-                                
+
                             });
 
                         }

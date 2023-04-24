@@ -3429,7 +3429,7 @@ function CompareUpdatedData() {
     
     //window.location.replace("/Forecasts/GetHistories");
     if (jssUpdatedData.length > 0) {
-        $('#display_matched_rows').css('display', 'block');
+        //$('#display_matched_rows').css('display', 'block');
 
         $.ajax({
             // url: `/api/utilities/CreateHistory`,

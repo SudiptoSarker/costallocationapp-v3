@@ -121,5 +121,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
         }
+
+        public List<int> GetYearFromHistory()
+        {
+            return forecastDAL.GetYearFromHistory();
+        }
     }
 }

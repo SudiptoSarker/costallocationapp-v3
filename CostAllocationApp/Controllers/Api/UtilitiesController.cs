@@ -1585,6 +1585,7 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHistoryList.Add(new
                     {
                         EmployeeName = employeeName,
+                        CreatedBy= historyList[0].CreatedBy,
                         OctPoints = octP == octPOriginal ? "": "("+ octP+") "+ octPOriginal,
                         NovPoints = novP == novPOriginal ? "" : "(" + novP + ") " + novPOriginal,
                         DecPoints = decP == decPOriginal ? "" : "(" + decP + ") " + decPOriginal,

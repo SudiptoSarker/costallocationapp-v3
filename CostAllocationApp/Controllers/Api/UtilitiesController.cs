@@ -1614,5 +1614,14 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetYearFromHistory/")]
+        public IHttpActionResult GetYearFromHistory()
+        {
+            var years = forecastBLL.GetYearFromHistory();
+            return Ok(years);
+        }
+
     }
 }

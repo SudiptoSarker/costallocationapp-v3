@@ -1883,7 +1883,7 @@ $(document).ready(function () {
 
     function ShowForecastResults(year) {
         LoaderShow();
-        
+        debugger;
         var employeeName = $('#name_search').val();
         employeeName = "";
         var sectionId = $('#section_multi_search').val();
@@ -2084,9 +2084,9 @@ $(document).ready(function () {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
-            tableOverflow: true,
-            tableWidth: '1200px',
-            freezeColumns: 2,
+            //tableOverflow: true,
+            //tableWidth: '1200px',
+            //freezeColumns: 2,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -2976,7 +2976,7 @@ $(document).ready(function () {
             julPoint: parseFloat(rowData[20]),
             augPoint: parseFloat(rowData[21]),
             sepPoint: parseFloat(rowData[22]),
-            year: 2023
+            year: document.getElementById('assignment_year_list').value
         };
     }
 
@@ -3152,8 +3152,7 @@ $(document).ready(function () {
     });
     
     $(document).on('change', '#assignment_year_list', function () {
-        //var assignmentYear = $("#hidDefaultForecastYear").val();
-        var assignmentYear = $('#assignment_year_list').find("option:selected").text();
+        var assignmentYear = $("#hidDefaultForecastYear").val();
         ShowForecastResults(assignmentYear);
     });
 
@@ -3424,7 +3423,7 @@ function CompareUpdatedData() {
     
     //window.location.replace("/Forecasts/GetHistories");
     if (jssUpdatedData.length > 0) {
-        $('#display_matched_rows').css('display', 'block');
+        //$('#display_matched_rows').css('display', 'block');
 
         $.ajax({
             // url: `/api/utilities/CreateHistory`,

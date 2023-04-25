@@ -450,6 +450,7 @@ namespace CostAllocationApp.DAL
                 return forecastHistories;
             }
         }
+
         public List<ForecastYear> GetForecastYear()
         {
             List<ForecastYear> forecastYears = new List<ForecastYear>();
@@ -593,9 +594,9 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
-        public List<Forecast> GetForecastDetails(int assignmentId,int copyYear)
+        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
-            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = "+assignmentId+ " and Year=" + copyYear;
+            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = " + assignmentId + " and Year=" + copyYear;
 
             List<Forecast> forecasts = new List<Forecast>();
 
@@ -690,6 +691,5 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
-
     }
 }

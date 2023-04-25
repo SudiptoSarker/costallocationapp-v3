@@ -2,6 +2,20 @@
 
 $(document).ready(function () {
 
+    $.ajax({
+        url: `/api/utilities/GetYearFromHistory`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#history_year').empty();
+            $('#history_year').append('<option value="">Select Year</option>');
+            $.each(data, function (index, value) {
+                $('#history_year').append(`<option value="${value}">${value}</option>`);
+            });
+        }
+    });
 
     $('#history_data_btn').on('click', function () {
         //get the multi search values

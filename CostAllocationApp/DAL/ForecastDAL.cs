@@ -450,7 +450,6 @@ namespace CostAllocationApp.DAL
                 return forecastHistories;
             }
         }
-
         public List<ForecastYear> GetForecastYear()
         {
             List<ForecastYear> forecastYears = new List<ForecastYear>();
@@ -594,9 +593,9 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
-        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
+        public List<Forecast> GetForecastDetails(int assignmentId,int copyYear)
         {
-            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = " + assignmentId + " and Year=" + copyYear;
+            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = "+assignmentId+ " and Year=" + copyYear;
 
             List<Forecast> forecasts = new List<Forecast>();
 
@@ -691,5 +690,37 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
+        public List<int> GetYearFromHistory()
+        {
+            List<int> years = new List<int>();
+            string query = "";
+
+            query = "select distinct year from CostHistories where Year > 0 order by year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            var year = Convert.ToInt32(rdr["Year"]);
+                            years.Add(year);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return years;
+            }
+        }
+
     }
 }

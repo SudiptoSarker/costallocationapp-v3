@@ -3152,7 +3152,13 @@ $(document).ready(function () {
     });
     
     $(document).on('change', '#assignment_year_list', function () {
-        var assignmentYear = $("#hidDefaultForecastYear").val();
+        //var assignmentYear = $("#hidDefaultForecastYear").val();
+        var assignmentYear = $(this).val();
+        if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+            alert('Select valid year!!!');
+            return false;
+        }
+        //alert(assignmentYear);
         ShowForecastResults(assignmentYear);
     });
 

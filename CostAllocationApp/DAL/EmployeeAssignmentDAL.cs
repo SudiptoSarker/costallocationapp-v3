@@ -1074,10 +1074,10 @@ namespace CostAllocationApp.DAL
 
         }
 
-        public List<ForecastDto> GetForecastsByAssignmentId(int assignmentId)
+        public List<ForecastDto> GetForecastsByAssignmentId(int assignmentId,string year)
         {
             List<ForecastDto> forecasts = new List<ForecastDto>();
-            string query = "select * from Costs where EmployeeAssignmentsId=" + assignmentId;
+            string query = "select * from Costs where EmployeeAssignmentsId=" + assignmentId+ " and Year="+ year;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

@@ -140,7 +140,7 @@ namespace CostAllocationApp.BLL
                 {
                     foreach (var item in redMarkedForecastAssignments)
                     {
-                        item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id);
+                        item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
                     }
                 }
 

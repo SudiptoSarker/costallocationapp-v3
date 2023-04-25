@@ -110,6 +110,7 @@ namespace CostAllocationApp.BLL
                         foreach (var forecastItem in forecasts)
                         {
                             forecastItem.Year = insertYear;
+                            forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
                             resultSave = forecastDAL.CreateForecast(forecastItem);
                         }
                     }

@@ -280,8 +280,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: JSON.stringify({ ActualCosts: dataToSend, Year: year }),
                 success: function (data) {
-                    console.log(data);
-
+                    alert("Operation Success.");
                 }
             });
         }

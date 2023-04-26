@@ -22,5 +22,13 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.CheckAssignmentId(assignmentId,year);
         }
+        public int CreateActualCost(ActualCost actualCost)
+        {
+            return actualCostDAL.CreateActualCost(actualCost);
+        }
+        public int UpdateActualCost(ActualCost actualCost)
+        {
+            return actualCostDAL.UpdateActualCost(actualCost);
+        }
     }
 }

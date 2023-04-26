@@ -1663,11 +1663,37 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(actualCostViewModels);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/utilities/CreateActualCost/")]
-        public IHttpActionResult CreateActualCost()
+        public IHttpActionResult CreateActualCost(ActualCostDto actualCostDto)
         {
-            return Ok();
+            var session = System.Web.HttpContext.Current.Session;
+            if (actualCostDto.ActualCosts.Count>0)
+            {
+                foreach (var item in actualCostDto.ActualCosts)
+                {
+                    item.Year = actualCostDto.Year;
+                    var flag = actualCostBLL.CheckAssignmentId(item.AssignmentId, actualCostDto.Year);
+                    if (flag)
+                    {
+                        item.UpdatedBy = session["userName"].ToString();
+                        item.UpdatedDate = DateTime.Now;
+                        actualCostBLL.UpdateActualCost(item);
+                    }
+                    else
+                    {
+                        item.CreatedBy = session["userName"].ToString();
+                        item.CreatedDate = DateTime.Now;
+                        actualCostBLL.CreateActualCost(item);
+                    }
+                }
+                return Ok("Operation Completed.");
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
 

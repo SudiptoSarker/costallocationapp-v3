@@ -140,87 +140,99 @@ $(document).ready(function () {
                      
                         {
                             title: "10月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "OctCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width:100,
                         },
                         {
                             title: "11月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "NovCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "12月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "DecCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "1月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "JanCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "2月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "FebCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "3月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "MarCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "4月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "AprCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "5月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "MayCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "6月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "JunCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "7月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "JulCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "8月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "AugCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                         {
                             title: "9月",
-                            type: "decimal",
+                            type: "numeric",
                             name: "SepCost",
-                            mask: '#.##,0',
-                            decimal: '.'
+                            //mask: '#.##,0',
+                            //decimal: ',',
+                            width: 100,
                         },
                     ],
                     columnSorting: true,
@@ -231,5 +243,50 @@ $(document).ready(function () {
                 jss.deleteColumn(21, 4);
             }
         });
+    });
+
+    $('#create_actual_cost').on('click', function () {
+        var dataToSend = [];
+        var year = $('#assignment_year').val();
+
+        if (jss != undefined) {
+            var data = jss.getData(false);
+            $.each(data, function (index,value) {
+                var obj = {
+                    assignmentId: value[0],
+                    octCost: parseFloat(value[9]),
+                    novCost: parseFloat(value[10]),
+                    decCost: parseFloat(value[11]),
+                    janCost: parseFloat(value[12]),
+                    febCost: parseFloat(value[13]),
+                    marCost: parseFloat(value[14]),
+                    aprCost: parseFloat(value[15]),
+                    mayCost: parseFloat(value[16]),
+                    junCost: parseFloat(value[17]),
+                    julCost: parseFloat(value[18]),
+                    augCost: parseFloat(value[19]),
+                    sepCost: parseFloat(value[20])
+                };
+
+                dataToSend.push(obj);
+            });
+
+            
+            $.ajax({
+                url: `/api/utilities/CreateActualCost`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({ ActualCosts: dataToSend, Year: year }),
+                success: function (data) {
+                    console.log(data);
+
+                }
+            });
+        }
+        else {
+            alert('No Data Found!');
+        }
     });
 });

@@ -413,7 +413,10 @@
             //debugger;
             //console.log(chat);
             chat.client.addNewMessageToPage = function (name, message) {
-                alert(name + message);
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                
                 $.ajax({
                     url: `/api/utilities/GetUserLogs/`,
                     contentType: 'application/json',

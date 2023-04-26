@@ -400,6 +400,16 @@ namespace CostAllocationApp.Controllers
         }
         public ActionResult ActualCosts()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             string requestType = Request.QueryString["forecastType"];
 
             if (TempData["seccess"] != null)

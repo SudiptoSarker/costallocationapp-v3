@@ -1740,18 +1740,33 @@ namespace CostAllocationApp.Controllers.Api
 
             if (actualCost!=null)
             {
-                actualCostViewModel.OctCost = actualCost.OctCost.ToString();
-                actualCostViewModel.NovCost = actualCost.NovCost.ToString();
-                actualCostViewModel.DecCost = actualCost.DecCost.ToString();
-                actualCostViewModel.JanCost = actualCost.JanCost.ToString();
-                actualCostViewModel.FebCost = actualCost.FebCost.ToString();
-                actualCostViewModel.MarCost = actualCost.MarCost.ToString();
-                actualCostViewModel.AprCost = actualCost.AprCost.ToString();
-                actualCostViewModel.MayCost = actualCost.MayCost.ToString();
-                actualCostViewModel.JunCost = actualCost.JunCost.ToString();
-                actualCostViewModel.JulCost = actualCost.JulCost.ToString();
-                actualCostViewModel.AugCost = actualCost.AugCost.ToString();
-                actualCostViewModel.SepCost = actualCost.SepCost.ToString();
+                actualCostViewModel.OctCost = actualCost.OctCost == 0 ? "" : actualCost.OctCost.ToString();
+                actualCostViewModel.NovCost = actualCost.NovCost == 0 ? "" : actualCost.NovCost.ToString();
+                actualCostViewModel.DecCost = actualCost.DecCost == 0 ? "" : actualCost.DecCost.ToString();
+                actualCostViewModel.JanCost = actualCost.JanCost == 0 ? "" : actualCost.JanCost.ToString();
+                actualCostViewModel.FebCost = actualCost.FebCost == 0 ? "" : actualCost.FebCost.ToString();
+                actualCostViewModel.MarCost = actualCost.MarCost == 0 ? "" : actualCost.MarCost.ToString();
+                actualCostViewModel.AprCost = actualCost.AprCost == 0 ? "" : actualCost.AprCost.ToString();
+                actualCostViewModel.MayCost = actualCost.MayCost == 0 ? "" : actualCost.MayCost.ToString();
+                actualCostViewModel.JunCost = actualCost.JunCost == 0 ? "" : actualCost.JunCost.ToString();
+                actualCostViewModel.JulCost = actualCost.JulCost == 0 ? "" : actualCost.JulCost.ToString();
+                actualCostViewModel.AugCost = actualCost.AugCost == 0 ? "" : actualCost.AugCost.ToString();
+                actualCostViewModel.SepCost = actualCost.SepCost == 0 ? "" : actualCost.SepCost.ToString();
+            }
+            else
+            {
+                actualCostViewModel.OctCost = "";
+                actualCostViewModel.NovCost = "";
+                actualCostViewModel.DecCost = "";
+                actualCostViewModel.JanCost = "";
+                actualCostViewModel.FebCost = "";
+                actualCostViewModel.MarCost = "";
+                actualCostViewModel.AprCost = "";
+                actualCostViewModel.MayCost = "";
+                actualCostViewModel.JunCost = "";
+                actualCostViewModel.JulCost = "";
+                actualCostViewModel.AugCost = "";
+                actualCostViewModel.SepCost = "";
             }
 
             return actualCostViewModel;

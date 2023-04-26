@@ -1062,6 +1062,8 @@ namespace CostAllocationApp.Controllers.Api
             forecast.EmployeeAssignmentId = assignmentId;
             forecast.CreatedBy = session["userName"].ToString();
             forecast.CreatedDate = DateTime.Now;
+            forecast.UpdatedBy = session["userName"].ToString();
+            forecast.UpdatedDate = DateTime.Now;
             forecast.Year = year;
             forecast.Month = monthId;
             forecast.Points = point;

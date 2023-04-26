@@ -1333,6 +1333,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetMatchedUserNames/")]
         public IHttpActionResult GetMatchedUserNames(ForecastHistoryDto forecastHistoryDto)
         {
+            List<string> userNameList = new List<string>();
             string userNames = "";
             var session = System.Web.HttpContext.Current.Session;
             User user = userBLL.GetUserLog(session["userName"].ToString());
@@ -1347,19 +1348,25 @@ namespace CostAllocationApp.Controllers.Api
                     var compareDate = DateTime.Compare(result.CreatedDate,user.LoginTime);
                     if (compareDate>=0)
                     {
-                        userNames += result.CreatedBy;
-                        //if (compareResult >= 0)
-                        //{
-                        //    userNames += result + ",";
-                        //}
+                        if (!userNameList.Contains(result.CreatedBy))
+                        {
+                            userNameList.Add(result.CreatedBy);
+                        }
                     }
                     
                         
                 }
 
             }
-
-            userNames = userNames.TrimEnd(',');
+            if (userNameList.Count > 0)
+            {
+                foreach (var item in userNameList)
+                {
+                    userNames += item + ",";
+                }
+                userNames = userNames.TrimEnd(',');
+            }
+            
             return Ok(userNames);
         }
 

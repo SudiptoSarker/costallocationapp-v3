@@ -11,18 +11,18 @@ namespace CostAllocationApp.ViewModels
         public int AssignmentId { get; set; }
         public int Year { get; set; }
 
-        public double OctCost { get; set; }
-        public double NovCost { get; set; }
-        public double DecCost { get; set; }
-        public double JanCost { get; set; }
-        public double FebCost { get; set; }
-        public double MarCost { get; set; }
-        public double AprCost { get; set; }
-        public double MayCost { get; set; }
-        public double JunCost { get; set; }
-        public double JulCost { get; set; }
-        public double AugCost { get; set; }
-        public double SepCost { get; set; }
+        public string OctCost { get; set; }
+        public string NovCost { get; set; }
+        public string DecCost { get; set; }
+        public string JanCost { get; set; }
+        public string FebCost { get; set; }
+        public string MarCost { get; set; }
+        public string AprCost { get; set; }
+        public string MayCost { get; set; }
+        public string JunCost { get; set; }
+        public string JulCost { get; set; }
+        public string AugCost { get; set; }
+        public string SepCost { get; set; }
 
 
         public string EmployeeName { get; set; }

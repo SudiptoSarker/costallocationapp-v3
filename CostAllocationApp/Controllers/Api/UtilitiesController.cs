@@ -1659,7 +1659,24 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
+            var totalCount = actualCostViewModels.Count;
 
+            actualCostViewModels.Add(new ActualCostViewModel
+            {
+                AssignmentId = 0,
+                OctCost = $@"=SUM(J{1}:J{totalCount})",
+                NovCost = $@"=SUM(K{1}:K{totalCount})",
+                DecCost = $@"=SUM(L{1}:L{totalCount})",
+                JanCost = $@"=SUM(M{1}:M{totalCount})",
+                FebCost = $@"=SUM(N{1}:N{totalCount})",
+                MarCost = $@"=SUM(O{1}:O{totalCount})",
+                AprCost = $@"=SUM(P{1}:P{totalCount})",
+                MayCost = $@"=SUM(Q{1}:Q{totalCount})",
+                JunCost = $@"=SUM(R{1}:R{totalCount})",
+                JulCost = $@"=SUM(S{1}:S{totalCount})",
+                AugCost = $@"=SUM(T{1}:T{totalCount})",
+                SepCost = $@"=SUM(U{1}:U{totalCount})",
+            });
             return Ok(actualCostViewModels);
         }
 
@@ -1672,6 +1689,10 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in actualCostDto.ActualCosts)
                 {
+                    if (item.AssignmentId==0)
+                    {
+                        continue;
+                    }
                     item.Year = actualCostDto.Year;
                     var flag = actualCostBLL.CheckAssignmentId(item.AssignmentId, actualCostDto.Year);
                     if (flag)
@@ -1712,18 +1733,18 @@ namespace CostAllocationApp.Controllers.Api
 
             if (actualCost!=null)
             {
-                actualCostViewModel.OctCost = actualCost.OctCost;
-                actualCostViewModel.NovCost = actualCost.NovCost;
-                actualCostViewModel.DecCost = actualCost.DecCost;
-                actualCostViewModel.JanCost = actualCost.JanCost;
-                actualCostViewModel.FebCost = actualCost.FebCost;
-                actualCostViewModel.MarCost = actualCost.MarCost;
-                actualCostViewModel.AprCost = actualCost.AprCost;
-                actualCostViewModel.MayCost = actualCost.MayCost;
-                actualCostViewModel.JunCost = actualCost.JunCost;
-                actualCostViewModel.JulCost = actualCost.JulCost;
-                actualCostViewModel.AugCost = actualCost.AugCost;
-                actualCostViewModel.SepCost = actualCost.SepCost;
+                actualCostViewModel.OctCost = actualCost.OctCost.ToString();
+                actualCostViewModel.NovCost = actualCost.NovCost.ToString();
+                actualCostViewModel.DecCost = actualCost.DecCost.ToString();
+                actualCostViewModel.JanCost = actualCost.JanCost.ToString();
+                actualCostViewModel.FebCost = actualCost.FebCost.ToString();
+                actualCostViewModel.MarCost = actualCost.MarCost.ToString();
+                actualCostViewModel.AprCost = actualCost.AprCost.ToString();
+                actualCostViewModel.MayCost = actualCost.MayCost.ToString();
+                actualCostViewModel.JunCost = actualCost.JunCost.ToString();
+                actualCostViewModel.JulCost = actualCost.JulCost.ToString();
+                actualCostViewModel.AugCost = actualCost.AugCost.ToString();
+                actualCostViewModel.SepCost = actualCost.SepCost.ToString();
             }
 
             return actualCostViewModel;

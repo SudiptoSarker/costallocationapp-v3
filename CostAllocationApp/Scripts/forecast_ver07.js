@@ -1883,7 +1883,7 @@ $(document).ready(function () {
 
     function ShowForecastResults(year) {
         LoaderShow();
-        debugger;
+        //debugger;
         var employeeName = $('#name_search').val();
         employeeName = "";
         var sectionId = $('#section_multi_search').val();

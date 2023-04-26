@@ -56,8 +56,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
                 cmd.Parameters.AddWithValue("@monthId", forecast.Month);
 
-                //cmd.Parameters.AddWithValue("@updatedBy", forecast.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedBy", "sudipto");
+                cmd.Parameters.AddWithValue("@updatedBy", forecast.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedDate", DateTime.Now);
                 try
                 {

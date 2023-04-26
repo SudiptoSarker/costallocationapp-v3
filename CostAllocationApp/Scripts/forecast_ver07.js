@@ -3003,15 +3003,14 @@ $(document).ready(function () {
         });
 
 
-
         if (jssUpdatedData.length > 0) {
             $.ajax({
-            url: `/api/utilities/GetMatchedRowNumber/`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+                url: `/api/utilities/GetMatchedRowNumber/`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
                 success: function (data) {
                     rowCount = data;
                     console.log(rowCount);
@@ -3027,11 +3026,13 @@ $(document).ready(function () {
                             $('#user_names').append(userNames);
                         }
                     });
-                $('#row_count').empty();
-                $('#row_count').append(data);
+                    $('#row_count').empty();
+                    $('#row_count').append(data);
                 }
             });
         }
+
+
         if (employeeCount == 1) {
             $('#header_show').css('display', 'none');
             $('#back_button_show').css('display', 'none');
@@ -3339,7 +3340,6 @@ function UpdateForecast(){
 
     var userName = '';
 
-
     $.ajax({
         url: `/Registration/GetSession/`,
         contentType: 'application/json',
@@ -3350,64 +3350,26 @@ function UpdateForecast(){
             userName = data;
         }
     });
+    if (jssUpdatedData.length > 0) {
+        var dateObj = new Date();
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getDate();
+        var year = dateObj.getUTCFullYear();
 
-    //console.log(jssInsertedData); 
-    var dateObj = new Date();
-    var month = dateObj.getUTCMonth() + 1; //months from 1-12
-    var day = dateObj.getDate();
-    var year = dateObj.getUTCFullYear();
+        var timestamp = `${year}${month}${day}_`;
+        var promptValue = prompt("History Save As", '');
 
-    var timestamp = `${year}${month}${day}_`;
-    var promptValue = prompt("History Save As", '');
-    
-    //var promptValue = "";
-    if (promptValue == null || promptValue == undefined || promptValue == "") {
-        return false;
-    }
-    else {
-        if (jssInsertedData.length > 0) {
-            var elementIndex = jssInsertedData.findIndex(object => {
-
-                return object.employeeName.toLowerCase() == 'total';
-
-            });
-            if (elementIndex >= 0) {
-                jssInsertedData.splice(elementIndex, 1);
-            }
-
+        if (promptValue == null || promptValue == undefined || promptValue == "") {
+            return false;
         }
-        if (jssInsertedData.length > 0) {
-            //console.log('clicked');
-
+        else {
             $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(jssInsertedData),
-                success: function (data) {
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by ', userName);
-                    });
-                }
-            });
-            jssInsertedData = [];
-            newRowCount = 1;
-        }
-        if (jssUpdatedData.length > 0) {
-            console.log(jssUpdatedData);
-            $.ajax({
-                // url: `/api/utilities/CreateHistory`,
                 url: `/api/utilities/UpdateForecastData`,
                 contentType: 'application/json',
                 type: 'POST',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp+promptValue }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue }),
                 success: function (data) {
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
@@ -3420,6 +3382,41 @@ function UpdateForecast(){
             jssUpdatedData = [];
         }
     }
+    else {
+        alert('No data to update!!!');
+    }
+    if (jssInsertedData.length > 0) {
+        var elementIndex = jssInsertedData.findIndex(object => {
+            return object.employeeName.toLowerCase() == 'total';
+        });
+        if (elementIndex >= 0) {
+            jssInsertedData.splice(elementIndex, 1);
+        }
+
+
+        $.ajax({
+            url: `/api/utilities/ExcelAssignment/`,
+            contentType: 'application/json',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            data: JSON.stringify(jssInsertedData),
+            success: function (data) {
+                var chat = $.connection.chatHub;
+                $.connection.hub.start();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    chat.server.send('data has been inserted by ', userName);
+                });
+            }
+        });
+        jssInsertedData = [];
+        newRowCount = 1;
+    }
+    else {
+        alert('No data to create!!!');
+    }
+
     $("#loading").css("display", "none");
 
 }

@@ -1319,6 +1319,10 @@ namespace CostAllocationApp.Controllers.Api
                     //{
                         if (compareDate >= 0)
                         {
+                            if (user.UserName==result.CreatedBy)
+                            {
+                            continue;
+                            }
                             matchedCount++;
                         }
                     //}
@@ -1348,6 +1352,10 @@ namespace CostAllocationApp.Controllers.Api
                     var compareDate = DateTime.Compare(result.CreatedDate,user.LoginTime);
                     if (compareDate>=0)
                     {
+                        if (user.UserName == result.CreatedBy)
+                        {
+                            continue;
+                        }
                         if (!userNameList.Contains(result.CreatedBy))
                         {
                             userNameList.Add(result.CreatedBy);
@@ -1387,12 +1395,13 @@ namespace CostAllocationApp.Controllers.Api
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     if (compareDate >= 0)
                     {
+                        if (user.UserName==result.CreatedBy)
+                        {
+                            continue;
+                        }
                         // latest assignment history
                         var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId);
-                        //EmployeeAssignmentViewModel employeeAssignmentViewModel = employeeAssignmentBLL.GetAssignmentById(resultList[0].EmployeeAssignmentId);
-                        //matchedCount++;
-                        //string employeeName = employeeBLL.GetEmployeeNameByAssignmentId(resultList[0].EmployeeAssignmentId);
-                        // current assignment
+                    
                         var singleForecastList = forecastBLL.GetForecastsByAssignmentId(item.AssignmentId);
 
 

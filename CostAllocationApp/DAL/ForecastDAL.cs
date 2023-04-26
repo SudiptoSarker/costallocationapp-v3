@@ -357,7 +357,7 @@ namespace CostAllocationApp.DAL
         {
             Forecast forecast = new Forecast();
             string query = "";
-            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" order by Id desc";
+            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" order by Id desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -371,6 +371,7 @@ namespace CostAllocationApp.DAL
                         {
                             forecast.Id = Convert.ToInt32(rdr["Id"]);
                             forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
                         }
                     }
                 }

@@ -55,8 +55,66 @@
     <script src="~/Scripts/actualcost.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
-    <script>
+    <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+            var chat = $.connection.chatHub;
+            //$.connection.hub.start();
+            //debugger;
+            //console.log(chat);
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName != value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+
+                        });
+
+                    }
+                });
+            };
+        });
+
         $(document).ready(function () {
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
             //$("table1").DataTable();
         });
         //function bs_input_file() {

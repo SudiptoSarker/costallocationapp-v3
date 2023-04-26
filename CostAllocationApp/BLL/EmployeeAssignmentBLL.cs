@@ -811,6 +811,10 @@ namespace CostAllocationApp.BLL
         {
             employeeAssignmentDAL.DeleteAssignment_Excel(assignmentId);
         }
+        public List<EmployeeAssignmentViewModel> GetAssignmentsByYear(int year)
+        {
+            return employeeAssignmentDAL.GetAssignmentsByYear(year);
+        }
 
     }
 }

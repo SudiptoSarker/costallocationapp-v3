@@ -3398,8 +3398,6 @@ function UpdateForecast(){
             jssInsertedData = [];
             newRowCount = 1;
         }
-
-        
         if (jssUpdatedData.length > 0) {
             console.log(jssUpdatedData);
             $.ajax({

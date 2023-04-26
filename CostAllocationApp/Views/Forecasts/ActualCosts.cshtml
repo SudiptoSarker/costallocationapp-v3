@@ -3,62 +3,41 @@
 @{
     ViewBag.Title = "実績作成 (Actual Cost)";
 }
-@section Styles {    
+@section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/actualcost.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative">
-        <!-----------------Show Loader----------------->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
-                            <br>
-                            <strong>Please wait a moment...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
+<div class="content container-fluid" style="position:relative">
+    <!-----------------Show Loader----------------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
+                        <br>
+                        <strong>Please wait a moment...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
         </div>
-        <!-----------------Employee Assignment: Create Forecast----------------->
-        <div class="row">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
-            </div>
-
-            <div class="col-md-12">
-                <div id="jspreadsheet"></div>
-            </div>
-            <div class="col-6">
-                <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>10</th>
-                            <th>11</th>
-                            <th>12</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                            <th>9</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+    </div>
+    <!-----------------Employee Assignment: Create Actual Cost----------------->
+    <div class="row">
+        <div class="col-md-12">
+            <select class="form-control col-2" id="assignment_year"></select>
+            <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button>
         </div>
 
+        <div class="col-md-12">
+            <div id="jspreadsheet"></div>
+        </div>
     </div>
+
+</div>
 
 <input type="hidden" id="hidSectionId" />
 <input type="hidden" id="hidDepartmentId" />
@@ -68,50 +47,11 @@
 <input type="hidden" id="hidCompanyid" />
 <input type="hidden" id="hidForecastYear" value="2023" />
 
-<!-----------------Modal: Add Employee----------------->
-<div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-header">
-                    <h3>追加 名前 (Add)</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="employee_name">要員 氏名 (Name)</label>
-                        <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)">
-                        <div class="employee_err">
-                            Please provide 要員 氏名 (Name).
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Add</a>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <label for="employee_list" style="display:block;width:100%;">Select from Name List</label>
-                    <select id="employee_list" style=""></select>
-
-                    <div class="custom_button_group_employee">
-                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/forecast_ver04.js"></script>
+    @*<script src="/Scripts/forecast_ver04.js"></script>*@
+    <script src="~/Scripts/actualcost.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>

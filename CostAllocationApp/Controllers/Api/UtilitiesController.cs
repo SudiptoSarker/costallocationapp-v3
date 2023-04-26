@@ -24,6 +24,7 @@ namespace CostAllocationApp.Controllers.Api
         ForecastBLL forecastBLL = null;
         EmployeeBLL employeeBLL = null;
         UserBLL userBLL = null;
+        ActualCostBLL actualCostBLL = null;
         
 
         public UtilitiesController()
@@ -39,6 +40,7 @@ namespace CostAllocationApp.Controllers.Api
             forecastBLL = new ForecastBLL();
             employeeBLL = new EmployeeBLL();
             userBLL = new UserBLL();
+            actualCostBLL = new ActualCostBLL();
         }
 
 
@@ -1621,6 +1623,112 @@ namespace CostAllocationApp.Controllers.Api
         {
             var years = forecastBLL.GetYearFromHistory();
             return Ok(years);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetAssignmentsByYear/")]
+        public IHttpActionResult GetAssignmentsByYear(int year)
+        {
+            List<ActualCostViewModel> actualCostViewModels = new List<ActualCostViewModel>();
+
+            List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetAssignmentsByYear(year);
+
+            List<ActualCost> actualCosts = actualCostBLL.GetActualCostsByYear(year);
+
+            if (actualCosts.Count > 0)
+            {
+                foreach (var item in employeeAssignments)
+                {
+                    var actualCost = actualCosts.Where(ac=>ac.AssignmentId==item.Id).SingleOrDefault();
+                    if (actualCost == null)
+                    {
+                        actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
+                    }
+                    else
+                    {
+                        actualCostViewModels.Add(MergeAssignmentWithActualCost(item, actualCost));
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in employeeAssignments)
+                {
+                    actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
+
+                }
+            }
+
+
+            return Ok(actualCostViewModels);
+        }
+
+        [HttpPost]
+        [Route("api/utilities/CreateActualCost/")]
+        public IHttpActionResult CreateActualCost(ActualCostDto actualCostDto)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (actualCostDto.ActualCosts.Count>0)
+            {
+                foreach (var item in actualCostDto.ActualCosts)
+                {
+                    item.Year = actualCostDto.Year;
+                    var flag = actualCostBLL.CheckAssignmentId(item.AssignmentId, actualCostDto.Year);
+                    if (flag)
+                    {
+                        item.UpdatedBy = session["userName"].ToString();
+                        item.UpdatedDate = DateTime.Now;
+                        actualCostBLL.UpdateActualCost(item);
+                    }
+                    else
+                    {
+                        item.CreatedBy = session["userName"].ToString();
+                        item.CreatedDate = DateTime.Now;
+                        actualCostBLL.CreateActualCost(item);
+                    }
+                }
+                return Ok("Operation Completed.");
+            }
+            else
+            {
+                return NotFound();
+            }
+            
+        }
+
+
+        public ActualCostViewModel MergeAssignmentWithActualCost(EmployeeAssignmentViewModel employeeAssignment, ActualCost actualCost)
+        {
+            ActualCostViewModel actualCostViewModel = new ActualCostViewModel();
+            actualCostViewModel.EmployeeName = employeeAssignment.EmployeeName;
+            actualCostViewModel.AssignmentId = employeeAssignment.Id;
+            actualCostViewModel.SectionId = employeeAssignment.SectionId;
+            actualCostViewModel.DepartmentId = employeeAssignment.DepartmentId;
+            actualCostViewModel.InchargeId = employeeAssignment.InchargeId;
+            actualCostViewModel.RoleId = employeeAssignment.RoleId;
+            actualCostViewModel.ExplanationId = employeeAssignment.ExplanationId;
+            actualCostViewModel.CompanyId = employeeAssignment.CompanyId;
+            actualCostViewModel.Remarks = employeeAssignment.Remarks;
+
+            if (actualCost!=null)
+            {
+                actualCostViewModel.OctCost = actualCost.OctCost;
+                actualCostViewModel.NovCost = actualCost.NovCost;
+                actualCostViewModel.DecCost = actualCost.DecCost;
+                actualCostViewModel.JanCost = actualCost.JanCost;
+                actualCostViewModel.FebCost = actualCost.FebCost;
+                actualCostViewModel.MarCost = actualCost.MarCost;
+                actualCostViewModel.AprCost = actualCost.AprCost;
+                actualCostViewModel.MayCost = actualCost.MayCost;
+                actualCostViewModel.JunCost = actualCost.JunCost;
+                actualCostViewModel.JulCost = actualCost.JulCost;
+                actualCostViewModel.AugCost = actualCost.AugCost;
+                actualCostViewModel.SepCost = actualCost.SepCost;
+            }
+
+            return actualCostViewModel;
+
+
         }
 
     }

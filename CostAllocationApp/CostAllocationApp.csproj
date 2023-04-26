@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BLL\ActualCostBLL.cs" />
     <Compile Include="BLL\CompanyBLL.cs" />
     <Compile Include="BLL\DepartmentBLL.cs" />
     <Compile Include="BLL\EmployeeBLL.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Controllers\SalariesController.cs" />
     <Compile Include="Controllers\SectionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DAL\ActualCostDAL.cs" />
     <Compile Include="DAL\CompanyDAL.cs" />
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DepartmentDAL.cs" />
@@ -218,6 +220,7 @@
     <Compile Include="DAL\SectionDAL.cs" />
     <Compile Include="DAL\UploadExcelDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="Dtos\ActualCostDto.cs" />
     <Compile Include="Dtos\EmployeeAssignmentDTO.cs" />
     <Compile Include="Dtos\ExcelAssignmentDto.cs" />
     <Compile Include="Dtos\ForecastDto.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActualCost.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
@@ -245,6 +249,7 @@
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ActualCostViewModel.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
@@ -619,6 +624,7 @@
     <Content Include="img\sortUp.png" />
     <Content Include="img\user.jpg" />
     <Content Include="img\video-call.jpg" />
+    <Content Include="Scripts\actualcost.js" />
     <Content Include="Scripts\addname.js" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />

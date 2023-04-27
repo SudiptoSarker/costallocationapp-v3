@@ -2084,9 +2084,9 @@ $(document).ready(function () {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
-            //tableOverflow: true,
-            //tableWidth: '1200px',
-            //freezeColumns: 2,
+            tableOverflow: true,
+            tableWidth: '1100px',
+            freezeColumns: 2,
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -3413,9 +3413,9 @@ function UpdateForecast(){
         jssInsertedData = [];
         newRowCount = 1;
     }
-    else {
-        alert('No data to create!!!');
-    }
+    // else {
+    //     alert('No data to create!!!');
+    // }
 
     $("#loading").css("display", "none");
 

@@ -3334,10 +3334,12 @@ function AddEmployee() {
     jss.setValueFromCoords(35, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
-function UpdateForecast(){    
-    $('#update_forecast').modal('hide');
-    $("#loading").css("display", "block"); 
-
+function UpdateForecast(){   
+    $("#update_forecast").modal("hide");
+    $("#jspreadsheet").hide();
+    $("#head_total").hide();
+    LoaderShow(); 
+    
     var userName = '';
 
     $.ajax({
@@ -3349,7 +3351,8 @@ function UpdateForecast(){
         success: function (data) {
             userName = data;
         }
-    });
+    });    
+
     if (jssUpdatedData.length > 0) {
         var dateObj = new Date();
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -3367,7 +3370,7 @@ function UpdateForecast(){
                 url: `/api/utilities/UpdateForecastData`,
                 contentType: 'application/json',
                 type: 'POST',
-                async: false,
+                async: true,
                 dataType: 'json',
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue }),
                 success: function (data) {
@@ -3376,13 +3379,19 @@ function UpdateForecast(){
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });
+                    });        
+                    $("#jspreadsheet").show();
+                    $("#head_total").show();
+                    LoaderHide();             
                 }
             });
             jssUpdatedData = [];
         }
     }
     else {
+        $("#jspreadsheet").show();
+        $("#head_total").show();
+        LoaderHide();    
         alert('No data to update!!!');
     }
     if (jssInsertedData.length > 0) {
@@ -3408,6 +3417,9 @@ function UpdateForecast(){
                 $.connection.hub.start().done(function () {
                     chat.server.send('data has been inserted by ', userName);
                 });
+                $("#jspreadsheet").show();
+                $("#head_total").show();
+                LoaderHide(); 
             }
         });
         jssInsertedData = [];
@@ -3417,8 +3429,10 @@ function UpdateForecast(){
     //     alert('No data to create!!!');
     // }
 
-    $("#loading").css("display", "none");
-
+    //$("#update_forecast").modal("hide");
+    // $("#jspreadsheet").show();
+    // $("#head_total").show();
+    // LoaderHide(); 
 }
 function CompareUpdatedData() {
     

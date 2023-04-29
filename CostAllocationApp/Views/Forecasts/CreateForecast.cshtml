@@ -10,149 +10,154 @@
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-<div class="content container-fluid" style="position:relative">
 
-    @{
-        /***************************\
-         Employee Assignment: Import Excel
-        \***************************/
+    <div class="content container-fluid" style="position:relative">
 
-        if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
-        {
+        @{
             /***************************\
-             Show Loader
+             Employee Assignment: Import Excel
             \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="forecast">
-                        <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                            <center>
-                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader image">
-                                <br>
-                                <strong>Please wait a moment...</strong>
-                                <br>
-                                <br>
-                            </center>
+
+            if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
+            {
+                if (Convert.ToBoolean(ViewBag.linkFlag))
+                {
+
+                    /***************************\
+                     Show Loader
+                    \***************************/
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="forecast">
+                                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                                    <center>
+                                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader image">
+                                        <br>
+                                        <strong>Please wait a moment...</strong>
+                                        <br>
+                                        <br>
+                                    </center>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="import_year_wise_data" id="">
-                <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>
-                <select id="select_year_to_import"></select>
-                <br /> <br />
-                <table class="" id="">
-                    <thead>
-                        <tr>
-                            <th class="section_list_theader">新規作成 (Create New Data)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="section_list_tbody">
-                        <tr>
-                            <td style="border: none !important;">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();" class="import_forecast_data">CSVからインポート (CSV Import)</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border: none !important;">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデーターの複製 (Replicate Data)</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br />
-            <br />
-
-        }
-        else
-        {   /***************************\
-            Show Loader
-            \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="forecast">
-                        <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                            <center>
-                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                                <br>
-                                <strong>Please wait a moment...</strong>
-                                <br>
-                                <br>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h5>Show Year Wise Data</h5>
-            <select id="assignment_year_list"></select>
-            <br><br>
-
-            /***************************\
-            Employee Assignment: Create Forecast
-            \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
-                </div>
-                @*<div class="offset-md-2 col-md-8">
-                    <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
-                        <h5>Matched Rows</h5>
-                        <table style="width:100%;font-size:12px;text-align:center;">
+                    <div class="import_year_wise_data" id="">
+                        <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>
+                        <select id="select_year_to_import"></select>
+                        <br /> <br />
+                        <table class="" id="">
                             <thead>
                                 <tr>
-                                    <th>Edited By</th>
-                                    <th>Employee Name</th>
-                                    <th>10月</th>
-                                    <th>11月</th>
-                                    <th>12月</th>
-                                    <th>1月</th>
-                                    <th>2月</th>
-                                    <th>3月</th>
-                                    <th>4月</th>
-                                    <th>5月</th>
-                                    <th>6月</th>
-                                    <th>7月</th>
-                                    <th>8月</th>
-                                    <th>9月</th>
+                                    <th class="section_list_theader">新規作成 (Create New Data)</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody id="section_list_tbody">
+                                <tr>
+                                    <td style="border: none !important;">
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();" class="import_forecast_data">CSVからインポート (CSV Import)</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: none !important;">
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデーターの複製 (Replicate Data)</a>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-                </div>*@
-
-                <div class="col-md-12">
-                    <div id="jspreadsheet"></div>
-                </div>
-                <div class="col-12">
-                    <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>10月</th>
-                                <th>11月</th>
-                                <th>12月</th>
-                                <th>1月</th>
-                                <th>2月</th>
-                                <th>3月</th>
-                                <th>4月</th>
-                                <th>5月</th>
-                                <th>6月</th>
-                                <th>7月</th>
-                                <th>8月</th>
-                                <th>9月</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <br />
+                    <br />
+                }
+            }
+            else
+            {   /***************************\
+Show Loader
+\***************************/
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                        <br>
+                        <strong>Please wait a moment...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <h5>Show Year Wise Data</h5>
+    <select id="assignment_year_list"></select>
+    <br><br>
+
+    /***************************\
+    Employee Assignment: Create Forecast
+    \***************************/
+    <div class="row">
+        <div class="col-md-12">
+            <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
+        </div>
+        @*<div class="offset-md-2 col-md-8">
+            <div id="display_matched_rows" style="margin-bottom:20px; display:none;">
+                <h5>Matched Rows</h5>
+                <table style="width:100%;font-size:12px;text-align:center;">
+                    <thead>
+                        <tr>
+                            <th>Edited By</th>
+                            <th>Employee Name</th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>*@
+
+        <div class="col-md-12">
+            <div id="jspreadsheet"></div>
+        </div>
+        <div class="col-12">
+            <table id="head_total" style="width:100%; text-align:center;margin-top:20px;display:none;font-size:12px;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                        <th>4月</th>
+                        <th>5月</th>
+                        <th>6月</th>
+                        <th>7月</th>
+                        <th>8月</th>
+                        <th>9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+}
         }
-    }
-</div>
+    </div>
+
 
 
 
@@ -254,41 +259,42 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" })){
-                <div class="form-header">
-                    <h3>予算策定・編集 (CSV Import)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
-                    <div class="row">                        
-                        <div class="col-6">
-                            <label>策定する年度を選択</label>
-                            <select id="select_import_year" class="form-control" name="upload_year">
-                                <option value="">select year</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 12px;">
-                        </div>                                               
-                    </div>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
-                        </div>
-                        <div class="col-6">
-                            @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
-                            @Html.AntiForgeryToken()
-                            @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
+                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
+                {
+                    <div class="form-header">
+                        <h3>予算策定・編集 (CSV Import)</h3>
+                        <ol class="company_count" style="text-align:left;"></ol>
+                        <div class="row">
+                            <div class="col-6">
+                                <label>策定する年度を選択</label>
+                                <select id="select_import_year" class="form-control" name="upload_year">
+                                    <option value="">select year</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 12px;">
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                            </div>
+                            <div class="col-6">
+                                @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
+                                <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
+                                @Html.AntiForgeryToken()
+                                @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -306,8 +312,7 @@
                         <div class="col-6">
                             <label style="font-size: 17px !important;margin-right: 16px;">From Year</label>
                             <br>
-                            <select id="replicate_from" style="font-size: 15px !important;">                                
-                            </select>
+                            <select id="replicate_from" style="font-size: 15px !important;"></select>
                         </div>
 
                         <div class="col-6">
@@ -344,52 +349,52 @@
 
 <!-- Modal History -->
 <div class="modal" id="modal_change_history">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_change_history_label">Change Summary</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="display_matched_rows">
-                                    <h5>Matched Rows</h5>
-                                    <table style="width:100%;font-size:12px;text-align:center;">
-                                        <thead>
-                                            <tr>
-                                                <th>Edited By</th>
-                                                <th>Employee Name</th>
-                                                <th>10月</th>
-                                                <th>11月</th>
-                                                <th>12月</th>
-                                                <th>1月</th>
-                                                <th>2月</th>
-                                                <th>3月</th>
-                                                <th>4月</th>
-                                                <th>5月</th>
-                                                <th>6月</th>
-                                                <th>7月</th>
-                                                <th>8月</th>
-                                                <th>9月</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">Change Summary</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="display_matched_rows">
+                                <h5>Matched Rows</h5>
+                                <table style="width:100%;font-size:12px;text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th>Edited By</th>
+                                            <th>Employee Name</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
             </div>
         </div>
     </div>
+</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
@@ -416,7 +421,7 @@
                 if (message != $('#user_name').text()) {
                     alert(name + message);
                 }
-                
+
                 $.ajax({
                     url: `/api/utilities/GetUserLogs/`,
                     contentType: 'application/json',

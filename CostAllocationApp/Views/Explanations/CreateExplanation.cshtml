@@ -6,69 +6,75 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" />
 }
-<div class="content container-fluid">
-    <!-----------------Explanation Master: Explanation Registration Form----------------->
-    <div class="row">
-        <div class="col-md-12">
+    <div class="content container-fluid">
+        <!-----------------Explanation Master: Explanation Registration Form----------------->
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
             <div class="row">
-                <div class="col-md-5">                     
-                    <table id="exp_reg_tbl" >
-                        <thead style="border:none;">
-                            <tr>
-                            </tr>
-                            <tr>
-                                <th>説明 (Explanation Name)</th>       
-                                <th>Actions</th>                                                                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="exp_reg_frm_td">
-                                    <input type="text" value="" placeholder="説明 氏名(explanation name)" id="explanation_name">
-                                    @* <div class="department_name_err" id="department_name_err">
-                                        Please provide a department name.
-                                    </div> *@
-                                </td>
-                                <td id="exp_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="exp_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn" onclick="InsertExplanations();">Save</a>
-                                </td>
-                            </tr>                                       
-                        </tbody>
-                    </table>  
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table id="exp_reg_tbl">
+                                <thead style="border:none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>説明 (Explanation Name)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="exp_reg_frm_td">
+                                            <input type="text" value="" placeholder="説明 氏名(explanation name)" id="explanation_name">
+                                            @* <div class="department_name_err" id="department_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                        </td>
+                                        <td id="exp_reg_frm_td">
+                                            <a href="javascript:void(0);" class="" id="exp_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                            <a href="javascript:void(0);" class="" id="exp_reg_save_btn" onclick="InsertExplanations();">Save</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
+        }
+
+
+        <!-----------------Explanation Master: Explanation list are showing on this part----------------->
+        <div id="exp_list" style="display: block;">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <table class="" id="exp_list_tbl">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">説明 リスト(Explanation List)</th>
+                                </tr>
+                                <tr>
+                                    <th class="exp_list_theader">Check</th>
+                                    <th class="exp_list_theader">説明 (Explanation Name)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="explanations_list_tbody"></tbody>
+                        </table>
+                        @if (Convert.ToBoolean(ViewBag.linkFlag))
+                        {
+                            <label id="explanation_delete_btn">
+                                <a id="explanations_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_explanation_modal" onClick="onExplanationInactiveClick()">Delete</a>
+                            </label>
+                        }
+
+                    </div>
                 </div>
             </div>
         </div>
+        <br />
     </div>
-    <br/><br/>
-    
-    <!-----------------Explanation Master: Explanation list are showing on this part----------------->
-    <div id="exp_list" style="display: block;">        
-        <div class="row">            
-            <div class="col-md-8">
-                <div class="table-responsive">
-                    <table class="" id="exp_list_tbl">
-                        <thead>
-                            <tr>
-                                <th colspan="6">説明 リスト(Explanation List)</th>
-                            </tr>
-                            <tr>
-                                <th class="exp_list_theader">Check</th>
-                                <th class="exp_list_theader">説明 (Explanation Name)</th>
-                            </tr>                               
-                        </thead>
-                        <tbody id="explanations_list_tbody">                                
-                        </tbody>
-                    </table>
-                    <label id="explanation_delete_btn">
-                        <a id="explanations_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_explanation_modal" onClick="onExplanationInactiveClick()">Delete</a>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br />
-</div>
 <br><br>
 
 <input type="hidden" id="explanation_warning_text" />

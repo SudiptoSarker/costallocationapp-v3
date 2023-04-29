@@ -53,5 +53,15 @@ namespace CostAllocationApp.BLL
             UserDAL user_dal = new UserDAL();
             return user_dal.GetUserLogByToken(token);
         }
+
+        public User GetUserByUserName(string userName)
+        {
+            return userDAL.GetUserByUserName(userName);
+        }
+
+        public List<UserPermission> GetUserPermissionsByUserId(int userId)
+        {
+            return userDAL.GetUserPermissionsByUserId(userId);
+        }
     }
 }

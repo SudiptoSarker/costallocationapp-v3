@@ -7,69 +7,75 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/roles_ver02.css" />
 }
-<div class="content container-fluid">
-    <!-----------------Roles Master: Roles Registration Form----------------->
-    <div class="row">
-        <div class="col-md-12">
+    <div class="content container-fluid">
+        <!-----------------Roles Master: Roles Registration Form----------------->
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
             <div class="row">
-                <div class="col-md-5">                     
-                    <table id="roles_reg_tbl" >
-                        <thead style="border:none;">
-                            <tr>
-                            </tr>
-                            <tr>
-                                <th>役割 (Roles Name)</th>       
-                                <th>Actions</th>                                                                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="roles_reg_frm_td">
-                                    <input type="text" value="" placeholder="役割 氏名(Roles Name)" id="role_name">
-                                    @* <div class="department_name_err" id="department_name_err">
-                                        Please provide a department name.
-                                    </div> *@
-                                </td>
-                                <td id="roles_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="roles_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn" onclick="InsertRoles();">Save</a>
-                                </td>
-                            </tr>                                       
-                        </tbody>
-                    </table>  
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table id="roles_reg_tbl">
+                                <thead style="border:none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>役割 (Roles Name)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="roles_reg_frm_td">
+                                            <input type="text" value="" placeholder="役割 氏名(Roles Name)" id="role_name">
+                                            @* <div class="department_name_err" id="department_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                        </td>
+                                        <td id="roles_reg_frm_td">
+                                            <a href="javascript:void(0);" class="" id="roles_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                            <a href="javascript:void(0);" class="" id="roles_reg_save_btn" onclick="InsertRoles();">Save</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
+        }
+
+
+        <!-----------------Roles Master: Roles list are showing on this part----------------->
+        <div id="roles_list" style="display: block;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="" id="roles_list_tbl">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">役割 リスト(Roles List)</th>
+                                </tr>
+                                <tr>
+                                    <th class="roles_list_theader">Check</th>
+                                    <th class="roles_list_theader">役割 (Roles Name)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="role_list_tbody"></tbody>
+                        </table>
+                        @if (Convert.ToBoolean(ViewBag.linkFlag))
+                        {
+                            <label id="roles_delete_btn">
+                                <a id="role_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_role_modal" onClick="onRoleInactiveClick()">Delete</a>
+                            </label>
+                        }
+
+                    </div>
                 </div>
             </div>
         </div>
+        <br />
     </div>
-    <br/><br/>
-    
-    <!-----------------Roles Master: Roles list are showing on this part----------------->
-    <div id="roles_list" style="display: block;">        
-        <div class="row">            
-            <div class="col-md-6">
-                <div class="table-responsive">
-                    <table class="" id="roles_list_tbl">
-                        <thead>
-                            <tr>
-                                <th colspan="6">役割 リスト(Roles List)</th>
-                            </tr>
-                            <tr>
-                                <th class="roles_list_theader">Check</th>
-                                <th class="roles_list_theader">役割 (Roles Name)</th>
-                            </tr>                               
-                        </thead>
-                        <tbody id="role_list_tbody">                                
-                        </tbody>
-                    </table>
-                    <label id="roles_delete_btn">
-                        <a id="role_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_role_modal" onClick="onRoleInactiveClick()">Delete</a>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br />
-</div>
 <br><br>
 
 <input type="hidden" id="role_warning_text" />

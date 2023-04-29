@@ -6,9 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/employee_ver02.css" />
 }
-   
-    <div class="content container-fluid">
-        <!-----------------Employee Master: Employee Registration Form----------------->
+
+<div class="content container-fluid">
+    <!-----------------Employee Master: Employee Registration Form----------------->
+    @if (Convert.ToBoolean(ViewBag.linkFlag))
+    {
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -26,8 +28,8 @@
                                     <td id="employee_reg_frm_td">
                                         <input type="text" value="" placeholder="要員 氏名 (employee name)" id="employee-name">
                                         <!-- <div class="employee_err">
-                                        Please provide employee name.
-                                    </div>                                     -->
+                                            Please provide employee name.
+                                        </div>                                     -->
                                     </td>
                                     <td id="employee_reg_frm_td">
                                         <a href="javascript:void(0);" class="" id="employee_reg_cancel_btn" data-dismiss="modal">Cancel</a>
@@ -41,26 +43,28 @@
             </div>
         </div>
         <br /><br />
-       
-        <!-----------------Employee Master: Employee list are showing on this part----------------->
-        <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:60%">
-            <thead id="employeelist_thead">
-                <tr>
-                    <th colspan="6">氏名リスト (Employeee List)</th>
-                </tr>
-                <tr>
-                    <th class="employee_list_theader">ID</th>
-                    <th class="employee_list_theader">氏名 (Name)</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="name_search"></th>
-                </tr>
-            </thead>
-            <tbody id="employeelist_tbody"></tbody>
-        </table>        
-        <br />
-    </div>
+    }
+
+
+    <!-----------------Employee Master: Employee list are showing on this part----------------->
+    <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:60%">
+        <thead id="employeelist_thead">
+            <tr>
+                <th colspan="6">氏名リスト (Employeee List)</th>
+            </tr>
+            <tr>
+                <th class="employee_list_theader">ID</th>
+                <th class="employee_list_theader">氏名 (Name)</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="name_search"></th>
+            </tr>
+        </thead>
+        <tbody id="employeelist_tbody"></tbody>
+    </table>
+    <br />
+</div>
 <br><br>
 <br><br>
 
@@ -75,7 +79,7 @@
                     <h3>Edit 要員 氏名(Name)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                        
+
                     </button>
                 </div>
                 <div class="modal-body">
@@ -122,13 +126,16 @@
         </div>
     </div>
 </div>
+@if (Convert.ToBoolean(ViewBag.linkFlag))
+{
+    <div id="employeeContextMenu" class="dropdown clearfix">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li><a tabindex="-1" href="#">Edit</a></li>
+            <li><a tabindex="-1" href="#">Inactive</a></li>
+        </ul>
+    </div>
+}
 
-<div id="employeeContextMenu" class="dropdown clearfix">
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        <li><a tabindex="-1" href="#">Edit</a></li>
-        <li><a tabindex="-1" href="#">Inactive</a></li>
-    </ul>
-</div>
 
 @section Scripts{
 
@@ -203,7 +210,7 @@
                 success: function (data) {
                     var userName = $('#user_name').text();
                     $('#user_log').empty();
-                    $.each(data,(index, value) => {
+                    $.each(data, (index, value) => {
 
                         if (userName !== value.UserName) {
                             $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
@@ -212,7 +219,7 @@
 
                 }
             });
-                    
+
         });
-    </script>   
+    </script>
 }

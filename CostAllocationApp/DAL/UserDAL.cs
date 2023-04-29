@@ -270,5 +270,72 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public User GetUserByUserName(string userName)
+        {
+            User user = new User();
+
+            string query = "select * from Users where username='"+userName+"'";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            user.Id = Convert.ToInt32(rdr["Id"]);
+                            user.UserName = rdr["UserName"].ToString();
+                            user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return user;
+            }
+        }
+
+        public List<UserPermission> GetUserPermissionsByUserId(int userId)
+        {
+            List<UserPermission> userPermissions = new List<UserPermission>();
+
+            string query = "select * from UserPermissions where userid=" + userId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            UserPermission userPermission = new UserPermission();
+                            userPermission.Id = Convert.ToInt32(rdr["Id"]);
+                            userPermission.Link = rdr["Link"].ToString();
+                            userPermission.UserId = Convert.ToInt32(rdr["UserId"]);
+
+                            userPermissions.Add(userPermission);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return userPermissions;
+            }
+        }
     }
 }

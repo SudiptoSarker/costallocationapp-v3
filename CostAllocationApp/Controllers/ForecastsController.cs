@@ -26,7 +26,11 @@ namespace CostAllocationApp.Controllers
         Utility _utility = new Utility();
         EmployeeBLL employeeBLL = new EmployeeBLL();
         Employee employee = new Employee();
-
+        UserBLL userBLL = null;
+        public ForecastsController()
+        {
+            userBLL = new UserBLL();
+        }
         // GET: Forecasts
         public ActionResult CreateForecast()
         {
@@ -57,6 +61,20 @@ namespace CostAllocationApp.Controllers
             };
             ViewBag.ErrorCount = 0;
             ViewBag.ImportViewOrForecastView = requestType;
+
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
+            }
             return View(forecastViewModal);
         }
 
@@ -396,8 +414,22 @@ namespace CostAllocationApp.Controllers
                 Session["userName"] = null;
                 return RedirectToAction("Login", "Registration");
             }
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/GetHistories".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
+            }
             return View();
         }
+
         public ActionResult ActualCosts()
         {
             if (Session["token"] == null)
@@ -409,6 +441,19 @@ namespace CostAllocationApp.Controllers
                 Session["token"] = null;
                 Session["userName"] = null;
                 return RedirectToAction("Login", "Registration");
+            }
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/ActualCosts".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
             }
             string requestType = Request.QueryString["forecastType"];
 

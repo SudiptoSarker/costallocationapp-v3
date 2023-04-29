@@ -5,45 +5,48 @@
 @section Styles {    
     <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
 }
-    <div class="content container-fluid">         
+    <div class="content container-fluid">
         <!-----------------Section Master: Section Registration Form----------------->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-5">                     
-                        <table id="section_reg_tbl" >
-                            <thead style="border: none;">
-                                <tr>
-                                </tr>
-                                <tr>
-                                    <th>区分 (Section)</th>       
-                                    <th>Actions</th>                                                                                
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="section_reg_frm_td">
-                                        <input type="text" value="" placeholder="区分 (section name)" id="section-name">
-                                        @* <div class="" id="section_name_err">
-                                            Please provide a department name.
-                                        </div> *@
-                                    </td>
-                                    <td id="section_reg_frm_td">
-                                        <a href="javascript:void(0);" class="" id="section_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                        <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertSection();">Save</a>
-                                    </td>
-                                </tr>                                       
-                            </tbody>
-                        </table>  
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table id="section_reg_tbl">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>区分 (Section)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="section_reg_frm_td">
+                                            <input type="text" value="" placeholder="区分 (section name)" id="section-name">
+                                            @* <div class="" id="section_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                        </td>
+                                        <td id="section_reg_frm_td">
+                                            <a href="javascript:void(0);" class="" id="section_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                            <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertSection();">Save</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <br/><br/>
-        
+            <br /><br />
+        }
+
+
         <!-----------------Section Master: Section list are showing on this part----------------->
-        <div id="section_list" style="display: block;">        
-            <div class="row">            
+        <div id="section_list" style="display: block;">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
                         <table class="" id="section_list_tbl">
@@ -54,14 +57,17 @@
                                 <tr>
                                     <th class="section_list_theader">Check</th>
                                     <th class="section_list_theader">区分 (Section)</th>
-                                </tr>                               
+                                </tr>
                             </thead>
-                            <tbody id="section_list_tbody">                                
-                            </tbody>
+                            <tbody id="section_list_tbody"></tbody>
                         </table>
-                        <label id="section_delete_btn">
-                            <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">Delete</a>
-                        </label>
+                        @if (Convert.ToBoolean(ViewBag.linkFlag))
+                        {
+                            <label id="section_delete_btn">
+                                <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">Delete</a>
+                            </label>
+                        }
+
                     </div>
                 </div>
             </div>

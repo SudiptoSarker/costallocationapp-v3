@@ -1408,13 +1408,13 @@ namespace CostAllocationApp.Controllers.Api
 
 
                         string _octP = "";
-                        if (resultList.Where(f => f.Month == 10).SingleOrDefault().Points== singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points)
+                        if (resultList.Where(f => f.Month == 10).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points)
                         {
                             _octP = "";
                         }
                         else
                         {
-                            _octP = "(" + resultList.Where(f => f.Month == 10).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points;
+                            _octP = "(" + resultList.Where(f => f.Month == 10).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 10).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _novP = "";
                         if (resultList.Where(f => f.Month == 11).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 11).SingleOrDefault().Points)
@@ -1423,7 +1423,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _novP = "(" + resultList.Where(f => f.Month == 11).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 11).SingleOrDefault().Points;
+                            _novP = "(" + resultList.Where(f => f.Month == 11).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 11).SingleOrDefault().Points.ToString("0.0");
                         }
 
                         string _decP = "";
@@ -1433,7 +1433,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _decP = "(" + resultList.Where(f => f.Month == 12).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 12).SingleOrDefault().Points;
+                            _decP = "(" + resultList.Where(f => f.Month == 12).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 12).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _janP = "";
                         if (resultList.Where(f => f.Month == 1).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 1).SingleOrDefault().Points)
@@ -1442,7 +1442,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _janP = "(" + resultList.Where(f => f.Month == 1).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 1).SingleOrDefault().Points;
+                            _janP = "(" + resultList.Where(f => f.Month == 1).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 1).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _febP = "";
                         if (resultList.Where(f => f.Month == 2).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 2).SingleOrDefault().Points)
@@ -1451,7 +1451,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _febP = "(" + resultList.Where(f => f.Month == 2).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 2).SingleOrDefault().Points;
+                            _febP = "(" + resultList.Where(f => f.Month == 2).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 2).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _marP = "";
                         if (resultList.Where(f => f.Month == 3).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 3).SingleOrDefault().Points)
@@ -1460,7 +1460,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _marP = "(" + resultList.Where(f => f.Month == 3).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 3).SingleOrDefault().Points;
+                            _marP = "(" + resultList.Where(f => f.Month == 3).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 3).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _aprP = "";
                         if (resultList.Where(f => f.Month == 4).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 4).SingleOrDefault().Points)
@@ -1469,7 +1469,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _aprP = "(" + resultList.Where(f => f.Month == 4).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 4).SingleOrDefault().Points;
+                            _aprP = "(" + resultList.Where(f => f.Month == 4).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 4).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _mayP = "";
                         if (resultList.Where(f => f.Month == 5).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 5).SingleOrDefault().Points)
@@ -1478,7 +1478,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _mayP = "(" + resultList.Where(f => f.Month == 5).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 5).SingleOrDefault().Points;
+                            _mayP = "(" + resultList.Where(f => f.Month == 5).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 5).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _junP = "";
                         if (resultList.Where(f => f.Month == 6).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 6).SingleOrDefault().Points)
@@ -1487,7 +1487,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _junP = "(" + resultList.Where(f => f.Month == 6).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 6).SingleOrDefault().Points;
+                            _junP = "(" + resultList.Where(f => f.Month == 6).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 6).SingleOrDefault().Points.ToString("0.0");
                         }
 
                         string _julP = "";
@@ -1497,7 +1497,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _julP = "(" + resultList.Where(f => f.Month == 7).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 7).SingleOrDefault().Points;
+                            _julP = "(" + resultList.Where(f => f.Month == 7).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 7).SingleOrDefault().Points.ToString("0.0");
                         }
                         string _augP = "";
                         if (resultList.Where(f => f.Month == 8).SingleOrDefault().Points == singleForecastList.Where(sf => sf.Month == 8).SingleOrDefault().Points)
@@ -1506,7 +1506,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _augP = "(" + resultList.Where(f => f.Month == 8).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 8).SingleOrDefault().Points;
+                            _augP = "(" + resultList.Where(f => f.Month == 8).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 8).SingleOrDefault().Points.ToString("0.0");
                         }
 
                         string _sepP = "";
@@ -1516,7 +1516,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            _sepP = "(" + resultList.Where(f => f.Month == 9).SingleOrDefault().Points + ") " + singleForecastList.Where(sf => sf.Month == 9).SingleOrDefault().Points;
+                            _sepP = "(" + resultList.Where(f => f.Month == 9).SingleOrDefault().Points.ToString("0.0") + ") " + singleForecastList.Where(sf => sf.Month == 9).SingleOrDefault().Points.ToString("0.0");
                         }
 
                         matchedRows.Add(new
@@ -1606,18 +1606,18 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         EmployeeName = employeeName,
                         CreatedBy= historyList[0].CreatedBy,
-                        OctPoints = octP == octPOriginal ? "": "("+ octP+") "+ octPOriginal,
-                        NovPoints = novP == novPOriginal ? "" : "(" + novP + ") " + novPOriginal,
-                        DecPoints = decP == decPOriginal ? "" : "(" + decP + ") " + decPOriginal,
-                        JanPoints = janP == janPOriginal ? "" : "(" + janP + ") " + janPOriginal,
-                        FebPoints = febP == febPOriginal ? "" : "(" + febP + ") " + febPOriginal,
-                        MarPoints = marP == marPOriginal ? "" : "(" + marP + ") " + marPOriginal,
-                        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP + ") " + aprPOriginal,
-                        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP + ") " + mayPOriginal,
-                        JunPoints = junP == junPOriginal ? "" : "(" + junP + ") " + junPOriginal,
-                        JulPoints = julP == julPOriginal ? "" : "(" + julP + ") " + julPOriginal,
-                        AugPoints = augP == augPOriginal ? "" : "(" + augP + ") " + augPOriginal,
-                        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP + ") " + sepPOriginal,
+                        OctPoints = octP == octPOriginal ? "": "("+ octP.ToString("0.0") + ") "+ octPOriginal.ToString("0.0"),
+                        NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
+                        DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
+                        JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
+                        FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
+                        MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
+                        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
+                        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
+                        JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
+                        JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
+                        AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
+                        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
                     });
                 }
             }

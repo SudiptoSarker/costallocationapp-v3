@@ -6,7 +6,15 @@ $(document).ready(function () {
         $.each(data, function(key, item) {                    
             $('#userDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
         });
-    });    
+        });   
+
+    $.getJSON('/api/utilities/GetAllUserRoles/')
+        .done(function (data) {
+            $('#userRole').append(`<option value=''>Select Role</option>`);
+            $.each(data, function (key, item) {
+                $('#userRole').append(`<option value='${item.Id}'>${item.Role}</option>`)
+            });
+        }); 
     // ("#userDepartment").select2();
 
     $('#example').DataTable();
@@ -38,6 +46,7 @@ function CreateUserName() {
     let departmentId = $("#userDepartment").val().trim();
     let userEmail = $("#userEmail").val().trim();
     let userPass = $("#userPass").val().trim();
+    let userRoleId = $("#userRole").val().trim();
 
     if (userName == "") {
         alert("please enter user name")
@@ -51,13 +60,18 @@ function CreateUserName() {
         alert("please enter user password")
         return false;
     }
+    if (userRoleId == "") {
+        alert("please select user role")
+        return false;
+    }
 
     var data = {
         UserName: userName,
         UserTitle: userTitle,
         DepartmentId: departmentId,
         Email: userEmail,
-        Password: userPass
+        Password: userPass,
+        UserRoleId: userRoleId,
     };
     var apiurl = "/api/utilities/CreateUserName/";    
     $.ajax({
@@ -107,6 +121,9 @@ function ShowUserList_Datatable(data){
         columns: [                        
             {
                 data: 'UserName'
+            },
+            {
+                data: 'UserRoleName'
             },
             {
                 data: 'UserTitle'

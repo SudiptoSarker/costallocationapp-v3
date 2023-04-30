@@ -27,7 +27,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#userName,#userTitle,#userDepartment,#userEmail,#userPass{
+#userName, #userTitle, #userDepartment, #userEmail, #userPass, #userRole {
     width: 100% !important;
     height: 100% !important;
     border: none;

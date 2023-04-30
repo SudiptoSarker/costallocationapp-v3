@@ -92,7 +92,7 @@ namespace CostAllocationApp.DAL
         public int CreateUserName(User user)
         {
             int result = 0;
-            string query = $@"insert into Users(UserName,Title,DepartmentId,Email,Password,CreatedBy,CreatedDate,IsActive) values(@userName,@departmentId,@title,@email,@password,@createdBy,@createdDate,@isActive)";
+            string query = $@"insert into Users(UserName,Title,DepartmentId,Email,Password,CreatedBy,CreatedDate,IsActive,UserRoleId) values(@userName,@departmentId,@title,@email,@password,@createdBy,@createdDate,@isActive,@userRoleId)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -100,11 +100,12 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@userName", user.UserName);
                 cmd.Parameters.AddWithValue("@departmentId", user.UserTitle);
                 cmd.Parameters.AddWithValue("@title", user.DepartmentId);
-                cmd.Parameters.AddWithValue("@email", user.Email);
+                cmd.Parameters.AddWithValue("@email", user.Email==null? "" : user.Email);
                 cmd.Parameters.AddWithValue("@password", user.Password);
                 cmd.Parameters.AddWithValue("@createdBy", user.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", user.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", user.IsActive);
+                cmd.Parameters.AddWithValue("@userRoleId", user.UserRoleId);
                 try
                 {
                     result = cmd.ExecuteNonQuery();                    
@@ -121,9 +122,9 @@ namespace CostAllocationApp.DAL
         public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
-            string query = "select u.UserName,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate ";
+            string query = "select u.UserName,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate ";
             query = query+"from users u ";
-            query = query + "left join Departments dpt on u.DepartmentId = dpt.id Where u.IsActive = 1";
+            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -143,7 +144,7 @@ namespace CostAllocationApp.DAL
                             user.DepartmentName = rdr["DepartmentName"].ToString();
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
-
+                            user.UserRoleName = rdr["role"].ToString();
                             //user.CreatedBy = rdr["CreatedBy"].ToString();
                             //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
 

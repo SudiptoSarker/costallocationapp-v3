@@ -25,6 +25,7 @@ namespace CostAllocationApp.Controllers.Api
         EmployeeBLL employeeBLL = null;
         UserBLL userBLL = null;
         ActualCostBLL actualCostBLL = null;
+        UserRoleBLL userRoleBLL = null;
         
 
         public UtilitiesController()
@@ -41,6 +42,7 @@ namespace CostAllocationApp.Controllers.Api
             employeeBLL = new EmployeeBLL();
             userBLL = new UserBLL();
             actualCostBLL = new ActualCostBLL();
+            userRoleBLL = new UserRoleBLL();
         }
 
 
@@ -1783,6 +1785,14 @@ namespace CostAllocationApp.Controllers.Api
             return actualCostViewModel;
 
 
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetAllUserRoles/")]
+        public IHttpActionResult GetAllUserRoles()
+        {
+            var roles = userRoleBLL.GetAllUserRoles();
+            return Ok(roles);
         }
 
     }

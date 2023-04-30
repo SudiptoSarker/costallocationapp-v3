@@ -180,6 +180,7 @@
     <Compile Include="BLL\SectionBLL.cs" />
     <Compile Include="BLL\UploadExcelBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="BLL\UserRoleBLL.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\Api\CompaniesController.cs" />
     <Compile Include="Controllers\Api\DepartmentsController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="DAL\SectionDAL.cs" />
     <Compile Include="DAL\UploadExcelDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DAL\UserRoleDAL.cs" />
     <Compile Include="Dtos\ActualCostDto.cs" />
     <Compile Include="Dtos\EmployeeAssignmentDTO.cs" />
     <Compile Include="Dtos\ExcelAssignmentDto.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="Models\UploadExcel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserPermission.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

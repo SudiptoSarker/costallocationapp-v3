@@ -17,7 +17,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#history_data_btn').on('click', function () {
+    $('#history_data_btn').on('click', function () {        
         //get the multi search values
         var year = $('#history_year').val();
         console.log(year);
@@ -25,11 +25,12 @@ $(document).ready(function () {
             alert('Select Year');
             return false;
         }
+        LoaderShow();
         $.ajax({
             url: `/api/utilities/GetTimeStamps`,
             contentType: 'application/json',
             type: 'GET',
-            async: false,
+            async: true,
             dataType: 'json',
             data: { year: year },
             success: function (data) {
@@ -39,9 +40,9 @@ $(document).ready(function () {
                     $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});">${element.TimeStamp}</a></td></tr>`);
                     i++;
                 });
+                
             }
         });
-
     });
 
 });
@@ -72,3 +73,15 @@ function GetHistories(timeStampId) {
 
 
 }
+function LoaderShow() {    
+    $("#timestamp_list").css("display", "none");
+    $("#loading").css("display", "block");
+}
+function LoaderHide() {    
+    $("#loading").css("display", "none");
+    $("#timestamp_list").css("display", "block");
+}
+
+$(document).ajaxComplete(function(){
+    LoaderHide();
+});

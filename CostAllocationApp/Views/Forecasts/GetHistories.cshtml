@@ -11,38 +11,54 @@
         <!-- Page Header -->
         @if (Convert.ToBoolean(ViewBag.linkFlag))
         {
-        <div class="page-header" id="data_import">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h5>履歴年度データー</h5>
-                </div>
-            </div>
+            <!-- Show Loader -->
             <div class="row">
-                <div class="col-3">
-                    <div class="form-group">
-                        <select id="history_year" class="form-control">
-                            <option value="">Select Year</option>
-                            <option value="2023">2023</option>
-                        </select>
+                <div class="col-md-12">
+                    <div class="forecast">
+                        <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                            <center>
+                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                                <br>
+                                <strong>Please wait a moment...</strong>
+                                <br>
+                                <br>
+                            </center>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-light mb-2" id="history_data_btn">Search</button>
-
-                </div>
-                <div class="col-7">
-                    <table class="table" id="timestamp_list">
-                        <thead>
-                            <tr>
-                                <th>Created By</th>
-                                <th>File Name</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
                 </div>
             </div>
-        </div>
+            <div class="page-header" id="data_import">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h5>履歴年度データー</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <select id="history_year" class="form-control">
+                                <option value="">Select Year</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-light mb-2" id="history_data_btn">Search</button>
+
+                    </div>
+                    <div class="col-7">
+                        <table class="table" id="timestamp_list">
+                            <thead>
+                                <tr>
+                                    <th>Created By</th>
+                                    <th>File Name</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         }
-            
+
     </div>
 
 <!-- Modal History -->

@@ -2870,7 +2870,7 @@ $(document).ready(function () {
         $("#update_forecast_history").css("display", "block");
 
         jss.deleteColumn(36, 15);
-        //jss.hideIndex();
+        jss.hideIndex();
         //LoaderHide();
         // $("#jspreadsheet").show();        
         // $("#head_total").show();

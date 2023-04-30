@@ -241,6 +241,7 @@ $(document).ready(function () {
                     }
                 });
                 jss.deleteColumn(21, 4);
+                jss.hideIndex();
             }
         });
     });

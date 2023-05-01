@@ -1166,6 +1166,10 @@ namespace CostAllocationApp.Controllers.Api
             List<User> users = userBLL.GetAllUsers();
             if (users.Count > 0)
             {
+                foreach (var item in users)
+                {
+                    item.Password = "***";
+                }
                 return Ok(users);
             }
             else

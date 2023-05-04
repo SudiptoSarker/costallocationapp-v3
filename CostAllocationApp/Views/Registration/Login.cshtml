@@ -74,8 +74,8 @@
         $(document).ready(function () {
 
             $('#login').click(function () {
-                var loginUserName = $("#login_id").val();
-                var loginPassword = $("#login_pass").val();
+                var loginUserName = $("#login_id").val().toLowerCase();
+                var loginPassword = $("#login_pass").val().toLowerCase();
 
 
                 $.ajax({

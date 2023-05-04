@@ -1,5 +1,13 @@
 ﻿
 $(document).ready(function () {
+
+    $.getJSON('/api/utilities/GetOnlyAdmin/')
+        .done(function (data) {
+            console.log(data);
+            $('#admin_table tbody').empty();
+            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
+        }); 
+
     $.getJSON('/api/Departments/')
     .done(function(data) {
         $('#userDepartment').append(`<option value=''>Select Department</option>`);
@@ -38,6 +46,25 @@ $(document).ready(function () {
 $(document).on('change', '#search_users', function () {
     GetEmployeeSearchResults();
 });
+
+
+function UpdateUserModal(userName) {
+    
+
+    $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
+        .done(function (data) {
+            console.log(data);
+            $('#user_id_hidden').val(data.Id);
+            $('#userName').val(data.UserName);
+            $('#userTitle').val(data.UserTitle);
+            $('#userDepartment').val(data.DepartmentId);
+            $('#userRole').val(data.UserRoleId);
+            $('#userEmail').val(data.Email);
+            $('#userPass').val(data.Password);
+        }); 
+
+    $('#modal_update_user').modal('show');
+}
 
 //employee insert
 function CreateUserName() {
@@ -95,10 +122,77 @@ function CreateUserName() {
     });    
 }
 
+//employee update
+function UpdateUserName() {
+    let userId = $("#user_id_hidden").val().trim();
+    let userName = $("#userName").val().trim();
+    let userTitle = $("#userTitle").val().trim();
+    let departmentId = $("#userDepartment").val().trim();
+    let userEmail = $("#userEmail").val().trim();
+    let userPass = $("#userPass").val().trim();
+    let userRoleId = $("#userRole").val().trim();
+
+    if (userName == "") {
+        alert("please enter user name")
+        return false;
+    }
+    if (userTitle == "") {
+        alert("please enter title")
+        return false;
+    }
+    if (userPass == "") {
+        alert("please enter user password")
+        return false;
+    }
+    if (userRoleId == "") {
+        alert("please select user role")
+        return false;
+    }
+
+    var data = {
+        Id: userId,
+        UserName: userName,
+        UserTitle: userTitle,
+        DepartmentId: departmentId,
+        Email: userEmail,
+        Password: userPass,
+        UserRoleId: userRoleId,
+    };
+    var apiurl = "/api/utilities/UpdateUserName/";
+    $.ajax({
+        url: apiurl,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (result) {
+            if (result > 0) {
+                $("#page_load_after_modal_close").val("yes");
+                ToastMessageSuccess('Data Save Successfully!');
+                $('#modal_update_user').modal('hide');
+                $('#userName').val('');
+                GetUserList();
+
+                $.getJSON('/api/utilities/GetOnlyAdmin/')
+                    .done(function (data) {
+                        console.log('after edit admin');
+                        console.log(data);
+                        $('#admin_table tbody').empty();
+                        $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
+                    }); 
+            }
+
+        },
+        error: function (data) {
+            alert(data.responseJSON.Message);
+        }
+    });
+}
+
 //Get employee list
 function GetUserList() {
     $.getJSON('/api/utilities/GetUserList/')
-    .done(function (data) {
+        .done(function (data) {
+            console.log(data);
         ShowUserList_Datatable(data);
     });
 
@@ -108,7 +202,8 @@ function GetUserList() {
 /***************************\                           
  Showing namelist using datatable.                        
 \***************************/
-function ShowUserList_Datatable(data){	
+function ShowUserList_Datatable(data) {
+    var user_name;
     $('#employeeList_datatable').DataTable({
         destroy: true,
         data: data,
@@ -118,9 +213,13 @@ function ShowUserList_Datatable(data){
         searching: false,
         bLengthChange: false,    
         //dom: 'lifrtip',
-        columns: [                        
+        columns: [  
             {
-                data: 'UserName'
+                data: 'UserName',
+                render: function (data) {
+                    user_name = data;
+                    return data;
+                }
             },
             {
                 data: 'UserRoleName'
@@ -136,44 +235,17 @@ function ShowUserList_Datatable(data){
             },
             {
                 data: 'Password'
+            },
+            {
+                render: function () {
+                    return `<button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${user_name}')">編集</button>`;
+                }
             }
         ]
     });
 }
 
-// $(function () {
 
-//     var employeeContextMenu = $("#employeeContextMenu");
-
-//     $("body").on("contextmenu", "#employeeList_datatable tbody tr", function (e) {
-//         employeeContextMenu.css({
-//             display:'block',
-//             left: e.pageX-230,
-//             top: e.pageY-25
-//         });
-//         $('#employee_id_hidden').val($(this)[0].cells[0].innerText);
-//         $('#employee_name_edit').val($(this)[0].cells[1].innerText);
-//         //debugger;
-//         return false;
-//     });
-
-//     $('html').click(function () {
-//         employeeContextMenu.hide();
-//     });
-
-//     $("#employeeContextMenu li a").click(function (e) {
-//         var f = $(this);
-//         var elementText = f[0].innerText;
-//         if (elementText.toLowerCase() == 'edit') {
-//             $('#edit_employee_modal').modal();
-//         }
-//         if (elementText.toLowerCase() == 'inactive') {
-//             $('#inactive_employee_modal').modal();
-//         }
-        
-//         //debugger;
-//     });
-// });
 
 //employee update
 function UpdateEmployee() {

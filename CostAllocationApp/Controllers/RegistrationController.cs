@@ -32,6 +32,12 @@ namespace CostAllocationApp.Controllers
         {
             return Json(Session["userName"].ToString(), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetUserRole()
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            var user = userBLL.GetUserByUserName(session["userName"].ToString());
+            return Json(user.UserRoleId, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public JsonResult RemoveOtherSessions(string userName)

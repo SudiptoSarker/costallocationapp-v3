@@ -26,23 +26,27 @@ $(document).ready(function () {
             return false;
         }
         LoaderShow();
-        $.ajax({
-            url: `/api/utilities/GetTimeStamps`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: { year: year },
-            success: function (data) {
-                let i = 1;
-                $('#timestamp_list tbody').empty();
-                $.each(data, function (index, element) {
-                    $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});">${element.TimeStamp}</a></td></tr>`);
-                    i++;
-                });
-                
-            }
-        });
+        setTimeout(function () {
+            $.ajax({
+                url: `/api/utilities/GetTimeStamps`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                data: { year: year },
+                success: function (data) {
+                    let i = 1;
+                    $('#timestamp_list tbody').empty();
+                    $.each(data, function (index, element) {
+                        $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});">${element.TimeStamp}</a></td></tr>`);
+                        i++;
+                    });
+
+                }
+            });
+        }, 2000);
+        
+        
     });
 
 });

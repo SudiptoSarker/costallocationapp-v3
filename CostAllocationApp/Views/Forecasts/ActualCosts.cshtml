@@ -11,7 +11,7 @@
 <div class="content container-fluid" style="position:relative">
     <!-----------------Show Loader----------------->
     <div class="row">
-        @*<div class="col-md-12">
+        <div class="col-md-12">
             <div class="forecast">
                 <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
                     <center>
@@ -23,14 +23,16 @@
                     </center>
                 </div>
             </div>
-        </div>*@
+        </div>
     </div>
     <!-----------------Employee Assignment: Create Actual Cost----------------->
     <div class="row">
-        <div class="col-md-12">
-            <label for="assignment_year"><u>Select Year to Create or Update Actual Cost</u></label>
-            <select class="form-control col-2" id="assignment_year"></select>
-            @* <button type="button" class="btn btn-dark" id="create_actual_cost">save</button> *@
+        <div class="col-4">
+            <div class="form-group">
+                <label for="assignment_year"><u>Select Year to Create or Update Actual Cost</u></label>
+                <select class="form-control col-6" id="assignment_year"></select>
+            </div>
+            <button type="submit" class="btn btn-light mb-2" id="actual_cost">Search</button>
         </div>
 
         <div class="col-md-12">

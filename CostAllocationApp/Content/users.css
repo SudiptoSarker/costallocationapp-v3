@@ -181,3 +181,13 @@ label {
     padding: 0px !important;
     text-align: center;
 }
+
+#admin_table{
+    font-size:10px;
+    width:100%;
+}
+.user_edit_button {
+    font-size: 10px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}

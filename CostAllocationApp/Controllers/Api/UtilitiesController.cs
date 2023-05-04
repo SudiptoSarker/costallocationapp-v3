@@ -1109,7 +1109,7 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-          [HttpPost]
+        [HttpPost]
         [Route("api/utilities/CreateUserName/")]
         public IHttpActionResult CreateUserName(User user)
         {
@@ -1140,7 +1140,34 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                return BadRequest("Invalid Employee Name");
+                return BadRequest("Invalid User Name");
+            }
+        }
+
+        [HttpPost]
+        [Route("api/utilities/UpdateUserName/")]
+        public IHttpActionResult UpdateUserName(User user)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (!String.IsNullOrEmpty(user.UserName))
+            {
+                user.UpdatedBy = session["userName"].ToString();
+                user.UpdatedDate = DateTime.Now;
+                int result = userBLL.UpdateUserName(user);
+                if (result > 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong");
+                }
+
+            }
+            else
+            {
+                return BadRequest("Invalid User Name");
             }
         }
 
@@ -1160,22 +1187,96 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
         [HttpGet]
-        [Route("api/utilities/GetUserList/")]
-        public IHttpActionResult GetUserList()
+        [Route("api/utilities/GetOnlyAdmin/")]
+        public IHttpActionResult GetOnlyAdmin()
         {
+            User filteredUser = new User();
+            var session = System.Web.HttpContext.Current.Session;
+            var user = userBLL.GetUserByUserName(session["userName"].ToString());
+            List<User> users = userBLL.GetAllUsers();
+            if (users.Count>0)
+            {
+                foreach (var item in users)
+                {
+                    if (item.Id==user.Id)
+                    {
+                        item.Password = "***";
+                        filteredUser = item;
+                    }
+                }
+            }
+
+            return Ok(filteredUser);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetSingleUserInfo/")]
+        public IHttpActionResult GetSingleUserInfo(string userName)
+        {
+            User filteredUser = new User();
+            var user = userBLL.GetUserByUserName(userName);
             List<User> users = userBLL.GetAllUsers();
             if (users.Count > 0)
             {
                 foreach (var item in users)
                 {
-                    item.Password = "***";
+                    if (item.Id == user.Id)
+                    {
+                        filteredUser = item;
+                    }
                 }
-                return Ok(users);
+            }
+
+            return Ok(filteredUser);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetUserList/")]
+        public IHttpActionResult GetUserList()
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            var user = userBLL.GetUserByUserName(session["userName"].ToString());
+            List<User> filteredUsers = new List<User>();
+            List<User> users = userBLL.GetAllUsers();
+            if (user.UserRoleId==1)
+            {
+                if (users.Count > 0)
+                {
+                    foreach (var item in users)
+                    {
+                        if (item.Id == user.Id)
+                        {
+                            continue;
+                        }
+                        item.Password = "***";
+                        filteredUsers.Add(item);
+                    }
+                    return Ok(filteredUsers);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return NotFound();
+                if (users.Count > 0)
+                {
+                    foreach (var item in users)
+                    {
+                        if (item.UserName==user.UserName)
+                        {
+                            item.Password = "***";
+                            filteredUsers.Add(item);
+                        }
+                        
+                    }
+                    return Ok(filteredUsers);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
+           
         }
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]

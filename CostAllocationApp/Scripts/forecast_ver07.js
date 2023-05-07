@@ -25,7 +25,7 @@ function LoaderShowJexcel() {
 }
 function LoaderHideJexcel(){
     $("#jspreadsheet").show();        
-    $("#head_total").css("display", "table");
+    $("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
 
@@ -52,7 +52,6 @@ $(function () {
 
 
 $(document).ready(function () {
-    $("#head_total").css("display", "none");
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
@@ -1156,9 +1155,14 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
 
     jss.deleteColumn(36, 15);
-    var jexcelHeadTd = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    jexcelHeadTd.addClass('arrow-down');
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)').removeClass('arrow-down');
+    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+    jexcelHeadTdEmployeeName.addClass('arrow-down');
+    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    jexcelFirstHeaderRow.css('position', 'sticky');
+    jexcelFirstHeaderRow.css('top', '0px');
+    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    jexcelFirstHeaderRow.css('position', 'sticky');
+    jexcelSecondHeaderRow.css('top', '20px');
 }
 
 var deleted = function (instance, x, y, value) {

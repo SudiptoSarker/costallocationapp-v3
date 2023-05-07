@@ -156,6 +156,7 @@ $(document).ready(function () {
                         filters: true,
                         tableOverflow: true,
                         tableWidth: window.innerWidth - 300 + 'px',
+                        freezeColumns: 3,
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
                             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -282,7 +283,15 @@ $(document).ready(function () {
                         }
                     });
                     jss.deleteColumn(21, 4);
-                    jss.hideIndex();
+                    //jss.hideIndex();
+                    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+                    jexcelHeadTdEmployeeName.addClass('arrow-down');
+                    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+                    jexcelFirstHeaderRow.css('position', 'sticky');
+                    jexcelFirstHeaderRow.css('top', '0px');
+                    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+                    jexcelFirstHeaderRow.css('position', 'sticky');
+                    jexcelSecondHeaderRow.css('top', '20px');
                 }
             });
         }, 3000);

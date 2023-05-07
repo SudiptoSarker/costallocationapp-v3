@@ -1,3 +1,17 @@
 ﻿body {
     overflow-x: auto;
 }
+.jexcel > thead > tr > td.arrow-down {
+    background-image: url('/img/arrow_down.png');
+    background-size: 10px 10px;
+}
+
+.jexcel > thead > tr > td.arrow-up {
+    background-image: url('/img/arrow_up.png');
+    background-size: 10px 10px;
+}
+.jexcel .jexcel_column_filter {
+    background-image: url('/img/search.png');
+    background-size: 10px 10px;
+    background-color: white;
+}

@@ -111,19 +111,8 @@ body {
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-.jexcel > thead > tr > td.arrow-down {
-    background-image: url('/img/arrow_down.png');
-    background-size: 10px 10px;
-}
-.jexcel > thead > tr > td.arrow-up {
-    background-image: url('/img/arrow_up.png');
-    background-size: 10px 10px;
-}
-.jexcel .jexcel_column_filter {
-    background-image: url('/img/search.png');
-    background-size: 10px 10px;
-    background-color:white;
-}
+
+
 .jexcel tbody tr td:nth-of-type(3) {
     text-align: left !important;
 }

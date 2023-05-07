@@ -1156,7 +1156,9 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
 
     jss.deleteColumn(36, 15);
-    //jss.hideIndex();
+    var jexcelHeadTd = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    jexcelHeadTd.addClass('arrow-down');
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)').removeClass('arrow-down');
 }
 
 var deleted = function (instance, x, y, value) {

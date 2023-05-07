@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
-
+ 
 namespace CostAllocationApp.Controllers.Api
 {
     public class SectionsController : ApiController
@@ -23,6 +23,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateSection(Section section)
         {
+            var session = System.Web.HttpContext.Current.Session;
 
             if (String.IsNullOrEmpty(section.SectionName))
             {
@@ -30,7 +31,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                section.CreatedBy = "";
+                section.CreatedBy = session["userName"].ToString();
                 section.CreatedDate = DateTime.Now;
                 section.IsActive = true;
 

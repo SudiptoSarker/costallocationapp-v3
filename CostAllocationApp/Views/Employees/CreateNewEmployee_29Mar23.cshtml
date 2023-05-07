@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Create New Employee";
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/employee_ver02.css" />
+}
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div id="employee_body">
+                <form>
+                    <div id="main-div">
+                        <div class="row">
+                            <div class="col-4 module-label-txt">
+                                <label for="employee-name" id="employee_lbl">Employee Name <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <input class="form-control" id="employee-name" type="text" placeholder="employee name..">
+                                    <div class="employee_err">
+                                        Please provide employee name.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_button_group_employee">
+                            <a href="javascript:void(0);" class="employee_cancel">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Registration</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 style="text-align:left;">List</h4>
+            <table class="table" id="employee_table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Employee Name</th>
+                    </tr>
+                </thead>
+                <tbody id="employee_list_tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="employee_id_hidden" />
+<div class="modal custom-modal fade" id="edit_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Edit Employee Name</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="employee_name_edit">Employee Name</label>
+                        <input type="text" class="form-control" id="employee_name_edit">
+                        <div class="employee_err_edit">
+                            Please provide employee name.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_button_group_employee">
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">Update</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Inactive employee modal -->
+<div class="modal custom-modal fade" id="inactive_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Inactive Employee</h3>
+                    <p>Are you sure want to inactive?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="employeeContextMenu" class="dropdown clearfix">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li><a tabindex="-1" href="#">Edit</a></li>
+        <li><a tabindex="-1" href="#">Inactive</a></li>
+    </ul>
+</div>
+@section Scripts{
+
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/employee_ver02.js"></script>
+}

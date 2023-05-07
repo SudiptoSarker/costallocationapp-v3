@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "Create Users";
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/users.css" />
+}
+
+<div class="content container-fluid">
+    <!-----------------Employee Master: Employee Registration Form----------------->
+    @if (Convert.ToBoolean(ViewBag.linkFlag))
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="admin_div">
+                    <h5 class="text-center">管理者情報 (Admin Information)</h5>
+                    <table id="admin_table">
+                        <thead>
+                            <tr>
+                                <th class="employee_list_theader">ユーザーID (User Id)</th>
+                                <th class="employee_list_theader">役割 (User Role)</th>
+                                <th class="employee_list_theader">役職 (Title)</th>
+                                <th class="employee_list_theader">部署 (Department)</th>
+                                <th class="employee_list_theader">メアド (Email)</th>
+                                <th class="employee_list_theader">パスワー (Password)</th>
+                                <th class="employee_list_theader">操作 (Action)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="users_reg_tbl">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>名前 (User Name)</th>
+                                        <th>役職 (Title)</th>
+                                        <th>部署 (Department)</th>
+                                        <th>役割 (User Role)</th>
+                                        <th>メアド (Email)</th>
+                                        <th>パスワー (Password)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <select id="userDepartment" name="userDepartment"></select>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <select id="userRole" name="userRole"></select>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="password" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                            <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="CreateUserName();">Save</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        <br /><br />
+    }
+
+
+    <!-----------------Employee Master: Employee list are showing on this part----------------->
+    <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%">
+        <thead id="employeelist_thead">
+            <tr>
+                <th colspan="7" id="user_name_list_header">他のユーザー (Other Users)</th>
+            </tr>
+            <tr>
+                <th class="employee_list_theader">ユーザーID (User Id)</th>
+                <th class="employee_list_theader">役割 (User Role)</th>
+                <th class="employee_list_theader">役職 (Title)</th>
+                <th class="employee_list_theader">部署 (Department)</th>
+                <th class="employee_list_theader">メアド (Email)</th>
+                <th class="employee_list_theader">パスワー (Password)</th>
+                <th class="employee_list_theader">操作 (Action)</th>
+            </tr>
+            @* <tr>
+                    <th></th>
+                    <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="search_users"></th>
+                </tr> *@
+        </thead>
+        <tbody id="employeelist_tbody"></tbody>
+    </table>
+    <br />
+</div>
+<br><br>
+<br><br>
+
+<input type="hidden" id="employee_id_hidden" />
+
+<!-- Modal Update User -->
+<div class="modal fade" id="modal_update_user">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">
+                    ユーザーの更新
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" value="" id="user_id_hidden"/>
+                            <table id="users_reg_tbl">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>ユーザーID (User Id)</th>
+                                        <th>役職 (Title)</th>
+                                        <th>部署 (Department)</th>
+                                        <th>役割 (User Role)</th>
+                                        <th>メアド (Email)</th>
+                                        <th>パスワー (Password)</th>
+                                        <th>編集 (Edit)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <select id="userDepartment" name="userDepartment"></select>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <select id="userRole" name="userRole"></select>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                                        </td>
+                                        <td id="create_users_tbody_td">
+                                            <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">キャンセル (Cancel)</a>
+                                            <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/users.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+        $(document).ready(function () {
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+
+        });
+    </script>
+}

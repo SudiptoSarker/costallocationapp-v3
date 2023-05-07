@@ -9,6 +9,7 @@ namespace CostAllocationApp.Dtos
     {
         public int Id { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeeId { get; set; }
         public string SectionId { get; set; }
         public string DepartmentId { get; set; }
         public string InchargeId { get; set; }
@@ -19,6 +20,7 @@ namespace CostAllocationApp.Dtos
         public string GradeId { get; set; }
         public string Remarks { get; set; }
         public int SubCode { get; set; }
+        public string Year { get; set; }
 
 
         public string[] Sections { get; set; }

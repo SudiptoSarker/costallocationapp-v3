@@ -14,26 +14,30 @@ namespace CostAllocationApp.Controllers.Api
             companyBLL = new CompanyBLL();
         }
 
+        // create a company
         [HttpPost]
         public IHttpActionResult CreateCompany(Company company)
         {
-
+            var session = System.Web.HttpContext.Current.Session;
+            // checking null or empty
             if (String.IsNullOrEmpty(company.CompanyName))
             {
                 return BadRequest("Company Name Required");
             }
             else
             {
-                company.CreatedBy = "";
+                company.CreatedBy = session["userName"].ToString();
                 company.CreatedDate = DateTime.Now;
                 company.IsActive = true;
 
+                // checking existing company
                 if (companyBLL.CheckComany(company.CompanyName))
                 {
                     return BadRequest("Company Already Exists!!!");
                 }
                 else
                 {
+                    // create a company
                     int result = companyBLL.CreateCompany(company);
                     if (result > 0)
                     {
@@ -46,6 +50,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
+        // retrive all the companies
         [HttpGet]
         public IHttpActionResult Companies()
         {
@@ -53,18 +58,20 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(companies);
         }
 
+        // remove companies
         [HttpDelete]
         public IHttpActionResult RemoveCompanies([FromUri] string companyIds)
         {
             int result = 0;
 
-
+            // check company ID null or empty
             if (!String.IsNullOrEmpty(companyIds))
             {
                 string[] ids = companyIds.Split(',');
 
                 foreach (var item in ids)
                 {
+                    // remove companies
                     result += companyBLL.RemoveCompanies(Convert.ToInt32(item));
                 }
 

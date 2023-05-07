@@ -16,6 +16,7 @@ namespace CostAllocationApp.Controllers.Api
     {
         // GET: Employees
         EmployeeAssignmentBLL employeeAssignmentBLL = null;
+        
         public EmployeesController()
         {
             employeeAssignmentBLL = new EmployeeAssignmentBLL();
@@ -24,81 +25,132 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateAssignment(EmployeeAssignmentDTO employeeAssignmentDTO)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             int tempValue = 0;
             decimal tempUnitPrice = 0;
 
             #region validation of inputs
-            if (!String.IsNullOrEmpty(employeeAssignmentDTO.EmployeeName))
-            {
-                var checkResult = employeeAssignmentBLL.CheckEmployeeName(employeeAssignmentDTO.EmployeeName.Trim());
-                if (checkResult && employeeAssignmentDTO.SubCode == 1)
-                {
-                    return BadRequest("Employee Already Exists");
-                }
-                else
-                {
-                    employeeAssignment.EmployeeName = employeeAssignmentDTO.EmployeeName.Trim();
-                }
+            //if (!String.IsNullOrEmpty(employeeAssignmentDTO.EmployeeId))
+            //{
+            //    var checkResult = employeeAssignmentBLL.CheckEmployeeName(employeeAssignmentDTO.EmployeeName.Trim());
+            //    if (checkResult && employeeAssignmentDTO.SubCode == 1)
+            //    {
+            //        return BadRequest("Employee Already Exists");
+            //    }
+            //    else
+            //    {
+            //        employeeAssignment.EmployeeName = employeeAssignmentDTO.EmployeeName.Trim();
+            //    }
                 
-            }
-            else
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Employee Name");
+            //}
+            if (String.IsNullOrEmpty(employeeAssignmentDTO.EmployeeId))
             {
                 return BadRequest("Invalid Employee Name");
             }
-            if (int.TryParse(employeeAssignmentDTO.SectionId, out tempValue))
+            else
             {
-                if (tempValue <= 0)
-                {
-                    return BadRequest("Invalid Section Id");
-
-                }
-                employeeAssignment.SectionId = tempValue;
+                employeeAssignment.EmployeeId = employeeAssignmentDTO.EmployeeId;
+            }
+            if (String.IsNullOrEmpty(employeeAssignmentDTO.Year))
+            {
+                return BadRequest("Invalid Year");
             }
             else
             {
-                return BadRequest("Invalid Section Id");
+                employeeAssignment.Year = employeeAssignmentDTO.Year;
             }
-            if (int.TryParse(employeeAssignmentDTO.DepartmentId, out tempValue))
-            {
-                if (tempValue <= 0)
-                {
 
-                    return BadRequest("Invalid Department Id");
-                }
-                employeeAssignment.DepartmentId = tempValue;
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.SectionId))
+            {
+                employeeAssignment.SectionId = 0;
             }
             else
             {
-                return BadRequest("Invalid Department Id");
+                employeeAssignment.SectionId = Convert.ToInt32(employeeAssignmentDTO.SectionId);
             }
-            if (int.TryParse(employeeAssignmentDTO.InchargeId, out tempValue))
-            {
-                if (tempValue <= 0)
-                {
-                    return BadRequest("Invalid Incharge Id");
+            //if (int.TryParse(employeeAssignmentDTO.SectionId, out tempValue))
+            //{
+            //    //if (tempValue <= 0)
+            //    //{
+            //    //    return BadRequest("Invalid Section Id");
 
-                }
-                employeeAssignment.InchargeId = tempValue;
+            //    //}
+            //    employeeAssignment.SectionId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Section Id");
+            //}
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.DepartmentId))
+            {
+                employeeAssignment.DepartmentId = 0;
             }
             else
             {
-                return BadRequest("Invalid Incharge Id");
+                employeeAssignment.DepartmentId = Convert.ToInt32(employeeAssignmentDTO.DepartmentId);
             }
-            if (int.TryParse(employeeAssignmentDTO.RoleId, out tempValue))
-            {
-                if (tempValue <= 0)
-                {
-                    return BadRequest("Invalid Role Id");
+            //if (int.TryParse(employeeAssignmentDTO.DepartmentId, out tempValue))
+            //{
+            //    //if (tempValue <= 0)
+            //    //{
 
-                }
-                employeeAssignment.RoleId = tempValue;
+            //    //    return BadRequest("Invalid Department Id");
+            //    //}
+            //    employeeAssignment.DepartmentId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Department Id");
+            //}
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.InchargeId))
+            {
+                employeeAssignment.InchargeId = 0;
             }
             else
             {
-                return BadRequest("Invalid Role Id");
+                employeeAssignment.InchargeId = Convert.ToInt32(employeeAssignmentDTO.InchargeId);
             }
+            //if (int.TryParse(employeeAssignmentDTO.InchargeId, out tempValue))
+            //{
+            //    //if (tempValue <= 0)
+            //    //{
+            //    //    return BadRequest("Invalid Incharge Id");
+
+            //    //}
+            //    employeeAssignment.InchargeId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Incharge Id");
+            //}
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.RoleId))
+            {
+                employeeAssignment.RoleId = 0;
+            }
+            else
+            {
+                employeeAssignment.RoleId = Convert.ToInt32(employeeAssignmentDTO.RoleId);
+            }
+            //if (int.TryParse(employeeAssignmentDTO.RoleId, out tempValue))
+            //{
+            //    //if (tempValue <= 0)
+            //    //{
+            //    //    return BadRequest("Invalid Role Id");
+
+            //    //}
+            //    employeeAssignment.RoleId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Role Id");
+            //}
             if (String.IsNullOrEmpty(employeeAssignmentDTO.ExplanationId))
             {
                 employeeAssignment.ExplanationId=null;
@@ -107,11 +159,11 @@ namespace CostAllocationApp.Controllers.Api
             {
                 if (int.TryParse(employeeAssignmentDTO.ExplanationId, out tempValue))
                 {
-                    if (tempValue <= 0)
-                    {
+                    //if (tempValue <= 0)
+                    //{
 
-                        return BadRequest("Invalid Explanation Id");
-                    }
+                    //    return BadRequest("Invalid Explanation Id");
+                    //}
                     employeeAssignment.ExplanationId = tempValue.ToString();
                 }
                 else
@@ -120,46 +172,70 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-
-            if (int.TryParse(employeeAssignmentDTO.CompanyId, out tempValue))
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.CompanyId))
             {
-                if (tempValue <= 0)
-                {
-                    return BadRequest("Invalid Company Id");
-
-                }
-                employeeAssignment.CompanyId = tempValue;
+                employeeAssignment.CompanyId = 0;
             }
             else
             {
-                return BadRequest("Invalid Company Id");
+                employeeAssignment.CompanyId = Convert.ToInt32(employeeAssignmentDTO.CompanyId);
             }
-            if (decimal.TryParse(employeeAssignmentDTO.UnitPrice, out tempUnitPrice))
-            {
-                if (tempValue < 0)
-                {
-                    return BadRequest("Invalid Unit Price");
+            //if (int.TryParse(employeeAssignmentDTO.CompanyId, out tempValue))
+            //{
+            //    if (tempValue <= 0)
+            //    {
+            //        return BadRequest("Invalid Company Id");
 
-                }
-                employeeAssignment.UnitPrice = tempUnitPrice;
+            //    }
+            //    employeeAssignment.CompanyId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Company Id");
+            //}
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.UnitPrice))
+            {
+                employeeAssignment.UnitPrice = 0;
             }
             else
             {
-                return BadRequest("Invalid Unit Price");
+                employeeAssignment.UnitPrice = Convert.ToDecimal(employeeAssignmentDTO.UnitPrice);
             }
-            if (int.TryParse(employeeAssignmentDTO.GradeId, out tempValue))
-            {
-                if (tempValue <= 0)
-                {
-                    return BadRequest("Invalid Grade Id");
+            //if (decimal.TryParse(employeeAssignmentDTO.UnitPrice, out tempUnitPrice))
+            //{
+            //    if (tempValue < 0)
+            //    {
+            //        return BadRequest("Invalid Unit Price");
 
-                }
-                employeeAssignment.GradeId = tempValue;
+            //    }
+            //    employeeAssignment.UnitPrice = tempUnitPrice;
+            //}
+
+            //else
+            //{
+            //    return BadRequest("Invalid Unit Price");
+            //}
+            if (string.IsNullOrEmpty(employeeAssignmentDTO.GradeId))
+            {
+                employeeAssignment.GradeId = 0;
             }
             else
             {
-                return BadRequest("Invalid Grade Id");
+                employeeAssignment.GradeId = Convert.ToInt32(employeeAssignmentDTO.GradeId);
             }
+            //if (int.TryParse(employeeAssignmentDTO.GradeId, out tempValue))
+            //{
+            //    if (tempValue <= 0)
+            //    {
+            //        return BadRequest("Invalid Grade Id");
+
+            //    }
+            //    employeeAssignment.GradeId = tempValue;
+            //}
+            //else
+            //{
+            //    return BadRequest("Invalid Grade Id");
+            //}
 
             if (String.IsNullOrEmpty(employeeAssignmentDTO.Remarks))
             {
@@ -168,7 +244,7 @@ namespace CostAllocationApp.Controllers.Api
             #endregion
 
             //employeeAssignment.ExplanationId = employeeAssignmentDTO.ExplanationId;
-            employeeAssignment.CreatedBy = "";
+            employeeAssignment.CreatedBy = session["userName"].ToString();
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = employeeAssignmentDTO.Remarks.Trim();
@@ -190,6 +266,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPut]
         public IHttpActionResult UpdateAssignment([FromBody]  EmployeeAssignmentDTO employeeAssignmentDTO)
         {
+            var session = System.Web.HttpContext.Current.Session;
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             int tempValue = 0;
@@ -316,7 +393,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             #endregion
             employeeAssignment.ExplanationId = employeeAssignmentDTO.ExplanationId;
-            employeeAssignment.UpdatedBy = "";
+            employeeAssignment.UpdatedBy = session["userName"].ToString();
             employeeAssignment.UpdatedDate = DateTime.Now;
             employeeAssignment.Id = employeeAssignmentDTO.Id;
             employeeAssignment.Remarks = employeeAssignmentDTO.Remarks.Trim();
@@ -449,6 +526,8 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("Something Went Wrong");
             }
         }
+
+
 
 
     }

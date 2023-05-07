@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.CreateEmployee(employee);
         }
+        public int CheckForEmployeeName(string employeeName)
+        {
+            return employeeDAL.CheckForEmployeeName(employeeName);
+        }
         public List<Employee> GetAllEmployees()
         {
             return employeeDAL.GetAllEmployees();
@@ -26,5 +30,30 @@ namespace CostAllocationApp.BLL
         //{
         //    return employeeDAL.RemoveEmployee(employeeIds);
         //}
+
+        public int UpdateEmployee(Employee employee)
+        {
+            return employeeDAL.UpdateEmployee(employee);
+        }
+        public int InactiveEmployee(Employee employee)
+        {
+            return employeeDAL.InactiveEmployee(employee);
+        }
+        public bool CheckEmployeeDuplication(string employeeName)
+        {
+            return employeeDAL.CheckEmployeeDuplication(employeeName);
+        }
+        public bool CheckUserNameDuplication(string userName)
+        {
+            return employeeDAL.CheckUserNameDuplication(userName);
+        }
+        public List<Employee> EmployeeListByNameFilter(string employeeName)
+        {
+            return employeeDAL.EmployeeListByNameFilter(employeeName);
+        }
+        public string GetEmployeeNameByAssignmentId(int assignmentId)
+        {
+            return employeeDAL.GetEmployeeNameByAssignmentId(assignmentId);
+        }
     }
 }

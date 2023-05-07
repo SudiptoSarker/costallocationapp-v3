@@ -45,22 +45,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=6.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\costallocationapp-v3 publish\bin\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus.Interfaces">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus.System.Drawing">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.System.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader">
-      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\costallocationapp-v3 publish\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -153,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BLL\ActualCostBLL.cs" />
     <Compile Include="BLL\CompanyBLL.cs" />
     <Compile Include="BLL\DepartmentBLL.cs" />
     <Compile Include="BLL\EmployeeBLL.cs" />
@@ -164,6 +179,9 @@
     <Compile Include="BLL\SalaryBLL.cs" />
     <Compile Include="BLL\SectionBLL.cs" />
     <Compile Include="BLL\UploadExcelBLL.cs" />
+    <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="BLL\UserRoleBLL.cs" />
+    <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\Api\CompaniesController.cs" />
     <Compile Include="Controllers\Api\DepartmentsController.cs" />
     <Compile Include="Controllers\Api\EmployeesController.cs" />
@@ -173,6 +191,7 @@
     <Compile Include="Controllers\Api\RolesController.cs" />
     <Compile Include="Controllers\Api\SalariesController.cs" />
     <Compile Include="Controllers\Api\SectionsController.cs" />
+    <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api\UtilitiesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -187,6 +206,8 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalariesController.cs" />
     <Compile Include="Controllers\SectionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DAL\ActualCostDAL.cs" />
     <Compile Include="DAL\CompanyDAL.cs" />
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DepartmentDAL.cs" />
@@ -199,13 +220,19 @@
     <Compile Include="DAL\SalaryDAL.cs" />
     <Compile Include="DAL\SectionDAL.cs" />
     <Compile Include="DAL\UploadExcelDAL.cs" />
+    <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DAL\UserRoleDAL.cs" />
+    <Compile Include="Dtos\ActualCostDto.cs" />
     <Compile Include="Dtos\EmployeeAssignmentDTO.cs" />
+    <Compile Include="Dtos\ExcelAssignmentDto.cs" />
     <Compile Include="Dtos\ForecastDto.cs" />
+    <Compile Include="Dtos\ForecastHistoryDto.cs" />
     <Compile Include="Dtos\ForecastUpdateHistoryDto.cs" />
     <Compile Include="Dtos\SendToForecaseApiDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActualCost.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
@@ -220,12 +247,18 @@
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\UploadExcel.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserPermission.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ActualCostViewModel.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
+    <Compile Include="ViewModels\ForecastYear.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\addname.css" />
@@ -235,6 +268,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
+    <Content Include="Content\employee.css" />
     <Content Include="Content\Custom.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\departments.css" />
@@ -244,6 +278,7 @@
     <Content Include="Content\forecast_ver02.css" />
     <Content Include="Content\forecast_ver03.css" />
     <Content Include="Content\fullcalendar.min.css" />
+    <Content Include="Content\histories.css" />
     <Content Include="Content\incharge.css" />
     <Content Include="Content\jexcel.css" />
     <Content Include="Content\jspreadsheet.css" />
@@ -263,6 +298,8 @@
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="img\arrow_down.png" />
+    <Content Include="img\arrow_up.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\la-brands-400.svg" />
     <Content Include="fonts\la-regular-400.svg" />
@@ -588,11 +625,13 @@
     <Content Include="img\profiles\avatar-28.jpg" />
     <Content Include="img\profiles\avatar-29.jpg" />
     <Content Include="img\profiles\avatar-30.jpg" />
+    <Content Include="img\search.png" />
     <Content Include="img\sort.png" />
     <Content Include="img\sortDown.png" />
     <Content Include="img\sortUp.png" />
     <Content Include="img\user.jpg" />
     <Content Include="img\video-call.jpg" />
+    <Content Include="Scripts\actualcost.js" />
     <Content Include="Scripts\addname.js" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
@@ -611,14 +650,20 @@
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\departments.js" />
     <Content Include="Scripts\dropfiles.js" />
+    <Content Include="Scripts\employee.js" />
+    <Content Include="Scripts\employee_ver03.js" />
     <Content Include="Scripts\explanations.js" />
     <Content Include="Scripts\forecast.js" />
     <Content Include="Scripts\forecast_ver02.js" />
     <Content Include="Scripts\forecast_ver03.js" />
+    <Content Include="Scripts\forecast_ver04 -29_Mar_2023.js" />
+    <Content Include="Scripts\forecast_ver04.js" />
+    <Content Include="Scripts\forecast_ver06.js" />
     <Content Include="Scripts\form-validation.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\glimpse.js" />
     <Content Include="Scripts\glimpse.toastr.js" />
+    <Content Include="Scripts\histories.js" />
     <Content Include="Scripts\html5shiv.min.js" />
     <Content Include="Scripts\incharge.js" />
     <Content Include="Scripts\jexcel.js" />
@@ -627,6 +672,8 @@
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.fullcalendar.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.slimscroll.js" />
     <Content Include="Scripts\jquery.slimscroll.min.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
@@ -647,12 +694,14 @@
     <Content Include="Scripts\namelist_modal_registrations.js" />
     <Content Include="Scripts\namelist_ver02.js" />
     <Content Include="Scripts\nameregistration.js" />
+    <Content Include="Scripts\nameregistration_ver02.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\roles.js" />
     <Content Include="Scripts\salaries.js" />
     <Content Include="Scripts\sections.js" />
+    <Content Include="Scripts\sections_ver02.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\toastr.js" />
@@ -689,6 +738,12 @@
     <Content Include="Views\Forecasts\CreateForecast.cshtml" />
     <Content Include="Views\Employees\NameRegistration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
+    <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
+    <Content Include="Views\Forecasts\GetHistories.cshtml" />
+    <Content Include="Views\Forecasts\ActualCosts.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\CreateUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

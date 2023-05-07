@@ -1,0 +1,173 @@
+﻿        <!-- Sidebar -->
+<style>
+    .sidebar-menu ul a.active {
+        background-color: #ffebda;
+        color: #000;
+        text-decoration: underline;
+    }
+</style>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span title="要員管理システム">要員管理システム</span>
+                </li>
+                @{
+                    //string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                    string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+                    string url = System.IO.Path.GetFileName(fullPath);
+                    if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url))
+                    {
+                        <li>
+                            <a href="/Registration/Login" class="active"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        @*if (url.ToLower().Contains("namelist"))
+                {
+                    <li>
+                        <a href="/Employees/NameList" class="active"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/NameList"><i class="la la-cube"></i> <span title="名簿 (Name List)">名簿 (Name List)</span></a>
+                    </li>
+                }*@
+                        @*if (url.ToLower().Contains("createassignment"))
+                {
+                    <li>
+                        <a href="javascriopt:void(0);" class="active"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Employees/CreateAssignment"><i class="la la-cube"></i> <span title="追加 (Add Name)">追加 (Add Name)</span></a>
+                    </li>
+                }*@
+                        if (url.ToLower().Contains("createforecast"))
+                        {
+                            <li>
+                                <a href="/Forecasts/CreateForecast" class="active"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Forecasts/CreateForecast"><i class="la la-bullhorn"></i> <span title="年度データー(Yearly Data)">年度データー(Yearly Data)</span></a>
+                            </li>
+                        }
+                        @* <li>
+                    <a href="javascript:void(0);"><i class="la la-files-o"></i> <span>データ作成(Data Create)</span></a>
+                </li> *@
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="la la-files-o"></i>
+                                <span title="歴史 (History)">履歴年度データー (History)</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul style="display: none;">
+                                @{
+                                    if (url.ToLower().Contains("createsection"))
+                                    {
+                                        <li><a href="/Forecasts/GetHistories" class="active" title="履歴年度データー">履歴年度データー</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/Forecasts/GetHistories" title="履歴年度データー">履歴年度データー</a>
+                                        </li>
+                                    }
+                                
+                                }
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="la la-files-o"></i>
+                                <span title="マスター設定 (Mast Setting)"> マスター設定 (Mast Setting)</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul style="display: none;">
+                                @{
+                                    if (url.ToLower().Contains("createsection"))
+                                    {
+                                        <li><a href="/Sections/CreateSection" class="active" title="区分マスター (Section Mast)">区分マスター (Section Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/Sections/CreateSection" title="区分マスター (Section Mast)">区分マスター (Section Mast)</a>
+                                        </li>
+                                    }
+                                    if (url.ToLower().Contains("createdepartment"))
+                                    {
+                                        <li><a href="/Departments/CreateDepartment" class="active" title="部署バスター (Dept. Mast)">部署バスター (Dept. Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Departments/CreateDepartment" title="部署バスター (Dept. Mast)">部署バスター (Dept. Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createincharge"))
+                                    {
+                                        <li><a href="/InCharges/CreateInCharge" class="active" title="担当マスター(Inchg Mast)">担当マスター(Inchg Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/InCharges/CreateInCharge" title="担当マスター(Inchg Mast)">担当マスター(Inchg Mast)</a></li>
+                                    }
+
+                                    if (url.ToLower().Contains("createroles"))
+                                    {
+                                        <li><a href="/Roles/CreateRoles" class="active" title="役割マスター( Role Mast)">役割マスター( Role Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Roles/CreateRoles" title="役割マスター( Role Mast)">役割マスター( Role Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createexplanation"))
+                                    {
+                                        <li><a href="/Explanations/CreateExplanation" class="active" title="説明マスター (Expl Mast)">説明マスター (Expl Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Explanations/CreateExplanation" title="説明マスター (Expl Mast)">説明マスター (Expl Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createcompany"))
+                                    {
+                                        <li><a href="/Companies/CreateCompany" class="active" title="会社マスター (Company Mast)">会社マスター (Company Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Companies/CreateCompany" title="会社マスター (Company Mast)">会社マスター (Company Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createsalary"))
+                                    {
+                                        <li><a href="/Salaries/CreateSalary" class="active" title="グレードマスター (Grade Mast)">グレードマスター (Grade Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Salaries/CreateSalary" title="グレードマスター (Grade Mast)">グレードマスター (Grade Mast)</a></li>
+                                    }
+                                    if (url.ToLower().Contains("createnewemployee"))
+                                    {
+                                        <li><a href="/Employees/CreateNewEmployee" class="active" title="人員マスター (Name Mast)">人員マスター (Name Mast)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Name Mast)">人員マスター (Name Mast)</a></li>
+                                    }
+                                }
+                            </ul>
+                        </li>                        
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->

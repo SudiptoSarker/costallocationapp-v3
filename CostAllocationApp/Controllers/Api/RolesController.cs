@@ -17,14 +17,14 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateRole(Role role)
         {
-
+            var session = System.Web.HttpContext.Current.Session;
             if (String.IsNullOrEmpty(role.RoleName))
             {
                 return BadRequest("Role Name Required");
             }
             else
             {
-                role.CreatedBy = "";
+                role.CreatedBy = session["userName"].ToString();
                 role.CreatedDate = DateTime.Now;
                 role.IsActive = true;
 

@@ -5,89 +5,82 @@
 
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/departments.css" />    
+    <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />    
 }
-<div class="content container-fluid">
-    <!--List-->
-    <h4 style="text-align:left;">List</h4>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="">
-                <table class="" id="department_table">
-                    <thead>
-                        <tr>
-                            <th>Check</th>
-                            <th>Department Name</th>
-                            <th>Section</th>
-                        </tr>
-                    </thead>
-                    <tbody id="department_list_tbody"></tbody>
-                </table>
-                <label id="department_delete_btn">
-                    <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onDepartmentInactiveClick();" data-target="#inactive_department_modal">Delete</a>
-                </label>
+
+    <div class="content container-fluid">
+        <!-----------------Department Master: Department Registration Form----------------->
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table id="dept_reg_tbl">
+                                <thead style="border:none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>部署 (Dept Name)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="dept_reg_frm_td">
+                                            <input type="text" value="" placeholder="部署 氏名(dept name)" id="department_name">
+                                            @* <div class="department_name_err" id="department_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                        </td>
+                                        <td id="dept_reg_frm_td">
+                                            <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                            <a href="javascript:void(0);" class="" id="dept_reg_save_btn" onclick="InsertDepartment();">Save</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
+        }
+
+
+        <!-----------------Department Master: Department list are showing on this part----------------->
+        <div id="department_list" style="display: block;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="" id="dept_list_tbl">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">部署 リスト(Dept List)</th>
+                                </tr>
+                                <tr>
+                                    <th class="dept_list_theader">Check</th>
+                                    <th class="dept_list_theader">部署 (Dept Name)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="department_list_tbody"></tbody>
+                        </table>
+                        @if (Convert.ToBoolean(ViewBag.linkFlag))
+                        {
+                            <label id="dept_delete_btn">
+                                <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_department_modal" onClick="onDepartmentInactiveClick()">Delete</a>
+                            </label>
+                        }
+
+                    </div>
+                </div>
             </div>
         </div>
+        <br />
     </div>
-    <br />
 
-    <div class="modal-content" id="department_body">
-        <style>
-        </style>
-        <div class="modal-body">
-            <form>
-                <div id="main-div">
-                    <div class="row">
-                        <div class="col-4 module-label-txt">
-                            <label for="department_name">Department Name <span class="text-danger">*</span></label>
-                        </div>
-                        <div class="col-8">
-                            <div class="form-group">
-                                <input class="form-control" id="department_name" type="text" placeholder="department name..">
-                                <div class="department_name_err" id="department_name_err">
-                                    Please provide a department name.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 module-label-txt">
-                            <div class="form-group">
-                                <label for="section_list">Section Name <span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <select id="section_list" class="form-control col-12" style="width:100% !important; border:1px solid #e3e3e3 !important;"></select>
-                                <div class="section_err" id="section_ist_error">
-                                    Please select a section!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="cutom_button_group_department">
-                        <a href="javascript:void(0);" id="department_cancel">Cancel</a>
-                        <a href="javascript:void(0);" id="department_registration" onclick="InsertDepartment();">Registration</a>
-                    </div>
-                </div>
-                <style>
-                    #plus-icon {
-                        visibility: hidden;
-                    }
-                </style>
-            </form>
-        </div>
-    </div>
-    <br><br>
-
-</div>
 <input type="hidden" id="department_warning_text" />
 
-<!-- Inactive Department Modal -->
+<!-----------------Modal: Delete department----------------->
 <div class="modal custom-modal fade" id="inactive_department_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -114,5 +107,87 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>   
-    <script src="/Scripts/departments.js"></script>         
+    <script src="/Scripts/departments_ver02.js"></script>   
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName =  $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                        
+                    });
+
+                }
+            });
+                    
+        });
+    </script>      
 }

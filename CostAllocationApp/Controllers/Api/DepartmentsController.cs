@@ -20,6 +20,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateDepartment(Department department)
         {
+            var session = System.Web.HttpContext.Current.Session;
 
             if (String.IsNullOrEmpty(department.DepartmentName))
             {
@@ -31,7 +32,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                department.CreatedBy = "";
+                department.CreatedBy = session["userName"].ToString();
                 department.CreatedDate = DateTime.Now;
                 department.IsActive = true;
 

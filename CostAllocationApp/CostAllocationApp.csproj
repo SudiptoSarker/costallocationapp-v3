@@ -298,6 +298,8 @@
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="img\arrow_down.png" />
+    <Content Include="img\arrow_up.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\la-brands-400.svg" />
     <Content Include="fonts\la-regular-400.svg" />
@@ -623,6 +625,7 @@
     <Content Include="img\profiles\avatar-28.jpg" />
     <Content Include="img\profiles\avatar-29.jpg" />
     <Content Include="img\profiles\avatar-30.jpg" />
+    <Content Include="img\search.png" />
     <Content Include="img\sort.png" />
     <Content Include="img\sortDown.png" />
     <Content Include="img\sortUp.png" />

@@ -92,8 +92,24 @@ body {
     /* line-height: -1; */
     white-space: nowrap !important;
 }
+.jexcel_content{
+    max-height:800px !important;
+}
+.jexcel > thead > tr > td.arrow-down {
+    background-image: url('/img/arrow_down.png');
+    background-size: 10px 10px;
+}
+.jexcel > thead > tr > td.arrow-up {
+    background-image: url('/img/arrow_up.png');
+    background-size: 10px 10px;
+}
+.jexcel .jexcel_column_filter {
+    background-image: url('/img/search.png');
+    background-size: 10px 10px;
+    background-color:white;
+}
 .jexcel tbody tr td:nth-of-type(3) {
-    text-align:left !important;
+    text-align: left !important;
 }
 .jexcel tbody tr td:nth-of-type(4) {
     text-align:center !important;

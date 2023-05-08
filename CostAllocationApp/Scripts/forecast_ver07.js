@@ -55,8 +55,8 @@ $(document).ready(function () {
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
-        var assignmentYear = $("#hidDefaultForecastYear").val();
-        $('#assignment_year_list').val(assignmentYear);      
+        //var assignmentYear = $("#hidDefaultForecastYear").val();
+        //$('#assignment_year_list').val(assignmentYear);      
         $("#jspreadsheet").hide();        
     }
 
@@ -160,15 +160,21 @@ $(document).ready(function () {
             });
     });
     
-    $(document).on('click', '#assignment_year_data', function () {
+    $(document).on('click', '#assignment_year_data', function () {    
+        var assignmentYear = $('#assignment_year_list').val();
+        if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+            alert('Select valid year!!!');
+            return false;
+        }     
+        
         LoaderShowJexcel();
-        setTimeout(function () {
             
-            var assignmentYear = $('#assignment_year_list').val();
-            if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-                alert('Select valid year!!!');
-                return false;
-            }
+        setTimeout(function () {            
+            // var assignmentYear = $('#assignment_year_list').val();
+            // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+            //     alert('Select valid year!!!');
+            //     return false;
+            // }            
             ShowForecastResults(assignmentYear);
         }, 3000);
 
@@ -1163,6 +1169,7 @@ function ShowForecastResults(year) {
     var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
+    $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");
 }
 
 var deleted = function (instance, x, y, value) {
@@ -1519,15 +1526,15 @@ function GetAllForecastYears() {
             $('#assignment_year_list').append(`<option value=''>select year</option>`);
             $('#select_year_to_import').append(`<option value=''>select year</option>`);
             $('#replicate_from').append(`<option value=''>select year</option>`);
-            var count =1;
+            //var count =1;
             $.each(data, function (index, element) {
-                if(count==1){
-                    $("#hidDefaultForecastYear").val(element.Year)
-                }
+                // if(count==1){
+                //     $("#hidDefaultForecastYear").val(element.Year)
+                // }
                 $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
                 $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
                 $('#replicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                count++;
+                //count++;
             });
         }
     });

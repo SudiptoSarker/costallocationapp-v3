@@ -1,0 +1,16 @@
+.user_inputs{
+    border:1px solid black;
+}
+#user_department{
+    width: 186px;
+}
+#registration_form{
+    background-color: aliceblue;
+    margin-left: 110px;
+}
+#rest_btn,#register_btn{
+    width: 100px;
+}
+.registrer_row{
+    margin-left: 50px;      
+}

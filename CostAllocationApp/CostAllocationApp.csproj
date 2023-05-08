@@ -744,6 +744,7 @@
     <Content Include="Views\Forecasts\ActualCosts.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\CreateUsers.cshtml" />
+    <Content Include="Views\Registration\UserRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

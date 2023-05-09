@@ -7745,12 +7745,16 @@ if (! jSuites && typeof(require) === 'function') {
 
                 // Create dropdown
                 var div = document.createElement('div');
+               
                 obj.filter.children[columnId + 1].innerHTML = '';
                 obj.filter.children[columnId + 1].appendChild(div);
+                
                 obj.filter.children[columnId + 1].style.paddingLeft = '0px';
                 obj.filter.children[columnId + 1].style.paddingRight = '0px';
                 obj.filter.children[columnId + 1].style.overflow = 'initial';
 
+                console.log(optionsFiltered);
+                console.log(div);
                 var opt = {
                     data: optionsFiltered,
                     multiple: true,
@@ -14053,6 +14057,12 @@ if (! jSuites && typeof(require) === 'function') {
                     if (columnId) {
                         jexcel.current.orderBy(columnId);
                     }
+
+                    //--- new code------
+                    //alert('clicked');
+                    // Open filter
+                    //jexcel.current.openFilter(columnId);
+                    //--------------
                 }
 
                 // Double click over body

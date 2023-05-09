@@ -290,14 +290,111 @@ $(document).ready(function () {
                     jexcelFirstHeaderRow.css('position', 'sticky');
                     jexcelFirstHeaderRow.css('top', '0px');
                     var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
-                    jexcelFirstHeaderRow.css('position', 'sticky');
+                    jexcelSecondHeaderRow.css('position', 'sticky');
                     jexcelSecondHeaderRow.css('top', '20px');
+
+                    var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+                    octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+                    novElement.append('<input type="checkbox" id="nov_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var decElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13)');
+                    decElement.append('<input type="checkbox" id="dec_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var janElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14)');
+                    janElement.append('<input type="checkbox" id="jan_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var febElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
+                    febElement.append('<input type="checkbox" id="feb_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var marElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16)');
+                    marElement.append('<input type="checkbox" id="mar_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var aprElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17)');
+                    aprElement.append('<input type="checkbox" id="apr_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var mayElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18)');
+                    mayElement.append('<input type="checkbox" id="may_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var junElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19)');
+                    junElement.append('<input type="checkbox" id="jun_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var julElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20)');
+                    julElement.append('<input type="checkbox" id="jul_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var augElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21)');
+                    augElement.append('<input type="checkbox" id="aug_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
+                    var sepElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22)');
+                    sepElement.append('<input type="checkbox" id="sep_chk"  style="display:inline-block;margin-left: 10px;"/>');
+
                 }
             });
         }, 3000);
 
         
     });
+
+    //jss.doubleClickControls = function (e) {
+    //    // Jexcel is selected
+    //    if (jexcel.current) {
+    //        // Corner action
+    //        if (e.target.classList.contains('jexcel_corner')) {
+    //            // Any selected cells
+    //            if (jexcel.current.highlighted.length > 0) {
+    //                // Copy from this
+    //                var x1 = jexcel.current.highlighted[0].getAttribute('data-x');
+    //                var y1 = parseInt(jexcel.current.highlighted[jexcel.current.highlighted.length - 1].getAttribute('data-y')) + 1;
+    //                // Until this
+    //                var x2 = jexcel.current.highlighted[jexcel.current.highlighted.length - 1].getAttribute('data-x');
+    //                var y2 = jexcel.current.records.length - 1
+    //                // Execute copy
+    //                jexcel.current.copyData(jexcel.current.records[y1][x1], jexcel.current.records[y2][x2]);
+    //            }
+    //        } else if (e.target.classList.contains('jexcel_column_filter')) {
+    //            // Column
+    //            var columnId = e.target.getAttribute('data-x');
+    //            // Open filter
+    //            jexcel.current.openFilter(columnId);
+
+    //        } else {
+    //            // Get table
+    //            var jexcelTable = jexcel.getElement(e.target);
+
+    //            // Double click over header
+    //            if (jexcelTable[1] == 1 && jexcel.current.options.columnSorting == true) {
+    //                // Check valid column header coords
+    //                //var columnId = e.target.getAttribute('data-x');
+    //                //if (columnId) {
+    //                //    jexcel.current.orderBy(columnId);
+    //                //}
+    //                alert('clicked');
+    //            }
+
+    //            // Double click over body
+    //            if (jexcelTable[1] == 2 && jexcel.current.options.editable == true) {
+    //                if (!jexcel.current.edition) {
+    //                    var getCellCoords = function (element) {
+    //                        if (element.parentNode) {
+    //                            var x = element.getAttribute('data-x');
+    //                            var y = element.getAttribute('data-y');
+    //                            if (x && y) {
+    //                                return element;
+    //                            } else {
+    //                                return getCellCoords(element.parentNode);
+    //                            }
+    //                        }
+    //                    }
+    //                    var cell = getCellCoords(e.target);
+    //                    if (cell && cell.classList.contains('highlight')) {
+    //                        jexcel.current.openEditor(cell);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     $('#create_actual_cost').on('click', function () {
         var dataToSend = [];

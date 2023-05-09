@@ -166,20 +166,34 @@ namespace CostAllocationApp.DAL
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {
-                            User user = new User(); 
+                        {                            
+                            User user = new User();                            
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
+                            if (user.UserName == "sudipto 10")
+                            {
+
+                            }
                             user.UserTitle = rdr["Title"].ToString();
                             user.DepartmentId = rdr["DepartmentId"].ToString();
                             user.DepartmentName = rdr["DepartmentName"].ToString();
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
+                            
                             //user.CreatedBy = rdr["CreatedBy"].ToString();
                             //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
-
+                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
+                            if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
+                            {
+                                user.UserRoleId = "0";
+                                user.Status = "Invalid";
+                            }
+                            else
+                            {
+                                user.UserRoleId = rdr["RoleId"].ToString();
+                                user.Status = "Valid";
+                            }
                             users.Add(user);
                         }
                     }
@@ -323,7 +337,8 @@ namespace CostAllocationApp.DAL
                         {
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
-                            user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                            //user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                            user.UserRoleId = rdr["UserRoleId"].ToString();
                         }
                     }
                 }

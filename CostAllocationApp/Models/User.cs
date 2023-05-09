@@ -16,8 +16,9 @@ namespace CostAllocationApp.Models
         public bool IsActive { get; set; }
         public string DepartmentName { get; set; }
         public DateTime LoginTime { get; set; }
-        public int UserRoleId { get; set; }
+        public string UserRoleId { get; set; }
         public string UserRoleName { get; set; }
+        public string Status { get; set; }
 
     }
 }

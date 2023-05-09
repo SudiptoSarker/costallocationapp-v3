@@ -1124,7 +1124,8 @@ namespace CostAllocationApp.Controllers.Api
                 else
                 {
                     user.IsActive = true;
-                    user.CreatedBy = session["userName"].ToString();
+                    //user.CreatedBy = session["userName"].ToString();
+                    user.CreatedBy = "";
                     user.CreatedDate = DateTime.Now;
                     int result = userBLL.CreateUserName(user);
                     if (result > 0)
@@ -1236,7 +1237,7 @@ namespace CostAllocationApp.Controllers.Api
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
             List<User> filteredUsers = new List<User>();
             List<User> users = userBLL.GetAllUsers();
-            if (user.UserRoleId==1)
+            if (user.UserRoleId=="1")
             {
                 if (users.Count > 0)
                 {

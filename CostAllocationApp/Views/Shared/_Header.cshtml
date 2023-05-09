@@ -304,7 +304,7 @@
             @{
                 string fullPath2 = HttpContext.Current.Request.Url.AbsolutePath;
                 string url2 = System.IO.Path.GetFileName(fullPath2);
-                if (url2.ToLower().Contains("login") || string.IsNullOrEmpty(url2))
+                if (url2.ToLower().Contains("login") || string.IsNullOrEmpty(url2) || url2.ToLower().Contains("userregistration"))
                 {
                 }
                 else

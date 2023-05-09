@@ -6,115 +6,111 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/user_registration.css" />
 }
+<style>
 
+    .username-error {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+
+    .password-error {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+    .nav-item.dropdown.has-arrow.main-drop {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+</style>
 <div class="content container-fluid">
-    <div>
+    <!-----------------User Registration Form----------------->
+    <div class="container">
         <div class="row">
-            <div class="col-8" id="registration_form">            
-                <div class="row">
-                    <div class="col-8">
-                        <h4 style="text-align: center;">Registration</h4>
-                    </div>        
+            <div class="col-12">
+                <input type="hidden" value="" id="user_id_hidden"/>
+                <table id="users_reg_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th>ユーザーID (User Id)</th>
+                            <th>役職 (Title)</th>
+                            <th>部署 (Department)</th>
+                            <th>メアド (Email)</th>
+                            <th>パスワー (Password)</th>
+                            <th>行動 (Action)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <select id="userDepartment" name="userDepartment"></select>
+                            </td>                            
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <input type="password" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal" onclick="ClearEntry();">クリア (Clear)</a>
+                                @* <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UserRegistration();" data-toggle="modal" data-target="#register_modal">登録 (Register)</a> *@
+                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" data-toggle="modal" data-target="#register_modal">登録 (Register)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="/registration/login" style="text-decoration: underline;color: black;">Back</a>
+            </div>
+        </div>
+    </div>    
+</div>
+<input type="hidden" id="hid_userRole" value="">
+
+<!-----------------Modal: Update Forecast Confirm Dialog box----------------->
+<div class="modal custom-modal fade" id="register_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>User Registration</h3>
+                <div class="form-header" id="header_show">
+
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <style>
+                        .forecast_save_confirm_text {
+                            text-align: left;
+                        }
+                    </style>
+                    <label class="forecast_save_confirm_text">
+                        Your role will be pending, admin will set your role.
+                    </label>
                 </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>ユーザーID (User Id)</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" placeholder="user name" value="" id="user_name" class="user_inputs">
-                            </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">                            
+                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
                         </div>
-                    </div>        
-                </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>役職 (Title)</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" placeholder="title" value="" id="user_title" class="user_inputs">
-                            </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UserRegistration();">保存(Save)</a>
                         </div>
-                    </div>        
+                    </div>
                 </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>部署 (Department)</label>
-                            </div>
-                            <div class="col-7">
-                                <select name="user_department" id="user_department" class="user_inputs">
-                                    <option>select Department</option>
-                                    <option>Department 1</option>
-                                    <option>Department 2</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>        
-                </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>メアド (Email)</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" placeholder="email" value="" id="user_email" class="user_inputs">
-                            </div>
-                        </div>
-                    </div>        
-                </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>パスワー (Password)</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" placeholder="password" value="" id="user_password" class="user_inputs">
-                            </div>
-                        </div>
-                    </div>        
-                </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5">
-                                <label>パスワードを認証する (Confirm Pass)</label>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" placeholder="confirm password" value="" id="user_confirm_password" class="user_inputs">
-                            </div>
-                        </div>
-                    </div>        
-                </div>
-                <br>
-                <div class="row registrer_row">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-6">
-                                <button id="rest_btn">Rest</button>
-                            </div>
-                            <div class="col-6">
-                                <button id="register_btn">Register</button>
-                            </div>
-                        </div>
-                    </div>        
-                </div>
-                <br>
-                <br>
-                <button id="rest_btn">Back</button>
-            </div> 
+            </div>
         </div>
     </div>
 </div>
@@ -130,9 +126,8 @@
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
+            }, 1000); // Restart connection after 1 second.
         });
-
         $.connection.hub.start();
         $(function () {
 

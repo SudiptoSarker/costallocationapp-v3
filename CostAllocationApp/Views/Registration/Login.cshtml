@@ -49,8 +49,17 @@
                                 Password is not correct!
                             </div>
                         </div>
-                        <div class="form-group text-center">
-                            <button class="btn btn-primary account-btn" type="button" id="login">ログイン</button>
+                        <div class="row">                        
+                            <div class="col-6">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary account-btn" type="button" id="login">Login</button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-primary account-btn" type="button" id="login" onclick="GoToRegistrationForm();">Registration</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     <!-- /Account Form -->
@@ -66,12 +75,16 @@
     <script src="~/signalr/hubs"></script>
 
     <script>
+        function GoToRegistrationForm(){
+            window.location.href = "/registration/userregistration";
+        }
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();
             }, 1000); // Restart connection after 1 second.
         });
         $(document).ready(function () {
+            
 
             $('#login').click(function () {
                 var loginUserName = $("#login_id").val().toLowerCase();

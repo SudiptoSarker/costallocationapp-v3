@@ -20,6 +20,16 @@
                     {
                         <li>
                             <a href="/Registration/Login" class="active"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a>
+                        </li>       
+                        <li>
+                            <a href="/Registration/userregistration" class=""><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a>
+                        </li>                 
+                    }else if(url.ToLower().Contains("userregistration")){
+                        <li>
+                            <a href="/Registration/Login" class=""><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a>
+                        </li>  
+                        <li>
+                            <a href="/Registration/userregistration" class="active"><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a>
                         </li>
                     }
                     else

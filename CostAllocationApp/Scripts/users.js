@@ -59,6 +59,9 @@ function UpdateUserModal(userName) {
             $('#userTitle').val(data.UserTitle);
             $('#userDepartment').val(data.DepartmentId);
             $('#userRole').val(data.UserRoleId);
+            
+            console.log("data.UserRoleId: "+data.UserRoleId);
+
             $('#userEmail').val(data.Email);
             $('#userPass').val(data.Password);
         }); 
@@ -232,6 +235,16 @@ function ShowUserList_Datatable(data) {
             },
             {
                 data: 'Email'
+            },
+            {
+                data: 'Status',
+                render: function (data) {
+                    var strDropdown = "";
+                    strDropdown = "<select>";
+                    strDropdown = strDropdown+"<option>"+data+"</option>";
+                    strDropdown = strDropdown +"</select>"                    
+                    return data;
+                }
             },
             {
                 data: 'Password'

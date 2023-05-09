@@ -388,13 +388,22 @@ function ShowForecastResults(year) {
         jss.destroy();
         $('#jspreadsheet').empty();
     }
-
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         filters: true,
         tableOverflow: true,
         tableWidth: window.innerWidth - 300 + 'px',
         freezeColumns: 3,
+        
+        defaultColWidth: 50,
+        // tableWidth: w - 500 + "px",
+        // tableHeight: (h - 300) + "px",
+        tableWidth: w-500+ "px",
+        tableHeight: (h-300) + "px",
+
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -1169,7 +1178,9 @@ function ShowForecastResults(year) {
     var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
-    $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");
+        
+    // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
+    $("#head_total").css("width",w-500);
 }
 
 var deleted = function (instance, x, y, value) {

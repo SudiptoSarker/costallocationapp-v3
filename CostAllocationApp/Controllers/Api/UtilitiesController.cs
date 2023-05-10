@@ -1158,6 +1158,21 @@ namespace CostAllocationApp.Controllers.Api
                 int result = userBLL.UpdateUserName(user);
                 if (result > 0)
                 {
+                    var removedFlag = userBLL.RemoveUserPermissions(user.Id);
+                    if (user.UserRoleId==1)
+                    {
+                        foreach (var item in UserLinks.adminLinks)
+                        {
+                            userBLL.CreateUserPermissions(item,user.Id);
+                        }
+                    }
+                    if (user.UserRoleId == 2)
+                    {
+                        foreach (var item in UserLinks.editorLinks)
+                        {
+                            userBLL.CreateUserPermissions(item, user.Id);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
@@ -1348,7 +1363,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     foreach (var item in users)
                     {
-                        if (item.UserName==user.UserName)
+                        if (item.Id==user.Id)
                         {
                             item.Password = "***";
                             filteredUsers.Add(item);
@@ -1917,6 +1932,139 @@ namespace CostAllocationApp.Controllers.Api
                         item.CreatedBy = session["userName"].ToString();
                         item.CreatedDate = DateTime.Now;
                         actualCostBLL.CreateActualCost(item);
+                    }
+                }
+
+                foreach (var item in actualCostDto.ActualCosts)
+                {
+                    if (item.AssignmentId == 0)
+                    {
+                        continue;
+                    }
+                    List<Forecast> forecasts =  forecastBLL.GetForecastDetails(item.AssignmentId,actualCostDto.Year);
+
+                    Sukey sukey = new Sukey();
+                    sukey.AssignmentId = item.AssignmentId;
+                    sukey.Year = item.Year;
+                    // assign data in sukey object.
+                    {
+
+
+                        if (actualCostDto.OctFlag)
+                        {
+                            sukey.OctCost = item.OctCost;
+                        }
+                        else
+                        {
+                            sukey.OctCost = Convert.ToDouble(forecasts.Where(f => f.Month == 10).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.NovFlag)
+                        {
+                            sukey.NovCost = item.NovCost;
+                        }
+                        else
+                        {
+                            sukey.NovCost = Convert.ToDouble(forecasts.Where(f => f.Month == 11).SingleOrDefault().Total);
+                        }
+
+                        if (actualCostDto.DecFlag)
+                        {
+                            sukey.DecCost = item.DecCost;
+                        }
+                        else
+                        {
+                            sukey.DecCost = Convert.ToDouble(forecasts.Where(f => f.Month == 12).SingleOrDefault().Total);
+                        }
+
+                        if (actualCostDto.JanFlag)
+                        {
+                            sukey.JanCost = item.JanCost;
+                        }
+                        else
+                        {
+                            sukey.JanCost = Convert.ToDouble(forecasts.Where(f => f.Month == 1).SingleOrDefault().Total);
+                        }
+
+                        if (actualCostDto.FebFlag)
+                        {
+                            sukey.FebCost = item.FebCost;
+                        }
+                        else
+                        {
+                            sukey.FebCost = Convert.ToDouble(forecasts.Where(f => f.Month == 2).SingleOrDefault().Total);
+                        }
+
+                        if (actualCostDto.MarFlag)
+                        {
+                            sukey.MarCost = item.MarCost;
+                        }
+                        else
+                        {
+                            sukey.MarCost = Convert.ToDouble(forecasts.Where(f => f.Month == 3).SingleOrDefault().Total);
+                        }
+
+                        if (actualCostDto.AprFlag)
+                        {
+                            sukey.AprCost = item.AprCost;
+                        }
+                        else
+                        {
+                            sukey.AprCost = Convert.ToDouble(forecasts.Where(f => f.Month == 4).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.MayFlag)
+                        {
+                            sukey.MayCost = item.MayCost;
+                        }
+                        else
+                        {
+                            sukey.MayCost = Convert.ToDouble(forecasts.Where(f => f.Month == 5).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.JunFlag)
+                        {
+                            sukey.JunCost = item.JunCost;
+                        }
+                        else
+                        {
+                            sukey.JunCost = Convert.ToDouble(forecasts.Where(f => f.Month == 6).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.JulFlag)
+                        {
+                            sukey.JulCost = item.JulCost;
+                        }
+                        else
+                        {
+                            sukey.JulCost = Convert.ToDouble(forecasts.Where(f => f.Month == 7).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.AugFlag)
+                        {
+                            sukey.AugCost = item.AugCost;
+                        }
+                        else
+                        {
+                            sukey.AugCost = Convert.ToDouble(forecasts.Where(f => f.Month == 8).SingleOrDefault().Total);
+                        }
+                        if (actualCostDto.SepFlag)
+                        {
+                            sukey.SepCost = item.SepCost;
+                        }
+                        else
+                        {
+                            sukey.SepCost = Convert.ToDouble(forecasts.Where(f => f.Month == 9).SingleOrDefault().Total);
+                        }
+                    }
+
+                    var sukeyFlag = actualCostBLL.CheckSukeyAssignmentId(sukey.AssignmentId,sukey.Year);
+                    if (sukeyFlag)
+                    {
+                        sukey.UpdatedBy = session["userName"].ToString();
+                        sukey.UpdatedDate = DateTime.Now;
+                        actualCostBLL.UpdateSukey(sukey);
+                    }
+                    else
+                    {
+                        sukey.CreatedBy = session["userName"].ToString();
+                        sukey.CreatedDate = DateTime.Now;
+                        actualCostBLL.CreateSukey(sukey);
                     }
                 }
                 return Ok("Operation Completed.");

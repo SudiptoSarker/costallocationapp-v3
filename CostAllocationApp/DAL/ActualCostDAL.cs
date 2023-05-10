@@ -160,5 +160,104 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public bool CheckSukeyAssignmentId(int assignmentId, int year)
+        {
+            bool result = false;
+            string query = "select * from Sukey where AssignmentId=" + assignmentId + " and year = " + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int CreateSukey(Sukey sukey)
+        {
+            int result = 0;
+            string query = $@"insert into Sukey(AssignmentId,Year,OctCost,NovCost,DecCost,JanCost,FebCost,MarCost,AprCost,MayCost,JunCost,JulCost,AugCost,SepCost,CreatedBy,CreatedDate) values(@assignmentId,@year,@octCost,@novCost,@decCost,@janCost,@febCost,@marCost,@aprCost,@mayCost,@junCost,@julCost,@augCost,@sepCost,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@assignmentId", sukey.AssignmentId);
+                cmd.Parameters.AddWithValue("@year", sukey.Year);
+                cmd.Parameters.AddWithValue("@octCost", sukey.OctCost);
+                cmd.Parameters.AddWithValue("@novCost", sukey.NovCost);
+                cmd.Parameters.AddWithValue("@decCost", sukey.DecCost);
+                cmd.Parameters.AddWithValue("@janCost", sukey.JanCost);
+                cmd.Parameters.AddWithValue("@febCost", sukey.FebCost);
+                cmd.Parameters.AddWithValue("@marCost", sukey.MarCost);
+                cmd.Parameters.AddWithValue("@aprCost", sukey.AprCost);
+                cmd.Parameters.AddWithValue("@mayCost", sukey.MayCost);
+                cmd.Parameters.AddWithValue("@junCost", sukey.JunCost);
+                cmd.Parameters.AddWithValue("@julCost", sukey.JulCost);
+                cmd.Parameters.AddWithValue("@augCost", sukey.AugCost);
+                cmd.Parameters.AddWithValue("@sepCost", sukey.SepCost);
+                cmd.Parameters.AddWithValue("@createdBy", sukey.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", sukey.CreatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int UpdateSukey(Sukey sukey)
+        {
+            int result = 0;
+            string query = $@"update Sukey set OctCost=@octCost,NovCost=@novCost,DecCost=@decCost,JanCost=@janCost,FebCost=@febCost,MarCost=@marCost,AprCost=@aprCost,MayCost=@mayCost,JunCost=@junCost,JulCost=@julCost,AugCost=@augCost,SepCost=@sepCost,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where AssignmentId=@assignmentId and Year=@year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@octCost", sukey.OctCost);
+                cmd.Parameters.AddWithValue("@novCost", sukey.NovCost);
+                cmd.Parameters.AddWithValue("@decCost", sukey.DecCost);
+                cmd.Parameters.AddWithValue("@janCost", sukey.JanCost);
+                cmd.Parameters.AddWithValue("@febCost", sukey.FebCost);
+                cmd.Parameters.AddWithValue("@marCost", sukey.MarCost);
+                cmd.Parameters.AddWithValue("@aprCost", sukey.AprCost);
+                cmd.Parameters.AddWithValue("@mayCost", sukey.MayCost);
+                cmd.Parameters.AddWithValue("@junCost", sukey.JunCost);
+                cmd.Parameters.AddWithValue("@julCost", sukey.JulCost);
+                cmd.Parameters.AddWithValue("@augCost", sukey.AugCost);
+                cmd.Parameters.AddWithValue("@sepCost", sukey.SepCost);
+                cmd.Parameters.AddWithValue("@updatedBy", sukey.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", sukey.UpdatedDate);
+                cmd.Parameters.AddWithValue("@assignmentId", sukey.AssignmentId);
+                cmd.Parameters.AddWithValue("@year", sukey.Year);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

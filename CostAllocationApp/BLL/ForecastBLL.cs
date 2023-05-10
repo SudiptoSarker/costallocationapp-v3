@@ -129,5 +129,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetYearFromHistory();
         }
+
+        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
+        {
+            return forecastDAL.GetForecastDetails(assignmentId, copyYear);
+        }
     }
 }

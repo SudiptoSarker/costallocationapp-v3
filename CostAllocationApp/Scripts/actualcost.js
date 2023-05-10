@@ -345,69 +345,22 @@ $(document).ready(function () {
         
     });
 
-    //jss.doubleClickControls = function (e) {
-    //    // Jexcel is selected
-    //    if (jexcel.current) {
-    //        // Corner action
-    //        if (e.target.classList.contains('jexcel_corner')) {
-    //            // Any selected cells
-    //            if (jexcel.current.highlighted.length > 0) {
-    //                // Copy from this
-    //                var x1 = jexcel.current.highlighted[0].getAttribute('data-x');
-    //                var y1 = parseInt(jexcel.current.highlighted[jexcel.current.highlighted.length - 1].getAttribute('data-y')) + 1;
-    //                // Until this
-    //                var x2 = jexcel.current.highlighted[jexcel.current.highlighted.length - 1].getAttribute('data-x');
-    //                var y2 = jexcel.current.records.length - 1
-    //                // Execute copy
-    //                jexcel.current.copyData(jexcel.current.records[y1][x1], jexcel.current.records[y2][x2]);
-    //            }
-    //        } else if (e.target.classList.contains('jexcel_column_filter')) {
-    //            // Column
-    //            var columnId = e.target.getAttribute('data-x');
-    //            // Open filter
-    //            jexcel.current.openFilter(columnId);
-
-    //        } else {
-    //            // Get table
-    //            var jexcelTable = jexcel.getElement(e.target);
-
-    //            // Double click over header
-    //            if (jexcelTable[1] == 1 && jexcel.current.options.columnSorting == true) {
-    //                // Check valid column header coords
-    //                //var columnId = e.target.getAttribute('data-x');
-    //                //if (columnId) {
-    //                //    jexcel.current.orderBy(columnId);
-    //                //}
-    //                alert('clicked');
-    //            }
-
-    //            // Double click over body
-    //            if (jexcelTable[1] == 2 && jexcel.current.options.editable == true) {
-    //                if (!jexcel.current.edition) {
-    //                    var getCellCoords = function (element) {
-    //                        if (element.parentNode) {
-    //                            var x = element.getAttribute('data-x');
-    //                            var y = element.getAttribute('data-y');
-    //                            if (x && y) {
-    //                                return element;
-    //                            } else {
-    //                                return getCellCoords(element.parentNode);
-    //                            }
-    //                        }
-    //                    }
-    //                    var cell = getCellCoords(e.target);
-    //                    if (cell && cell.classList.contains('highlight')) {
-    //                        jexcel.current.openEditor(cell);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
     $('#create_actual_cost').on('click', function () {
         var dataToSend = [];
         var year = $('#assignment_year').val();
+
+        var oct_flag = $('#oct_chk').is(":checked");
+        var nov_flag = $('#nov_chk').is(":checked");
+        var dec_flag = $('#dec_chk').is(":checked");
+        var jan_flag = $('#jan_chk').is(":checked");
+        var feb_flag = $('#feb_chk').is(":checked");
+        var mar_flag = $('#mar_chk').is(":checked");
+        var apr_flag = $('#apr_chk').is(":checked");
+        var may_flag = $('#may_chk').is(":checked");
+        var jun_flag = $('#jun_chk').is(":checked");
+        var jul_flag = $('#jul_chk').is(":checked");
+        var aug_flag = $('#aug_chk').is(":checked");
+        var sep_flag = $('#sep_chk').is(":checked");
 
         if (jss != undefined) {
             var data = jss.getData(false);
@@ -431,14 +384,29 @@ $(document).ready(function () {
                 dataToSend.push(obj);
             });
 
-            
+            console.log(dataToSend);
             $.ajax({
                 url: `/api/utilities/CreateActualCost`,
                 contentType: 'application/json',
                 type: 'POST',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ActualCosts: dataToSend, Year: year }),
+                data: JSON.stringify({
+                    ActualCosts: dataToSend,
+                    Year: year,
+                    OctFlag: oct_flag,
+                    NovFlag: nov_flag,
+                    DecFlag: dec_flag,
+                    JanFlag: jan_flag,
+                    FebFlag: feb_flag,
+                    MarFlag: mar_flag,
+                    AprFlag: apr_flag,
+                    MayFlag: may_flag,
+                    JunFlag: jun_flag,
+                    JulFlag: jul_flag,
+                    AugFlag: aug_flag,
+                    SepFlag: sep_flag,
+                }),
                 success: function (data) {
                     alert("Operation Success.");
                 }

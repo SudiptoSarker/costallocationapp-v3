@@ -30,5 +30,17 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.UpdateActualCost(actualCost);
         }
+        public bool CheckSukeyAssignmentId(int assignmentId, int year)
+        {
+            return actualCostDAL.CheckSukeyAssignmentId(assignmentId, year);
+        }
+        public int CreateSukey(Sukey sukey)
+        {
+            return actualCostDAL.CreateSukey(sukey);
+        }
+        public int UpdateSukey(Sukey sukey)
+        {
+            return actualCostDAL.UpdateSukey(sukey);
+        }
     }
 }

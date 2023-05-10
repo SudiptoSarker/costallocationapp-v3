@@ -118,73 +118,147 @@
 <input type="hidden" id="hid_changed_user_role" />
 <input type="hidden" id="hid_changed_user_status" />
 
-<!-- Modal Update User -->
-<div class="modal fade" id="modal_update_user">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal_change_history_label">
-                    ユーザーの更新
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="hidden" value="" id="user_id_hidden"/>
-                            <table id="users_reg_tbl">
-                                <thead style="border: none;">
-                                    <tr></tr>
-                                    <tr>
-                                        <th>ユーザーID (User Id)</th>
-                                        <th>役職 (Title)</th>
-                                        <th>部署 (Department)</th>
-                                        <th>役割 (User Role)</th>
-                                        <th>メアド (Email)</th>
-                                        <th>パスワー (Password)</th>
-                                        <th>編集 (Edit)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="create_users_tbody_td">
-                                            <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <select id="userDepartment" name="userDepartment"></select>
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <select id="userRole" name="userRole"></select>
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
-                                        </td>
-                                        <td id="create_users_tbody_td">
-                                            <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">キャンセル (Cancel)</a>
-                                            <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+@if (Convert.ToBoolean(ViewBag.linkFlag))
+{
+    <!-- Modal Update User -->
+    <div class="modal fade" id="modal_update_user">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_change_history_label">
+                        ユーザーの更新
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="hidden" value="" id="user_id_hidden" />
+                                <table id="users_reg_tbl">
+                                    <thead style="border: none;">
+                                        <tr></tr>
+                                        <tr>
+                                            <th>ユーザーID (User Id)</th>
+                                            <th>役職 (Title)</th>
+                                            <th>部署 (Department)</th>
+                                            <th>役割 (User Role)</th>
+                                            <th>メアド (Email)</th>
+                                            <th>パスワー (Password)</th>
+                                            <th>編集 (Edit)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userDepartment" name="userDepartment"></select>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userRole" name="userRole"></select>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">キャンセル (Cancel)</a>
+                                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <!-- Modal Update User -->
+    <div class="modal fade" id="modal_update_user">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_change_history_label">
+                        ユーザーの更新
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="hidden" value="" id="user_id_hidden" />
+                                <table id="users_reg_tbl">
+                                    <thead style="border: none;">
+                                        <tr></tr>
+                                        <tr>
+                                            <th>ユーザーID (User Id)</th>
+                                            <th>役職 (Title)</th>
+                                            <th>部署 (Department)</th>
+                                            <th>役割 (User Role)</th>
+                                            <th>メアド (Email)</th>
+                                            <th>パスワー (Password)</th>
+                                            <th>編集 (Edit)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userDepartment" name="userDepartment"></select>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userRole" name="userRole" disabled></select>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">キャンセル (Cancel)</a>
+                                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 
 <!-----------------Modal: Change User Status----------------->
 <div class="modal custom-modal fade" id="user_status_modal" role="dialog">

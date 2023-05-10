@@ -32,6 +32,7 @@ $(document).on('click', '#btn_status_change', function () {
 });
 
 $(document).ready(function () {
+
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
             console.log(data);

@@ -67,7 +67,7 @@ function UserRegistration() {
                 $('#userName').val('');
                 //GetUserList();
             }
-
+            $('#register_modal').modal('hide');
         },
         error: function (data) {
             alert(data.responseJSON.Message);

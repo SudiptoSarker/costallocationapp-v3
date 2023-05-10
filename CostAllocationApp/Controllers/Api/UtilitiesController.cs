@@ -1230,6 +1230,91 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(filteredUser);
         }
         [HttpGet]
+        [Route("api/utilities/UpdateUserStatus/")]
+        public IHttpActionResult UpdateUserStatus(string changeUserName,string changeUserRole, string changeUserStatus)
+        {
+            string userRoleId = "";
+            bool isActive = false;
+            if(string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "1")
+            {
+                userRoleId = "3";
+                isActive = true;
+            }
+            else if (string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "0")
+            {
+                userRoleId = "0";
+                isActive = false;
+            }
+            else if (string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "3")
+            {
+                userRoleId = "0";
+                isActive = true;
+            }
+            else if (!string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "3")
+            {
+                userRoleId = "0";
+                isActive = true;
+            }
+            else if (!string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "1")
+            {
+                if (changeUserRole.ToLower() == "admin")
+                {
+                    userRoleId = "1";
+                }else if(changeUserRole.ToLower() == "editor")
+                {
+                    userRoleId = "2";
+                }
+                else if (changeUserRole.ToLower() == "Visitor")
+                {
+                    userRoleId = "3";
+                }
+                else
+                {
+                    userRoleId = "0";
+                }
+
+                isActive = true;
+            }
+            else
+            {
+                if (changeUserRole.ToLower() == "admin")
+                {
+                    userRoleId = "1";
+                }
+                else if (changeUserRole.ToLower() == "editor")
+                {
+                    userRoleId = "2";
+                }
+                else if (changeUserRole.ToLower() == "visitor")
+                {
+                    userRoleId = "3";
+                }
+                else
+                {
+                    userRoleId = "0";
+                }
+                isActive = false;                
+            }
+            var session = System.Web.HttpContext.Current.Session;
+            string updatedBy = session["userName"].ToString();
+            DateTime updatedDate = DateTime.Now;
+
+            int results = userBLL.UpdateUserStatus(changeUserName, userRoleId, isActive, updatedBy, updatedDate);
+            //List<User> users = userBLL.GetAllUsers();
+            //if (users.Count > 0)
+            //{
+            //    foreach (var item in users)
+            //    {
+            //        if (item.Id == user.Id)
+            //        {
+            //            filteredUser = item;
+            //        }
+            //    }
+            //}
+
+            return Ok(results);
+        }
+        [HttpGet]
         [Route("api/utilities/GetUserList/")]
         public IHttpActionResult GetUserList()
         {

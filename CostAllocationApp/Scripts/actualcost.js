@@ -150,13 +150,22 @@ $(document).ready(function () {
                         }
                     });
 
-
+                    var w = window.innerWidth;
+                    var h = window.innerHeight;
+                    console.log(h);
                     jss = $('#jspreadsheet').jspreadsheet({
                         data: _retriveddata,
                         filters: true,
                         tableOverflow: true,
-                        tableWidth: window.innerWidth - 300 + 'px',
+                        //tableWidth: window.innerWidth - 300 + 'px',
                         freezeColumns: 3,
+                        
+                        defaultColWidth: 50,
+                        // tableWidth: w - 500 + "px",
+                        // tableHeight: (h - 300) + "px",
+                        tableWidth: w-500+ "px",
+                        tableHeight: (h-300) + "px",
+
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
                             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },

@@ -2325,7 +2325,24 @@ table.dataTable thead > tr > td.sorting {
 	border: 1px solid #ff9b44;
 	color: #fff;
 }
-
+#import_data_btn {
+    background-color: #fff;
+    border: 1px solid #ff9b44;
+    border-radius: 50px;
+    color: #ff9b44;
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-align: center;
+}
+#import_data_btn:hover,
+#import_data_btn:focus,
+#import_data_btn:active {
+	background-color: #ff9b44;
+	border: 1px solid #ff9b44;
+	color: #fff;
+}
 /*-----------------
 	18. Edit Profile
 -----------------------*/
@@ -8519,4 +8536,9 @@ ul.comment-list li ul.children {
 
 #update_forecast.modal.custom-class {
     z-index: 1029
+}
+
+/*import create button design */
+.form-control-file{
+	margin-top: 38px;
 }

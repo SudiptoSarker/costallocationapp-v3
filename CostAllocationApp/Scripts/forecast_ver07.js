@@ -395,7 +395,7 @@ function ShowForecastResults(year) {
         data: _retriveddata,
         filters: true,
         tableOverflow: true,
-        tableWidth: window.innerWidth - 300 + 'px',
+        //tableWidth: window.innerWidth - 300 + 'px',
         freezeColumns: 3,
         
         defaultColWidth: 50,

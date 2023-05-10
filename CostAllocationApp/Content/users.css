@@ -191,3 +191,8 @@ label {
     padding-top: 1px;
     padding-bottom: 1px;
 }
+
+/*change user status*/
+.change_status{
+    border: 1px solid #ccc !important;
+}

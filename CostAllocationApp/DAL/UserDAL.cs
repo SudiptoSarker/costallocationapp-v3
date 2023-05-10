@@ -152,9 +152,10 @@ namespace CostAllocationApp.DAL
         public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
-            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate ";
+            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
             query = query+"from users u ";
-            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
+            //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
+            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -180,19 +181,20 @@ namespace CostAllocationApp.DAL
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
-                            
+
                             //user.CreatedBy = rdr["CreatedBy"].ToString();
                             //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
+                            user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
                             {
                                 user.UserRoleId = "0";
-                                user.Status = "Invalid";
+                                user.Status = "Invalid_"+ user.IsActive;
                             }
                             else
                             {
                                 user.UserRoleId = rdr["RoleId"].ToString();
-                                user.Status = "Valid";
+                                user.Status = "Valid_" + user.IsActive;
                             }
                             users.Add(user);
                         }
@@ -384,6 +386,35 @@ namespace CostAllocationApp.DAL
 
                 return userPermissions;
             }
+        }
+        public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus,string updatedBy,DateTime updatedDate)
+        {
+            int result = 0;
+            string query = $@"update Users  set UserRoleId=@changeRoleId,IsActive=@userStatus,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where UserName=@userName";
+
+            //string query = $@"update Users set UserName=@userName,Title=@title,DepartmentId=@departmentId,Email=@email,Password=@password,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate,UserRoleId=@userRoleId where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@changeRoleId", changeRoleId);
+                cmd.Parameters.AddWithValue("@userStatus", userStatus);
+                cmd.Parameters.AddWithValue("@updatedBy", updatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", updatedDate);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
         }
     }
 }

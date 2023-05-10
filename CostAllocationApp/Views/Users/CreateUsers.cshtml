@@ -100,7 +100,7 @@
                 @* "Waiting for approval", "Valid", and "Invalid" *@
                 <th class="employee_list_theader">パスワー (Password)</th>
                 <th class="employee_list_theader">操作 (Action)</th>
-            </tr>
+            </tr>        
             @* <tr>
                     <th></th>
                     <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="search_users"></th>
@@ -114,6 +114,9 @@
 <br><br>
 
 <input type="hidden" id="employee_id_hidden" />
+<input type="hidden" id="hid_changed_user_name" />
+<input type="hidden" id="hid_changed_user_role" />
+<input type="hidden" id="hid_changed_user_status" />
 
 <!-- Modal Update User -->
 <div class="modal fade" id="modal_update_user">
@@ -183,12 +186,34 @@
     </div>
 </div>
 
-
+<!-----------------Modal: Change User Status----------------->
+<div class="modal custom-modal fade" id="user_status_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Change User Status</h3>
+                    <p>Are you sure want to change the status?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="btn_status_change" >Status Change</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
 
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/users.js"></script>
+    <script src="/Scripts/users_ver02.js"></script>
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">

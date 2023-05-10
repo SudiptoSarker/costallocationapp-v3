@@ -1,10 +1,9 @@
 ﻿@model CostAllocationApp.ViewModels.ForecastViewModal
 
 @{
-    ViewBag.Title = "年度データー(Yearly Data Create)";
+    ViewBag.Title = "集計 (Cost Summary)";
 }
 @section Styles {
-    @* <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" /> *@
     <link href="/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
@@ -12,144 +11,40 @@
 
     <div class="content container-fluid" style="position:relative">
 
-        @{
-            /***************************\
-             Employee Assignment: Import Excel
-            \***************************/
-
-            if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
-            {
-                if (Convert.ToBoolean(ViewBag.linkFlag))
-                {
-                /***************************\
-                 Show Loader
-                \***************************/
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="forecast">
-                            <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                                <center>
-                                    <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader image">
-                                    <br>
-                                    <strong>Please wait a moment...</strong>
-                                    <br>
-                                    <br>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="import_year_wise_data" id="">
-                    <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>
-                    <select id="select_year_to_import"></select>
-                    <br /> <br />
-                    <table class="" id="">
-                        <thead>
-                            <tr>
-                                <th class="section_list_theader">新規作成 (Create New Data)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="section_list_tbody">
-                            <tr>
-                                <td style="border: none !important;">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();" class="import_forecast_data">CSVからインポート (CSV Import)</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="border: none !important;">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデーターの複製 (Replicate Data)</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br />
-                <br />
-            }
-        }
-        else
-        {   /***************************\
-        Show Loader
-        \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="forecast">
-                        <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                            <center>
-                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                                <br>
-                                <strong>Please wait a moment...</strong>
-                                <br>
-                                <br>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="form-group">
-                        <label for="assignment_year_list">編集する年度のデータを選択</label>
-                        <select id="assignment_year_list" class="form-control"></select>
-                    </div>
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">Search</button>
-
-                </div>
-            </div>
-
-            
-            @*<select id="assignment_year_list"></select>
-            <br><br>*@
-
-            /***************************\
-            Employee Assignment: Create Forecast
-            \***************************/
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
-                </div>
-
-                <div class="col-md-12">
-                    <div id="jspreadsheet"></div>
-                </div>
-                <div class="col-12">
-                    <table id="head_total">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>10月</th>
-                                <th>11月</th>
-                                <th>12月</th>
-                                <th>1月</th>
-                                <th>2月</th>
-                                <th>3月</th>
-                                <th>4月</th>
-                                <th>5月</th>
-                                <th>6月</th>
-                                <th>7月</th>
-                                <th>8月</th>
-                                <th>9月</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        }
-        }
+        <div class="import_year_wise_data" id="">
+            <h5>Calculate Cost Summary </h5>
+            <select id="select_year_to_import"></select>
+            <br /> <br />
+            <table class="" id="">
+                <thead>
+                    <tr>
+                        <th class="section_list_theader">集計（PLへ連動）</th>
+                    </tr>
+                </thead>
+                <tbody id="section_list_tbody">
+                    <tr>
+                        <td style="border: none !important;">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();" class="import_forecast_data">品証 按分 (2022年10月~2023年3月まで)</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none !important;">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">品証 按分 (2023年4月~2023年9月まで)</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none !important;">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">開発区分別 集計（品証按分後）a）+ｂ）</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
     </div>
 
 
-
-<input type="hidden" id="hidSectionId" />
-<input type="hidden" id="hidDepartmentId" />
-<input type="hidden" id="hidInChargeId" />
-<input type="hidden" id="hidRoleId" />
-<input type="hidden" id="hidExplanationId" />
-<input type="hidden" id="hidCompanyid" />
-<input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
-<input type="hidden" id="hidDefaultForecastYear" value="" />
 
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">

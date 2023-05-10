@@ -745,6 +745,7 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\CreateUsers.cshtml" />
     <Content Include="Views\Registration\UserRegistration.cshtml" />
+    <Content Include="Views\Forecasts\CalculateActualCost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

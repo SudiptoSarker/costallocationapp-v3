@@ -474,5 +474,9 @@ namespace CostAllocationApp.Controllers
             ViewBag.ImportViewOrForecastView = requestType;
             return View(forecastViewModal);
         }
+        public ActionResult CalculateActualCost()
+        {
+            return View();
+        }
     }
 }

@@ -83,45 +83,19 @@
                             <li>
                                 <a href="/Forecasts/GetHistories"><i class="la la-files-o"></i> <span title="変更履歴 (Change History)">変更履歴 (Change History)</span></a>
                             </li>
-                        }                         
-
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="la la-files-o"></i>
-                                <span title="年度データー(Yearly Data)">実績（Actual Cost）</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul style="display: none;">
-                                @{
-
-                                    if (url.ToLower().Contains("actualcosts"))
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/ActualCosts" class="active"><span title="実績（Costing）">実績（Costing））</span></a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/ActualCosts"><span title="実績（Costing）">実績（Costing）</span></a>
-                                        </li>
-                                    } 
-
-                                    if (url.ToLower().Contains("calculateactualcost"))
-                                    {
-                                        <li><a href="/Forecasts/CalculateActualCost" class="active" title="集計 (Total)">集計 (Total)</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/Forecasts/CalculateActualCost" title="集計 (Total)">集計 (Total)</a>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                        </li>
-
-
+                        }
+                         if (url.ToLower().Contains("actualcosts"))
+                        {
+                            <li>
+                                <a href="/Forecasts/ActualCosts" class="active"><i class="la la-files-o"></i><span title="実績（Actual Cost）">実績（Actual Cost）</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Forecasts/ActualCosts"><i class="la la-files-o"></i> <span title="実績（Actual Cost）">実績（Actual Cost）</span></a>
+                            </li>
+                        } 
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="la la-files-o"></i>

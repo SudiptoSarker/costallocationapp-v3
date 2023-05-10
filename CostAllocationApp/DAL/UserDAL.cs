@@ -370,5 +370,51 @@ namespace CostAllocationApp.DAL
                 return userPermissions;
             }
         }
+
+        public int RemoveUserPermissions(int userId)
+        {
+            int result = 0;
+            string query = $@"delete from UserPermissions where userid=@userid";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@userid", userId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int CreateUserPermissions(string link, int userId)
+        {
+            int result = 0;
+            string query = $@"insert into UserPermissions(Link,UserId) values(@link,@userId)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@link", link);
+                cmd.Parameters.AddWithValue("@userId", userId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
     }
 }

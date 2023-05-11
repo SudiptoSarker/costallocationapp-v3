@@ -152,9 +152,10 @@ namespace CostAllocationApp.DAL
         public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
-            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate ";
-            query = query+"from users u ";
-            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
+            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
+            query = query + "from users u ";
+            //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
+            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -167,19 +168,34 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            User user = new User(); 
+                            User user = new User();
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
+                            if (user.UserName == "sudipto 10")
+                            {
+
+                            }
                             user.UserTitle = rdr["Title"].ToString();
                             user.DepartmentId = rdr["DepartmentId"].ToString();
                             user.DepartmentName = rdr["DepartmentName"].ToString();
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
+
                             //user.CreatedBy = rdr["CreatedBy"].ToString();
                             //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
-
+                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
+                            user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
+                            {
+                                user.UserRoleId = "0";
+                                user.Status = "Invalid_" + user.IsActive;
+                            }
+                            else
+                            {
+                                user.UserRoleId = rdr["RoleId"].ToString();
+                                user.Status = "Valid_" + user.IsActive;
+                            }
                             users.Add(user);
                         }
                     }

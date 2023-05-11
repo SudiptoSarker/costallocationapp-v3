@@ -8,6 +8,8 @@ var newRowCount = 1;
 var beforeChangedValue = 0;
 var jssUpdatedData = [];
 var jssInsertedData = [];
+var allEmployeeName = [];
+var allEmployeeName1 = [];
 
 function LoaderShow() {
     $("#forecast_table_wrapper").css("display", "none");
@@ -28,6 +30,34 @@ function LoaderHideJexcel(){
     $("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
+
+function ColumnOrder(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_p_asc').css('background-color', 'lightsteelblue');
+        $('#search_p_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_p_asc').css('background-color', 'grey');
+        $('#search_p_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function GetEmployeeName() {
+    var data = [];
+    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
+        data.push($(this).val());
+    });
+
+    jss.search(data[0]);
+    $("#hider").fadeOut("slow");
+    $('.search_p').fadeOut("slow");
+    $('#search_p_text_box').val('');
+}
+
 
 
 function onCancel() {
@@ -1172,16 +1202,66 @@ function ShowForecastResults(year) {
     jss.deleteColumn(36, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
-    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    jexcelFirstHeaderRow.css('position', 'sticky');
-    jexcelFirstHeaderRow.css('top', '0px');
-    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    jexcelFirstHeaderRow.css('position', 'sticky');
-    jexcelSecondHeaderRow.css('top', '20px');
+    //var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    //jexcelFirstHeaderRow.css('position', 'sticky');
+    //jexcelFirstHeaderRow.css('top', '0px');
+    //var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    //jexcelFirstHeaderRow.css('position', 'sticky');
+    //jexcelSecondHeaderRow.css('top', '20px');
+
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
+        $('.search_p').css('display', 'block');
+        allEmployeeName = [];
+        var data = jss.getData();
+        for (var i = 0; i < jss.getData().length; i++) {
+            allEmployeeName.push(data[i][1]);
+        }
+
+        var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
+            return array.indexOf(value) === index;
+        });
+        allEmployeeName.sort();
+        $('#search_p_search').empty();
+        allEmployeeName1 = [];
+        $.each(allEmployeeName, function (index, value) {
+            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+            allEmployeeName1.push(value);
+        });
+        //console.log(allEmployeeName);
+
+        $("#hider").fadeIn("slow");
+        $('.search_p').fadeIn("slow");
+        //$('#filter_modal').modal('show');
+    });
         
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
     $("#head_total").css("width",w-300);
 }
+
+$('#search_p_text_box').on('keyup', function () {
+    var name = $(this).val();
+    console.log(allEmployeeName1);
+    if (allEmployeeName1.length > 0) {
+        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
+
+        data.sort();
+
+        $('#search_p_search').empty();
+        $.each(data, function (index, value) {
+            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+        });
+    }
+});
+
+$("#hider").hide();
+$(".search_p").hide();
+
+$("#buttonClose").click(function () {
+
+    $("#hider").fadeOut("slow");
+    $('.search_p').fadeOut("slow");
+    $('#search_p_text_box').val('');
+});
 
 var deleted = function (instance, x, y, value) {
     var assignmentIds = [];

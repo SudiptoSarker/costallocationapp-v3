@@ -111,6 +111,7 @@
                 </div>
 
                 <div class="col-md-12">
+                    <div id="hider"></div>
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">
@@ -378,6 +379,21 @@
             </div>
         </div>
     </div>
+
+
+<div class="search_p">
+    <ul id="search_p_asc_desc">
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+    </ul>
+    <input type="text" id="search_p_text_box" />
+    <ul id="search_p_search"></ul>
+    <div class="search_p_footer">
+        <button type="button" onclick="GetEmployeeName()">Ok</button>
+        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
+    </div>
+</div>
+
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

@@ -6180,32 +6180,6 @@ function Dropdown() {
             // Dropdown content
             content = document.createElement('div');
             content.className = 'jdropdown-content';
-                
-                //---
-                var divFooter = document.createElement('div');
-                divFooter.className = 'jfooter-div-custom';
-                divFooter.style.backgroundColor = 'gray';
-            divFooter.style.width = '100%';
-            divFooter.style.height = '23px';
-                var buttonOk = document.createElement('button');
-                buttonOk.innerText = 'ok';
-                buttonOk.style.cssFloat = 'right';
-                buttonOk.onclick = function () {
-                    obj.close();
-                }
-                var buttonCancel = document.createElement('button');
-                buttonCancel.innerText = 'cancel';
-            buttonCancel.style.marginLeft = '10px';
-            buttonCancel.style.cssFloat = 'right';
-                buttonCancel.onclick = function () {
-                    obj.reset();
-                    obj.close();
-            }
-                divFooter.appendChild(buttonCancel);
-                divFooter.appendChild(buttonOk);
-                
-                
-                //---
 
             // Close button
             closeButton = document.createElement('div');
@@ -6229,7 +6203,6 @@ function Dropdown() {
             containerHeader.appendChild(obj.header);
 
             container.appendChild(content);
-            container.appendChild(divFooter);
             el.appendChild(containerHeader);
             el.appendChild(container);
             el.appendChild(backdrop);

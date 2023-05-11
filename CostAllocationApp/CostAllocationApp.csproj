@@ -47,11 +47,10 @@
   <ItemGroup>
     <Reference Include="EPPlus, Version=6.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\costallocationapp-v3 publish\bin\EPPlus.dll</HintPath>
+      <HintPath>..\..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\costallocationapp-v3 publish\bin\ExcelDataReader.dll</HintPath>
+    <Reference Include="ExcelDataReader">
+      <HintPath>..\..\..\costallocationapp-v2\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>

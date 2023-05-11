@@ -67,6 +67,10 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.UpdateUserName(user);
         }
+        public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus, string updatedBy, DateTime updatedDate)
+        {
+            return userDAL.UpdateUserStatus(userName, changeRoleId, userStatus, updatedBy, updatedDate);
+        }
         public int RemoveUserPermissions(int userId)
         {
             return userDAL.RemoveUserPermissions(userId);

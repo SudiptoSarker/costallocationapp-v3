@@ -21,13 +21,15 @@ function LoaderHide() {
 }
 function LoaderShowJexcel() {
     $("#loading").css("display", "block");
-    $("#jspreadsheet").hide();        
-    $("#head_total").css("display", "none");
+    $("#year_data_table_header").hide();     
+    $("#jspreadsheet").hide();  
+    //$("#head_total").css("display", "none");
     
 }
 function LoaderHideJexcel(){
-    $("#jspreadsheet").show();        
-    $("#head_total").css("display", "table !important");
+    $("#jspreadsheet").show();  
+    //$("#year_data_table_header").show();      
+    //$("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
 
@@ -86,10 +88,10 @@ $(document).ready(function () {
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
         //var assignmentYear = $("#hidDefaultForecastYear").val();
-        //$('#assignment_year_list').val(assignmentYear);      
-        $("#jspreadsheet").hide();        
+        //$('#assignment_year_list').val(assignmentYear);  
+        $("#year_data_table_header").hide();          
+        $("#jspreadsheet").hide();  
     }
-
     var count = 1;
 
 
@@ -266,6 +268,7 @@ function ShowForecastResults(year) {
     globalSearchObject = data_info;
 
     var _retriveddata = [];
+    $("#year_data_table_header").show();
     $.ajax({
         url: `/api/utilities/SearchForecastEmployee`,
         contentType: 'application/json',
@@ -275,48 +278,49 @@ function ShowForecastResults(year) {
         data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
             _retriveddata = data;
+            // $("#year_data_table_header").show();
         }
     });
     //LoaderHide();
-    if (_retriveddata.length > 0) {
-        var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
-        var total = _retriveddata.find(x => x.EmployeeName == 'Total');
-        $("#head_total").css("display", "inline-table");
-        $('#head_total tbody').empty();
-        $('#head_total tbody').append(`<tr>
-                    <td>Head Count</td>
-                    <td>${headCount.OctPoints}</td>
-                    <td>${headCount.NovPoints}</td>
-                    <td>${headCount.DecPoints}</td>
-                    <td>${headCount.JanPoints}</td>
-                    <td>${headCount.FebPoints}</td>
-                    <td>${headCount.MarPoints}</td>
-                    <td>${headCount.AprPoints}</td>
-                    <td>${headCount.MayPoints}</td>
-                    <td>${headCount.JunPoints}</td>
-                    <td>${headCount.JulPoints}</td>
-                    <td>${headCount.AugPoints}</td>
-                    <td>${headCount.SepPoints}</td>
-                </tr>`);
+    // if (_retriveddata.length > 0) {
+    //     var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
+    //     var total = _retriveddata.find(x => x.EmployeeName == 'Total');
+    //     $("#head_total").css("display", "inline-table");
+    //     $('#head_total tbody').empty();
+    //     $('#head_total tbody').append(`<tr>
+    //                 <td>Head Count</td>
+    //                 <td>${headCount.OctPoints}</td>
+    //                 <td>${headCount.NovPoints}</td>
+    //                 <td>${headCount.DecPoints}</td>
+    //                 <td>${headCount.JanPoints}</td>
+    //                 <td>${headCount.FebPoints}</td>
+    //                 <td>${headCount.MarPoints}</td>
+    //                 <td>${headCount.AprPoints}</td>
+    //                 <td>${headCount.MayPoints}</td>
+    //                 <td>${headCount.JunPoints}</td>
+    //                 <td>${headCount.JulPoints}</td>
+    //                 <td>${headCount.AugPoints}</td>
+    //                 <td>${headCount.SepPoints}</td>
+    //             </tr>`);
 
-        $('#head_total tbody').append(`<tr>
-                <td>Total</td>
-                <td>${headCount.OctPoints}</td>
-                <td>${headCount.NovPoints}</td>
-                <td>${headCount.DecPoints}</td>
-                <td>${headCount.JanPoints}</td>
-                <td>${headCount.FebPoints}</td>
-                <td>${headCount.MarPoints}</td>
-                <td>${headCount.AprPoints}</td>
-                <td>${headCount.MayPoints}</td>
-                <td>${headCount.JunPoints}</td>
-                <td>${headCount.JulPoints}</td>
-                <td>${headCount.AugPoints}</td>
-                <td>${headCount.SepPoints}</td>
-            </tr>`);
+    //     $('#head_total tbody').append(`<tr>
+    //             <td>Total</td>
+    //             <td>${headCount.OctPoints}</td>
+    //             <td>${headCount.NovPoints}</td>
+    //             <td>${headCount.DecPoints}</td>
+    //             <td>${headCount.JanPoints}</td>
+    //             <td>${headCount.FebPoints}</td>
+    //             <td>${headCount.MarPoints}</td>
+    //             <td>${headCount.AprPoints}</td>
+    //             <td>${headCount.MayPoints}</td>
+    //             <td>${headCount.JunPoints}</td>
+    //             <td>${headCount.JulPoints}</td>
+    //             <td>${headCount.AugPoints}</td>
+    //             <td>${headCount.SepPoints}</td>
+    //         </tr>`);
 
-        _retriveddata = _retriveddata.filter(d => d.EmployeeId !== 0);
-    }
+    //     _retriveddata = _retriveddata.filter(d => d.EmployeeId !== 0);
+    // }
 
     //return false;   
 
@@ -432,7 +436,7 @@ function ShowForecastResults(year) {
         // tableWidth: w - 500 + "px",
         // tableHeight: (h - 300) + "px",
         tableWidth: w-300+ "px",
-        tableHeight: (h-300) + "px",
+        tableHeight: (h-180) + "px",
 
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
@@ -1459,8 +1463,9 @@ function AddEmployee() {
 }
 function UpdateForecast(){   
     $("#update_forecast").modal("hide");
+    $("#year_data_table_header").hide();
     $("#jspreadsheet").hide();
-    $("#head_total").hide();
+    // $("#head_total").hide();
     LoaderShow(); 
     
     var userName = '';
@@ -1504,7 +1509,8 @@ function UpdateForecast(){
                         chat.server.send('data has been updated by ', userName);
                     });        
                     $("#jspreadsheet").show();
-                    $("#head_total").show();
+                    $("#year_data_table_header").show();
+                    //$("#head_total").show();
                     LoaderHide();             
                 }
             });
@@ -1512,8 +1518,9 @@ function UpdateForecast(){
         }
     }
     else {
-        $("#jspreadsheet").show();
-        $("#head_total").show();
+        $("#year_data_table_header").show();
+        $("#jspreadsheet").show();        
+        //$("#head_total").show();
         LoaderHide();    
         alert('No data to update!!!');
     }
@@ -1540,8 +1547,9 @@ function UpdateForecast(){
                 $.connection.hub.start().done(function () {
                     chat.server.send('data has been inserted by ', userName);
                 });
+                $("#year_data_table_header").show();
                 $("#jspreadsheet").show();
-                $("#head_total").show();
+                //$("#head_total").show();
                 LoaderHide(); 
             }
         });
@@ -1614,7 +1622,7 @@ function GetAllForecastYears() {
         dataType: 'json',
         //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
-            $('#assignment_year_list').append(`<option value=''>select year</option>`);
+            $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
             $('#select_year_to_import').append(`<option value=''>select year</option>`);
             $('#replicate_from').append(`<option value=''>select year</option>`);
             //var count =1;

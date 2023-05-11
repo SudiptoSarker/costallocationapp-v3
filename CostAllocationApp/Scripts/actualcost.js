@@ -5,10 +5,12 @@ var allEmployeeName = [];
 var allEmployeeName1 = [];
 
 function LoaderShow() {
-    $("#jspreadsheet").hide(); 
+    $("#actual_cost_table_header").hide();     
+    $("#jspreadsheet").hide();     
     $("#loading").css("display", "block");
 }
 function LoaderHide() {
+    $("#actual_cost_table_header").show(); 
     $("#jspreadsheet").show(); 
     $("#loading").css("display", "none");
 }
@@ -38,9 +40,10 @@ function GetEmployeeName() {
     $('.search_p').fadeOut("slow");
     $('#search_p_text_box').val('');
 }
-
+// $("#actual_cost_table_header").hide();
 $(document).ready(function () {
-    LoaderHide();
+    $("#actual_cost_table_header").hide();     
+    // LoaderHide();
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
         contentType: 'application/json',
@@ -49,7 +52,7 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (data) {
             $('#assignment_year').empty();
-            $('#assignment_year').append(`<option value=''>select year</option>`);
+            $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
             $.each(data, function (index, element) {
                 $('#assignment_year').append(`<option value='${element.Year}'>${element.Year}</option>`);
             });

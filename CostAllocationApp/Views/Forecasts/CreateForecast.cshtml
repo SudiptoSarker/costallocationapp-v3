@@ -10,7 +10,7 @@
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative">
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
 
         @{
             /***************************\
@@ -89,15 +89,13 @@
             </div>
             <div class="row">
                 <div class="col-3">
-                    <div class="form-group">
-                        <label for="assignment_year_list">編集する年度のデータを選択</label>
-                        <select id="assignment_year_list" class="form-control"></select>
-                    </div>
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
-
+                    <select id="assignment_year_list" class="" ></select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
                 </div>
             </div>
-
+            <br>
             
             @*<select id="assignment_year_list"></select>
             <br><br>*@
@@ -112,10 +110,11 @@
 
                 <div class="col-md-12">
                     <div id="hider"></div>
+                    <div id="year_data_table_header">年度データー>年度データーの編集</div>
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">
-                    <table id="head_total">
+                    <table id="head_total" style="display: none;">
                         <thead>
                             <tr>
                                 <th></th>

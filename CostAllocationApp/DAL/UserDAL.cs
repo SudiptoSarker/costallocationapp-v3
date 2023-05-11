@@ -370,6 +370,35 @@ namespace CostAllocationApp.DAL
                 return userPermissions;
             }
         }
+        public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus, string updatedBy, DateTime updatedDate)
+        {
+            int result = 0;
+            string query = $@"update Users  set UserRoleId=@changeRoleId,IsActive=@userStatus,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where UserName=@userName";
+
+            //string query = $@"update Users set UserName=@userName,Title=@title,DepartmentId=@departmentId,Email=@email,Password=@password,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate,UserRoleId=@userRoleId where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@userName", userName);
+                cmd.Parameters.AddWithValue("@changeRoleId", changeRoleId);
+                cmd.Parameters.AddWithValue("@userStatus", userStatus);
+                cmd.Parameters.AddWithValue("@updatedBy", updatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", updatedDate);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
 
         public int RemoveUserPermissions(int userId)
         {

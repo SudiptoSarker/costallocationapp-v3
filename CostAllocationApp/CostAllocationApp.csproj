@@ -47,10 +47,11 @@
   <ItemGroup>
     <Reference Include="EPPlus, Version=6.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
+      <HintPath>..\..\costallocationapp-v3 publish\bin\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="ExcelDataReader">
-      <HintPath>..\..\..\costallocationapp-v2\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\costallocationapp-v3 publish\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
@@ -264,7 +265,6 @@
   <ItemGroup>
     <Content Include="Content\actualcost.css" />
     <Content Include="Content\addname.css" />
-    <Content Include="Content\bootstrap-3.3.2.min.css" />
     <Content Include="Content\bootstrap-combined.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-example.min.css" />
@@ -312,7 +312,6 @@
     <Content Include="Content\sections_ver02.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\style.css" />
-    <Content Include="Content\style_27mar23.css" />
     <Content Include="Content\style_ver02.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
@@ -676,8 +675,8 @@
     <Content Include="Scripts\Custome-Reporting.js" />
     <Content Include="Scripts\Custome.js" />
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
-    <Content Include="Scripts\dataTables.fixedHeader.min.js" />
     <Content Include="Scripts\departments.js" />
+    <Content Include="Scripts\departments_ver02.js" />
     <Content Include="Scripts\dropfiles.js" />
     <Content Include="Scripts\employee.js" />
     <Content Include="Scripts\employee_ver02.js" />
@@ -701,6 +700,7 @@
     <Content Include="Scripts\histories.js" />
     <Content Include="Scripts\html5shiv.min.js" />
     <Content Include="Scripts\incharge.js" />
+    <Content Include="Scripts\incharge_ver02.js" />
     <Content Include="Scripts\jexcel.js" />
     <Content Include="Scripts\jexcel_modified.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -739,6 +739,7 @@
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\roles.js" />
+    <Content Include="Scripts\roles_ver02.js" />
     <Content Include="Scripts\salaries.js" />
     <Content Include="Scripts\sections.js" />
     <Content Include="Scripts\sections_ver02.js" />

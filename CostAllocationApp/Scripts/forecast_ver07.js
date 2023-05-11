@@ -401,7 +401,7 @@ function ShowForecastResults(year) {
         defaultColWidth: 50,
         // tableWidth: w - 500 + "px",
         // tableHeight: (h - 300) + "px",
-        tableWidth: w-500+ "px",
+        tableWidth: w-300+ "px",
         tableHeight: (h-300) + "px",
 
         columns: [
@@ -1180,7 +1180,7 @@ function ShowForecastResults(year) {
     jexcelSecondHeaderRow.css('top', '20px');
         
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
-    $("#head_total").css("width",w-500);
+    $("#head_total").css("width",w-300);
 }
 
 var deleted = function (instance, x, y, value) {

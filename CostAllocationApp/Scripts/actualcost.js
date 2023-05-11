@@ -163,7 +163,7 @@ $(document).ready(function () {
                         defaultColWidth: 50,
                         // tableWidth: w - 500 + "px",
                         // tableHeight: (h - 300) + "px",
-                        tableWidth: w-500+ "px",
+                        tableWidth: w-300+ "px",
                         tableHeight: (h-300) + "px",
 
                         columns: [

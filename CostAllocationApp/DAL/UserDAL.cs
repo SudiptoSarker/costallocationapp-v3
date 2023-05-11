@@ -324,7 +324,7 @@ namespace CostAllocationApp.DAL
         {
             User user = new User();
 
-            string query = "select * from Users where username='"+userName+"'";
+            string query = "select * from Users where username='" + userName + "'";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -339,7 +339,8 @@ namespace CostAllocationApp.DAL
                         {
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
-                            user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                            //user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                            user.UserRoleId = rdr["UserRoleId"].ToString();
                         }
                     }
                 }
@@ -351,7 +352,6 @@ namespace CostAllocationApp.DAL
                 return user;
             }
         }
-
         public List<UserPermission> GetUserPermissionsByUserId(int userId)
         {
             List<UserPermission> userPermissions = new List<UserPermission>();

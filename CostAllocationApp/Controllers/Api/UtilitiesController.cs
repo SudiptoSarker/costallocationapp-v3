@@ -1159,14 +1159,14 @@ namespace CostAllocationApp.Controllers.Api
                 if (result > 0)
                 {
                     var removedFlag = userBLL.RemoveUserPermissions(user.Id);
-                    if (user.UserRoleId==1)
+                    if (user.UserRoleId=="1")
                     {
                         foreach (var item in UserLinks.adminLinks)
                         {
                             userBLL.CreateUserPermissions(item,user.Id);
                         }
                     }
-                    if (user.UserRoleId == 2)
+                    if (user.UserRoleId == "2")
                     {
                         foreach (var item in UserLinks.editorLinks)
                         {

@@ -14057,12 +14057,6 @@ if (! jSuites && typeof(require) === 'function') {
                     if (columnId) {
                         jexcel.current.orderBy(columnId);
                     }
-
-                    //--- new code------
-                    //alert('clicked');
-                    // Open filter
-                    //jexcel.current.openFilter(columnId);
-                    //--------------
                 }
 
                 // Double click over body

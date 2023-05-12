@@ -11,7 +11,7 @@ namespace CostAllocationApp.DAL
     {
         public bool CheckUser(string userName, string password)
         {
-            string query = "select * from Users where UserName=N'" + userName + "'"+" and Password=N'"+password+"'";
+            string query = "select * from Users where UserName=N'" + userName + "'"+" and Password=N'"+password+ "' and Isactive=1 and UserRoleId !=0";
             bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {

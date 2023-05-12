@@ -266,6 +266,30 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public bool CheckUserEmailDuplication(string userEmail)
+        {
+            string query = "select * from Users where Email=N'" + userEmail + "'";
+            bool result = false;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
 
         public string GetEmployeeNameByAssignmentId(int assignmentId)
         {

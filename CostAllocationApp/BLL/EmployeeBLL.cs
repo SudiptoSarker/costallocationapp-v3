@@ -47,6 +47,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.CheckUserNameDuplication(userName);
         }
+        public bool CheckUserEmailDuplication(string userEmail)
+        {
+            return employeeDAL.CheckUserEmailDuplication(userEmail);
+        }
         public List<Employee> EmployeeListByNameFilter(string employeeName)
         {
             return employeeDAL.EmployeeListByNameFilter(employeeName);

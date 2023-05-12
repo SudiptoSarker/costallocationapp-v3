@@ -1121,6 +1121,10 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     return BadRequest("User Name Already Exists!!!");
                 }
+                else if (employeeBLL.CheckUserEmailDuplication(user.Email))
+                {
+                    return BadRequest("User Email Already Exists!!!");
+                }
                 else
                 {
                     user.IsActive = true;

@@ -16,14 +16,6 @@ $(document).on('change', '.change_status', function () {
 });
 
 $(document).on('click', '#btn_status_change', function () {    
-    // $("#hid_changed_user_name").val();
-    // $("#hid_changed_user_role").val();
-    // $("#hid_changed_user_status").val();
-    
-    console.log("changeUserName: "+changeUserName);
-    console.log("changeUserRole: "+changeUserRole);
-    console.log("changeUserStatus: "+changeUserStatus);
-
     $.getJSON('/api/utilities/UpdateUserStatus?changeUserName=' + changeUserName+"&changeUserRole="+changeUserRole+"&changeUserStatus="+changeUserStatus)
         .done(function (data) {
             location.reload();
@@ -34,7 +26,6 @@ $(document).on('click', '#btn_status_change', function () {
 $(document).ready(function () {
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
-            console.log(data);
             $('#admin_table tbody').empty();
             $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
         }); 
@@ -84,15 +75,12 @@ function UpdateUserModal(userName) {
 
     $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
         .done(function (data) {
-            console.log(data);
             $('#user_id_hidden').val(data.Id);
             $('#userName').val(data.UserName);
             $('#userTitle').val(data.UserTitle);
             $('#userDepartment').val(data.DepartmentId);
             $('#userRole').val(data.UserRoleId);
             
-            console.log("data.UserRoleId: "+data.UserRoleId);
-
             $('#userEmail').val(data.Email);
             $('#userPass').val(data.Password);
         }); 
@@ -208,8 +196,6 @@ function UpdateUserName() {
 
                 $.getJSON('/api/utilities/GetOnlyAdmin/')
                     .done(function (data) {
-                        console.log('after edit admin');
-                        console.log(data);
                         $('#admin_table tbody').empty();
                         $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
                     }); 
@@ -226,7 +212,6 @@ function UpdateUserName() {
 function GetUserList() {
     $.getJSON('/api/utilities/GetUserList/')
         .done(function (data) {
-            console.log(data);
         ShowUserList_Datatable(data);
     });
 
@@ -271,10 +256,6 @@ function ShowUserList_Datatable(data) {
                 data: 'Status',
                 render: function (data) {
                     var role_and_status = data.split("_");
-                    //var extension = test[test.length - 1];
-                    console.log(role_and_status[0])
-                    console.log(role_and_status[1])
-
 
                     var strDropdown = "";
                     strDropdown = "<select class='change_status'>";

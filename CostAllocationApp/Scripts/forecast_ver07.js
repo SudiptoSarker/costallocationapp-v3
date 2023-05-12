@@ -435,8 +435,8 @@ function ShowForecastResults(year) {
         defaultColWidth: 50,
         // tableWidth: w - 500 + "px",
         // tableHeight: (h - 300) + "px",
-        tableWidth: w-300+ "px",
-        tableHeight: (h-180) + "px",
+        tableWidth: w-500+ "px",
+        tableHeight: (h-300) + "px",
 
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },

@@ -121,3 +121,9 @@ body {
     display: block;
     margin-top: -11px;
 }
+#actual_cost_list{
+    margin-top: -13px;
+}
+#actual_cost_search{
+    margin-top: 11px;
+}

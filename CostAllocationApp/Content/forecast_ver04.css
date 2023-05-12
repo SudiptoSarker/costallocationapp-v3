@@ -227,3 +227,6 @@ body {
     font-family: "Yu Gothic";
     white-space: nowrap !important;    
 }
+#year_data_search, #year_data_list{
+    margin-top: -13px;
+}

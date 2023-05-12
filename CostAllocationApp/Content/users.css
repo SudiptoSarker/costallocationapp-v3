@@ -27,7 +27,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#userName, #userTitle, #userDepartment, #userEmail, #userPass, #userRole {
+#userName, #userTitle, #userDepartment, #userEmail, #userPass, #userRole, #userStatus {
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -176,10 +176,12 @@ label {
     margin-top: 1rem;
 }
 
-#user_name_list_header {
-    border: 1px solid;
+.user_name_list_header {
+    border: 1px solid #ccc !important;
     padding: 0px !important;
     text-align: center;
+    font-size: 11px;
+    height: 20px;
 }
 
 #admin_table{
@@ -195,4 +197,11 @@ label {
 /*change user status*/
 .change_status{
     border: 1px solid #ccc !important;
+}
+#name_search{
+    border: 1px solid #ccc !important;
+    padding: 0px !important;
+    text-align: center;
+    font-size: 11px;
+    height: 18px;
 }

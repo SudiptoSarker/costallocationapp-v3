@@ -9,6 +9,8 @@
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div id="actual_cost_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+
     <!-----------------Show Loader----------------->
     <div class="row">
         <div class="col-md-12">
@@ -26,7 +28,7 @@
         </div>
     </div>
     <!-----------------Employee Assignment: Create Actual Cost----------------->
-    <div class="row">
+    <div class="row" id="actual_cost_search">
         <div class="col-3">
             <select id="assignment_year" class="" ></select>
         </div>
@@ -35,10 +37,9 @@
         </div>
     </div>
     <br>
-    <div class="row">
+    <div class="row" id="actual_cost_list">
         <div class="col-md-12">
-            <div id="hider"></div>
-            <div id="actual_cost_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+            <div id="hider"></div>            
             <div id="jspreadsheet"></div>
         </div>
 

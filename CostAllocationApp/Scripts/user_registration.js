@@ -13,7 +13,6 @@ function ClearEntry(){
     $("#userDepartment").val('');
     $("#userEmail").val('');
     $("#userPass").val('');
-    $("#hid_userRole").val('');
 }
 //user create
 function UserRegistration() {

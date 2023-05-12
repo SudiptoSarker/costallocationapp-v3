@@ -14,9 +14,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="admin_div">
-                    <h5 class="text-center">管理者情報 (Admin Information)</h5>
+                    @* <h5 class="text-center"></h5> *@
                     <table id="admin_table">
                         <thead>
+                            <tr>
+                                <th colspan="7" class="user_name_list_header">管理者情報 (Admin Information)</th>
+                            </tr>
                             <tr>
                                 <th class="employee_list_theader">ユーザーID (User Id)</th>
                                 <th class="employee_list_theader">役割 (User Role)</th>
@@ -40,7 +43,7 @@
     <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%">
         <thead id="employeelist_thead">
             <tr>
-                <th colspan="8" id="user_name_list_header">他のユーザー (Other Users)</th>
+                <th colspan="8" class="user_name_list_header">他のユーザー (Other Users)</th>
             </tr>
             <tr>
                 <th class="employee_list_theader">ユーザーID (User Id)</th>
@@ -49,16 +52,16 @@
                 <th class="employee_list_theader">部署 (Department)</th>
                 <th class="employee_list_theader">メアド (Email)</th>
                 <th class="employee_list_theader">Status</th>
-                @* "Waiting for approval", "Valid", and "Invalid" *@
                 <th class="employee_list_theader">パスワー (Password)</th>
                 <th class="employee_list_theader">操作 (Action)</th>
-            </tr>        
-            @* <tr>
-                    <th></th>
-                    <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="search_users"></th>
-                </tr> *@
+            </tr>                    
         </thead>
         <tbody id="employeelist_tbody"></tbody>
+        <tfoot>
+            <tr>
+                <th>ユーザーID (User Id)</th>                
+            </tr>
+        </tfoot>
     </table>
     <br />
 </div>
@@ -98,6 +101,7 @@
                                             <th>部署 (Department)</th>
                                             <th>役割 (User Role)</th>
                                             <th>メアド (Email)</th>
+                                            <th>Status</th>
                                             <th>パスワー (Password)</th>
                                             <th>編集 (Edit)</th>
                                         </tr>
@@ -118,6 +122,18 @@
                                             </td>
                                             <td id="create_users_tbody_td">
                                                 <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userStatus" name="userStatus">
+                                                    <option selected='selected' value='1'>有効(Active)</option>
+                                                    <option value='3'>承認待ち(waiting)</option>
+                                                    <option value='0'>無効(Inactive)</option>
+                                                </select>
+                                                @* <select class='change_status'>
+                                                    <option selected='selected' value='1'>有効(Active)</option>
+                                                    <option value='3'>承認待ち(waiting)</option>
+                                                    <option value='0'>無効(Inactive)</option>
+                                                </select>                                                 *@
                                             </td>
                                             <td id="create_users_tbody_td">
                                                 <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>

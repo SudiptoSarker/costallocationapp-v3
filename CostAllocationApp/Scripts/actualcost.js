@@ -5,12 +5,10 @@ var allEmployeeName = [];
 var allEmployeeName1 = [];
 
 function LoaderShow() {
-    $("#actual_cost_table_header").hide();     
     $("#jspreadsheet").hide();     
     $("#loading").css("display", "block");
 }
 function LoaderHide() {
-    $("#actual_cost_table_header").show(); 
     $("#jspreadsheet").show(); 
     $("#loading").css("display", "none");
 }
@@ -40,9 +38,7 @@ function GetEmployeeName() {
     $('.search_p').fadeOut("slow");
     $('#search_p_text_box').val('');
 }
-// $("#actual_cost_table_header").hide();
 $(document).ready(function () {
-    $("#actual_cost_table_header").hide();     
     // LoaderHide();
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -195,8 +191,8 @@ $(document).ready(function () {
                         defaultColWidth: 50,
                         // tableWidth: w - 500 + "px",
                         // tableHeight: (h - 300) + "px",
-                        tableWidth: w-300+ "px",
-                        tableHeight: (h-300) + "px",
+                        tableWidth: w-280+ "px",
+                        tableHeight: (h-150) + "px",
 
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },

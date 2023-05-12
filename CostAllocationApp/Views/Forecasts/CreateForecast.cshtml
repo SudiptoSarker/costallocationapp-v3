@@ -72,6 +72,8 @@
         {   /***************************\
         Show Loader
         \***************************/
+            <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="forecast">
@@ -87,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="year_data_search">
                 <div class="col-3">
                     <select id="assignment_year_list" class="" ></select>
                 </div>
@@ -103,14 +105,13 @@
             /***************************\
             Employee Assignment: Create Forecast
             \***************************/
-            <div class="row">
+            <div class="row" id="year_data_list">
                 <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
                 </div>
 
                 <div class="col-md-12">
                     <div id="hider"></div>
-                    <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+                    
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">

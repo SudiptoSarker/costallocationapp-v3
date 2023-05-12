@@ -24,6 +24,11 @@ $(document).on('click', '#btn_status_change', function () {
 });
 
 $(document).ready(function () {
+    $('#employeeList_datatable tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input id="name_search" type="text"  placeholder="Search ' + title + '" />');
+    });
+
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
             $('#admin_table tbody').empty();
@@ -47,7 +52,6 @@ $(document).ready(function () {
         }); 
     // ("#userDepartment").select2();
 
-    $('#example').DataTable();
     //------------------Employee Master----------------------//
     //show employee list on page load
     GetUserList();
@@ -223,15 +227,17 @@ function GetUserList() {
 \***************************/
 function ShowUserList_Datatable(data) {
     var user_name;
-    $('#employeeList_datatable').DataTable({
+    $('#employeeList_datatable').DataTable({                               
         destroy: true,
         data: data,
         ordering: false,
         orderCellsTop: false,
         pageLength: 100,
-        searching: false,
+        filter: true,
         bLengthChange: false,    
-        //dom: 'lifrtip',
+        searching: false, 
+        paging: false, 
+        info: false,
         columns: [  
             {
                 data: 'UserName',
@@ -258,31 +264,36 @@ function ShowUserList_Datatable(data) {
                     var role_and_status = data.split("_");
 
                     var strDropdown = "";
+                    var statusText = ""
                     strDropdown = "<select class='change_status'>";
                     if(role_and_status[0].toLowerCase() == 'valid'){
                         if(role_and_status[1].toLowerCase() == 'true'){
                             strDropdown = strDropdown+"<option selected='selected' value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
+                            statusText = "有効(Active)";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
+                            statusText = "無効(Inactive)";
                         }
                     }else{
                         if(role_and_status[1].toLowerCase() == 'true'){
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
+                            statusText = "承認待ち(waiting)";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
+                            statusText = "無効(Inactive)";
                         }                        
                     }                    
                     strDropdown = strDropdown +"</select>";
 
-                    return strDropdown;
+                    return statusText;
                 }
             },
             {
@@ -293,8 +304,21 @@ function ShowUserList_Datatable(data) {
                     return `<button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${user_name}')">編集</button>`;
                 }
             }
-        ]
-    });
+        ],
+        initComplete: function () {    
+            var r = $('#employeeList_datatable tfoot tr');
+            $('#employeeList_datatable thead').append(r);
+            // Apply the search
+            this.api().columns().every(function () {
+                var that = this;                
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });            
+            },   
+    });   
 }
 
 

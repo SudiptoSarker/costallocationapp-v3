@@ -109,3 +109,15 @@ body {
     border: 1px solid #ccc !important;
     text-align: center;
 }
+#nav1,#nav2{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;    
+}
+#actual_cost_table_header{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
+}

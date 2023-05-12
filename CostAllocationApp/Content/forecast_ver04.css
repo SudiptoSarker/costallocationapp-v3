@@ -220,4 +220,10 @@ body {
     font-family: "Yu Gothic";
     white-space: nowrap !important;
     display: block;
+    margin-top: -11px;
+}
+#nav1,#nav2{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;    
 }

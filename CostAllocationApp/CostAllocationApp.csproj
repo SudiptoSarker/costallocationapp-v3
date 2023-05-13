@@ -311,6 +311,7 @@
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\style_ver02.css" />
+    <Content Include="Content\sukey.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\users.css" />
@@ -742,6 +743,7 @@
     <Content Include="Scripts\sections.js" />
     <Content Include="Scripts\sections_ver02.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\sukey.js" />
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -788,6 +790,7 @@
     <Content Include="Views\Users\CreateUsers.cshtml" />
     <Content Include="Views\Registration\UserRegistration.cshtml" />
     <Content Include="Views\Forecasts\CalculateActualCost.cshtml" />
+    <Content Include="Views\Forecasts\GetTotal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

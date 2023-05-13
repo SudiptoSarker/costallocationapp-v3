@@ -358,6 +358,42 @@ namespace CostAllocationApp.DAL
             return employeeAssignmentViewModel;
         }
 
+        public EmployeeAssignmentViewModel GetDepartmentByAssignmentId(int assignmentId)
+        {
+
+            string query = $@"select ea.DepartmentId, dep.Name as DepartmentName 
+                            from EmployeesAssignments ea 
+                            join Departments dep on ea.DepartmentId = dep.Id
+                            where ea.Id={assignmentId}";
+
+            EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"] == DBNull.Value ? "" : rdr["DepartmentId"].ToString();
+                            employeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"]==DBNull.Value ? "" :rdr["DepartmentName"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return employeeAssignmentViewModel;
+        }
+
         public List<EmployeeAssignmentViewModel> GetEmployeesBySearchFilter(EmployeeAssignment employeeAssignment)
         {
 

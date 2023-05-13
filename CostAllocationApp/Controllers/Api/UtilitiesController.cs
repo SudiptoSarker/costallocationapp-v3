@@ -2138,5 +2138,12 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(roles);
         }
 
+        [HttpGet]
+        [Route("api/utilities/GetSukeyData/")]
+        public IHttpActionResult GetSukeyData(int year)
+        {
+            List<object> sukeys = actualCostBLL.GetAllSukeyData(year);
+            return Ok(sukeys);
+        }
     }
 }

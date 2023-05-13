@@ -259,5 +259,55 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public List<Sukey> GetAllSukeyData(int year)
+        {
+            List<Sukey> sukeys = new List<Sukey>();
+
+            string query = $@"select * from Sukey where Year={year}";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Sukey sukey = new Sukey();
+                            sukey.Id = Convert.ToInt32(rdr["Id"]);
+                            sukey.AssignmentId = Convert.ToInt32(rdr["AssignmentId"]);
+                            //actualCost.Year = Convert.ToInt32(rdr["Year"]);
+                            sukey.OctCost = Convert.ToDouble(rdr["OctCost"]);
+                            sukey.NovCost = Convert.ToDouble(rdr["NovCost"]);
+                            sukey.DecCost = Convert.ToDouble(rdr["DecCost"]);
+                            sukey.JanCost = Convert.ToDouble(rdr["JanCost"]);
+                            sukey.FebCost = Convert.ToDouble(rdr["FebCost"]);
+                            sukey.MarCost = Convert.ToDouble(rdr["MarCost"]);
+                            sukey.AprCost = Convert.ToDouble(rdr["AprCost"]);
+                            sukey.MayCost = Convert.ToDouble(rdr["MayCost"]);
+                            sukey.JunCost = Convert.ToDouble(rdr["JunCost"]);
+                            sukey.JulCost = Convert.ToDouble(rdr["JulCost"]);
+                            sukey.AugCost = Convert.ToDouble(rdr["AugCost"]);
+                            sukey.SepCost = Convert.ToDouble(rdr["SepCost"]);
+
+
+
+                            sukeys.Add(sukey);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return sukeys;
+        }
     }
 }

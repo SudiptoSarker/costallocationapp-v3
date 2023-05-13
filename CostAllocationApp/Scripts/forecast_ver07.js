@@ -48,17 +48,17 @@ function ColumnOrder(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-function GetEmployeeName() {
-    var data = [];
-    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
-        data.push($(this).val());
-    });
+//function GetEmployeeName() {
+//    var data = [];
+//    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
+//        data.push($(this).val());
+//    });
 
-    jss.search(data[0]);
-    $("#hider").fadeOut("slow");
-    $('.search_p').fadeOut("slow");
-    $('#search_p_text_box').val('');
-}
+//    jss.search(data[0]);
+//    $("#hider").fadeOut("slow");
+//    $('.search_p').fadeOut("slow");
+//    $('#search_p_text_box').val('');
+//}
 
 
 
@@ -429,13 +429,9 @@ function ShowForecastResults(year) {
         data: _retriveddata,
         filters: true,
         tableOverflow: true,
-        //tableWidth: window.innerWidth - 300 + 'px',
         freezeColumns: 3,
-        
         defaultColWidth: 50,
-        // tableWidth: w - 500 + "px",
-        // tableHeight: (h - 300) + "px",
-        tableWidth: w-500+ "px",
+        tableWidth: w-300+ "px",
         tableHeight: (h-300) + "px",
 
         columns: [
@@ -1119,13 +1115,10 @@ function ShowForecastResults(year) {
                             allSpecificObjectsCount++;
                         }
                     }
-
-                    //var firstIndex = retrivedData.employeeName.indexOf('(');
                     var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
                     var totalLength = retrivedData.employeeName.length;
                     console.log("retrivedData1: " + retrivedData.employeeName);
                     console.log("totalLength: " + totalLength);
-                    //console.log("firstIndex: "+firstIndex);
 
                     if (lastIndex < 0) {
                         obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
@@ -1206,31 +1199,31 @@ function ShowForecastResults(year) {
     jss.deleteColumn(36, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
-    //var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    //jexcelFirstHeaderRow.css('position', 'sticky');
-    //jexcelFirstHeaderRow.css('top', '0px');
-    //var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    //jexcelFirstHeaderRow.css('position', 'sticky');
-    //jexcelSecondHeaderRow.css('top', '20px');
+    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    jexcelFirstHeaderRow.css('position', 'sticky');
+    jexcelFirstHeaderRow.css('top', '0px');
+    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    jexcelFirstHeaderRow.css('position', 'sticky');
+    jexcelSecondHeaderRow.css('top', '20px');
 
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
         $('.search_p').css('display', 'block');
-        allEmployeeName = [];
-        var data = jss.getData();
-        for (var i = 0; i < jss.getData().length; i++) {
-            allEmployeeName.push(data[i][1]);
-        }
+        //allEmployeeName = [];
+        //var data = jss.getData();
+        //for (var i = 0; i < jss.getData().length; i++) {
+        //    allEmployeeName.push(data[i][1]);
+        //}
 
-        var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
-            return array.indexOf(value) === index;
-        });
-        allEmployeeName.sort();
-        $('#search_p_search').empty();
-        allEmployeeName1 = [];
-        $.each(allEmployeeName, function (index, value) {
-            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-            allEmployeeName1.push(value);
-        });
+        //var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
+        //    return array.indexOf(value) === index;
+        //});
+        //allEmployeeName.sort();
+        //$('#search_p_search').empty();
+        //allEmployeeName1 = [];
+        //$.each(allEmployeeName, function (index, value) {
+        //    $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+        //    allEmployeeName1.push(value);
+        //});
         //console.log(allEmployeeName);
 
         $("#hider").fadeIn("slow");
@@ -1242,20 +1235,20 @@ function ShowForecastResults(year) {
     $("#head_total").css("width",w-300);
 }
 
-$('#search_p_text_box').on('keyup', function () {
-    var name = $(this).val();
-    console.log(allEmployeeName1);
-    if (allEmployeeName1.length > 0) {
-        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
+//$('#search_p_text_box').on('keyup', function () {
+//    var name = $(this).val();
+//    console.log(allEmployeeName1);
+//    if (allEmployeeName1.length > 0) {
+//        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
 
-        data.sort();
+//        data.sort();
 
-        $('#search_p_search').empty();
-        $.each(data, function (index, value) {
-            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-        });
-    }
-});
+//        $('#search_p_search').empty();
+//        $.each(data, function (index, value) {
+//            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+//        });
+//    }
+//});
 
 $("#hider").hide();
 $(".search_p").hide();
@@ -1264,7 +1257,7 @@ $("#buttonClose").click(function () {
 
     $("#hider").fadeOut("slow");
     $('.search_p').fadeOut("slow");
-    $('#search_p_text_box').val('');
+   // $('#search_p_text_box').val('');
 });
 
 var deleted = function (instance, x, y, value) {

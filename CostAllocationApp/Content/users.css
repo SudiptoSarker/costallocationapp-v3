@@ -205,3 +205,13 @@ label {
     font-size: 11px;
     height: 18px;
 }
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+50% {
+    opacity: 0;
+}
+}

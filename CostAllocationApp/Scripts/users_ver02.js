@@ -271,24 +271,24 @@ function ShowUserList_Datatable(data) {
                             strDropdown = strDropdown+"<option selected='selected' value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
-                            statusText = "有効(Active)";
+                            statusText = "<span style='color:green;'>有効(Active)</span>";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
-                            statusText = "無効(Inactive)";
+                            statusText = "<span style='color:red;'>無効(Inactive)</span>";
                         }
                     }else{
                         if(role_and_status[1].toLowerCase() == 'true'){
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
-                            statusText = "承認待ち(waiting)";
+                            statusText = "<span style='color:darkorange;' class='blink_me'>承認待ち(waiting)</span>";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
-                            statusText = "無効(Inactive)";
+                            statusText = "<span style='color:red;'>無効(Inactive)</span>";
                         }                        
                     }                    
                     strDropdown = strDropdown +"</select>";

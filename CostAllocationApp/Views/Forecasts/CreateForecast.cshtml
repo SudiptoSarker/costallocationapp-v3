@@ -10,7 +10,7 @@
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative">
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
 
         @{
             /***************************\
@@ -72,6 +72,8 @@
         {   /***************************\
         Show Loader
         \***************************/
+            <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="forecast">
@@ -87,17 +89,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="year_data_search">
                 <div class="col-3">
-                    <div class="form-group">
-                        <label for="assignment_year_list">編集する年度のデータを選択</label>
-                        <select id="assignment_year_list" class="form-control"></select>
-                    </div>
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">Search</button>
-
+                    <select id="assignment_year_list" class="" ></select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
                 </div>
             </div>
-
+            <br>
             
             @*<select id="assignment_year_list"></select>
             <br><br>*@
@@ -105,16 +105,17 @@
             /***************************\
             Employee Assignment: Create Forecast
             \***************************/
-            <div class="row">
+            <div class="row" id="year_data_list">
                 <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
                 </div>
 
                 <div class="col-md-12">
+                    <div id="hider"></div>
+                    
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">
-                    <table id="head_total">
+                    <table id="head_total" style="display: none;">
                         <thead>
                             <tr>
                                 <th></th>
@@ -378,6 +379,21 @@
             </div>
         </div>
     </div>
+
+
+<div class="search_p">
+    <ul id="search_p_asc_desc">
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+    </ul>
+    <input type="text" id="search_p_text_box" />
+    <ul id="search_p_search"></ul>
+    <div class="search_p_footer">
+        <button type="button" onclick="GetEmployeeName()">Ok</button>
+        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
+    </div>
+</div>
+
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

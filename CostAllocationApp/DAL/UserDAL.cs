@@ -11,7 +11,7 @@ namespace CostAllocationApp.DAL
     {
         public bool CheckUser(string userName, string password)
         {
-            string query = "select * from Users where UserName=N'" + userName + "'"+" and Password=N'"+password+"'";
+            string query = "select * from Users where UserName=N'" + userName + "'"+" and Password=N'"+password+ "' and Isactive=1 and UserRoleId !=0";
             bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -153,7 +153,7 @@ namespace CostAllocationApp.DAL
         {
             List<User> users = new List<User>();
             string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
-            query = query+"from users u ";
+            query = query + "from users u ";
             //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
             query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
 
@@ -167,8 +167,8 @@ namespace CostAllocationApp.DAL
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {             
-                            User user = new User();                            
+                        {
+                            User user = new User();
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
                             if (user.UserName == "sudipto 10")
@@ -189,7 +189,7 @@ namespace CostAllocationApp.DAL
                             if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
                             {
                                 user.UserRoleId = "0";
-                                user.Status = "Invalid_"+ user.IsActive;
+                                user.Status = "Invalid_" + user.IsActive;
                             }
                             else
                             {
@@ -324,7 +324,7 @@ namespace CostAllocationApp.DAL
         {
             User user = new User();
 
-            string query = "select * from Users where username='"+userName+"'";
+            string query = "select * from Users where username='" + userName + "'";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -352,7 +352,6 @@ namespace CostAllocationApp.DAL
                 return user;
             }
         }
-
         public List<UserPermission> GetUserPermissionsByUserId(int userId)
         {
             List<UserPermission> userPermissions = new List<UserPermission>();
@@ -387,7 +386,7 @@ namespace CostAllocationApp.DAL
                 return userPermissions;
             }
         }
-        public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus,string updatedBy,DateTime updatedDate)
+        public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus, string updatedBy, DateTime updatedDate)
         {
             int result = 0;
             string query = $@"update Users  set UserRoleId=@changeRoleId,IsActive=@userStatus,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where UserName=@userName";
@@ -416,6 +415,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public int RemoveUserPermissions(int userId)
         {
             int result = 0;

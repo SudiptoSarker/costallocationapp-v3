@@ -79,6 +79,5 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.CreateUserPermissions(link,userId);
         }
-        
     }
 }

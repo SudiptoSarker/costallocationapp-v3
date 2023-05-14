@@ -13,7 +13,6 @@ function ClearEntry(){
     $("#userDepartment").val('');
     $("#userEmail").val('');
     $("#userPass").val('');
-    $("#hid_userRole").val('');
 }
 //user create
 function UserRegistration() {
@@ -61,8 +60,9 @@ function UserRegistration() {
         data: data,
         success: function (result) {
             if (result > 0) {
+                ClearEntry();
                 $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess('Registration Successfully!');
+                ToastMessageSuccess('Registration is completed, please wait for the approval!');
 
                 $('#userName').val('');
                 //GetUserList();

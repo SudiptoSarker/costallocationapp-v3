@@ -1121,6 +1121,10 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     return BadRequest("User Name Already Exists!!!");
                 }
+                else if (employeeBLL.CheckUserEmailDuplication(user.Email))
+                {
+                    return BadRequest("User Email Already Exists!!!");
+                }
                 else
                 {
                     user.IsActive = true;
@@ -1159,7 +1163,7 @@ namespace CostAllocationApp.Controllers.Api
                 if (result > 0)
                 {
                     var removedFlag = userBLL.RemoveUserPermissions(user.Id);
-                    if (user.UserRoleId== "1")
+                    if (user.UserRoleId=="1")
                     {
                         foreach (var item in UserLinks.adminLinks)
                         {

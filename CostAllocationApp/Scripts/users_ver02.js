@@ -16,14 +16,6 @@ $(document).on('change', '.change_status', function () {
 });
 
 $(document).on('click', '#btn_status_change', function () {    
-    // $("#hid_changed_user_name").val();
-    // $("#hid_changed_user_role").val();
-    // $("#hid_changed_user_status").val();
-    
-    console.log("changeUserName: "+changeUserName);
-    console.log("changeUserRole: "+changeUserRole);
-    console.log("changeUserStatus: "+changeUserStatus);
-
     $.getJSON('/api/utilities/UpdateUserStatus?changeUserName=' + changeUserName+"&changeUserRole="+changeUserRole+"&changeUserStatus="+changeUserStatus)
         .done(function (data) {
             location.reload();
@@ -32,10 +24,13 @@ $(document).on('click', '#btn_status_change', function () {
 });
 
 $(document).ready(function () {
+    $('#employeeList_datatable tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input id="name_search" type="text"  placeholder="Search ' + title + '" />');
+    });
 
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
-            console.log(data);
             $('#admin_table tbody').empty();
             $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
         }); 
@@ -57,7 +52,6 @@ $(document).ready(function () {
         }); 
     // ("#userDepartment").select2();
 
-    $('#example').DataTable();
     //------------------Employee Master----------------------//
     //show employee list on page load
     GetUserList();
@@ -85,15 +79,12 @@ function UpdateUserModal(userName) {
 
     $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
         .done(function (data) {
-            console.log(data);
             $('#user_id_hidden').val(data.Id);
             $('#userName').val(data.UserName);
             $('#userTitle').val(data.UserTitle);
             $('#userDepartment').val(data.DepartmentId);
             $('#userRole').val(data.UserRoleId);
             
-            console.log("data.UserRoleId: "+data.UserRoleId);
-
             $('#userEmail').val(data.Email);
             $('#userPass').val(data.Password);
         }); 
@@ -209,8 +200,6 @@ function UpdateUserName() {
 
                 $.getJSON('/api/utilities/GetOnlyAdmin/')
                     .done(function (data) {
-                        console.log('after edit admin');
-                        console.log(data);
                         $('#admin_table tbody').empty();
                         $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}')">編集</button></td></tr>`);
                     }); 
@@ -227,7 +216,6 @@ function UpdateUserName() {
 function GetUserList() {
     $.getJSON('/api/utilities/GetUserList/')
         .done(function (data) {
-            console.log(data);
         ShowUserList_Datatable(data);
     });
 
@@ -239,15 +227,17 @@ function GetUserList() {
 \***************************/
 function ShowUserList_Datatable(data) {
     var user_name;
-    $('#employeeList_datatable').DataTable({
+    $('#employeeList_datatable').DataTable({                               
         destroy: true,
         data: data,
         ordering: false,
         orderCellsTop: false,
         pageLength: 100,
-        searching: false,
+        filter: true,
         bLengthChange: false,    
-        //dom: 'lifrtip',
+        searching: false, 
+        paging: false, 
+        info: false,
         columns: [  
             {
                 data: 'UserName',
@@ -272,37 +262,38 @@ function ShowUserList_Datatable(data) {
                 data: 'Status',
                 render: function (data) {
                     var role_and_status = data.split("_");
-                    //var extension = test[test.length - 1];
-                    console.log(role_and_status[0])
-                    console.log(role_and_status[1])
-
 
                     var strDropdown = "";
+                    var statusText = ""
                     strDropdown = "<select class='change_status'>";
                     if(role_and_status[0].toLowerCase() == 'valid'){
                         if(role_and_status[1].toLowerCase() == 'true'){
                             strDropdown = strDropdown+"<option selected='selected' value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
+                            statusText = "有効(Active)";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
+                            statusText = "無効(Inactive)";
                         }
                     }else{
                         if(role_and_status[1].toLowerCase() == 'true'){
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option value='0'>無効(Inactive)</option>";
+                            statusText = "承認待ち(waiting)";
                         }else{
                             strDropdown = strDropdown+"<option value='1'>有効(Active)</option>";
                             strDropdown = strDropdown+"<option value='3'>承認待ち(waiting)</option>";
                             strDropdown = strDropdown+"<option selected='selected' value='0'>無効(Inactive)</option>";
+                            statusText = "無効(Inactive)";
                         }                        
                     }                    
                     strDropdown = strDropdown +"</select>";
 
-                    return strDropdown;
+                    return statusText;
                 }
             },
             {
@@ -313,8 +304,21 @@ function ShowUserList_Datatable(data) {
                     return `<button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${user_name}')">編集</button>`;
                 }
             }
-        ]
-    });
+        ],
+        initComplete: function () {    
+            var r = $('#employeeList_datatable tfoot tr');
+            $('#employeeList_datatable thead').append(r);
+            // Apply the search
+            this.api().columns().every(function () {
+                var that = this;                
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });            
+            },   
+    });   
 }
 
 

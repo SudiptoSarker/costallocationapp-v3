@@ -8,12 +8,14 @@
     <link href="/Content/actualcost.css" rel="stylesheet" type="text/css" />
 }
 
-<div class="content container-fluid" style="position:relative">
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div id="actual_cost_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+
     <!-----------------Show Loader----------------->
     <div class="row">
         <div class="col-md-12">
             <div class="forecast">
-                <div id="loading" style="display:block;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
                     <center>
                         <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
                         <br>
@@ -26,16 +28,18 @@
         </div>
     </div>
     <!-----------------Employee Assignment: Create Actual Cost----------------->
-    <div class="row">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="assignment_year"><u>Select Year to Create or Update Actual Cost</u></label>
-                <select class="form-control col-6" id="assignment_year"></select>
-            </div>
-            <button type="submit" class="btn btn-light mb-2" id="actual_cost">display</button>
+    <div class="row" id="actual_cost_search">
+        <div class="col-3">
+            <select id="assignment_year" class="" ></select>
         </div>
-
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="actual_cost" >表示</button>
+        </div>
+    </div>
+    <br>
+    <div class="row" id="actual_cost_list">
         <div class="col-md-12">
+            <div id="hider"></div>            
             <div id="jspreadsheet"></div>
         </div>
 
@@ -43,13 +47,29 @@
 
 </div>
 
+<div class="search_p">
+    <ul id="search_p_asc_desc">
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+    </ul>
+    @*<select id="search_p_search" multiple></select>*@
+    <input type="text" id="search_p_text_box"/>
+    <ul id="search_p_search">
+
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" onclick="GetEmployeeName()">Ok</button>
+        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
+    </div>
+</div>
+
 @*<input type="hidden" id="hidSectionId" />
-<input type="hidden" id="hidDepartmentId" />
-<input type="hidden" id="hidInChargeId" />
-<input type="hidden" id="hidRoleId" />
-<input type="hidden" id="hidExplanationId" />
-<input type="hidden" id="hidCompanyid" />
-<input type="hidden" id="hidForecastYear" value="2023" />*@
+    <input type="hidden" id="hidDepartmentId" />
+    <input type="hidden" id="hidInChargeId" />
+    <input type="hidden" id="hidRoleId" />
+    <input type="hidden" id="hidExplanationId" />
+    <input type="hidden" id="hidCompanyid" />
+    <input type="hidden" id="hidForecastYear" value="2023" />*@
 
 
 @section Scripts{
@@ -120,40 +140,40 @@
             }, 5000);
             //$("table1").DataTable();
         });
-        //function bs_input_file() {
-        //    $(".input-file").before(
-        //        function () {
-        //            if (!$(this).prev().hasClass('input-ghost')) {
-        //                var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
-        //                element.attr("name", $(this).attr("name"));
-        //                element.change(function () {
-        //                    element.next(element).find('input').val((element.val()).split('\\').pop());
-        //                });
-        //                $(this).find("button.btn-choose").click(function () {
-        //                    element.click();
-        //                });
-        //                $(this).find("button.btn-reset").click(function () {
-        //                    element.val(null);
-        //                    $(this).parents(".input-file").find('input').val('');
-        //                });
-        //                $(this).find('input').css("cursor", "pointer");
-        //                $(this).find('input').mousedown(function () {
-        //                    $(this).parents('.input-file').prev().click();
-        //                    return false;
-        //                });
-        //                return element;
-        //            }
-        //        }
-        //    );
-        //}
+            //function bs_input_file() {
+            //    $(".input-file").before(
+            //        function () {
+            //            if (!$(this).prev().hasClass('input-ghost')) {
+            //                var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
+            //                element.attr("name", $(this).attr("name"));
+            //                element.change(function () {
+            //                    element.next(element).find('input').val((element.val()).split('\\').pop());
+            //                });
+            //                $(this).find("button.btn-choose").click(function () {
+            //                    element.click();
+            //                });
+            //                $(this).find("button.btn-reset").click(function () {
+            //                    element.val(null);
+            //                    $(this).parents(".input-file").find('input').val('');
+            //                });
+            //                $(this).find('input').css("cursor", "pointer");
+            //                $(this).find('input').mousedown(function () {
+            //                    $(this).parents('.input-file').prev().click();
+            //                    return false;
+            //                });
+            //                return element;
+            //            }
+            //        }
+            //    );
+            //}
 
-        //function clear() {
-        //    var input = $("#dataFile").val('');
-        //};
-        //$(function () {
-        //    clear();
-        //    bs_input_file();
-        //});
+            //function clear() {
+            //    var input = $("#dataFile").val('');
+            //};
+            //$(function () {
+            //    clear();
+            //    bs_input_file();
+            //});
     </script>
 }
 

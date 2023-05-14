@@ -59,7 +59,12 @@
         <tbody id="employeelist_tbody"></tbody>
         <tfoot>
             <tr>
-                <th>ユーザーID (User Id)</th>                
+                <th>user name</th>                
+                <th>role</th>                
+                <th>title</th>                
+                <th>department</th>                
+                <th>email</th>                
+                <th>status</th>                
             </tr>
         </tfoot>
     </table>
@@ -125,7 +130,7 @@
                                             </td>
                                             <td id="create_users_tbody_td">
                                                 <select id="userStatus" name="userStatus">
-                                                    <option selected='selected' value='1'>有効(Active)</option>
+                                                    <option value='1'>有効(Active)</option>
                                                     <option value='3'>承認待ち(waiting)</option>
                                                     <option value='0'>無効(Inactive)</option>
                                                 </select>
@@ -184,6 +189,7 @@ else
                                             <th>部署 (Department)</th>
                                             <th>役割 (User Role)</th>
                                             <th>メアド (Email)</th>
+                                            <th>Status</th>
                                             <th>パスワー (Password)</th>
                                             <th>編集 (Edit)</th>
                                         </tr>
@@ -204,6 +210,13 @@ else
                                             </td>
                                             <td id="create_users_tbody_td">
                                                 <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                                            </td>
+                                            <td id="create_users_tbody_td">
+                                                <select id="userStatus" name="userStatus" disabled>
+                                                    <option value='1'>有効(Active)</option>
+                                                    <option value='3'>承認待ち(waiting)</option>
+                                                    <option value='0'>無効(Inactive)</option>
+                                                </select>
                                             </td>
                                             <td id="create_users_tbody_td">
                                                 <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>

@@ -122,7 +122,7 @@ namespace CostAllocationApp.DAL
         public int UpdateUserName(User user)
         {
             int result = 0;
-            string query = $@"update Users set UserName=@userName,Title=@title,DepartmentId=@departmentId,Email=@email,Password=@password,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate,UserRoleId=@userRoleId where Id=@id";
+            string query = $@"update Users set UserName=@userName,Title=@title,DepartmentId=@departmentId,Email=@email,Password=@password,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate,UserRoleId=@userRoleId,IsActive=@isActive where Id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -136,6 +136,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@updatedDate", user.UpdatedDate);
                 cmd.Parameters.AddWithValue("@userRoleId", user.UserRoleId);
                 cmd.Parameters.AddWithValue("@id", user.Id);
+                cmd.Parameters.AddWithValue("@isActive", user.IsActive);
                 try
                 {
                     result = cmd.ExecuteNonQuery();

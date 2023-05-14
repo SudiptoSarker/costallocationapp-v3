@@ -215,3 +215,11 @@ label {
     opacity: 0;
 }
 }
+.user_search{
+    border: none;
+    width: 88px;
+}
+div.dataTables_wrapper div.dataTables_filter{
+    text-align: right !important;
+    display: none !important;
+}

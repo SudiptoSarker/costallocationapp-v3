@@ -46,28 +46,57 @@ function ColumnOrder(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-//function GetEmployeeName() {
-//    var data = [];
-//    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
-//        data.push($(this).val());
-//    });
-
-//    jss.search(data[0]);
-//    $("#hider").fadeOut("slow");
-//    $('.search_p').fadeOut("slow");
-//    $('#search_p_text_box').val('');
-//}
-
-
-
+function ColumnOrder_Section(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_section_asc').css('background-color', 'lightsteelblue');
+        $('#search_section_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_section_asc').css('background-color', 'grey');
+        $('#search_section_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Department(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_department_asc').css('background-color', 'lightsteelblue');
+        $('#search_department_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_department_asc').css('background-color', 'grey');
+        $('#search_department_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_InCharge(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_incharge_asc').css('background-color', 'lightsteelblue');
+        $('#search_incharge_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_incharge_asc').css('background-color', 'grey');
+        $('#search_incharge_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
 function onCancel() {
     LoaderShow();
     LoadForecastData()
 }
 
-
 var expanded = false;
-
 $(function () {
     var chat = $.connection.chatHub;
     $.connection.hub.start();
@@ -189,7 +218,7 @@ $(document).ready(function () {
             });
     });
     
-    $(document).on('click', '#assignment_year_data', function () {    
+    $(document).on('click', '#assignment_year_data ', function () {    
         var assignmentYear = $('#assignment_year_list').val();
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('Select valid year!!!');
@@ -209,6 +238,21 @@ $(document).ready(function () {
 
         
     });
+    $(document).on('click', '#cancel_forecast_history ', function () {    
+        var assignmentYear = $('#assignment_year_list').val();          
+        if(assignmentYear==''){
+            assignmentYear = 2023;
+        }
+
+        console.log("assignmentYear: "+assignmentYear);
+
+        LoaderShowJexcel();            
+        setTimeout(function () {                               
+            ShowForecastResults(assignmentYear);
+        }, 3000);
+        
+    });
+    
     $(document).ajaxComplete(function(){
         LoaderHideJexcel();
     });
@@ -1192,6 +1236,7 @@ function ShowForecastResults(year) {
     });
 
     $("#update_forecast_history").css("display", "block");
+    $("#cancel_forecast_history").css("display", "block");
 
     jss.deleteColumn(36, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
@@ -1203,7 +1248,8 @@ function ShowForecastResults(year) {
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
 
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
+    //employee name column
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {       
         $('.search_p').css('display', 'block');
         //allEmployeeName = [];
         //var data = jss.getData();
@@ -1227,7 +1273,27 @@ function ShowForecastResults(year) {
         $('.search_p').fadeIn("slow");
         //$('#filter_modal').modal('show');
     });
-        
+
+    //section column
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)').on('click', function () {               
+        $('.search_section').css('display', 'block');        
+        $("#hider").fadeIn("slow");
+        $('.search_section').fadeIn("slow");
+    });
+    
+    //department column
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)').on('click', function () {               
+        $('.search_department').css('display', 'block');        
+        $("#hider").fadeIn("slow");
+        $('.search_department').fadeIn("slow");
+    });    
+    //incharge column
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)').on('click', function () {               
+        $('.search_incharge').css('display', 'block');        
+        $("#hider").fadeIn("slow");
+        $('.search_incharge').fadeIn("slow");
+    });
+
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
     // $("#head_total").css("width",w-300);
 }
@@ -1249,11 +1315,17 @@ function ShowForecastResults(year) {
 
 $("#hider").hide();
 $(".search_p").hide();
+$(".search_section").hide();
+$(".search_department").hide();
+$(".search_incharge").hide();
 
-$("#buttonClose").click(function () {
+$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge").click(function () {
 
     $("#hider").fadeOut("slow");
     $('.search_p').fadeOut("slow");
+    $('.search_section').fadeOut("slow");
+    $('.search_department').fadeOut("slow");
+    $('.search_incharge').fadeOut("slow");
    // $('#search_p_text_box').val('');
 });
 

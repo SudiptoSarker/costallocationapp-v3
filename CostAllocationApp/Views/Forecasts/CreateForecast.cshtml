@@ -97,12 +97,13 @@
                     <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
                 </div>
 
-                <div class="col-3">
-                </div>
                 <div class="col-2">
                 </div>
+                <div class="col-3">                    
+                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;">キャンセル</button>
+                </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;">保存 (Save)</button>
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left:35px;">保存 (Save)</button>
                 </div>
             </div>
             <br>
@@ -335,58 +336,56 @@
     </div>
 </div>
 
-
-
 <!-- Modal History -->
 <div class="modal" id="modal_change_history">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_change_history_label">変更の概要</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="display_matched_rows">
-                                    <h5>
-                                        一致した行
-                                    </h5>
-                                    <table style="width:100%;font-size:12px;text-align:center;">
-                                        <thead>
-                                            <tr>
-                                                <th>によって編集</th>
-                                                <th>従業員名</th>
-                                                <th>10月</th>
-                                                <th>11月</th>
-                                                <th>12月</th>
-                                                <th>1月</th>
-                                                <th>2月</th>
-                                                <th>3月</th>
-                                                <th>4月</th>
-                                                <th>5月</th>
-                                                <th>6月</th>
-                                                <th>7月</th>
-                                                <th>8月</th>
-                                                <th>9月</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">変更の概要</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="display_matched_rows">
+                                <h5>
+                                    一致した行
+                                </h5>
+                                <table style="width:100%;font-size:12px;text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th>によって編集</th>
+                                            <th>従業員名</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
             </div>
         </div>
     </div>
+</div>
 
 
 <div class="search_p">
@@ -402,7 +401,34 @@
     </div>
 </div>
 
+<div class="search_section">
+    <ul id="search_section_asc_desc">
+        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">Ascending</span></li>
+        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
+    </div>
+</div>
 
+<div class="search_department">
+    <ul id="search_department_asc_desc">
+        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(5,1)"></i> <span id="search_department_asc_text">Ascending</span></li>
+        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(5,0)"></i><span id="search_department_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
+    </div>
+</div>
+<div class="search_incharge">
+    <ul id="search_incharge_asc_desc">
+        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(5,1)"></i> <span id="search_incharge_asc_text">Ascending</span></li>
+        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(5,0)"></i><span id="search_incharge_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
+    </div>
+</div>
 @section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/forecast_ver07.js"></script>

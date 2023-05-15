@@ -205,7 +205,7 @@ $(document).ready(function () {
                             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
                             //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
                             {
-                                title: "10月",
+                                title: "10月 実績",
                                 type: "decimal",
                                 name: "OctCost",
                                 mask: "#,##0",
@@ -214,7 +214,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "11月",
+                                title: "11月 実績",
                                 type: "decimal",
                                 name: "NovCost",
                                 mask: "#,##0",
@@ -223,7 +223,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "12月",
+                                title: "12月 実績",
                                 type: "decimal",
                                 name: "DecCost",
                                 mask: "#,##0",
@@ -232,7 +232,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "1月",
+                                title: "1月 実績",
                                 type: "decimal",
                                 name: "JanCost",
                                 mask: "#,##0",
@@ -241,7 +241,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "2月",
+                                title: "2月 実績",
                                 type: "decimal",
                                 name: "FebCost",
                                 mask: "#,##0",
@@ -250,7 +250,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "3月",
+                                title: "3月 実績",
                                 type: "decimal",
                                 name: "MarCost",
                                 mask: "#,##0",
@@ -259,7 +259,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "4月",
+                                title: "4月 実績",
                                 type: "decimal",
                                 name: "AprCost",
                                 mask: "#,##0",
@@ -268,7 +268,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "5月",
+                                title: "5月 実績",
                                 type: "decimal",
                                 name: "MayCost",
                                 mask: "#,##0",
@@ -277,7 +277,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "6月",
+                                title: "6月 実績",
                                 type: "decimal",
                                 name: "JunCost",
                                 mask: "#,##0",
@@ -286,7 +286,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "7月",
+                                title: "7月 実績",
                                 type: "decimal",
                                 name: "JulCost",
                                 mask: "#,##0",
@@ -295,7 +295,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "8月",
+                                title: "8月 実績",
                                 type: "decimal",
                                 name: "AugCost",
                                 mask: "#,##0",
@@ -304,7 +304,7 @@ $(document).ready(function () {
                                 readOnly: userRoleflag
                             },
                             {
-                                title: "9月",
+                                title: "9月 実績",
                                 type: "decimal",
                                 name: "SepCost",
                                 mask: "#,##0",

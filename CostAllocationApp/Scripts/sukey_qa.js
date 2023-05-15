@@ -8,7 +8,7 @@ function LoaderHide() {
 }
 
 $(document).ready(function () {
-    $('#sukey_table_header').hide();
+    $('#sukey_qa_table_header').hide();
 
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -41,6 +41,7 @@ $(document).ready(function () {
                     $.each(data, function (index, value) {
                         $('#sukey_qa_table tbody').append(`<tr>
                         <td>${value.DepartmentName}</td>
+                        <td style='width:100px;'>${value.DepartmentName}<br/>品証<br/>合計</td>
                         <td>${value.OctCost[0].toLocaleString('en')}<br/>${value.OctCost[1].toLocaleString('en')}<br/>${value.OctCost[2].toLocaleString('en')}</td>
                         <td>${value.NovCost[0].toLocaleString('en')}<br/>${value.NovCost[1].toLocaleString('en')}<br/>${value.NovCost[2].toLocaleString('en')}</td>
                         <td>${value.DecCost[0].toLocaleString('en')}<br/>${value.DecCost[1].toLocaleString('en')}<br/>${value.DecCost[2].toLocaleString('en')}</td>
@@ -52,6 +53,7 @@ $(document).ready(function () {
                         <td>${value.JunCost[0].toLocaleString('en')}<br/>${value.JunCost[1].toLocaleString('en')}<br/>${value.JunCost[2].toLocaleString('en')}</td>
                         <td>${value.JulCost[0].toLocaleString('en')}<br/>${value.JulCost[1].toLocaleString('en')}<br/>${value.JulCost[2].toLocaleString('en')}</td>
                         <td>${value.AugCost[0].toLocaleString('en')}<br/>${value.AugCost[1].toLocaleString('en')}<br/>${value.AugCost[2].toLocaleString('en')}</td>
+                        <td>${value.SepCost[0].toLocaleString('en')}<br/>${value.SepCost[1].toLocaleString('en')}<br/>${value.SepCost[2].toLocaleString('en')}</td>
                         </tr>`);
                     });
                 }

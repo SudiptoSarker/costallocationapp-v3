@@ -37,7 +37,7 @@ function ColumnOrder(columnNumber,orderBy) {
     $("#hider").fadeOut("slow");
     $('.search_p').fadeOut("slow");
     $('#search_p_text_box').val('');
-}
+
 // $("#actual_cost_table_header").hide();
 $(document).ready(function () {
     // LoaderHide();

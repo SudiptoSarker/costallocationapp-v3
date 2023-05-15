@@ -331,6 +331,7 @@ namespace CostAllocationApp.DAL
                             Apportionment apportionment = new Apportionment();
                             apportionment.Id = Convert.ToInt32(rdr["Id"]);
                             apportionment.Year = Convert.ToInt32(rdr["Year"]);
+                            apportionment.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
                             apportionment.OctPercentage = Convert.ToDouble(rdr["OctPercentage"]);
                             apportionment.NovPercentage = Convert.ToDouble(rdr["NovPercentage"]);
                             apportionment.DecPercentage = Convert.ToDouble(rdr["DecPercentage"]);

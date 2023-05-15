@@ -2246,53 +2246,53 @@ namespace CostAllocationApp.Controllers.Api
                         DepartmentId= department.Id,//a
                         DepartmentName = department.DepartmentName, //b
 
-                        OctActualCost= sukeyList.Where(s=>s.DepartmentId== item).FirstOrDefault().OctCost,//c
+                        //OctActualCost= sukeyList.Where(s=>s.DepartmentId== item).FirstOrDefault().OctCost,//c
                         OctPercentage = 0,//d
-                        OctResult=$@"=C{count}+((D{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().OctCost})",//e
+                        //OctResult=$@"=C{count}+((D{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().OctCost})",//e
 
-                        NovActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().NovCost,//f
+                        //NovActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().NovCost,//f
                         NovPercentage = 0,//g
-                        NovResult = $@"=F{count}+(G{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().NovCost}",//h
+                        //NovResult = $@"=F{count}+(G{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().NovCost}",//h
 
-                        DecActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().DecCost,//i
+                        //DecActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().DecCost,//i
                         DecPercentage = 0,//j
-                        DecResult = $@"=I{count}+(J{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().DecCost}",//k
+                        //DecResult = $@"=I{count}+(J{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().DecCost}",//k
 
-                        JanActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JanCost,//l
+                        //JanActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JanCost,//l
                         JanPercentage = 0,//m
-                        JanResult = $@"=L{count}+(M{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JanCost}",//n
+                        //JanResult = $@"=L{count}+(M{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JanCost}",//n
 
-                        FebActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().FebCost,//o
+                        //FebActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().FebCost,//o
                         FebPercentage = 0,//p
-                        FebResult = $@"=O{count}+(P{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().FebCost}",//q
+                        //FebResult = $@"=O{count}+(P{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().FebCost}",//q
 
-                        MarActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().MarCost,//r
+                        //MarActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().MarCost,//r
                         MarPercentage = 0,//s
-                        MarResult = $@"=R{count}+(S{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().MarCost}",//t
+                        //MarResult = $@"=R{count}+(S{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().MarCost}",//t
 
-                        AprActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().AprCost,//u
+                        //AprActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().AprCost,//u
                         AprPercentage = 0,//v
-                        AprResult = $@"=U{count}+(V{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().AprCost}",//w
+                        //AprResult = $@"=U{count}+(V{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().AprCost}",//w
 
-                        MayActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().MayCost,//x
+                        //MayActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().MayCost,//x
                         MayPercentage = 0,//y
-                        MayResult = $@"=X{count}+(Y{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().MayCost}",//z
+                        //MayResult = $@"=X{count}+(Y{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().MayCost}",//z
 
-                        JunActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JunCost,//aa
+                        //JunActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JunCost,//aa
                         JunPercentage = 0,//ab
-                        JunResult = $@"=AA{count}+(AB{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JunCost}",//ac
+                        //JunResult = $@"=AA{count}+(AB{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JunCost}",//ac
 
-                        JulActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JulCost,//ad
+                        //JulActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().JulCost,//ad
                         JulPercentage = 0,//ae
-                        JulResult = $@"=AD{count}+(AE{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JulCost}",//af
+                        //JulResult = $@"=AD{count}+(AE{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().JulCost}",//af
 
-                        AugActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().AugCost,//ag
+                        //AugActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().AugCost,//ag
                         AugPercentage = 0,//ah
-                        AugResult = $@"=AG{count}+(AH{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().AugCost}",//ai
+                        //AugResult = $@"=AG{count}+(AH{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().AugCost}",//ai
 
-                        SepActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().SepCost,//aj
+                        //SepActualCost = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().SepCost,//aj
                         SepPercentage = 0,//ak
-                        SepResult = $@"=AJ{count}+(AK{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().SepCost}",//al
+                        //SepResult = $@"=AJ{count}+(AK{count}/100)*{sukeyList.Where(s => s.DepartmentId == "8").FirstOrDefault().SepCost}",//al
                     });
                     count++;
                 }
@@ -2330,6 +2330,98 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
             return Ok("Operation Completed!");
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetSukeyWithQA/")]
+        public IHttpActionResult GetSukeyWithQA(int year=2023)
+        {
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+
+            List<SukeyDto> sukeys = actualCostBLL.GetAllSukeyData(year);
+
+            //var sukeyList = actualCostBLL.GetAllSukeyData(year);
+
+            var singleHinsho = sukeys.Where(s => s.DepartmentId == "8").FirstOrDefault();
+
+            var apportionmentList =  actualCostBLL.GetAllApportionmentData(year);
+            if (apportionmentList.Count>0)
+            {
+                foreach (var item in sukeys)
+                {
+                    if (item.DepartmentId=="8")
+                    {
+                        continue;
+                    }
+                    SukeyQADto sukeyQADto = new SukeyQADto();
+                    sukeyQADto.DepartmentName = item.DepartmentName;
+                    var _octP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().OctPercentage;
+                    sukeyQADto.OctCost.Add(item.OctCost);
+                    sukeyQADto.OctCost.Add((_octP / 100) * singleHinsho.OctCost);
+                    sukeyQADto.OctCost.Add(item.OctCost + ((_octP / 100) * singleHinsho.OctCost));
+
+                    var _novP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().NovPercentage;
+                    sukeyQADto.NovCost.Add(item.NovCost);
+                    sukeyQADto.NovCost.Add((_novP / 100) * singleHinsho.NovCost);
+                    sukeyQADto.NovCost.Add(item.NovCost + ((_novP / 100) * singleHinsho.NovCost));
+
+                    var _decP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().DecPercentage;
+                    sukeyQADto.DecCost.Add(item.DecCost);
+                    sukeyQADto.DecCost.Add((_decP / 100) * singleHinsho.DecCost);
+                    sukeyQADto.DecCost.Add(item.NovCost + ((_decP / 100) * singleHinsho.DecCost));
+
+                    var _janP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().DecPercentage;
+                    sukeyQADto.JanCost.Add(item.JanCost);
+                    sukeyQADto.JanCost.Add((_janP / 100) * singleHinsho.JanCost);
+                    sukeyQADto.JanCost.Add(item.JanCost + ((_janP / 100) * singleHinsho.JanCost));
+
+                    var _febP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().FebPercentage;
+                    sukeyQADto.FebCost.Add(item.FebCost);
+                    sukeyQADto.FebCost.Add((_febP / 100) * singleHinsho.FebCost);
+                    sukeyQADto.FebCost.Add(item.FebCost + ((_febP / 100) * singleHinsho.FebCost));
+
+                    var _marP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().MarPercentage;
+                    sukeyQADto.MarCost.Add(item.MarCost);
+                    sukeyQADto.MarCost.Add((_marP / 100) * singleHinsho.MarCost);
+                    sukeyQADto.MarCost.Add(item.MarCost + ((_marP / 100) * singleHinsho.MarCost));
+
+                    var _aprP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().AprPercentage;
+                    sukeyQADto.AprCost.Add(item.AprCost);
+                    sukeyQADto.AprCost.Add((_aprP / 100) * singleHinsho.AprCost);
+                    sukeyQADto.AprCost.Add(item.AprCost + ((_aprP / 100) * singleHinsho.AprCost));
+
+                    var _mayP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().AprPercentage;
+                    sukeyQADto.MayCost.Add(item.MayCost);
+                    sukeyQADto.MayCost.Add((_mayP / 100) * singleHinsho.MayCost);
+                    sukeyQADto.MayCost.Add(item.MayCost + ((_mayP / 100) * singleHinsho.MayCost));
+
+                    var _junP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().JunPercentage;
+                    sukeyQADto.JunCost.Add(item.JunCost);
+                    sukeyQADto.JunCost.Add((_junP / 100) * singleHinsho.JunCost);
+                    sukeyQADto.JunCost.Add(item.JunCost + ((_junP / 100) * singleHinsho.JunCost));
+
+                    var _julP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().JulPercentage;
+                    sukeyQADto.JulCost.Add(item.JulCost);
+                    sukeyQADto.JulCost.Add((_julP / 100) * singleHinsho.JulCost);
+                    sukeyQADto.JulCost.Add(item.JulCost + ((_junP / 100) * singleHinsho.JulCost));
+
+                    var _augP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().AugPercentage;
+                    sukeyQADto.AugCost.Add(item.AugCost);
+                    sukeyQADto.AugCost.Add((_augP / 100) * singleHinsho.AugCost);
+                    sukeyQADto.AugCost.Add(item.AugCost + ((_augP / 100) * singleHinsho.AugCost));
+
+                    var _sepP = apportionmentList.Where(ap => ap.DepartmentId.ToString() == item.DepartmentId).SingleOrDefault().SepPercentage;
+                    sukeyQADto.SepCost.Add(item.SepCost);
+                    sukeyQADto.SepCost.Add((_sepP / 100) * singleHinsho.SepCost);
+                    sukeyQADto.SepCost.Add(item.SepCost + ((_sepP / 100) * singleHinsho.SepCost));
+
+                    sukeyQADtos.Add(sukeyQADto);
+                }
+            }
+
+            
+
+            return Ok(sukeyQADtos);
         }
     }
 }

@@ -488,5 +488,10 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        public ActionResult GetSukeyWithQA()
+        {
+            return View();
+        }
     }
 }

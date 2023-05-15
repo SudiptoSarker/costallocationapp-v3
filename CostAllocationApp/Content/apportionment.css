@@ -25,3 +25,13 @@
     /* line-height: -1; */
     white-space: nowrap !important;
 }
+#QARatio_search{
+    margin-top: 10px;
+}
+#qa_ratio_nagivation{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
+}

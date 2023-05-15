@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GetSukeyWithQA";
+    ViewBag.Title = "開発区分別 集計";
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
@@ -8,6 +8,7 @@
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div id="qa_ratio_total_nagivation">開発区分別 集計 : 集計</div>
     <!-----------------Show Loader----------------->
     <div class="row">
         <div class="col-md-12">
@@ -24,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="qa_ratio_total_filter">
         <div class="col-3">
             <select id="assignment_year" class=""></select>
         </div>
@@ -32,7 +33,7 @@
             <button type="submit" class="btn btn-light mb-2" id="sukey_qa_display">表示</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="qa_ratio_total_list">
         <div class="col-12 table-responsive">
             <table class="table table-bordered" id="sukey_qa_table">
                 <thead id="sukey_qa_table_header">

@@ -30,3 +30,13 @@
 #sukey_table tbody td:nth-of-type(1) {
     text-align: left;
 }
+#sukey_nagigation{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
+}
+#sukey_search_filter{
+    margin-top: 7px;
+}

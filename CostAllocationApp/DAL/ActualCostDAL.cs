@@ -309,5 +309,153 @@ namespace CostAllocationApp.DAL
 
             return sukeys;
         }
+
+        public List<Apportionment> GetAllApportionmentData(int year)
+        {
+            List<Apportionment> apportionments = new List<Apportionment>();
+
+            string query = $@"select * from Apportionments where Year={year}";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Apportionment apportionment = new Apportionment();
+                            apportionment.Id = Convert.ToInt32(rdr["Id"]);
+                            apportionment.Year = Convert.ToInt32(rdr["Year"]);
+                            apportionment.OctPercentage = Convert.ToDouble(rdr["OctPercentage"]);
+                            apportionment.NovPercentage = Convert.ToDouble(rdr["NovPercentage"]);
+                            apportionment.DecPercentage = Convert.ToDouble(rdr["DecPercentage"]);
+                            apportionment.JanPercentage = Convert.ToDouble(rdr["JanPercentage"]);
+                            apportionment.FebPercentage = Convert.ToDouble(rdr["FebPercentage"]);
+                            apportionment.MarPercentage = Convert.ToDouble(rdr["MarPercentage"]);
+                            apportionment.AprPercentage = Convert.ToDouble(rdr["AprPercentage"]);
+                            apportionment.MayPercentage = Convert.ToDouble(rdr["MayPercentage"]);
+                            apportionment.JunPercentage = Convert.ToDouble(rdr["JunPercentage"]);
+                            apportionment.JulPercentage = Convert.ToDouble(rdr["JulPercentage"]);
+                            apportionment.AugPercentage = Convert.ToDouble(rdr["AugPercentage"]);
+                            apportionment.SepPercentage = Convert.ToDouble(rdr["SepPercentage"]);
+
+
+
+                            apportionments.Add(apportionment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return apportionments;
+        }
+
+        public int CreateApportionment(Apportionment apportionment)
+        {
+            int result = 0;
+            string query = $@"insert into Apportionments(DepartmentId,Year,OctPercentage,NovPercentage,DecPercentage,JanPercentage,FebPercentage,MarPercentage,AprPercentage,MayPercentage,JunPercentage,JulPercentage,AugPercentage,SepPercentage,CreatedBy,CreatedDate) values(@departmentId,@year,@octCost,@novCost,@decCost,@janCost,@febCost,@marCost,@aprCost,@mayCost,@junCost,@julCost,@augCost,@sepCost,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@departmentId", apportionment.DepartmentId);
+                cmd.Parameters.AddWithValue("@year", apportionment.Year);
+                cmd.Parameters.AddWithValue("@octCost", apportionment.OctPercentage);
+                cmd.Parameters.AddWithValue("@novCost", apportionment.NovPercentage);
+                cmd.Parameters.AddWithValue("@decCost", apportionment.DecPercentage);
+                cmd.Parameters.AddWithValue("@janCost", apportionment.JanPercentage);
+                cmd.Parameters.AddWithValue("@febCost", apportionment.FebPercentage);
+                cmd.Parameters.AddWithValue("@marCost", apportionment.MarPercentage);
+                cmd.Parameters.AddWithValue("@aprCost", apportionment.AprPercentage);
+                cmd.Parameters.AddWithValue("@mayCost", apportionment.MayPercentage);
+                cmd.Parameters.AddWithValue("@junCost", apportionment.JunPercentage);
+                cmd.Parameters.AddWithValue("@julCost", apportionment.JulPercentage);
+                cmd.Parameters.AddWithValue("@augCost", apportionment.AugPercentage);
+                cmd.Parameters.AddWithValue("@sepCost", apportionment.SepPercentage);
+                cmd.Parameters.AddWithValue("@createdBy", apportionment.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", apportionment.CreatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int UpdateApportionment(Apportionment apportionment)
+        {
+            int result = 0;
+            string query = $@"update Apportionments set OctPercentage=@octCost,NovPercentage=@novCost,DecPercentage=@decCost,JanPercentage=@janCost,FebPercentage=@febCost,MarPercentage=@marCost,AprPercentage=@aprCost,MayPercentage=@mayCost,JunPercentage=@junCost,JulPercentage=@julCost,AugPercentage=@augCost,SepPercentage=@sepCost,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where DepartmentId=@departmentId and Year=@year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@octCost", apportionment.OctPercentage);
+                cmd.Parameters.AddWithValue("@novCost", apportionment.NovPercentage);
+                cmd.Parameters.AddWithValue("@decCost", apportionment.DecPercentage);
+                cmd.Parameters.AddWithValue("@janCost", apportionment.JanPercentage);
+                cmd.Parameters.AddWithValue("@febCost", apportionment.FebPercentage);
+                cmd.Parameters.AddWithValue("@marCost", apportionment.MarPercentage);
+                cmd.Parameters.AddWithValue("@aprCost", apportionment.AprPercentage);
+                cmd.Parameters.AddWithValue("@mayCost", apportionment.MayPercentage);
+                cmd.Parameters.AddWithValue("@junCost", apportionment.JunPercentage);
+                cmd.Parameters.AddWithValue("@julCost", apportionment.JulPercentage);
+                cmd.Parameters.AddWithValue("@augCost", apportionment.AugPercentage);
+                cmd.Parameters.AddWithValue("@sepCost", apportionment.SepPercentage);
+                cmd.Parameters.AddWithValue("@updatedBy", apportionment.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", apportionment.UpdatedDate);
+                cmd.Parameters.AddWithValue("@departmentId", apportionment.DepartmentId);
+                cmd.Parameters.AddWithValue("@year", apportionment.Year);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public bool CheckApportionment(int departmentId, int year)
+        {
+            bool result = false;
+            string query = "select * from Apportionments where DepartmentId=" + departmentId + " and year = " + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

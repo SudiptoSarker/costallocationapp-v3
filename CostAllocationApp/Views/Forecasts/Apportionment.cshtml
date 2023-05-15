@@ -1,66 +1,50 @@
 ﻿
 @{
-    ViewBag.Title = "Get Total";
+    ViewBag.Title = "Apportionment";
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/sukey.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/apportionment.css" rel="stylesheet" type="text/css" />
 }
-
-<div class="content container-fluid" style="position:relative;margin-top: -38px;">
-    <!-----------------Show Loader----------------->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="forecast">
-                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                    <center>
-                        <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
-                        <br>
-                        <strong>Please wait a moment...</strong>
-                        <br>
-                        <br>
-                    </center>
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+        <!-----------------Show Loader----------------->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="forecast">
+                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                        <center>
+                            <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
+                            <br>
+                            <strong>Please wait a moment...</strong>
+                            <br>
+                            <br>
+                        </center>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <select id="assignment_year" class=""></select>
+        <div class="row">
+            <div class="col-3">
+                <select id="assignment_year" class=""></select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="apportionment_button">表示</button>
+                <button type="submit" class="btn btn-light mb-2" id="apportionment_save_button">save</button>
+            </div>
         </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-light mb-2" id="sukey_display">表示</button>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="jspreadsheet"></div>
+            </div>
+
         </div>
+        <br>
     </div>
-    <div class="row">
-        <div class="col-12 table-responsive">
-            <table class="table table-bordered" id="sukey_table">
-                <thead id="sukey_table_header">
-                    <tr>
-                        <th scope="col">Department Name</th>
-                        <th scope="col">10月 Total</th>
-                        <th scope="col">11月 Total</th>
-                        <th scope="col">12月 Total</th>
-                        <th scope="col">1月 Total</th>
-                        <th scope="col">2月 Total</th>
-                        <th scope="col">3月 Total</th>
-                        <th scope="col">4月 Total</th>
-                        <th scope="col">5月 Total</th>
-                        <th scope="col">6月 Total</th>
-                        <th scope="col">7月 Total</th>
-                        <th scope="col">8月 Total</th>
-                        <th scope="col">9月 Total</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="~/Scripts/sukey.js"></script>
+    <script src="~/Scripts/apportionment.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
         $.connection.hub.disconnected(function () {
@@ -119,7 +103,6 @@
                     }
                 });
             }, 5000);
- 
         });
     </script>
 }

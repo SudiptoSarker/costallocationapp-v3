@@ -45,9 +45,9 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.UpdateSukey(sukey);
         }
-        public List<object> GetAllSukeyData(int year)
+        public List<SukeyDto> GetAllSukeyData(int year)
         {
-            List<object> sukeyListWithDepartment = new List<object>();
+            List<SukeyDto> sukeyListWithDepartment = new List<SukeyDto>();
             List<Sukey> sukeyList = new List<Sukey>();
             var sukeys =  actualCostDAL.GetAllSukeyData(year);
             var distinctDepartmentIds = new List<string>();
@@ -69,8 +69,10 @@ namespace CostAllocationApp.BLL
 
             foreach (var item in distinctDepartmentIds)
             {
-                sukeyListWithDepartment.Add(new {
-                    DepartmentName= sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().DepartmentName,
+                sukeyListWithDepartment.Add(new SukeyDto
+                {
+                    DepartmentId = item,
+                    DepartmentName = sukeyList.Where(s => s.DepartmentId == item).FirstOrDefault().DepartmentName,
                     OctCost = sukeyList.Where(s=>s.DepartmentId==item).Sum(s=>s.OctCost),
                     NovCost = sukeyList.Where(s => s.DepartmentId == item).Sum(s => s.NovCost),
                     DecCost = sukeyList.Where(s => s.DepartmentId == item).Sum(s => s.DecCost),
@@ -87,6 +89,23 @@ namespace CostAllocationApp.BLL
             }
 
             return sukeyListWithDepartment;
+        }
+
+        public List<Apportionment> GetAllApportionmentData(int year)
+        {
+            return actualCostDAL.GetAllApportionmentData(year);
+        }
+        public int CreateApportionment(Apportionment apportionment)
+        {
+            return actualCostDAL.CreateApportionment(apportionment);
+        }
+        public int UpdateApportionment(Apportionment apportionment)
+        {
+            return actualCostDAL.UpdateApportionment(apportionment);
+        }
+        public bool CheckApportionment(int departmentId, int year)
+        {
+            return actualCostDAL.CheckApportionment(departmentId, year);
         }
     }
 }

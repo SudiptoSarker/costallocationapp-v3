@@ -110,10 +110,19 @@
                                 <a href="/Forecasts/GetTotal"><i class="la la-files-o"></i> <span title="集計 (Total)">集計 (Total)</span></a>
                             </li>
                         }
+                        if (url.ToLower().Contains("apportionment"))
+                        {
+                            <li>
+                                <a href="/Forecasts/Apportionment" class="active"><i class="la la-files-o"></i> <span title="品証按分 (QA Ratio)">品証按分 (QA Ratio)</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Forecasts/Apportionment"><i class="la la-files-o"></i> <span title="品証按分 (QA Ratio)">品証按分 (QA Ratio)</span></a>
+                            </li>
+                        }
 
-                        <li>
-                            <a href="javascript:void();"><i class="la la-files-o"></i> <span title="品証按分 (QA Apportionment)">品証按分 (QA Apportionment)</span></a>
-                        </li>
                         <li>
                             <a href="javascript:void();"><i class="la la-files-o"></i> <span title="品証 按分>合計 (QAP > Total)">品証 按分>合計 (QAP > Total)</span></a>
                         </li>

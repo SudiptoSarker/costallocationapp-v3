@@ -483,5 +483,10 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        public ActionResult Apportionment()
+        {
+            return View();
+        }
     }
 }

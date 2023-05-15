@@ -38,8 +38,8 @@ $(document).ready(function () {
                 success: function (data) {
                     LoaderHide();
                     $('#sukey_table tbody').empty();
-                    $.each(data, function (index,value) {
-                        $('#sukey_table tbody').append(`<tr><td>${value.DepartmentName}</td><td>${value.OctCost.toFixed(2)}</td><td>${value.NovCost.toFixed(2)}</td><td>${value.DecCost.toFixed(2)}</td><td>${value.JanCost.toFixed(2)}</td><td>${value.FebCost.toFixed(2)}</td><td>${value.MarCost.toFixed(2)}</td><td>${value.AprCost.toFixed(2)}</td><td>${value.MayCost.toFixed(2)}</td><td>${value.JunCost.toFixed(2)}</td><td>${value.JulCost.toFixed(2)}</td><td>${value.AugCost.toFixed(2)}</td><td>${value.SepCost.toFixed(2)}</td></tr>`);
+                    $.each(data, function (index, value) {
+                        $('#sukey_table tbody').append(`<tr><td>${value.DepartmentName}</td><td>${value.OctCost == 0 ? "" : value.OctCost.toLocaleString('en')}</td><td>${value.NovCost==0 ? "" : value.NovCost.toLocaleString('en')}</td><td>${value.DecCost == 0 ? "" : value.DecCost.toLocaleString('en')}</td><td>${value.JanCost == 0 ? "" : value.JanCost.toLocaleString('en')}</td><td>${value.FebCost == 0 ? "" : value.FebCost.toLocaleString('en')}</td><td>${value.MarCost == 0 ? "" : value.MarCost.toLocaleString('en')}</td><td>${value.AprCost == 0 ? "" : value.AprCost.toLocaleString('en')}</td><td>${value.MayCost == 0 ? "" : value.MayCost.toLocaleString('en')}</td><td>${value.JunCost == 0 ? "" : value.JunCost.toLocaleString('en')}</td><td>${value.JulCost == 0 ? "" : value.JulCost.toLocaleString('en')}</td><td>${value.AugCost == 0 ? "" : value.AugCost.toLocaleString('en')}</td><td>${value.SepCost==0?"":value.SepCost.toLocaleString('en')}</td></tr>`);
                     });
                 }
             });

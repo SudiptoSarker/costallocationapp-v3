@@ -35,46 +35,235 @@
     width: 400px;
 }
 .search_p {
-    height: 200px;
-    width: 200px;
+    height: 157px;
+    width: 160px;
     background-color: whitesmoke;
     position: absolute;
-    top: 290px;
-    left: 190px;
+    top: 160px;
+    left: 232px;
     z-index: 100;
 }
-
-#search_p_asc_desc {
+.search_section {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 392px;
+    z-index: 100;
+}
+.search_department {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 493px;
+    z-index: 100;
+}
+.search_incharge{
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 593px;
+    z-index: 100;
+}
+.search_role {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 653px;
+    z-index: 100;
+}
+.search_explanation {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 802px;
+    z-index: 100;
+}
+.search_company {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 643px;
+    z-index: 100;
+}
+#search_p_asc_desc{
     list-style: none;
     width: 100%;
     padding: 10px;
 }
-
-    #search_p_asc_desc li {
-        margin-bottom: 10px;
-        font-size: 12px;
-        padding: 2px;
-        display: block;
-        color: black;
-    }
-
-        #search_p_asc_desc li i {
-            cursor: pointer;
-            padding: 10px;
-            display: inline-block;
-            border-radius: 8px;
-            background-color: lightsteelblue;
-        }
-
-            #search_p_asc_desc li i:hover {
-                background-color: grey;
-            }
-
-#search_p_asc_text {
+#search_section_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_department_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_incharge_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_role_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_explanation_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_company_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_p_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_section_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_department_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_incharge_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_role_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_explanation_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_company_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_p_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_section_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_department_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_incharge_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_role_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_explanation_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_company_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_p_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_section_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_department_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_incharge_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_role_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_explanation_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_company_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_p_asc_text,#search_section_asc_text,#search_department_asc_text,#search_incharge_asc_text,#search_role_asc_text {
     margin-left: 10px;
 }
-
+#search_explanation_asc_text,#search_company_asc_text{
+    margin-left: 10px;
+}
 #search_p_desc_text {
+    margin-left: 10px;
+}
+#search_section_desc_text,#search_department_desc_text,#search_incharge_desc_text,#search_role_desc_text {
+    margin-left: 10px;
+}
+#search_explanation_desc_text,#search_company_desc_text {
     margin-left: 10px;
 }
 
@@ -91,14 +280,15 @@
     }
 
 .search_p_footer {
-    margin-top: 20px;
+    margin-top: -11px;
+    margin-left: 59px;
 }
 
-    .search_p_footer button {
-        font-size: 12px;
-        border: 1px solid black;
-        margin-left: 35%;
-    }
+.search_p_footer button {
+    font-size: 12px;
+    border: 1px solid black;
+    margin-left: 35%;
+}
 
 #hider {
     position: absolute;

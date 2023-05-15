@@ -33,10 +33,10 @@ function ColumnOrder(columnNumber,orderBy) {
 //        data.push($(this).val());
 //    });
 
-    jss.search(data[0]);
-    $("#hider").fadeOut("slow");
-    $('.search_p').fadeOut("slow");
-    $('#search_p_text_box').val('');
+    // jss.search(data[0]);
+    // $("#hider").fadeOut("slow");
+    // $('.search_p').fadeOut("slow");
+    // $('#search_p_text_box').val('');
 
 // $("#actual_cost_table_header").hide();
 $(document).ready(function () {

@@ -7,6 +7,8 @@
     <link href="/Content/apportionment.css" rel="stylesheet" type="text/css" />
 }
     <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+        <div id="qa_ratio_nagivation">品証按分(QC Ratio) : 品証案分</div>
+
         <!-----------------Show Loader----------------->
         <div class="row">
             <div class="col-md-12">
@@ -23,15 +25,24 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="QARatio_search">
             <div class="col-3">
-                <select id="assignment_year" class=""></select>
+                <select id="assignment_year" class="" ></select>
             </div>
             <div class="col-2">
                 <button type="submit" class="btn btn-light mb-2" id="apportionment_button">表示</button>
-                <button type="submit" class="btn btn-light mb-2" id="apportionment_save_button">save</button>
+            </div>
+
+            <div class="col-2">
+            </div>
+            <div class="col-3">                    
+                @* <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: orange;">キャンセル</button> *@
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-dark"  style="line-height:1;margin-left:35px;" id="apportionment_save_button">保存 (Save)</button>
             </div>
         </div>
+
 
         <div class="row">
             <div class="col-md-12">

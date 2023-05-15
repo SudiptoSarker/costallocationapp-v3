@@ -30,3 +30,16 @@
 #sukey_qa_table tbody td:nth-of-type(1) {
     text-align: left;
 }
+#qa_ratio_total_nagivation{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
+}
+#qa_ratio_total_filter{
+    margin-top: 10px;
+}
+#qa_ratio_total_list{
+    margin-top: 5px;
+}

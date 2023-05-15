@@ -66,55 +66,30 @@ $(document).ready(function () {
                             { title: "Department Id", type: 'hidden', name: "DepartmentId" },
                             { title: "Department Name", type: 'text', name: "DepartmentName" },
 
-                            //{ title: "10月 (actual cost)", type: "decimal", name: "OctActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
-                            //{ title: "10月 (total)", type: "decimal", name: "OctResult", mask: "#,##0", width: 100, readOnly: true },
 
-                           // { title: "11月 (actual cost)", type: "decimal", name: "NovActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "11月 (QA ratio)", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "11月 (total)", type: "decimal", name: "NovResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "12月 (actual cost)", type: "decimal", name: "DecActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "12月 (QA ratio)", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "12月 (total)", type: "decimal", name: "DecResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "1月 (actual cost)", type: "decimal", name: "JanActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "1月 (QA ratio)", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "1月 (total)", type: "decimal", name: "JanResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "2月 (actual cost)", type: "decimal", name: "FebActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "2月 (QA ratio)", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "2月 (total)", type: "decimal", name: "FebResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "3月 (actual cost)", type: "decimal", name: "MarActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "3月 (QA ratio)", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "3月 (total)", type: "decimal", name: "MarResult", mask: "#,##0", width: 100, readOnly: true },
 
 
-                            //{ title: "4月 (actual cost)", type: "decimal", name: "AprActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "4月 (QA ratio)", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "4月 (total)", type: "decimal", name: "AprResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "5月 (actual cost)", type: "decimal", name: "MayActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "5月 (QA ratio)", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "5月 (total)", type: "decimal", name: "MayResult", mask: "#,##0", width: 100, readOnly: true },
 
-
-                           // { title: "6月 (actual cost)", type: "decimal", name: "JunActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "6月 (QA ratio)", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "6月 (total)", type: "decimal", name: "JunResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "7月 (actual cost)", type: "decimal", name: "JulActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "7月 (QA ratio)", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "7月 (total)", type: "decimal", name: "JulResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "8月 (actual cost)", type: "decimal", name: "AugActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "8月 (total)", type: "decimal", name: "AugResult", mask: "#,##0", width: 100, readOnly: true },
 
-                            //{ title: "9月 (actual cost)", type: "decimal", name: "SepActualCost", mask: "#,##0", width: 100, readOnly: true },
                             { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
-                            //{ title: "9月 (total)", type: "decimal", name: "SepResult", mask: "#,##0", width: 100, readOnly: true },
 
                         ],
                         onchange: function (instance, cell, x, y, value) {

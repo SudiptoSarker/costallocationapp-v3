@@ -38,7 +38,7 @@ $(document).ready(function () {
                     let i = 1;
                     $('#timestamp_list tbody').empty();
                     $.each(data, function (index, element) {
-                        $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});">${element.TimeStamp}</a></td></tr>`);
+                        $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td style="text-align: left;"><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});" style="margin: 28px;">${element.TimeStamp}</a></td></tr>`);
                         i++;
                     });
 

@@ -13,7 +13,6 @@ function ClearEntry(){
     $("#userDepartment").val('');
     $("#userEmail").val('');
     $("#userPass").val('');
-    $("#hid_userRole").val('');
 }
 //user create
 function UserRegistration() {
@@ -59,19 +58,25 @@ function UserRegistration() {
         type: 'POST',
         dataType: 'json',
         data: data,
-        success: function (result) {
+        success: function (result) {            
             if (result > 0) {
                 ClearEntry();
-                $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess('Registration is completed, please wait for the approval!');
-
+                //ToastMessageSuccess('Registration is completed, please wait for the approval!');                
                 $('#userName').val('');
                 //GetUserList();
+                $('#register_modal').modal('hide');
+                $('#register_modal').on('hidden.bs.modal', function () {
+                    // Load up a new modal...
+                    $('#registration_success').modal('show')
+                })
             }
-            $('#register_modal').modal('hide');
         },
         error: function (data) {
             alert(data.responseJSON.Message);
         }
     });    
 }
+// $('#register_modal').on('hidden.bs.modal', function () {
+// // Load up a new modal...
+// $('#registration_success').modal('show')
+// })

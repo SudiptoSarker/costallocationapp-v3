@@ -21,14 +21,12 @@ function LoaderHide() {
 }
 function LoaderShowJexcel() {
     $("#loading").css("display", "block");
-    $("#year_data_table_header").hide();     
     $("#jspreadsheet").hide();  
     //$("#head_total").css("display", "none");
     
 }
 function LoaderHideJexcel(){
     $("#jspreadsheet").show();  
-    //$("#year_data_table_header").show();      
     //$("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
@@ -89,7 +87,6 @@ $(document).ready(function () {
     if (year.toLowerCase() != "imprt") {
         //var assignmentYear = $("#hidDefaultForecastYear").val();
         //$('#assignment_year_list').val(assignmentYear);  
-        $("#year_data_table_header").hide();          
         $("#jspreadsheet").hide();  
     }
     var count = 1;
@@ -268,7 +265,6 @@ function ShowForecastResults(year) {
     globalSearchObject = data_info;
 
     var _retriveddata = [];
-    $("#year_data_table_header").show();
     $.ajax({
         url: `/api/utilities/SearchForecastEmployee`,
         contentType: 'application/json',
@@ -278,7 +274,6 @@ function ShowForecastResults(year) {
         data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
             _retriveddata = data;
-            // $("#year_data_table_header").show();
         }
     });
     //LoaderHide();
@@ -431,8 +426,10 @@ function ShowForecastResults(year) {
         tableOverflow: true,
         freezeColumns: 3,
         defaultColWidth: 50,
-        tableWidth: w-300+ "px",
-        tableHeight: (h-300) + "px",
+        // tableWidth: w - 500 + "px",
+        // tableHeight: (h - 300) + "px",
+        tableWidth: w-280+ "px",
+        tableHeight: (h-150) + "px",
 
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
@@ -1232,7 +1229,7 @@ function ShowForecastResults(year) {
     });
         
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
-    $("#head_total").css("width",w-300);
+    // $("#head_total").css("width",w-300);
 }
 
 //$('#search_p_text_box').on('keyup', function () {
@@ -1456,7 +1453,6 @@ function AddEmployee() {
 }
 function UpdateForecast(){   
     $("#update_forecast").modal("hide");
-    $("#year_data_table_header").hide();
     $("#jspreadsheet").hide();
     // $("#head_total").hide();
     LoaderShow(); 
@@ -1502,7 +1498,6 @@ function UpdateForecast(){
                         chat.server.send('data has been updated by ', userName);
                     });        
                     $("#jspreadsheet").show();
-                    $("#year_data_table_header").show();
                     //$("#head_total").show();
                     LoaderHide();             
                 }
@@ -1511,7 +1506,6 @@ function UpdateForecast(){
         }
     }
     else {
-        $("#year_data_table_header").show();
         $("#jspreadsheet").show();        
         //$("#head_total").show();
         LoaderHide();    
@@ -1540,7 +1534,6 @@ function UpdateForecast(){
                 $.connection.hub.start().done(function () {
                     chat.server.send('data has been inserted by ', userName);
                 });
-                $("#year_data_table_header").show();
                 $("#jspreadsheet").show();
                 //$("#head_total").show();
                 LoaderHide(); 

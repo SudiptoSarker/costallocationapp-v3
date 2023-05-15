@@ -5,12 +5,10 @@ var allEmployeeName = [];
 var allEmployeeName1 = [];
 
 function LoaderShow() {
-    $("#actual_cost_table_header").hide();     
     $("#jspreadsheet").hide();     
     $("#loading").css("display", "block");
 }
 function LoaderHide() {
-    $("#actual_cost_table_header").show(); 
     $("#jspreadsheet").show(); 
     $("#loading").css("display", "none");
 }
@@ -35,14 +33,13 @@ function ColumnOrder(columnNumber,orderBy) {
 //        data.push($(this).val());
 //    });
 
-//    jss.search(data[0]);
-//    $("#hider").fadeOut("slow");
-//    $('.search_p').fadeOut("slow");
-//    $('#search_p_text_box').val('');
-//}
+    jss.search(data[0]);
+    $("#hider").fadeOut("slow");
+    $('.search_p').fadeOut("slow");
+    $('#search_p_text_box').val('');
+}
 // $("#actual_cost_table_header").hide();
 $(document).ready(function () {
-    $("#actual_cost_table_header").hide();     
     // LoaderHide();
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -191,8 +188,11 @@ $(document).ready(function () {
                         tableOverflow: true,
                         freezeColumns: 3,
                         defaultColWidth: 50,
+                        // tableWidth: w - 500 + "px",
+                        // tableHeight: (h - 300) + "px",
                         tableWidth: w-300+ "px",
                         tableHeight: (h-300) + "px",
+
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
                             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },

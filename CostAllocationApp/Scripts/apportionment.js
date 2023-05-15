@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     $('#apportionment_button').click(function () {
         var year = $('#assignment_year').val();
-
+        var _retriveddata = [];
         if (year == null || year == '' || year == undefined) {
             alert('Select Year!!!');
             return false;
@@ -39,6 +39,61 @@ $(document).ready(function () {
         LoaderShow();
 
         setTimeout(function () {
+
+
+            $.ajax({
+                url: `/api/utilities/SearchForecastEmployee`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                data: "employeeName=&sectionId=&departmentId=&inchargeId=&roleId=&explanationId=&companyId=&status=&year=" + year + "&timeStampId=",
+                success: function (data) {
+                    _retriveddata = data;
+                }
+            });
+            if (_retriveddata.length > 0) {
+                var headCount = _retriveddata.find(x => x.EmployeeName == 'Head Count');
+                var total = _retriveddata.find(x => x.EmployeeName == 'Total');
+                $("#head_total").css("display", "inline-table");
+                $('#head_total tbody').empty();
+                $('#head_total tbody').append(`<tr>
+                     <td>Head Count</td>
+                     <td>${headCount.OctPoints}</td>
+                     <td>${headCount.NovPoints}</td>
+                     <td>${headCount.DecPoints}</td>
+                     <td>${headCount.JanPoints}</td>
+                     <td>${headCount.FebPoints}</td>
+                     <td>${headCount.MarPoints}</td>
+                     <td>${headCount.AprPoints}</td>
+                     <td>${headCount.MayPoints}</td>
+                     <td>${headCount.JunPoints}</td>
+                     <td>${headCount.JulPoints}</td>
+                     <td>${headCount.AugPoints}</td>
+                     <td>${headCount.SepPoints}</td>
+                 </tr>`);
+
+                $('#head_total tbody').append(`<tr>
+                 <td>Total</td>
+                 <td>${headCount.OctPoints}</td>
+                 <td>${headCount.NovPoints}</td>
+                 <td>${headCount.DecPoints}</td>
+                 <td>${headCount.JanPoints}</td>
+                 <td>${headCount.FebPoints}</td>
+                 <td>${headCount.MarPoints}</td>
+                 <td>${headCount.AprPoints}</td>
+                 <td>${headCount.MayPoints}</td>
+                 <td>${headCount.JunPoints}</td>
+                 <td>${headCount.JulPoints}</td>
+                 <td>${headCount.AugPoints}</td>
+                 <td>${headCount.SepPoints}</td>
+             </tr>`);
+
+                _retriveddata = _retriveddata.filter(d => d.EmployeeId !== 0);
+            }
+
+
+
             $.ajax({
                 url: `/api/utilities/CreateApportionment?year=${year}`,
                 contentType: 'application/json',

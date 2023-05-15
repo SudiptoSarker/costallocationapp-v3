@@ -5,10 +5,12 @@ var allEmployeeName = [];
 var allEmployeeName1 = [];
 
 function LoaderShow() {
+    $("#actual_cost_table_header").hide();     
     $("#jspreadsheet").hide();     
     $("#loading").css("display", "block");
 }
 function LoaderHide() {
+    $("#actual_cost_table_header").show(); 
     $("#jspreadsheet").show(); 
     $("#loading").css("display", "none");
 }
@@ -27,18 +29,20 @@ function ColumnOrder(columnNumber,orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-function GetEmployeeName() {
-    var data = [];
-    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
-        data.push($(this).val());
-    });
+//function GetEmployeeName() {
+//    var data = [];
+//    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
+//        data.push($(this).val());
+//    });
 
-    jss.search(data[0]);
-    $("#hider").fadeOut("slow");
-    $('.search_p').fadeOut("slow");
-    $('#search_p_text_box').val('');
-}
+//    jss.search(data[0]);
+//    $("#hider").fadeOut("slow");
+//    $('.search_p').fadeOut("slow");
+//    $('#search_p_text_box').val('');
+//}
+// $("#actual_cost_table_header").hide();
 $(document).ready(function () {
+    $("#actual_cost_table_header").hide();     
     // LoaderHide();
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -73,7 +77,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (data) {
                     console.log(data)
-                    if (data === 1 || data === 2) {
+                    if (parseInt(data) === 1 || parseInt(data) === 2) {
                         userRoleflag = false;
                     }
                     else {
@@ -183,17 +187,12 @@ $(document).ready(function () {
                     console.log(h);
                     jss = $('#jspreadsheet').jspreadsheet({
                         data: _retriveddata,
-                        //filters: true,
+                        filters: true,
                         tableOverflow: true,
-                        //tableWidth: window.innerWidth - 300 + 'px',
                         freezeColumns: 3,
-                        
                         defaultColWidth: 50,
-                        // tableWidth: w - 500 + "px",
-                        // tableHeight: (h - 300) + "px",
-                        tableWidth: w-280+ "px",
-                        tableHeight: (h-150) + "px",
-
+                        tableWidth: w-300+ "px",
+                        tableHeight: (h-300) + "px",
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
                             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -323,12 +322,12 @@ $(document).ready(function () {
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');
-                    //var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
-                    //jexcelFirstHeaderRow.css('position', 'sticky');
-                    //jexcelFirstHeaderRow.css('top', '0px');
-                    //var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
-                    //jexcelSecondHeaderRow.css('position', 'sticky');
-                    //jexcelSecondHeaderRow.css('top', '20px');
+                    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+                    jexcelFirstHeaderRow.css('position', 'sticky');
+                    jexcelFirstHeaderRow.css('top', '0px');
+                    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+                    jexcelSecondHeaderRow.css('position', 'sticky');
+                    jexcelSecondHeaderRow.css('top', '20px');
 
                     var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
                     octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
@@ -368,22 +367,22 @@ $(document).ready(function () {
 
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                         $('.search_p').css('display','block');
-                        allEmployeeName = [];
-                        var data = jss.getData();
-                        for (var i = 0; i < jss.getData().length; i++) {
-                            allEmployeeName.push(data[i][1]);
-                        }
+                        //allEmployeeName = [];
+                        //var data = jss.getData();
+                        //for (var i = 0; i < jss.getData().length; i++) {
+                        //    allEmployeeName.push(data[i][1]);
+                        //}
                        
-                        var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
-                            return array.indexOf(value) === index;
-                        });
-                        allEmployeeName.sort();
-                        $('#search_p_search').empty();
-                        allEmployeeName1 = [];
-                        $.each(allEmployeeName, function (index, value) {
-                            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-                            allEmployeeName1.push(value);
-                        });
+                        //var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
+                        //    return array.indexOf(value) === index;
+                        //});
+                        //allEmployeeName.sort();
+                        //$('#search_p_search').empty();
+                        //allEmployeeName1 = [];
+                        //$.each(allEmployeeName, function (index, value) {
+                        //    $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+                        //    allEmployeeName1.push(value);
+                        //});
                         //console.log(allEmployeeName);
 
                         $("#hider").fadeIn("slow");
@@ -397,20 +396,20 @@ $(document).ready(function () {
         
     });
 
-    $('#search_p_text_box').on('keyup',function () {
-        var name = $(this).val();
-        console.log(allEmployeeName1);
-        if (allEmployeeName1.length > 0) {
-            var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
+    //$('#search_p_text_box').on('keyup',function () {
+    //    var name = $(this).val();
+    //    console.log(allEmployeeName1);
+    //    if (allEmployeeName1.length > 0) {
+    //        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
 
-            data.sort();
+    //        data.sort();
 
-            $('#search_p_search').empty();
-            $.each(data, function (index, value) {
-                $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-            });
-        }
-    });
+    //        $('#search_p_search').empty();
+    //        $.each(data, function (index, value) {
+    //            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
+    //        });
+    //    }
+    //});
 
     $("#hider").hide();
     $(".search_p").hide();
@@ -419,7 +418,7 @@ $(document).ready(function () {
 
         $("#hider").fadeOut("slow");
         $('.search_p').fadeOut("slow");
-        $('#search_p_text_box').val('');
+       // $('#search_p_text_box').val('');
     });
 
 

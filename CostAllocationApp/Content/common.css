@@ -35,7 +35,7 @@
     width: 400px;
 }
 .search_p {
-    height: 325px;
+    height: 200px;
     width: 200px;
     background-color: whitesmoke;
     position: absolute;
@@ -92,13 +92,12 @@
 
 .search_p_footer {
     margin-top: 20px;
-    float: right;
 }
 
     .search_p_footer button {
         font-size: 12px;
         border: 1px solid black;
-        margin-right: 5px;
+        margin-left: 35%;
     }
 
 #hider {

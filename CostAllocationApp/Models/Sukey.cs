@@ -22,5 +22,9 @@ namespace CostAllocationApp.Models
         public double JulCost { get; set; }
         public double AugCost { get; set; }
         public double SepCost { get; set; }
+
+
+        public string DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
     }
 }

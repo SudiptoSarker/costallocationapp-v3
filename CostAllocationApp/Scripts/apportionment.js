@@ -67,7 +67,7 @@ $(document).ready(function () {
                             { title: "Department Name", type: 'text', name: "DepartmentName" },
 
                             //{ title: "10月 (actual cost)", type: "decimal", name: "OctActualCost", mask: "#,##0", width: 100, readOnly: true },
-                            { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#.## %", width: 100 },
+                            { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
                             //{ title: "10月 (total)", type: "decimal", name: "OctResult", mask: "#,##0", width: 100, readOnly: true },
 
                            // { title: "11月 (actual cost)", type: "decimal", name: "NovActualCost", mask: "#,##0", width: 100, readOnly: true },
@@ -117,6 +117,18 @@ $(document).ready(function () {
                             //{ title: "9月 (total)", type: "decimal", name: "SepResult", mask: "#,##0", width: 100, readOnly: true },
 
                         ],
+                        onchange: function (instance, cell, x, y, value) {
+                            var count = 0;
+                            var allPercentage = jss.getData();
+                            $.each(allPercentage, function (index, value) {
+                                count += value[x];
+                            });
+
+                            if (count > 100 || count < 0) {
+                                alert("invalid value!");
+                                jss.setValueFromCoords(x, y, 0, false);
+                            }
+                        },
                     });
                 }
             });
@@ -132,23 +144,24 @@ $(document).ready(function () {
             $.each(data, function (index, value) {
                 var obj = {
                     departmentId: value[0],
-                    octPercentage: parseFloat(value[3]),
-                    novPercentage: parseFloat(value[6]),
-                    decPercentage: parseFloat(value[9]),
-                    janPercentage: parseFloat(value[12]),
-                    bebPercentage: parseFloat(value[15]),
-                    marPercentage: parseFloat(value[18]),
-                    aprPercentage: parseFloat(value[21]),
-                    mayPercentage: parseFloat(value[24]),
-                    junPercentage: parseFloat(value[27]),
-                    julPercentage: parseFloat(value[30]),
-                    augPercentage: parseFloat(value[33]),
-                    sepPercentage: parseFloat(value[36])
+                    octPercentage: parseFloat(value[2]),
+                    novPercentage: parseFloat(value[3]),
+                    decPercentage: parseFloat(value[4]),
+                    janPercentage: parseFloat(value[5]),
+                    bebPercentage: parseFloat(value[6]),
+                    marPercentage: parseFloat(value[7]),
+                    aprPercentage: parseFloat(value[8]),
+                    mayPercentage: parseFloat(value[9]),
+                    junPercentage: parseFloat(value[10]),
+                    julPercentage: parseFloat(value[11]),
+                    augPercentage: parseFloat(value[12]),
+                    sepPercentage: parseFloat(value[13])
                 };
 
                 dataToSend.push(obj);
             });
 
+            console.log(dataToSend);
             $.ajax({
                 url: `/api/utilities/CreateApportionment`,
                 contentType: 'application/json',

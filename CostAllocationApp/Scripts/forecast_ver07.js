@@ -1781,17 +1781,17 @@ function CheckForecastYear(){
         $('#select_import_year').val(parseInt(year)+1);
     }
 }
-function ValidateYear(){
-    $("#csv_import_modal").modal("hide");
-    LoaderShow();
-    // var selectedYear = $('#inputState').find(":selected").val();
-    var selectedYear = $('#select_import_year').find(":selected").val();
-    if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
-        return false;
-    }
+// function ValidateYear(){
+//     $("#csv_import_modal").modal("hide");
+//     LoaderShow();
+//     // var selectedYear = $('#inputState').find(":selected").val();
+//     var selectedYear = $('#select_import_year').find(":selected").val();
+//     if(selectedYear =="" || typeof selectedYear === "undefined"){
+//         alert("please select year!");
+//         return false;
+//     }
     
-}
+// }
 function CheckDuplicateYear(){
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!=""){
@@ -1828,3 +1828,22 @@ function DuplicateForecast(){
         return false;
     }
 }
+function validate(){
+    var selectedYear = $('#select_import_year').find(":selected").val();
+    var import_file = $('#import_file_excel').val();
+   
+    if(selectedYear =="" || typeof selectedYear === "undefined"){
+        alert("please select year!");
+        return false;
+    }else if(import_file =="" || typeof import_file === "undefined"){
+        alert("please select import file!");
+        return false;
+    }else { return true; }
+    // var cnv = $('#countryName').val();
+    // if (!$.trim(cnv)) {
+    //     alert('Country Name is required!');
+    //     return false;
+    // } else { return true; }
+}
+
+$('#frm_import_year_data').submit(validate);

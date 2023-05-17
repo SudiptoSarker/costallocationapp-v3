@@ -171,11 +171,7 @@ namespace CostAllocationApp.DAL
                         {
                             User user = new User();
                             user.Id = Convert.ToInt32(rdr["Id"]);
-                            user.UserName = rdr["UserName"].ToString();
-                            if (user.UserName == "sudipto 10")
-                            {
-
-                            }
+                            user.UserName = rdr["UserName"].ToString();                            
                             user.UserTitle = rdr["Title"].ToString();
                             user.DepartmentId = rdr["DepartmentId"].ToString();
                             user.DepartmentName = rdr["DepartmentName"].ToString();

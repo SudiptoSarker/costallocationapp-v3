@@ -33,6 +33,28 @@
     <script src="/Scripts/Custome-Reporting.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
+        @* var clicked = false;
+        function CheckBrowser() {
+            if (clicked == false) {
+                alert("clicked")
+                //Browser closed
+            }
+            else {
+                alert("no clicked")
+                //redirected
+                clicked = false;
+            }
+        }
+     
+        function BClose() {
+            if (clicked == false)//browser is closed
+            {
+                alert("browser closed")
+                window.location = "logOut.aspx";
+            }
+        } *@
+
+
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();

@@ -22,8 +22,6 @@
     <![endif]-->
 </head>
 <body>
-@* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
-@* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <!-- Header -->
@@ -282,7 +280,8 @@
     @RenderSection("Scripts", false/*required*/)
 
     
-    <script type="text/javascript">        
+    <script type="text/javascript">
+
         function RemoveSession() {
                 var user_name = $('#hidden_username').val();                
                 if (user_name != null || user_name != undefined || user_name!='') {
@@ -304,117 +303,6 @@
                     });
                 }
         }
-
-        @* var clicked = false;
-        function CheckBrowser() {
-            if (clicked == false) {
-                alert("clicked")
-                //Browser closed
-            }
-            else {
-                alert("no clicked")
-                //redirected
-                clicked = false;
-            }
-        } *@
-     
-        @* function BClose() {
-            if (clicked == false)//browser is closed
-            {
-                var user_name = $('#hidden_username').val();                
-                if (user_name != null || user_name != undefined || user_name!='') {
-                    $.ajax({
-                        url: `/Registration/RemoveSession?userName=${user_name}`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        //dataType: 'json',
-                        success: function (data) {
-                            $('#hidden_username').val('');
-                            var chat = $.connection.chatHub;
-                            // Start the connection.
-                            $.connection.hub.start().done(function () {
-                                chat.server.send(user_name, ' Logged Out');
-                            });
-                            location.href = '/';
-                        }
-                    });
-                }
-            }
-        } *@
-        @* $(window).on("beforeunload", function() { 
-            var user_name = $('#hidden_username').val();                
-            if (user_name != null || user_name != undefined || user_name!='') {
-                $.ajax({
-                    url: `/Registration/RemoveSession?userName=${user_name}`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    //dataType: 'json',
-                    success: function (data) {
-                        $('#hidden_username').val('');
-                        var chat = $.connection.chatHub;
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send(user_name, ' Logged Out');
-                        });
-                        location.href = '/';
-                    }
-                });
-            }  
-        }) *@
-        @* window.onbeforeunload = function BClose() {
-            var user_name = $('#hidden_username').val();                
-            if (user_name != null || user_name != undefined || user_name!='') {
-                $.ajax({
-                    url: `/Registration/RemoveSession?userName=${user_name}`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    //dataType: 'json',
-                    success: function (data) {
-                        $('#hidden_username').val('');
-                        var chat = $.connection.chatHub;
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send(user_name, ' Logged Out');
-                        });
-                        location.href = '/';
-                    }
-                });
-            }  
-        }; *@
-
-        @* var myclose = false;
-
-        function ConfirmClose(event)
-        {
-        if (event.clientY < 0)
-        {
-        event.returnValue = 'You have closed the browser. Do you want to logout from your application?';
-        setTimeout('myclose=false',10);
-        myclose=true;
-        }
-        }
-
-        function HandleOnClose()
-        {
-        if (myclose==true)
-        {
-        //the url of your logout page which invalidate session on logout
-        location.replace('/contextpath/j_spring_security_logout') ;
-        }
-        } *@
-        @* window.onbeforeunload = function (event) {  
-            var message = 'Important: Please click on \'Save\' button to leave this page.';  
-            if (typeof event == 'undefined') {  
-                event = window.event;  
-            }  
-            if (event) {  
-                event.returnValue = message;  
-            }  
-            return message;  
-        };   *@
 
     </script>
 </body>

@@ -35,3 +35,21 @@
     display: block;
     margin-top: -11px;
 }
+
+/***************************\                           
+	Total Head Table
+\***************************/
+
+#head_total {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+    font-size: 12px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+    #head_total th, td {
+        border: 1px solid black;
+    }

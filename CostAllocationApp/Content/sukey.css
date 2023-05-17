@@ -20,8 +20,8 @@
     border: 1px solid #ccc !important;
 }
 
-#sukey_table th,td{
-    font-size:12px;
+#sukey_table th, td {
+    font-size: 12px;
 }
 
 #sukey_table tbody td{
@@ -40,3 +40,21 @@
 #sukey_search_filter{
     margin-top: 7px;
 }
+
+/***************************\                           
+	Total Head Table
+\***************************/
+
+#head_total {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+    font-size: 12px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+    #head_total th, td {
+        border: 1px solid black;
+    }

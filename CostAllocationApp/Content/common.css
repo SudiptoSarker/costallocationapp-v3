@@ -97,6 +97,24 @@
     left: 643px;
     z-index: 100;
 }
+.search_grade {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 740px;
+    z-index: 100;
+}
+.search_unit_price {
+    height: 157px;
+    width: 160px;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 160px;
+    left: 799px;
+    z-index: 100;
+}
 #search_p_asc_desc{
     list-style: none;
     width: 100%;
@@ -128,6 +146,16 @@
     padding: 10px;
 }
 #search_company_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_grade_asc_desc {
+    list-style: none;
+    width: 100%;
+    padding: 10px;
+}
+#search_unit_price_asc_desc {
     list-style: none;
     width: 100%;
     padding: 10px;
@@ -175,6 +203,20 @@
     color: black;
 }
 #search_company_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_grade_asc_desc li {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 2px;
+    display: block;
+    color: black;
+}
+#search_unit_price_asc_desc li {
     margin-bottom: 10px;
     font-size: 12px;
     padding: 2px;
@@ -230,6 +272,20 @@
     border-radius: 8px;
     background-color: lightsteelblue;
 }
+#search_grade_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
+#search_unit_price_asc_desc li i {
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: lightsteelblue;
+}
 #search_p_asc_desc li i:hover {
     background-color: grey;
 }
@@ -251,19 +307,27 @@
 #search_company_asc_desc li i:hover {
     background-color: grey;
 }
+#search_grade_asc_desc li i:hover {
+    background-color: grey;
+}
+#search_unit_price_asc_desc li i:hover {
+    background-color: grey;
+}
+
 #search_p_asc_text,#search_section_asc_text,#search_department_asc_text,#search_incharge_asc_text,#search_role_asc_text {
     margin-left: 10px;
 }
-#search_explanation_asc_text,#search_company_asc_text{
+#search_explanation_asc_text,#search_company_asc_text,#search_grade_asc_text,#search_unit_price_asc_text{
     margin-left: 10px;
 }
+
 #search_p_desc_text {
     margin-left: 10px;
 }
 #search_section_desc_text,#search_department_desc_text,#search_incharge_desc_text,#search_role_desc_text {
     margin-left: 10px;
 }
-#search_explanation_desc_text,#search_company_desc_text {
+#search_explanation_desc_text,#search_company_desc_text,#search_grade_desc_text,#search_unit_price_desc_text {
     margin-left: 10px;
 }
 

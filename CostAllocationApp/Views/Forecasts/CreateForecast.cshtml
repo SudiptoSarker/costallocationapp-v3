@@ -458,6 +458,24 @@
         <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
     </div>
 </div>
+<div class="search_grade">
+    <ul id="search_grade_asc_desc">
+        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">Ascending</span></li>
+        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
+    </div>
+</div>
+<div class="search_unit_price">
+    <ul id="search_unit_price_asc_desc">
+        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">Ascending</span></li>
+        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>
+    </div>
+</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

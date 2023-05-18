@@ -136,6 +136,36 @@ function ColumnOrder_Company(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
+function ColumnOrder_Grade(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_grade_asc').css('background-color', 'lightsteelblue');
+        $('#search_grade_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_grade_asc').css('background-color', 'grey');
+        $('#search_grade_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_UnitPrice(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
+        $('#search_unit_price_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_unit_price_asc').css('background-color', 'grey');
+        $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
 function onCancel() {
     LoaderShow();
     LoadForecastData()
@@ -1362,6 +1392,18 @@ function ShowForecastResults(year) {
         $("#hider").fadeIn("slow");
         $('.search_company').fadeIn("slow");
     });
+    //grade column sorting
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)').on('click', function () {               
+        $('.search_grade').css('display', 'block');        
+        $("#hider").fadeIn("slow");
+        $('.search_grade').fadeIn("slow");
+    });
+        //unit price column sorting
+    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)').on('click', function () {               
+        $('.search_unit_price').css('display', 'block');        
+        $("#hider").fadeIn("slow");
+        $('.search_unit_price').fadeIn("slow");
+    });
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
     // $("#head_total").css("width",w-300);
 }
@@ -1389,8 +1431,10 @@ $(".search_incharge").hide();
 $(".search_role").hide();
 $(".search_explanation").hide();
 $(".search_company").hide();
+$(".search_grade").hide();
+$(".search_unit_price").hide();
 
-$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company").click(function () {
+$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
 
     $("#hider").fadeOut("slow");
     $('.search_p').fadeOut("slow");
@@ -1400,6 +1444,8 @@ $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_inchar
     $('.search_role').fadeOut("slow");
     $('.search_explanation').fadeOut("slow");
     $('.search_company').fadeOut("slow");
+    $('.search_grade').fadeOut("slow");
+    $('.search_unit_price').fadeOut("slow");
    // $('#search_p_text_box').val('');
 });
 

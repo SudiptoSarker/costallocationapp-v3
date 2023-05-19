@@ -23,6 +23,7 @@
 </head>
 <body>
 @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
+@* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
 @* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
@@ -280,29 +281,39 @@
     @Scripts.Render("~/bundles/others")
     @Scripts.Render("~/bundles/custom")
     @RenderSection("Scripts", false/*required*/)
+    @{
+        string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+        string url = System.IO.Path.GetFileName(fullPath);
+        if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url) ||  url.ToLower().Contains("userregistration"))
+        {            
+            <input type="hidden" id="sing_out" value="login">
 
-    
-    <script type="text/javascript">        
+        }else{
+            <input type="hidden" id="sing_out" value="logout">
+        }                
+    }
+    <script type="text/javascript"> 
+
         function RemoveSession() {
-                var user_name = $('#hidden_username').val();                
-                if (user_name != null || user_name != undefined || user_name!='') {
-                    $.ajax({
-                        url: `/Registration/RemoveSession?userName=${user_name}`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        //dataType: 'json',
-                        success: function (data) {
-                            $('#hidden_username').val('');
-                            var chat = $.connection.chatHub;
-                            // Start the connection.
-                            $.connection.hub.start().done(function () {
-                                chat.server.send(user_name, ' Logged Out');
-                            });
-                            location.href = '/';
-                        }
-                    });
-                }
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
+            }
         }
 
         @* var clicked = false;
@@ -415,7 +426,79 @@
             }  
             return message;  
         };   *@
-
+        
+        @* window.onbeforeunload = function(e) {
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
+            }
+        }; *@
+        @* $(window).on('unload',function(){
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
+            }
+        }) *@
+        
+        @* $(document).ready(function () {
+            var logOutType = $("#sing_out").val();
+            if(logOutType == "logout"){
+                $(window).on("beforeunload", function() { 
+                    var user_name = $('#hidden_username').val();                
+                    if (user_name != null || user_name != undefined || user_name!='') {
+                        $.ajax({
+                            url: `/Registration/RemoveSession?userName=${user_name}`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: true,
+                            //dataType: 'json',
+                            success: function (data) {
+                                $('#hidden_username').val('');
+                                var chat = $.connection.chatHub;
+                                // Start the connection.
+                                $.connection.hub.start().done(function () {
+                                    chat.server.send(user_name, ' Logged Out');
+                                });
+                                location.href = '/';
+                            }
+                        });
+                    }
+                
+                    //return confirm("Do you really want to close?"); 
+                }); 
+            }
+        }); *@
+                
     </script>
 </body>
 </html>

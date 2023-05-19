@@ -7,6 +7,7 @@ using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
 using CostAllocationApp.ViewModels;
+using System.Web;
 
 namespace CostAllocationApp.Controllers.Api
 {
@@ -20,7 +21,8 @@ namespace CostAllocationApp.Controllers.Api
         [HttpGet]
         public IHttpActionResult CreateForecast(string data,string year,string assignmentId)
         {
-            var session = System.Web.HttpContext.Current.Session;
+            //var session = System.Web.HttpContext.Current.Session;
+            var session = HttpContext.Current.Session;
 
             string[] monthData = data.Split(',');
             int tempYear = 0;
@@ -64,7 +66,10 @@ namespace CostAllocationApp.Controllers.Api
                 forecast.EmployeeAssignmentId = Convert.ToInt32(assignmentId);
                 //forecast.CreatedBy = session["userName"].ToString();
                 //commented by sudipto on 19April2023
-                forecast.CreatedBy = "user4";
+                //forecast.CreatedBy = session["userName"].ToString();
+
+                forecast.CreatedBy = "admin";    
+
                 forecast.CreatedDate = DateTime.Now;
                 forecast.UpdatedBy = "";
                 forecast.UpdatedDate = DateTime.Now;

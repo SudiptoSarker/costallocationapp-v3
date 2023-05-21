@@ -1009,23 +1009,26 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHisory.CreatedBy = session["userName"].ToString();
                     forecastHisory.CreatedDate = DateTime.Now;
 
-                    //forecastHisory.UpdatedDate = DateTime.Now;
-                    //forecastHisory.UpdatedBy = "";
-                    //int resultEdit = forecastBLL.UpdateForecast(forecastHisory.Forecasts);
-                    //int resultEdit = 0;
-                    //foreach (var item in forecastHisory.Forecasts)
-                    //{
-                    //    var result = forecastBLL.CheckAssignmentId(item.EmployeeAssignmentId, item.Year,item.Month);
-                    //    if (result == true)
-                    //    {
-                    //        resultEdit = forecastBLL.UpdateForecast(item);
-                    //    }
-                    //    else
-                    //    {
-                    //        int resultSave = forecastBLL.CreateForecast(item);
-                    //    }                        
-                    //}
                     var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
+
+                    if (forecastHistoryDto.CellInfo.Count > 0)
+                    {
+                        foreach (var item in forecastHistoryDto.CellInfo)
+                        {
+                            var itemData = item.Split('_');
+                            string result = employeeAssignmentBLL.GetBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]));
+                            if (String.IsNullOrEmpty(result))
+                            {
+                                result += itemData[1];
+                            }
+                            else
+                            {
+                                result += "," + itemData[1];
+                            }
+                            employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), result);
+                        }
+                    }
+                    
 
                     if (resultTimeStamp > 0)
                     {
@@ -1460,6 +1463,8 @@ namespace CostAllocationApp.Controllers.Api
                     employeeAssignment.CreatedBy = session["userName"].ToString();
                     employeeAssignment.CreatedDate = DateTime.Now;
                     employeeAssignment.Remarks = item.Remarks;
+                    employeeAssignment.BCYR = item.BCYR;
+                    employeeAssignment.BCYRCell = "";
 
 
                     int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);

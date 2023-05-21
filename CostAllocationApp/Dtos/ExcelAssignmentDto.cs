@@ -21,7 +21,7 @@ namespace CostAllocationApp.Dtos
         public string Remarks { get; set; }
         //public int SubCode { get; set; }
         public string Year { get; set; }
-        public bool BCYR { get; set; }
+        public bool BCYR { get; set; }        
 
         public decimal OctPoint { get; set; }
         public decimal NovPoint { get; set; }

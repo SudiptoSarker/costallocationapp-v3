@@ -208,7 +208,7 @@ $(document).ready(function () {
     //    setTimeout(function () {
     //        $.connection.hub.start();
     //    }, 3000); // Restart connection after 3 seconds.
-    //});
+    //});    
 
     $('#update_forecast_history').on('click', function () {
 
@@ -226,13 +226,21 @@ $(document).ready(function () {
             }
         });
 
-
-        if (jssUpdatedData.length > 0) {
+        if (jssInsertedData.length > 0 || jssUpdatedData.length > 0){
             $("#save_modal_header").html("年度データー(Emp. Assignments)");
             $("#back_button_show").css("display", "block");
             $("#save_btn_modal").css("display", "block");
             $("#close_save_modal").css("display", "none");
+        }else{
+            $("#update_forecast").modal("show");            
+            $("#save_modal_header").html("There is nothing to save!");
+            $("#back_button_show").css("display", "none");
+            $("#save_btn_modal").css("display", "none");
+    
+            $("#close_save_modal").css("display", "block");  
+        }
 
+        if (jssUpdatedData.length > 0) {
             $.ajax({
                 url: `/api/utilities/GetMatchedRowNumber/`,
                 contentType: 'application/json',
@@ -259,15 +267,7 @@ $(document).ready(function () {
                     $('#row_count').append(data);
                 }
             });
-        }else{
-            $("#update_forecast").modal("show");
-            $("#save_modal_header").html("There is nothing to save!");
-            $("#back_button_show").css("display", "none");
-            $("#save_btn_modal").css("display", "none");
-    
-            $("#close_save_modal").css("display", "block");  
         }
-
 
         if (employeeCount == 1) {
             $('#header_show').css('display', 'none');
@@ -1724,11 +1724,12 @@ function UpdateForecast(){
         jssInsertedData = [];
         newRowCount = 1;
     } 
+    
     if(updateMessage =="" && insertMessage==""){
         //alert("There is nothing to save!");
         //update_forecast
         //forecast_save_confirm_text
-        // $(".forecast_save_confirm_text").html("");
+        $(".forecast_save_confirm_text").html("");
         $("#update_forecast").modal("show");
         $("#save_modal_header").html("There is nothing to save!");
         $("#back_button_show").css("display", "none");

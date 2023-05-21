@@ -258,6 +258,7 @@ namespace CostAllocationApp.Controllers
                             }
                             
                             var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
+
                             if (assignmentViewModels.Count > 0)
                             {
                                 CreateAssignmentForExcelUpload(_uploadExcel, i, upload_year, assignmentViewModels.Count);
@@ -387,6 +388,8 @@ namespace CostAllocationApp.Controllers
             //employeeAssignment.GradeId = Convert.ToInt32(dt_.GradeId.ToString().Trim(trimElements));
             employeeAssignment.GradeId = String.IsNullOrEmpty(dt_.GradeId.ToString()) ? null : dt_.GradeId;
             employeeAssignment.SubCode = subCodeCount + 1;
+            employeeAssignment.BCYR = false;
+            employeeAssignment.BCYRCell = "";
 
             employeeAssignment.CreatedBy = "";
             employeeAssignment.CreatedDate = DateTime.Now;

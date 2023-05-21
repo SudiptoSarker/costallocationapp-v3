@@ -1460,7 +1460,7 @@ namespace CostAllocationApp.Controllers.Api
                     employeeAssignment.CreatedBy = session["userName"].ToString();
                     employeeAssignment.CreatedDate = DateTime.Now;
                     employeeAssignment.Remarks = item.Remarks;
-
+                    employeeAssignment.BCYR = item.BCYR;
 
                     int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
                     if (result == 1)

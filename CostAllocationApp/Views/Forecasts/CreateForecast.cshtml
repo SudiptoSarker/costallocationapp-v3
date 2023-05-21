@@ -207,7 +207,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h3>年度データー(Emp. Assignments)</h3>
+                <h3 id="save_modal_header">年度データー(Emp. Assignments)</h3>
                 <div class="form-header" id="header_show">
 
                     <p id="section_warning" style="display:none;"></p>
@@ -231,10 +231,11 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" data-toggle="modal" data-target="#modal_change_history" onclick="CompareUpdatedData();">戻る(Back)</a>
+                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" data-toggle="modal" data-target="#modal_change_history" onclick="CompareUpdatedData();">戻る(Back)</a>                            
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="save_btn_modal" onclick="UpdateForecast();">保存(Save)</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" id="close_save_modal" style="display: none;">戻る(Close)</a>
                         </div>
                     </div>
                 </div>

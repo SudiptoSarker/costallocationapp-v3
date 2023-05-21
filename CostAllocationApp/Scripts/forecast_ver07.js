@@ -1237,13 +1237,189 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
-                    
+                    var allData = jss.getData();
+                    let nextRow = parseInt(y) + 1;
+
+                    obj.insertRow(1, parseInt(y));
+
+                    var retrivedData = retrivedObject(jss.getRowData(y));
+
+                    var allSpecificObjectsCount = 0;
+                    for (let x of allData) {
+                        //console.log(x);
+                        if (x[35] == retrivedData.employeeId) {
+                            allSpecificObjectsCount++;
+                        }
+                    }
+                    var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
+                    var totalLength = retrivedData.employeeName.length;
+                    console.log("retrivedData1: " + retrivedData.employeeName);
+                    console.log("totalLength: " + totalLength);
+
+                    if (lastIndex < 0) {
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                    }
+                    else {
+                        var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
+                        if (isNaN(empNumber)) {
+                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                        }
+                        else {
+                            retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
+                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                            console.log("retrivedData2: " + retrivedData.employeeName);
+
+                        }
+                    }
+                    //SetRowColor((nextRow + 1));
+
+
+                    obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
+                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
+                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
+                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
+                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
+                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
+                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
+                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
+                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+
+                    // color row....
+                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle("B" + (nextRow + 1), "color", "red");
+
+                    jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle("G" + (nextRow + 1), "color", "red");
+
+
+                    // disable role....
+                    $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
+
+                    obj.setValueFromCoords(11, nextRow, '0.0', false);
+                    obj.setValueFromCoords(12, nextRow, '0.0', false);
+                    obj.setValueFromCoords(13, nextRow, '0.0', false);
+                    obj.setValueFromCoords(14, nextRow, '0.0', false);
+                    obj.setValueFromCoords(15, nextRow, '0.0', false);
+                    obj.setValueFromCoords(16, nextRow, '0.0', false);
+                    obj.setValueFromCoords(17, nextRow, '0.0', false);
+                    obj.setValueFromCoords(18, nextRow, '0.0', false);
+                    obj.setValueFromCoords(19, nextRow, '0.0', false);
+                    obj.setValueFromCoords(20, nextRow, '0.0', false);
+                    obj.setValueFromCoords(21, nextRow, '0.0', false);
+                    obj.setValueFromCoords(22, nextRow, '0.0', false);
+
+                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
+                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
+                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
+                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
+                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
+                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
+                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
+                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
+                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
+                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
+                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
+                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+
+                    newRowCount++;
+
                 }
             });
             items.push({
                 title: '要員のコピー（役割変更）(role)',
                 onclick: function () {
-                    
+                    var allData = jss.getData();
+                    let nextRow = parseInt(y) + 1;
+
+                    obj.insertRow(1, parseInt(y));
+
+                    var retrivedData = retrivedObject(jss.getRowData(y));
+
+                    var allSpecificObjectsCount = 0;
+                    for (let x of allData) {
+                        //console.log(x);
+                        if (x[35] == retrivedData.employeeId) {
+                            allSpecificObjectsCount++;
+                        }
+                    }
+                    var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
+                    var totalLength = retrivedData.employeeName.length;
+                    console.log("retrivedData1: " + retrivedData.employeeName);
+                    console.log("totalLength: " + totalLength);
+
+                    if (lastIndex < 0) {
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                    }
+                    else {
+                        var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
+                        if (isNaN(empNumber)) {
+                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                        }
+                        else {
+                            retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
+                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` ${allSpecificObjectsCount + 1}`, false);
+                            console.log("retrivedData2: " + retrivedData.employeeName);
+
+                        }
+                    }
+                    //SetRowColor((nextRow + 1));
+
+                    obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
+                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
+                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
+                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
+                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
+                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
+                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
+                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
+                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+
+
+                    // color row....
+                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle("B" + (nextRow + 1), "color", "red");
+
+                    jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle("J" + (nextRow + 1), "color", "red");
+
+                    jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle("K" + (nextRow + 1), "color", "red");
+
+
+                    // disable grade and unit price....
+                    $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
+
+                    obj.setValueFromCoords(11, nextRow, '0.0', false);
+                    obj.setValueFromCoords(12, nextRow, '0.0', false);
+                    obj.setValueFromCoords(13, nextRow, '0.0', false);
+                    obj.setValueFromCoords(14, nextRow, '0.0', false);
+                    obj.setValueFromCoords(15, nextRow, '0.0', false);
+                    obj.setValueFromCoords(16, nextRow, '0.0', false);
+                    obj.setValueFromCoords(17, nextRow, '0.0', false);
+                    obj.setValueFromCoords(18, nextRow, '0.0', false);
+                    obj.setValueFromCoords(19, nextRow, '0.0', false);
+                    obj.setValueFromCoords(20, nextRow, '0.0', false);
+                    obj.setValueFromCoords(21, nextRow, '0.0', false);
+                    obj.setValueFromCoords(22, nextRow, '0.0', false);
+
+                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
+                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
+                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
+                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
+                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
+                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
+                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
+                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
+                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
+                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
+                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
+                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+
+                    newRowCount++;
+
                 }
             });
             items.push({

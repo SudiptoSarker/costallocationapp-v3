@@ -33,6 +33,7 @@ namespace CostAllocationApp.ViewModels
         public int SubCode { get; set; }
         public bool MarkedAsRed { get; set; }
         public string EmployeeNameWithCodeRemarks { get; set; }
+        public bool BCYR { get; set; }
 
         // for forecast
         public List<ForecastDto> forecasts { get; set; }

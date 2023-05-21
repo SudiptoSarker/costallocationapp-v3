@@ -230,3 +230,16 @@ body {
 #year_data_search, #year_data_list{
     margin-top: -13px;
 }
+/***************************\                           
+	Add Employee New Row Color Change
+\***************************/
+/* $("body").on("contextmenu", "table tr", function(e) {
+    $contextMenu.css({
+         display: "block",
+         left: e.pageX,
+         top: e.pageY
+    });
+    $('table tr').css("background-color", ""); //Remove previos color.
+     $(this).css("background-color", "yellow"); //Here Change color to yellow.
+    return false;
+}); */

@@ -1203,14 +1203,31 @@ function ShowForecastResults(year) {
             //    });
             //}
 
-
             items.push({
-                title: '要員を追加する(emp add)',
+                title: '要員を追加 (Add Emp)',
                 onclick: function () {
                     obj.insertRow(1, parseInt(y));
+                    var insertedRowNumber = obj.getSelectedRows(true) +2;
+                    SetRowColor(insertedRowNumber);
+                    // jss.setStyle("A"+insertedRowNumber,"background-color", "yellow");
+                    // jss.setStyle("A"+insertedRowNumber,"color", "red");
+                    // jss.setStyle("B"+insertedRowNumber,"background-color", "yellow");
+                    // jss.setStyle("B"+insertedRowNumber,"color", "red");
+                    // jss.setStyle("C"+insertedRowNumber,"background-color", "yellow");
+                    // jss.setStyle("C"+insertedRowNumber,"color", "red");
+                    // jss.setStyle("D"+insertedRowNumber,"background-color", "yellow");
+                    // jss.setStyle("D"+insertedRowNumber,"color", "red");
+
+                    //$(cell).css('color', 'red');
+                    //jss.setValueFromCoords
+                    //obj.setStyle(obj.getSelectedRows(true),"background-color","Yellow")
+                    console.log("row: "+obj.getCell("EmployeeName"+insertedRowNumber));
+
+                    //console.log("obj-t: "+obj.getSelectedRows(true));                    
+                    
                     $('#jexcel_add_employee_modal').modal('show');
                     globalY = parseInt(y) + 1;
-
+                    
                     //console.log("y: "+y);
                     //console.log("globalY: "+globalY);
 
@@ -1218,7 +1235,19 @@ function ShowForecastResults(year) {
                 }
             });
             items.push({
-                title: '同じ要員を複製する(emp duplication)',
+                title: '要員のコピー（単価変更）(unit price)',
+                onclick: function () {
+                    
+                }
+            });
+            items.push({
+                title: '要員のコピー（役割変更）(role)',
+                onclick: function () {
+                    
+                }
+            });
+            items.push({
+                title: '要員のコピー（役割・単価変更）(role/unit)',
                 onclick: function () {
                     //debugger;
                     var allData = jss.getData();
@@ -1305,7 +1334,7 @@ function ShowForecastResults(year) {
 
             if (obj.options.allowDeleteRow == true) {
                 items.push({
-                    title: '選択した要員を削除(selected emp delete)',
+                    title: '選択した要員の削除 (delete)',
                     onclick: function () {
                         obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                     }
@@ -1893,3 +1922,77 @@ function validate(){
 }
 
 $('#frm_import_year_data').submit(validate);
+function SetRowColor(insertedRowNumber){
+    jss.setStyle("A"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("A"+insertedRowNumber,"color", "red");
+    jss.setStyle("B"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("B"+insertedRowNumber,"color", "red");
+    jss.setStyle("C"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("C"+insertedRowNumber,"color", "red");
+    jss.setStyle("D"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("D"+insertedRowNumber,"color", "red");
+    jss.setStyle("E"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("E"+insertedRowNumber,"color", "red");
+    jss.setStyle("F"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("F"+insertedRowNumber,"color", "red");
+    jss.setStyle("G"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("G"+insertedRowNumber,"color", "red");
+    jss.setStyle("H"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("H"+insertedRowNumber,"color", "red");
+    jss.setStyle("I"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("I"+insertedRowNumber,"color", "red");
+    jss.setStyle("J"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("J"+insertedRowNumber,"color", "red");
+    jss.setStyle("K"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("K"+insertedRowNumber,"color", "red");
+    jss.setStyle("L"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("L"+insertedRowNumber,"color", "red");
+    jss.setStyle("M"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("M"+insertedRowNumber,"color", "red");
+    jss.setStyle("N"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("N"+insertedRowNumber,"color", "red");
+    jss.setStyle("O"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("O"+insertedRowNumber,"color", "red");
+    jss.setStyle("P"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("P"+insertedRowNumber,"color", "red");
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("Q"+insertedRowNumber,"color", "red");
+    jss.setStyle("R"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("R"+insertedRowNumber,"color", "red");
+    jss.setStyle("S"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("S"+insertedRowNumber,"color", "red");
+    jss.setStyle("T"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("T"+insertedRowNumber,"color", "red");
+    jss.setStyle("U"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("U"+insertedRowNumber,"color", "red");
+    jss.setStyle("V"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("V"+insertedRowNumber,"color", "red");
+    jss.setStyle("W"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("W"+insertedRowNumber,"color", "red");
+    jss.setStyle("X"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("X"+insertedRowNumber,"color", "red");
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("Y"+insertedRowNumber,"color", "red");
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("Z"+insertedRowNumber,"color", "red");
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AA"+insertedRowNumber,"color", "red");
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AB"+insertedRowNumber,"color", "red");
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AC"+insertedRowNumber,"color", "red");
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AD"+insertedRowNumber,"color", "red");
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AE"+insertedRowNumber,"color", "red");
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AF"+insertedRowNumber,"color", "red");
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AG"+insertedRowNumber,"color", "red");
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AH"+insertedRowNumber,"color", "red");
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AI"+insertedRowNumber,"color", "red");
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "yellow");
+    jss.setStyle("AJ"+insertedRowNumber,"color", "red");
+}

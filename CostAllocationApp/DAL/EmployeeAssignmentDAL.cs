@@ -711,7 +711,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -763,6 +763,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"]  is DBNull ? "":  rdr["Remarks"].ToString() ;
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false: Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
                             //{
@@ -1290,7 +1291,64 @@ namespace CostAllocationApp.DAL
 
 
 
-        } 
+        }
+
+        public string GetBCYRCellByAssignmentId(int assignmentId)
+        {
+
+            string query = $@"select BCYRCell from EmployeesAssignments where Id={assignmentId}";
+
+            string result="";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            
+                            result = rdr["BCYRCell"] is DBNull ? "": rdr["BCYRCell"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+
+        public int UpdateBCYRCellByAssignmentId(int assignmentId, string cell)
+        {
+
+            string query = $@"update EmployeesAssignments set BCYRCell ='{cell}' where Id={assignmentId}";
+
+            int result = 0;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
 
     }
 }

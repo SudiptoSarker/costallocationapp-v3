@@ -815,6 +815,14 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetAssignmentsByYear(year);
         }
+        public string GetBCYRCellByAssignmentId(int assignmentId)
+        {
+            return employeeAssignmentDAL.GetBCYRCellByAssignmentId(assignmentId);
+        }
+        public int UpdateBCYRCellByAssignmentId(int assignmentId, string cell)
+        {
+            return employeeAssignmentDAL.UpdateBCYRCellByAssignmentId(assignmentId, cell);
+        }
 
     }
 }

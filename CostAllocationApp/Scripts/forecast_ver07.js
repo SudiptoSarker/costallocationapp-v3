@@ -1247,8 +1247,11 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
+                    //debugger;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
+                    var allSameEmployeeId = [];
+                    var newCountedEmployeeName = '';
 
                     obj.insertRow(1, parseInt(y));
 
@@ -1259,29 +1262,25 @@ function ShowForecastResults(year) {
                         //console.log(x);
                         if (x[35] == retrivedData.employeeId) {
                             allSpecificObjectsCount++;
+                            if (!isNaN(x[0])) {
+                                allSameEmployeeId.push(x[0]);
+                            }
+                            
                         }
                     }
-                    var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
-                    var totalLength = retrivedData.employeeName.length;
-                    console.log("retrivedData1: " + retrivedData.employeeName);
-                    console.log("totalLength: " + totalLength);
 
-                    if (lastIndex < 0) {
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount + 1})`, false);
-                    }
-                    else {
-                        var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
-                        if (isNaN(empNumber)) {
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount + 1})`, false);
-                        }
-                        else {
-                            retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` (${allSpecificObjectsCount + 1})`, false);
-                            console.log("retrivedData2: " + retrivedData.employeeName);
+                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                   
 
+                    for (let x of allData) {
+                        //console.log(x);
+                        if (x[0] == minAssignmentNumber) {
+                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                            break;
                         }
                     }
-                    //SetRowColor((nextRow + 1));
+                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                    allSameEmployeeId = [];
 
 
                     obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
@@ -1344,6 +1343,8 @@ function ShowForecastResults(year) {
                 onclick: function () {
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
+                    var allSameEmployeeId = [];
+                    var newCountedEmployeeName = '';
 
                     obj.insertRow(1, parseInt(y));
 
@@ -1354,28 +1355,45 @@ function ShowForecastResults(year) {
                         //console.log(x);
                         if (x[35] == retrivedData.employeeId) {
                             allSpecificObjectsCount++;
+                            if (!isNaN(x[0])) {
+                                allSameEmployeeId.push(x[0]);
+                            }
                         }
                     }
-                    var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
-                    var totalLength = retrivedData.employeeName.length;
-                    console.log("retrivedData1: " + retrivedData.employeeName);
-                    console.log("totalLength: " + totalLength);
 
-                    if (lastIndex < 0) {
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
-                    }
-                    else {
-                        var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
-                        if (isNaN(empNumber)) {
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
-                        }
-                        else {
-                            retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
-                            console.log("retrivedData2: " + retrivedData.employeeName);
+                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
+
+                    for (let x of allData) {
+                        //console.log(x);
+                        if (x[0] == minAssignmentNumber) {
+                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                            break;
                         }
                     }
+                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                    allSameEmployeeId = [];
+
+                    //var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
+                    //var totalLength = retrivedData.employeeName.length;
+                    //console.log("retrivedData1: " + retrivedData.employeeName);
+                    //console.log("totalLength: " + totalLength);
+
+                    //if (lastIndex < 0) {
+                    //    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
+                    //}
+                    //else {
+                    //    var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
+                    //    if (isNaN(empNumber)) {
+                    //        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
+                    //    }
+                    //    else {
+                    //        retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
+                    //        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >${allSpecificObjectsCount + 1}`, false);
+                    //        console.log("retrivedData2: " + retrivedData.employeeName);
+
+                    //    }
+                    //}
                     //SetRowColor((nextRow + 1));
 
                     obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
@@ -1438,40 +1456,57 @@ function ShowForecastResults(year) {
                     //debugger;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
+                    var allSameEmployeeId = [];
+                    var newCountedEmployeeName = '';
 
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
 
                     retrivedData.assignmentId = "new-" + newRowCount;
-                    debugger;
+                    //debugger;
                     var allSpecificObjectsCount = 0;
                     for (let x of allData) {
                         //console.log(x);
                         if (x[35] == retrivedData.employeeId) {
                             allSpecificObjectsCount++;
+                            if (!isNaN(x[0])) {
+                                allSameEmployeeId.push(x[0]);
+                            }
                         }
                     }
-                    var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
-                    var totalLength = retrivedData.employeeName.length;
-                    console.log("retrivedData1: " + retrivedData.employeeName);
-                    console.log("totalLength: " + totalLength);
+                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
-                    if (lastIndex < 0) {
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
-                    }
-                    else {
-                        var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
-                        if (isNaN(empNumber)) {
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
+                    for (let x of allData) {
+                        //console.log(x);
+                        if (x[0] == minAssignmentNumber) {
+                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
+                            break;
                         }
-                        else {
-                            retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
-                            obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
-                            console.log("retrivedData2: " + retrivedData.employeeName);
+                    }
+                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                    allSameEmployeeId = [];
 
-                        }
-                    }
+                    //var lastIndex = retrivedData.employeeName.lastIndexOf(' ');
+                    //var totalLength = retrivedData.employeeName.length;
+                    //console.log("retrivedData1: " + retrivedData.employeeName);
+                    //console.log("totalLength: " + totalLength);
+
+                    //if (lastIndex < 0) {
+                    //    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
+                    //}
+                    //else {
+                    //    var empNumber = retrivedData.employeeName.substring(lastIndex, (totalLength - 1)).trim();
+                    //    if (isNaN(empNumber)) {
+                    //        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
+                    //    }
+                    //    else {
+                    //        retrivedData.employeeName = retrivedData.employeeName.slice(0, -(totalLength - lastIndex));
+                    //        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName + ` >>${allSpecificObjectsCount + 1}`, false);
+                    //        console.log("retrivedData2: " + retrivedData.employeeName);
+
+                    //    }
+                    //}
 
 
 

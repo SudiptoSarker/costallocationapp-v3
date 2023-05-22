@@ -282,7 +282,7 @@
     @Scripts.Render("~/bundles/custom")
     @RenderSection("Scripts", false/*required*/)
     @{
-        string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+        @* string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
         string url = System.IO.Path.GetFileName(fullPath);
         if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url) ||  url.ToLower().Contains("userregistration"))
         {            
@@ -290,7 +290,7 @@
 
         }else{
             <input type="hidden" id="sing_out" value="logout">
-        }                
+        }                 *@
     }
     <script type="text/javascript"> 
 
@@ -315,7 +315,36 @@
                 });
             }
         }
+        function BrowserLogOut() {
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    //dataType: 'json',
+                    success: function (data) {
+                        @* $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        //location.href = '/'; *@
+                    }
+                });
+            }
+        }
+        
+        @* $(window).on("beforeunload", function() {
+            BrowserLogOut();
+        }); *@
 
+        @* window.onbeforeunload = function(event) {
+            BrowserLogOut();
+            //return true;
+        } *@
         @* var clicked = false;
         function CheckBrowser() {
             if (clicked == false) {
@@ -354,26 +383,9 @@
             }
         } *@
         @* $(window).on("beforeunload", function() { 
-            var user_name = $('#hidden_username').val();                
-            if (user_name != null || user_name != undefined || user_name!='') {
-                $.ajax({
-                    url: `/Registration/RemoveSession?userName=${user_name}`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    //dataType: 'json',
-                    success: function (data) {
-                        $('#hidden_username').val('');
-                        var chat = $.connection.chatHub;
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send(user_name, ' Logged Out');
-                        });
-                        location.href = '/';
-                    }
-                });
-            }  
+            BrowserLogOut();
         }) *@
+        
         @* window.onbeforeunload = function BClose() {
             var user_name = $('#hidden_username').val();                
             if (user_name != null || user_name != undefined || user_name!='') {
@@ -398,23 +410,24 @@
 
         @* var myclose = false;
 
-        function ConfirmClose(event)
+        function ConfirmClose()
         {
-        if (event.clientY < 0)
-        {
-        event.returnValue = 'You have closed the browser. Do you want to logout from your application?';
-        setTimeout('myclose=false',10);
-        myclose=true;
-        }
+            if (event.clientY < 0)
+            {
+            event.returnValue = 'You have closed the browser. Do you want to logout from your application?';
+            setTimeout('myclose=false',10);
+            myclose=true;
+            }
         }
 
         function HandleOnClose()
         {
-        if (myclose==true)
-        {
-        //the url of your logout page which invalidate session on logout
-        location.replace('/contextpath/j_spring_security_logout') ;
-        }
+            if (myclose==true)
+            {
+                //BrowserLogOut();
+            }else{
+                BrowserLogOut();
+            }
         } *@
         @* window.onbeforeunload = function (event) {  
             var message = 'Important: Please click on \'Save\' button to leave this page.';  
@@ -447,7 +460,7 @@
                     }
                 });
             }
-        }; *@
+        }; *@        
         @* $(window).on('unload',function(){
             var user_name = $('#hidden_username').val();                
             if (user_name != null || user_name != undefined || user_name!='') {

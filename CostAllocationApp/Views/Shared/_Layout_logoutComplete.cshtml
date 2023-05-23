@@ -353,15 +353,15 @@
         
         var inFormOrLink;
         //$('a').live('click', function() { inFormOrLink = true; });
-        $('form').bind('submit', function() { inFormOrLink = true;});
+        @* $('form').bind('submit', function() { inFormOrLink = true;});
         $('a').on('click', function() { inFormOrLink = true; });
         $('button').on('submit', function() { inFormOrLink = true; });
-        $('a').on('click', function() { inFormOrLink = true; });
+        $('a').on('click', function() { inFormOrLink = true; }); *@
         
-        @* $('form').bind('submit', function() { window.onbeforeunload = null;});
+        $('form').bind('submit', function() { window.onbeforeunload = null;});
         $('a').on('click', function() { window.onbeforeunload = null; });
         $('button').on('submit', function() { window.onbeforeunload = null; });
-        $('a').on('click', function() { window.onbeforeunload = null; }); *@
+        $('a').on('click', function() { window.onbeforeunload = null; });
 
         @* $(function () {
             $("a").not('#lnkLogOut').click(function () {
@@ -371,20 +371,6 @@
                 window.onbeforeunload = null;
         });
         }); *@
-        //check for Navigation Timing API support
-        if (window.performance) {
-            console.info("window.performance works fine on this browser");
-        }
-        console.info(performance.navigation.type);
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            console.info( "This page is reloaded" );
-            inFormOrLink = true;
-            
-        } 
-        @* else {      
-            inFormOrLink = true;          
-            console.info( "This page is not reloaded");
-        } *@
         
         var logOutType = $("#sing_out").val();
         if(logOutType == "logout"){           
@@ -402,14 +388,9 @@
                 
             });  *@
 
-            @* window.onbeforeunload = function (event) {
-                console.log("cancelable: "+event.cancelable);
-                console.log("isTrusted: "+event.isTrusted);
-                console.log("defaultPrevented: "+event.defaultPrevented);
-                console.log("returnValue: "+event.returnValue);
-                console.log("bubbles: "+event.bubbles);
-                console.log("cancelBubble: "+event.cancelBubble);
-                
+            window.onbeforeunload = function (event) {
+                console.log("event: "+event);
+
                 var message = 'Important: Please click on \'Save\' button to leave this page.';
                 if (typeof event == 'undefined') {
                     event = window.event;                    
@@ -419,68 +400,7 @@
                     }
                 }
                 //return message;
-            };             *@
-            @* $(window).bind('beforeunload', function(eventObject) {
-                var returnValue = undefined;
-                if (! inFormOrLink) {
-                    returnValue = "Do you really want to close?";
-                    BrowserLogOut();
-                }
-                eventObject.returnValue = returnValue;
-                //return returnValue;
-            }); *@
-            
-            //differentiate page load and refresh            
-            @* function myUnload(event) {
-                if (window.localStorage) {
-                    // flag the page as being unloading
-                    window.localStorage['myUnloadEventFlag']=new Date().getTime();
-                }
-
-                // notify the server that we want to disconnect the user in a few seconds (I used 5 seconds)
-                askServerToDisconnectUserInAFewSeconds(); // synchronous AJAX call
-            }
-            function myLoad(event) {
-                if (window.localStorage) {
-                    var t0 = Number(window.localStorage['myUnloadEventFlag']);
-                    if (isNaN(t0)) t0=0;
-                    var t1=new Date().getTime();
-                    var duration=t1-t0;
-                    if (duration<10*1000) {
-                        // less than 10 seconds since the previous Unload event => it's a browser reload (so cancel the disconnection request)
-                        askServerToCancelDisconnectionRequest(); // asynchronous AJAX call
-                    } else {
-                        // last unload event was for a tab/window close => do whatever you want (I do nothing here)
-                    }
-                }
-            }  *@
-            $(window).bind('beforeunload', function(eventObject) {
-                if(!inFormOrLink){
-                    BrowserLogOut()
-                }                    
-            }); 
-            
-                                  
-            @* window.onbeforeunload = function (event) {
-                console.log("cancelable: "+event.cancelable);
-                console.log("isTrusted: "+event.isTrusted);
-                console.log("defaultPrevented: "+event.defaultPrevented);
-                console.log("returnValue: "+event.returnValue);
-                console.log("bubbles: "+event.bubbles);
-                console.log("cancelBubble: "+event.cancelBubble);
-
-                var message = 'Important: Please click on \'Save\' button to leave this page.';
-                if (typeof event == 'undefined') {
-                event = window.event;                    
-                }else{
-                if(event.cancelable){
-                    if(!inFormOrLink){
-                        BrowserLogOut()
-                    }      
-                }
-                }
-                //return message;
-            };   *@
+            };            
         }                
     });
     </script>

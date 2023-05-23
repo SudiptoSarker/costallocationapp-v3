@@ -21,7 +21,7 @@
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
-<body onload="SetLogOutRule()">
+<body>
 @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
 @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
 @* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
@@ -282,7 +282,7 @@
     @Scripts.Render("~/bundles/custom")
     @RenderSection("Scripts", false/*required*/)
     @{
-        string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+        @* string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
         string url = System.IO.Path.GetFileName(fullPath);
         if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url) ||  url.ToLower().Contains("userregistration"))
         {            
@@ -290,19 +290,10 @@
 
         }else{
             <input type="hidden" id="sing_out" value="logout">
-        }  
-        <input type="hidden" id="IsLinkFormBtnReload" value="false">
-              
+        }                 *@
     }
     <script type="text/javascript"> 
-    function SetLogOutRule(){
-        $("#IsLinkFormBtnReload").val(true);
-    }
 
-    $(document).ready(function () {
-        /***************************\                           
-        Log out from all device                 
-        \***************************/
         function RemoveSession() {
             var user_name = $('#hidden_username').val();                
             if (user_name != null || user_name != undefined || user_name!='') {
@@ -324,10 +315,6 @@
                 });
             }
         }
-
-        /***************************\                           
-        browser closed log out               
-        \***************************/
         function BrowserLogOut() {
             var user_name = $('#hidden_username').val();                
             if (user_name != null || user_name != undefined || user_name!='') {
@@ -349,140 +336,182 @@
                 });
             }
         }
-
         
-        var inFormOrLink;
-        //$('a').live('click', function() { inFormOrLink = true; });
-        $('form').bind('submit', function() { inFormOrLink = true;});
-        $('a').on('click', function() { inFormOrLink = true; });
-        $('button').on('submit', function() { inFormOrLink = true; });
-        $('a').on('click', function() { inFormOrLink = true; });
-        
-        @* $('form').bind('submit', function() { window.onbeforeunload = null;});
-        $('a').on('click', function() { window.onbeforeunload = null; });
-        $('button').on('submit', function() { window.onbeforeunload = null; });
-        $('a').on('click', function() { window.onbeforeunload = null; }); *@
-
-        @* $(function () {
-            $("a").not('#lnkLogOut').click(function () {
-                window.onbeforeunload = null;
-            });
-            $(".btn").click(function () {
-                window.onbeforeunload = null;
-        });
+        @* $(window).on("beforeunload", function() {
+            BrowserLogOut();
         }); *@
-        //check for Navigation Timing API support
-        if (window.performance) {
-            console.info("window.performance works fine on this browser");
-        }
-        console.info(performance.navigation.type);
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            console.info( "This page is reloaded" );
-            inFormOrLink = true;
-            
-        } 
-        @* else {      
-            inFormOrLink = true;          
-            console.info( "This page is not reloaded");
+
+        @* window.onbeforeunload = function(event) {
+            BrowserLogOut();
+            //return true;
         } *@
-        
-        var logOutType = $("#sing_out").val();
-        if(logOutType == "logout"){           
-            @* $(window).bind('beforeunload', function(eventObject) {
-                //inFormOrLink =  $("#IsLinkFormBtnReload").val();
-                var returnValue = undefined;
-                if (! inFormOrLink) {
-                    returnValue = "Do you really want to close?";
-                }
-                //eventObject.returnValue = returnValue;            
-                //return returnValue;
-                if(! inFormOrLink){
-                    BrowserLogOut()
-                }
-                
-            });  *@
-
-            @* window.onbeforeunload = function (event) {
-                console.log("cancelable: "+event.cancelable);
-                console.log("isTrusted: "+event.isTrusted);
-                console.log("defaultPrevented: "+event.defaultPrevented);
-                console.log("returnValue: "+event.returnValue);
-                console.log("bubbles: "+event.bubbles);
-                console.log("cancelBubble: "+event.cancelBubble);
-                
-                var message = 'Important: Please click on \'Save\' button to leave this page.';
-                if (typeof event == 'undefined') {
-                    event = window.event;                    
-                }else{
-                    if(event.cancelable){
-                        BrowserLogOut();
-                    }
-                }
-                //return message;
-            };             *@
-            @* $(window).bind('beforeunload', function(eventObject) {
-                var returnValue = undefined;
-                if (! inFormOrLink) {
-                    returnValue = "Do you really want to close?";
-                    BrowserLogOut();
-                }
-                eventObject.returnValue = returnValue;
-                //return returnValue;
-            }); *@
-            
-            //differentiate page load and refresh            
-            @* function myUnload(event) {
-                if (window.localStorage) {
-                    // flag the page as being unloading
-                    window.localStorage['myUnloadEventFlag']=new Date().getTime();
-                }
-
-                // notify the server that we want to disconnect the user in a few seconds (I used 5 seconds)
-                askServerToDisconnectUserInAFewSeconds(); // synchronous AJAX call
+        @* var clicked = false;
+        function CheckBrowser() {
+            if (clicked == false) {
+                alert("clicked")
+                //Browser closed
             }
-            function myLoad(event) {
-                if (window.localStorage) {
-                    var t0 = Number(window.localStorage['myUnloadEventFlag']);
-                    if (isNaN(t0)) t0=0;
-                    var t1=new Date().getTime();
-                    var duration=t1-t0;
-                    if (duration<10*1000) {
-                        // less than 10 seconds since the previous Unload event => it's a browser reload (so cancel the disconnection request)
-                        askServerToCancelDisconnectionRequest(); // asynchronous AJAX call
-                    } else {
-                        // last unload event was for a tab/window close => do whatever you want (I do nothing here)
+            else {
+                alert("no clicked")
+                //redirected
+                clicked = false;
+            }
+        } *@
+     
+        @* function BClose() {
+            if (clicked == false)//browser is closed
+            {
+                var user_name = $('#hidden_username').val();                
+                if (user_name != null || user_name != undefined || user_name!='') {
+                    $.ajax({
+                        url: `/Registration/RemoveSession?userName=${user_name}`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        //dataType: 'json',
+                        success: function (data) {
+                            $('#hidden_username').val('');
+                            var chat = $.connection.chatHub;
+                            // Start the connection.
+                            $.connection.hub.start().done(function () {
+                                chat.server.send(user_name, ' Logged Out');
+                            });
+                            location.href = '/';
+                        }
+                    });
+                }
+            }
+        } *@
+        @* $(window).on("beforeunload", function() { 
+            BrowserLogOut();
+        }) *@
+        
+        @* window.onbeforeunload = function BClose() {
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
                     }
-                }
-            }  *@
-            $(window).bind('beforeunload', function(eventObject) {
-                if(!inFormOrLink){
-                    BrowserLogOut()
-                }                    
-            }); 
-            
-                                  
-            @* window.onbeforeunload = function (event) {
-                console.log("cancelable: "+event.cancelable);
-                console.log("isTrusted: "+event.isTrusted);
-                console.log("defaultPrevented: "+event.defaultPrevented);
-                console.log("returnValue: "+event.returnValue);
-                console.log("bubbles: "+event.bubbles);
-                console.log("cancelBubble: "+event.cancelBubble);
+                });
+            }  
+        }; *@
 
-                var message = 'Important: Please click on \'Save\' button to leave this page.';
-                if (typeof event == 'undefined') {
-                event = window.event;                    
-                }else{
-                if(event.cancelable){
-                    if(!inFormOrLink){
-                        BrowserLogOut()
-                    }      
-                }
-                }
-                //return message;
-            };   *@
-        }                
-    });
+        @* var myclose = false;
+
+        function ConfirmClose()
+        {
+            if (event.clientY < 0)
+            {
+            event.returnValue = 'You have closed the browser. Do you want to logout from your application?';
+            setTimeout('myclose=false',10);
+            myclose=true;
+            }
+        }
+
+        function HandleOnClose()
+        {
+            if (myclose==true)
+            {
+                //BrowserLogOut();
+            }else{
+                BrowserLogOut();
+            }
+        } *@
+        @* window.onbeforeunload = function (event) {  
+            var message = 'Important: Please click on \'Save\' button to leave this page.';  
+            if (typeof event == 'undefined') {  
+                event = window.event;  
+            }  
+            if (event) {  
+                event.returnValue = message;  
+            }  
+            return message;  
+        };   *@
+        
+        @* window.onbeforeunload = function(e) {
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
+            }
+        }; *@        
+        @* $(window).on('unload',function(){
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
+            }
+        }) *@
+        
+        @* $(document).ready(function () {
+            var logOutType = $("#sing_out").val();
+            if(logOutType == "logout"){
+                $(window).on("beforeunload", function() { 
+                    var user_name = $('#hidden_username').val();                
+                    if (user_name != null || user_name != undefined || user_name!='') {
+                        $.ajax({
+                            url: `/Registration/RemoveSession?userName=${user_name}`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: true,
+                            //dataType: 'json',
+                            success: function (data) {
+                                $('#hidden_username').val('');
+                                var chat = $.connection.chatHub;
+                                // Start the connection.
+                                $.connection.hub.start().done(function () {
+                                    chat.server.send(user_name, ' Logged Out');
+                                });
+                                location.href = '/';
+                            }
+                        });
+                    }
+                
+                    //return confirm("Do you really want to close?"); 
+                }); 
+            }
+        }); *@
+                
     </script>
 </body>
 </html>

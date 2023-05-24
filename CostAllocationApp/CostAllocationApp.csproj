@@ -801,6 +801,8 @@
     <Content Include="Views\Forecasts\GetTotal.cshtml" />
     <Content Include="Views\Forecasts\Apportionment.cshtml" />
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
+    <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
+    <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

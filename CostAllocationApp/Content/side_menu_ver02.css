@@ -1,13 +1,13 @@
 ﻿/***************************\                           
 	side bar
 \***************************/
-.w3-light-grey, .w3-hover-light-grey:hover, .w3-light-gray, .w3-hover-light-gray:hover{
+.new-light-grey, .new-hover-light-grey:hover, .new-light-gray, .new-hover-light-gray:hover{
     color: #000!important;
     background-color: #f1f1f1!important;
 }
-.w3-sidebar{
+.new-sidebar{
     height: 100%;
-    width: 185px;
+    width: 225px;
     background-color: #fff;
     position: fixed!important;
     z-index: 2;

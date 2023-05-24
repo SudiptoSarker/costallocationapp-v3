@@ -1350,5 +1350,30 @@ namespace CostAllocationApp.DAL
             return result;
         }
 
+        public int ApproveAssignement(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
     }
 }

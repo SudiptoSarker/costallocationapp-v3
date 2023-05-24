@@ -1037,9 +1037,13 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-
-
             return Ok(message);
+        }
+        [HttpGet]
+        public IHttpActionResult ApprovedForecastData(string assignementId)
+        {
+            int results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+            return Ok(results);
         }
 
         [HttpGet]

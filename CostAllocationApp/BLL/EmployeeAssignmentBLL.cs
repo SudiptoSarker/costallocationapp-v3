@@ -823,6 +823,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateBCYRCellByAssignmentId(assignmentId, cell);
         }
-
+        public int ApproveAssignement(string approvedAssignementId)
+        {
+            return employeeAssignmentDAL.ApproveAssignement(approvedAssignementId);
+        }
     }
 }

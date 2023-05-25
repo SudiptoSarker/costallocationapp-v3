@@ -156,28 +156,28 @@ namespace CostAllocationApp.BLL
                 employees = employees.OrderBy(e => e.EmployeeName).GroupBy(e=>e.EmployeeName).SelectMany(e=>e).ToList();
             }
 
-            if (employees.Count > 0)
-            {
-                string previousEmployeeName = "";
-                int count = 1;
-                foreach (var item in employees)
-                {
-                    if (previousEmployeeName!=item.EmployeeName)
-                    {
-                        previousEmployeeName = item.EmployeeName;
-                        count = 1;
-                        //item.EmployeeName = item.EmployeeName + " (" + count + ")";
-                        item.EmployeeName = item.EmployeeName;
-                        count++;
+            //if (employees.Count > 0)
+            //{
+            //    string previousEmployeeName = "";
+            //    int count = 1;
+            //    foreach (var item in employees)
+            //    {
+            //        if (previousEmployeeName!=item.EmployeeName)
+            //        {
+            //            previousEmployeeName = item.EmployeeName;
+            //            count = 1;
+            //            //item.EmployeeName = item.EmployeeName + " (" + count + ")";
+            //            item.EmployeeName = item.EmployeeName;
+            //            count++;
                         
-                    }
-                    else
-                    {
-                        item.EmployeeName = item.EmployeeName + " (" + count + ")";
-                        count++;
-                    }
-                }
-            }
+            //        }
+            //        else
+            //        {
+            //            item.EmployeeName = item.EmployeeName + " (" + count + ")";
+            //            count++;
+            //        }
+            //    }
+            //}
 
             // head count...
             if (employees.Count > 0)

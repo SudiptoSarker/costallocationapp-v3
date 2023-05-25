@@ -2327,5 +2327,85 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(sukeyQADtos);
         }
+
+        [HttpGet]
+        [Route("api/utilities/SearchForApprovalEmployee/")]
+        public IHttpActionResult SearchForApprovalEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
+        {            
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
+
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                employeeAssignment.EmployeeName = employeeName.Trim();
+            }
+            else
+            {
+                employeeAssignment.EmployeeName = "";
+            }
+            if (!string.IsNullOrEmpty(sectionId))
+            {
+                employeeAssignment.SectionId = sectionId;
+            }
+            else
+            {
+                employeeAssignment.SectionId = "";
+            }
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                employeeAssignment.DepartmentId = departmentId;
+            }
+            else
+            {
+                employeeAssignment.DepartmentId = "";
+            }
+            if (!string.IsNullOrEmpty(inchargeId))
+            {
+                employeeAssignment.InchargeId = inchargeId;
+            }
+            else
+            {
+                employeeAssignment.InchargeId = "";
+            }
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                employeeAssignment.RoleId = roleId;
+            }
+            else
+            {
+                employeeAssignment.RoleId = "";
+            }            
+            employeeAssignment.ExplanationId = explanationId;
+            if (!string.IsNullOrEmpty(companyId))
+            {
+                employeeAssignment.CompanyId = companyId;
+            }
+            else
+            {
+                employeeAssignment.CompanyId = "";
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                employeeAssignment.Year = year;
+            }
+            else
+            {
+                employeeAssignment.Year = "";
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                employeeAssignment.IsActive = status;
+            }
+            else
+            {
+                employeeAssignment.IsActive = "";
+            }
+            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+            return Ok(forecsatEmployeeAssignmentViewModels);
+        }
     }
 }

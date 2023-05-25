@@ -400,7 +400,7 @@ function ShowForecastResults(year) {
 
     var _retriveddata = [];
     $.ajax({
-        url: `/api/utilities/SearchForecastEmployee`,
+        url: `/api/utilities/SearchForApprovalEmployee`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -713,6 +713,7 @@ function ShowForecastResults(year) {
             { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             { title: "BCYR", type: 'hidden', name: "BCYR" },
             { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
+            { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1212,13 +1213,14 @@ function ShowForecastResults(year) {
         contextMenu: function (obj, x, y, e) {            
             return "";
         },
-        onselection: selectionActive,        
+        onselection: selectionActive,   
+        // onfocus: focus,     
     });
 
     $("#saved_approved_data").css("display", "block");
     $("#approve_forecast_data").css("display", "block");
 
-    jss.deleteColumn(38, 15);
+    jss.deleteColumn(39, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1290,7 +1292,9 @@ function ShowForecastResults(year) {
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {
-        if (value['36'] == true) {
+        if (value['36'] == true && value['38'] == true) {
+            SetRowColor_ApprovedRow(count);
+        }else if (value['36'] == true && value['38'] == false) {
             SetRowColor(count);
         }
         else {
@@ -1445,9 +1449,6 @@ function ShowForecastResults(year) {
                     jss.setStyle("AJ" + count, "background-color", "yellow");
                     jss.setStyle("AJ" + count, "color", "red");
                 }
-              
-             
-               
             });
         }
         count++;
@@ -1513,6 +1514,8 @@ var newRowInserted = function (instance, x, y, newRow) {
     jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');   
 }
 var selectionActive = function(instance, x1, y1, x2, y2, origin) {
+    var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
+    var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
     var retrivedData = retrivedObject(jss.getRowData(sRows));
     $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
@@ -1521,7 +1524,9 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
     // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
 }
-
+// var focus = function(instance) {
+//     $('#log').append('The table ' + $(instance).prop('id') + ' is focus');
+// }	
 function updateArray(array, retrivedData) {
     var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
@@ -1603,7 +1608,8 @@ function retrivedObject(rowData) {
         augPoint: parseFloat(rowData[21]),
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('assignment_year_list').value,
-        bcyr: rowData[36]
+        bcyr: rowData[36],
+        bCYRApproved: rowData[37]
     };
 }
 
@@ -2045,7 +2051,6 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     //jss.setStyle("A"+insertedRowNumber,"color", "red");
     jss.setStyle("B" + insertedRowNumber, "background-color", "LightBlue");
     //jss.setStyle("B" + insertedRowNumber, "color", "red");
-    //jss.setStyle("B"+insertedRowNumber,"color", "red");
     jss.setStyle("C"+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle("C"+insertedRowNumber,"color", "red");
     jss.setStyle("D"+insertedRowNumber,"background-color", "LightBlue");
@@ -2114,4 +2119,78 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     //jss.setStyle("AI"+insertedRowNumber,"color", "red");
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle("AJ"+insertedRowNumber,"color", "red");
+}
+function SetRowColor_ApprovedRow(insertedRowNumber){
+    jss.setStyle("A"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("A"+insertedRowNumber,"color", "red");
+    jss.setStyle("B" + insertedRowNumber, "background-color", "LightBlue");
+    jss.setStyle("B" + insertedRowNumber, "color", "red");
+    jss.setStyle("C"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("C"+insertedRowNumber,"color", "red");
+    jss.setStyle("D"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("D"+insertedRowNumber,"color", "red");
+    jss.setStyle("E"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("E"+insertedRowNumber,"color", "red");
+    jss.setStyle("F"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("F"+insertedRowNumber,"color", "red");
+    jss.setStyle("G"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("G"+insertedRowNumber,"color", "red");
+    jss.setStyle("H"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("H"+insertedRowNumber,"color", "red");
+    jss.setStyle("I"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("I"+insertedRowNumber,"color", "red");
+    jss.setStyle("J"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("J"+insertedRowNumber,"color", "red");
+    jss.setStyle("K"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("K"+insertedRowNumber,"color", "red");
+    jss.setStyle("L"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("L"+insertedRowNumber,"color", "red");
+    jss.setStyle("M"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("M"+insertedRowNumber,"color", "red");
+    jss.setStyle("N"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("N"+insertedRowNumber,"color", "red");
+    jss.setStyle("O"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("O"+insertedRowNumber,"color", "red");
+    jss.setStyle("P"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("P"+insertedRowNumber,"color", "red");
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("Q"+insertedRowNumber,"color", "red");
+    jss.setStyle("R"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("R"+insertedRowNumber,"color", "red");
+    jss.setStyle("S"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("S"+insertedRowNumber,"color", "red");
+    jss.setStyle("T"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("T"+insertedRowNumber,"color", "red");
+    jss.setStyle("U"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("U"+insertedRowNumber,"color", "red");
+    jss.setStyle("V"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("V"+insertedRowNumber,"color", "red");
+    jss.setStyle("W"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("W"+insertedRowNumber,"color", "red");
+    jss.setStyle("X"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("X"+insertedRowNumber,"color", "red");
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("Y"+insertedRowNumber,"color", "red");
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("Z"+insertedRowNumber,"color", "red");
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AA"+insertedRowNumber,"color", "red");
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AB"+insertedRowNumber,"color", "red");
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AC"+insertedRowNumber,"color", "red");
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AD"+insertedRowNumber,"color", "red");
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AE"+insertedRowNumber,"color", "red");
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AF"+insertedRowNumber,"color", "red");
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AG"+insertedRowNumber,"color", "red");
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AH"+insertedRowNumber,"color", "red");
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AI"+insertedRowNumber,"color", "red");
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle("AJ"+insertedRowNumber,"color", "red");
 }

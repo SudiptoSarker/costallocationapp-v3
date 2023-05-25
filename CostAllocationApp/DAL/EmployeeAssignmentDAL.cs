@@ -15,7 +15,7 @@ namespace CostAllocationApp.DAL
         public int CreateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,BCYR,BCYRCell) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@bCYR,@bCYRCell);";
+            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,BCYR,BCYRCell,EmployeeName) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@bCYR,@bCYRCell,@employeeName);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -91,6 +91,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
                 cmd.Parameters.AddWithValue("@bCYR", employeeAssignment.BCYR);
                 cmd.Parameters.AddWithValue("@bCYRCell", employeeAssignment.BCYRCell);
+                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
 
                 try
                 {
@@ -698,20 +699,20 @@ namespace CostAllocationApp.DAL
                 where += $" ea.Year={employeeAssignment.Year} and ";
             }
             
-            if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
-            {
-                where += $" ea.IsActive={employeeAssignment.IsActive} and ";
-            }
-            else
-            {
-                where += $" ea.IsActive=1 and ";
-            }
+            //if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
+            //{
+            //    where += $" ea.IsActive={employeeAssignment.IsActive} and ";
+            //}
+            //else
+            //{
+            //    where += $" ea.IsActive=1 and ";
+            //}
 
             where += " 1=1 ";
 
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -741,7 +742,7 @@ namespace CostAllocationApp.DAL
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -764,6 +765,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"]  is DBNull ? "":  rdr["Remarks"].ToString() ;
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false: Convert.ToBoolean(rdr["BCYR"]);
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
                             //{

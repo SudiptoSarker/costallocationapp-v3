@@ -336,6 +336,7 @@
                 type: 'GET',
                 async: true,
                 success: function (data) {
+                    location.href = '/';
                 }
             });
         }
@@ -348,19 +349,20 @@
 
     //check for Navigation Timing API support
     if (window.performance) {
-        console.info("window.performance works fine on this browser");
+        //console.info("window.performance works fine on this browser");
     }
-    //console.info(performance.navigation.type);
-    //if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-    //    console.info("This page is reloaded");
-    //    inFormOrLink = true;
-    //}
-    var logOutType = $("#sing_out").val();
-    if (logOutType == "logout") {
+    console.info(performance.navigation.type);
+    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        //console.info("This page is reloaded");
+        inFormOrLink = true;
+    }
 
+    var logOutType = $("#sing_out").val();
+    if (logOutType == "logout") {        
         $(window).bind('beforeunload', function (eventObject) {            
+            //console.log("bind");
             if (inFormOrLink != true) {
-                BrowserLogOut();
+                //BrowserLogOut();
             }
         })
     }

@@ -1238,21 +1238,27 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員を追加 (Add Emp)',
                 onclick: function () {
-                    obj.insertRow(1, parseInt(y));                    
-                    var insertedRowNumber = parseInt(obj.getSelectedRows(true) )+2;
-                    SetRowColor(insertedRowNumber);
-                    console.log(insertedRowNumber);
-                    jss.setValueFromCoords(36, (insertedRowNumber-1),true, false);
+                    debugger;
+                    obj.insertRow(1, parseInt(y));
+                    var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
+                    
+                    setTimeout(function () {
+                        SetRowColor(insertedRowNumber);
+                        console.log(insertedRowNumber);
+                        jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
 
-                    $('#jexcel_add_employee_modal').modal('show');
-                    globalY = parseInt(y) + 1;
-                    GetEmployeeList();
+                        $('#jexcel_add_employee_modal').modal('show');
+                        globalY = parseInt(y) + 1;
+                        GetEmployeeList();
+                    },1000);
+                    
+                    
                 }
             });
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
-                    //debugger;
+                    debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
@@ -1263,43 +1269,99 @@ function ShowForecastResults(year) {
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
-                    newEmployeeId = "new-" + newRowCount;
 
+                    if (retrivedData.assignmentId.toString().includes('new')) {
+                        newEmployeeId = "new-" + newRowCount;
+                        var allSpecificObjectsCount = 0;
 
-                    var allSpecificObjectsCount = 0;
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[35] == retrivedData.employeeId) {
-                            allSpecificObjectsCount++;
-                            if (!isNaN(x[0])) {
-                                allSameEmployeeId.push(x[0]);
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+                                
+                                if (isNaN(x[0])) {
+                                    allSpecificObjectsCount++;
+                                    allSameEmployeeId.push(x[0]);
+                                }
+
                             }
-                            
                         }
+                        var allSameEmployeeIdSplitted = [];
+                        for (var i = 0; i < allSameEmployeeId.length; i++) {
+                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                        }
+                       
+
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == 'new-'+minAssignmentNumber) {
+
+                                retrivedData = retrivedObject(jss.getRowData(x));
+
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == 'new-'+minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                                break;
+                            }
+                        }
+
+
+
                     }
+                    else {
+                        newEmployeeId = "new-" + newRowCount;
+                        var allSpecificObjectsCount = 0;
 
-                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+                                allSpecificObjectsCount++;
+                                if (!isNaN(x[0])) {
+                                    allSameEmployeeId.push(x[0]);
+                                }
 
-                    for (let x = 0; x < allData.length; x++) {
-                        //debugger;
-                        if (allData[x][0] == minAssignmentNumber) {
-                            
-                            retrivedData = retrivedObject(jss.getRowData(x));
-                            
-                            break;
+                            }
                         }
+
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == minAssignmentNumber) {
+
+                                retrivedData = retrivedObject(jss.getRowData(x));
+
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                                break;
+                            }
+                        }
+
+
                     }
                     
-                    retrivedData.bcyr = false;
-                    retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
                     
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[0] == minAssignmentNumber) {
-                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                            break;
-                        }
-                    }
+                    
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
@@ -1385,43 +1447,91 @@ function ShowForecastResults(year) {
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
+                    if (retrivedData.assignmentId.includes('new')) {
+                        newEmployeeId = "new-" + newRowCount;
+                        var allSpecificObjectsCount = 0;
 
-                    newEmployeeId = "new-" + newRowCount;
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
 
-                    var allSpecificObjectsCount = 0;
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[35] == retrivedData.employeeId) {
-                            allSpecificObjectsCount++;
-                            if (!isNaN(x[0])) {
-                                allSameEmployeeId.push(x[0]);
+                                if (isNaN(x[0])) {
+                                    allSpecificObjectsCount++;
+                                    allSameEmployeeId.push(x[0]);
+                                }
+
+                            }
+                        }
+                        var allSameEmployeeIdSplitted = [];
+                        for (var i = 0; i < allSameEmployeeId.length; i++) {
+                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                        }
+
+
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
+
+                                retrivedData = retrivedObject(jss.getRowData(x));
+
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == 'new-' + minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                                break;
                             }
                         }
                     }
+                    else {
+                        newEmployeeId = "new-" + newRowCount;
 
-                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                        var allSpecificObjectsCount = 0;
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+                                allSpecificObjectsCount++;
+                                if (!isNaN(x[0])) {
+                                    allSameEmployeeId.push(x[0]);
+                                }
+                            }
+                        }
+
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
 
-                    for (let x = 0; x < allData.length; x++) {
-                        //debugger;
-                        if (allData[x][0] == minAssignmentNumber) {
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == minAssignmentNumber) {
 
-                            retrivedData = retrivedObject(jss.getRowData(x));
+                                retrivedData = retrivedObject(jss.getRowData(x));
 
-                            break;
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                                break;
+                            }
                         }
                     }
-
-                    retrivedData.bcyr = false;
-                    retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[0] == minAssignmentNumber) {
-                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                            break;
-                        }
-                    }
+                    
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
@@ -1514,42 +1624,91 @@ function ShowForecastResults(year) {
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
 
-                    newEmployeeId = "new-" + newRowCount;
+                    if (retrivedData.assignmentId.includes('new')) {
+                        newEmployeeId = "new-" + newRowCount;
+                        var allSpecificObjectsCount = 0;
 
-                    //debugger;
-                    var allSpecificObjectsCount = 0;
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[35] == retrivedData.employeeId) {
-                            allSpecificObjectsCount++;
-                            if (!isNaN(x[0])) {
-                                allSameEmployeeId.push(x[0]);
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+
+                                if (isNaN(x[0])) {
+                                    allSpecificObjectsCount++;
+                                    allSameEmployeeId.push(x[0]);
+                                }
+
+                            }
+                        }
+                        var allSameEmployeeIdSplitted = [];
+                        for (var i = 0; i < allSameEmployeeId.length; i++) {
+                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                        }
+
+
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
+
+                                retrivedData = retrivedObject(jss.getRowData(x));
+
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == 'new-' + minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
+                                break;
+                            }
+                        }
+                    } else {
+                        newEmployeeId = "new-" + newRowCount;
+
+                        //debugger;
+                        var allSpecificObjectsCount = 0;
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[35] == retrivedData.employeeId) {
+                                allSpecificObjectsCount++;
+                                if (!isNaN(x[0])) {
+                                    allSameEmployeeId.push(x[0]);
+                                }
+                            }
+                        }
+                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+
+                        for (let x = 0; x < allData.length; x++) {
+                            //debugger;
+                            if (allData[x][0] == minAssignmentNumber) {
+
+                                retrivedData = retrivedObject(jss.getRowData(x));
+
+                                break;
+                            }
+                        }
+
+                        retrivedData.bcyr = false;
+                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+
+
+                        for (let x of allData) {
+                            //console.log(x);
+                            if (x[0] == minAssignmentNumber) {
+                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
+                                break;
                             }
                         }
                     }
-                    var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
-                    for (let x = 0; x < allData.length; x++) {
-                        //debugger;
-                        if (allData[x][0] == minAssignmentNumber) {
-
-                            retrivedData = retrivedObject(jss.getRowData(x));
-
-                            break;
-                        }
-                    }
-
-                    retrivedData.bcyr = false;
-                    retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                    for (let x of allData) {
-                        //console.log(x);
-                        if (x[0] == minAssignmentNumber) {
-                            newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                            break;
-                        }
-                    }
+                   
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
@@ -2043,16 +2202,35 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
     array[index].employeeId = retrivedData.employeeId;
     array[index].employeeName = retrivedData.employeeName;
-    array[index].remarks = retrivedData.remarks;
+    
     array[index].sectionId = retrivedData.sectionId;
     array[index].departmentId = retrivedData.departmentId;
     array[index].inchargeId = retrivedData.inchargeId;
     array[index].roleId = retrivedData.roleId;
-    array[index].explanationId = retrivedData.explanationId;
+    
     array[index].companyId = retrivedData.companyId;
     array[index].gradeId = retrivedData.gradeId;
     array[index].unitPrice = retrivedData.unitPrice;
-    
+    if (x == 2) {
+        array[index].remarks = retrivedData.remarks;
+        if (!newRowChangeEventFlag) {
+            $(cell).css('color', 'red');
+            $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
+        }
+    }
+    if (x == 7) {
+        array[index].explanationId = retrivedData.explanationId;
+        if (!newRowChangeEventFlag) {
+            $(cell).css('color', 'red');
+            $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
+        }
+    }
     if (x == 11) {
         var octSum = 0;
         $.each(jss.rows, (index, value) => {
@@ -2075,7 +2253,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            //cellwiseColorCodeForInsert.push(retrivedData.assignmentId + '_' + x);
+            var currentValue = jss.getValueFromCoords(37,y);
+            currentValue += ',new-x_'+x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
 
@@ -2101,9 +2281,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
-        //cellwiseColorCodeForInsert.push(retrivedData.assignmentId + '_' + x);
 
     }
     if (x == 13) {
@@ -2126,6 +2308,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2149,6 +2334,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2172,6 +2360,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2196,6 +2387,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2219,6 +2413,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2241,6 +2438,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2264,6 +2464,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2286,6 +2489,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2309,6 +2515,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -2332,6 +2541,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(37, y);
+            currentValue += ',new-x_' + x;
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }

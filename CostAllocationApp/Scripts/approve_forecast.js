@@ -1467,7 +1467,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
     
     //get cell information
-    var retrivedData = retrivedObject(jss.getRowData(y));
+    //var retrivedData = retrivedObject(jss.getRowData(y));
 
 
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);

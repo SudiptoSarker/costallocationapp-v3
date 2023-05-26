@@ -8547,6 +8547,7 @@ ul.comment-list li ul.children {
 .nav-bar-contains {
 	overflow: hidden;
 	width: 250px;
+	/* width: 450px; */
 	height: 100%;
 	margin: 41px auto;
 	padding: 0;

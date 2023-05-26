@@ -1355,7 +1355,7 @@ namespace CostAllocationApp.DAL
         public int ApproveAssignement(string approvedAssignmentId)
         {
             int result = 0;
-            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId";
+            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId and BCYR=1";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1615,6 +1615,30 @@ namespace CostAllocationApp.DAL
             }
 
             return forecastEmployeeAssignments;
+        }
+        public int UpdateApprovedData(string assignmentYear)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYR= 0,BCYRApproved=0 where BCYR= 1 and BCYRApproved=1  and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
         }
 
     }

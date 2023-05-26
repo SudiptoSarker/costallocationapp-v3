@@ -1145,5 +1145,9 @@ namespace CostAllocationApp.BLL
             }
             return employees;
         }
+        public int UpdateApprovedData(string assignmentYear)
+        {
+            return employeeAssignmentDAL.UpdateApprovedData(assignmentYear);
+        }
     }
 }

@@ -2407,5 +2407,12 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
+        [HttpGet]
+        [Route("api/utilities/UpdateApprovedData/")]
+        public IHttpActionResult UpdateApprovedData(string assignmentYear)
+        {
+            int results = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
+            return Ok(results);
+        }
     }
 }

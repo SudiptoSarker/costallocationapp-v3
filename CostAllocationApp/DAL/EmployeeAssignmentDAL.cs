@@ -712,7 +712,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -768,6 +768,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
 
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
@@ -1604,7 +1605,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -1656,6 +1657,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
                             
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
@@ -1726,7 +1728,7 @@ namespace CostAllocationApp.DAL
         }
         public int UpdateBYCRCells(string assignementId, string bCYRCellApproved,string storeBYCRCells) {
             int result = 0;
-            string query = $@"update EmployeesAssignments set BCYRCell=@bCYRCell,BCYRCellApproved=@bCYRCellApproved where Id=" + assignementId;
+            string query = $@"update EmployeesAssignments set BCYRCell=@bCYRCell,BCYRCellApproved=@bCYRCellApproved,IsApproved=1 where Id=" + assignementId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

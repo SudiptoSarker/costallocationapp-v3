@@ -1157,5 +1157,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateApprovedDataForDeleteRows(assignmentYear);
         }
+        public EmployeeAssignment GetPreviousApprovedCells(string assignementId)
+        {
+            return employeeAssignmentDAL.GetPreviousApprovedCells(assignementId);
+        }
     }
 }

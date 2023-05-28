@@ -1690,6 +1690,34 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public EmployeeAssignment GetPreviousApprovedCells(string assignementId)
+        {
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+
+            string query = "select BCYRCell,BCYRCellApproved from EmployeesAssignments where  id="+assignementId;
+            string previousCells = "";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        _employeeAssignments.BCYRCell = rdr["BCYRCell"].ToString(); ;
+                        _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"].ToString(); ;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return _employeeAssignments;
+            }
+        }
 
     }
 }

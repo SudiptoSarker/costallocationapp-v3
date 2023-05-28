@@ -234,31 +234,63 @@ $(document).ready(function () {
             var data_Info = {
                 Id: approveAssignmentId
             };
-            $.ajax({
-                url: `/api/utilities/ApprovedForecastData`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-                success: function (data) {
-                    if(data==1){
-                        var rowNumber = $("#hidSelectedRowNumber").val();
-                        if(isDeleted =='true'){
-                            SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                        }else{
-                            SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+            var isRowSelected = $("#hid_IsRowSelected").val();
+            var selectedCells = $("#hid_cellNo").val();
+            if(isRowSelected=="yes"){
+                //approve rows
+                $.ajax({
+                    url: `/api/utilities/ApprovedForecastData`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
+                    success: function (data) {
+                        if(data==1){
+                            var rowNumber = $("#hidSelectedRowNumber").val();
+                            if(isDeleted =='true'){
+                                SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                            }else{
+                                SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                            }
+                            $("#hidSelectedRow_AssignementId").val("");
+                            $("#hidIsRowDeleted").val("");
+                            alert("Operation Success.")
                         }
-                        $("#hidSelectedRow_AssignementId").val("");
-                        $("#hidIsRowDeleted").val("");
-                        alert("Operation Success.")
+                        else{
+                            alert("There is no data to approved!")
+                        }
+                        //_retriveddata = data;
                     }
-                    else{
-                        alert("There is no data to approved!")
+                });       
+            }else{
+                //approve cells
+                $.ajax({
+                    url: `/api/utilities/ApprovedCellData`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
+                    success: function (data) {
+                        if(data==1){
+                            var rowNumber = $("#hidSelectedRowNumber").val();
+                            if(isDeleted =='true'){
+                                SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                            }else{
+                                SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                            }
+                            $("#hidSelectedRow_AssignementId").val("");
+                            $("#hidIsRowDeleted").val("");
+                            alert("Operation Success.")
+                        }
+                        else{
+                            alert("There is no data to approved!")
+                        }
+                        //_retriveddata = data;
                     }
-                    //_retriveddata = data;
-                }
-            });       
+                });       
+            }
         }       
     });
 
@@ -1407,7 +1439,7 @@ function ShowForecastResults(year) {
                 }
             });
         }
-        
+
         if (value['38'] == false && value['39'] == false) {
             DisableRow(count);
         }
@@ -1482,13 +1514,48 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     
     //get cell information
     //var retrivedData = retrivedObject(jss.getRowData(y));
+    /*
+    cell info:x2/x1
+    1-employee name
+    2-remarks
+    3-sections
+    4-dept.
+    5-incharge
+    6-role
+    7-explanations
+    8-company
+    9-grade
+    10-unit price
+    11-oct
+    12-nov
+    13-dec
+    14-jan
+    15-feb
+    16-mar
+    17-apr
+    18-may
+    19-jun
+    20-july
+    21-aug
+    22-sept
+    x2-34 means row select
+    */
 
 
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+    //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
     $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
-    $("#hidIsRowDeleted").val(retrivedData.isActive);
-    $("#hidSelectedRowNumber").val(sRows);
+
+    if(x2==34){
+        $("#hid_IsRowSelected").val("yes");
+        $("#hidIsRowDeleted").val(retrivedData.isActive);
+        $("#hidSelectedRowNumber").val(sRows);
+    }else{
+        $("#hid_IsRowSelected").val("no");
+        $("#hid_cellNo").val(x2);
+    }
+    
     // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
     // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
     // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');

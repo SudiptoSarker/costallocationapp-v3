@@ -926,6 +926,41 @@ namespace CostAllocationApp.Controllers.Api
             }            
             return Ok(results);
         }
+        [HttpGet]
+        public IHttpActionResult ApprovedCellData(string assignementId, string selectedCells)
+        {
+            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
+
+            //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+            _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+
+            if (string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
+            {
+                _employeeAssignment.BCYRCellApproved = "";
+                _employeeAssignment.BCYRCellApproved = selectedCells;
+            }
+            else
+            {
+                _employeeAssignment.BCYRCellApproved = _employeeAssignment.BCYRCellApproved + "," + selectedCells;
+            }
+            if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
+            {
+
+            }
+
+            //int results = RemoveFromPreviousInsertedCells(assignementId, selectedCells);
+
+
+            if (!isDeletedRow)
+            {
+                results = employeeAssignmentBLL.ApproveDeletedRow(assignementId);
+            }
+            else
+            {
+                results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+            }
+            return Ok(results);
+        }
 
         [HttpGet]
         public IHttpActionResult GetTimeStamps(int year)

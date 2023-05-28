@@ -930,36 +930,55 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult ApprovedCellData(string assignementId, string selectedCells)
         {
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
+            bool isUpdateData = false;
 
             //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
             _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
-
+            
             if (string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
             {
                 _employeeAssignment.BCYRCellApproved = "";
                 _employeeAssignment.BCYRCellApproved = selectedCells;
+                isUpdateData = true;
             }
             else
             {
-                _employeeAssignment.BCYRCellApproved = _employeeAssignment.BCYRCellApproved + "," + selectedCells;
+                bool isCellAlreadyHave = _employeeAssignment.BCYRCellApproved.Contains(selectedCells);
+                if (!isCellAlreadyHave)
+                {
+                    isUpdateData = true;
+                    _employeeAssignment.BCYRCellApproved = _employeeAssignment.BCYRCellApproved + "," + selectedCells;
+                }                
             }
-            if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
-            {
+            if (isUpdateData) { 
+                string storeBYCRCells = "";
+                if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
+                {
+                    var arrBYCRCells = _employeeAssignment.BCYRCell.Split(',');                
+                    foreach (var bycrCell in arrBYCRCells)
+                    {
+                        if (bycrCell != selectedCells)
+                        {
+                            if (storeBYCRCells == "")
+                            {
+                                storeBYCRCells = bycrCell;
+                            }
+                            else
+                            {
+                                storeBYCRCells = storeBYCRCells+","+bycrCell;
+                            }
+                        }
+                    }
+                }
 
-            }
-
-            //int results = RemoveFromPreviousInsertedCells(assignementId, selectedCells);
-
-
-            if (!isDeletedRow)
-            {
-                results = employeeAssignmentBLL.ApproveDeletedRow(assignementId);
+                int results = employeeAssignmentBLL.UpdateBYCRCells(assignementId, _employeeAssignment.BCYRCellApproved,storeBYCRCells);
+                return Ok(results);
             }
             else
             {
-                results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+                return Ok(0); ;
             }
-            return Ok(results);
+            
         }
 
         [HttpGet]
@@ -2457,7 +2476,8 @@ namespace CostAllocationApp.Controllers.Api
             int results;
             int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
             int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);
-            if(results2==1 || results3 == 1)
+            int results4 = employeeAssignmentBLL.UpdateCellWiseApprovdData(assignmentYear);
+            if(results2 >0 || results3 > 0 || results4 > 0)
             {
                 results = 1;
             }

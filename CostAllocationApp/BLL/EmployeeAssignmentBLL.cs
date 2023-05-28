@@ -1161,5 +1161,13 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetPreviousApprovedCells(assignementId);
         }
+        public int UpdateBYCRCells(string assignementId, string bCYRCellApproved, string storeBYCRCells)
+        {
+            return employeeAssignmentDAL.UpdateBYCRCells(assignementId, bCYRCellApproved, storeBYCRCells);
+        }
+        public int UpdateCellWiseApprovdData(string assignmentYear)
+        {
+            return employeeAssignmentDAL.UpdateCellWiseApprovdData(assignmentYear);
+        }
     }
 }

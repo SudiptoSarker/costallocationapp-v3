@@ -227,6 +227,7 @@ $(document).ready(function () {
 
     $('#approve_forecast_data').on('click', function () {
         var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
+        var isDeleted = $("#hidIsRowDeleted").val();
         if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
             alert("There is no data to approve!");
         }else{
@@ -239,12 +240,17 @@ $(document).ready(function () {
                 type: 'GET',
                 async: false,
                 dataType: 'json',
-                data: "assignementId=" + approveAssignmentId,
+                data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
                 success: function (data) {
                     if(data==1){
                         var rowNumber = $("#hidSelectedRowNumber").val();
-                        SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                        if(isDeleted =='true'){
+                            SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                        }else{
+                            SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                        }
                         $("#hidSelectedRow_AssignementId").val("");
+                        $("#hidIsRowDeleted").val("");
                         alert("Operation Success.")
                     }
                     else{
@@ -663,6 +669,7 @@ function ShowForecastResults(year) {
             { title: "BCYR", type: 'hidden', name: "BCYR" },
             { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
             { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
+            { title: "IsActive", type: 'hidden', name: "IsActive" },
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1169,7 +1176,7 @@ function ShowForecastResults(year) {
     $("#saved_approved_data").css("display", "block");
     $("#approve_forecast_data").css("display", "block");
 
-    jss.deleteColumn(39, 15);
+    jss.deleteColumn(40, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1400,6 +1407,13 @@ function ShowForecastResults(year) {
                 }
             });
         }
+        
+        if (value['38'] == false && value['39'] == false) {
+            DisableRow(count);
+        }
+        else if(value['38'] == true && value['39'] == false){
+            SetRowColor_ForDeletedRow(count)
+        }
         count++;
     });
 }
@@ -1473,6 +1487,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
     $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+    $("#hidIsRowDeleted").val(retrivedData.isActive);
     $("#hidSelectedRowNumber").val(sRows);
     // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
     // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
@@ -1595,7 +1610,8 @@ function retrivedObject_ApprovalData(rowData) {
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('assignment_year_list').value,
         bcyr: rowData[36],
-        bCYRApproved: rowData[37]
+        bCYRApproved: rowData[37],
+        isActive: rowData[39]
     };
 }
 
@@ -2103,6 +2119,187 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle("AJ"+insertedRowNumber,"color", "red");
 }
+function SetRowColor_ForDeletedRow(insertedRowNumber){  
+    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("B" + insertedRowNumber, "background-color", "#ffcccc");
+    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("B" + insertedRowNumber, "color", "black");
+
+    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"background-color", "Pink");
+    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"background-color", "Pink");
+    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"color", "black");
+    
+    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("X"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("X"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("Y"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("Z"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AA"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AB"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AC"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AD"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AE"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AF"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AG"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AH"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AI"+insertedRowNumber,"color", "black");
+
+    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle("AJ"+insertedRowNumber,"color", "black");
+}
 function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle("A"+insertedRowNumber,"background-color", "white");
     jss.setStyle("A"+insertedRowNumber,"color", "black");
@@ -2250,4 +2447,125 @@ function SetRowColor_ApprovedRow(insertedRowNumber){
     jss.setStyle("AI"+insertedRowNumber,"color", "red");
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "LightBlue");
     jss.setStyle("AJ"+insertedRowNumber,"color", "red");
+}
+function DisableRow(rowNumber) {
+
+    jss.setStyle("A" + rowNumber, "background-color", "gray");
+    jss.setStyle("A" + rowNumber, "color", "black");
+    $(jss.getCell("A" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("B" + rowNumber, "background-color", "gray");
+    jss.setStyle("B" + rowNumber, "color", "black");
+    $(jss.getCell("B" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("C" + rowNumber, "background-color", "gray");
+    jss.setStyle("C" + rowNumber, "color", "black");
+    $(jss.getCell("C" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("D" + rowNumber, "background-color", "gray");
+    jss.setStyle("D" + rowNumber, "color", "black");
+    $(jss.getCell("D" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("E" + rowNumber, "background-color", "gray");
+    jss.setStyle("E" + rowNumber, "color", "black");
+    $(jss.getCell("E" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("F" + rowNumber, "background-color", "gray");
+    jss.setStyle("F" + rowNumber, "color", "black");
+    $(jss.getCell("F" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("G" + rowNumber, "background-color", "gray");
+    jss.setStyle("G" + rowNumber, "color", "black");
+    $(jss.getCell("G" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("H" + rowNumber, "background-color", "gray");
+    jss.setStyle("H" + rowNumber, "color", "black");
+    $(jss.getCell("H" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("I" + rowNumber, "background-color", "gray");
+    jss.setStyle("I" + rowNumber, "color", "black");
+    $(jss.getCell("I" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("J" + rowNumber, "background-color", "gray");
+    jss.setStyle("J" + rowNumber, "color", "black");
+    $(jss.getCell("J" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("K" + rowNumber, "background-color", "gray");
+    jss.setStyle("K" + rowNumber, "color", "black");
+    $(jss.getCell("K" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("L" + rowNumber, "background-color", "gray");
+    jss.setStyle("L" + rowNumber, "color", "black");
+    $(jss.getCell("L" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("M" + rowNumber, "background-color", "gray");
+    jss.setStyle("M" + rowNumber, "color", "black");
+    $(jss.getCell("M" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("N" + rowNumber, "background-color", "gray");
+    jss.setStyle("N" + rowNumber, "color", "black");
+    $(jss.getCell("N" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("O" + rowNumber, "background-color", "gray");
+    jss.setStyle("O" + rowNumber, "color", "black");
+    $(jss.getCell("O" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("P" + rowNumber, "background-color", "gray");
+    jss.setStyle("P" + rowNumber, "color", "black");
+    $(jss.getCell("P" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("Q" + rowNumber, "background-color", "gray");
+    jss.setStyle("Q" + rowNumber, "color", "black");
+    $(jss.getCell("Q" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("R" + rowNumber, "background-color", "gray");
+    jss.setStyle("R" + rowNumber, "color", "black");
+    $(jss.getCell("R" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("S" + rowNumber, "background-color", "gray");
+    jss.setStyle("S" + rowNumber, "color", "black");
+    $(jss.getCell("S" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("T" + rowNumber, "background-color", "gray");
+    jss.setStyle("T" + rowNumber, "color", "black");
+    $(jss.getCell("T" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("U" + rowNumber, "background-color", "gray");
+    jss.setStyle("U" + rowNumber, "color", "black");
+    $(jss.getCell("U" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("V" + rowNumber, "background-color", "gray");
+    jss.setStyle("V" + rowNumber, "color", "black");
+    $(jss.getCell("V" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("W" + rowNumber, "background-color", "gray");
+    jss.setStyle("W" + rowNumber, "color", "black");
+    $(jss.getCell("W" + (rowNumber))).addClass('readonly');
+
+    jss.setStyle("X" + rowNumber, "background-color", "gray");
+    jss.setStyle("X" + rowNumber, "color", "black");
+    jss.setStyle("Y" + rowNumber, "background-color", "gray");
+    jss.setStyle("Y" + rowNumber, "color", "black");
+    jss.setStyle("Z" + rowNumber, "background-color", "gray");
+    jss.setStyle("Z" + rowNumber, "color", "black");
+    jss.setStyle("AA" + rowNumber, "background-color", "gray");
+    jss.setStyle("AA" + rowNumber, "color", "black");
+    jss.setStyle("AB" + rowNumber, "background-color", "gray");
+    jss.setStyle("AB" + rowNumber, "color", "black");
+    jss.setStyle("AC" + rowNumber, "background-color", "gray");
+    jss.setStyle("AC" + rowNumber, "color", "black");
+    jss.setStyle("AD" + rowNumber, "background-color", "gray");
+    jss.setStyle("AD" + rowNumber, "color", "black");
+    jss.setStyle("AE" + rowNumber, "background-color", "gray");
+    jss.setStyle("AE" + rowNumber, "color", "black");
+    jss.setStyle("AF" + rowNumber, "background-color", "gray");
+    jss.setStyle("AF" + rowNumber, "color", "black");
+    jss.setStyle("AG" + rowNumber, "background-color", "gray");
+    jss.setStyle("AG" + rowNumber, "color", "black");
+    jss.setStyle("AH" + rowNumber, "background-color", "gray");
+    jss.setStyle("AH" + rowNumber, "color", "black");
+    jss.setStyle("AI" + rowNumber, "background-color", "gray");
+    jss.setStyle("AI" + rowNumber, "color", "black");
+    jss.setStyle("AJ" + rowNumber, "background-color", "gray");
+    jss.setStyle("AJ" + rowNumber, "color", "black");
 }

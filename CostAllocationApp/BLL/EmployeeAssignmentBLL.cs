@@ -827,6 +827,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.ApproveAssignement(approvedAssignementId);
         }
+        public int ApproveDeletedRow(string approvedAssignementId)
+        {
+            return employeeAssignmentDAL.ApproveDeletedRow(approvedAssignementId);
+        }
 
         //get year wise all data for approval employee
         public List<ForecastAssignmentViewModel> GetApprovalEmployeesBySearchFilter(EmployeeAssignmentForecast employeeAssignment)
@@ -1148,6 +1152,10 @@ namespace CostAllocationApp.BLL
         public int UpdateApprovedData(string assignmentYear)
         {
             return employeeAssignmentDAL.UpdateApprovedData(assignmentYear);
+        }
+        public int UpdateApprovedDataForDeleteRows(string assignmentYear)
+        {
+            return employeeAssignmentDAL.UpdateApprovedDataForDeleteRows(assignmentYear);
         }
     }
 }

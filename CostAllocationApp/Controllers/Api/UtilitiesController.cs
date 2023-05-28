@@ -913,9 +913,17 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
         [HttpGet]
-        public IHttpActionResult ApprovedForecastData(string assignementId)
+        public IHttpActionResult ApprovedForecastData(string assignementId,bool isDeletedRow)
         {
-            int results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+            int results;
+            if (!isDeletedRow)
+            {
+                results = employeeAssignmentBLL.ApproveDeletedRow(assignementId);
+            }
+            else
+            {
+                results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+            }            
             return Ok(results);
         }
 
@@ -2411,7 +2419,17 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/UpdateApprovedData/")]
         public IHttpActionResult UpdateApprovedData(string assignmentYear)
         {
-            int results = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
+            int results;
+            int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
+            int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);
+            if(results2==1 || results3 == 1)
+            {
+                results = 1;
+            }
+            else
+            {
+                results = 0;
+            }
             return Ok(results);
         }
     }

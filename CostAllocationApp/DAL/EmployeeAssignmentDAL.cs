@@ -708,11 +708,11 @@ namespace CostAllocationApp.DAL
             //    where += $" ea.IsActive=1 and ";
             //}
 
-            where += " 1=1 ";
+            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -765,7 +765,8 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"]  is DBNull ? "":  rdr["Remarks"].ToString() ;
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false: Convert.ToBoolean(rdr["BCYR"]);
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
                             //{
@@ -1376,6 +1377,55 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int ApproveDeletedRow(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsActive=0,BCYRApproved=1,IsDeleted=0 where Id=@approvedAssignmentId and IsActive =0";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        public int UpdateApprovedDataForDeleteRows(string assignmentYear)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYR= 0,BCYRApproved=0,IsDeleted=1 where IsActive =0 and BCYRApproved=1 and (IsDeleted is null Or  IsDeleted=0 ) and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
         //get approval data
         public List<ForecastAssignmentViewModel> GetApprovalEmployeesBySearchFilter(EmployeeAssignmentForecast employeeAssignment)
         {
@@ -1548,7 +1598,7 @@ namespace CostAllocationApp.DAL
             //    where += $" ea.IsActive=1 and ";
             //}
 
-            where += " 1=1 ";
+            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0";
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
@@ -1601,7 +1651,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
                             
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);

@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\actualcost.css" />
+    <Content Include="Content\actualcostconfirm.css" />
     <Content Include="Content\addname.css" />
     <Content Include="Content\apportionment.css" />
     <Content Include="Content\bootstrap-combined.min.css" />
@@ -660,6 +661,7 @@
     <Content Include="img\user.jpg" />
     <Content Include="img\video-call.jpg" />
     <Content Include="Scripts\actualcost.js" />
+    <Content Include="Scripts\actualcostconfirm.js" />
     <Content Include="Scripts\addname.js" />
     <Content Include="Scripts\apportionment.js" />
     <Content Include="Scripts\bootstrap-3.3.2.min.js" />
@@ -801,8 +803,7 @@
     <Content Include="Views\Forecasts\GetTotal.cshtml" />
     <Content Include="Views\Forecasts\Apportionment.cshtml" />
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
-    <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
-    <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
+    <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

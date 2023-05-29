@@ -330,64 +330,106 @@ $(document).ready(function () {
                     jexcelSecondHeaderRow.css('top', '20px');
 
                     var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-                    octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    octElement.append('<button id="oct_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-                    novElement.append('<input type="checkbox" id="nov_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    novElement.append('<button id="nov_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var decElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13)');
-                    decElement.append('<input type="checkbox" id="dec_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    decElement.append('<button id="dec_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var janElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14)');
-                    janElement.append('<input type="checkbox" id="jan_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    janElement.append('<button id="jan_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var febElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
-                    febElement.append('<input type="checkbox" id="feb_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    febElement.append('<button id="feb_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var marElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16)');
-                    marElement.append('<input type="checkbox" id="mar_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    marElement.append('<button id="mar_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var aprElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17)');
-                    aprElement.append('<input type="checkbox" id="apr_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    aprElement.append('<button id="apr_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var mayElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18)');
-                    mayElement.append('<input type="checkbox" id="may_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    mayElement.append('<button id="may_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var junElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19)');
-                    junElement.append('<input type="checkbox" id="jun_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    junElement.append('<button id="jun_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var julElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20)');
-                    julElement.append('<input type="checkbox" id="jul_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    julElement.append('<button id="jul_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var augElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21)');
-                    augElement.append('<input type="checkbox" id="aug_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    augElement.append('<button id="aug_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     var sepElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22)');
-                    sepElement.append('<input type="checkbox" id="sep_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    sepElement.append('<button id="sep_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                         $('.search_p').css('display','block');
-                        //allEmployeeName = [];
-                        //var data = jss.getData();
-                        //for (var i = 0; i < jss.getData().length; i++) {
-                        //    allEmployeeName.push(data[i][1]);
-                        //}
-                       
-                        //var allEmployeeName = allEmployeeName.filter(function (value, index, array) {
-                        //    return array.indexOf(value) === index;
-                        //});
-                        //allEmployeeName.sort();
-                        //$('#search_p_search').empty();
-                        //allEmployeeName1 = [];
-                        //$.each(allEmployeeName, function (index, value) {
-                        //    $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-                        //    allEmployeeName1.push(value);
-                        //});
-                        //console.log(allEmployeeName);
-
                         $("#hider").fadeIn("slow");
                         $('.search_p').fadeIn("slow");
-                        //$('#filter_modal').modal('show');
+                    });
+
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) #oct_btn').on('click', function () {
+                        $('#oct_btn').empty();
+                        $('#oct_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=10', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) #nov_btn').on('click', function () {
+                        $('#nov_btn').empty();
+                        $('#nov_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=11', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) #dec_btn').on('click', function () {
+                        $('#dec_btn').empty();
+                        $('#dec_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=12', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) #jan_btn').on('click', function () {
+                        $('#jan_btn').empty();
+                        $('#jan_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=1', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) #feb_btn').on('click', function () {
+                        $('#feb_btn').empty();
+                        $('#feb_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=2', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) #mar_btn').on('click', function () {
+                        $('#mar_btn').empty();
+                        $('#mar_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=3', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) #apr_btn').on('click', function () {
+                        $('#apr_btn').empty();
+                        $('#apr_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=4', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) #may_btn').on('click', function () {
+                        $('#may_btn').empty();
+                        $('#may_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=5', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) #jun_btn').on('click', function () {
+                        $('#jun_btn').empty();
+                        $('#jun_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=6', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) #jul_btn').on('click', function () {
+                        $('#jul_btn').empty();
+                        $('#jul_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=7', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) #aug_btn').on('click', function () {
+                        $('#aug_btn').empty();
+                        $('#aug_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=8', '_blank');
+                    });
+                    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) #sep_btn').on('click', function () {
+                        $('#sep_btn').empty();
+                        $('#sep_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        window.open('/Forecasts/ActualCostConfirm?month=9', '_blank');
                     });
                 }
             });

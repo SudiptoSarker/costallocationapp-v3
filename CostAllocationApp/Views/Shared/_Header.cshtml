@@ -32,7 +32,7 @@
         string url = System.IO.Path.GetFileName(fullPath);
         if (!string.IsNullOrEmpty(paramsVal) && paramsVal == "edit")
         {
-            if (url.ToLower().Contains("createforecast"))
+            if (url.ToLower().Contains("actualcostconfirm"))
             {
                 if (ViewBag.linkFlag != null)
                 {
@@ -48,7 +48,7 @@
 
             }
         }
-        else if (url.ToLower().Contains("actualcosts"))
+        else if (url.ToLower().Contains("actualcostconfirm"))
         {
             if (ViewBag.linkFlag != null)
             {

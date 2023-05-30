@@ -11,9 +11,9 @@ nav ul{
 	text-align: center;
 }
 
-
 /*Specify relative for li to make it the base point for ul and arrows in the lower hierarchy*/
 nav ul li{
+	/* line-height: 0;	 */
 	position: relative;
 }
 
@@ -106,6 +106,7 @@ nav li.has-child ul li:last-child a{
 
 nav li.has-child ul li a:hover,nav li.has-child ul li a:active{
 	background:#3577CA;
+	/* background:rgb(117, 52, 52); */
 }
 
 /* 3rd layer position */
@@ -117,7 +118,7 @@ nav li.has-child ul ul{
 
 nav li.has-child ul ul li a:hover,
 nav li.has-child ul ul li a:active{
-	background:#448ED3;
+	background:#448ED3;	
 }
 
 

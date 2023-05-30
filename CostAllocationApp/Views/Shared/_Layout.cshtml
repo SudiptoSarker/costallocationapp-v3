@@ -26,254 +26,27 @@
 @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
 @* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
     <!-- Main Wrapper -->
-    <div class="main-wrapper">
-        <!-- Header -->
-        @Html.Partial("_Header")
-        <!-- /Header -->
+    <div id="container">
+        @* <div class="main-wrapper"> *@
+            <!-- Header -->
+            @Html.Partial("_Header")
+            <!-- /Header -->
 
-        <!-- Sidebar -->
-        @Html.Partial("_Sidebar")
-        <!-- /Sidebar -->
-        <!-- Page Wrapper -->
-        <div class="page-wrapper">
-            @RenderBody()
-            <!-- Add Salary Modal -->
-            <div id="add_salary" class="modal custom-modal fade" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Staff Salary</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label>Select Staff</label>
-                                            <select class="select">
-                                                <option>John Doe</option>
-                                                <option>Richard Miles</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label>Net Salary</label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <h4 class="text-primary">Earnings</h4>
-                                        <div class="form-group">
-                                            <label>Basic</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>DA(40%)</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>HRA(15%)</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Conveyance</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Allowance</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Medical  Allowance</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Others</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="add-more">
-                                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="text-primary">Deductions</h4>
-                                        <div class="form-group">
-                                            <label>TDS</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ESI</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>PF</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Leave</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Prof. Tax</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Labour Welfare</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Others</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="add-more">
-                                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="submit-section">
-                                    <button class="btn btn-primary submit-btn">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Add Salary Modal -->
-            <!-- Edit Salary Modal -->
-            <div id="edit_salary" class="modal custom-modal fade" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Staff Salary</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label>Select Staff</label>
-                                            <select class="select">
-                                                <option>John Doe</option>
-                                                <option>Richard Miles</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label>Net Salary</label>
-                                        <input class="form-control" type="text" value="$4000">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <h4 class="text-primary">Earnings</h4>
-                                        <div class="form-group">
-                                            <label>Basic</label>
-                                            <input class="form-control" type="text" value="$6500">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>DA(40%)</label>
-                                            <input class="form-control" type="text" value="$2000">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>HRA(15%)</label>
-                                            <input class="form-control" type="text" value="$700">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Conveyance</label>
-                                            <input class="form-control" type="text" value="$70">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Allowance</label>
-                                            <input class="form-control" type="text" value="$30">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Medical  Allowance</label>
-                                            <input class="form-control" type="text" value="$20">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Others</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="text-primary">Deductions</h4>
-                                        <div class="form-group">
-                                            <label>TDS</label>
-                                            <input class="form-control" type="text" value="$300">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ESI</label>
-                                            <input class="form-control" type="text" value="$20">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>PF</label>
-                                            <input class="form-control" type="text" value="$20">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Leave</label>
-                                            <input class="form-control" type="text" value="$250">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Prof. Tax</label>
-                                            <input class="form-control" type="text" value="$110">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Labour Welfare</label>
-                                            <input class="form-control" type="text" value="$10">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Fund</label>
-                                            <input class="form-control" type="text" value="$40">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Others</label>
-                                            <input class="form-control" type="text" value="$15">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="submit-section">
-                                    <button class="btn btn-primary submit-btn">Save</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Edit Salary Modal -->
-            <!-- Delete Salary Modal -->
-            <div class="modal custom-modal fade" id="delete_salary" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="form-header">
-                                <h3>Delete Salary</h3>
-                                <p>Are you sure want to delete?</p>
-                            </div>
-                            <div class="modal-btn delete-action">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Delete Salary Modal -->
-        </div>
-        <!-- /Page Wrapper -->
+            <!-- Sidebar -->
+            @Html.Partial("_Sidebar")
+            <!-- /Sidebar -->
+            <!-- Page Wrapper -->
+            <main id="main-area">   
+                <section id="area-1">
+                    @RenderBody()        
+                </section>                    
+            </main>
+            <!-- /Page Wrapper -->
+        @* </div> *@
     </div>
+    @* <footer id="footer">
+		<small>&copy; copyright.</small>	
+	</footer> *@
     <!-- /Main Wrapper -->
     <!-- jQuery -->
     @Scripts.Render("~/bundles/jquery")
@@ -295,83 +68,77 @@
               
     }
     <script type="text/javascript"> 
-    function SetLogOutRule(){
-        $("#IsLinkFormBtnReload").val(true);
-    }
-    /***************************\                           
-    Log out from all device                 
-    \***************************/
-    function RemoveSession() {
-        var user_name = $('#hidden_username').val();                
-        if (user_name != null || user_name != undefined || user_name!='') {
-            $.ajax({
-                url: `/Registration/RemoveSession?userName=${user_name}`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                //dataType: 'json',
-                success: function (data) {
-                    $('#hidden_username').val('');
-                    var chat = $.connection.chatHub;
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send(user_name, ' Logged Out');
-                    });
-                    location.href = '/';
-                }
-            });
+        function SetLogOutRule(){
+            $("#IsLinkFormBtnReload").val(true);
         }
-    }
-
-
-    /***************************\                           
-    browser closed log out               
-    \***************************/
-    function BrowserLogOut() {
-        var user_name = $('#hidden_username').val();
-        if (user_name != null || user_name != undefined || user_name != '') {
-            $.ajax({
-                url: `/Registration/RemoveSession?userName=${user_name}`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: true,
-                success: function (data) {
-                    location.href = '/';
-                }
-            });
-        }
-    }
-    var inFormOrLink;
-    $('form').bind('submit', function () { inFormOrLink = true; });
-    $('a').on('click', function () { inFormOrLink = true; });
-    $('button').on('submit', function () { inFormOrLink = true; });
-    $('a').on('click', function () { inFormOrLink = true; });
-
-    //check for Navigation Timing API support
-    if (window.performance) {
-        //console.info("window.performance works fine on this browser");
-    }
-    console.info(performance.navigation.type);
-    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        //console.info("This page is reloaded");
-        inFormOrLink = true;
-    }
-
-    var logOutType = $("#sing_out").val();
-    if (logOutType == "logout") {        
-        $(window).bind('beforeunload', function (eventObject) {            
-            //console.log("bind");
-            if (inFormOrLink != true) {
-                //BrowserLogOut();
+        /***************************\                           
+        Log out from all device                 
+        \***************************/
+        function RemoveSession() {
+            var user_name = $('#hidden_username').val();                
+            if (user_name != null || user_name != undefined || user_name!='') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $('#hidden_username').val('');
+                        var chat = $.connection.chatHub;
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send(user_name, ' Logged Out');
+                        });
+                        location.href = '/';
+                    }
+                });
             }
-        })
-    }
-
-    //$(document).ready(function () {     
-       
+        }
 
 
-    //});
+        /***************************\                           
+        browser closed log out               
+        \***************************/
+        function BrowserLogOut() {
+            var user_name = $('#hidden_username').val();
+            if (user_name != null || user_name != undefined || user_name != '') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    success: function (data) {
+                        location.href = '/';
+                    }
+                });
+            }
+        }
+        var inFormOrLink;
+        $('form').bind('submit', function () { inFormOrLink = true; });
+        $('a').on('click', function () { inFormOrLink = true; });
+        $('button').on('submit', function () { inFormOrLink = true; });
+        $('a').on('click', function () { inFormOrLink = true; });
+
+        //check for Navigation Timing API support
+        if (window.performance) {
+            //console.info("window.performance works fine on this browser");
+        }
+        console.info(performance.navigation.type);
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            //console.info("This page is reloaded");
+            inFormOrLink = true;
+        }
+
+        var logOutType = $("#sing_out").val();
+        if (logOutType == "logout") {        
+            $(window).bind('beforeunload', function (eventObject) {            
+                //console.log("bind");
+                if (inFormOrLink != true) {
+                    //BrowserLogOut();
+                }
+            })
+        }
     </script>
 </body>
 </html>

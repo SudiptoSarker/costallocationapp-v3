@@ -1,8 +1,9 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
 }
-@section Styles {
-    @* <link rel="stylesheet" href="/Content/side_menu.css"> *@
+@section Styles {    
+     @* <link rel="stylesheet" href="/Content/custome_side_menu.css">
+     <link rel="stylesheet" href="/Content/new_side_menu_ver02.css"> *@
 }
 <div class="row">
     <div class="col-sm-6">
@@ -34,6 +35,9 @@
     <script src="/Scripts/Chart.min.js"></script>
     <script src="/Scripts/Custome-Reporting.js"></script>
     <script src="~/signalr/hubs"></script>
+
+    <script src="~/signalr/5-1-2.js"></script>
+
     <script type="text/javascript">
         @* var clicked = false;
         function CheckBrowser() {

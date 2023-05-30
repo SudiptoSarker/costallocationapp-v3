@@ -53,7 +53,9 @@ namespace CostAllocationApp
                     "~/Content/bootstrap-datetimepicker.min.css",
                     "~/Content/toastr.min.css",
                     "~/Content/style_ver02.css",
-                    "~/Content/side_menu_ver02.css"
+                    "~/Content/side_menu_ver02.css",
+                    "~/Content/new_side_menu_ver02.css",
+                    "~/Content/custome_side_menu.css"
                     //,
                     //"~/Content/custom.css"
                     ));

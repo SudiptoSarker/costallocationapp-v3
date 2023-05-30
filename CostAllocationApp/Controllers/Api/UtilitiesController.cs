@@ -965,7 +965,19 @@ namespace CostAllocationApp.Controllers.Api
                             }
                             else
                             {
-                                storeBYCRCells = storeBYCRCells+","+bycrCell;
+                                var arrCheckForCellValueIsExists = storeBYCRCells.Split(',');
+                                bool isCellExists = false;
+                                foreach (var cellIteam in arrCheckForCellValueIsExists)
+                                {
+                                    if(cellIteam == bycrCell)
+                                    {                                        
+                                        isCellExists = true;
+                                        break;
+                                    }
+                                }
+                                if (!isCellExists) { 
+                                    storeBYCRCells = storeBYCRCells+","+bycrCell;
+                                }
                             }
                         }
                     }

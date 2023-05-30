@@ -1728,7 +1728,7 @@ namespace CostAllocationApp.DAL
         }
         public int UpdateBYCRCells(string assignementId, string bCYRCellApproved,string storeBYCRCells) {
             int result = 0;
-            string query = $@"update EmployeesAssignments set BCYRCell=@bCYRCell,BCYRCellApproved=@bCYRCellApproved,IsApproved=1 where Id=" + assignementId;
+            string query = $@"update EmployeesAssignments set BCYRCell=@bCYRCell,BCYRCellApproved=@bCYRCellApproved where Id=" + assignementId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1751,7 +1751,7 @@ namespace CostAllocationApp.DAL
         public int UpdateCellWiseApprovdData(string assignmentYear)
         {
             int result = 0;
-            string query = $@"update EmployeesAssignments set BCYRCellApproved='' where BCYRCellApproved is not null and BCYRCellApproved !='' and BCYRCellApproved !=0 and Year={assignmentYear}";
+            string query = $@"update EmployeesAssignments set BCYRCellApproved='',IsApproved=1 where BCYRCellApproved is not null and BCYRCellApproved !='' and BCYRCellApproved !='0' and Year={assignmentYear}";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

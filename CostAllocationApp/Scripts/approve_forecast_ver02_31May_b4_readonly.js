@@ -216,7 +216,7 @@ $(document).ready(function () {
             data: "assignmentYear=" + assignmentYear,
             success: function (data) {
                 if(data==1){
-                    //alert("Operation Success.")                    
+                    alert("Operation Success.")                    
                     ShowForecastResults(assignmentYear);
                 }else{
                     LoaderHide();
@@ -537,7 +537,7 @@ function ShowForecastResults(year) {
         
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
-            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150},
+            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150,readOnly: true },
             { title: "Remarks", type: "text", name: "Remarks", width: 60 },
             { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
             { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
@@ -1906,191 +1906,6 @@ function ShowForecastResults(year) {
             SetRowColor_ForDeletedRow(count)
         }
         count++;
-    });
-    var rowCount = 1;
-    $.each(allRows, function (index,value){
-        $(jss.getCell("A" + (rowCount))).removeClass('readonly');
-        jss.setStyle("A"+rowCount,"opacity", "1");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("A" + (rowCount))).addClass('readonly');        
-        
-        $(jss.getCell("B" + (rowCount))).removeClass('readonly');
-        jss.setStyle("B"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("B" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("C" + (rowCount))).removeClass('readonly');
-        jss.setStyle("C"+rowCount,"opacity", "1 !");
-        // jss.setStyle("C"+rowCount,"color", "black");
-        $(jss.getCell("C" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("D" + (rowCount))).removeClass('readonly');
-        jss.setStyle("D"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("D" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("E" + (rowCount))).removeClass('readonly');
-        jss.setStyle("E"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("E" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("F" + (rowCount))).removeClass('readonly');
-        jss.setStyle("F"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("F" + (rowCount))).addClass('readonly');     
-        
-        $(jss.getCell("G" + (rowCount))).removeClass('readonly');
-        jss.setStyle("G"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("G" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("H" + (rowCount))).removeClass('readonly');
-        jss.setStyle("H"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("H" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("I" + (rowCount))).removeClass('readonly');
-        jss.setStyle("I"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("I" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("J" + (rowCount))).removeClass('readonly');
-        jss.setStyle("J"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("J" + (rowCount))).addClass('readonly');     
-
-
-        $(jss.getCell("K" + (rowCount))).removeClass('readonly');
-        jss.setStyle("K"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("K" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("L" + (rowCount))).removeClass('readonly');
-        jss.setStyle("L"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("L" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("M" + (rowCount))).removeClass('readonly');
-        jss.setStyle("M"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("M" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("N" + (rowCount))).removeClass('readonly');
-        jss.setStyle("N"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("N" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("O" + (rowCount))).removeClass('readonly');
-        jss.setStyle("O"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("O" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("P" + (rowCount))).removeClass('readonly');
-        jss.setStyle("P"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("P" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("Q" + (rowCount))).removeClass('readonly');
-        jss.setStyle("Q"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("Q" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("R" + (rowCount))).removeClass('readonly');
-        jss.setStyle("R"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("R" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("S" + (rowCount))).removeClass('readonly');
-        jss.setStyle("S"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("S" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("T" + (rowCount))).removeClass('readonly');
-        jss.setStyle("T"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("T" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("U" + (rowCount))).removeClass('readonly');
-        jss.setStyle("U"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("U" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("V" + (rowCount))).removeClass('readonly');
-        jss.setStyle("V"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("V" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("W" + (rowCount))).removeClass('readonly');
-        jss.setStyle("W"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("W" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("X" + (rowCount))).removeClass('readonly');
-        jss.setStyle("X"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("X" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("Y" + (rowCount))).removeClass('readonly');
-        jss.setStyle("Y"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("Y" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("Z" + (rowCount))).removeClass('readonly');
-        jss.setStyle("Z"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("Z" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AA" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AA"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AA" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AB" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AB"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AB" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AC" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AC"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AC" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AD" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AD"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AD" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AE" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AE"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AE" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AF" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AF"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AF" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AG" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AG"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AG" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AH" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AH"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AH" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AI" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AI"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AI" + (rowCount))).addClass('readonly');     
-
-        $(jss.getCell("AJ" + (rowCount))).removeClass('readonly');
-        jss.setStyle("AJ"+rowCount,"opacity", "1 !");
-        // jss.setStyle("A"+rowCount,"color", "black");
-        $(jss.getCell("AJ" + (rowCount))).addClass('readonly');     
-
-        rowCount++;
     });
 }
 

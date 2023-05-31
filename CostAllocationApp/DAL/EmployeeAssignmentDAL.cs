@@ -1295,6 +1295,80 @@ namespace CostAllocationApp.DAL
 
         }
 
+        public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year,int monthId)
+        {
+            List<EmployeeAssignmentViewModel> employeeAssignments = new List<EmployeeAssignmentViewModel>();
+
+            string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total 
+                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            Inner join Employees ep on ea.EmployeeId = ep.Id
+                            Inner join Costs cst on ea.Id = cst.EmployeeAssignmentsId
+                            where ea.Year={year} and cst.MonthId={monthId}
+                            order by ep.FullName asc, ea.Id";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
+                            employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            employeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            employeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            employeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            employeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            employeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            employeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            //employeeAssignmentViewModel.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            employeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            employeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            employeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
+                            //employeeAssignmentViewModel.UnitPrice = Convert.ToInt32(employeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
+                            //employeeAssignmentViewModel.UnitPrice = Convert.ToInt32(employeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
+
+                            employeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            employeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            //employeeAssignmentViewModel.EmployeeNameWithCodeRemarks = employeeAssignmentViewModel.EmployeeName;
+                            employeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
+                            employeeAssignmentViewModel.AddNameSubCode = rdr["SubCode"].ToString();
+                            employeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            employeeAssignmentViewModel.ForecastedPoints = Convert.ToDecimal(rdr["Points"]);
+                            employeeAssignmentViewModel.ForecastedTotal = Convert.ToDecimal(rdr["Total"]);
+
+                            employeeAssignments.Add(employeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return employeeAssignments;
+
+
+
+        }
+
         public string GetBCYRCellByAssignmentId(int assignmentId)
         {
 

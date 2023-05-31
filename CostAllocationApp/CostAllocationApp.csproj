@@ -234,6 +234,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActualCost.cs" />
+    <Compile Include="Models\ActualCostConfirm.cs" />
     <Compile Include="Models\Apportionment.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />

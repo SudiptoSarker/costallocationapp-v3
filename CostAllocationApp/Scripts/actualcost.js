@@ -211,7 +211,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal:'.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "11月 実績",
@@ -220,7 +220,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "12月 実績",
@@ -229,7 +229,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "1月 実績",
@@ -238,7 +238,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "2月 実績",
@@ -247,7 +247,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "3月 実績",
@@ -256,7 +256,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "4月 実績",
@@ -265,7 +265,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "5月 実績",
@@ -274,7 +274,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "6月 実績",
@@ -283,7 +283,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "7月 実績",
@@ -292,7 +292,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "8月 実績",
@@ -301,7 +301,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                             {
                                 title: "9月 実績",
@@ -310,7 +310,7 @@ $(document).ready(function () {
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                readOnly: true
                             },
                         ],
                         columnSorting: true,
@@ -374,62 +374,62 @@ $(document).ready(function () {
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) #oct_btn').on('click', function () {
                         $('#oct_btn').empty();
                         $('#oct_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=10', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=10&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) #nov_btn').on('click', function () {
                         $('#nov_btn').empty();
                         $('#nov_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=11', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=11&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) #dec_btn').on('click', function () {
                         $('#dec_btn').empty();
                         $('#dec_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=12', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=12&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) #jan_btn').on('click', function () {
                         $('#jan_btn').empty();
                         $('#jan_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=1', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=1&year='+year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) #feb_btn').on('click', function () {
                         $('#feb_btn').empty();
                         $('#feb_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=2', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=2&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) #mar_btn').on('click', function () {
                         $('#mar_btn').empty();
                         $('#mar_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=3', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=3&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) #apr_btn').on('click', function () {
                         $('#apr_btn').empty();
                         $('#apr_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=4', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=4&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) #may_btn').on('click', function () {
                         $('#may_btn').empty();
                         $('#may_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=5', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=5&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) #jun_btn').on('click', function () {
                         $('#jun_btn').empty();
                         $('#jun_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=6', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=6&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) #jul_btn').on('click', function () {
                         $('#jul_btn').empty();
                         $('#jul_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=7', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=7&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) #aug_btn').on('click', function () {
                         $('#aug_btn').empty();
                         $('#aug_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=8', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=8&year=' + year, '_blank');
                     });
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) #sep_btn').on('click', function () {
                         $('#sep_btn').empty();
                         $('#sep_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
-                        window.open('/Forecasts/ActualCostConfirm?month=9', '_blank');
+                        window.open('/Forecasts/ActualCostConfirm?month=9&year=' + year, '_blank');
                     });
                 }
             });

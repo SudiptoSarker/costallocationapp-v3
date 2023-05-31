@@ -29,9 +29,9 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.CreateActualCost(actualCost);
         }
-        public int UpdateActualCost(ActualCost actualCost)
+        public int UpdateActualCost(int year, int assignmentId, string costColumnName, string pointColumnName, double costAmount, double pointAmount, string updatedBy, DateTime updatedDate)
         {
-            return actualCostDAL.UpdateActualCost(actualCost);
+            return actualCostDAL.UpdateActualCost(year, assignmentId, costColumnName, pointColumnName, costAmount, pointAmount, updatedBy, updatedDate);
         }
         public bool CheckSukeyAssignmentId(int assignmentId, int year)
         {
@@ -106,6 +106,10 @@ namespace CostAllocationApp.BLL
         public bool CheckApportionment(int departmentId, int year)
         {
             return actualCostDAL.CheckApportionment(departmentId, year);
+        }
+        public List<ActualCost> GetActualCostsByYear_AssignmentId(int year, int assignmentId)
+        {
+            return actualCostDAL.GetActualCostsByYear_AssignmentId(year, assignmentId);
         }
     }
 }

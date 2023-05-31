@@ -823,6 +823,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateBCYRCellByAssignmentId(assignmentId, cell);
         }
+        public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year, int monthId)
+        {
+            return employeeAssignmentDAL.GetSpecificAssignmentDataData(year, monthId);
+        }
 
     }
 }

@@ -1169,5 +1169,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateCellWiseApprovdData(assignmentYear);
         }
+
+        public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year, int monthId)
+        {
+            return employeeAssignmentDAL.GetSpecificAssignmentDataData(year, monthId);
+        }
     }
 }

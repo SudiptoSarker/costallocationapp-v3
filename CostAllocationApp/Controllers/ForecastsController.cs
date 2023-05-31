@@ -258,6 +258,7 @@ namespace CostAllocationApp.Controllers
                             }
                             
                             var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
+
                             if (assignmentViewModels.Count > 0)
                             {
                                 CreateAssignmentForExcelUpload(_uploadExcel, i, upload_year, assignmentViewModels.Count);
@@ -387,6 +388,8 @@ namespace CostAllocationApp.Controllers
             //employeeAssignment.GradeId = Convert.ToInt32(dt_.GradeId.ToString().Trim(trimElements));
             employeeAssignment.GradeId = String.IsNullOrEmpty(dt_.GradeId.ToString()) ? null : dt_.GradeId;
             employeeAssignment.SubCode = subCodeCount + 1;
+            employeeAssignment.BCYR = false;
+            employeeAssignment.BCYRCell = "";
 
             employeeAssignment.CreatedBy = "";
             employeeAssignment.CreatedDate = DateTime.Now;
@@ -525,5 +528,75 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+        // GET: Approve Forecasts
+        public ActionResult ApproveForecast()
+        {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
+            if (TempData["seccess"] != null)
+            {
+                ViewBag.Success = TempData["seccess"];
+            }
+            else
+            {
+                ViewBag.Success = null;
+
+            }
+            ForecastViewModal forecastViewModal = new ForecastViewModal
+            {
+                _sections = sectionBLL.GetAllSections()
+            };
+            ViewBag.ErrorCount = 0;            
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
+            }
+            return View(forecastViewModal);
+        }
+        public ActionResult ApproveHistories()
+        {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/GetHistories".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
+            }
+            return View();
+        }
+
     }
 }

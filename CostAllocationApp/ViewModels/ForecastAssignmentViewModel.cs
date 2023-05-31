@@ -35,7 +35,9 @@ namespace CostAllocationApp.ViewModels
         public string EmployeeNameWithCodeRemarks { get; set; }
         public bool BCYR { get; set; }
         public string BCYRCell { get; set; }
-
+        public bool BCYRApproved { get; set; }
+        public string BCYRCellApproved { get; set; }
+        public bool IsApproved { get; set; }
         // for forecast
         public List<ForecastDto> forecasts { get; set; }
 

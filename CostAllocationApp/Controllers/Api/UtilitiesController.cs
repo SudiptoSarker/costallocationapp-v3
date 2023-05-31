@@ -910,9 +910,87 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-
-
             return Ok(message);
+        }
+        [HttpGet]
+        public IHttpActionResult ApprovedForecastData(string assignementId,bool isDeletedRow)
+        {
+            int results;
+            if (!isDeletedRow)
+            {
+                results = employeeAssignmentBLL.ApproveDeletedRow(assignementId);
+            }
+            else
+            {
+                results = employeeAssignmentBLL.ApproveAssignement(assignementId);
+            }            
+            return Ok(results);
+        }
+        [HttpGet]
+        public IHttpActionResult ApprovedCellData(string assignementId, string selectedCells)
+        {
+            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
+            bool isUpdateData = false;
+
+            //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+            _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+            
+            if (string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
+            {
+                _employeeAssignment.BCYRCellApproved = "";
+                _employeeAssignment.BCYRCellApproved = selectedCells;
+                isUpdateData = true;
+            }
+            else
+            {
+                bool isCellAlreadyHave = _employeeAssignment.BCYRCellApproved.Contains(selectedCells);
+                if (!isCellAlreadyHave)
+                {
+                    isUpdateData = true;
+                    _employeeAssignment.BCYRCellApproved = _employeeAssignment.BCYRCellApproved + "," + selectedCells;
+                }                
+            }
+            if (isUpdateData) { 
+                string storeBYCRCells = "";
+                if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
+                {
+                    var arrBYCRCells = _employeeAssignment.BCYRCell.Split(',');                
+                    foreach (var bycrCell in arrBYCRCells)
+                    {
+                        if (bycrCell != selectedCells)
+                        {
+                            if (storeBYCRCells == "")
+                            {
+                                storeBYCRCells = bycrCell;
+                            }
+                            else
+                            {
+                                var arrCheckForCellValueIsExists = storeBYCRCells.Split(',');
+                                bool isCellExists = false;
+                                foreach (var cellIteam in arrCheckForCellValueIsExists)
+                                {
+                                    if(cellIteam == bycrCell)
+                                    {                                        
+                                        isCellExists = true;
+                                        break;
+                                    }
+                                }
+                                if (!isCellExists) { 
+                                    storeBYCRCells = storeBYCRCells+","+bycrCell;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                int results = employeeAssignmentBLL.UpdateBYCRCells(assignementId, _employeeAssignment.BCYRCellApproved,storeBYCRCells);
+                return Ok(results);
+            }
+            else
+            {
+                return Ok(0); ;
+            }
+            
         }
 
         [HttpGet]
@@ -2571,6 +2649,104 @@ namespace CostAllocationApp.Controllers.Api
             
 
             return Ok(sukeyQADtos);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/SearchForApprovalEmployee/")]
+        public IHttpActionResult SearchForApprovalEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
+        {            
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
+
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                employeeAssignment.EmployeeName = employeeName.Trim();
+            }
+            else
+            {
+                employeeAssignment.EmployeeName = "";
+            }
+            if (!string.IsNullOrEmpty(sectionId))
+            {
+                employeeAssignment.SectionId = sectionId;
+            }
+            else
+            {
+                employeeAssignment.SectionId = "";
+            }
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                employeeAssignment.DepartmentId = departmentId;
+            }
+            else
+            {
+                employeeAssignment.DepartmentId = "";
+            }
+            if (!string.IsNullOrEmpty(inchargeId))
+            {
+                employeeAssignment.InchargeId = inchargeId;
+            }
+            else
+            {
+                employeeAssignment.InchargeId = "";
+            }
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                employeeAssignment.RoleId = roleId;
+            }
+            else
+            {
+                employeeAssignment.RoleId = "";
+            }            
+            employeeAssignment.ExplanationId = explanationId;
+            if (!string.IsNullOrEmpty(companyId))
+            {
+                employeeAssignment.CompanyId = companyId;
+            }
+            else
+            {
+                employeeAssignment.CompanyId = "";
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                employeeAssignment.Year = year;
+            }
+            else
+            {
+                employeeAssignment.Year = "";
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                employeeAssignment.IsActive = status;
+            }
+            else
+            {
+                employeeAssignment.IsActive = "";
+            }
+            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+            return Ok(forecsatEmployeeAssignmentViewModels);
+        }
+        [HttpGet]
+        [Route("api/utilities/UpdateApprovedData/")]
+        public IHttpActionResult UpdateApprovedData(string assignmentYear)
+        {
+            int results;
+            int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
+            int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);
+            int results4 = employeeAssignmentBLL.UpdateCellWiseApprovdData(assignmentYear);
+            if(results2 >0 || results3 > 0 || results4 > 0)
+            {
+                results = 1;
+            }
+            else
+            {
+                results = 0;
+            }
+            return Ok(results);
         }
     }
 }

@@ -126,7 +126,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-
+        
         public int CreateTimeStamp(ForecastHisory forecastHisory)
         {
             int result = 0;
@@ -158,6 +158,127 @@ namespace CostAllocationApp.DAL
                     }
                 }
                 return result;
+            }
+        }
+
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory)
+        {
+            int result = 0;
+            string query = $@"insert into TimeStamps(TimeStamp,Year,CreatedBy,CreatedDate) values(@timeStamp,@year,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStamp", forecastHisory.TimeStamp);
+                cmd.Parameters.AddWithValue("@year", forecastHisory.Year);
+                cmd.Parameters.AddWithValue("@createdBy", forecastHisory.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", forecastHisory.CreatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                if (result > 0)
+                {
+                    var lastId = GetLastId("TimeStamps");
+
+                    foreach (var item in forecastHisory.Forecasts)
+                    {
+                        //CreateAssignmenttHistory(item, lastId);
+                    }
+                }
+                return result;
+            }
+        }
+        public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
+        {
+            AssignmentHistory assignmentHistories = new AssignmentHistory();
+            string query = "";
+            query = "SELECT * FROM EmployeesAssignments WHERE id=" + assignmentId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            assignmentHistories.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistories.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            assignmentHistories.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
+                            assignmentHistories.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            assignmentHistories.InChargeId = rdr["InChargeId"] is DBNull ? "" : rdr["InChargeId"].ToString();
+                            assignmentHistories.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
+                            assignmentHistories.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            assignmentHistories.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();                            
+                            assignmentHistories.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString("N0");
+                            assignmentHistories.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
+                            assignmentHistories.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
+                            assignmentHistories.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
+                            if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString())) {
+                                assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return assignmentHistories;
+            }
+        }
+        public string GetForecastDataForHistory(int assignmentId)
+        {
+            string returnValue = "";
+            List<Forecast> _forecasts = new List<Forecast>();
+
+            string query = "";
+            query = "SELECT * FROM Costs WHERE EmployeeAssignmentsId=" + assignmentId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast _forecast = new Forecast();
+                            
+                            _forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            _forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            _forecast.Points = Convert.ToDecimal(rdr["Points"]);
+
+                            if (returnValue == "")
+                            {
+                                returnValue = _forecast.Month + "_" + _forecast.Points;
+                            }
+                            else
+                            {
+                                returnValue = returnValue +","+ _forecast.Month + "_" + _forecast.Points;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return returnValue;
             }
         }
 

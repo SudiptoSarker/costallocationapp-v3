@@ -34,6 +34,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory)
+        {
+            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+        }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {
             return forecastDAL.GetTimeStamps_Year(year);
@@ -133,6 +137,10 @@ namespace CostAllocationApp.BLL
         public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
             return forecastDAL.GetForecastDetails(assignmentId, copyYear);
+        }
+        public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
+        {
+            return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
         }
     }
 }

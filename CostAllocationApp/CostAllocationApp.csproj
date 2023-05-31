@@ -235,6 +235,7 @@
     </Compile>
     <Compile Include="Models\ActualCost.cs" />
     <Compile Include="Models\Apportionment.cs" />
+    <Compile Include="Models\AssignmentHistory.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />

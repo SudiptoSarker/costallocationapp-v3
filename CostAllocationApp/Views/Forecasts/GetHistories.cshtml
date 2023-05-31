@@ -27,11 +27,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="filter_history_data">
                 <div class="col-3">
                     <select id="history_year" class="" ></select>
                 </div>
-                <div class="col-2">
+                <div class="col-2" id="btn_submit">
                     <button type="submit" class="btn btn-light mb-2" id="history_data_btn" >表示</button>
                 </div>
             </div>
@@ -54,8 +54,8 @@
     </div>
 
 <!-- Modal History -->
-<div class="modal fade" id="modal_change_history">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+<div class="modal fade" id="modal_change_history" >
+        <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 100%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal_change_history_label">
@@ -70,11 +70,20 @@
                         <div class="row">
                             <div class="col-12">
                                 <div id="forecast_histories">                                
-                                    <table class="table table-bordered" style="width:100%;font-size:12px;text-align:center;">
+                                    <table class="table table-bordered" style="width:100%;font-size:12px;text-align:center;margin-left: -46px;">
                                         <thead>
                                             <tr>
                                                 <th>利用者</th>
-                                                <th>従業員名</th>
+                                                <th>従業員名(Emp)</th>
+                                                <th>Remaks</th>
+                                                <th>区分(Section)</th>
+                                                <th>部署(Dept)</th>
+                                                <th>担当作業(In chg)</th>
+                                                <th>役割(Role)</th>
+                                                <th>説明(expl)</th>
+                                                <th>会社(Com)</th>
+                                                <th>グレード(Grade)</th>
+                                                <th>単価(Unit Price)</th>
                                                 <th>10月</th>
                                                 <th>11月</th>
                                                 <th>12月</th>

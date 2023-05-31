@@ -817,7 +817,6 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecasts = new List<Forecast>();
             List<Forecast> forecastsPrevious = new List<Forecast>();
-            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
             string message = "Something went wrong!!!";
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -840,18 +839,10 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.GradeId = item.GradeId;
                         employeeAssignment.UnitPrice = item.UnitPrice;
 
-                        //AssignmentHistory
-                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
-                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
-                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
-                        
-                        _assignmentHistory.CreatedBy = session["userName"].ToString();
-                        _assignmentHistory.CreatedDate = DateTime.Now;
-
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
                         forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(item.AssignmentId));
-                        assignmentHistories.Add(_assignmentHistory);
+
 
 
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
@@ -875,6 +866,7 @@ namespace CostAllocationApp.Controllers.Api
                             }
                             forecasts = new List<Forecast>();
                         }
+
                     }
 
                     foreach (var forecastPrevious in forecastsPrevious)
@@ -882,7 +874,7 @@ namespace CostAllocationApp.Controllers.Api
                         forecastPrevious.CreatedBy = session["userName"].ToString();
                         forecastPrevious.CreatedDate = DateTime.Now;
                     }
-                    
+
                     ForecastHisory forecastHisory = new ForecastHisory();
                     forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
@@ -890,9 +882,7 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHisory.CreatedBy = session["userName"].ToString();
                     forecastHisory.CreatedDate = DateTime.Now;
 
-                    //author: sudipto,31/5/23: history create
-                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+                    var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {

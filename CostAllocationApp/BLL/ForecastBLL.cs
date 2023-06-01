@@ -34,9 +34,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory)
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories)
         {
-            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
         }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {

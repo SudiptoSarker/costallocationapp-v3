@@ -892,7 +892,7 @@ namespace CostAllocationApp.Controllers.Api
 
                     //author: sudipto,31/5/23: history create
                     //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {

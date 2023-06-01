@@ -188,12 +188,42 @@ namespace CostAllocationApp.DAL
 
                     foreach (var item in forecastHisory.Forecasts)
                     {
-                        //CreateAssignmenttHistory(item, lastId);
+                        //CreateAssignmenttHistory(assignmentHistories, lastId);
                     }
                 }
                 return result;
             }
         }
+
+        public int CreateAssignmenttHistory(List<AssignmentHistory> assignmentHistories, int timeStampId)
+        {
+            int result = 0;
+            //string query = $@"insert into CostHistories(Year,MonthId,Points,EmployeeAssignmentsId,TimeStampId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@employeeAssignmentsId,@timeStampId,@createdBy,@createdDate)";
+            //using (SqlConnection sqlConnection = this.GetConnection())
+            //{
+            //    sqlConnection.Open();
+            //    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+            //    cmd.Parameters.AddWithValue("@year", forecast.Year);
+            //    cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+            //    cmd.Parameters.AddWithValue("@points", forecast.Points);
+            //    cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
+            //    cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
+            //    cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
+            //    cmd.Parameters.AddWithValue("@createdDate", forecast.CreatedDate);
+            //    try
+            //    {
+            //        result = cmd.ExecuteNonQuery();
+            //    }
+            //    catch (Exception ex)
+            //    {
+
+            //    }
+
+                return result;
+            //}
+        }
+
+
         public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
         {
             AssignmentHistory assignmentHistories = new AssignmentHistory();

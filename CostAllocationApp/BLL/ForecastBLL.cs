@@ -91,6 +91,8 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
                     employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
                     employeeAssignment.Year = insertYear.ToString();
+                    employeeAssignment.EmployeeName = item.EmployeeName;
+                    employeeAssignment.BCYRCell = "";
 
                     int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
                     if (result == 1)
@@ -128,7 +130,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
         }
-
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        {
+            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+        }
         public List<int> GetYearFromHistory()
         {
             return forecastDAL.GetYearFromHistory();

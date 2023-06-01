@@ -889,8 +889,7 @@ function ShowForecastResults(year) {
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
-                    if (x == 11) {
-                        debugger;
+                    if (x == 11) {                        
                         var octSum = 0;
                         $.each(jss.rows, (index, value) => {
                             if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText=='false') {

@@ -60,6 +60,7 @@ function GetHistories(timeStampId) {
 
     $.ajax({
         url: `/api/utilities/GetHistoriesByTimeStampId`,
+        // url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
         contentType: 'application/json',
         type: 'GET',
         async: false,

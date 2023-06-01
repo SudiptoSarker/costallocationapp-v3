@@ -126,7 +126,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-        
+
         public int CreateTimeStamp(ForecastHisory forecastHisory)
         {
             int result = 0;
@@ -161,7 +161,7 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories)
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory, List<AssignmentHistory> assignmentHistories)
         {
             int result = 0;
             string query = $@"insert into TimeStamps(TimeStamp,Year,CreatedBy,CreatedDate) values(@timeStamp,@year,@createdBy,@createdDate)";
@@ -194,36 +194,43 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-
         public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId)
         {
             int result = 0;
 
-            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate) values(@year,@monthId,@points,@employeeAssignmentsId,@timeStampId,@createdBy,@createdDate)";
-            //using (SqlConnection sqlConnection = this.GetConnection())
-            //{
-            //    sqlConnection.Open();
-            //    SqlCommand cmd = new SqlCommand(query, sqlConnection);
-            //    cmd.Parameters.AddWithValue("@year", forecast.Year);
-            //    cmd.Parameters.AddWithValue("@monthId", forecast.Month);
-            //    cmd.Parameters.AddWithValue("@points", forecast.Points);
-            //    cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
-            //    cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
-            //    cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
-            //    cmd.Parameters.AddWithValue("@createdDate", forecast.CreatedDate);
-            //    try
-            //    {
-            //        result = cmd.ExecuteNonQuery();
-            //    }
-            //    catch (Exception ex)
-            //    {
+            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStampId", assignmentHistory.TimeStampId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+                cmd.Parameters.AddWithValue("@employeeId", assignmentHistory.EmployeeId);
+                cmd.Parameters.AddWithValue("@sectionId", assignmentHistory.SectionId);
+                cmd.Parameters.AddWithValue("@departmentId", assignmentHistory.DepartmentId);
+                cmd.Parameters.AddWithValue("@inChargeId", assignmentHistory.InChargeId);
+                cmd.Parameters.AddWithValue("@roleId", assignmentHistory.RoleId);
+                cmd.Parameters.AddWithValue("@explanationId", assignmentHistory.ExplanationId);
+                cmd.Parameters.AddWithValue("@companyId", assignmentHistory.CompanyId);
+                cmd.Parameters.AddWithValue("@unitPrice", assignmentHistory.UnitPrice);
+                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                cmd.Parameters.AddWithValue("@employeeAssignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
+                cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
 
-            //    }
+                }
 
                 return result;
-            //}
+            }
         }
-
 
         public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
         {
@@ -249,12 +256,13 @@ namespace CostAllocationApp.DAL
                             assignmentHistories.InChargeId = rdr["InChargeId"] is DBNull ? "" : rdr["InChargeId"].ToString();
                             assignmentHistories.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
                             assignmentHistories.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
-                            assignmentHistories.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();                            
+                            assignmentHistories.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();
                             assignmentHistories.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString("N0");
                             assignmentHistories.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
                             assignmentHistories.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
                             assignmentHistories.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
-                            if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString())) {
+                            if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
+                            {
                                 assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
                             }
                         }
@@ -288,7 +296,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             Forecast _forecast = new Forecast();
-                            
+
                             _forecast.Id = Convert.ToInt32(rdr["Id"]);
                             _forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             _forecast.Points = Convert.ToDecimal(rdr["Points"]);
@@ -299,7 +307,7 @@ namespace CostAllocationApp.DAL
                             }
                             else
                             {
-                                returnValue = returnValue +","+ _forecast.Month + "_" + _forecast.Points;
+                                returnValue = returnValue + "," + _forecast.Month + "_" + _forecast.Points;
                             }
                         }
                     }
@@ -367,7 +375,7 @@ namespace CostAllocationApp.DAL
         {
             List<ForecastHisory> forecastHisories = new List<ForecastHisory>();
             string query = "";
-            query = "SELECT * FROM TimeStamps WHERE year=" + year+" order by Id desc";
+            query = "SELECT * FROM TimeStamps WHERE year=" + year + " order by Id desc";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -403,6 +411,41 @@ namespace CostAllocationApp.DAL
             List<Forecast> forecasts = new List<Forecast>();
             string query = "";
             query = "SELECT * FROM CostHistories WHERE TimeStampId=" + timeStampId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecasts;
+            }
+        }
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string query = "";
+            query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -504,11 +547,11 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public Forecast MatchForecastHistoryByAssignmentId(int assignmentId,DateTime date)
+        public Forecast MatchForecastHistoryByAssignmentId(int assignmentId, DateTime date)
         {
             Forecast forecast = new Forecast();
             string query = "";
-            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId +" order by Id desc";
+            query = "SELECT top 1 Id,EmployeeAssignmentsId,CreatedDate,CreatedBy FROM CostHistories WHERE EmployeeAssignmentsId=" + assignmentId + " order by Id desc";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -555,7 +598,7 @@ namespace CostAllocationApp.DAL
                             forecast.CreatedBy = rdr["CreatedBy"].ToString();
                             forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                         }
-                        
+
                     }
                 }
                 catch (Exception ex)
@@ -581,7 +624,7 @@ namespace CostAllocationApp.DAL
                     SqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
                     {
-                        while(rdr.Read())
+                        while (rdr.Read())
                         {
                             Forecast forecast = new Forecast();
                             forecast.Id = Convert.ToInt32(rdr["Id"]);
@@ -615,7 +658,7 @@ namespace CostAllocationApp.DAL
                 {
                     SqlDataReader rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
-                    {                        
+                    {
                         while (rdr.Read())
                         {
                             ForecastYear forecastYear = new ForecastYear();
@@ -648,7 +691,7 @@ namespace CostAllocationApp.DAL
                             where ea.Year={year} and 1=1
                             order by emp.Id asc";
 
-            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();            
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -662,7 +705,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             ExcelAssignmentDto excelAssignmentDto = new ExcelAssignmentDto();
-                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);                            
+                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             if (rdr["EmployeeId"] == DBNull.Value)
                             {
                                 excelAssignmentDto.EmployeeId = null;
@@ -710,8 +753,8 @@ namespace CostAllocationApp.DAL
                             }
                             else
                             {
-                                excelAssignmentDto.ExplanationId = Convert.ToInt32(rdr["ExplanationId"]);                                
-                            }                            
+                                excelAssignmentDto.ExplanationId = Convert.ToInt32(rdr["ExplanationId"]);
+                            }
                             if (rdr["CompanyId"] == DBNull.Value)
                             {
                                 excelAssignmentDto.CompanyId = null;
@@ -721,7 +764,7 @@ namespace CostAllocationApp.DAL
                                 excelAssignmentDto.CompanyId = Convert.ToInt32(rdr["CompanyId"]);
                             }
                             excelAssignmentDto.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]);
-                            
+
                             if (rdr["GradeId"] == DBNull.Value)
                             {
                                 excelAssignmentDto.GradeId = null;
@@ -729,6 +772,14 @@ namespace CostAllocationApp.DAL
                             else
                             {
                                 excelAssignmentDto.GradeId = Convert.ToInt32(rdr["GradeId"]);
+                            }
+                            if (rdr["FullName"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeName = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeName = rdr["FullName"].ToString();
                             }
                             excelAssignmentDto.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             excelAssignmentDto.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
@@ -745,9 +796,9 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
-        public List<Forecast> GetForecastDetails(int assignmentId,int copyYear)
+        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
-            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = "+assignmentId+ " and Year=" + copyYear;
+            string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = " + assignmentId + " and Year=" + copyYear;
 
             List<Forecast> forecasts = new List<Forecast>();
 

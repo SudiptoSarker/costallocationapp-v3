@@ -842,16 +842,16 @@ namespace CostAllocationApp.Controllers.Api
 
                         //AssignmentHistory
                         //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
-                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
-                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
+                        //AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                        //_assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
                         
-                        _assignmentHistory.CreatedBy = session["userName"].ToString();
-                        _assignmentHistory.CreatedDate = DateTime.Now;
+                        //_assignmentHistory.CreatedBy = session["userName"].ToString();
+                        //_assignmentHistory.CreatedDate = DateTime.Now;
 
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
                         forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(item.AssignmentId));
-                        assignmentHistories.Add(_assignmentHistory);
+                        //assignmentHistories.Add(_assignmentHistory);
 
 
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
@@ -891,8 +891,8 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHisory.CreatedDate = DateTime.Now;
 
                     //author: sudipto,31/5/23: history create
-                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
+                    var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
+                    //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {
@@ -1824,6 +1824,72 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(forecastHistoryList);
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetAssignmentHistoriesByTimeStampId/")]
+        public IHttpActionResult GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        {
+            List<object> forecastHistoryList = new List<object>();
+            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+            List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+            if (distinctAssignmentId.Count > 0)
+            {
+                foreach (var item in distinctAssignmentId)
+                {
+                    var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                    var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
+
+                    var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decP = tempList.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janP = tempList.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febP = tempList.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marP = tempList.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprP = tempList.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayP = tempList.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junP = tempList.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julP = tempList.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                    var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+
+                    var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janPOriginal = originalForecastData.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febPOriginal = originalForecastData.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marPOriginal = originalForecastData.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprPOriginal = originalForecastData.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayPOriginal = originalForecastData.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junPOriginal = originalForecastData.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                    forecastHistoryList.Add(new
+                    {
+                        EmployeeName = employeeName,
+                        CreatedBy = historyList[0].CreatedBy,
+                        OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
+                        NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
+                        DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
+                        JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
+                        FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
+                        MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
+                        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
+                        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
+                        JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
+                        JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
+                        AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
+                        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
+                    });
+                }
+            }
+
+            return Ok(forecastHistoryList);
+        }
+
 
         [HttpGet]
         [Route("api/utilities/GetTimeWiseChanges/")]

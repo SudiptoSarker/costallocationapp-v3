@@ -204,6 +204,7 @@ namespace CostAllocationApp.Controllers
                                 }
 
                                 _uploadExcel.EmployeeId = result;
+                                _uploadExcel.EmployeeName = employee.FullName;
                             }
 
                             //compnay
@@ -396,6 +397,7 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.IsActive = "1";
             employeeAssignment.Remarks = dt_.Remarks;
             employeeAssignment.Year = upload_year.ToString();
+            employeeAssignment.EmployeeName = dt_.EmployeeName;
 
             int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             if (result == 0)

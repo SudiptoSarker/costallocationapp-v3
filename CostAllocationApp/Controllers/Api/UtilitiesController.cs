@@ -842,16 +842,16 @@ namespace CostAllocationApp.Controllers.Api
 
                         //AssignmentHistory
                         //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
-                        //AssignmentHistory _assignmentHistory = new AssignmentHistory();
-                        //_assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
+                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
                         
-                        //_assignmentHistory.CreatedBy = session["userName"].ToString();
-                        //_assignmentHistory.CreatedDate = DateTime.Now;
+                        _assignmentHistory.CreatedBy = session["userName"].ToString();
+                        _assignmentHistory.CreatedDate = DateTime.Now;
 
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
                         forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(item.AssignmentId));
-                        //assignmentHistories.Add(_assignmentHistory);
+                        assignmentHistories.Add(_assignmentHistory);
 
 
                         forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
@@ -891,8 +891,8 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHisory.CreatedDate = DateTime.Now;
 
                     //author: sudipto,31/5/23: history create
-                    var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
+                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {
@@ -1016,8 +1016,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return NotFound();
             }
-            
-
         }
 
         public Forecast ExtraxctToForecast(int assignmentId,int year, int monthId,decimal point)
@@ -1831,12 +1829,28 @@ namespace CostAllocationApp.Controllers.Api
         {
             List<object> forecastHistoryList = new List<object>();
             List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
             if (distinctAssignmentId.Count > 0)
             {
                 foreach (var item in distinctAssignmentId)
                 {
-                    var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                    AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+                    AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
+                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item);
+
+                    //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                    var employeeName = _assignmentHistoryViewModal.EmployeeName;
+                    var sectionName = _assignmentHistoryViewModal.SectionName;
+                    var departmentName = _assignmentHistoryViewModal.DepartmentName;
+                    var inChargeName = _assignmentHistoryViewModal.InChargeName;
+                    var roleName = _assignmentHistoryViewModal.RoleName;
+                    var explanationName = _assignmentHistoryViewModal.ExplanationName;
+                    var companyName = _assignmentHistoryViewModal.CompanyName;
+                    var gradePoints = _assignmentHistoryViewModal.GradePoints;
+                    var unitPrice = _assignmentHistoryViewModal.UnitPrice;
+                    var remarks = _assignmentHistoryViewModal.Remarks;
+
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
                     var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
@@ -1854,6 +1868,8 @@ namespace CostAllocationApp.Controllers.Api
 
                     var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
 
+                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(item);
+
                     var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
                     var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
                     var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
@@ -1870,6 +1886,16 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHistoryList.Add(new
                     {
                         EmployeeName = employeeName,
+                        //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
+                        SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,                         
+                        DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,                         
+                        InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
+                        RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,                         
+                        ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,                         
+                        CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,                         
+                        GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
+                        UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,                         
+                        Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
                         CreatedBy = historyList[0].CreatedBy,
                         OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
                         NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
@@ -1908,7 +1934,13 @@ namespace CostAllocationApp.Controllers.Api
             var years = forecastBLL.GetYearFromHistory();
             return Ok(years);
         }
-
+        [HttpGet]
+        [Route("api/utilities/GetAssignmentYearList/")]
+        public IHttpActionResult GetAssignmentYearList()
+        {
+            var years = forecastBLL.GetAssignmentYearList();
+            return Ok(years);
+        }
         [HttpGet]
         [Route("api/utilities/GetAssignmentsByYear/")]
         public IHttpActionResult GetAssignmentsByYear(int year)

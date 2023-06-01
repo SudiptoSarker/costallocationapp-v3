@@ -203,7 +203,7 @@ namespace CostAllocationApp.DAL
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@timeStampId", assignmentHistory.TimeStampId);
+                cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
                 cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
                 cmd.Parameters.AddWithValue("@employeeId", assignmentHistory.EmployeeId);
                 cmd.Parameters.AddWithValue("@sectionId", assignmentHistory.SectionId);
@@ -218,7 +218,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
                 cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
-                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -257,10 +257,13 @@ namespace CostAllocationApp.DAL
                             assignmentHistories.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
                             assignmentHistories.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
                             assignmentHistories.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();
-                            assignmentHistories.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString("N0");
+                            assignmentHistories.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString();
                             assignmentHistories.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
                             assignmentHistories.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
                             assignmentHistories.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
+                            assignmentHistories.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
+                            assignmentHistories.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+
                             if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
                             {
                                 assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
@@ -445,8 +448,7 @@ namespace CostAllocationApp.DAL
         {
             List<Forecast> forecasts = new List<Forecast>();
             string query = "";
-            query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId;
-
+            query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId;            
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -458,13 +460,32 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            Forecast forecast = new Forecast();
-                            forecast.Id = Convert.ToInt32(rdr["Id"]);
-                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
-                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
-                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
-                            forecast.CreatedBy = rdr["CreatedBy"].ToString();
-                            forecasts.Add(forecast);
+                            //Forecast forecast2 = new Forecast();
+                            //forecast2.Id = Convert.ToInt32(rdr["Id"]);
+                            //forecast2.Month = Convert.ToInt32(rdr["MonthId"]);
+                            //forecast2.Points = Convert.ToDecimal(rdr["Points"]);
+                            //forecast2.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+
+                            string monthsPoints = rdr["MonthId_Points"].ToString();
+                            var arrMonthsPoints = monthsPoints.Split(',');
+                            foreach(var item in arrMonthsPoints)
+                            {
+                                Forecast forecast = new Forecast();
+                                string months_points = item;
+                                if(months_points.IndexOf('_') > 0)
+                                {
+                                    var arrMonth_points = months_points.Split('_');
+                                    forecast.Id = Convert.ToInt32(rdr["Id"]);
+                                    forecast.Month = Convert.ToInt32(arrMonth_points[0]);
+                                    forecast.Points = Convert.ToDecimal(arrMonth_points[1]);
+                                    forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentId"]);
+                                    forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                                    forecasts.Add(forecast);
+                                }                                
+                            }
+
+                            //forecast2.CreatedBy = rdr["CreatedBy"].ToString();
+                            //forecasts.Add(forecast2);
                         }
                     }
                 }
@@ -922,6 +943,141 @@ namespace CostAllocationApp.DAL
                 }
 
                 return years;
+            }
+        }
+
+        public List<int> GetAssignmentYearList()
+        {
+            List<int> years = new List<int>();
+            string query = "";
+
+            query = "select distinct year from EmployeesAssignmentsWithCostsHistory where Year > 0 order by year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            var year = Convert.ToInt32(rdr["Year"]);
+                            years.Add(year);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return years;
+            }
+        }
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId)
+        {
+            AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+
+            string query = "";
+            query = "Select eh.Id,eh.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks  ";
+            query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
+            query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
+            query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
+            query = query + "    Left Join Departments d On eh.DepartmentId = d.Id ";
+            query = query + "    Left Join InCharges i On eh.InChargeId = e.Id ";
+            query = query + "    Left Join Roles r On eh.RoleId = r.Id ";
+            query = query + "    Left Join Explanations ex On eh.ExplanationId = ex.Id ";
+            query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
+            query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
+            query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
+            query = query + "Where eh.EmployeeAssignmentId = "+ assignmentId;            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);                            
+                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
+                            assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+                            assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
+                            assignmentHistoryViewModal.RoleName = rdr["RoleName"] is DBNull ? "" : rdr["RoleName"].ToString();
+                            assignmentHistoryViewModal.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            assignmentHistoryViewModal.CompanyName = rdr["CompanyName"] is DBNull ? "" : rdr["CompanyName"].ToString();
+                            assignmentHistoryViewModal.GradePoints = rdr["GradePoints"] is DBNull ? "" : rdr["GradePoints"].ToString();
+                            assignmentHistoryViewModal.UnitPrice = rdr["UnitPrice"] is DBNull ? "" : rdr["UnitPrice"].ToString();
+                            assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return assignmentHistoryViewModal;
+            }
+        }
+
+        public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
+        {
+            AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+
+            string query = "";
+            query = query + " Select ea.Id,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+	        query = query + "     ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,ea.UnitPrice,ea.Remarks ";
+            query = query + " From EmployeesAssignments ea ";
+            query = query + "     Left Join Employees e On ea.EmployeeId=e.Id ";
+            query = query + "     Left Join Sections s On ea.SectionId = s.Id ";
+            query = query + "     Left Join Departments d On ea.DepartmentId = d.Id ";
+            query = query + "     Left Join InCharges i On ea.InChargeId = e.Id ";
+            query = query + "     Left Join Roles r On ea.RoleId = r.Id ";
+            query = query + "     Left Join Explanations ex On ea.ExplanationId = ex.Id ";
+            query = query + "     Left Join Companies c On ea.CompanyId = c.Id ";
+            query = query + "     Left Join Grades g On ea.GradeId = g.Id	";
+            query = query + " Where ea.Id ="+assignmentId;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);                            
+                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
+                            assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+                            assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
+                            assignmentHistoryViewModal.RoleName = rdr["RoleName"] is DBNull ? "" : rdr["RoleName"].ToString();
+                            assignmentHistoryViewModal.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            assignmentHistoryViewModal.CompanyName = rdr["CompanyName"] is DBNull ? "" : rdr["CompanyName"].ToString();
+                            assignmentHistoryViewModal.GradePoints = rdr["GradePoints"] is DBNull ? "" : rdr["GradePoints"].ToString();
+                            assignmentHistoryViewModal.UnitPrice = rdr["UnitPrice"] is DBNull ? "" : rdr["UnitPrice"].ToString();
+                            assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return assignmentHistoryViewModal;
             }
         }
 

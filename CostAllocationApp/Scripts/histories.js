@@ -1,9 +1,12 @@
 ﻿var jss;
 
 $(document).ready(function () {
+    var totalwidth = 190 * $('.modal-body').length;
+    $('.container').css('width', totalwidth);
 
     $.ajax({
-        url: `/api/utilities/GetYearFromHistory`,
+        // url: `/api/utilities/GetYearFromHistory`,
+        url: `/api/utilities/GetAssignmentYearList`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -59,8 +62,8 @@ function GetHistories(timeStampId) {
     $('#modal_change_history').modal('show');
 
     $.ajax({
-        url: `/api/utilities/GetHistoriesByTimeStampId`,
-        // url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
+        //url: `/api/utilities/GetHistoriesByTimeStampId`,
+        url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -71,7 +74,7 @@ function GetHistories(timeStampId) {
             $('#forecast_histories table tbody').empty();
             $.each(data, function (index, element) {
                 //console.log(element);
-                $('#forecast_histories table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>test remarks</td><td>営業</td><td>インテグレーション</td><td>114残対応</td><td>佐藤 圭1</td><td>NEW BLEND成績機能責任者</td><td>その他</td><td>8</td><td>500,000</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
+                $('#forecast_histories table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.Remarks}</td><td>${element.SectionName}</td><td>${element.DepartmentName}</td><td>${element.InChargeName}</td><td>${element.RoleName}</td><td>${element.ExplanationName}</td><td>${element.CompanyName}</td><td>${element.GradePoints}</td><td>${element.UnitPrice}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
             });
         }
     });

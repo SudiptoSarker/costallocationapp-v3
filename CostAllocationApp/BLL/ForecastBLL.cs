@@ -138,7 +138,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetYearFromHistory();
         }
-
+        public List<int> GetAssignmentYearList()
+        {
+            return forecastDAL.GetAssignmentYearList();
+        }
         public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
             return forecastDAL.GetForecastDetails(assignmentId, copyYear);
@@ -147,5 +150,14 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
         }
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId)
+        {
+            return forecastDAL.GetAssignmentNamesForHistory(assignmentId);
+        }
+        public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
+        {
+            return forecastDAL.GetOriginalForecastedData(assignmentId);
+        }
+
     }
 }

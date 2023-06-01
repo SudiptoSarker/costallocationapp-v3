@@ -35,3 +35,12 @@
 #btn_submit{
     margin-top: 2px;
 }
+
+/*modal size */
+.modal-body {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.container {
+    width:5000px;
+}

@@ -186,19 +186,20 @@ namespace CostAllocationApp.DAL
                 {
                     var lastId = GetLastId("TimeStamps");
 
-                    foreach (var item in forecastHisory.Forecasts)
+                    foreach (var item in assignmentHistories)
                     {
-                        //CreateAssignmenttHistory(assignmentHistories, lastId);
+                        CreateAssignmenttHistory(item, lastId);
                     }
                 }
                 return result;
             }
         }
 
-        public int CreateAssignmenttHistory(List<AssignmentHistory> assignmentHistories, int timeStampId)
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId)
         {
             int result = 0;
-            //string query = $@"insert into CostHistories(Year,MonthId,Points,EmployeeAssignmentsId,TimeStampId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@employeeAssignmentsId,@timeStampId,@createdBy,@createdDate)";
+
+            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate) values(@year,@monthId,@points,@employeeAssignmentsId,@timeStampId,@createdBy,@createdDate)";
             //using (SqlConnection sqlConnection = this.GetConnection())
             //{
             //    sqlConnection.Open();

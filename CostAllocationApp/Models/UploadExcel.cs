@@ -17,5 +17,6 @@ namespace CostAllocationApp.Models
         public int? GradeId { get; set; }
         public double UnitPrice { get; set; }
         public string Remarks { get; set; }
+        public string EmployeeName { get; set; }
     }
 }

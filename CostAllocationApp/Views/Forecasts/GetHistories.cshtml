@@ -27,11 +27,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="filter_history_data">
                 <div class="col-3">
                     <select id="history_year" class="" ></select>
                 </div>
-                <div class="col-2">
+                <div class="col-2" id="btn_submit">
                     <button type="submit" class="btn btn-light mb-2" id="history_data_btn" >表示</button>
                 </div>
             </div>
@@ -54,54 +54,101 @@
     </div>
 
 <!-- Modal History -->
-<div class="modal fade" id="modal_change_history">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_change_history_label">
-                        変更履歴
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="forecast_histories">                                
-                                    <table class="table table-bordered" style="width:100%;font-size:12px;text-align:center;">
-                                        <thead>
-                                            <tr>
-                                                <th>利用者</th>
-                                                <th>従業員名</th>
-                                                <th>10月</th>
-                                                <th>11月</th>
-                                                <th>12月</th>
-                                                <th>1月</th>
-                                                <th>2月</th>
-                                                <th>3月</th>
-                                                <th>4月</th>
-                                                <th>5月</th>
-                                                <th>6月</th>
-                                                <th>7月</th>
-                                                <th>8月</th>
-                                                <th>9月</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+@* <div class="modal fade" id="modal_change_history" > *@
+<div id="modal_change_history" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    @* <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 100%;"> *@
+    <div class="modal-dialog modal-xl" style="max-width: 1524px; margin: auto;">
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">
+                    変更履歴
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table class="table table-bordered" id="forecast_history_table">
+                    <thead>
+                        <th style="white-space:nowrap;">利用者</th>
+                        <th style="white-space:nowrap;">従業員名(Emp)</th>
+                        <th style="white-space:nowrap;">Forecast Type</th>
+                        <th style="white-space:nowrap;">Remaks</th>
+                        <th style="white-space:nowrap;">区分(Section)</th>
+                        <th style="white-space:nowrap;">部署(Dept)</th>
+                        <th style="white-space:nowrap;">担当作業(In chg)</th>
+                        <th style="white-space:nowrap;">役割(Role)</th>
+                        <th style="white-space:nowrap;">説明(expl)</th>
+                        <th style="white-space:nowrap;">会社(Com)</th>
+                        <th style="white-space:nowrap;">会社(Com)</th>
+                        <th style="white-space:nowrap;">単価(Unit Price)</th>
+                        <th style="white-space:nowrap;">10月</th>
+                        <th style="white-space:nowrap;">11月</th>
+                        <th style="white-space:nowrap;">12月</th>
+                        <th style="white-space:nowrap;">1月</th>
+                        <th style="white-space:nowrap;">2月</th>
+                        <th style="white-space:nowrap;">3月</th>
+                        <th style="white-space:nowrap;">4月</th>
+                        <th style="white-space:nowrap;">5月</th>
+                        <th style="white-space:nowrap;">6月</th>
+                        <th style="white-space:nowrap;">7月</th>
+                        <th style="white-space:nowrap;">8月</th>
+                        <th style="white-space:nowrap;">9月</th>
+                    </thead>
+                    <tbody class="table">
+                    </tbody>
+                </table>
+                @* <table class="table table-bordered" style="width:100%;font-size:12px;text-align:center;margin-left: -534px;" id="forecast_history_table"> *@
+                @* <table class="table table-bordered" style="" id="forecast_history_table">            
+                    <thead>
+                        <tr>
+                            <th>利用者</th>
+                            <th>従業員名(Emp)</th>
+                            <th>Forecast Type</th>
+                            <th>Remaks</th>
+                            <th>区分(Section)</th>
+                            <th>部署(Dept)</th>
+                            <th>担当作業(In chg)</th>
+                            <th>役割(Role)</th>
+                            <th>説明(expl)</th>
+                            <th>会社(Com)</th>
+                            <th>c</th>
+                            <th>単価(Unit Price)</th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table> *@
+                @* <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="forecast_histories">                                
+                                
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                </div> *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
+
     </div>
+</div>
+<input type="hidden" id="forecast_history" value="">
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

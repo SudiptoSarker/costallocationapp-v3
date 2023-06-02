@@ -29,3 +29,18 @@
     white-space: nowrap !important;
     display: block;
 }
+#filter_history_data{
+    margin-top: 6px;
+}
+#btn_submit{
+    margin-top: 2px;
+}
+
+/*modal size */
+.modal-body {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.container {
+    width:5000px;
+}

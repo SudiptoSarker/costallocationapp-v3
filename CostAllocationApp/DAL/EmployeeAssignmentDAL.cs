@@ -91,6 +91,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
                 cmd.Parameters.AddWithValue("@bCYR", employeeAssignment.BCYR);
                 cmd.Parameters.AddWithValue("@bCYRCell", employeeAssignment.BCYRCell);
+                //cmd.Parameters.AddWithValue("@employeeName", "");
                 cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
 
                 try

@@ -185,3 +185,6 @@ nav li.has-child ul ul li a:active{
 section{
 	padding:30px;
 }
+.parent_li{
+	border-bottom: solid 2px rgba(255,255,255,0.6);
+}

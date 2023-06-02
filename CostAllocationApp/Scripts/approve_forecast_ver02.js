@@ -233,182 +233,97 @@ $(document).ready(function () {
             $("#hidSelectedRow_AssignementId").val('');
             alert("There is no data to approve!");
         }else{
-            // var approvePromptValue = prompt("Approve History Save As", '');
-            // //$("#timeStamp_ForUpdateData").val('');
-            // if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
-            //     return false;
-            // }else
-            // {
-            //     // LoaderShow();
-            //     //return false;
+            var approvePromptValue = prompt("Approve History Save As", '');
+            //$("#timeStamp_ForUpdateData").val('');
+            if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
+                return false;
+            }else
+            {
+                // LoaderShow();
+                //return false;
 
-            //     var data_Info = {
-            //         Id: approveAssignmentId
-            //     };
-            //     var cellPosition = $("#hid_SelectedCellPosition").val();
-            //     var selectedCells = $("#hid_cellNo").val();
-            //     var isRowSelected = $("#hid_IsRowSelected").val();
+                var data_Info = {
+                    Id: approveAssignmentId
+                };
+                var cellPosition = $("#hid_SelectedCellPosition").val();
+                var selectedCells = $("#hid_cellNo").val();
+                var isRowSelected = $("#hid_IsRowSelected").val();
 
-            //     if(isRowSelected=="yes"){
-            //         //approve rows
-            //         $.ajax({
-            //             url: `/api/utilities/ApprovedForecastData`,
-            //             contentType: 'application/json',
-            //             type: 'GET',
-            //             async: true,
-            //             dataType: 'json',
-            //             data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-            //             success: function (data) {
-            //                 if(data==1){
-            //                     var rowNumber = $("#hidSelectedRowNumber").val();
-            //                     if(isDeleted =='true'){
-            //                         SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                     }else{
-            //                         //SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                         SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-            //                     }
-            //                     $("#hidSelectedRow_AssignementId").val("");
-            //                     $("#hidIsRowDeleted").val("");
-            //                     // LoaderHide();
-            //                     // alert("Operation Success.")
-            //                 }
-            //                 else{
-            //                     // LoaderHide();
-            //                     alert("There is no data to approved!")
-            //                 }
-            //                 //_retriveddata = data;
-            //             }
-            //         });       
-            //     }else{
-            //         //approve cells
-            //         $.ajax({
-            //             url: `/api/utilities/ApprovedCellData`,
-            //             contentType: 'application/json',
-            //             type: 'GET',
-            //             async: true,
-            //             dataType: 'json',
-            //             data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-            //             success: function (data) {
-            //                 if(data==1){
-            //                     var assignmentYear = $('#assignment_year_list').val();
-            //                     // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            //                     //     alert('Select valid year!!!');
-            //                     //     return false;
-            //                     // }    
-            //                     var cellNo = $("#selectCellNumber").val();
-            //                     // LoaderHide();
-            //                     SetCellWiseColor(cellNo)
-            //                     //alert("Operation Success.")                    
-            //                     //ShowForecastResults(assignmentYear);
-            //                     //$(cellPosition).css('color', 'red');                            
-            //                     // alert("Operation Success.")
-            //                     // location.reload();
-
-            //                     // var selectedCells = $("#hid_cellNo").val();
-
-            //                     // var rowNumber = $("#hidSelectedRowNumber").val();
-            //                     // if(isDeleted =='true'){
-            //                     //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                     // }else{
-            //                     //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-            //                     // }
-            //                     // $("#hidSelectedRow_AssignementId").val("");
-            //                     // $("#hidIsRowDeleted").val("");
-                                
-            //                 }
-            //                 else{
-            //                     // LoaderHide();
-            //                     alert("There is no data to approved!")
-            //                 }
-            //                 //_retriveddata = data;
-            //             }
-            //         });       
-            //     }
-            // }
-            // LoaderShow();
-            //return false;
-
-            var data_Info = {
-                Id: approveAssignmentId
-            };
-            var cellPosition = $("#hid_SelectedCellPosition").val();
-            var selectedCells = $("#hid_cellNo").val();
-            var isRowSelected = $("#hid_IsRowSelected").val();
-
-            if(isRowSelected=="yes"){
-                //approve rows
-                $.ajax({
-                    url: `/api/utilities/ApprovedForecastData`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: true,
-                    dataType: 'json',
-                    data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-                    success: function (data) {
-                        if(data==1){
-                            var rowNumber = $("#hidSelectedRowNumber").val();
-                            if(isDeleted =='true'){
-                                SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                            }else{
-                                //SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                                SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                if(isRowSelected=="yes"){
+                    //approve rows
+                    $.ajax({
+                        url: `/api/utilities/ApprovedForecastData`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: true,
+                        dataType: 'json',
+                        data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
+                        success: function (data) {
+                            if(data==1){
+                                var rowNumber = $("#hidSelectedRowNumber").val();
+                                if(isDeleted =='true'){
+                                    SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                                }else{
+                                    //SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                                    SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                                }
+                                $("#hidSelectedRow_AssignementId").val("");
+                                $("#hidIsRowDeleted").val("");
+                                // LoaderHide();
+                                // alert("Operation Success.")
                             }
-                            $("#hidSelectedRow_AssignementId").val("");
-                            $("#hidIsRowDeleted").val("");
-                            // LoaderHide();
-                            // alert("Operation Success.")
+                            else{
+                                // LoaderHide();
+                                alert("There is no data to approved!")
+                            }
+                            //_retriveddata = data;
                         }
-                        else{
-                            // LoaderHide();
-                            alert("There is no data to approved!")
-                        }
-                        //_retriveddata = data;
-                    }
-                });       
-            }else{
-                //approve cells
-                $.ajax({
-                    url: `/api/utilities/ApprovedCellData`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: true,
-                    dataType: 'json',
-                    data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-                    success: function (data) {
-                        if(data==1){
-                            var assignmentYear = $('#assignment_year_list').val();
-                            // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-                            //     alert('Select valid year!!!');
-                            //     return false;
-                            // }    
-                            var cellNo = $("#selectCellNumber").val();
-                            // LoaderHide();
-                            SetCellWiseColor(cellNo)
-                            //alert("Operation Success.")                    
-                            //ShowForecastResults(assignmentYear);
-                            //$(cellPosition).css('color', 'red');                            
-                            // alert("Operation Success.")
-                            // location.reload();
+                    });       
+                }else{
+                    //approve cells
+                    $.ajax({
+                        url: `/api/utilities/ApprovedCellData`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: true,
+                        dataType: 'json',
+                        data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
+                        success: function (data) {
+                            if(data==1){
+                                var assignmentYear = $('#assignment_year_list').val();
+                                // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+                                //     alert('Select valid year!!!');
+                                //     return false;
+                                // }    
+                                var cellNo = $("#selectCellNumber").val();
+                                // LoaderHide();
+                                SetCellWiseColor(cellNo)
+                                //alert("Operation Success.")                    
+                                //ShowForecastResults(assignmentYear);
+                                //$(cellPosition).css('color', 'red');                            
+                                // alert("Operation Success.")
+                                // location.reload();
 
-                            // var selectedCells = $("#hid_cellNo").val();
+                                // var selectedCells = $("#hid_cellNo").val();
 
-                            // var rowNumber = $("#hidSelectedRowNumber").val();
-                            // if(isDeleted =='true'){
-                            //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                            // }else{
-                            //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-                            // }
-                            // $("#hidSelectedRow_AssignementId").val("");
-                            // $("#hidIsRowDeleted").val("");
-                            
+                                // var rowNumber = $("#hidSelectedRowNumber").val();
+                                // if(isDeleted =='true'){
+                                //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                                // }else{
+                                //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                                // }
+                                // $("#hidSelectedRow_AssignementId").val("");
+                                // $("#hidIsRowDeleted").val("");
+                                
+                            }
+                            else{
+                                // LoaderHide();
+                                alert("There is no data to approved!")
+                            }
+                            //_retriveddata = data;
                         }
-                        else{
-                            // LoaderHide();
-                            alert("There is no data to approved!")
-                        }
-                        //_retriveddata = data;
-                    }
-                });       
+                    });       
+                }
             }
         }       
     });

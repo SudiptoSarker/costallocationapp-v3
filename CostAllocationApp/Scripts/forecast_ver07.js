@@ -3114,12 +3114,13 @@ function AddEmployee() {
     jss.setValueFromCoords(35, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
-function UpdateForecast(){   
+function UpdateForecast() {
+
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();
     // $("#head_total").hide();
-    LoaderShow(); 
-    
+    LoaderShow();
+
     var userName = '';
 
     $.ajax({
@@ -3131,88 +3132,93 @@ function UpdateForecast(){
         success: function (data) {
             userName = data;
         }
-    });    
+    });
 
     var updateMessage = "";
     var insertMessage = "";
-
-    if (jssUpdatedData.length > 0) {
+    var promptValue = prompt("History Save As", '');
+    $("#timeStamp_ForUpdateData").val('');
+    if (promptValue == null || promptValue == undefined || promptValue == "") {
+        return false;
+    } else {
         var dateObj = new Date();
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
 
         var timestamp = `${year}${month}${day}_`;
-        var promptValue = prompt("History Save As", '');
 
-        if (promptValue == null || promptValue == undefined || promptValue == "") {
-            return false;
-        }
-        else {
+        if (jssUpdatedData.length > 0) {
             updateMessage = "Successfully data updated";
             $.ajax({
                 url: `/api/utilities/UpdateForecastData`,
                 contentType: 'application/json',
                 type: 'POST',
-                async: true,
+                async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo:cellwiseColorCode }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                 success: function (data) {
+                    $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });        
+                    });
                     $("#jspreadsheet").show();
                     //$("#head_total").show();
-                    LoaderHide();             
+                    LoaderHide();
                 }
             });
             jssUpdatedData = [];
         }
-    }
-    else {
-        $("#jspreadsheet").show();        
-        //$("#head_total").show();
-        LoaderHide();    
-        //alert('No data found!');
-        updateMessage = ""
-    }
-
-    if (jssInsertedData.length > 0) {
-        var elementIndex = jssInsertedData.findIndex(object => {
-            return object.employeeName.toLowerCase() == 'total';
-        });
-        if (elementIndex >= 0) {
-            jssInsertedData.splice(elementIndex, 1);
+        else {
+            $("#jspreadsheet").show();
+            //$("#head_total").show();
+            LoaderHide();
+            //alert('No data found!');
+            updateMessage = ""
         }
 
-        insertMessage = "Successfully data inserted.";
-        console.log(jssInsertedData);
-        $.ajax({
-            url: `/api/utilities/ExcelAssignment/`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify(jssInsertedData),
-            success: function (data) {
-                var chat = $.connection.chatHub;
-                $.connection.hub.start();
-                // Start the connection.
-                $.connection.hub.start().done(function () {
-                    chat.server.send('data has been inserted by ', userName);
-                });
-                $("#jspreadsheet").show();
-                //$("#head_total").show();
-                LoaderHide(); 
+        if (jssInsertedData.length > 0) {
+            var elementIndex = jssInsertedData.findIndex(object => {
+                return object.employeeName.toLowerCase() == 'total';
+            });
+            if (elementIndex >= 0) {
+                jssInsertedData.splice(elementIndex, 1);
             }
-        });
-        jssInsertedData = [];
-        newRowCount = 1;
-    } 
-    if(updateMessage =="" && insertMessage==""){
+
+            insertMessage = "Successfully data inserted.";
+            console.log(jssInsertedData);
+            var update_timeStampId = $("#timeStamp_ForUpdateData").val();
+
+            $.ajax({
+                url: `/api/utilities/ExcelAssignment/`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                //data: JSON.stringify(jssInsertedData),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
+                success: function (data) {
+                    $("#timeStamp_ForUpdateData").val('');
+                    var chat = $.connection.chatHub;
+                    $.connection.hub.start();
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                        chat.server.send('data has been inserted by ', userName);
+                    });
+                    $("#jspreadsheet").show();
+                    //$("#head_total").show();
+                    LoaderHide();
+                }
+            });
+            jssInsertedData = [];
+            newRowCount = 1;
+        }
+    }
+
+    if (updateMessage == "" && insertMessage == "") {
         //alert("There is nothing to save!");
         //update_forecast
         //forecast_save_confirm_text
@@ -3224,7 +3230,7 @@ function UpdateForecast(){
 
         $("#close_save_modal").css("display", "block");
     }
-    else if(updateMessage !="" && insertMessage !=""){
+    else if (updateMessage != "" && insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3232,7 +3238,7 @@ function UpdateForecast(){
 
         alert("Operation Success.");
     }
-    else if(updateMessage !=""){
+    else if (updateMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3240,7 +3246,7 @@ function UpdateForecast(){
 
         alert("Operation Success.");
     }
-    else if(insertMessage !=""){
+    else if (insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3249,6 +3255,8 @@ function UpdateForecast(){
         alert("Operation Success.");
     }
 }
+
+
 function CompareUpdatedData() {
     
    

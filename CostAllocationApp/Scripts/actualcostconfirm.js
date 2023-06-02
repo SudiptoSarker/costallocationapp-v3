@@ -4,6 +4,18 @@ var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
 
+const channel = new BroadcastChannel("actualCost");
+
+function LoaderShow() {
+    $("#jspreadsheet").hide();
+    $("#loading").css("display", "block");
+}
+function LoaderHide() {
+    $("#jspreadsheet").show();
+    $("#loading").css("display", "none");
+}
+
+
 
 $(document).ready(function () {
     $.ajax({
@@ -31,6 +43,7 @@ $(document).ready(function () {
             alert('Select Year!!!');
             return false;
         }
+        LoaderShow();
         setTimeout(function () {
             $.ajax({
                 url: '/Registration/GetUserRole',
@@ -56,7 +69,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);
-                    //LoaderHide();
+                    LoaderHide();
                     _retriveddata = data;
 
                     if (jss != undefined) {
@@ -233,8 +246,8 @@ $(document).ready(function () {
                     //var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
                     //octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
 
-                    var ActualCostAmountElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
-                    ActualCostAmountElement.append('<input type="checkbox" id="ActualCostAmount_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    //var ActualCostAmountElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
+                    //ActualCostAmountElement.append('<input type="checkbox" id="ActualCostAmount_chk"  style="display:inline-block;margin-left: 10px;"/>');
 
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                         $('.search_p').css('display', 'block');
@@ -282,6 +295,7 @@ $(document).ready(function () {
                 }),
                 success: function (data) {
                     alert("Operation Success.");
+                    channel.postMessage('done');
                     window.close();
                 }
             });
@@ -289,6 +303,10 @@ $(document).ready(function () {
         else {
             alert('No Data Found!');
         }
+    });
+
+    $('#cancel_actual_cost').on('click', function () {
+        window.close();
     });
 
 

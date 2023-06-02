@@ -18,5 +18,6 @@ namespace CostAllocationApp.ViewModels
         public string GradePoints { get; set; }
         public string UnitPrice { get; set; }
         public string Remarks { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

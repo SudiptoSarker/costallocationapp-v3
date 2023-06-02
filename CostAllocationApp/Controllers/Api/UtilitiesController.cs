@@ -892,7 +892,8 @@ namespace CostAllocationApp.Controllers.Api
 
                     //author: sudipto,31/5/23: history create
                     //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
+                    bool isUpdate = true;
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {
@@ -915,7 +916,8 @@ namespace CostAllocationApp.Controllers.Api
 
                     if (resultTimeStamp > 0)
                     {
-                        message = "Data Saved Successfully!!!";
+                        //message = "Data Saved Successfully!!!";
+                        message = resultTimeStamp.ToString();
                     }
                 }
             }
@@ -1394,87 +1396,124 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpPost]
         [Route("api/utilities/ExcelAssignment/")]
-        public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
+        //public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
+        public IHttpActionResult CreateAssignment_Excel(ForecastHistoryDto forecastHistoryDto)
         {
-            if (excelAssignmentDtos.Count>0)
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+            string tempTimeStampId = "";
+            var session = System.Web.HttpContext.Current.Session;
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
-                foreach (var item in excelAssignmentDtos)
+                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
                 {
-                    EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-                    if (item.EmployeeId=="" || item.EmployeeId==null)
+                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
-                        continue;
-                    }
-                    var session = System.Web.HttpContext.Current.Session;
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
-                    employeeAssignment.EmployeeId = item.EmployeeId;
-                    employeeAssignment.SectionId = item.SectionId;
-                    employeeAssignment.DepartmentId = item.DepartmentId;
-                    employeeAssignment.InchargeId = item.InchargeId;
-                    employeeAssignment.RoleId = item.RoleId;
-                    employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
-                    employeeAssignment.CompanyId = item.CompanyId;
-                    employeeAssignment.UnitPrice = item.UnitPrice;
-                    employeeAssignment.GradeId = item.GradeId;
-                    employeeAssignment.Year = item.Year;
-                    employeeAssignment.IsActive = true.ToString();
-                    employeeAssignment.SubCode = 1;
-                    employeeAssignment.CreatedBy = session["userName"].ToString();
-                    employeeAssignment.CreatedDate = DateTime.Now;
-                    employeeAssignment.Remarks = item.Remarks;
-                    employeeAssignment.BCYR = item.BCYR;
-                    employeeAssignment.BCYRCell = "";
-                    employeeAssignment.EmployeeName = item.EmployeeName;
-                    int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
-                    if (result == 1)
-                    {
-                        int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
-                        List<Forecast> forecasts = new List<Forecast>();
+                        tempTimeStampId = forecastHistoryDto.TimeStampId;
 
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                        foreach (var forecastItem in forecasts)
+                        if (item.EmployeeId == "" || item.EmployeeId == null)
                         {
-                            int resultSave = forecastBLL.CreateForecast(forecastItem);
+                            continue;
                         }
-                    }
-
-                    if (!item.BCYR)
-                    {
-                        int lastAssignmentId = employeeAssignmentBLL.GetLastId();
-                        var getDataBySplit = item.BCYRCell.Split(',');
                         
-                        foreach (var splittedData in getDataBySplit)
-                        {
-                            var cells = employeeAssignmentBLL.GetBCYRCellByAssignmentId(lastAssignmentId);
-                            var nestedSplittedData = splittedData.Split('_');
-                            if (String.IsNullOrEmpty(cells))
-                            {
-                                cells = nestedSplittedData[1];
-                            }
-                            else
-                            {
-                                cells += "," + nestedSplittedData[1];
-                            }
-                            employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(lastAssignmentId, cells);
+                        employeeAssignment.EmployeeId = item.EmployeeId;
+                        employeeAssignment.SectionId = item.SectionId;
+                        employeeAssignment.DepartmentId = item.DepartmentId;
+                        employeeAssignment.InchargeId = item.InchargeId;
+                        employeeAssignment.RoleId = item.RoleId;
+                        employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
+                        employeeAssignment.CompanyId = item.CompanyId;
+                        employeeAssignment.UnitPrice = item.UnitPrice;
+                        employeeAssignment.GradeId = item.GradeId;
+                        employeeAssignment.Year = item.Year.ToString();
+                        employeeAssignment.IsActive = true.ToString();
+                        employeeAssignment.SubCode = 1;
+                        employeeAssignment.CreatedBy = session["userName"].ToString();
+                        employeeAssignment.CreatedDate = DateTime.Now;
+                        employeeAssignment.Remarks = item.Remarks;
+                        
+                        //check for bcyr value
+                        employeeAssignment.BCYR = item.BCYR;
+                        employeeAssignment.BCYRCell = "";
 
+                        employeeAssignment.EmployeeName = item.EmployeeName;
+                        int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
+
+                        if (result == 1)
+                        {
+                            int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                            List<Forecast> forecasts = new List<Forecast>();
+
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            foreach (var forecastItem in forecasts)
+                            {
+                                int resultSave = forecastBLL.CreateForecast(forecastItem);
+                            }
+                        }
+                        int lastAssignmentId = employeeAssignmentBLL.GetLastId();
+                        if (!item.BCYR)
+                        {                            
+                            var getDataBySplit = item.BCYRCell.Split(',');
+
+                            foreach (var splittedData in getDataBySplit)
+                            {
+                                var cells = employeeAssignmentBLL.GetBCYRCellByAssignmentId(lastAssignmentId);
+                                var nestedSplittedData = splittedData.Split('_');
+                                if (String.IsNullOrEmpty(cells))
+                                {
+                                    cells = nestedSplittedData[1];
+                                }
+                                else
+                                {
+                                    cells += "," + nestedSplittedData[1];
+                                }
+                                employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(lastAssignmentId, cells);
+
+                            }
+                        }
+
+                        //AssignmentHistory
+                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(lastAssignmentId);
+                        
+                        _assignmentHistory.CreatedBy = session["userName"].ToString();
+                        _assignmentHistory.CreatedDate = DateTime.Now;
+                        assignmentHistories.Add(_assignmentHistory);
+                    }
+
+                    bool isUpdate = false;
+                    if (!string.IsNullOrEmpty(tempTimeStampId))
+                    {
+                        foreach (var item in assignmentHistories)
+                        {
+                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate);
                         }
                     }
-                                      
+                    else
+                    {
+                        ForecastHisory forecastHisory = new ForecastHisory();
+                        forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                        forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                        //forecastHisory.Forecasts = forecastsPrevious;
+                        forecastHisory.CreatedBy = session["userName"].ToString();
+                        forecastHisory.CreatedDate = DateTime.Now;
+                        var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+                    }                    
                 }
-
-            }           
-
+            }    
             return Ok("Data Inserted Successfully!!!");
         }
 
@@ -1833,11 +1872,12 @@ namespace CostAllocationApp.Controllers.Api
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
             if (distinctAssignmentId.Count > 0)
             {
+                //<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${forecastType}</td><td>${element.Remarks}</td><td>${element.SectionName}</td><td>${element.DepartmentName}</td><td>${element.InChargeName}</td><td>${element.RoleName}</td><td><lable>${element.ExplanationName}</label></td><td>${element.CompanyName}</td><td>${element.GradePoints}</td><td>${element.UnitPrice}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`
                 foreach (var item in distinctAssignmentId)
                 {
                     AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
                     AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
-                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item);
+                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId);
 
                     //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
@@ -1850,6 +1890,7 @@ namespace CostAllocationApp.Controllers.Api
                     var gradePoints = _assignmentHistoryViewModal.GradePoints;
                     var unitPrice = _assignmentHistoryViewModal.UnitPrice;
                     var remarks = _assignmentHistoryViewModal.Remarks;
+                    var isUpdate = _assignmentHistoryViewModal.IsUpdate;
 
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
@@ -1883,36 +1924,96 @@ namespace CostAllocationApp.Controllers.Api
                     var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
 
-                    forecastHistoryList.Add(new
+                    if (isUpdate)
                     {
-                        EmployeeName = employeeName,
-                        //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
-                        SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,                         
-                        DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,                         
-                        InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
-                        RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,                         
-                        ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,                         
-                        CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,                         
-                        GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
-                        UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,                         
-                        Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
-                        CreatedBy = historyList[0].CreatedBy,
-                        OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
-                        NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
-                        DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
-                        JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
-                        FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
-                        MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
-                        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
-                        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
-                        JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
-                        JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
-                        AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
-                        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
-                    });
+                        forecastHistoryList.Add(new
+                        {
+                            EmployeeName = employeeName,                            
+                            IsUpdate = isUpdate,
+                            //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
+                            SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,
+                            DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,
+                            InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
+                            RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,
+                            ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,
+                            CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,
+                            GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
+                            UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
+                            Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
+                            CreatedBy = historyList[0].CreatedBy,
+                            OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
+                            NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
+                            DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
+                            JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
+                            FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
+                            MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
+                            AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
+                            MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
+                            JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
+                            JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
+                            AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
+                            SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
+                        });
+                    }
+                    else
+                    {
+                        //insert data udpate
+                        forecastHistoryList.Add(new
+                        {
+                            EmployeeName = employeeName,
+                            IsUpdate = isUpdate,
+                            SectionName = sectionName == ""? "" : sectionName,                                                         
+                            DepartmentName = departmentName == "" ? "" : departmentName,
+                            InChargeName = inChargeName == "" ? "" : inChargeName,
+                            RoleName = roleName == "" ? "" : roleName,
+                            ExplanationName = explanationName == "" ? "" : explanationName,
+                            CompanyName = companyName == "" ? "" : companyName,                             
+                            GradePoints = gradePoints == "0" ? "" : gradePoints,
+                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            Remarks = remarks == "" ? "" : remarks,
+                            CreatedBy = historyList[0].CreatedBy,                            
+                            OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
+                            NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
+                            DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
+                            JanPoints = janP == 0 ? "" : janP.ToString("0.0"),
+                            FebPoints = febP == 0 ? "" : febP.ToString("0.0"),
+                            MarPoints = marP == 0 ? "" : marP.ToString("0.0"),
+                            AprPoints = aprP == 0 ? "" : aprP.ToString("0.0"),
+                            MayPoints = mayP == 0 ? "" : mayP.ToString("0.0"),
+                            JunPoints = junP == 0 ? "" : junP.ToString("0.0"),
+                            JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
+                            AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
+                            SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
+                        });
+                    }
+                    
                 }
             }
 
+            //string strHistoryDetailsWithHtmlBody = "";
+            //foreach (var historyItem in forecastHistoryList)
+            //{
+            //    var isUpdate = historyItem.IsUpdate;
+            //}
+            //foreach (var forecastItem in forecastHistoryList)
+            //{
+            //    //if (forecastItem.)
+            //    //{
+            //    //    forecastType = "Updated";
+            //    //}
+            //    //else
+            //    //{
+            //    //    forecastItem = "Inserted";
+            //    //}
+            //    //if (string.IsNullOrEmpty(strHistoryDetailsWithHtmlBody))
+            //    //{
+            //    //    strHistoryDetailsWithHtmlBody = "<tr><td></td>>";
+            //    //}
+            //    //else
+            //    //{
+            //    //    strHistoryDetailsWithHtmlBody
+            //    //}                
+            //}
             return Ok(forecastHistoryList);
         }
 

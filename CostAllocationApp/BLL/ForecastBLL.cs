@@ -34,9 +34,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories)
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate)
         {
-            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories);
+            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+        }
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate)
+        {
+            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate);
         }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {
@@ -150,9 +154,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
         }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId)
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId)
         {
-            return forecastDAL.GetAssignmentNamesForHistory(assignmentId);
+            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId);
         }
         public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
         {

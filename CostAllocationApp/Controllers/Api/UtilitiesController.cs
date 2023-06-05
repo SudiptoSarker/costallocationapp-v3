@@ -2690,15 +2690,26 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
+
         [HttpGet]
         [Route("api/utilities/UpdateApprovedData/")]
-        public IHttpActionResult UpdateApprovedData(string assignmentYear)
+        public IHttpActionResult UpdateApprovedData(string assignmentYear,string historyName)
         {
-            int results;
+            int results = 0;
+            //approve history: start
+            var session = System.Web.HttpContext.Current.Session;
+            string createdBy = session["userName"].ToString();
+            DateTime createdDate = DateTime.Now;       
+            
+            int approveTimeStamp = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
+            int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear));
+            //approve history: end
+            
             int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
             int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);
             int results4 = employeeAssignmentBLL.UpdateCellWiseApprovdData(assignmentYear);
-            if(results2 >0 || results3 > 0 || results4 > 0)
+
+            if (results2 > 0 || results3 > 0 || results4 > 0)
             {
                 results = 1;
             }

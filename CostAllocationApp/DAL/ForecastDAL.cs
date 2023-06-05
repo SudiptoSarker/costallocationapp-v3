@@ -916,6 +916,7 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
+
         public List<int> GetYearFromHistory()
         {
             List<int> years = new List<int>();
@@ -1082,6 +1083,358 @@ namespace CostAllocationApp.DAL
                 }
 
                 return assignmentHistoryViewModal;
+            }
+        }
+        public int CreateApproveTimeStamp(string approveTimeStamp,int year,string createdBy,DateTime createdDate)
+        {
+            int result = 0;
+            string query = $@"insert into ApproveTimeStamps(ApproveTimeStamp,Year,CreatedBy,CreatedDate) values(@timeStamp,@year,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStamp", approveTimeStamp);
+                cmd.Parameters.AddWithValue("@year", year);
+                cmd.Parameters.AddWithValue("@createdBy", createdBy);
+                cmd.Parameters.AddWithValue("@createdDate", createdDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                if (result > 0)
+                {
+                    var lastId = GetLastId("ApproveTimeStamp");
+                    //CreateApprovetHistory(lastId);
+                    //foreach (var item in assignmentHistories)
+                    //{
+                    //    CreateAssignmenttHistory(item, lastId, isUpdate);
+                    //}
+                    result = lastId;
+                }
+                return result;
+            }
+        }
+
+        public int CreateApprovetHistory(int approveTimeStampId,int year)
+        {
+            int finalResults = 0;
+
+            //add employee: approve history. note: there is not previous data to compare
+            int results_Add = 0;
+            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
+            _assignmentHistories_Add = GetAddEmployeeApprovedData(year);
+            foreach(var addEmployeeItem in _assignmentHistories_Add)
+            {
+                results_Add = ApproveHistory_AddEmployee(addEmployeeItem, approveTimeStampId, true);
+            }
+
+            //delete employee: approve history. note: there is not previous data to compare
+            int results_Delete = 0;
+            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
+            _assignmentHistorys_Delete = GetDeleteEmployeeApprovedData(year);
+            foreach (var deleteEmployeeItem in _assignmentHistorys_Delete)
+            {
+                results_Delete = ApproveHistory_DeleteEmployee(deleteEmployeeItem, approveTimeStampId, true);
+            }
+
+            //cell wise approve: approve history. note: compare the cells with previous data
+            int results_Cells = 0;
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
+            _assignmentHistorys_CellWise = GetCellWiseEmployeeApprovedData(year);
+            foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
+            {
+                results_Cells = ApproveHistory_CellWise(cellWiseEmployeeItem, approveTimeStampId, true);
+            } 
+
+            if(results_Add >0 || results_Delete>0 || results_Cells > 0)
+            {
+                finalResults = 1;
+            }
+
+            return finalResults;            
+        }
+
+        public List<AssignmentHistory> GetAddEmployeeApprovedData(int year)
+        {
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+
+            string query = "";
+            query = "select* from EmployeesAssignments ";
+            query = query + " where BCYR = 1 and BCYRApproved = 1  and Year = " + year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
+
+                            assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
+                            assignmentHistorie.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            assignmentHistorie.InChargeId = rdr["InChargeId"] is DBNull ? "" : rdr["InChargeId"].ToString();
+                            assignmentHistorie.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
+                            assignmentHistorie.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            assignmentHistorie.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();
+                            assignmentHistorie.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString();
+                            assignmentHistorie.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
+                            assignmentHistorie.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
+                            assignmentHistorie.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
+                            assignmentHistorie.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
+                            assignmentHistorie.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+
+                            if (!string.IsNullOrEmpty(assignmentHistorie.Id.ToString()))
+                            {
+                                assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
+                            }
+
+                            assignmentHistories.Add(assignmentHistorie);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return assignmentHistories;
+        }
+
+        public int ApproveHistory_AddEmployee(AssignmentHistory assignmentHistory, int timeStampId, bool isAddEmployee)
+        {
+            int result = 0;
+
+            string query = $@"insert into ApproveHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsAddEmployee) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isAddEmployee)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+                cmd.Parameters.AddWithValue("@employeeId", assignmentHistory.EmployeeId);
+                cmd.Parameters.AddWithValue("@sectionId", assignmentHistory.SectionId);
+                cmd.Parameters.AddWithValue("@departmentId", assignmentHistory.DepartmentId);
+                cmd.Parameters.AddWithValue("@inChargeId", assignmentHistory.InChargeId);
+                cmd.Parameters.AddWithValue("@roleId", assignmentHistory.RoleId);
+                cmd.Parameters.AddWithValue("@explanationId", assignmentHistory.ExplanationId);
+                cmd.Parameters.AddWithValue("@companyId", assignmentHistory.CompanyId);
+                cmd.Parameters.AddWithValue("@unitPrice", assignmentHistory.UnitPrice);
+                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                cmd.Parameters.AddWithValue("@employeeAssignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
+                cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@isAddEmployee", isAddEmployee);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public List<AssignmentHistory> GetDeleteEmployeeApprovedData(int year)
+        {
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+
+            string query = "";
+            query = "select* from EmployeesAssignments ";
+            query = query + " where IsActive =0 and BCYRApproved=1 and (IsDeleted is null Or  IsDeleted=0 ) and Year= " + year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
+
+                            assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
+                            assignmentHistorie.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            assignmentHistorie.InChargeId = rdr["InChargeId"] is DBNull ? "" : rdr["InChargeId"].ToString();
+                            assignmentHistorie.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
+                            assignmentHistorie.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            assignmentHistorie.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();
+                            assignmentHistorie.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString();
+                            assignmentHistorie.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
+                            assignmentHistorie.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
+                            assignmentHistorie.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
+                            assignmentHistorie.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
+                            assignmentHistorie.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+
+                            if (!string.IsNullOrEmpty(assignmentHistorie.Id.ToString()))
+                            {
+                                assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
+                            }
+
+                            assignmentHistories.Add(assignmentHistorie);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return assignmentHistories;
+        }
+
+        public int ApproveHistory_DeleteEmployee(AssignmentHistory assignmentHistory, int timeStampId, bool isDeleteEmployee)
+        {
+            int result = 0;
+
+            string query = $@"insert into ApproveHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsDeleteEmployee) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isDeleteEmployee)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+                cmd.Parameters.AddWithValue("@employeeId", assignmentHistory.EmployeeId);
+                cmd.Parameters.AddWithValue("@sectionId", assignmentHistory.SectionId);
+                cmd.Parameters.AddWithValue("@departmentId", assignmentHistory.DepartmentId);
+                cmd.Parameters.AddWithValue("@inChargeId", assignmentHistory.InChargeId);
+                cmd.Parameters.AddWithValue("@roleId", assignmentHistory.RoleId);
+                cmd.Parameters.AddWithValue("@explanationId", assignmentHistory.ExplanationId);
+                cmd.Parameters.AddWithValue("@companyId", assignmentHistory.CompanyId);
+                cmd.Parameters.AddWithValue("@unitPrice", assignmentHistory.UnitPrice);
+                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                cmd.Parameters.AddWithValue("@employeeAssignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
+                cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@isDeleteEmployee", isDeleteEmployee);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public List<AssignmentHistory> GetCellWiseEmployeeApprovedData(int year)
+        {
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+
+            string query = "";
+            query = "select* from EmployeesAssignments ";
+            query = query + " where BCYRCellApproved is not null and BCYRCellApproved !='' and BCYRCellApproved !='0' and Year= " + year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
+
+                            assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
+                            assignmentHistorie.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            assignmentHistorie.InChargeId = rdr["InChargeId"] is DBNull ? "" : rdr["InChargeId"].ToString();
+                            assignmentHistorie.RoleId = rdr["RoleId"] is DBNull ? "" : rdr["RoleId"].ToString();
+                            assignmentHistorie.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            assignmentHistorie.CompanyId = rdr["CompanyId"] is DBNull ? "" : rdr["CompanyId"].ToString();
+                            assignmentHistorie.UnitPrice = Convert.ToDecimal(rdr["UnitPrice"]).ToString();
+                            assignmentHistorie.GradeId = rdr["GradeId"] is DBNull ? "" : rdr["GradeId"].ToString();
+                            assignmentHistorie.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
+                            assignmentHistorie.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
+                            assignmentHistorie.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
+                            assignmentHistorie.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+
+                            if (!string.IsNullOrEmpty(assignmentHistorie.Id.ToString()))
+                            {
+                                assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
+                            }
+
+                            assignmentHistories.Add(assignmentHistorie);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return assignmentHistories;
+        }
+
+        public int ApproveHistory_CellWise(AssignmentHistory assignmentHistory, int timeStampId, bool isCellWiseHistory)
+        {
+            int result = 0;
+
+            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsUpdate) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isUpdate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@timeStampId", timeStampId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+                cmd.Parameters.AddWithValue("@employeeId", assignmentHistory.EmployeeId);
+                cmd.Parameters.AddWithValue("@sectionId", assignmentHistory.SectionId);
+                cmd.Parameters.AddWithValue("@departmentId", assignmentHistory.DepartmentId);
+                cmd.Parameters.AddWithValue("@inChargeId", assignmentHistory.InChargeId);
+                cmd.Parameters.AddWithValue("@roleId", assignmentHistory.RoleId);
+                cmd.Parameters.AddWithValue("@explanationId", assignmentHistory.ExplanationId);
+                cmd.Parameters.AddWithValue("@companyId", assignmentHistory.CompanyId);
+                cmd.Parameters.AddWithValue("@unitPrice", assignmentHistory.UnitPrice);
+                cmd.Parameters.AddWithValue("@gradeId", assignmentHistory.GradeId);
+                cmd.Parameters.AddWithValue("@employeeAssignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
+                cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@isUpdate", isUpdate);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
             }
         }
 

@@ -162,6 +162,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetOriginalForecastedData(assignmentId);
         }
-
+        public int CreateApproveTimeStamp(string approveTimeStamp, int year, string createdBy, DateTime createdDate)
+        {
+            return forecastDAL.CreateApproveTimeStamp(approveTimeStamp, year, createdBy, createdDate);
+        }
+        public int CreateApprovetHistory(int approveTimeStampHistory,int year)
+        {
+            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year);
+        }
     }
 }

@@ -3146,9 +3146,9 @@ function UpdateForecast() {
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
 
-        var timestamp = `${year}${month}${day}_`;
-
-        if (jssUpdatedData.length > 0) {
+        var timestamp = `${year}${month}${day}_`; 
+        
+        if (jssUpdatedData.length > 0) {            
             updateMessage = "Successfully data updated";
             $.ajax({
                 url: `/api/utilities/UpdateForecastData`,

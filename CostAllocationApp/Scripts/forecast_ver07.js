@@ -3115,7 +3115,6 @@ function AddEmployee() {
     $('#jexcel_add_employee_modal').modal('hide');
 }
 function UpdateForecast() {
-
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();
     // $("#head_total").hide();
@@ -3145,10 +3144,10 @@ function UpdateForecast() {
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
+        var miliSeconds = dateObj.getMilliseconds();
+        var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
-        var timestamp = `${year}${month}${day}_`; 
-        
-        if (jssUpdatedData.length > 0) {            
+        if (jssUpdatedData.length > 0) {
             updateMessage = "Successfully data updated";
             $.ajax({
                 url: `/api/utilities/UpdateForecastData`,
@@ -3255,8 +3254,6 @@ function UpdateForecast() {
         alert("Operation Success.");
     }
 }
-
-
 function CompareUpdatedData() {
     
    

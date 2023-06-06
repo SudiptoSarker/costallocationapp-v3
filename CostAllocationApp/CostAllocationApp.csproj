@@ -45,13 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus, Version=6.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\costallocationapp-v3 publish\bin\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus">
+      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\costallocationapp-v3 publish\bin\ExcelDataReader.dll</HintPath>
+    <Reference Include="ExcelDataReader">
+      <HintPath>..\..\..\new\costallocationapp__\CostAllocationApp\bin\ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
@@ -223,16 +221,21 @@
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="DAL\UserRoleDAL.cs" />
     <Compile Include="Dtos\ActualCostDto.cs" />
+    <Compile Include="Dtos\ApportionmentDto.cs" />
     <Compile Include="Dtos\EmployeeAssignmentDTO.cs" />
     <Compile Include="Dtos\ExcelAssignmentDto.cs" />
     <Compile Include="Dtos\ForecastDto.cs" />
     <Compile Include="Dtos\ForecastHistoryDto.cs" />
     <Compile Include="Dtos\ForecastUpdateHistoryDto.cs" />
     <Compile Include="Dtos\SendToForecaseApiDto.cs" />
+    <Compile Include="Dtos\SukeyDto.cs" />
+    <Compile Include="Dtos\SukeyQADto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActualCost.cs" />
+    <Compile Include="Models\Apportionment.cs" />
+    <Compile Include="Models\AssignmentHistory.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\Sukey.cs" />
     <Compile Include="Models\UploadExcel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserPermission.cs" />
@@ -253,7 +257,10 @@
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UserLinks.cs" />
     <Compile Include="ViewModels\ActualCostViewModel.cs" />
+    <Compile Include="ViewModels\ApprovalHistoryViewModal.cs" />
+    <Compile Include="ViewModels\AssignmentHistoryViewModal.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
@@ -261,26 +268,38 @@
     <Compile Include="ViewModels\ForecastYear.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\actualcost.css" />
+    <Content Include="Content\actualcostconfirm.css" />
     <Content Include="Content\addname.css" />
+    <Content Include="Content\apportionment.css" />
     <Content Include="Content\bootstrap-combined.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-example.min.css" />
+    <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
+    <Content Include="Content\companies_ver02.css" />
     <Content Include="Content\employee.css" />
     <Content Include="Content\Custom.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\departments.css" />
+    <Content Include="Content\employee_ver02.css" />
     <Content Include="Content\explanations.css" />
+    <Content Include="Content\explanations_ver02.css" />
+    <Content Include="Content\fixedHeader.dataTables.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\forecast.css" />
     <Content Include="Content\forecast_ver02.css" />
     <Content Include="Content\forecast_ver03.css" />
+    <Content Include="Content\forecast_ver04.css" />
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\histories.css" />
     <Content Include="Content\incharge.css" />
+    <Content Include="Content\incharge_ver02.css" />
     <Content Include="Content\jexcel.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jspreadsheet.css" />
     <Content Include="Content\jsuites.css" />
     <Content Include="Content\line-awesome.min.css" />
@@ -288,15 +307,25 @@
     <Content Include="Content\modal_registrations.css" />
     <Content Include="Content\namelist-responsive.css" />
     <Content Include="Content\namelist.css" />
+    <Content Include="Content\namelist_ver02.css" />
     <Content Include="Content\nameregistration.css" />
+    <Content Include="Content\nameregistration_ver02.css" />
+    <Content Include="Content\prettify.min.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\roles.css" />
+    <Content Include="Content\roles_ver02.css" />
     <Content Include="Content\salaries.css" />
     <Content Include="Content\sections.css" />
+    <Content Include="Content\sections_ver02.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\style_ver02.css" />
+    <Content Include="Content\sukey.css" />
+    <Content Include="Content\sukey_qa.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\users.css" />
+    <Content Include="Content\user_registration.css" />
     <Content Include="favicon.ico" />
     <Content Include="img\arrow_down.png" />
     <Content Include="img\arrow_up.png" />
@@ -591,6 +620,8 @@
     <Content Include="img\flags\zm.png" />
     <Content Include="img\flags\zw.png" />
     <Content Include="img\forecast_loader.gif" />
+    <Content Include="img\forecast_loader2.gif" />
+    <Content Include="img\forecast_loader3.jpg" />
     <Content Include="img\img-01.jpg" />
     <Content Include="img\logo.png" />
     <Content Include="img\logo3.png" />
@@ -629,12 +660,18 @@
     <Content Include="img\sort.png" />
     <Content Include="img\sortDown.png" />
     <Content Include="img\sortUp.png" />
+    <Content Include="img\trash.svg" />
     <Content Include="img\user.jpg" />
     <Content Include="img\video-call.jpg" />
     <Content Include="Scripts\actualcost.js" />
+    <Content Include="Scripts\actualcostconfirm.js" />
     <Content Include="Scripts\addname.js" />
+    <Content Include="Scripts\apportionment.js" />
+    <Content Include="Scripts\bootstrap-3.3.2.min.js" />
+    <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Content\namelist.scss" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\app.js" />
@@ -645,20 +682,28 @@
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\companies.js" />
+    <Content Include="Scripts\companies_ver02.js" />
     <Content Include="Scripts\Custome-Reporting.js" />
     <Content Include="Scripts\Custome.js" />
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\departments.js" />
+    <Content Include="Scripts\departments_ver02.js" />
     <Content Include="Scripts\dropfiles.js" />
     <Content Include="Scripts\employee.js" />
+    <Content Include="Scripts\employee_ver02.js" />
     <Content Include="Scripts\employee_ver03.js" />
     <Content Include="Scripts\explanations.js" />
+    <Content Include="Scripts\explanations_ver02.js" />
     <Content Include="Scripts\forecast.js" />
     <Content Include="Scripts\forecast_ver02.js" />
     <Content Include="Scripts\forecast_ver03.js" />
+    <Content Include="Scripts\forecast_ver03.min.js" />
     <Content Include="Scripts\forecast_ver04 -29_Mar_2023.js" />
     <Content Include="Scripts\forecast_ver04.js" />
+    <Content Include="Scripts\forecast_ver04_.js" />
+    <Content Include="Scripts\forecast_ver05.js" />
     <Content Include="Scripts\forecast_ver06.js" />
+    <Content Include="Scripts\forecast_ver07.js" />
     <Content Include="Scripts\form-validation.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\glimpse.js" />
@@ -666,7 +711,10 @@
     <Content Include="Scripts\histories.js" />
     <Content Include="Scripts\html5shiv.min.js" />
     <Content Include="Scripts\incharge.js" />
+    <Content Include="Scripts\incharge_ver02.js" />
     <Content Include="Scripts\jexcel.js" />
+    <Content Include="Scripts\jexcel_modified.js" />
+    <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
@@ -684,7 +732,9 @@
     <Content Include="Scripts\jspreadsheet.js" />
     <Content Include="Scripts\jsuites.js" />
     <Content Include="Scripts\loader.js" />
+    <Content Include="Scripts\lodash.min.js" />
     <Content Include="Scripts\mask.js" />
+    <Content Include="Scripts\mastersetting_reg_modal.js" />
     <Content Include="Scripts\master_setting.js" />
     <Content Include="Scripts\modal_registrations.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -696,16 +746,23 @@
     <Content Include="Scripts\nameregistration.js" />
     <Content Include="Scripts\nameregistration_ver02.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\prettify.min.js" />
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\roles.js" />
+    <Content Include="Scripts\roles_ver02.js" />
     <Content Include="Scripts\salaries.js" />
     <Content Include="Scripts\sections.js" />
     <Content Include="Scripts\sections_ver02.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\sukey.js" />
+    <Content Include="Scripts\sukey_qa.js" />
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\users.js" />
+    <Content Include="Scripts\users_ver02.js" />
+    <Content Include="Scripts\user_registration.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -744,6 +801,12 @@
     <Content Include="Views\Forecasts\ActualCosts.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\CreateUsers.cshtml" />
+    <Content Include="Views\Registration\UserRegistration.cshtml" />
+    <Content Include="Views\Forecasts\CalculateActualCost.cshtml" />
+    <Content Include="Views\Forecasts\GetTotal.cshtml" />
+    <Content Include="Views\Forecasts\Apportionment.cshtml" />
+    <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
+    <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

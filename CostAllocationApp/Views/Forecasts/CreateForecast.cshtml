@@ -10,7 +10,7 @@
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative">
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
 
         @{
             /***************************\
@@ -72,6 +72,8 @@
         {   /***************************\
         Show Loader
         \***************************/
+            <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="forecast">
@@ -87,17 +89,24 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="year_data_search">
                 <div class="col-3">
-                    <div class="form-group">
-                        <label for="assignment_year_list">編集する年度のデータを選択</label>
-                        <select id="assignment_year_list" class="form-control"></select>
-                    </div>
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">Search</button>
+                    <select id="assignment_year_list" class="" ></select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
+                </div>
 
+                <div class="col-2">
+                </div>
+                <div class="col-3">                    
+                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: gray;">キャンセル</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left:35px;">保存 (Save)</button>
                 </div>
             </div>
-
+            <br>
             
             @*<select id="assignment_year_list"></select>
             <br><br>*@
@@ -105,16 +114,17 @@
             /***************************\
             Employee Assignment: Create Forecast
             \***************************/
-            <div class="row">
+            <div class="row" id="year_data_list">
                 <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;">save</button> -->
                 </div>
 
                 <div class="col-md-12">
+                    <div id="hider"></div>
+                    
                     <div id="jspreadsheet"></div>
                 </div>
                 <div class="col-12">
-                    <table id="head_total">
+                    <table id="head_total" style="display: none;">
                         <thead>
                             <tr>
                                 <th></th>
@@ -150,7 +160,7 @@
 <input type="hidden" id="hidCompanyid" />
 <input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
 <input type="hidden" id="hidDefaultForecastYear" value="" />
-
+<input type="hidden" id="timeStamp_ForUpdateData" value="" />
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
@@ -197,7 +207,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h3>年度データー(Emp. Assignments)</h3>
+                <h3 id="save_modal_header">年度データー(Emp. Assignments)</h3>
                 <div class="form-header" id="header_show">
 
                     <p id="section_warning" style="display:none;"></p>
@@ -221,10 +231,11 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" data-toggle="modal" data-target="#modal_change_history" onclick="CompareUpdatedData();">戻る(Back)</a>
+                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" data-toggle="modal" data-target="#modal_change_history" onclick="CompareUpdatedData();">戻る(Back)</a>                            
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UpdateForecast();">保存(Save)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="save_btn_modal" onclick="UpdateForecast();">保存(Save)</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" id="close_save_modal" style="display: none;">戻る(Close)</a>
                         </div>
                     </div>
                 </div>
@@ -240,7 +251,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" })){
+                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" ,@id = "frm_import_year_data" })){
                 <div class="form-header">
                     <h3>予算策定・編集 (CSV Import)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
@@ -258,7 +269,7 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 12px;">
+                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
                         </div>                                               
                     </div>
                 </div>
@@ -269,7 +280,8 @@
                         </div>
                         <div class="col-6">
                             @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
+                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
+                            @* <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button> *@
                             @Html.AntiForgeryToken()
                             @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
                         </div>
@@ -326,58 +338,145 @@
     </div>
 </div>
 
-
-
 <!-- Modal History -->
 <div class="modal" id="modal_change_history">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_change_history_label">変更の概要</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="display_matched_rows">
-                                    <h5>
-                                        一致した行
-                                    </h5>
-                                    <table style="width:100%;font-size:12px;text-align:center;">
-                                        <thead>
-                                            <tr>
-                                                <th>によって編集</th>
-                                                <th>従業員名</th>
-                                                <th>10月</th>
-                                                <th>11月</th>
-                                                <th>12月</th>
-                                                <th>1月</th>
-                                                <th>2月</th>
-                                                <th>3月</th>
-                                                <th>4月</th>
-                                                <th>5月</th>
-                                                <th>6月</th>
-                                                <th>7月</th>
-                                                <th>8月</th>
-                                                <th>9月</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">変更の概要</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="display_matched_rows">
+                                <h5>
+                                    一致した行
+                                </h5>
+                                <table style="width:100%;font-size:12px;text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th>によって編集</th>
+                                            <th>従業員名</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="search_p">
+    <ul id="search_p_asc_desc">
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+    </ul>
+    @*<input type="text" id="search_p_text_box" />
+    <ul id="search_p_search"></ul>*@
+    <div class="search_p_footer">
+        @*<button type="button" onclick="GetEmployeeName()">Ok</button>*@
+        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
+    </div>
+</div>
+
+<div class="search_section">
+    <ul id="search_section_asc_desc">
+        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">Ascending</span></li>
+        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
+    </div>
+</div>
+
+<div class="search_department">
+    <ul id="search_department_asc_desc">
+        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">Ascending</span></li>
+        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
+    </div>
+</div>
+<div class="search_incharge">
+    <ul id="search_incharge_asc_desc">
+        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">Ascending</span></li>
+        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
+    </div>
+</div>
+<div class="search_role">
+    <ul id="search_role_asc_desc">
+        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">Ascending</span></li>
+        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_role">Close</button>
+    </div>
+</div>
+
+<div class="search_explanation">
+    <ul id="search_explanation_asc_desc">
+        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">Ascending</span></li>
+        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_explanation">Close</button>
+    </div>
+</div>
+<div class="search_company">
+    <ul id="search_company_asc_desc">
+        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">Ascending</span></li>
+        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
+    </div>
+</div>
+<div class="search_grade">
+    <ul id="search_grade_asc_desc">
+        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">Ascending</span></li>
+        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
+    </div>
+</div>
+<div class="search_unit_price">
+    <ul id="search_unit_price_asc_desc">
+        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">Ascending</span></li>
+        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>
+    </div>
+</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

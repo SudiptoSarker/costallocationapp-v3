@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Actual Cost Confirm";
+}
+@section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/actualcostconfirm.css" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div id="actual_cost_table_header">実績（Actual Cost) : 実績</div>
+    <div class="row" id="actual_cost_list1">
+        <div class="col-md-12">
+            <div id="jspreadsheet"></div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="~/Scripts/actualcostconfirm.js"></script>
+    <script src="/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName != value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+        });
+    </script>
+}
+

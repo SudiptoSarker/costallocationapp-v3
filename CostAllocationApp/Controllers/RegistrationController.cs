@@ -53,5 +53,9 @@ namespace CostAllocationApp.Controllers
             int result = userBLL.RemoveUser(userName);
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        public ActionResult UserRegistration()
+        {
+            return View();
+        }
     }
 }

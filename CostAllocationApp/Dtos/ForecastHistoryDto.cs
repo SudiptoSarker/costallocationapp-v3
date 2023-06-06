@@ -9,5 +9,7 @@ namespace CostAllocationApp.Dtos
     {
         public List<ForecastUpdateHistoryDto> ForecastUpdateHistoryDtos { get; set; }
         public string HistoryName { get; set; }
+        public List<string> CellInfo { get; set; }
+        public string TimeStampId { get; set; }
     }
 }

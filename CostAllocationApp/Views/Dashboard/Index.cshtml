@@ -1,7 +1,10 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
 }
-
+@section Styles {    
+     @* <link rel="stylesheet" href="/Content/custome_side_menu.css">
+     <link rel="stylesheet" href="/Content/new_side_menu_ver02.css"> *@
+}
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
@@ -32,7 +35,32 @@
     <script src="/Scripts/Chart.min.js"></script>
     <script src="/Scripts/Custome-Reporting.js"></script>
     <script src="~/signalr/hubs"></script>
+
+    <script src="~/signalr/5-1-2.js"></script>
+
     <script type="text/javascript">
+        @* var clicked = false;
+        function CheckBrowser() {
+            if (clicked == false) {
+                alert("clicked")
+                //Browser closed
+            }
+            else {
+                alert("no clicked")
+                //redirected
+                clicked = false;
+            }
+        }
+     
+        function BClose() {
+            if (clicked == false)//browser is closed
+            {
+                alert("browser closed")
+                window.location = "logOut.aspx";
+            }
+        } *@
+
+
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();

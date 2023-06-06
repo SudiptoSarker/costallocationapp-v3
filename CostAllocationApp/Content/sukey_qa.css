@@ -1,0 +1,45 @@
+﻿#assignment_year {
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+}
+#sukey_qa_display {
+    margin-left: -11px;
+    margin-top: -1px;
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    height: 30px;
+    border: 1px solid #ccc !important;
+}
+
+#sukey_qa_table th, td {
+    font-size: 12px;
+}
+
+#sukey_qa_table tbody td {
+    text-align: right;
+}
+
+#sukey_qa_table tbody td:nth-of-type(1) {
+    text-align: left;
+}
+#qa_ratio_total_nagivation{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
+}
+#qa_ratio_total_filter{
+    margin-top: 10px;
+}
+#qa_ratio_total_list{
+    margin-top: 5px;
+}

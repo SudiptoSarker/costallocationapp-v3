@@ -15,7 +15,7 @@ namespace CostAllocationApp.DAL
         public int CreateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year);";
+            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,BCYR,BCYRCell,EmployeeName) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@bCYR,@bCYRCell,@employeeName);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -89,6 +89,10 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
                 cmd.Parameters.AddWithValue("@subCode", employeeAssignment.SubCode);
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
+                cmd.Parameters.AddWithValue("@bCYR", employeeAssignment.BCYR);
+                cmd.Parameters.AddWithValue("@bCYRCell", employeeAssignment.BCYRCell);
+                //cmd.Parameters.AddWithValue("@employeeName", "");
+                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
 
                 try
                 {
@@ -345,6 +349,42 @@ namespace CostAllocationApp.DAL
                             employeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             employeeAssignmentViewModel.Remarks = rdr["Remarks"].ToString();
                             employeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return employeeAssignmentViewModel;
+        }
+
+        public EmployeeAssignmentViewModel GetDepartmentByAssignmentId(int assignmentId)
+        {
+
+            string query = $@"select ea.DepartmentId, dep.Name as DepartmentName 
+                            from EmployeesAssignments ea 
+                            join Departments dep on ea.DepartmentId = dep.Id
+                            where ea.Id={assignmentId}";
+
+            EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"] == DBNull.Value ? "" : rdr["DepartmentId"].ToString();
+                            employeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"]==DBNull.Value ? "" :rdr["DepartmentName"].ToString();
 
                         }
                     }
@@ -660,20 +700,20 @@ namespace CostAllocationApp.DAL
                 where += $" ea.Year={employeeAssignment.Year} and ";
             }
             
-            if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
-            {
-                where += $" ea.IsActive={employeeAssignment.IsActive} and ";
-            }
-            else
-            {
-                where += $" ea.IsActive=1 and ";
-            }
+            //if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
+            //{
+            //    where += $" ea.IsActive={employeeAssignment.IsActive} and ";
+            //}
+            //else
+            //{
+            //    where += $" ea.IsActive=1 and ";
+            //}
 
-            where += " 1=1 ";
+            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
 
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -703,7 +743,7 @@ namespace CostAllocationApp.DAL
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -724,6 +764,13 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"]  is DBNull ? "":  rdr["Remarks"].ToString() ;
+                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false: Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
+
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
                             //{
@@ -1251,7 +1298,535 @@ namespace CostAllocationApp.DAL
 
 
 
-        } 
+        }
+
+        public string GetBCYRCellByAssignmentId(int assignmentId)
+        {
+
+            string query = $@"select BCYRCell from EmployeesAssignments where Id={assignmentId}";
+
+            string result="";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            
+                            result = rdr["BCYRCell"] is DBNull ? "": rdr["BCYRCell"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+
+        public int UpdateBCYRCellByAssignmentId(int assignmentId, string cell)
+        {
+
+            string query = $@"update EmployeesAssignments set BCYRCell ='{cell}' where Id={assignmentId}";
+
+            int result = 0;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+
+        public int ApproveAssignement(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId and BCYR=1";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int UnApproveAssignement(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId and BCYR=1";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRApproved", 0);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int ApproveDeletedRow(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsActive=0,BCYRApproved=1,IsDeleted=0 where Id=@approvedAssignmentId and IsActive =0";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        
+        //un approve delete data
+        public int UnApproveDeletedRow(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsActive=0,BCYRApproved=0,IsDeleted=0 where Id=@approvedAssignmentId and IsActive =0";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int UpdateApprovedDataForDeleteRows(string assignmentYear)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYR= 0,BCYRApproved=0,IsDeleted=1 where IsActive =0 and BCYRApproved=1 and (IsDeleted is null Or  IsDeleted=0 ) and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        //get approval data
+        public List<ForecastAssignmentViewModel> GetApprovalEmployeesBySearchFilter(EmployeeAssignmentForecast employeeAssignment)
+        {
+
+            string where = "";
+            if (!string.IsNullOrEmpty(employeeAssignment.SectionId))
+            {
+                string tempSectionIds = "";
+                if (employeeAssignment.SectionId.IndexOf(",") >= 0)
+                {
+                    string[] arrSectionIds = employeeAssignment.SectionId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrSectionIds.Length; i++)
+                    {
+                        if (tempSectionIds == "")
+                        {
+                            tempSectionIds = arrSectionIds[i];
+                        }
+                        else
+                        {
+                            tempSectionIds = tempSectionIds + "," + arrSectionIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempSectionIds = employeeAssignment.SectionId;
+                }
+                where += $" ea.SectionId In ({tempSectionIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.DepartmentId))
+            {
+                string tempDepartmentIds = "";
+                if (employeeAssignment.DepartmentId.IndexOf(",") >= 0)
+                {
+                    string[] arrDepartmentIds = employeeAssignment.DepartmentId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrDepartmentIds.Length; i++)
+                    {
+                        if (tempDepartmentIds == "")
+                        {
+                            tempDepartmentIds = arrDepartmentIds[i];
+                        }
+                        else
+                        {
+                            tempDepartmentIds = tempDepartmentIds + "," + arrDepartmentIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempDepartmentIds = employeeAssignment.DepartmentId;
+                }
+                where += $" ea.DepartmentId In ({tempDepartmentIds}) and ";
+            }
+
+            if (!string.IsNullOrEmpty(employeeAssignment.InchargeId))
+            {
+                string tempInchargeIdIds = "";
+                if (employeeAssignment.InchargeId.IndexOf(",") >= 0)
+                {
+                    string[] arrInchargeIds = employeeAssignment.InchargeId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrInchargeIds.Length; i++)
+                    {
+                        if (tempInchargeIdIds == "")
+                        {
+                            tempInchargeIdIds = arrInchargeIds[i];
+                        }
+                        else
+                        {
+                            tempInchargeIdIds = tempInchargeIdIds + "," + arrInchargeIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempInchargeIdIds = employeeAssignment.InchargeId;
+                }
+                where += $" ea.InChargeId In ({tempInchargeIdIds}) and ";
+            }
+
+            if (!string.IsNullOrEmpty(employeeAssignment.RoleId))
+            {
+                string tempRoleIds = "";
+                if (employeeAssignment.RoleId.IndexOf(",") >= 0)
+                {
+                    string[] arrRoleIdss = employeeAssignment.RoleId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrRoleIdss.Length; i++)
+                    {
+                        if (tempRoleIds == "")
+                        {
+                            tempRoleIds = arrRoleIdss[i];
+                        }
+                        else
+                        {
+                            tempRoleIds = tempRoleIds + "," + arrRoleIdss[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempRoleIds = employeeAssignment.RoleId;
+                }
+                where += $" ea.RoleId In ({tempRoleIds}) and ";
+            }
+
+            if (!String.IsNullOrEmpty(employeeAssignment.ExplanationId))
+            {
+                string tempExplanationIds = "";
+                if (employeeAssignment.ExplanationId.IndexOf(",") >= 0)
+                {
+                    string[] arrtempExplanationIds = employeeAssignment.ExplanationId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrtempExplanationIds.Length; i++)
+                    {
+                        if (tempExplanationIds == "")
+                        {
+                            tempExplanationIds = arrtempExplanationIds[i];
+                        }
+                        else
+                        {
+                            tempExplanationIds = tempExplanationIds + "," + arrtempExplanationIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempExplanationIds = employeeAssignment.ExplanationId;
+                }
+                where += $" ea.ExplanationId IN ({tempExplanationIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.CompanyId))
+            {
+                string tempCompanyIds = "";
+                if (employeeAssignment.CompanyId.IndexOf(",") >= 0)
+                {
+                    string[] arrCompanyIds = employeeAssignment.CompanyId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrCompanyIds.Length; i++)
+                    {
+                        if (tempCompanyIds == "")
+                        {
+                            tempCompanyIds = arrCompanyIds[i];
+                        }
+                        else
+                        {
+                            tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempCompanyIds = employeeAssignment.CompanyId;
+                }
+                where += $" ea.CompanyId In ({tempCompanyIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.Year))
+            {
+                where += $" ea.Year={employeeAssignment.Year} and ";
+            }
+
+            //if (employeeAssignment.IsActive == "0" || employeeAssignment.IsActive == "1")
+            //{
+            //    where += $" ea.IsActive={employeeAssignment.IsActive} and ";
+            //}
+            //else
+            //{
+            //    where += $" ea.IsActive=1 and ";
+            //}
+
+            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0";
+
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
+                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            where {where}
+                            order by emp.Id asc";
+
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();          
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            //employeeAssignmentViewModel.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
+                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
+                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
+                            
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            }
+
+            return forecastEmployeeAssignments;
+        }
+        public int UpdateApprovedData(string assignmentYear)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYR= 0,BCYRApproved=0 where BCYR= 1 and BCYRApproved=1  and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        public EmployeeAssignment GetPreviousApprovedCells(string assignementId)
+        {        
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            string query = "select BCYRCell,BCYRCellApproved from EmployeesAssignments where  id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            _employeeAssignments.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return _employeeAssignments;
+
+        }
+        public int UpdateBYCRCells(string assignementId, string bCYRCellApproved,string storeBYCRCells) {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRCell=@bCYRCell,BCYRCellApproved=@bCYRCellApproved where Id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRCell", storeBYCRCells);
+                cmd.Parameters.AddWithValue("@bCYRCellApproved", bCYRCellApproved);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int UpdateCellWiseApprovdData(string assignmentYear)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRCellApproved='',IsApproved=1 where BCYRCellApproved is not null and BCYRCellApproved !='' and BCYRCellApproved !='0' and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
 
     }
 }

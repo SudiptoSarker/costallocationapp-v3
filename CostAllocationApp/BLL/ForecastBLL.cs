@@ -34,9 +34,21 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate)
+        {
+            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+        }
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate)
+        {
+            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate);
+        }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {
             return forecastDAL.GetTimeStamps_Year(year);
+        }
+        public List<ForecastHisory> GetApprovalTimeStamps(int year)
+        {
+            return forecastDAL.GetApprovalTimeStamps(year);
         }
         public List<Forecast> GetForecastHistories(int timeStampId)
         {
@@ -87,6 +99,8 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
                     employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
                     employeeAssignment.Year = insertYear.ToString();
+                    employeeAssignment.EmployeeName = item.EmployeeName;
+                    employeeAssignment.BCYRCell = "";
 
                     int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
                     if (result == 1)
@@ -124,10 +138,53 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
         }
-
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        {
+            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+        }
+        public List<Forecast> GetApprovalHistoriesByTimeStampId(int timeStampId)
+        {
+            return forecastDAL.GetApprovalHistoriesByTimeStampId(timeStampId);
+        }
         public List<int> GetYearFromHistory()
         {
             return forecastDAL.GetYearFromHistory();
+        }
+        public List<int> GetAssignmentYearList()
+        {
+            return forecastDAL.GetAssignmentYearList();
+        }
+        public List<int> GetApprovalAssignmentYearList()
+        {
+            return forecastDAL.GetApprovalAssignmentYearList();
+        }
+        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
+        {
+            return forecastDAL.GetForecastDetails(assignmentId, copyYear);
+        }
+        public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
+        {
+            return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
+        }
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId)
+        {
+            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId);
+        }
+        public ApprovalHistoryViewModal GetApprovalNamesForHistory(int assignmentId,int timeStampId)
+        {
+            return forecastDAL.GetApprovalNamesForHistory(assignmentId, timeStampId);
+        }
+        public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
+        {
+            return forecastDAL.GetOriginalForecastedData(assignmentId);
+        }
+        public int CreateApproveTimeStamp(string approveTimeStamp, int year, string createdBy, DateTime createdDate)
+        {
+            return forecastDAL.CreateApproveTimeStamp(approveTimeStamp, year, createdBy, createdDate);
+        }
+        public int CreateApprovetHistory(int approveTimeStampHistory,int year,string createdBy)
+        {
+            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year, createdBy);
         }
     }
 }

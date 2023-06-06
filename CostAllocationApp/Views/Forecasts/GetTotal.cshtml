@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Get Total";
+}
+@section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/sukey.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div id="sukey_nagigation">集計( Total): 集計</div>
+    <!-----------------Show Loader----------------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
+                        <br>
+                        <strong>Please wait a moment...</strong>
+                        <br>
+                        <br>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="sukey_search_filter">
+        <div class="col-3">
+            <select id="assignment_year" class=""></select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="sukey_display">表示</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 table-responsive" style="height:400px;">
+            <table class="table table-bordered" id="sukey_table">
+                <thead id="sukey_table_header">
+                    <tr>
+                        <th scope="col">Department Name</th>
+                        <th scope="col">10月</th>
+                        <th scope="col">11月</th>
+                        <th scope="col">12月</th>
+                        <th scope="col">1月</th>
+                        <th scope="col">2月</th>
+                        <th scope="col">3月</th>
+                        <th scope="col">4月</th>
+                        <th scope="col">5月</th>
+                        <th scope="col">6月</th>
+                        <th scope="col">7月</th>
+                        <th scope="col">8月</th>
+                        <th scope="col">9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <table id="head_total" style="display: none;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                        <th>4月</th>
+                        <th>5月</th>
+                        <th>6月</th>
+                        <th>7月</th>
+                        <th>8月</th>
+                        <th>9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="~/Scripts/sukey.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName != value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+ 
+        });
+    </script>
+}

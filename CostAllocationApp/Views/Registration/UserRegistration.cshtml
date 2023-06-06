@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "User Registration";
+}
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/user_registration.css" />
+}
+<style>
+
+    .username-error {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+
+    .password-error {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+    .nav-item.dropdown.has-arrow.main-drop {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 100%;
+        color: #dc3545;
+    }
+</style>
+<div class="content container-fluid">
+    <!-----------------User Registration Form----------------->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <input type="hidden" value="" id="user_id_hidden"/>
+                <table id="users_reg_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th>ユーザーID (User Id)</th>
+                            <th>役職 (Title)</th>
+                            <th>部署 (Department)</th>
+                            <th>メアド (Email)</th>
+                            <th>パスワー (Password)</th>
+                            <th>行動 (Action)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <select id="userDepartment" name="userDepartment"></select>
+                            </td>                            
+                            <td id="create_users_tbody_td">
+                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <input type="password" id="userPass" minlength="" placeholder="パスワー (Password)" required>
+                            </td>
+                            <td id="create_users_tbody_td">
+                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal" onclick="ClearEntry();">クリア (Clear)</a>
+                                @* <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UserRegistration();" data-toggle="modal" data-target="#register_modal">登録 (Register)</a> *@
+                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" data-toggle="modal" data-target="#register_modal">登録 (Register)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="/registration/login" style="text-decoration: underline;color: black;">Back</a>
+            </div>
+        </div>
+    </div>    
+</div>
+<input type="hidden" id="hid_userRole" value="0">
+
+<!-----------------Modal: Update Forecast Confirm Dialog box----------------->
+<div class="modal custom-modal fade" id="register_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 style="text-align: center;">User Registration</h3>
+                <div class="form-header" id="header_show">
+
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <style>
+                        .forecast_save_confirm_text {
+                            text-align: left;
+                        }
+                    </style>
+                    <label class="forecast_save_confirm_text" style="text-align: center;">
+                        @* Your role will be pending, admin will set your role. *@
+                        Do you want to save? 
+                    </label>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">                            
+                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UserRegistration();">保存(Save)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: registration success----------------->
+<div class="modal custom-modal fade" id="registration_success">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 style="text-align: center;">Registration Success</h3>
+                <div class="form-header" id="header_show">
+
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <style>
+                        .forecast_save_confirm_text {
+                            text-align: left;
+                        }
+                    </style>
+                    <label class="forecast_save_confirm_text" style="text-align: center;">
+                        Registration is completed, please wait for the approval!
+                    </label>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-12">                            
+                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/user_registration.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 1000); // Restart connection after 1 second.
+        });
+        $.connection.hub.start();
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+        $(document).ready(function () {
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+
+        });
+    </script>
+}

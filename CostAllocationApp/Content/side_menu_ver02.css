@@ -1,0 +1,15 @@
+﻿/***************************\                           
+	side bar
+\***************************/
+.new-light-grey, .new-hover-light-grey:hover, .new-light-gray, .new-hover-light-gray:hover{
+    color: #000!important;
+    background-color: #f1f1f1!important;
+}
+.new-sidebar{
+    height: 100%;
+    width: 225px;
+    background-color: #fff;
+    position: fixed!important;
+    z-index: 3;
+}
+

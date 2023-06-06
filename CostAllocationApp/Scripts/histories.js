@@ -1,16 +1,19 @@
 ﻿var jss;
 
 $(document).ready(function () {
+    var totalwidth = 190 * $('.modal-body').length;
+    $('.container').css('width', totalwidth);
 
     $.ajax({
-        url: `/api/utilities/GetYearFromHistory`,
+        // url: `/api/utilities/GetYearFromHistory`,
+        url: `/api/utilities/GetAssignmentYearList`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
         dataType: 'json',
         success: function (data) {
             $('#history_year').empty();
-            $('#history_year').append('<option value="">Select Year</option>');
+            $('#history_year').append('<option value="">年度データーの選択</option>');
             $.each(data, function (index, value) {
                 $('#history_year').append(`<option value="${value}">${value}</option>`);
             });
@@ -38,7 +41,7 @@ $(document).ready(function () {
                     let i = 1;
                     $('#timestamp_list tbody').empty();
                     $.each(data, function (index, element) {
-                        $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});">${element.TimeStamp}</a></td></tr>`);
+                        $('#timestamp_list tbody').append(`<tr><td>${element.CreatedBy}</td><td style="text-align: left;"><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});" style="margin: 28px;">${element.TimeStamp}</a></td></tr>`);
                         i++;
                     });
 
@@ -59,7 +62,8 @@ function GetHistories(timeStampId) {
     $('#modal_change_history').modal('show');
 
     $.ajax({
-        url: `/api/utilities/GetHistoriesByTimeStampId`,
+        //url: `/api/utilities/GetHistoriesByTimeStampId`,
+        url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -67,11 +71,22 @@ function GetHistories(timeStampId) {
         data: { timeStampId: timeStampId },
         success: function (data) {
             //$('#display_matched_rows table').css('display', 'inline-table');
-            $('#forecast_histories table tbody').empty();
+            // $('#forecast_histories table tbody').empty();
+            $('#forecast_history_table tbody').empty();
+            $("#forecast_history").val('');
+
             $.each(data, function (index, element) {
                 //console.log(element);
-                $('#forecast_histories table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
-            });
+                var forecastType = "";
+                if(element.IsUpdate){
+                    forecastType = "Updated";
+                }
+                else{
+                    forecastType = "Inserted";
+                }                              
+                $('#forecast_history_table tbody').append(`<tr><td style='white-space:nowrap;'>${element.CreatedBy}</td><td style='white-space:nowrap;'>${element.EmployeeName}</td><td style='white-space:nowrap;'>${forecastType}</td><td style='white-space:nowrap;'>${element.Remarks}</td><td style='white-space:nowrap;'>${element.SectionName}</td><td style='white-space:nowrap;'>${element.DepartmentName}</td><td style='white-space:nowrap;'>${element.InChargeName}</td><td style='white-space:nowrap;'>${element.RoleName}</td><td style='white-space:nowrap;'>${element.ExplanationName}</td><td style='white-space:nowrap;'>${element.CompanyName}</td><td style='white-space:nowrap;'>${element.GradePoints}</td><td style='white-space:nowrap;'>${element.UnitPrice}</td><td style='white-space:nowrap;'>${element.OctPoints}</td><td style='white-space:nowrap;'>${element.NovPoints}</td><td style='white-space:nowrap;'>${element.DecPoints}</td><td style='white-space:nowrap;'>${element.JanPoints}</td><td style='white-space:nowrap;'>${element.FebPoints}</td><td style='white-space:nowrap;'>${element.MarPoints}</td><td style='white-space:nowrap;'>${element.AprPoints}</td><td style='white-space:nowrap;'>${element.MayPoints}</td><td style='white-space:nowrap;'>${element.JunPoints}</td><td style='white-space:nowrap;'>${element.JulPoints}</td><td style='white-space:nowrap;'>${element.AugPoints}</td><td style='white-space:nowrap;'>${element.SepPoints}</td></tr>`);
+                
+            });            
         }
     });
 

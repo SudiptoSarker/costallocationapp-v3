@@ -22,7 +22,10 @@ namespace CostAllocationApp.Models
         public string Remarks { get; set; }
         public int SubCode { get; set; }
         public string Year { get; set; }
-
+        public bool BCYR { get; set; }
+        public string BCYRCell { get; set; }
+        public bool BCYRApproved { get; set; }
+        public string BCYRCellApproved { get; set; }
         //public int Id { get; set; }
         //public string EmployeeName { get; set; }
         //public string SectionId { get; set; }

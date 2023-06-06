@@ -1,0 +1,209 @@
+﻿
+@{
+    ViewBag.Title = "Get Histories";
+}
+
+@section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/histories.css" rel="stylesheet" type="text/css" />
+}
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+        <!-- Page Header -->
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
+            <!-- Show Loader -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="forecast">
+                        <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                            <center>
+                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                                <br>
+                                <strong>Please wait a moment...</strong>
+                                <br>
+                                <br>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="filter_history_data">
+                <div class="col-3">
+                    <select id="history_year" class="" ></select>
+                </div>
+                <div class="col-2" id="btn_submit">
+                    <button type="submit" class="btn btn-light mb-2" id="history_data_btn" >表示</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-7">
+                    <table class="table" id="timestamp_list">
+                        <thead>
+                            <tr>
+                                <th>Created By</th>
+                                <th>File Name</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+    </div>
+
+<!-- Modal History -->
+@* <div class="modal fade" id="modal_change_history" > *@
+<div id="modal_change_history" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    @* <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 100%;"> *@
+    <div class="modal-dialog modal-xl" style="max-width: 1524px; margin: auto;">
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_change_history_label">
+                    変更履歴
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="forecast_histories">                                
+                                <table class="table table-bordered" style="width:100%;font-size:12px;text-align:center;margin-left: -534px;">
+                                    <thead>
+                                        <tr>
+                                            <th>利用者</th>
+                                            <th>従業員名(Emp)</th>
+                                            <th>Forecast Type</th>
+                                            <th>Remaks</th>
+                                            <th>区分(Section)</th>
+                                            <th>部署(Dept)</th>
+                                            <th>担当作業(In chg)</th>
+                                            <th>役割(Role)</th>
+                                            <th>説明(expl)</th>
+                                            <th>会社(Com)</th>
+                                            <th>グレード(Grade)</th>
+                                            <th>単価(Unit Price)</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/histories.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+
+
+        $(document).ready(function () {
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+        });
+
+
+
+        
+    </script>
+}
+
+

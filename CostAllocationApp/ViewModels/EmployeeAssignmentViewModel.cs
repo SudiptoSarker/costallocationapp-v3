@@ -32,5 +32,11 @@ namespace CostAllocationApp.ViewModels
         public bool MarkedAsRed { get; set; }
         public string EmployeeNameWithCodeRemarks { get; set; }
         public int UnitPriceWithoutComma { get; set; }
+
+        // for actual cost view.....
+        public decimal ForecastedPoints { get; set; }
+        public decimal ForecastedTotal { get; set; }
+        public decimal ManMonth { get; set; }
+        public decimal ActualCostAmount { get; set; }
     }
 }

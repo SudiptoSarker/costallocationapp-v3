@@ -62,6 +62,72 @@ namespace CostAllocationApp.DAL
 
         }
 
+        public List<ActualCost> GetActualCostsByYear_AssignmentId(int year,int assignmentId)
+        {
+            List<ActualCost> actualCosts = new List<ActualCost>();
+
+            string query = $@"select * from ActualCosts where Year={year} and AssignmentId={assignmentId}";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ActualCost actualCost = new ActualCost();
+                            actualCost.Id = Convert.ToInt32(rdr["Id"]);
+                            actualCost.AssignmentId = Convert.ToInt32(rdr["AssignmentId"]);
+                            actualCost.Year = Convert.ToInt32(rdr["Year"]);
+                            actualCost.OctCost = Convert.ToDouble(rdr["OctCost"]);
+                            actualCost.NovCost = Convert.ToDouble(rdr["NovCost"]);
+                            actualCost.DecCost = Convert.ToDouble(rdr["DecCost"]);
+                            actualCost.JanCost = Convert.ToDouble(rdr["JanCost"]);
+                            actualCost.FebCost = Convert.ToDouble(rdr["FebCost"]);
+                            actualCost.MarCost = Convert.ToDouble(rdr["MarCost"]);
+                            actualCost.AprCost = Convert.ToDouble(rdr["AprCost"]);
+                            actualCost.MayCost = Convert.ToDouble(rdr["MayCost"]);
+                            actualCost.JunCost = Convert.ToDouble(rdr["JunCost"]);
+                            actualCost.JulCost = Convert.ToDouble(rdr["JulCost"]);
+                            actualCost.AugCost = Convert.ToDouble(rdr["AugCost"]);
+                            actualCost.SepCost = Convert.ToDouble(rdr["SepCost"]);
+
+                            actualCost.OctPoint = Convert.ToDouble(rdr["OctPoint"]);
+                            actualCost.NovPoint = Convert.ToDouble(rdr["NovPoint"]);
+                            actualCost.DecPoint = Convert.ToDouble(rdr["DecPoint"]);
+                            actualCost.JanPoint = Convert.ToDouble(rdr["JanPoint"]);
+                            actualCost.FebPoint = Convert.ToDouble(rdr["FebPoint"]);
+                            actualCost.MarPoint = Convert.ToDouble(rdr["MarPoint"]);
+                            actualCost.AprPoint = Convert.ToDouble(rdr["AprPoint"]);
+                            actualCost.MayPoint = Convert.ToDouble(rdr["MayPoint"]);
+                            actualCost.JunPoint = Convert.ToDouble(rdr["JunPoint"]);
+                            actualCost.JulPoint = Convert.ToDouble(rdr["JulPoint"]);
+                            actualCost.AugPoint = Convert.ToDouble(rdr["AugPoint"]);
+                            actualCost.SepPoint = Convert.ToDouble(rdr["SepPoint"]);
+
+
+
+                            actualCosts.Add(actualCost);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return actualCosts;
+
+
+
+        }
+
         public bool CheckAssignmentId(int assignmentId, int year)
         {
             bool result = false;
@@ -90,7 +156,7 @@ namespace CostAllocationApp.DAL
         public int CreateActualCost(ActualCost actualCost)
         {
             int result = 0;
-            string query = $@"insert into ActualCosts(AssignmentId,Year,OctCost,NovCost,DecCost,JanCost,FebCost,MarCost,AprCost,MayCost,JunCost,JulCost,AugCost,SepCost,CreatedBy,CreatedDate) values(@assignmentId,@year,@octCost,@novCost,@decCost,@janCost,@febCost,@marCost,@aprCost,@mayCost,@junCost,@julCost,@augCost,@sepCost,@createdBy,@createdDate)";
+            string query = $@"insert into ActualCosts(AssignmentId,Year,OctCost,NovCost,DecCost,JanCost,FebCost,MarCost,AprCost,MayCost,JunCost,JulCost,AugCost,SepCost,CreatedBy,CreatedDate,OctPoint,NovPoint,DecPoint,JanPoint,FebPoint,MarPoint,AprPoint,MayPoint,JunPoint,JulPoint,AugPoint,SepPoint) values(@assignmentId,@year,@octCost,@novCost,@decCost,@janCost,@febCost,@marCost,@aprCost,@mayCost,@junCost,@julCost,@augCost,@sepCost,@createdBy,@createdDate,@octPoint,@novPoint,@decPoint,@janPoint,@febPoint,@marPoint,@aprPoint,@mayPoint,@junPoint,@julPoint,@augPoint,@sepPoint)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -109,6 +175,19 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@julCost", actualCost.JulCost);
                 cmd.Parameters.AddWithValue("@augCost", actualCost.AugCost);
                 cmd.Parameters.AddWithValue("@sepCost", actualCost.SepCost);
+
+                cmd.Parameters.AddWithValue("@octPoint", actualCost.OctPoint);
+                cmd.Parameters.AddWithValue("@novPoint", actualCost.NovPoint);
+                cmd.Parameters.AddWithValue("@decPoint", actualCost.DecPoint);
+                cmd.Parameters.AddWithValue("@janPoint", actualCost.JanPoint);
+                cmd.Parameters.AddWithValue("@febPoint", actualCost.FebPoint);
+                cmd.Parameters.AddWithValue("@marPoint", actualCost.MarPoint);
+                cmd.Parameters.AddWithValue("@aprPoint", actualCost.AprPoint);
+                cmd.Parameters.AddWithValue("@mayPoint", actualCost.MayPoint);
+                cmd.Parameters.AddWithValue("@junPoint", actualCost.JunPoint);
+                cmd.Parameters.AddWithValue("@julPoint", actualCost.JulPoint);
+                cmd.Parameters.AddWithValue("@augPoint", actualCost.AugPoint);
+                cmd.Parameters.AddWithValue("@sepPoint", actualCost.SepPoint);
                 cmd.Parameters.AddWithValue("@createdBy", actualCost.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", actualCost.CreatedDate);
                 try
@@ -124,30 +203,14 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int UpdateActualCost(ActualCost actualCost)
+        public int UpdateActualCost(int year, int assignmentId, string costColumnName,string pointColumnName,double costAmount, double pointAmount, string updatedBy, DateTime updatedDate)
         {
             int result = 0;
-            string query = $@"update ActualCosts set OctCost=@octCost,NovCost=@novCost,DecCost=@decCost,JanCost=@janCost,FebCost=@febCost,MarCost=@marCost,AprCost=@aprCost,MayCost=@mayCost,JunCost=@junCost,JulCost=@julCost,AugCost=@augCost,SepCost=@sepCost,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where AssignmentId=@assignmentId and Year=@year";
+            string query = $@"update ActualCosts set {costColumnName}={costAmount}, {pointColumnName}={pointAmount}, UpdatedBy='{updatedBy}',UpdatedDate='{updatedDate}' where AssignmentId={assignmentId} and Year={year}";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@octCost", actualCost.OctCost);
-                cmd.Parameters.AddWithValue("@novCost", actualCost.NovCost);
-                cmd.Parameters.AddWithValue("@decCost", actualCost.DecCost);
-                cmd.Parameters.AddWithValue("@janCost", actualCost.JanCost);
-                cmd.Parameters.AddWithValue("@febCost", actualCost.FebCost);
-                cmd.Parameters.AddWithValue("@marCost", actualCost.MarCost);
-                cmd.Parameters.AddWithValue("@aprCost", actualCost.AprCost);
-                cmd.Parameters.AddWithValue("@mayCost", actualCost.MayCost);
-                cmd.Parameters.AddWithValue("@junCost", actualCost.JunCost);
-                cmd.Parameters.AddWithValue("@julCost", actualCost.JulCost);
-                cmd.Parameters.AddWithValue("@augCost", actualCost.AugCost);
-                cmd.Parameters.AddWithValue("@sepCost", actualCost.SepCost);
-                cmd.Parameters.AddWithValue("@updatedBy", actualCost.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedDate", actualCost.UpdatedDate);
-                cmd.Parameters.AddWithValue("@assignmentId", actualCost.AssignmentId);
-                cmd.Parameters.AddWithValue("@year", actualCost.Year);
                 try
                 {
                     result = cmd.ExecuteNonQuery();

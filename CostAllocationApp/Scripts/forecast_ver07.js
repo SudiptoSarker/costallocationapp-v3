@@ -794,6 +794,7 @@ function ShowForecastResults(year) {
             }
             else {
                 var retrivedData = retrivedObject(jss.getRowData(y));
+                console.log(retrivedData);
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                 }
@@ -889,16 +890,17 @@ function ShowForecastResults(year) {
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
-                    if (x == 11) {                        
+                    if (x == 11) {
+                        console.log(jss.getData());
                         var octSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText=='false') {
-                                //console.log(value);
-                                octSum += parseFloat(value.childNodes[12].innerText);
+
+                        
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                octSum += parseFloat(dataValue[11]);
                             }
 
                         });
-
                         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                             octSum = 0;
                             alert('Input not valid');
@@ -922,12 +924,14 @@ function ShowForecastResults(year) {
                     }
                     if (x == 12) {
                         var novSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                novSum += parseFloat(value.childNodes[13].innerText);
+
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                novSum += parseFloat(dataValue[12]);
                             }
 
                         });
+
                         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                             novSum = 0;
                             alert('Input not valid');
@@ -949,9 +953,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 13) {
                         var decSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                decSum += parseFloat(value.childNodes[14].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                decSum += parseFloat(dataValue[13]);
                             }
 
                         });
@@ -976,9 +980,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 14) {
                         var janSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                janSum += parseFloat(value.childNodes[15].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                janSum += parseFloat(dataValue[14]);
                             }
 
                         });
@@ -1003,9 +1007,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 15) {
                         var febSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                febSum += parseFloat(value.childNodes[16].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                febSum += parseFloat(dataValue[15]);
                             }
 
                         });
@@ -1030,9 +1034,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 16) {
                         var marSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                marSum += parseFloat(value.childNodes[17].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                marSum += parseFloat(dataValue[16]);
                             }
 
                         });
@@ -1057,9 +1061,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 17) {
                         var aprSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                aprSum += parseFloat(value.childNodes[18].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                aprSum += parseFloat(dataValue[17]);
                             }
 
                         });
@@ -1084,9 +1088,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 18) {
                         var maySum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                maySum += parseFloat(value.childNodes[19].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                maySum += parseFloat(dataValue[18]);
                             }
 
                         });
@@ -1110,9 +1114,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 19) {
                         var junSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                junSum += parseFloat(value.childNodes[20].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                junSum += parseFloat(dataValue[19]);
                             }
 
                         });
@@ -1137,9 +1141,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 20) {
                         var julSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                julSum += parseFloat(value.childNodes[21].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                julSum += parseFloat(dataValue[20]);
                             }
 
                         });
@@ -1163,9 +1167,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 21) {
                         var augSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                augSum += parseFloat(value.childNodes[22].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                augSum += parseFloat(dataValue[21]);
                             }
 
                         });
@@ -1190,9 +1194,9 @@ function ShowForecastResults(year) {
                     }
                     if (x == 22) {
                         var sepSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                                sepSum += parseFloat(value.childNodes[23].innerText);
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                sepSum += parseFloat(dataValue[22]);
                             }
 
                         });
@@ -1226,21 +1230,15 @@ function ShowForecastResults(year) {
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
             var items = [];
-
-            // Insert new row
-            //if (obj.options.allowInsertRow == true) {
-
-            //    items.push({
-            //        title: '新しい行を挿入する (New Row)',
-            //        onclick: function () {
-            //            obj.insertRow(1, parseInt(y));
-            //        }
-            //    });
+            //var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+            //if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+            //    return items;
             //}
 
             items.push({
                 title: '要員を追加 (Add Emp)',
                 onclick: function () {
+                    debugger;
                     obj.insertRow(1, parseInt(y));
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
@@ -1260,6 +1258,11 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
+                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                        return false;
+                    }
+
                     debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
@@ -1402,7 +1405,7 @@ function ShowForecastResults(year) {
 
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-
+                    obj.setValueFromCoords(38, nextRow, true, false);
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1440,6 +1443,10 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（役割変更）(role)',
                 onclick: function () {
+                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                        return false;
+                    }
                     debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
@@ -1583,6 +1590,7 @@ function ShowForecastResults(year) {
 
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                    obj.setValueFromCoords(38, nextRow, true, false);
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1618,6 +1626,10 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（役割・単価変更）(role/unit)',
                 onclick: function () {
+                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                        return false;
+                    }
                     //debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
@@ -1761,7 +1773,7 @@ function ShowForecastResults(year) {
 
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-
+                    obj.setValueFromCoords(38, nextRow, true, false);
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1798,6 +1810,7 @@ function ShowForecastResults(year) {
                 title: '選択した要員の削除 (delete)',
                 onclick: function () {
                     var value = obj.getSelectedRows();
+                    debugger;
                     console.log(value);
                     var assignmentIds = [];
                     if (value.length > 0) {
@@ -1805,6 +1818,9 @@ function ShowForecastResults(year) {
                             if (value[i].childNodes[1].innerText != '' && value[i].childNodes[1].innerText.toString().includes('new') == false) {
                                 assignmentIds.push(value[i].childNodes[1].innerText);
                                 DisableRow(parseInt(value[i].childNodes[0].innerText));
+                            }
+                            else {
+                                jss.deleteRow(y,1);
                             }
                         }
                         if (assignmentIds.length > 0) {
@@ -2668,12 +2684,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
     }
     if (x == 11) {
-        //debugger;
+        debugger;
         var octSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                //console.log(value);
-                octSum += parseFloat(value.childNodes[12].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                octSum += parseFloat(dataValue[11]);
             }
 
         });
@@ -2700,9 +2715,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
     if (x == 12) {
         var novSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                novSum += parseFloat(value.childNodes[13].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                novSum += parseFloat(dataValue[12]);
             }
 
         });
@@ -2727,9 +2742,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 13) {
         var decSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                decSum += parseFloat(value.childNodes[14].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                decSum += parseFloat(dataValue[13]);
             }
 
         });
@@ -2753,9 +2768,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 14) {
         var janSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                janSum += parseFloat(value.childNodes[15].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                janSum += parseFloat(dataValue[14]);
             }
 
         });
@@ -2779,9 +2794,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 15) {
         var febSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                febSum += parseFloat(value.childNodes[16].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                febSum += parseFloat(dataValue[15]);
             }
 
         });
@@ -2806,9 +2821,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     
     if (x == 16) {
         var marSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                marSum += parseFloat(value.childNodes[17].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                marSum += parseFloat(dataValue[16]);
             }
 
         });
@@ -2832,9 +2847,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 17) {
         var aprSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                aprSum += parseFloat(value.childNodes[18].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                aprSum += parseFloat(dataValue[17]);
             }
 
         });
@@ -2858,9 +2873,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 18) {
         var maySum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                maySum += parseFloat(value.childNodes[19].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                maySum += parseFloat(dataValue[18]);
             }
 
         });
@@ -2883,9 +2898,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 19) {
         var junSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                junSum += parseFloat(value.childNodes[20].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                junSum += parseFloat(dataValue[19]);
             }
 
         });
@@ -2909,9 +2924,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 20) {
         var julSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                julSum += parseFloat(value.childNodes[21].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                julSum += parseFloat(dataValue[20]);
             }
 
         });
@@ -2934,9 +2949,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 21) {
         var augSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString() && value.childNodes[39].innerText == 'false') {
-                augSum += parseFloat(value.childNodes[22].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                augSum += parseFloat(dataValue[21]);
             }
 
         });
@@ -2960,9 +2975,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
     if (x == 22) {
         var sepSum = 0;
-        $.each(jss.rows, (index, value) => {
-            if (value.childNodes[36].innerText == retrivedData.employeeId.toString()) {
-                sepSum += parseFloat(value.childNodes[23].innerText);
+        $.each(jss.getData(), (index, dataValue) => {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+                sepSum += parseFloat(dataValue[22]);
             }
 
         });
@@ -3021,6 +3036,7 @@ function retrivedObject(rowData) {
         year: document.getElementById('assignment_year_list').value,
         bcyr: rowData[36],
         bCYRCell: rowData[37],
+        isActive: rowData[38],
         bCYRApproved: rowData[39],
         bCYRCellApproved: rowData[40],
         isApproved: rowData[41]
@@ -3098,12 +3114,13 @@ function AddEmployee() {
     jss.setValueFromCoords(35, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
-function UpdateForecast(){   
+function UpdateForecast() {
+
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();
     // $("#head_total").hide();
-    LoaderShow(); 
-    
+    LoaderShow();
+
     var userName = '';
 
     $.ajax({
@@ -3115,7 +3132,7 @@ function UpdateForecast(){
         success: function (data) {
             userName = data;
         }
-    });    
+    });
 
     var updateMessage = "";
     var insertMessage = "";
@@ -3123,15 +3140,15 @@ function UpdateForecast(){
     $("#timeStamp_ForUpdateData").val('');
     if (promptValue == null || promptValue == undefined || promptValue == "") {
         return false;
-    }else{
+    } else {
         var dateObj = new Date();
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
-        var miliSeconds= dateObj.getMilliseconds();    
-        var timestamp = `${year}${month}${day}${miliSeconds}_`; 
-        
-        if (jssUpdatedData.length > 0) {            
+
+        var timestamp = `${year}${month}${day}_`;
+
+        if (jssUpdatedData.length > 0) {
             updateMessage = "Successfully data updated";
             $.ajax({
                 url: `/api/utilities/UpdateForecastData`,
@@ -3139,7 +3156,7 @@ function UpdateForecast(){
                 type: 'POST',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo:cellwiseColorCode }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                 success: function (data) {
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
@@ -3147,22 +3164,22 @@ function UpdateForecast(){
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });        
+                    });
                     $("#jspreadsheet").show();
                     //$("#head_total").show();
-                    LoaderHide();             
+                    LoaderHide();
                 }
             });
             jssUpdatedData = [];
         }
         else {
-            $("#jspreadsheet").show();        
+            $("#jspreadsheet").show();
             //$("#head_total").show();
-            LoaderHide();    
+            LoaderHide();
             //alert('No data found!');
             updateMessage = ""
         }
-    
+
         if (jssInsertedData.length > 0) {
             var elementIndex = jssInsertedData.findIndex(object => {
                 return object.employeeName.toLowerCase() == 'total';
@@ -3170,7 +3187,7 @@ function UpdateForecast(){
             if (elementIndex >= 0) {
                 jssInsertedData.splice(elementIndex, 1);
             }
-    
+
             insertMessage = "Successfully data inserted.";
             console.log(jssInsertedData);
             var update_timeStampId = $("#timeStamp_ForUpdateData").val();
@@ -3182,7 +3199,7 @@ function UpdateForecast(){
                 async: false,
                 dataType: 'json',
                 //data: JSON.stringify(jssInsertedData),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo:cellwiseColorCode,TimeStampId:update_timeStampId }),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
                 success: function (data) {
                     $("#timeStamp_ForUpdateData").val('');
                     var chat = $.connection.chatHub;
@@ -3193,15 +3210,15 @@ function UpdateForecast(){
                     });
                     $("#jspreadsheet").show();
                     //$("#head_total").show();
-                    LoaderHide(); 
+                    LoaderHide();
                 }
             });
             jssInsertedData = [];
             newRowCount = 1;
         }
     }
-    
-    if(updateMessage =="" && insertMessage==""){
+
+    if (updateMessage == "" && insertMessage == "") {
         //alert("There is nothing to save!");
         //update_forecast
         //forecast_save_confirm_text
@@ -3213,7 +3230,7 @@ function UpdateForecast(){
 
         $("#close_save_modal").css("display", "block");
     }
-    else if(updateMessage !="" && insertMessage !=""){
+    else if (updateMessage != "" && insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3221,7 +3238,7 @@ function UpdateForecast(){
 
         alert("Operation Success.");
     }
-    else if(updateMessage !=""){
+    else if (updateMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3229,7 +3246,7 @@ function UpdateForecast(){
 
         alert("Operation Success.");
     }
-    else if(insertMessage !=""){
+    else if (insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
         $("#back_button_show").css("display", "block");
         $("#save_btn_modal").css("display", "block");
@@ -3238,6 +3255,8 @@ function UpdateForecast(){
         alert("Operation Success.");
     }
 }
+
+
 function CompareUpdatedData() {
     
    

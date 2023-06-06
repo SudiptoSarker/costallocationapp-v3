@@ -827,9 +827,19 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.ApproveAssignement(approvedAssignementId);
         }
+        public int UnApproveAssignement(string approvedAssignementId)
+        {
+            return employeeAssignmentDAL.UnApproveAssignement(approvedAssignementId);
+        }
         public int ApproveDeletedRow(string approvedAssignementId)
         {
             return employeeAssignmentDAL.ApproveDeletedRow(approvedAssignementId);
+        }
+        
+        //un-approve delete data
+        public int UnApproveDeletedRow(string approvedAssignementId)
+        {
+            return employeeAssignmentDAL.UnApproveDeletedRow(approvedAssignementId);
         }
 
         //get year wise all data for approval employee

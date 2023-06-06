@@ -1381,6 +1381,32 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
+        public int UnApproveAssignement(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRApproved=@bCYRApproved where Id=@approvedAssignmentId and BCYR=1";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRApproved", 0);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
         public int ApproveDeletedRow(string approvedAssignmentId)
         {
             int result = 0;
@@ -1405,6 +1431,33 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        
+        //un approve delete data
+        public int UnApproveDeletedRow(string approvedAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsActive=0,BCYRApproved=0,IsDeleted=0 where Id=@approvedAssignmentId and IsActive =0";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRApproved", 1);
+                cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
         public int UpdateApprovedDataForDeleteRows(string assignmentYear)
         {
             int result = 0;
@@ -1749,6 +1802,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public int UpdateCellWiseApprovdData(string assignmentYear)
         {
             int result = 0;

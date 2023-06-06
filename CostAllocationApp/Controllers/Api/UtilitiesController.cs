@@ -924,6 +924,7 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(message);
         }
+
         [HttpGet]
         public IHttpActionResult ApprovedForecastData(string assignementId,bool isDeletedRow)
         {
@@ -938,6 +939,24 @@ namespace CostAllocationApp.Controllers.Api
             }            
             return Ok(results);
         }
+
+        //un-approve add employee and delete employee
+        [HttpGet]
+        [Route("api/utilities/UnApprovedForecastData/")]
+        public IHttpActionResult UnApprovedForecastData(string assignementId, bool isDeletedRow)
+        {
+            int results;
+            if (!isDeletedRow)
+            {
+                results = employeeAssignmentBLL.UnApproveDeletedRow(assignementId);
+            }
+            else
+            {
+                results = employeeAssignmentBLL.UnApproveAssignement(assignementId);
+            }
+            return Ok(results);
+        }
+
         [HttpGet]
         public IHttpActionResult ApprovedCellData(string assignementId, string selectedCells)
         {
@@ -1005,10 +1024,120 @@ namespace CostAllocationApp.Controllers.Api
             
         }
 
+        //un-approve cell wise data
+        [HttpGet]
+        [Route("api/utilities/UnApprovedCellData/")]
+        public IHttpActionResult UnApprovedCellData(string assignementId, string selectedCells)
+        {
+            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
+            bool isUpdateData = false;
+
+            //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+            _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
+            string approvedBCYRCellList = "";
+            //unapproved: start
+            if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
+            {
+                var arrBCYRCellApproved = _employeeAssignment.BCYRCellApproved.Split(',');
+                foreach (var bycrCellApproved in arrBCYRCellApproved)
+                {
+                    if (bycrCellApproved != selectedCells)
+                    {
+                        isUpdateData = true;
+
+                        if (approvedBCYRCellList == "")
+                        {                            
+                            approvedBCYRCellList = bycrCellApproved;
+                        }
+                        else
+                        {
+                            approvedBCYRCellList = approvedBCYRCellList+","+bycrCellApproved;
+                        }
+                    }
+                }
+            }
+
+            string bCYRCellList = "";
+            //unapproved: start
+            if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
+            {
+                isUpdateData = true;
+                bCYRCellList = selectedCells+","+_employeeAssignment.BCYRCell;
+
+                //var arrBCYRCells = _employeeAssignment.BCYRCell.Split(',');
+                //foreach (var bycrCellItem in arrBCYRCells)
+                //{
+                //    isUpdateData = true;
+                //    if (bycrCellItem != selectedCells)
+                //    {
+                //        if(bCYRCellList =="")
+                //        {
+                //            bCYRCellList = selectedCells;
+                //        }
+                //        else
+                //        {
+                //            bCYRCellList = bCYRCellList + "," + selectedCells;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        var arrCheckForCellValueIsExists = bCYRCellList.Split(',');
+                //        bool isCellExists = false;
+                //        foreach (var cellIteam in arrCheckForCellValueIsExists)
+                //        {
+                //            if (cellIteam == bycrCellItem)
+                //            {
+                //                isCellExists = true;
+                //                break;
+                //            }
+                //        }
+                //        if (!isCellExists)
+                //        {
+                //            if (bCYRCellList == "")
+                //            {
+                //                bCYRCellList = bycrCellItem;
+                //            }
+                //            else
+                //            {
+                //                bCYRCellList = bCYRCellList + "," + bycrCellItem;
+                //            }
+                //        }
+                //    }
+                //}
+            }
+            //unapproved: end
+
+            if (isUpdateData)
+            {
+                int results = employeeAssignmentBLL.UpdateBYCRCells(assignementId, approvedBCYRCellList, bCYRCellList);
+                return Ok(results);
+            }
+            else
+            {
+                return Ok(0);
+            }
+        }
+
         [HttpGet]
         public IHttpActionResult GetTimeStamps(int year)
         {
             List<ForecastHisory> forecastHisories = forecastBLL.GetTimeStamps_Year(year);
+
+            if (forecastHisories.Count > 0)
+            {
+                return Ok(forecastHisories);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetApprovalTimeStamps/")]
+        public IHttpActionResult GetApprovalTimeStamps(int year)
+        {
+            List<ForecastHisory> forecastHisories = forecastBLL.GetApprovalTimeStamps(year);
 
             if (forecastHisories.Count > 0)
             {
@@ -2017,6 +2146,224 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(forecastHistoryList);
         }
 
+        [HttpGet]
+        [Route("api/utilities/GetApprovalHistoriesByTimeStampId/")]
+        public IHttpActionResult GetApprovalHistoriesByTimeStampId(int timeStampId)
+        {
+            List<object> forecastHistoryList = new List<object>();
+            List<Forecast> historyList = forecastBLL.GetApprovalHistoriesByTimeStampId(timeStampId);
+
+            List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+            if (distinctAssignmentId.Count > 0)
+            {
+                //<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${forecastType}</td><td>${element.Remarks}</td><td>${element.SectionName}</td><td>${element.DepartmentName}</td><td>${element.InChargeName}</td><td>${element.RoleName}</td><td><lable>${element.ExplanationName}</label></td><td>${element.CompanyName}</td><td>${element.GradePoints}</td><td>${element.UnitPrice}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`
+                foreach (var item in distinctAssignmentId)
+                {
+                    ApprovalHistoryViewModal _approvalHistoryViewModal = new ApprovalHistoryViewModal();
+                    AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
+                    _approvalHistoryViewModal = forecastBLL.GetApprovalNamesForHistory(item, timeStampId);
+
+                    //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                    var employeeName = _approvalHistoryViewModal.EmployeeName;
+                    var sectionName = _approvalHistoryViewModal.SectionName;
+                    var departmentName = _approvalHistoryViewModal.DepartmentName;
+                    var inChargeName = _approvalHistoryViewModal.InChargeName;
+                    var roleName = _approvalHistoryViewModal.RoleName;
+                    var explanationName = _approvalHistoryViewModal.ExplanationName;
+                    var companyName = _approvalHistoryViewModal.CompanyName;
+                    var gradePoints = _approvalHistoryViewModal.GradePoints;
+                    var unitPrice = _approvalHistoryViewModal.UnitPrice;
+                    var remarks = _approvalHistoryViewModal.Remarks;
+                    var isUpdate = _approvalHistoryViewModal.IsUpdate;
+                    var isDeleteRow = _approvalHistoryViewModal.IsDeleteEmployee;
+                    var isAddRow = _approvalHistoryViewModal.IsAddEmployee;
+                    var isUpdateCells = _approvalHistoryViewModal.IsCellWiseUpdate;
+
+                    var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
+
+                    var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decP = tempList.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janP = tempList.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febP = tempList.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marP = tempList.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprP = tempList.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayP = tempList.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junP = tempList.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julP = tempList.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                    var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+
+                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(item);
+
+                    var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janPOriginal = originalForecastData.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febPOriginal = originalForecastData.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marPOriginal = originalForecastData.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprPOriginal = originalForecastData.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayPOriginal = originalForecastData.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junPOriginal = originalForecastData.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                    //if (isUpdate)
+                    //{
+                    //    forecastHistoryList.Add(new
+                    //    {
+                    //        EmployeeName = employeeName,
+                    //        IsUpdate = isUpdate,
+                    //        //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
+                    //        SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,
+                    //        DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,
+                    //        InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
+                    //        RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,
+                    //        ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,
+                    //        CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,
+                    //        GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
+                    //        UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
+                    //        Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
+                    //        CreatedBy = historyList[0].CreatedBy,
+                    //        OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
+                    //        NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
+                    //        DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
+                    //        JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
+                    //        FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
+                    //        MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
+                    //        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
+                    //        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
+                    //        JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
+                    //        JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
+                    //        AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
+                    //        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
+                    //    });
+                    //}
+                    //else
+                    //{
+                    //    //insert data udpate
+                    //    forecastHistoryList.Add(new
+                    //    {
+                    //        EmployeeName = employeeName,
+                    //        IsUpdate = isUpdate,
+                    //        SectionName = sectionName == "" ? "" : sectionName,
+                    //        DepartmentName = departmentName == "" ? "" : departmentName,
+                    //        InChargeName = inChargeName == "" ? "" : inChargeName,
+                    //        RoleName = roleName == "" ? "" : roleName,
+                    //        ExplanationName = explanationName == "" ? "" : explanationName,
+                    //        CompanyName = companyName == "" ? "" : companyName,
+                    //        GradePoints = gradePoints == "0" ? "" : gradePoints,
+                    //        UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                    //        Remarks = remarks == "" ? "" : remarks,
+                    //        CreatedBy = historyList[0].CreatedBy,
+                    //        OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
+                    //        NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
+                    //        DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
+                    //        JanPoints = janP == 0 ? "" : janP.ToString("0.0"),
+                    //        FebPoints = febP == 0 ? "" : febP.ToString("0.0"),
+                    //        MarPoints = marP == 0 ? "" : marP.ToString("0.0"),
+                    //        AprPoints = aprP == 0 ? "" : aprP.ToString("0.0"),
+                    //        MayPoints = mayP == 0 ? "" : mayP.ToString("0.0"),
+                    //        JunPoints = junP == 0 ? "" : junP.ToString("0.0"),
+                    //        JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
+                    //        AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
+                    //        SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
+                    //    });
+                    //}
+                    if (isAddRow)
+                    {
+                        forecastHistoryList.Add(new
+                        {
+                            EmployeeName = employeeName,
+                            IsUpdate = isUpdate,
+                            SectionName = sectionName == "" ? "" : sectionName,
+                            DepartmentName = departmentName == "" ? "" : departmentName,
+                            InChargeName = inChargeName == "" ? "" : inChargeName,
+                            RoleName = roleName == "" ? "" : roleName,
+                            ExplanationName = explanationName == "" ? "" : explanationName,
+                            CompanyName = companyName == "" ? "" : companyName,
+                            GradePoints = gradePoints == "0" ? "" : gradePoints,
+                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            Remarks = remarks == "" ? "" : remarks,
+                            CreatedBy = historyList[0].CreatedBy,
+                            OperationType="Add Employee",
+                            OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
+                            NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
+                            DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
+                            JanPoints = janP == 0 ? "" : janP.ToString("0.0"),
+                            FebPoints = febP == 0 ? "" : febP.ToString("0.0"),
+                            MarPoints = marP == 0 ? "" : marP.ToString("0.0"),
+                            AprPoints = aprP == 0 ? "" : aprP.ToString("0.0"),
+                            MayPoints = mayP == 0 ? "" : mayP.ToString("0.0"),
+                            JunPoints = junP == 0 ? "" : junP.ToString("0.0"),
+                            JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
+                            AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
+                            SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
+                        });
+                    }
+                    else if (isDeleteRow)
+                    {
+                        forecastHistoryList.Add(new
+                        {
+                            EmployeeName = employeeName,
+                            IsUpdate = isUpdate,
+                            SectionName = sectionName == "" ? "" : sectionName,
+                            DepartmentName = departmentName == "" ? "" : departmentName,
+                            InChargeName = inChargeName == "" ? "" : inChargeName,
+                            RoleName = roleName == "" ? "" : roleName,
+                            ExplanationName = explanationName == "" ? "" : explanationName,
+                            CompanyName = companyName == "" ? "" : companyName,
+                            GradePoints = gradePoints == "0" ? "" : gradePoints,
+                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            Remarks = remarks == "" ? "" : remarks,
+                            CreatedBy = historyList[0].CreatedBy,
+                            OperationType = "Delete Employee",
+                            OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
+                            NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
+                            DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
+                            JanPoints = janP == 0 ? "" : janP.ToString("0.0"),
+                            FebPoints = febP == 0 ? "" : febP.ToString("0.0"),
+                            MarPoints = marP == 0 ? "" : marP.ToString("0.0"),
+                            AprPoints = aprP == 0 ? "" : aprP.ToString("0.0"),
+                            MayPoints = mayP == 0 ? "" : mayP.ToString("0.0"),
+                            JunPoints = junP == 0 ? "" : junP.ToString("0.0"),
+                            JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
+                            AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
+                            SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
+                        });
+                    }
+                }
+            }
+
+            //string strHistoryDetailsWithHtmlBody = "";
+            //foreach (var historyItem in forecastHistoryList)
+            //{
+            //    var isUpdate = historyItem.IsUpdate;
+            //}
+            //foreach (var forecastItem in forecastHistoryList)
+            //{
+            //    //if (forecastItem.)
+            //    //{
+            //    //    forecastType = "Updated";
+            //    //}
+            //    //else
+            //    //{
+            //    //    forecastItem = "Inserted";
+            //    //}
+            //    //if (string.IsNullOrEmpty(strHistoryDetailsWithHtmlBody))
+            //    //{
+            //    //    strHistoryDetailsWithHtmlBody = "<tr><td></td>>";
+            //    //}
+            //    //else
+            //    //{
+            //    //    strHistoryDetailsWithHtmlBody
+            //    //}                
+            //}
+            return Ok(forecastHistoryList);
+        }
 
         [HttpGet]
         [Route("api/utilities/GetTimeWiseChanges/")]
@@ -2040,6 +2387,13 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetAssignmentYearList()
         {
             var years = forecastBLL.GetAssignmentYearList();
+            return Ok(years);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetApprovalAssignmentYearList/")]
+        public IHttpActionResult GetApprovalAssignmentYearList()
+        {
+            var years = forecastBLL.GetApprovalAssignmentYearList();
             return Ok(years);
         }
         [HttpGet]
@@ -2702,7 +3056,7 @@ namespace CostAllocationApp.Controllers.Api
             DateTime createdDate = DateTime.Now;       
             
             int approveTimeStamp = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
-            int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear));
+            int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear), createdBy);
             //approve history: end
             
             int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);

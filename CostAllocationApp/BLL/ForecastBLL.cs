@@ -46,6 +46,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetTimeStamps_Year(year);
         }
+        public List<ForecastHisory> GetApprovalTimeStamps(int year)
+        {
+            return forecastDAL.GetApprovalTimeStamps(year);
+        }
         public List<Forecast> GetForecastHistories(int timeStampId)
         {
             return forecastDAL.GetForecastHistories(timeStampId);
@@ -138,6 +142,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId);
         }
+        public List<Forecast> GetApprovalHistoriesByTimeStampId(int timeStampId)
+        {
+            return forecastDAL.GetApprovalHistoriesByTimeStampId(timeStampId);
+        }
         public List<int> GetYearFromHistory()
         {
             return forecastDAL.GetYearFromHistory();
@@ -145,6 +153,10 @@ namespace CostAllocationApp.BLL
         public List<int> GetAssignmentYearList()
         {
             return forecastDAL.GetAssignmentYearList();
+        }
+        public List<int> GetApprovalAssignmentYearList()
+        {
+            return forecastDAL.GetApprovalAssignmentYearList();
         }
         public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
@@ -154,9 +166,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
         }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId)
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId)
         {
             return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId);
+        }
+        public ApprovalHistoryViewModal GetApprovalNamesForHistory(int assignmentId,int timeStampId)
+        {
+            return forecastDAL.GetApprovalNamesForHistory(assignmentId, timeStampId);
         }
         public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
         {
@@ -166,9 +182,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateApproveTimeStamp(approveTimeStamp, year, createdBy, createdDate);
         }
-        public int CreateApprovetHistory(int approveTimeStampHistory,int year)
+        public int CreateApprovetHistory(int approveTimeStampHistory,int year,string createdBy)
         {
-            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year);
+            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year, createdBy);
         }
     }
 }

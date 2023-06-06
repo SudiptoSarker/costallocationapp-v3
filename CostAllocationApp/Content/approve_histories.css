@@ -30,7 +30,7 @@
     display: block;
 }
 #filter_history_data{
-    margin-top: -17px;
+    margin-top: 6px;
 }
 #btn_submit{
     margin-top: 2px;
@@ -43,10 +43,4 @@
 }
 .container {
     width:5000px;
-}
-
-#nav1,#nav2{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;    
 }

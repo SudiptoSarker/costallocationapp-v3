@@ -3128,8 +3128,8 @@ function UpdateForecast(){
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
-
-        var timestamp = `${year}${month}${day}_`; 
+        var miliSeconds= dateObj.getMilliseconds();    
+        var timestamp = `${year}${month}${day}${miliSeconds}_`; 
         
         if (jssUpdatedData.length > 0) {            
             updateMessage = "Successfully data updated";

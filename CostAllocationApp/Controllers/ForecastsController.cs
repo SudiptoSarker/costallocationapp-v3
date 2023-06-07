@@ -12,6 +12,10 @@ using CostAllocationApp.ViewModels;
 using CostAllocationApp.Models;
 using CostAllocationApp.DAL;
 using System.Data;
+using CostAllocationApp.Controllers.Api;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace CostAllocationApp.Controllers
 {
@@ -337,7 +341,7 @@ namespace CostAllocationApp.Controllers
                 }
             }
             //return View("CreateForecast", forecastViewModal);
-            return View("CreateForecast",new { forecastType = "imprt" });
+            return View("CreateForecast",new { forecastType = "imprt" });            
         }
 
         public void SendToApi(int assignmentId, string row, int year)
@@ -600,5 +604,269 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Route("Forecasts/DownloadHistoryData/")]
+        public ActionResult DownloadHistoryData(int timeStampId)
+        {
+            ForecastBLL forecastBLL = new ForecastBLL();
+
+            List<object> forecastHistoryList = new List<object>();
+            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+            string timeStampName = forecastBLL.GetHistoryTimeStampName(timeStampId);
+            //var excelData;
+            List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+            if (distinctAssignmentId.Count > 0)
+            {
+                using (var package = new ExcelPackage())
+                {
+
+                    var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                    sheet.Cells["A1"].Value = "利用者";
+                    sheet.Cells["A1"].Style.Font.Bold = true;
+                    sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["B1"].Value = "従業員名(Emp)";
+                    sheet.Cells["B1"].Style.Font.Bold = true; ;
+                    sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["C1"].Value = "Operation Type";
+                    sheet.Cells["C1"].Style.Font.Bold = true;
+                    sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["D1"].Value = "Remaks";
+                    sheet.Cells["D1"].Style.Font.Bold = true;
+                    sheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+
+                    sheet.Cells["E1"].Value = "区分(Section)	";
+                    sheet.Cells["E1"].Style.Font.Bold = true;
+                    sheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+
+                    sheet.Cells["F1"].Value = "部署(Dept)";
+                    sheet.Cells["F1"].Style.Font.Bold = true;
+                    sheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+
+                    sheet.Cells["G1"].Value = "担当作業(In chg)	";
+                    sheet.Cells["G1"].Style.Font.Bold = true;
+                    sheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["H1"].Value = "役割(Role)";
+                    sheet.Cells["H1"].Style.Font.Bold = true;
+                    sheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["I1"].Value = "説明(expl)";
+                    sheet.Cells["I1"].Style.Font.Bold = true;
+                    sheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["J1"].Value = "会社(Com)	";
+                    sheet.Cells["J1"].Style.Font.Bold = true;
+                    sheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["K1"].Value = "グレード(Grade)";
+                    sheet.Cells["K1"].Style.Font.Bold = true;
+                    sheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["L1"].Value = "単価(Unit Price)	";
+                    sheet.Cells["L1"].Style.Font.Bold = true;
+                    sheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["M1"].Value = "10";
+                    sheet.Cells["M1"].Style.Font.Bold = true;
+                    sheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["N1"].Value = "11";
+                    sheet.Cells["N1"].Style.Font.Bold = true;
+                    sheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["O1"].Value = "12";
+                    sheet.Cells["O1"].Style.Font.Bold = true;
+                    sheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["P1"].Value = "1";
+                    sheet.Cells["P1"].Style.Font.Bold = true;
+                    sheet.Cells["P1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["P1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["Q1"].Value = "2";
+                    sheet.Cells["Q1"].Style.Font.Bold = true;
+                    sheet.Cells["Q1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["Q1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["R1"].Value = "3";
+                    sheet.Cells["R1"].Style.Font.Bold = true;
+                    sheet.Cells["R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["R1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["S1"].Value = "4";
+                    sheet.Cells["S1"].Style.Font.Bold = true;
+                    sheet.Cells["S1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["S1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["T1"].Value = "5";
+                    sheet.Cells["T1"].Style.Font.Bold = true;
+                    sheet.Cells["T1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["T1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["U1"].Value = "6";
+                    sheet.Cells["U1"].Style.Font.Bold = true;
+                    sheet.Cells["U1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["U1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["V1"].Value = "7";
+                    sheet.Cells["V1"].Style.Font.Bold = true;
+                    sheet.Cells["V1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["W1"].Value = "8";
+                    sheet.Cells["W1"].Style.Font.Bold = true;
+                    sheet.Cells["W1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["W1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    sheet.Cells["X1"].Value = "9";
+                    sheet.Cells["X1"].Style.Font.Bold = true;
+                    sheet.Cells["X1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    sheet.Cells["X1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                    int count = 2;
+                    foreach (var item in distinctAssignmentId)
+                    {
+                        AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+                        AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
+                        _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId);
+
+                        var employeeName = _assignmentHistoryViewModal.EmployeeName;
+                        var sectionName = _assignmentHistoryViewModal.SectionName;
+                        var departmentName = _assignmentHistoryViewModal.DepartmentName;
+                        var inChargeName = _assignmentHistoryViewModal.InChargeName;
+                        var roleName = _assignmentHistoryViewModal.RoleName;
+                        var explanationName = _assignmentHistoryViewModal.ExplanationName;
+                        var companyName = _assignmentHistoryViewModal.CompanyName;
+                        var gradePoints = _assignmentHistoryViewModal.GradePoints;
+                        var unitPrice = _assignmentHistoryViewModal.UnitPrice;
+                        var remarks = _assignmentHistoryViewModal.Remarks;
+                        var isUpdate = _assignmentHistoryViewModal.IsUpdate;
+
+                        var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
+
+                        var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
+                        var novP = tempList.Where(p => p.Month == 11).SingleOrDefault().Points;
+                        var decP = tempList.Where(p => p.Month == 12).SingleOrDefault().Points;
+                        var janP = tempList.Where(p => p.Month == 1).SingleOrDefault().Points;
+                        var febP = tempList.Where(p => p.Month == 2).SingleOrDefault().Points;
+                        var marP = tempList.Where(p => p.Month == 3).SingleOrDefault().Points;
+                        var aprP = tempList.Where(p => p.Month == 4).SingleOrDefault().Points;
+                        var mayP = tempList.Where(p => p.Month == 5).SingleOrDefault().Points;
+                        var junP = tempList.Where(p => p.Month == 6).SingleOrDefault().Points;
+                        var julP = tempList.Where(p => p.Month == 7).SingleOrDefault().Points;
+                        var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
+                        var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                        var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+
+                        _objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(item);
+
+                        var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
+                        var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
+                        var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
+                        var janPOriginal = originalForecastData.Where(p => p.Month == 1).SingleOrDefault().Points;
+                        var febPOriginal = originalForecastData.Where(p => p.Month == 2).SingleOrDefault().Points;
+                        var marPOriginal = originalForecastData.Where(p => p.Month == 3).SingleOrDefault().Points;
+                        var aprPOriginal = originalForecastData.Where(p => p.Month == 4).SingleOrDefault().Points;
+                        var mayPOriginal = originalForecastData.Where(p => p.Month == 5).SingleOrDefault().Points;
+                        var junPOriginal = originalForecastData.Where(p => p.Month == 6).SingleOrDefault().Points;
+                        var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
+                        var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
+                        var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                        if (isUpdate)
+                        {
+                            sheet.Cells["A" + count].Value = historyList[0].CreatedBy;
+                            sheet.Cells["B" + count].Value = employeeName;
+                            sheet.Cells["C" + count].Value = "Updated";
+                            sheet.Cells["D" + count].Value = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks;
+                            sheet.Cells["E" + count].Value = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName;
+                            sheet.Cells["F" + count].Value = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName;
+                            sheet.Cells["G" + count].Value = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName;
+                            sheet.Cells["H" + count].Value = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName;
+                            sheet.Cells["I" + count].Value = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName;
+                            sheet.Cells["J" + count].Value = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName;
+                            sheet.Cells["K" + count].Value = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints;
+                            sheet.Cells["L" + count].Value = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice;
+
+                            sheet.Cells["M" + count].Value = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0");
+                            sheet.Cells["N" + count].Value = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0");
+                            sheet.Cells["O" + count].Value = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0");
+                            sheet.Cells["P" + count].Value = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0");
+                            sheet.Cells["Q" + count].Value = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0");
+                            sheet.Cells["R" + count].Value = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0");
+                            sheet.Cells["S" + count].Value = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0");
+                            sheet.Cells["T" + count].Value = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0");
+                            sheet.Cells["U" + count].Value = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0");
+                            sheet.Cells["V" + count].Value = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0");
+                            sheet.Cells["W" + count].Value = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0");
+                            sheet.Cells["X" + count].Value = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0");                            
+                        }
+                        else
+                        {
+                            sheet.Cells["A" + count].Value = historyList[0].CreatedBy;
+                            sheet.Cells["B" + count].Value = employeeName;
+                            sheet.Cells["C" + count].Value = "Inserted";
+                            sheet.Cells["D" + count].Value = remarks == "" ? "" : remarks;
+                            sheet.Cells["E" + count].Value = sectionName == "" ? "" : sectionName;
+                            sheet.Cells["F" + count].Value = departmentName == "" ? "" : departmentName;
+                            sheet.Cells["G" + count].Value = inChargeName == "" ? "" : inChargeName;
+                            sheet.Cells["H" + count].Value = roleName == "" ? "" : roleName;
+                            sheet.Cells["I" + count].Value = explanationName == "" ? "" : explanationName;
+                            sheet.Cells["J" + count].Value = companyName == "" ? "" : companyName;
+                            sheet.Cells["K" + count].Value = gradePoints == "0" ? "" : gradePoints;
+                            sheet.Cells["L" + count].Value = unitPrice == "0" ? "" : unitPrice;
+
+                            sheet.Cells["M" + count].Value = octP == 0 ? "" : octP.ToString("0.0");
+                            sheet.Cells["N" + count].Value = novP == 0 ? "" : novP.ToString("0.0");
+                            sheet.Cells["O" + count].Value = decP == 0 ? "" : decP.ToString("0.0");
+                            sheet.Cells["P" + count].Value = janP == 0 ? "" : janP.ToString("0.0");
+                            sheet.Cells["Q" + count].Value = febP == 0 ? "" : febP.ToString("0.0");
+                            sheet.Cells["R" + count].Value = marP == 0 ? "" : marP.ToString("0.0");
+                            sheet.Cells["S" + count].Value = aprP == 0 ? "" : aprP.ToString("0.0");
+                            sheet.Cells["T" + count].Value = mayP == 0 ? "" : mayP.ToString("0.0");
+                            sheet.Cells["U" + count].Value = junP == 0 ? "" : junP.ToString("0.0");
+                            sheet.Cells["V" + count].Value = julP == 0 ? "" : julP.ToString("0.0");
+                            sheet.Cells["W" + count].Value = augP == 0 ? "" : augP.ToString("0.0");
+                            sheet.Cells["X" + count].Value = sepP == 0 ? "" : sepP.ToString("0.0");                            
+                        }
+
+                        count++;
+                    }
+
+                    var excelData = package.GetAsByteArray();
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    var fileName = timeStampName + ".xlsx";
+                    return File(excelData, contentType, fileName);
+                }
+            }
+            else
+            {
+                return File("", "", ""); ;
+            }
+
+            //return Ok(forecastHistoryList);
+        }
     }
 }

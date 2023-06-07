@@ -1750,6 +1750,34 @@ namespace CostAllocationApp.DAL
                 return assignmentHistoryViewModal;
             }
         }
+        public string GetHistoryTimeStampName( int timeStampId)
+        {
+            string query = "";
+            query = query + "select Id,TimeStamp from TimeStamps where id="+ timeStampId;
 
+            string timeStampName = "";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            timeStampName = rdr["TimeStamp"] is DBNull ? "" : rdr["TimeStamp"].ToString();                            
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return timeStampName;
+            }
+        }
     }
 }

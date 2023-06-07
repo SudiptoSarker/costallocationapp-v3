@@ -1927,6 +1927,136 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public bool CheckForUnApprovedCells(string assignementId, string selectedCells)
+        {
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            string query = "select * from EmployeesAssignments where  id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
 
+                            _employeeAssignments.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            bool isValidData = false;
+            if (!string.IsNullOrEmpty(_employeeAssignments.BCYRCellApproved))
+            {
+                var arrApprovedCells = _employeeAssignments.BCYRCellApproved.Split(',');
+                foreach(var itemCells in arrApprovedCells)
+                {
+                    if(itemCells == selectedCells)
+                    {
+                        isValidData = true;
+                    }
+                }
+            }
+            return isValidData;
+        }
+        public bool CheckForApprovedCells(string assignementId, string selectedCells)
+        {
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            string query = "select * from EmployeesAssignments where  id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            _employeeAssignments.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            bool isValidData = false;
+            if (!string.IsNullOrEmpty(_employeeAssignments.BCYRCell))
+            {
+                var arrApprovedCells = _employeeAssignments.BCYRCell.Split(',');
+                foreach (var itemCells in arrApprovedCells)
+                {
+                    if (itemCells == selectedCells)
+                    {
+                        isValidData = true;
+                    }
+                }
+            }
+            return isValidData;
+        }
+        public bool CheckForUnApprovedRow(string assignementId,bool isDeletedRow)
+        {
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            string query = "select * from EmployeesAssignments where  id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            _employeeAssignments.IsActive = rdr["IsActive"] is DBNull ? "" : rdr["IsActive"].ToString();                            
+                            _employeeAssignments.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);
+                            _employeeAssignments.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]); 
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            bool isValidData = false;
+            if (_employeeAssignments.BCYRApproved)
+            {
+                isValidData = true;
+            }
+            //if (isDeletedRow)
+            //{
+            //    if (_employeeAssignments.BCYRApproved)
+            //    {
+            //        isValidData = true;
+            //    }
+            //}
+            //else
+            //{
+            //    if (!Convert.ToBoolean(_employeeAssignments.IsActive) && !_employeeAssignments.IsDeleted)
+            //    {
+            //        isValidData = true;
+            //    }
+            //}
+            return isValidData;
+        }
     }
 }

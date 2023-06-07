@@ -1188,5 +1188,17 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateUnapprovedData(year);
         }
+        public bool CheckForUnApprovedCells(string assignementId, string selectedCells)
+        {
+            return employeeAssignmentDAL.CheckForUnApprovedCells(assignementId, selectedCells);
+        }
+        public bool CheckForApprovedCells(string assignementId, string selectedCells)
+        {
+            return employeeAssignmentDAL.CheckForApprovedCells(assignementId, selectedCells);
+        }
+        public bool CheckForUnApprovedRow(string assignementId,bool isDeletedRow)
+        {
+            return employeeAssignmentDAL.CheckForUnApprovedRow(assignementId, isDeletedRow);
+        }
     }
 }

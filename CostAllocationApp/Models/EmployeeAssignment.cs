@@ -26,6 +26,7 @@ namespace CostAllocationApp.Models
         public string BCYRCell { get; set; }
         public bool BCYRApproved { get; set; }
         public string BCYRCellApproved { get; set; }
+        public bool IsDeleted { get; set; }
         //public int Id { get; set; }
         //public string EmployeeName { get; set; }
         //public string SectionId { get; set; }

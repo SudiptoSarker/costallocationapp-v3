@@ -296,6 +296,9 @@ namespace CostAllocationApp.BLL
 
             }
         }
-
+        public string GetHistoryTimeStampName(int timeStampId)
+        {
+            return forecastDAL.GetHistoryTimeStampName(timeStampId);
+        }
     }
 }

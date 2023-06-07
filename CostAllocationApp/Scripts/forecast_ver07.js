@@ -869,6 +869,15 @@ function ShowForecastResults(year) {
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     if (x == 8) {
+                        debugger;
+                        var rowNumber = parseInt(y) + 1;
+                        if (parseInt(value) !== 3) {
+                            $(jss.getCell("J" + rowNumber)).addClass('readonly');
+                        }
+                        else {
+                            $(jss.getCell("J" + rowNumber)).removeClass('readonly');
+                        }
+
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
@@ -1238,7 +1247,7 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員を追加 (Add Emp)',
                 onclick: function () {
-                    debugger;
+                    //debugger;
                     obj.insertRow(1, parseInt(y));
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
@@ -1258,6 +1267,7 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
+                    //console.log(obj);
                     var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
                     if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
                         return false;
@@ -1810,7 +1820,7 @@ function ShowForecastResults(year) {
                 title: '選択した要員の削除 (delete)',
                 onclick: function () {
                     var value = obj.getSelectedRows();
-                    debugger;
+                    //debugger;
                     console.log(value);
                     var assignmentIds = [];
                     if (value.length > 0) {
@@ -2540,6 +2550,8 @@ function ShowForecastResults(year) {
         }        
         count++;
     });
+
+
 }
 
 //$('#search_p_text_box').on('keyup', function () {
@@ -2652,6 +2664,7 @@ function updateArray(array, retrivedData) {
 
 function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChangedValue) {
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
+    array[index].assignmentId = retrivedData.assignmentId;
     array[index].employeeId = retrivedData.employeeId;
     array[index].employeeName = retrivedData.employeeName;
     
@@ -3201,6 +3214,20 @@ function UpdateForecast() {
                 //data: JSON.stringify(jssInsertedData),
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
                 success: function (data) {
+                    var allJexcelData = jss.getData();
+                    console.log(data);
+                    for (let i = 0; i < data.length; i++) {
+
+                        $.each(allJexcelData, (index, dataValue) => {
+                            if (data[i].assignmentId == dataValue[0]) {
+                                jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                            }
+                            
+                        });
+                    }
+
+                    
+
                     $("#timeStamp_ForUpdateData").val('');
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();

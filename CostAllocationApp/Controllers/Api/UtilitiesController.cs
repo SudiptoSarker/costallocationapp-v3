@@ -757,7 +757,7 @@ namespace CostAllocationApp.Controllers.Api
                     foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-                        employeeAssignment.Id = item.AssignmentId;
+                        employeeAssignment.Id = Convert.ToInt32(item.AssignmentId);
                         employeeAssignment.Remarks = item.Remarks;
                         employeeAssignment.UpdatedBy = session["userName"].ToString();
                         employeeAssignment.UpdatedDate = DateTime.Now;
@@ -772,18 +772,18 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.UnitPrice = item.UnitPrice;
                         int updateResult =  employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId,item.Year,10,item.OctPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 11, item.NovPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 12, item.DecPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 1, item.JanPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 2, item.FebPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 3, item.MarPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 4, item.AprPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 5, item.MayPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 6, item.JunPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 7, item.JulPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 8, item.AugPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 9, item.SepPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId),item.Year,10,item.OctPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 12, item.DecPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 1, item.JanPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 2, item.FebPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 3, item.MarPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 4, item.AprPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 5, item.MayPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 6, item.JunPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 7, item.JulPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 8, item.AugPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 9, item.SepPoint));
 
 
                     }
@@ -826,7 +826,7 @@ namespace CostAllocationApp.Controllers.Api
                     foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-                        employeeAssignment.Id = item.AssignmentId;
+                        employeeAssignment.Id = Convert.ToInt32(item.AssignmentId);
                         employeeAssignment.Remarks = item.Remarks;
                         employeeAssignment.UpdatedBy = session["userName"].ToString();
                         employeeAssignment.UpdatedDate = DateTime.Now;
@@ -850,22 +850,22 @@ namespace CostAllocationApp.Controllers.Api
 
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
-                        forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(item.AssignmentId));
+                        forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId)));
                         assignmentHistories.Add(_assignmentHistory);
 
 
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 10, item.OctPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 11, item.NovPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 12, item.DecPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 1, item.JanPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 2, item.FebPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 3, item.MarPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 4, item.AprPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 5, item.MayPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 6, item.JunPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 7, item.JulPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 8, item.AugPoint));
-                        forecasts.Add(ExtraxctToForecast(item.AssignmentId, item.Year, 9, item.SepPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 12, item.DecPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 1, item.JanPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 2, item.FebPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 3, item.MarPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 4, item.AprPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 5, item.MayPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 6, item.JunPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 7, item.JulPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 8, item.AugPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 9, item.SepPoint));
 
                         if (forecasts.Count>0)
                         {
@@ -1399,6 +1399,7 @@ namespace CostAllocationApp.Controllers.Api
         //public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
         public IHttpActionResult CreateAssignment_Excel(ForecastHistoryDto forecastHistoryDto)
         {
+            List<object> returnedIdList = new List<object>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
             string tempTimeStampId = "";
             var session = System.Web.HttpContext.Current.Session;
@@ -1443,6 +1444,10 @@ namespace CostAllocationApp.Controllers.Api
                         if (result == 1)
                         {
                             int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                            returnedIdList.Add(new {
+                                assignmentId = item.AssignmentId,
+                                returnedId = employeeAssignmentLastId
+                            });
                             List<Forecast> forecasts = new List<Forecast>();
 
                             forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
@@ -1514,7 +1519,7 @@ namespace CostAllocationApp.Controllers.Api
                     }                    
                 }
             }    
-            return Ok("Data Inserted Successfully!!!");
+            return Ok(returnedIdList);
         }
 
 
@@ -1551,7 +1556,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId),user.LoginTime);
                     //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay,result.CreatedDate.TimeOfDay);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     //if (compareDate>=0)
@@ -1586,7 +1591,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(item.AssignmentId, user.LoginTime);
+                    var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
                     //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay, result.CreatedDate.TimeOfDay);
                     var compareDate = DateTime.Compare(result.CreatedDate,user.LoginTime);
                     if (compareDate>=0)
@@ -1630,7 +1635,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(item.AssignmentId,user.LoginTime);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId),user.LoginTime);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     if (compareDate >= 0)
                     {
@@ -1639,9 +1644,9 @@ namespace CostAllocationApp.Controllers.Api
                             continue;
                         }
                         // latest assignment history
-                        var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(item.AssignmentId);
+                        var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId));
                     
-                        var singleForecastList = forecastBLL.GetForecastsByAssignmentId(item.AssignmentId);
+                        var singleForecastList = forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId));
 
 
                         string _octP = "";

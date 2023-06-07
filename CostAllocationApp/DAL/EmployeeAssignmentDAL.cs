@@ -1901,6 +1901,32 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateUnapprovedData(int year)
+        {
+            int result = 0;
+            string query = $@"Update EmployeesAssignments Set IsApproved =@isApproved
+                            WHERE Year={year} AND (IsApproved is null OR IsApproved=0) AND ((BCYR=1 OR (BCYRCell is not null AND BCYRCell <> '' )) 
+	                        OR (IsActive=0 AND (IsDeleted is null OR IsDeleted=0)))";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@isApproved", 1);
+                //cmd.Parameters.AddWithValue("@approvedAssignmentId", approvedAssignmentId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
 
     }
 }

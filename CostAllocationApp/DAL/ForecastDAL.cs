@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CostAllocationApp.Dtos;
 using CostAllocationApp.Models;
-using System.Data.SqlClient;
-using System.Data;
 using CostAllocationApp.ViewModels;
-using CostAllocationApp.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace CostAllocationApp.DAL
 {
@@ -621,6 +618,20 @@ namespace CostAllocationApp.DAL
 
                 return forecastHisories;
             }
+        }
+        public List<Forecast> GetPreviousManMonth(string pointsWithManMonths)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            var arrPreviousManMonths = pointsWithManMonths.Split(',');
+            foreach (var manMonthItem in arrPreviousManMonths)
+            {
+                Forecast forecast = new Forecast();
+                var PreviousManMonthPointId = manMonthItem.Split('_');
+                forecast.Month = Convert.ToInt32(PreviousManMonthPointId[0]);
+                forecast.Points = Convert.ToDecimal(PreviousManMonthPointId[1]);
+                forecasts.Add(forecast);
+            }
+            return forecasts;
         }
 
         public List<Forecast> GetForecastsByAssignmentId(int assignmentId)
@@ -1300,14 +1311,14 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int CreateApprovetHistory(int approveTimeStampId,int year,string createdBy)
+        public int CreateApprovetHistory(int approveTimeStampId,int year,string createdBy, List<AssignmentHistory> _assignmentHistories_Add, List<AssignmentHistory> _assignmentHistorys_Delete, List<AssignmentHistory> _assignmentHistorys_CellWise)
         {
             int finalResults = 0;
 
             //add employee: approve history. note: there is not previous data to compare
             int results_Add = 0;
-            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
-            _assignmentHistories_Add = GetAddEmployeeApprovedData(year);
+            //List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
+            //_assignmentHistories_Add = GetAddEmployeeApprovedData(year);
             foreach(var addEmployeeItem in _assignmentHistories_Add)
             {
                 addEmployeeItem.CreatedBy = createdBy;
@@ -1316,8 +1327,8 @@ namespace CostAllocationApp.DAL
 
             //delete employee: approve history. note: there is not previous data to compare
             int results_Delete = 0;
-            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
-            _assignmentHistorys_Delete = GetDeleteEmployeeApprovedData(year);
+            //List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
+            //_assignmentHistorys_Delete = GetDeleteEmployeeApprovedData(year);
             foreach (var deleteEmployeeItem in _assignmentHistorys_Delete)
             {
                 deleteEmployeeItem.CreatedBy = createdBy;
@@ -1326,8 +1337,8 @@ namespace CostAllocationApp.DAL
 
             //cell wise approve: approve history. note: compare the cells with previous data
             int results_Cells = 0;
-            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
-            _assignmentHistorys_CellWise = GetCellWiseEmployeeApprovedData(year);
+            //List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
+            //_assignmentHistorys_CellWise = GetCellWiseEmployeeApprovedData(year);
             foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
             {
                 cellWiseEmployeeItem.CreatedBy = createdBy;
@@ -1563,6 +1574,7 @@ namespace CostAllocationApp.DAL
                             assignmentHistorie.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
                             assignmentHistorie.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
                             assignmentHistorie.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+                            assignmentHistorie.ApprovedCells = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
 
                             if (!string.IsNullOrEmpty(assignmentHistorie.Id.ToString()))
                             {
@@ -1575,7 +1587,6 @@ namespace CostAllocationApp.DAL
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
 
@@ -1586,7 +1597,7 @@ namespace CostAllocationApp.DAL
         {
             int result = 0;
 
-            string query = $@"insert into ApproveHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsCellWiseUpdate) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isCellWiseUpdate)";
+            string query = $@"insert into ApproveHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsCellWiseUpdate,ApprovedCells) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isCellWiseUpdate,@approvedCells)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1605,8 +1616,9 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@employeeAssignmentId", assignmentHistory.EmployeeAssignmentId);
                 cmd.Parameters.AddWithValue("@monthId_Points", assignmentHistory.MonthId_Points);
                 cmd.Parameters.AddWithValue("@createdBy", assignmentHistory.CreatedBy);
-                cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
                 cmd.Parameters.AddWithValue("@isCellWiseUpdate", isCellWiseHistory);
+                cmd.Parameters.AddWithValue("@approvedCells", assignmentHistory.ApprovedCells);
 
                 try
                 {
@@ -1618,6 +1630,124 @@ namespace CostAllocationApp.DAL
                 }
 
                 return result;
+            }
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdatePreviousData(int assignmentId)
+        {
+            AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+            string query = "";
+            //query = "select top 1 * from EmployeesAssignmentsWithCostsHistory where EmployeeAssignmentId = "+assignmentId+" Order by Id desc ";
+            query = "Select eh.Id,eh.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.MonthId_Points ";
+            query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
+            query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
+            query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
+            query = query + "    Left Join Departments d On eh.DepartmentId = d.Id ";
+            query = query + "    Left Join InCharges i On eh.InChargeId = e.Id ";
+            query = query + "    Left Join Roles r On eh.RoleId = r.Id ";
+            query = query + "    Left Join Explanations ex On eh.ExplanationId = ex.Id ";
+            query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
+            query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
+            query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
+            query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " Order by Id desc ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
+                            assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+                            assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
+                            assignmentHistoryViewModal.RoleName = rdr["RoleName"] is DBNull ? "" : rdr["RoleName"].ToString();
+                            assignmentHistoryViewModal.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            assignmentHistoryViewModal.CompanyName = rdr["CompanyName"] is DBNull ? "" : rdr["CompanyName"].ToString();
+                            assignmentHistoryViewModal.GradePoints = rdr["GradePoints"] is DBNull ? "" : rdr["GradePoints"].ToString();
+                            assignmentHistoryViewModal.UnitPrice = rdr["UnitPrice"] is DBNull ? "" : rdr["UnitPrice"].ToString();
+                            assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
+                            assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
+                            
+                            //if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
+                            //{
+                            //    assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
+                            //}
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return assignmentHistoryViewModal;
+            }
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdateOriginalData(int assignmentId,int timeStampId)
+        {
+            AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+            string query = "";
+            query = query + "Select ah.Id,ah.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = query + "	,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName' ";
+            query = query + "	,g.GradePoints,ah.UnitPrice,ea.Remarks,ah.IsUpdate,ah.MonthId_Points ,ah.ApprovedCells ";
+            query = query + "From ApproveHistory ah "; 
+            query = query + "	Left Join Employees e On ah.EmployeeId = e.Id ";
+            query = query + "	Left Join Sections s On ah.SectionId = s.Id ";
+            query = query + "	Left Join Departments d On ah.DepartmentId = d.Id ";
+            query = query + "	Left Join InCharges i On ah.InChargeId = e.Id "; 
+            query = query + "	Left Join Roles r On ah.RoleId = r.Id "; 
+            query = query + "	Left Join Explanations ex On ah.ExplanationId = ex.Id ";
+            query = query + "	Left Join Companies c On ah.CompanyId = c.Id "; 
+            query = query + "	Left Join Grades g On ah.GradeId = g.Id ";
+            query = query + "	Left Join EmployeesAssignments ea On ah.EmployeeAssignmentId = ea.Id ";
+            query = query + "Where ah.EmployeeAssignmentId = "+assignmentId+" and TimeStampId="+timeStampId+" Order by Id desc ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
+                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
+                            assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+                            assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
+                            assignmentHistoryViewModal.RoleName = rdr["RoleName"] is DBNull ? "" : rdr["RoleName"].ToString();
+                            assignmentHistoryViewModal.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            assignmentHistoryViewModal.CompanyName = rdr["CompanyName"] is DBNull ? "" : rdr["CompanyName"].ToString();
+                            assignmentHistoryViewModal.GradePoints = rdr["GradePoints"] is DBNull ? "" : rdr["GradePoints"].ToString();
+                            assignmentHistoryViewModal.UnitPrice = rdr["UnitPrice"] is DBNull ? "" : rdr["UnitPrice"].ToString();
+                            assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
+                            assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
+                            assignmentHistoryViewModal.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();
+                            //if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
+                            //{
+                            //    assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
+                            //}
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return assignmentHistoryViewModal;
             }
         }
 

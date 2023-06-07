@@ -1184,5 +1184,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetSpecificAssignmentDataData(year, monthId);
         }
+        public int UpdateUnapprovedData(int year)
+        {
+            return employeeAssignmentDAL.UpdateUnapprovedData(year);
+        }
     }
 }

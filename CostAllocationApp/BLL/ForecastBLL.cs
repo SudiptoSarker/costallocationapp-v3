@@ -58,6 +58,19 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
         }
+        public List<Forecast> GetPreviousManMonth(string monthId_Points)
+        {
+            return forecastDAL.GetPreviousManMonth(monthId_Points);
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdatePreviousData(int assignmentId)
+        {
+            return forecastDAL.GetCellWiseUpdatePreviousData(assignmentId);
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdateOriginalData(int assignmentId,int timeStampId)
+        {
+            return forecastDAL.GetCellWiseUpdateOriginalData(assignmentId,timeStampId);
+        }
+
         public Forecast MatchForecastHistoryByAssignmentId(int assignmentId, DateTime date)
         {
             return forecastDAL.MatchForecastHistoryByAssignmentId(assignmentId, date);
@@ -182,9 +195,107 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateApproveTimeStamp(approveTimeStamp, year, createdBy, createdDate);
         }
-        public int CreateApprovetHistory(int approveTimeStampHistory,int year,string createdBy)
+        public int CreateApprovetHistory(int approveTimeStampId, int year, string createdBy, List<AssignmentHistory> _assignmentHistories_Add, List<AssignmentHistory> _assignmentHistorys_Delete, List<AssignmentHistory> _assignmentHistorys_CellWise)
         {
-            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year, createdBy);
+            return forecastDAL.CreateApprovetHistory(approveTimeStampId, year, createdBy, _assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
         }
+        public List<AssignmentHistory> GetAddEmployeeApprovedData(int year)
+        {
+            return forecastDAL.GetAddEmployeeApprovedData(year);
+        }
+        public List<AssignmentHistory> GetDeleteEmployeeApprovedData(int year)
+        {
+            return forecastDAL.GetDeleteEmployeeApprovedData(year);
+        }
+        public List<AssignmentHistory> GetCellWiseEmployeeApprovedData(int year)
+        {
+            return forecastDAL.GetCellWiseEmployeeApprovedData(year);
+        }
+
+        public string GetApproveCellData(int cellNo, string previousCellName, string originalCellName,string approvedCells)
+        {
+            if (approvedCells.IndexOf(',') > 0)
+            {
+                //approved cell: 2,4
+
+                var arrApprovedCells = approvedCells.Split(',');
+                var tempValue = "";
+                foreach (var approvedItems in arrApprovedCells)
+                {
+                    if (cellNo == Convert.ToInt32(approvedItems))
+                    {
+                        tempValue = originalCellName;
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(tempValue))
+                {
+                    return tempValue;
+                }
+                else
+                {
+                    var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                    return tempCellValue;
+                    //return "(" + previousCellName + ")" + originalCellName;
+                }
+            }
+            else
+            {
+                if (cellNo == Convert.ToInt32(approvedCells))
+                {
+                    return originalCellName;
+                }
+                else
+                {
+                    var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                    return tempCellValue;
+                    //return "(" + previousCellName + ")" + originalCellName;
+                }
+                
+            }
+        }
+        public string GetApproveForecastCellData(int cellNo, decimal previousCellName, decimal originalCellName, string approvedCells)
+        {
+            if (approvedCells.IndexOf(',') > 0)
+            {
+                //approved cell: 2,4
+
+                var arrApprovedCells = approvedCells.Split(',');
+                var tempValue = "";
+                foreach (var approvedItems in arrApprovedCells)
+                {
+                    if (cellNo == Convert.ToInt32(approvedItems))
+                    {
+                        tempValue = originalCellName.ToString();
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(tempValue))
+                {
+                    return tempValue;
+                }
+                else
+                {
+                    var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    return cellManMonths;
+                }
+            }
+            else
+            {
+                if (cellNo == Convert.ToInt32(approvedCells))
+                {                    
+                    return originalCellName.ToString();
+                }
+                else
+                {
+                    var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    return cellManMonths;
+                }
+
+            }
+        }
+
     }
 }

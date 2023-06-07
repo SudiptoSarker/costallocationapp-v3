@@ -2210,69 +2210,7 @@ namespace CostAllocationApp.Controllers.Api
                     var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
                     var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
-
-                    //if (isUpdate)
-                    //{
-                    //    forecastHistoryList.Add(new
-                    //    {
-                    //        EmployeeName = employeeName,
-                    //        IsUpdate = isUpdate,
-                    //        //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
-                    //        SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,
-                    //        DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,
-                    //        InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
-                    //        RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,
-                    //        ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,
-                    //        CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,
-                    //        GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
-                    //        UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
-                    //        Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
-                    //        CreatedBy = historyList[0].CreatedBy,
-                    //        OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
-                    //        NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
-                    //        DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
-                    //        JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
-                    //        FebPoints = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0"),
-                    //        MarPoints = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0"),
-                    //        AprPoints = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0"),
-                    //        MayPoints = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0"),
-                    //        JunPoints = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0"),
-                    //        JulPoints = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0"),
-                    //        AugPoints = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0"),
-                    //        SepPoints = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0"),
-                    //    });
-                    //}
-                    //else
-                    //{
-                    //    //insert data udpate
-                    //    forecastHistoryList.Add(new
-                    //    {
-                    //        EmployeeName = employeeName,
-                    //        IsUpdate = isUpdate,
-                    //        SectionName = sectionName == "" ? "" : sectionName,
-                    //        DepartmentName = departmentName == "" ? "" : departmentName,
-                    //        InChargeName = inChargeName == "" ? "" : inChargeName,
-                    //        RoleName = roleName == "" ? "" : roleName,
-                    //        ExplanationName = explanationName == "" ? "" : explanationName,
-                    //        CompanyName = companyName == "" ? "" : companyName,
-                    //        GradePoints = gradePoints == "0" ? "" : gradePoints,
-                    //        UnitPrice = unitPrice == "0" ? "" : unitPrice,
-                    //        Remarks = remarks == "" ? "" : remarks,
-                    //        CreatedBy = historyList[0].CreatedBy,
-                    //        OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
-                    //        NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
-                    //        DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
-                    //        JanPoints = janP == 0 ? "" : janP.ToString("0.0"),
-                    //        FebPoints = febP == 0 ? "" : febP.ToString("0.0"),
-                    //        MarPoints = marP == 0 ? "" : marP.ToString("0.0"),
-                    //        AprPoints = aprP == 0 ? "" : aprP.ToString("0.0"),
-                    //        MayPoints = mayP == 0 ? "" : mayP.ToString("0.0"),
-                    //        JunPoints = junP == 0 ? "" : junP.ToString("0.0"),
-                    //        JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
-                    //        AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
-                    //        SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
-                    //    });
-                    //}
+                  
                     if (isAddRow)
                     {
                         forecastHistoryList.Add(new
@@ -2333,6 +2271,293 @@ namespace CostAllocationApp.Controllers.Api
                             JulPoints = julP == 0 ? "" : julP.ToString("0.0"),
                             AugPoints = augP == 0 ? "" : augP.ToString("0.0"),
                             SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
+                        });
+                    }
+                    else if (isUpdateCells)
+                    {
+                        var cellWisePreviousData = forecastBLL.GetCellWiseUpdatePreviousData(item);
+                        var cellWiseOriginalData = forecastBLL.GetCellWiseUpdateOriginalData(item,timeStampId);
+
+                        var employeeName_Cells = _approvalHistoryViewModal.EmployeeName;
+
+                        var approvedCells = cellWiseOriginalData.ApprovedCells;
+                        
+                        var remarks_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            remarks_Cells = forecastBLL.GetApproveCellData(2, cellWisePreviousData.Remarks, cellWiseOriginalData.Remarks, approvedCells);
+                        }
+                        else
+                        {
+                            //remarks_Cells = "("+cellWisePreviousData.Remarks+")"+""+cellWiseOriginalData.Remarks;
+                            remarks_Cells = cellWisePreviousData.Remarks == cellWiseOriginalData.Remarks ? "" : "(" + cellWisePreviousData.Remarks + ") " + cellWiseOriginalData.Remarks;
+                        }
+                        
+                        var sectionName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            sectionName_Cells = forecastBLL.GetApproveCellData(3, cellWisePreviousData.SectionName, cellWiseOriginalData.SectionName, approvedCells);
+                        }
+                        else
+                        {
+                            //sectionName_Cells = "(" + cellWisePreviousData.SectionName + ")" + "" + cellWiseOriginalData.SectionName;                            
+                            sectionName_Cells = cellWisePreviousData.SectionName == cellWiseOriginalData.SectionName ? "" : "(" + cellWisePreviousData.SectionName + ") " + cellWiseOriginalData.SectionName;
+                        }
+                        
+                        var departmentName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            departmentName_Cells = forecastBLL.GetApproveCellData(4, cellWisePreviousData.DepartmentName, cellWiseOriginalData.DepartmentName, approvedCells);
+                        }
+                        else
+                        {
+                            //departmentName_Cells = "(" + cellWisePreviousData.DepartmentName + ")" + "" + cellWiseOriginalData.DepartmentName;
+                            departmentName_Cells = cellWisePreviousData.DepartmentName == cellWiseOriginalData.DepartmentName ? "" : "(" + cellWisePreviousData.DepartmentName + ") " + cellWiseOriginalData.DepartmentName;
+                        }
+                        
+                        var inChargeName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            inChargeName_Cells = forecastBLL.GetApproveCellData(5, cellWisePreviousData.InChargeName, cellWiseOriginalData.InChargeName, approvedCells);
+                        }
+                        else
+                        {
+                            //inChargeName_Cells = "(" + cellWisePreviousData.InChargeName + ")" + "" + cellWiseOriginalData.InChargeName;
+                            inChargeName_Cells = cellWisePreviousData.InChargeName == cellWiseOriginalData.InChargeName ? "" : "(" + cellWisePreviousData.InChargeName + ") " + cellWiseOriginalData.InChargeName;
+                        }
+                        
+                        var roleName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            roleName_Cells = forecastBLL.GetApproveCellData(6, cellWisePreviousData.RoleName, cellWiseOriginalData.RoleName, approvedCells);
+                        }
+                        else
+                        {
+                            //roleName_Cells = "(" + cellWisePreviousData.RoleName + ")" + "" + cellWiseOriginalData.RoleName;
+                            roleName_Cells = cellWisePreviousData.RoleName == cellWiseOriginalData.RoleName ? "" : "(" + cellWisePreviousData.RoleName + ") " + cellWiseOriginalData.RoleName;
+                        }
+                        
+                        var explanationName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            explanationName_Cells = forecastBLL.GetApproveCellData(7, cellWisePreviousData.ExplanationName, cellWiseOriginalData.ExplanationName, approvedCells);
+                        }
+                        else
+                        {
+                            //explanationName_Cells = "(" + cellWisePreviousData.ExplanationName + ")" + "" + cellWiseOriginalData.ExplanationName;
+                            explanationName_Cells = cellWisePreviousData.ExplanationName == cellWiseOriginalData.ExplanationName ? "" : "(" + cellWisePreviousData.ExplanationName + ") " + cellWiseOriginalData.ExplanationName;
+                        }
+                        
+                        var companyName_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            companyName_Cells = forecastBLL.GetApproveCellData(8, cellWisePreviousData.CompanyName, cellWiseOriginalData.CompanyName, approvedCells);
+                        }
+                        else
+                        {
+                            //companyName_Cells = "(" + cellWisePreviousData.CompanyName + ")" + "" + cellWiseOriginalData.CompanyName;
+                            companyName_Cells = cellWisePreviousData.CompanyName == cellWiseOriginalData.CompanyName ? "" : "(" + cellWisePreviousData.CompanyName + ") " + cellWiseOriginalData.CompanyName;
+                        }
+                        
+                        var gradePoints_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            gradePoints_Cells = forecastBLL.GetApproveCellData(9, cellWisePreviousData.GradePoints, cellWiseOriginalData.GradePoints, approvedCells);
+                        }
+                        else
+                        {
+                            //gradePoints_Cells = "(" + cellWisePreviousData.GradePoints + ")" + "" + cellWiseOriginalData.GradePoints;
+                            gradePoints_Cells = cellWisePreviousData.GradePoints == cellWiseOriginalData.GradePoints ? "" : "(" + cellWisePreviousData.GradePoints + ") " + cellWiseOriginalData.GradePoints;
+                        }
+                        
+                        var unitPrice_Cells = "";
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            unitPrice_Cells = forecastBLL.GetApproveCellData(10, cellWisePreviousData.UnitPrice, cellWiseOriginalData.UnitPrice, approvedCells);
+                        }
+                        else
+                        {
+                            //unitPrice_Cells = "(" + cellWisePreviousData.UnitPrice + ")" + "" + cellWiseOriginalData.UnitPrice;
+                            unitPrice_Cells = cellWisePreviousData.UnitPrice == cellWiseOriginalData.UnitPrice ? "" : "(" + cellWisePreviousData.UnitPrice + ") " + cellWiseOriginalData.UnitPrice;
+                        }                        
+
+                        var _previousManMonthForecast = forecastBLL.GetPreviousManMonth(cellWisePreviousData.MonthId_Points);
+                        var _originalManMonthForecast = forecastBLL.GetPreviousManMonth(cellWiseOriginalData.MonthId_Points);
+                        
+                        var oct_Cell = "";
+                        var octPrevious = _previousManMonthForecast.Where(p => p.Month == 10).SingleOrDefault().Points;
+                        var octOrg = _originalManMonthForecast.Where(p => p.Month == 10).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            oct_Cell = forecastBLL.GetApproveForecastCellData(11, octPrevious, octOrg, approvedCells);
+                        }
+                        else
+                        {
+                            oct_Cell = octPrevious == octOrg ? "" : "(" + octPrevious.ToString("0.0") + ") " + octOrg.ToString("0.0");                            
+                        }
+                        
+                        var nov_Cell = "";
+                        var novPrevious = _previousManMonthForecast.Where(p => p.Month == 11).SingleOrDefault().Points;
+                        var novOrg = _originalManMonthForecast.Where(p => p.Month == 11).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            nov_Cell = forecastBLL.GetApproveForecastCellData(12, novPrevious, novOrg, approvedCells);
+                        }
+                        else
+                        {
+                            nov_Cell = novPrevious == novOrg ? "" : "(" + novPrevious.ToString("0.0") + ") " + novOrg.ToString("0.0");
+                        }
+                        
+                        var dec_Cell = "";
+                        var decPrevious = _previousManMonthForecast.Where(p => p.Month == 12).SingleOrDefault().Points;
+                        var decOrg = _originalManMonthForecast.Where(p => p.Month == 12).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            dec_Cell = forecastBLL.GetApproveForecastCellData(13, decPrevious, decOrg, approvedCells);
+                        }
+                        else
+                        {
+                            dec_Cell = decPrevious == decOrg ? "" : "(" + decPrevious.ToString("0.0") + ") " + decOrg.ToString("0.0");
+                        }
+                        
+                        var jan_Cell = "";
+                        var janPrevious = _previousManMonthForecast.Where(p => p.Month == 1).SingleOrDefault().Points;
+                        var janOrg = _originalManMonthForecast.Where(p => p.Month == 1).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            jan_Cell = forecastBLL.GetApproveForecastCellData(14, janPrevious, janOrg, approvedCells);
+                        }
+                        else
+                        {
+                            jan_Cell = janPrevious == janOrg ? "" : "(" + janPrevious.ToString("0.0") + ") " + janOrg.ToString("0.0");
+                        }
+                        
+                        var feb_Cell = "";
+                        var febPrevious = _previousManMonthForecast.Where(p => p.Month == 2).SingleOrDefault().Points;
+                        var febOrg = _originalManMonthForecast.Where(p => p.Month == 2).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            feb_Cell = forecastBLL.GetApproveForecastCellData(15, febPrevious, febOrg, approvedCells);
+                        }
+                        else
+                        {
+                            feb_Cell = febPrevious == febOrg ? "" : "(" + febPrevious.ToString("0.0") + ") " + febOrg.ToString("0.0");
+                        }
+                        
+                        var mar_Cell = "";
+                        var marPrevious = _previousManMonthForecast.Where(p => p.Month == 3).SingleOrDefault().Points;
+                        var marOrg = _originalManMonthForecast.Where(p => p.Month == 3).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            mar_Cell = forecastBLL.GetApproveForecastCellData(16, marPrevious, marOrg, approvedCells);
+                        }
+                        else
+                        {
+                            mar_Cell = marPrevious == marOrg ? "" : "(" + marPrevious.ToString("0.0") + ") " + marOrg.ToString("0.0");
+                        }
+                        
+                        var apr_Cell = "";
+                        var aprPrevious = _previousManMonthForecast.Where(p => p.Month == 4).SingleOrDefault().Points;
+                        var aprOrg = _originalManMonthForecast.Where(p => p.Month == 4).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            apr_Cell = forecastBLL.GetApproveForecastCellData(17, aprPrevious, aprOrg, approvedCells);
+                        }
+                        else
+                        {
+                            apr_Cell = aprPrevious == aprOrg ? "" : "(" + aprPrevious.ToString("0.0") + ") " + aprOrg.ToString("0.0");
+                        }
+                        
+                        var may_Cell = "";
+                        var mayPrevious = _previousManMonthForecast.Where(p => p.Month == 5).SingleOrDefault().Points;
+                        var mayOrg = _originalManMonthForecast.Where(p => p.Month == 5).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            may_Cell = forecastBLL.GetApproveForecastCellData(18, mayPrevious, mayOrg, approvedCells);
+                        }
+                        else
+                        {
+                            may_Cell = mayPrevious == mayOrg ? "" : "(" + mayPrevious.ToString("0.0") + ") " + mayOrg.ToString("0.0");
+                        }
+                        
+                        var jun_Cell = "";
+                        var junPrevious = _previousManMonthForecast.Where(p => p.Month == 6).SingleOrDefault().Points;
+                        var junOrg = _originalManMonthForecast.Where(p => p.Month == 6).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            jun_Cell = forecastBLL.GetApproveForecastCellData(19, junPrevious, junOrg, approvedCells);
+                        }
+                        else
+                        {
+                            jun_Cell = junPrevious == junOrg ? "" : "(" + junPrevious.ToString("0.0") + ") " + junOrg.ToString("0.0");
+                        }
+                        
+                        var jul_Cell = "";
+                        var julPrevious = _previousManMonthForecast.Where(p => p.Month == 7).SingleOrDefault().Points;
+                        var julOrg = _originalManMonthForecast.Where(p => p.Month == 7).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            jul_Cell = forecastBLL.GetApproveForecastCellData(20, julPrevious, julOrg, approvedCells);
+                        }
+                        else
+                        {
+                            jul_Cell = julPrevious == julOrg ? "" : "(" + julPrevious.ToString("0.0") + ") " + julOrg.ToString("0.0");
+                        }
+                        
+                        var aug_Cell = "";
+                        var augPrevious = _previousManMonthForecast.Where(p => p.Month == 8).SingleOrDefault().Points;
+                        var augOrg = _originalManMonthForecast.Where(p => p.Month == 8).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            aug_Cell = forecastBLL.GetApproveForecastCellData(21, augPrevious, augOrg, approvedCells);
+                        }
+                        else
+                        {
+                            aug_Cell = augPrevious == augOrg ? "" : "(" + augPrevious.ToString("0.0") + ") " + augOrg.ToString("0.0");
+                        }
+                        
+                        var sep_Cell = "";
+                        var sepPrevious = _previousManMonthForecast.Where(p => p.Month == 9).SingleOrDefault().Points;
+                        var sepOrg = _originalManMonthForecast.Where(p => p.Month == 9).SingleOrDefault().Points;
+                        if (!string.IsNullOrEmpty(approvedCells))
+                        {
+                            sep_Cell = forecastBLL.GetApproveForecastCellData(22, sepPrevious, sepOrg, approvedCells);
+                        }
+                        else
+                        {
+                            sep_Cell = sepPrevious == sepOrg ? "" : "(" + sepPrevious.ToString("0.0") + ") " + sepOrg.ToString("0.0");
+                        }
+                        //employeeName_Cells,remarks_Cells,sectionName_Cells,departmentName_Cells,inChargeName_Cells,roleName_Cells,explanationName_Cells,companyName_Cells,gradePoints_Cells
+                        //unitPrice_Cells
+                        //oct_Cell,nov_Cell,dec_Cell,jan_Cell,feb_Cell,mar_Cell,apr_Cell,may_Cell,jun_Cell
+                        //jul_Cell,aug_Cell,sep_Cell    
+                        forecastHistoryList.Add(new
+                        {
+                            EmployeeName = employeeName_Cells,
+                            Remarks = remarks_Cells,                                                        
+                            SectionName = sectionName_Cells,
+                            DepartmentName = departmentName_Cells,
+                            InChargeName = inChargeName_Cells,
+                            RoleName = roleName_Cells,
+                            ExplanationName = explanationName_Cells,
+                            CompanyName = companyName_Cells,
+                            GradePoints = gradePoints_Cells,
+                            UnitPrice = unitPrice_Cells,                            
+                            CreatedBy = historyList[0].CreatedBy,
+                            OperationType = "Cell Update",
+                            IsUpdate = isUpdate,
+                            OctPoints = oct_Cell,
+                            NovPoints = nov_Cell,
+                            DecPoints = dec_Cell,
+                            JanPoints = jan_Cell,
+                            FebPoints = feb_Cell,
+                            MarPoints = mar_Cell,
+                            AprPoints = apr_Cell,
+                            MayPoints = may_Cell,
+                            JunPoints = jun_Cell,
+                            JulPoints = jul_Cell,
+                            AugPoints = aug_Cell,
+                            SepPoints = sep_Cell,
                         });
                     }
                 }
@@ -3302,10 +3527,26 @@ namespace CostAllocationApp.Controllers.Api
             //approve history: start
             var session = System.Web.HttpContext.Current.Session;
             string createdBy = session["userName"].ToString();
-            DateTime createdDate = DateTime.Now;       
-            
-            int approveTimeStamp = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
-            int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear), createdBy);
+            DateTime createdDate = DateTime.Now;
+
+
+            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
+            _assignmentHistories_Add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+
+            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
+            _assignmentHistorys_Delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
+            _assignmentHistorys_CellWise = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+
+            if(_assignmentHistories_Add.Count>0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
+            {
+                int approveTimeStamp = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
+                if(approveTimeStamp> 0)
+                {
+                    int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear), createdBy,_assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
+                }
+            }                            
             //approve history: end
             
             int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
@@ -3314,6 +3555,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (results2 > 0 || results3 > 0 || results4 > 0)
             {
+                //int results5 = employeeAssignmentBLL.UpdateUnapprovedData(Convert.ToInt32(assignmentYear));
                 results = 1;
             }
             else

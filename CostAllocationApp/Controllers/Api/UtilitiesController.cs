@@ -2451,10 +2451,138 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(actualCostViewModels);
         }
 
+        [HttpGet]
+        [Route("api/utilities/GetActualCostConfirmData/")]
+        public IHttpActionResult GetActualCostConfirmData(int year,int monthId)
+        {
+            List<ActualCostViewModel> actualCostViewModels = new List<ActualCostViewModel>();
+
+            //List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetAssignmentsByYear(year);
+
+            List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year,monthId);
+            foreach (var item in employeeAssignments)
+            {
+                var actualCostList = actualCostBLL.GetActualCostsByYear_AssignmentId(year,item.Id);
+                if (actualCostList.Count>0)
+                {
+                    if (monthId==10)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].OctPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].OctCost);
+                    }
+                    if (monthId == 11)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].NovPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].NovCost);
+                    }
+                    if (monthId == 12)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].DecPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].DecCost);
+                    }
+                    if (monthId == 1)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].JanPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].JanCost);
+                    }
+                    if (monthId == 2)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].FebPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].FebCost);
+                    }
+                    if (monthId == 3)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].MarPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].MarCost);
+                    }
+                    if (monthId == 4)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].AprPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].AprCost);
+                    }
+                    if (monthId == 5)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].MayPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].MayCost);
+                    }
+                    if (monthId == 6)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].JunPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].JunCost);
+                    }
+                    if (monthId == 7)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].JulPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].JulCost);
+                    }
+                    if (monthId == 8)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].AugPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].AugCost);
+                    }
+                    if (monthId == 9)
+                    {
+                        item.ManMonth = Convert.ToDecimal(actualCostList[0].SepPoint);
+                        item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].SepCost);
+                    }
+
+                }
+
+            }
+
+            //List<ActualCost> actualCosts = actualCostBLL.GetActualCostsByYear(year);
+
+            //if (actualCosts.Count > 0)
+            //{
+            //    foreach (var item in employeeAssignments)
+            //    {
+            //        var actualCost = actualCosts.Where(ac => ac.AssignmentId == item.Id).SingleOrDefault();
+            //        if (actualCost == null)
+            //        {
+            //            actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
+            //        }
+            //        else
+            //        {
+            //            actualCostViewModels.Add(MergeAssignmentWithActualCost(item, actualCost));
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var item in employeeAssignments)
+            //    {
+            //        actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
+
+            //    }
+            //}
+
+            //var totalCount = actualCostViewModels.Count;
+
+            //actualCostViewModels.Add(new ActualCostViewModel
+            //{
+            //    AssignmentId = 0,
+            //    OctCost = $@"=SUM(J{1}:J{totalCount})",
+            //    NovCost = $@"=SUM(K{1}:K{totalCount})",
+            //    DecCost = $@"=SUM(L{1}:L{totalCount})",
+            //    JanCost = $@"=SUM(M{1}:M{totalCount})",
+            //    FebCost = $@"=SUM(N{1}:N{totalCount})",
+            //    MarCost = $@"=SUM(O{1}:O{totalCount})",
+            //    AprCost = $@"=SUM(P{1}:P{totalCount})",
+            //    MayCost = $@"=SUM(Q{1}:Q{totalCount})",
+            //    JunCost = $@"=SUM(R{1}:R{totalCount})",
+            //    JulCost = $@"=SUM(S{1}:S{totalCount})",
+            //    AugCost = $@"=SUM(T{1}:T{totalCount})",
+            //    SepCost = $@"=SUM(U{1}:U{totalCount})",
+            //});
+            return Ok(employeeAssignments);
+        }
+
         [HttpPost]
         [Route("api/utilities/CreateActualCost/")]
         public IHttpActionResult CreateActualCost(ActualCostDto actualCostDto)
         {
+            string costColumnName = "";
+            string pointColumnName = "";
             var session = System.Web.HttpContext.Current.Session;
             if (actualCostDto.ActualCosts.Count>0)
             {
@@ -2464,154 +2592,275 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         continue;
                     }
-                    item.Year = actualCostDto.Year;
+                    
                     var flag = actualCostBLL.CheckAssignmentId(item.AssignmentId, actualCostDto.Year);
                     if (flag)
                     {
+                        if (actualCostDto.Month==10)
+                        {
+                            costColumnName = "OctCost";
+                            pointColumnName = "OctPoint";
+                        }
+                        if (actualCostDto.Month == 11)
+                        {
+                            costColumnName = "NovCost";
+                            pointColumnName = "NovPoint";
+                        }
+                        if (actualCostDto.Month == 12)
+                        {
+                            costColumnName = "DecCost";
+                            pointColumnName = "DecPoint";
+                        }
+                        if (actualCostDto.Month == 1)
+                        {
+                            costColumnName = "JanCost";
+                            pointColumnName = "JanPoint";
+                        }
+                        if (actualCostDto.Month == 2)
+                        {
+                            costColumnName = "FebCost";
+                            pointColumnName = "FebPoint";
+                        }
+                        if (actualCostDto.Month == 3)
+                        {
+                            costColumnName = "MarCost";
+                            pointColumnName = "MarPoint";
+                        }
+                        if (actualCostDto.Month == 4)
+                        {
+                            costColumnName = "AprCost";
+                            pointColumnName = "AprPoint";
+                        }
+                        if (actualCostDto.Month == 5)
+                        {
+                            costColumnName = "MayCost";
+                            pointColumnName = "MayPoint";
+                        }
+                        if (actualCostDto.Month == 6)
+                        {
+                            costColumnName = "JunCost";
+                            pointColumnName = "JunPoint";
+                        }
+                        if (actualCostDto.Month == 7)
+                        {
+                            costColumnName = "JulCost";
+                            pointColumnName = "JulPoint";
+                        }
+                        if (actualCostDto.Month == 8)
+                        {
+                            costColumnName = "AugCost";
+                            pointColumnName = "AugPoint";
+                        }
+                        if (actualCostDto.Month == 9)
+                        {
+                            costColumnName = "SepCost";
+                            pointColumnName = "SepPoint";
+                        }
                         item.UpdatedBy = session["userName"].ToString();
                         item.UpdatedDate = DateTime.Now;
-                        actualCostBLL.UpdateActualCost(item);
+                        actualCostBLL.UpdateActualCost(actualCostDto.Year, item.AssignmentId, costColumnName, pointColumnName,item.ActualCostAmount,item.ManHour, item.UpdatedBy,item.UpdatedDate);
                     }
                     else
                     {
+                        item.Year = actualCostDto.Year;
                         item.CreatedBy = session["userName"].ToString();
                         item.CreatedDate = DateTime.Now;
+                        if (actualCostDto.Month == 10)
+                        {
+                            item.OctCost = item.ActualCostAmount;
+                            item.OctPoint = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 11)
+                        {
+                            item.NovCost = item.ActualCostAmount;
+                            item.NovCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 12)
+                        {
+                            item.DecCost = item.ActualCostAmount;
+                            item.DecCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 1)
+                        {
+                            item.JanCost = item.ActualCostAmount;
+                            item.JanCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 2)
+                        {
+                            item.FebCost = item.ActualCostAmount;
+                            item.FebCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 3)
+                        {
+                            item.MarCost = item.ActualCostAmount;
+                            item.MarCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 4)
+                        {
+                            item.AprCost = item.ActualCostAmount;
+                            item.AprCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 5)
+                        {
+                            item.MayCost = item.ActualCostAmount;
+                            item.MayCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 6)
+                        {
+                            item.JunCost = item.ActualCostAmount;
+                            item.JunCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 7)
+                        {
+                            item.JulCost = item.ActualCostAmount;
+                            item.JulCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 8)
+                        {
+                            item.AugCost = item.ActualCostAmount;
+                            item.AugCost = item.ManHour;
+                        }
+                        if (actualCostDto.Month == 9)
+                        {
+                            item.SepCost = item.ActualCostAmount;
+                            item.SepCost = item.ManHour;
+                        }
                         actualCostBLL.CreateActualCost(item);
                     }
                 }
 
-                foreach (var item in actualCostDto.ActualCosts)
-                {
-                    if (item.AssignmentId == 0)
-                    {
-                        continue;
-                    }
-                    List<Forecast> forecasts =  forecastBLL.GetForecastDetails(item.AssignmentId,actualCostDto.Year);
+                //foreach (var item in actualCostDto.ActualCosts)
+                //{
+                //    if (item.AssignmentId == 0)
+                //    {
+                //        continue;
+                //    }
+                //    List<Forecast> forecasts =  forecastBLL.GetForecastDetails(item.AssignmentId,actualCostDto.Year);
 
-                    Sukey sukey = new Sukey();
-                    sukey.AssignmentId = item.AssignmentId;
-                    sukey.Year = item.Year;
-                    // assign data in sukey object.
-                    {
+                //    Sukey sukey = new Sukey();
+                //    sukey.AssignmentId = item.AssignmentId;
+                //    sukey.Year = item.Year;
+                //    // assign data in sukey object.
+                //    {
 
 
-                        if (actualCostDto.OctFlag)
-                        {
-                            sukey.OctCost = item.OctCost;
-                        }
-                        else
-                        {
-                            sukey.OctCost = Convert.ToDouble(forecasts.Where(f => f.Month == 10).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.NovFlag)
-                        {
-                            sukey.NovCost = item.NovCost;
-                        }
-                        else
-                        {
-                            sukey.NovCost = Convert.ToDouble(forecasts.Where(f => f.Month == 11).SingleOrDefault().Total);
-                        }
+                //        if (actualCostDto.OctFlag)
+                //        {
+                //            sukey.OctCost = item.OctCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.OctCost = Convert.ToDouble(forecasts.Where(f => f.Month == 10).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.NovFlag)
+                //        {
+                //            sukey.NovCost = item.NovCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.NovCost = Convert.ToDouble(forecasts.Where(f => f.Month == 11).SingleOrDefault().Total);
+                //        }
 
-                        if (actualCostDto.DecFlag)
-                        {
-                            sukey.DecCost = item.DecCost;
-                        }
-                        else
-                        {
-                            sukey.DecCost = Convert.ToDouble(forecasts.Where(f => f.Month == 12).SingleOrDefault().Total);
-                        }
+                //        if (actualCostDto.DecFlag)
+                //        {
+                //            sukey.DecCost = item.DecCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.DecCost = Convert.ToDouble(forecasts.Where(f => f.Month == 12).SingleOrDefault().Total);
+                //        }
 
-                        if (actualCostDto.JanFlag)
-                        {
-                            sukey.JanCost = item.JanCost;
-                        }
-                        else
-                        {
-                            sukey.JanCost = Convert.ToDouble(forecasts.Where(f => f.Month == 1).SingleOrDefault().Total);
-                        }
+                //        if (actualCostDto.JanFlag)
+                //        {
+                //            sukey.JanCost = item.JanCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.JanCost = Convert.ToDouble(forecasts.Where(f => f.Month == 1).SingleOrDefault().Total);
+                //        }
 
-                        if (actualCostDto.FebFlag)
-                        {
-                            sukey.FebCost = item.FebCost;
-                        }
-                        else
-                        {
-                            sukey.FebCost = Convert.ToDouble(forecasts.Where(f => f.Month == 2).SingleOrDefault().Total);
-                        }
+                //        if (actualCostDto.FebFlag)
+                //        {
+                //            sukey.FebCost = item.FebCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.FebCost = Convert.ToDouble(forecasts.Where(f => f.Month == 2).SingleOrDefault().Total);
+                //        }
 
-                        if (actualCostDto.MarFlag)
-                        {
-                            sukey.MarCost = item.MarCost;
-                        }
-                        else
-                        {
-                            sukey.MarCost = Convert.ToDouble(forecasts.Where(f => f.Month == 3).SingleOrDefault().Total);
-                        }
+                //        if (actualCostDto.MarFlag)
+                //        {
+                //            sukey.MarCost = item.MarCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.MarCost = Convert.ToDouble(forecasts.Where(f => f.Month == 3).SingleOrDefault().Total);
+                //        }
 
-                        if (actualCostDto.AprFlag)
-                        {
-                            sukey.AprCost = item.AprCost;
-                        }
-                        else
-                        {
-                            sukey.AprCost = Convert.ToDouble(forecasts.Where(f => f.Month == 4).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.MayFlag)
-                        {
-                            sukey.MayCost = item.MayCost;
-                        }
-                        else
-                        {
-                            sukey.MayCost = Convert.ToDouble(forecasts.Where(f => f.Month == 5).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.JunFlag)
-                        {
-                            sukey.JunCost = item.JunCost;
-                        }
-                        else
-                        {
-                            sukey.JunCost = Convert.ToDouble(forecasts.Where(f => f.Month == 6).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.JulFlag)
-                        {
-                            sukey.JulCost = item.JulCost;
-                        }
-                        else
-                        {
-                            sukey.JulCost = Convert.ToDouble(forecasts.Where(f => f.Month == 7).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.AugFlag)
-                        {
-                            sukey.AugCost = item.AugCost;
-                        }
-                        else
-                        {
-                            sukey.AugCost = Convert.ToDouble(forecasts.Where(f => f.Month == 8).SingleOrDefault().Total);
-                        }
-                        if (actualCostDto.SepFlag)
-                        {
-                            sukey.SepCost = item.SepCost;
-                        }
-                        else
-                        {
-                            sukey.SepCost = Convert.ToDouble(forecasts.Where(f => f.Month == 9).SingleOrDefault().Total);
-                        }
-                    }
+                //        if (actualCostDto.AprFlag)
+                //        {
+                //            sukey.AprCost = item.AprCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.AprCost = Convert.ToDouble(forecasts.Where(f => f.Month == 4).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.MayFlag)
+                //        {
+                //            sukey.MayCost = item.MayCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.MayCost = Convert.ToDouble(forecasts.Where(f => f.Month == 5).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.JunFlag)
+                //        {
+                //            sukey.JunCost = item.JunCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.JunCost = Convert.ToDouble(forecasts.Where(f => f.Month == 6).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.JulFlag)
+                //        {
+                //            sukey.JulCost = item.JulCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.JulCost = Convert.ToDouble(forecasts.Where(f => f.Month == 7).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.AugFlag)
+                //        {
+                //            sukey.AugCost = item.AugCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.AugCost = Convert.ToDouble(forecasts.Where(f => f.Month == 8).SingleOrDefault().Total);
+                //        }
+                //        if (actualCostDto.SepFlag)
+                //        {
+                //            sukey.SepCost = item.SepCost;
+                //        }
+                //        else
+                //        {
+                //            sukey.SepCost = Convert.ToDouble(forecasts.Where(f => f.Month == 9).SingleOrDefault().Total);
+                //        }
+                //    }
 
-                    var sukeyFlag = actualCostBLL.CheckSukeyAssignmentId(sukey.AssignmentId,sukey.Year);
-                    if (sukeyFlag)
-                    {
-                        sukey.UpdatedBy = session["userName"].ToString();
-                        sukey.UpdatedDate = DateTime.Now;
-                        actualCostBLL.UpdateSukey(sukey);
-                    }
-                    else
-                    {
-                        sukey.CreatedBy = session["userName"].ToString();
-                        sukey.CreatedDate = DateTime.Now;
-                        actualCostBLL.CreateSukey(sukey);
-                    }
-                }
+                //    var sukeyFlag = actualCostBLL.CheckSukeyAssignmentId(sukey.AssignmentId,sukey.Year);
+                //    if (sukeyFlag)
+                //    {
+                //        sukey.UpdatedBy = session["userName"].ToString();
+                //        sukey.UpdatedDate = DateTime.Now;
+                //        actualCostBLL.UpdateSukey(sukey);
+                //    }
+                //    else
+                //    {
+                //        sukey.CreatedBy = session["userName"].ToString();
+                //        sukey.CreatedDate = DateTime.Now;
+                //        actualCostBLL.CreateSukey(sukey);
+                //    }
+                //}
                 return Ok("Operation Completed.");
             }
             else

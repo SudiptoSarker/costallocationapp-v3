@@ -212,7 +212,7 @@ $(document).ready(function () {
                                 title: `${queryStrings['month']}月実工数(amm)`,
                                 type: "decimal",
                                 name: "ManMonth",
-                                mask: "#,##0",
+                                //mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
                                 //readOnly: true
@@ -306,6 +306,7 @@ $(document).ready(function () {
     });
 
     $('#cancel_actual_cost').on('click', function () {
+        channel.postMessage('done');
         window.close();
     });
 

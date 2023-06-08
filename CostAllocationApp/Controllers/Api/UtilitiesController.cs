@@ -3536,8 +3536,49 @@ namespace CostAllocationApp.Controllers.Api
             //approve history: end
             
             int results2 = employeeAssignmentBLL.UpdateApprovedData(assignmentYear);
-            int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);
+            int results3 = employeeAssignmentBLL.UpdateApprovedDataForDeleteRows(assignmentYear);            
             int results4 = employeeAssignmentBLL.UpdateCellWiseApprovdData(assignmentYear);
+
+
+            //pending cell update
+            //List<EmployeeAssignment> employeeAssignments = employeeAssignmentBLL.GetPendingCells(assignmentYear);
+            //int storePendingResults = 0;
+            //if (employeeAssignments.Count > 0)
+            //{
+            //    foreach (var pendingCellItem in employeeAssignments)
+            //    {
+            //        if (!string.IsNullOrEmpty(pendingCellItem.BCYRCell))
+            //        {
+            //            storePendingResults = employeeAssignmentBLL.UpdatePendingCells(pendingCellItem);
+            //        }
+            //    }
+            //}
+            //delete pending
+            //List<EmployeeAssignment> pendingDeleteRowAssignments = employeeAssignmentBLL.GetPendingDeleteRows(assignmentYear);
+            //int deleteResults = 0;
+            //if (pendingDeleteRowAssignments.Count > 0)
+            //{
+            //    foreach (var pendingCellItem in pendingDeleteRowAssignments)
+            //    {
+            //        if (!string.IsNullOrEmpty(pendingCellItem.BCYRCell))
+            //        {
+            //            deleteResults = employeeAssignmentBLL.UpdatePendingDeleteRows(pendingCellItem);
+            //        }
+            //    }
+            //}
+            //row pending
+            //List<EmployeeAssignment> pendingAddEmployeeAssignments = employeeAssignmentBLL.GetPendingAddEmployee(assignmentYear);
+            //int addEmployeePendingResults = 0;
+            //if (pendingAddEmployeeAssignments.Count > 0)
+            //{
+            //    foreach (var pendingCellItem in pendingAddEmployeeAssignments)
+            //    {
+            //        if (!string.IsNullOrEmpty(pendingCellItem.BCYRCell))
+            //        {
+            //            addEmployeePendingResults = employeeAssignmentBLL.UpdatePendingAddEmployee(pendingCellItem);
+            //        }
+            //    }
+            //}
 
             if (results2 > 0 || results3 > 0 || results4 > 0)
             {

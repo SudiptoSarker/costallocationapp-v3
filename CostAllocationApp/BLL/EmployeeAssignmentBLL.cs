@@ -1179,6 +1179,30 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateCellWiseApprovdData(assignmentYear);
         }
+        public List<EmployeeAssignment> GetPendingCells(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingCells(assignmentYear);
+        }        
+        public int UpdatePendingCells(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingCells(employeeAssignments);
+        }
+        public List<EmployeeAssignment> GetPendingDeleteRows(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingDeleteRows(assignmentYear);
+        }
+        public List<EmployeeAssignment> GetPendingAddEmployee(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingAddEmployee(assignmentYear);
+        }
+        public int UpdatePendingDeleteRows(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingDeleteRows(employeeAssignments);
+        }
+        public int UpdatePendingAddEmployee(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingAddEmployee(employeeAssignments);
+        }
 
         public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year, int monthId)
         {

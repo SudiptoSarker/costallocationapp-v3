@@ -1901,6 +1901,193 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public List<EmployeeAssignment> GetPendingCells(string assignmentYear)
+        {
+            List<EmployeeAssignment> _employeeAssignments = new List<EmployeeAssignment>();
+
+            string query = $@"select * from EmployeesAssignments where BCYRCell is not null and BCYRCell <> '' and BCYR <> 1 and IsActive =1 and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                            employeeAssignment.Id = Convert.ToInt32(rdr["Id"]);
+                            employeeAssignment.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            employeeAssignment.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();                            
+
+                            _employeeAssignments.Add(employeeAssignment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return _employeeAssignments;
+        }
+
+        public List<EmployeeAssignment> GetPendingDeleteRows(string assignmentYear)
+        {
+            List<EmployeeAssignment> _employeeAssignments = new List<EmployeeAssignment>();
+
+            string query = $@"select * from EmployeesAssignments
+                            where IsActive=0 and (IsDeleted is null Or IsDeleted <> 1) and (IsDeletePending is null or IsDeletePending =0)   and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                            employeeAssignment.Id = Convert.ToInt32(rdr["Id"]);
+                            employeeAssignment.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            employeeAssignment.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+
+                            _employeeAssignments.Add(employeeAssignment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return _employeeAssignments;
+        }
+
+        public int UpdatePendingCells(EmployeeAssignment employeeAssignments)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRCell='',BCYRCellPending=@bCYRCellPending where Id={employeeAssignments.Id}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@bCYRCellPending", employeeAssignments.BCYRCell);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public List<EmployeeAssignment> GetPendingAddEmployee(string assignmentYear)
+        {
+            List<EmployeeAssignment> _employeeAssignments = new List<EmployeeAssignment>();
+
+            string query = $@"select * from EmployeesAssignments
+                            where BCYR=1 and (BCYRApproved is null OR BCYRApproved =0) and (IsRowPending is null or IsRowPending =0)  and Year={assignmentYear}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                            employeeAssignment.Id = Convert.ToInt32(rdr["Id"]);
+                            employeeAssignment.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            employeeAssignment.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+
+                            _employeeAssignments.Add(employeeAssignment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return _employeeAssignments;
+        }
+
+
+        public int UpdatePendingDeleteRows(EmployeeAssignment employeeAssignments)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsDeletePending=1 where Id={employeeAssignments.Id}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRCellPending", employeeAssignments.BCYRCell);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int UpdatePendingAddEmployee(EmployeeAssignment employeeAssignments)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsRowPending =1 where Id={employeeAssignments.Id}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@bCYRCellPending", employeeAssignments.BCYRCell);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+
         public int UpdateUnapprovedData(int year)
         {
             int result = 0;

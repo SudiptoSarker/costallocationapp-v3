@@ -444,7 +444,6 @@ function ShowForecastResults(year) {
         async: false,
         dataType: 'json',
         success: function (data) {
-
             $.each(data, (index, value) => {
                 departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
             });

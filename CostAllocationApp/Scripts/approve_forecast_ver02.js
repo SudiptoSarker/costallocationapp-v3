@@ -333,6 +333,8 @@ $(document).ready(function () {
     });
 
     $('#unapprove_forecast_data').on('click', function () {       
+        $('#jspreadsheet').jexcel('download');
+        return false;
 
         var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
         var isDeleted = $("#hidIsRowDeleted").val();

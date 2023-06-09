@@ -140,9 +140,7 @@ $('#btn_export_change_history_data').on('click', function () {
         ],        
     });
 
-    //jss.download(true).toCSV(this); 
-    // $("table.download").toCSV(this); 
-    $('#jspreadsheet').jexcel('download');  
+    jss.download(true);
 });
 
 

@@ -212,6 +212,15 @@ namespace CostAllocationApp.BLL
             return forecastDAL.GetCellWiseEmployeeApprovedData(year);
         }
 
+        public EmployeeAssignment GetAssignmentDetailsById(int assignmentId, int year)
+        {
+            return forecastDAL.GetAssignmentDetailsById(assignmentId, year);
+        }
+        public List<EmployeeAssignment> GetAllUnapprovalDataForCells(int year)
+        {
+            return forecastDAL.GetAllUnapprovalDataForCells(year);
+        }        
+
         public string GetApproveCellData(int cellNo, string previousCellName, string originalCellName,string approvedCells)
         {
             if (approvedCells.IndexOf(',') > 0)

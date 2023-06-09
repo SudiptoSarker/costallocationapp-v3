@@ -1187,6 +1187,11 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdatePendingCells(employeeAssignments);
         }
+        public int UpdateCellsByAssignmentid(string updatedApprovedCells, string updatePendingCells,int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateCellsByAssignmentid(updatedApprovedCells, updatePendingCells, assignmentId);
+        }
+
         public List<EmployeeAssignment> GetPendingDeleteRows(string assignmentYear)
         {
             return employeeAssignmentDAL.GetPendingDeleteRows(assignmentYear);
@@ -1223,6 +1228,26 @@ namespace CostAllocationApp.BLL
         public bool CheckForUnApprovedRow(string assignementId,bool isDeletedRow)
         {
             return employeeAssignmentDAL.CheckForUnApprovedRow(assignementId, isDeletedRow);
+        }
+        public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)
+        {
+            return employeeAssignmentDAL.GetEmployeeAssignmentForCheckApproval(assignementId);
+        }
+        public int UpdateApprovedRowByAssignmentId(int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateApprovedRowByAssignmentId(assignmentId);
+        }
+        public int UpdateDeletedRowByAssignmentId(int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateDeletedRowByAssignmentId(assignmentId);
+        }
+        public int UpdateUnapprovedPendingRows(int year)
+        {
+            return employeeAssignmentDAL.UpdateUnapprovedPendingRows(year);
+        }
+        public int UpdateUnapprovedPendingDeleteRows(int year)
+        {
+            return employeeAssignmentDAL.UpdateUnapprovedPendingDeleteRows(year);
         }
     }
 }

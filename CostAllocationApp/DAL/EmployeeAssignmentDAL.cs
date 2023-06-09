@@ -713,7 +713,8 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
+                            ,ea.IsRowPending,IsDeletePending
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -770,7 +771,10 @@ namespace CostAllocationApp.DAL
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
                             forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
 
                             //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
                             //{
@@ -1733,7 +1737,8 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
+                            ,ea.IsRowPending,IsDeletePending
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -1786,7 +1791,10 @@ namespace CostAllocationApp.DAL
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
                             forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
                     }
@@ -1826,7 +1834,7 @@ namespace CostAllocationApp.DAL
         public EmployeeAssignment GetPreviousApprovedCells(string assignementId)
         {        
             EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
-            string query = "select BCYRCell,BCYRCellApproved from EmployeesAssignments where  id=" + assignementId;
+            string query = "select BCYRCell,BCYRCellApproved,BCYRCellPending from EmployeesAssignments where  id=" + assignementId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1841,7 +1849,7 @@ namespace CostAllocationApp.DAL
 
                             _employeeAssignments.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
                             _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
-
+                            _employeeAssignments.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                         }
                     }
                 }
@@ -1986,6 +1994,128 @@ namespace CostAllocationApp.DAL
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@bCYRCellPending", employeeAssignments.BCYRCell);
 
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        //Update Approved Cells 
+        public int UpdateCellsByAssignmentid(string updatedApprovedCells, string updatePendingCells, int assignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYRCell=@updatedApprovedCells,BCYRCellPending=@updatePendingCells where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@updatedApprovedCells", updatedApprovedCells);
+                cmd.Parameters.AddWithValue("@updatePendingCells", updatePendingCells);
+                cmd.Parameters.AddWithValue("@id", assignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        
+        //updated approved row
+        public int UpdateApprovedRowByAssignmentId(int assignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set BCYR=0,IsRowPending=0 where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);               
+                cmd.Parameters.AddWithValue("@id", assignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        //updated un-approved row
+        public int UpdateUnapprovedPendingRows(int year)
+        {
+            int result = 0;
+            string query = $@"Update EmployeesAssignments Set BCYR=0,IsRowPending=1 where BCYR=1 and IsActive=1 and Year ={year}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@id", assignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        //updated un-approved Delete row
+        public int UpdateUnapprovedPendingDeleteRows(int year)
+        {
+            int result = 0;
+            string query = $@"Update EmployeesAssignments Set IsDeletePending=1 where (IsActive is null or IsActive=0) and (IsDeleted is null or IsDeleted=0) and Year ={year}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@id", assignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        //updated delete row
+        public int UpdateDeletedRowByAssignmentId(int assignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeesAssignments set IsDeleted=1,IsDeletePending=0 where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", assignmentId);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -2173,6 +2303,7 @@ namespace CostAllocationApp.DAL
 
                             _employeeAssignments.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
                             _employeeAssignments.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            _employeeAssignments.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
 
                         }
                     }
@@ -2194,8 +2325,52 @@ namespace CostAllocationApp.DAL
                     }
                 }
             }
+            if (!string.IsNullOrEmpty(_employeeAssignments.BCYRCellPending))
+            {
+                var arrApprovedPendingCells = _employeeAssignments.BCYRCellPending.Split(',');
+                foreach (var itemCells in arrApprovedPendingCells)
+                {
+                    if (itemCells == selectedCells)
+                    {
+                        isValidData = true;
+                    }
+                }
+            }
             return isValidData;
         }
+
+        public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)
+        {
+            EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            string query = "select * from EmployeesAssignments where  id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            _employeeAssignments.Id = Convert.ToInt32(rdr["Id"]);
+
+                            _employeeAssignments.IsActive = rdr["IsActive"] is DBNull ? "" : rdr["IsActive"].ToString();
+                            _employeeAssignments.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            _employeeAssignments.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);                            
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return _employeeAssignments;            
+        }
+
+
         public bool CheckForUnApprovedRow(string assignementId,bool isDeletedRow)
         {
             EmployeeAssignment _employeeAssignments = new EmployeeAssignment();

@@ -38,6 +38,10 @@ namespace CostAllocationApp.ViewModels
         public bool BCYRApproved { get; set; }
         public string BCYRCellApproved { get; set; }
         public bool IsApproved { get; set; }
+        public string BCYRCellPending { get; set; }
+        public bool IsRowPending { get; set; }
+        public bool IsDeletePending { get; set; }
+
         // for forecast
         public List<ForecastDto> forecasts { get; set; }
 

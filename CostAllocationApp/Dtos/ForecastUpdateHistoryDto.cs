@@ -7,7 +7,7 @@ namespace CostAllocationApp.Dtos
 {
     public class ForecastUpdateHistoryDto
     {
-        public int AssignmentId { get; set; }
+        public string AssignmentId { get; set; }
         //public int Id { get; set; }
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }

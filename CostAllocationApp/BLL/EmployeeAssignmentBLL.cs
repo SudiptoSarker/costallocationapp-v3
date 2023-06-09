@@ -1179,6 +1179,35 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateCellWiseApprovdData(assignmentYear);
         }
+        public List<EmployeeAssignment> GetPendingCells(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingCells(assignmentYear);
+        }        
+        public int UpdatePendingCells(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingCells(employeeAssignments);
+        }
+        public int UpdateCellsByAssignmentid(string updatedApprovedCells, string updatePendingCells,int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateCellsByAssignmentid(updatedApprovedCells, updatePendingCells, assignmentId);
+        }
+
+        public List<EmployeeAssignment> GetPendingDeleteRows(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingDeleteRows(assignmentYear);
+        }
+        public List<EmployeeAssignment> GetPendingAddEmployee(string assignmentYear)
+        {
+            return employeeAssignmentDAL.GetPendingAddEmployee(assignmentYear);
+        }
+        public int UpdatePendingDeleteRows(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingDeleteRows(employeeAssignments);
+        }
+        public int UpdatePendingAddEmployee(EmployeeAssignment employeeAssignments)
+        {
+            return employeeAssignmentDAL.UpdatePendingAddEmployee(employeeAssignments);
+        }
 
         public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year, int monthId)
         {
@@ -1199,6 +1228,26 @@ namespace CostAllocationApp.BLL
         public bool CheckForUnApprovedRow(string assignementId,bool isDeletedRow)
         {
             return employeeAssignmentDAL.CheckForUnApprovedRow(assignementId, isDeletedRow);
+        }
+        public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)
+        {
+            return employeeAssignmentDAL.GetEmployeeAssignmentForCheckApproval(assignementId);
+        }
+        public int UpdateApprovedRowByAssignmentId(int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateApprovedRowByAssignmentId(assignmentId);
+        }
+        public int UpdateDeletedRowByAssignmentId(int assignmentId)
+        {
+            return employeeAssignmentDAL.UpdateDeletedRowByAssignmentId(assignmentId);
+        }
+        public int UpdateUnapprovedPendingRows(int year)
+        {
+            return employeeAssignmentDAL.UpdateUnapprovedPendingRows(year);
+        }
+        public int UpdateUnapprovedPendingDeleteRows(int year)
+        {
+            return employeeAssignmentDAL.UpdateUnapprovedPendingDeleteRows(year);
         }
     }
 }

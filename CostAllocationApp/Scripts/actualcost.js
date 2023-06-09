@@ -4,6 +4,7 @@ var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
 
+
 const channel = new BroadcastChannel("actualCost");
 
 
@@ -281,40 +282,40 @@ function LoadJexcel() {
                 jexcelSecondHeaderRow.css('top', '20px');
 
                 var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-                octElement.append('<button id="oct_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                octElement.append('<button id="oct_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-                novElement.append('<button id="nov_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                novElement.append('<button id="nov_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var decElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13)');
-                decElement.append('<button id="dec_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                decElement.append('<button id="dec_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var janElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14)');
-                janElement.append('<button id="jan_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                janElement.append('<button id="jan_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var febElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
-                febElement.append('<button id="feb_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                febElement.append('<button id="feb_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var marElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16)');
-                marElement.append('<button id="mar_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                marElement.append('<button id="mar_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var aprElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17)');
-                aprElement.append('<button id="apr_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                aprElement.append('<button id="apr_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var mayElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18)');
-                mayElement.append('<button id="may_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                mayElement.append('<button id="may_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var junElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19)');
-                junElement.append('<button id="jun_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                junElement.append('<button id="jun_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var julElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20)');
-                julElement.append('<button id="jul_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                julElement.append('<button id="jul_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var augElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21)');
-                augElement.append('<button id="aug_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                augElement.append('<button id="aug_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 var sepElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22)');
-                sepElement.append('<button id="sep_btn"  style="display:inline-block;margin-left: 10px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+                sepElement.append('<button id="sep_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
                 $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                     $('.search_p').css('display', 'block');
@@ -322,6 +323,7 @@ function LoadJexcel() {
                     $('.search_p').fadeIn("slow");
                 });
 
+               
                 $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) #oct_btn').on('click', function () {
                     $('#oct_btn').empty();
                     $('#oct_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
@@ -382,9 +384,107 @@ function LoadJexcel() {
                     $('#sep_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
                     window.open('/Forecasts/ActualCostConfirm?month=9&year=' + year, '_blank');
                 });
+                
+                var octTotalSum = 0;
+                var novTotalSum = 0;
+                var decTotalSum = 0;
+                var janTotalSum = 0;
+                var febTotalSum = 0;
+                var marTotalSum = 0;
+                var aprTotalSum = 0;
+                var mayTotalSum = 0;
+                var junTotalSum = 0;
+                var julTotalSum = 0;
+                var augTotalSum = 0;
+                var sepTotalSum = 0;
+                
+                var allData = jss.getData();
+                console.log(allData);
+                for (let i = 0; i < allData.length-1; i++) {
+                    octTotalSum += allData[i][9] == '' ? 0 : parseFloat(allData[i][9]);
+                    novTotalSum += allData[i][10] == '' ? 0 : parseFloat(allData[i][10]);
+                    decTotalSum += allData[i][11] == '' ? 0 : parseFloat(allData[i][11]);
+                    janTotalSum += allData[i][12] == '' ? 0 : parseFloat(allData[i][12]);
+                    febTotalSum += allData[i][13] == '' ? 0 : parseFloat(allData[i][13]);
+                    marTotalSum += allData[i][14] == '' ? 0 : parseFloat(allData[i][14]);
+                    aprTotalSum += allData[i][15] == '' ? 0 : parseFloat(allData[i][15]);
+                    mayTotalSum += allData[i][16] == '' ? 0 : parseFloat(allData[i][16]);
+                    junTotalSum += allData[i][17] == '' ? 0 : parseFloat(allData[i][17]);
+                    julTotalSum += allData[i][18] == '' ? 0 : parseFloat(allData[i][18]);
+                    augTotalSum += allData[i][19] == '' ? 0 : parseFloat(allData[i][19]);
+                    sepTotalSum += allData[i][20] == '' ? 0 : parseFloat(allData[i][20]);
+
+                    if (i == allData.length - 2) {
+                        if (octTotalSum > 0) {
+                            $('#oct_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#oct_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (novTotalSum > 0) {
+                            $('#nov_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#nov_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (decTotalSum > 0) {
+                            $('#dec_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#dec_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (janTotalSum > 0) {
+                            $('#jan_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#jan_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (febTotalSum > 0) {
+                            $('#feb_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#feb_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (marTotalSum > 0) {
+                            $('#mar_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#mar_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (aprTotalSum > 0) {
+                            $('#apr_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#apr_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (mayTotalSum > 0) {
+                            $('#may_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#may_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (junTotalSum > 0) {
+                            $('#jun_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#jun_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (julTotalSum > 0) {
+                            $('#jul_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#jul_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (augTotalSum > 0) {
+                            $('#aug_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#aug_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                        if (sepTotalSum > 0) {
+                            $('#sep_btn').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                        } else {
+                            $('#sep_btn').html('<i class="fa fa-caret-right" aria-hidden="true"></i>');
+                        }
+                    }
+
+                }
+
             }
         });
     }, 3000);
+
+
+
 
 }
 
@@ -411,18 +511,6 @@ function ColumnOrder(columnNumber,orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-//function GetEmployeeName() {
-//    var data = [];
-//    $("#search_p_search input:checkbox[name=employeename]:checked").each(function () {
-//        data.push($(this).val());
-//    });
-
-    // jss.search(data[0]);
-    // $("#hider").fadeOut("slow");
-    // $('.search_p').fadeOut("slow");
-    // $('#search_p_text_box').val('');
-
-// $("#actual_cost_table_header").hide();
 $(document).ready(function () {
     channel.addEventListener("message", e => {
         LoadJexcel();
@@ -449,21 +537,6 @@ $(document).ready(function () {
     });
 
     
-
-    //$('#search_p_text_box').on('keyup',function () {
-    //    var name = $(this).val();
-    //    console.log(allEmployeeName1);
-    //    if (allEmployeeName1.length > 0) {
-    //        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
-
-    //        data.sort();
-
-    //        $('#search_p_search').empty();
-    //        $.each(data, function (index, value) {
-    //            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-    //        });
-    //    }
-    //});
 
     $("#hider").hide();
     $(".search_p").hide();

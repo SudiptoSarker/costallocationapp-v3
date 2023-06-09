@@ -45,7 +45,7 @@
                 <div class="col-sm">                    
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;margin-left:-7px;background-color: red !important;,color:white;">Approve Cancel</button>
+                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;margin-left:-7px;background-color: red !important;,color:white;">取消(undo)</button>
                 </div>
                 <div class="col-sm">
                     <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:3px;background-color: Blue !important;">承認(Approve)</button>
@@ -132,6 +132,10 @@
 <input type="hidden" id="hid_IsRowSelected" />
 <input type="hidden" id="hid_SelectedCellPosition" />
 <input type="hidden" id="selectCellNumber" />
+
+<input type="hidden" id="all_selected_cells" />
+<input type="hidden" id="all_selected_row_for_approve" />
+
 
 
 <div class="search_p">

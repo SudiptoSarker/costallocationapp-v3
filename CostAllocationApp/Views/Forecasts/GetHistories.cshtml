@@ -64,8 +64,8 @@
                 <h5 class="modal-title" id="modal_change_history_label">
                     変更履歴
                 </h5>
-
-                <button type="button" class="btn btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btn_export_change_history_data">
+                
+                @* <button type="button" class="btn btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="btn_export_change_history_data">
                     <span class="svg-icon svg-icon-2">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect opacity="0.3" width="12" height="2" rx="1" transform="matrix(0 -1 -1 0 12.75 19.75)" fill="currentColor"></rect>
@@ -74,7 +74,7 @@
                         </svg>
                     </span>
                     Export History
-                </button>
+                </button> *@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -159,6 +159,9 @@
 
     </div>
 </div>
+
+<div id="jspreadsheet" style="display: none;"></div>
+
 <input type="hidden" id="forecast_history" value="">
 <input type="hidden" id="hidTimeStampid" value="">
 

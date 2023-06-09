@@ -1593,6 +1593,83 @@ namespace CostAllocationApp.DAL
             return assignmentHistories;
         }
 
+        public EmployeeAssignment GetAssignmentDetailsById(int assignmentId,int year)
+        {
+            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+            string query = "";
+            query = "select * from EmployeesAssignments where Id="+ assignmentId + " and year= "+year;            
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+
+
+                            employeeAssignment.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            employeeAssignment.IsActive = rdr["IsActive"] is DBNull ? "" : rdr["IsActive"].ToString();
+                            employeeAssignment.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);
+
+                            employeeAssignment.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            employeeAssignment.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return employeeAssignment;
+        }
+
+        public List<EmployeeAssignment> GetAllUnapprovalDataForCells(int year)
+        {
+            List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
+
+            string query = "";
+            query = "select * from EmployeesAssignments where(BCYRCell is not null and BCYRCell <> '') Or(BCYRCellPending is not null and BCYRCellPending <> '') and BCYR<> 1 and IsActive = 1 and Year =" +year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                            employeeAssignment.Id = Convert.ToInt32(rdr["Id"]);
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+
+                            employeeAssignments.Add(employeeAssignment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return employeeAssignments;
+        }
+
         public int ApproveHistory_CellWise(AssignmentHistory assignmentHistory, int timeStampId, bool isCellWiseHistory)
         {
             int result = 0;

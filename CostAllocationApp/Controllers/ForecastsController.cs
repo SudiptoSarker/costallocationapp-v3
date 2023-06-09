@@ -604,7 +604,7 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Forecasts/DownloadHistoryData/")]
         public ActionResult DownloadHistoryData(int timeStampId)
         {

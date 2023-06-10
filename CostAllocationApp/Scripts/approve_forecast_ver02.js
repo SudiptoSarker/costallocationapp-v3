@@ -202,40 +202,43 @@ $(document).ready(function () {
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('Select valid year!!!');
             return false;
-        }     
+        }  
+        
+        var approvedCells = $("#all_selected_cells").val(); 
+        var approvedRows = $("#all_selected_row_for_approve").val();
+
         var approvePromptValue = prompt("Approve History Save As", '');
-        //$("#timeStamp_ForUpdateData").val('');
-        if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
-            return false;
-        }else{
-            // LoaderShowJexcel();        
-            LoaderShow();        
-            var dateObj = new Date();
-            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-            var day = dateObj.getDate();
-            var year = dateObj.getUTCFullYear();    
-            var miliSeconds= dateObj.getMilliseconds();    
-            var timestamp = `${year}${month}${day}${miliSeconds}_`; 
-            var approvedCells = $("#all_selected_cells").val(); 
-            var approvedRows = $("#all_selected_row_for_approve").val();
-            $.ajax({
-                url: `/api/utilities/UpdateApprovedData`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: true,
-                dataType: 'json',
-                data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows,
-                success: function (data) {
-                    if(data==1){
-                        //alert("Operation Success.")                    
-                        ShowForecastResults(assignmentYear);
-                    }else{
-                        LoaderHide();
-                        alert("There is no approved data to save!")
+            //$("#timeStamp_ForUpdateData").val('');
+            if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
+                return false;
+            }else{
+                // LoaderShowJexcel();        
+                LoaderShow();        
+                var dateObj = new Date();
+                var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                var day = dateObj.getDate();
+                var year = dateObj.getUTCFullYear();    
+                var miliSeconds= dateObj.getMilliseconds();    
+                var timestamp = `${year}${month}${day}${miliSeconds}_`; 
+                
+                $.ajax({
+                    url: `/api/utilities/UpdateApprovedData`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    dataType: 'json',
+                    data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows,
+                    success: function (data) {
+                        if(data==1){
+                            //alert("Operation Success.")                    
+                            ShowForecastResults(assignmentYear);
+                        }else{
+                            LoaderHide();
+                            alert("There is no approved data to save!")
+                        }
                     }
-                }
-            });  
-        }                 
+                });  
+            }               
     });
 
     $('#approve_forecast_data').on('click', function () {
@@ -354,8 +357,8 @@ $(document).ready(function () {
                             } 
                             if(isApprovedCellColorChanged){
                                 var assignmentYear = $('#assignment_year_list').val();                            
-                                var cellNo = $("#selectCellNumber").val();
-                                SetCellWiseColor(cellNo)                                                                              
+                                var cellNo = $("#selectCellNumber").val();                                                                
+                                SetCellWiseColor(cellNo);       
                             }
                         }
                         else{
@@ -413,42 +416,23 @@ $(document).ready(function () {
                     $("#all_selected_row_for_approve").val(restoreApproveCells);   
                     var rowNumber = $("#hidSelectedRowNumber").val();
                     if(isDeleted =='true'){
-                        SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
+                        var selectRowIsPendingForApproval = $("#pending_selected_row").val();
+                        if(selectRowIsPendingForApproval =='true'){
+                            SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
+                        }else{
+                            SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
+                        }                        
                     }else{
-                        SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
+                        var deletedRowIsPendingForApproval = $("#pending_selected_deleted_row").val();
+                        if(deletedRowIsPendingForApproval =='true'){
+                            SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
+                        }else{
+                            SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
+                        }                          
                     }
                     $("#hidSelectedRow_AssignementId").val("");
                     $("#hidIsRowDeleted").val("");
-                }
-
-                // $.ajax({
-                //     url: `/api/utilities/UnApprovedForecastData`,
-                //     contentType: 'application/json',
-                //     type: 'GET',
-                //     async: true,
-                //     dataType: 'json',
-                //     data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-                //     success: function (data) {
-                //         if(data==1){
-                //             var rowNumber = $("#hidSelectedRowNumber").val();
-                //             if(isDeleted =='true'){
-                //                 SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
-                //                 //SetRowColor(parseInt(rowNumber)+1);
-                //             }else{
-                //                 SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
-                //             }
-                //             $("#hidSelectedRow_AssignementId").val("");
-                //             $("#hidIsRowDeleted").val("");
-                //             // LoaderHide();
-                //             // alert("Operation Success.")
-                //         }
-                //         else{
-                //             // LoaderHide();
-                //             alert("There is no data to approved!")
-                //         }
-                //         //_retriveddata = data;
-                //     }
-                // });       
+                }                  
             }else{
                 //un approve cells
                 var approvedCells = $("#all_selected_cells").val();   
@@ -474,8 +458,23 @@ $(document).ready(function () {
                     alert("There is no data to approved!");
                 }else{
                     $("#all_selected_cells").val(restoreApproveCells);   
-                    var cellNo = $("#selectCellNumber").val();                    
-                    SetCellWiseColor_ForUnApproved(cellNo)
+                    var cellNo = $("#selectCellNumber").val();    
+                    
+                    var pendingCells = $("#pending_cells_selected_cells").val();
+                    var arrPendingCells = pendingCells.split(',');        
+                    var isPendingCells = false;
+                    $.each(arrPendingCells, function (nextedIndex, nestedValue) { 
+                        if(selectedCells == nestedValue){
+                            isPendingCells = true;  
+                        }
+                    }); 
+                    if(isPendingCells){
+                        SetRowColor_PendingCells(cellNo) ;
+                    }
+                    else{
+                        SetCellWiseColor_ForUnApproved(cellNo);                                                                              
+                    }                
+                    //SetCellWiseColor_ForUnApproved(cellNo)
                 }
 
                 // $.ajax({
@@ -2554,6 +2553,11 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
     $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+    $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+
+    $("#pending_selected_row").val(retrivedData.isRowPending);
+    $("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
+     
     $("#hid_SelectedCellPosition").val(x1);
     $("#selectCellNumber").val(cellName1);
 
@@ -3864,6 +3868,7 @@ function SetRowColor_ForDeletedRow(insertedRowNumber){
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
 }
+
 function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle("A"+insertedRowNumber,"background-color", "white");
     jss.setStyle("A"+insertedRowNumber,"color", "black");
@@ -3938,6 +3943,7 @@ function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "white");
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
 }
+
 function SetRowColor_ApprovedRow(insertedRowNumber){
     jss.setStyle("A"+insertedRowNumber,"background-color", "LightBlue");
     jss.setStyle("A"+insertedRowNumber,"color", "red");
@@ -4316,4 +4322,12 @@ function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "red");
     jss.setStyle("A"+insertedRowNumber,"color", "black");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+}
+
+
+function SetRowColor_PendingCells(cellName){
+    $(jss.getCell(cellName)).removeClass('readonly');
+    jss.setStyle(cellName,"background-color", "red");
+    jss.setStyle(cellName,"color", "black");    
+    $(jss.getCell(cellName)).addClass('readonly');    
 }

@@ -3683,13 +3683,9 @@ namespace CostAllocationApp.Controllers.Api
                         updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
                     }
                     //new row approved and deleted row approved: end                    
-                }                           
+                }                
             }
-            //update all the un-approved row data.
-            int unapprovedRowResults = employeeAssignmentBLL.UpdateUnapprovedPendingRows(Convert.ToInt32(assignmentYear));
-            //update all the un-approved deleted data.
-            int unapprovedDeleteResults = employeeAssignmentBLL.UpdateUnapprovedPendingDeleteRows(Convert.ToInt32(assignmentYear));
-            //row wise update: end
+
 
             //update cells: start
             if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
@@ -3749,29 +3745,42 @@ namespace CostAllocationApp.Controllers.Api
                             results = 1;
                         }
                     }
-                }
-            }
+                }                
+            }        
+            //update cells: end
 
-            List<EmployeeAssignment> employeeAssignments = forecastBLL.GetAllUnapprovalDataForCells(Convert.ToInt32(assignmentYear));
-            if (employeeAssignments.Count > 0) { 
-                foreach(var updateItem in employeeAssignments)
+            //cells and row/delete pending data update
+            if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId) || !string.IsNullOrEmpty(approvedRows))
+            {
+                //update all the un-approved row data.
+                int unapprovedRowResults = employeeAssignmentBLL.UpdateUnapprovedPendingRows(Convert.ToInt32(assignmentYear));
+                //update all the un-approved deleted data.
+                int unapprovedDeleteResults = employeeAssignmentBLL.UpdateUnapprovedPendingDeleteRows(Convert.ToInt32(assignmentYear));
+                //row wise update: end
+
+                //pending cell update
+                List<EmployeeAssignment> employeeAssignments = forecastBLL.GetAllUnapprovalDataForCells(Convert.ToInt32(assignmentYear));
+                if (employeeAssignments.Count > 0)
                 {
-                    string udpatePendingCellsAfterSave = "";
-                    if (!string.IsNullOrEmpty(updateItem.BCYRCell))
+                    foreach (var updateItem in employeeAssignments)
                     {
-                        if (!string.IsNullOrEmpty(updateItem.BCYRCellPending))
+                        string udpatePendingCellsAfterSave = "";
+                        if (!string.IsNullOrEmpty(updateItem.BCYRCell))
                         {
-                            udpatePendingCellsAfterSave = updateItem.BCYRCellPending + "," + updateItem.BCYRCell;
+                            if (!string.IsNullOrEmpty(updateItem.BCYRCellPending))
+                            {
+                                udpatePendingCellsAfterSave = updateItem.BCYRCellPending + "," + updateItem.BCYRCell;
+                            }
+                            else
+                            {
+                                udpatePendingCellsAfterSave = updateItem.BCYRCell;
+                            }
+                            updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid("", udpatePendingCellsAfterSave, updateItem.Id);
                         }
-                        else
-                        {
-                            udpatePendingCellsAfterSave = updateItem.BCYRCell;
-                        }
-                        updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid("", udpatePendingCellsAfterSave, updateItem.Id);
                     }
                 }
+
             }
-            //update cells: end
 
             List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
             _assignmentHistorys_CellWise = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(assignmentYear));

@@ -942,497 +942,498 @@ function ShowForecastResults(year) {
         ],
         minDimensions: [6, 10],
         columnSorting: true,
-        onbeforechange: function (instance, cell, x, y, value) {
+        // onbeforechange: function (instance, cell, x, y, value) {
 
-            //alert(value);
-            if (x == 11) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 12) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 13) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 14) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 15) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 16) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 17) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 18) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 19) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 20) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 21) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 22) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-        },
-        onchange: function (instance, cell, x, y, value) {
-            //debugger;
-            var checkId = jss.getValueFromCoords(0, y);
-            var employeeId = jss.getValueFromCoords(35, y);
+        //     //alert(value);
+        //     if (x == 11) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 12) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 13) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 14) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 15) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 16) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 17) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 18) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 19) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 20) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 21) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 22) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        // },
+        
+        // onchange: function (instance, cell, x, y, value) {
+        //     //debugger;
+        //     var checkId = jss.getValueFromCoords(0, y);
+        //     var employeeId = jss.getValueFromCoords(35, y);
 
-            if (checkId == null || checkId == '' || checkId == undefined) {
+        //     if (checkId == null || checkId == '' || checkId == undefined) {
 
-                var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-                retrivedData.assignmentId = "new-" + newRowCount;
+        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
+        //         retrivedData.assignmentId = "new-" + newRowCount;
 
-                jssInsertedData.push(retrivedData);
-                newRowCount++;
-                jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-                jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
-            }
-            else {
-                var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-                if (retrivedData.assignmentId.toString().includes('new')) {
-                    updateArrayForInsert(jssInsertedData, retrivedData);
-                }
-                else {
-                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                    if (x == 2) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
-                    }
-                    if (x == 3) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 4) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 5) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 6) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 7) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 8) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 9) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 11) {
-                        var octSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                octSum += parseFloat(value.childNodes[12].innerText);
-                            }
+        //         jssInsertedData.push(retrivedData);
+        //         newRowCount++;
+        //         jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
+        //         jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+        //     }
+        //     else {
+        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
+        //         if (retrivedData.assignmentId.toString().includes('new')) {
+        //             updateArrayForInsert(jssInsertedData, retrivedData);
+        //         }
+        //         else {
+        //             var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+        //             if (x == 2) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
+        //             }
+        //             if (x == 3) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 4) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 5) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 6) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 7) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 8) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 9) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 11) {
+        //                 var octSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         octSum += parseFloat(value.childNodes[12].innerText);
+        //                     }
 
-                        });
+        //                 });
 
-                        if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-                            octSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+        //                     octSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                        }
-                        else {
+        //                 }
+        //                 else {
 
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
+        //                         updateArray(jssUpdatedData, retrivedData);
+        //                     }
 
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
 
-                    }
-                    if (x == 12) {
-                        var novSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                novSum += parseFloat(value.childNodes[13].innerText);
-                            }
+        //             }
+        //             if (x == 12) {
+        //                 var novSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         novSum += parseFloat(value.childNodes[13].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
-                            novSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
+        //                     novSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 13) {
-                        var decSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                decSum += parseFloat(value.childNodes[14].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 13) {
+        //                 var decSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         decSum += parseFloat(value.childNodes[14].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
-                            decSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
+        //                     decSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 14) {
-                        var janSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                janSum += parseFloat(value.childNodes[15].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 14) {
+        //                 var janSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         janSum += parseFloat(value.childNodes[15].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
-                            janSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
+        //                     janSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 15) {
-                        var febSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                febSum += parseFloat(value.childNodes[16].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 15) {
+        //                 var febSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         febSum += parseFloat(value.childNodes[16].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
-                            febSum = 1;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
+        //                     febSum = 1;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 16) {
-                        var marSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                marSum += parseFloat(value.childNodes[17].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 16) {
+        //                 var marSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         marSum += parseFloat(value.childNodes[17].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
-                            marSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
+        //                     marSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 17) {
-                        var aprSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                aprSum += parseFloat(value.childNodes[18].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 17) {
+        //                 var aprSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         aprSum += parseFloat(value.childNodes[18].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
-                            aprSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
+        //                     aprSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 18) {
-                        var maySum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                maySum += parseFloat(value.childNodes[19].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 18) {
+        //                 var maySum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         maySum += parseFloat(value.childNodes[19].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 19) {
-                        var junSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                junSum += parseFloat(value.childNodes[20].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 19) {
+        //                 var junSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         junSum += parseFloat(value.childNodes[20].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
-                            junSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
+        //                     junSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 20) {
-                        var julSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                julSum += parseFloat(value.childNodes[21].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 20) {
+        //                 var julSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         julSum += parseFloat(value.childNodes[21].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 21) {
-                        var augSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                augSum += parseFloat(value.childNodes[22].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 21) {
+        //                 var augSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         augSum += parseFloat(value.childNodes[22].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
-                            augSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
+        //                     augSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 22) {
-                        var sepSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                sepSum += parseFloat(value.childNodes[23].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 22) {
+        //                 var sepSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         sepSum += parseFloat(value.childNodes[23].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
-                            sepSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
+        //                     sepSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //         }
 
-            }
+        //     }
 
-        },
+        // },
         oninsertrow: newRowInserted,
         ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {            
@@ -2661,41 +2662,44 @@ function retrivedObject(rowData) {
 }
 
 function retrivedObject_ApprovalData(rowData) {
-    return {
-        assignmentId: rowData[0],
-        employeeName: rowData[1],
-        remarks: rowData[2],
-        employeeId: rowData[35],
-        sectionId: rowData[3],
-        departmentId: rowData[4],
-        inchargeId: rowData[5],
-        roleId: rowData[6],
-        explanationId: rowData[7],
-        companyId: rowData[8],
-        gradeId: rowData[9],
-        unitPrice: parseFloat(rowData[10]),
-        octPoint: parseFloat(rowData[11]),
-        novPoint: parseFloat(rowData[12]),
-        decPoint: parseFloat(rowData[13]),
-        janPoint: parseFloat(rowData[14]),
-        febPoint: parseFloat(rowData[15]),
-        marPoint: parseFloat(rowData[16]),
-        aprPoint: parseFloat(rowData[17]),
-        mayPoint: parseFloat(rowData[18]),
-        junPoint: parseFloat(rowData[19]),
-        julPoint: parseFloat(rowData[20]),
-        augPoint: parseFloat(rowData[21]),
-        sepPoint: parseFloat(rowData[22]),
-        year: document.getElementById('assignment_year_list').value,
-        bcyr: rowData[36],
-        bCYRApproved: rowData[37],
-        isActive: rowData[39],
-        BCYRCellApproved: rowData[40],
-        isApproved: rowData[41],
-        bCYRCellPending: rowData[42],
-        isRowPending: rowData[43],
-        isDeletePending: rowData[44]
-    };
+    if(typeof rowData != "undefined"){
+        return {
+            assignmentId: rowData[0],
+            employeeName: rowData[1],
+            remarks: rowData[2],
+            employeeId: rowData[35],
+            sectionId: rowData[3],
+            departmentId: rowData[4],
+            inchargeId: rowData[5],
+            roleId: rowData[6],
+            explanationId: rowData[7],
+            companyId: rowData[8],
+            gradeId: rowData[9],
+            unitPrice: parseFloat(rowData[10]),
+            octPoint: parseFloat(rowData[11]),
+            novPoint: parseFloat(rowData[12]),
+            decPoint: parseFloat(rowData[13]),
+            janPoint: parseFloat(rowData[14]),
+            febPoint: parseFloat(rowData[15]),
+            marPoint: parseFloat(rowData[16]),
+            aprPoint: parseFloat(rowData[17]),
+            mayPoint: parseFloat(rowData[18]),
+            junPoint: parseFloat(rowData[19]),
+            julPoint: parseFloat(rowData[20]),
+            augPoint: parseFloat(rowData[21]),
+            sepPoint: parseFloat(rowData[22]),
+            year: document.getElementById('assignment_year_list').value,
+            bcyr: rowData[36],
+            bCYRApproved: rowData[37],
+            isActive: rowData[39],
+            BCYRCellApproved: rowData[40],
+            isApproved: rowData[41],
+            bCYRCellPending: rowData[42],
+            isRowPending: rowData[43],
+            isDeletePending: rowData[44]
+        };
+    }
+    
 }
 
 function DeleteRecords() {

@@ -1148,7 +1148,7 @@ namespace CostAllocationApp.Controllers.Api
             if (!isDeletedRow)
             {
                 //check for delete
-                if (!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted)
+                if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
                 {
                     return Ok(1);
                 }
@@ -1160,7 +1160,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 //check for add row data       
-                if (_employeeAssignment.BCYR)
+                if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
                 {
                     return Ok(1);
                 }
@@ -3674,11 +3674,11 @@ namespace CostAllocationApp.Controllers.Api
                     EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(approvedRowId), Convert.ToInt32(assignmentYear));
                     
                     //new row approved and deleted row approved: start
-                    if (employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive))
+                    if ((employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive)) || employeeAssignment.IsRowPending)
                     {
                         updateResults = employeeAssignmentBLL.UpdateApprovedRowByAssignmentId(Convert.ToInt32(approvedRowId));
                     }
-                    else if (!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted)
+                    else if ((!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted) || employeeAssignment.IsDeletePending)
                     {
                         updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
                     }

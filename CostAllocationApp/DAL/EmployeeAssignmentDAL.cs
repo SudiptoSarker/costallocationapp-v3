@@ -2358,7 +2358,10 @@ namespace CostAllocationApp.DAL
 
                             _employeeAssignments.IsActive = rdr["IsActive"] is DBNull ? "" : rdr["IsActive"].ToString();
                             _employeeAssignments.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
-                            _employeeAssignments.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);                            
+                            _employeeAssignments.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);
+
+                            _employeeAssignments.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            _employeeAssignments.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
                         }
                     }
                 }

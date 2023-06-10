@@ -207,9 +207,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetDeleteEmployeeApprovedData(assignmentId);
         }
-        public List<AssignmentHistory> GetCellWiseEmployeeApprovedData(int year)
+        public AssignmentHistory GetCellWiseEmployeeApprovedData(int assignmentId,int year,int cellNo)
         {
-            return forecastDAL.GetCellWiseEmployeeApprovedData(year);
+            return forecastDAL.GetCellWiseEmployeeApprovedData(assignmentId,year, cellNo);
         }
 
         public EmployeeAssignment GetAssignmentDetailsById(int assignmentId, int year)

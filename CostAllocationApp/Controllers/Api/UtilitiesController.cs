@@ -3696,6 +3696,9 @@ namespace CostAllocationApp.Controllers.Api
 
             string approvedCellAssignmentId = "";
             string approvedCellNo = "";
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
+            //_assignmentHistorys_CellWise = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            
             //update cells: start
             if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
             {
@@ -3709,6 +3712,35 @@ namespace CostAllocationApp.Controllers.Api
                         string updatePendingCells = "";
 
                         EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear));
+
+                        //cell wise history
+                        AssignmentHistory assignmentHistory_cell = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear), Convert.ToInt32(arrCellAndAssignmentId[1]));
+
+                        if (_assignmentHistorys_CellWise.Count > 0)
+                        {
+                            string tempCellNo = "";
+
+                            foreach (var checkSameAssignmentId in _assignmentHistorys_CellWise)
+                            {
+                                if (checkSameAssignmentId.Id == assignmentHistory_cell.Id)
+                                {
+                                    if (!string.IsNullOrEmpty(checkSameAssignmentId.ApprovedCells))
+                                    {
+                                        tempCellNo = checkSameAssignmentId.ApprovedCells + "," + assignmentHistory_cell.ApprovedCells;
+                                        checkSameAssignmentId.ApprovedCells = tempCellNo;
+                                    }
+                                }
+                            }
+                            if (string.IsNullOrEmpty(tempCellNo))
+                            {
+                                _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
+                            }
+                        }
+                        else
+                        {
+                            _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
+                        }                        
+                        
 
                         if (string.IsNullOrEmpty(approvedCellAssignmentId))
                         {

@@ -1531,13 +1531,12 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public List<AssignmentHistory> GetCellWiseEmployeeApprovedData(int year)
+        public AssignmentHistory GetCellWiseEmployeeApprovedData(int assignmentId, int year, int cellNo)
         {
-            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+            AssignmentHistory assignmentHistorie = new AssignmentHistory();
 
             string query = "";
-            query = "select* from EmployeesAssignments ";
-            query = query + " where BCYRCellApproved is not null and BCYRCellApproved !='' and BCYRCellApproved !='0' and Year= " + year;
+            query = "select* from EmployeesAssignments Where Id="+assignmentId +" and Year="+year;            
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -1550,8 +1549,6 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
-
                             assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
                             assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
                             assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
@@ -1566,14 +1563,12 @@ namespace CostAllocationApp.DAL
                             assignmentHistorie.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
                             assignmentHistorie.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
                             assignmentHistorie.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
-                            assignmentHistorie.ApprovedCells = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            assignmentHistorie.ApprovedCells = cellNo.ToString();
 
                             if (!string.IsNullOrEmpty(assignmentHistorie.Id.ToString()))
                             {
                                 assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
-                            }
-
-                            assignmentHistories.Add(assignmentHistorie);
+                            }                            
                         }
                     }
                 }
@@ -1582,7 +1577,7 @@ namespace CostAllocationApp.DAL
                 }
             }
 
-            return assignmentHistories;
+            return assignmentHistorie;
         }
 
         public EmployeeAssignment GetAssignmentDetailsById(int assignmentId,int year)

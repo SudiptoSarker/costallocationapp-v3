@@ -1353,13 +1353,12 @@ namespace CostAllocationApp.DAL
             return finalResults;            
         }
 
-        public List<AssignmentHistory> GetAddEmployeeApprovedData(int year)
+        public AssignmentHistory GetAddEmployeeApprovedData(int assignmentId)
         {
-            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+            AssignmentHistory assignmentHistorie = new AssignmentHistory();
 
             string query = "";
-            query = "select* from EmployeesAssignments ";
-            query = query + " where BCYR = 1 and BCYRApproved = 1  and Year = " + year;
+            query = "select* from EmployeesAssignments where Id="+ assignmentId;            
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -1371,9 +1370,7 @@ namespace CostAllocationApp.DAL
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {
-                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
-
+                        {                            
                             assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
                             assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
                             assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
@@ -1394,7 +1391,6 @@ namespace CostAllocationApp.DAL
                                 assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
                             }
 
-                            assignmentHistories.Add(assignmentHistorie);
                         }
                     }
                 }
@@ -1404,7 +1400,7 @@ namespace CostAllocationApp.DAL
                 }
             }
 
-            return assignmentHistories;
+            return assignmentHistorie;
         }
 
         public int ApproveHistory_AddEmployee(AssignmentHistory assignmentHistory, int timeStampId, bool isAddEmployee)
@@ -1446,13 +1442,12 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public List<AssignmentHistory> GetDeleteEmployeeApprovedData(int year)
+        public AssignmentHistory GetDeleteEmployeeApprovedData(int assignmentId)
         {
-            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+            AssignmentHistory assignmentHistorie = new AssignmentHistory();
 
             string query = "";
-            query = "select* from EmployeesAssignments ";
-            query = query + " where IsActive =0 and BCYRApproved=1 and (IsDeleted is null Or  IsDeleted=0 ) and Year= " + year;
+            query = "select* from EmployeesAssignments Where Id="+ assignmentId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -1464,9 +1459,7 @@ namespace CostAllocationApp.DAL
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {
-                            AssignmentHistory assignmentHistorie = new AssignmentHistory();
-
+                        {                           
                             assignmentHistorie.Id = Convert.ToInt32(rdr["Id"]);
                             assignmentHistorie.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
                             assignmentHistorie.SectionId = rdr["SectionId"] is DBNull ? "" : rdr["SectionId"].ToString();
@@ -1487,7 +1480,6 @@ namespace CostAllocationApp.DAL
                                 assignmentHistorie.MonthId_Points = GetForecastDataForHistory(assignmentHistorie.Id);
                             }
 
-                            assignmentHistories.Add(assignmentHistorie);
                         }
                     }
                 }
@@ -1497,7 +1489,7 @@ namespace CostAllocationApp.DAL
                 }
             }
 
-            return assignmentHistories;
+            return assignmentHistorie;
         }
 
         public int ApproveHistory_DeleteEmployee(AssignmentHistory assignmentHistory, int timeStampId, bool isDeleteEmployee)

@@ -206,8 +206,9 @@ $(document).ready(function () {
         
         var approvedCells = $("#all_selected_cells").val(); 
         var approvedRows = $("#all_selected_row_for_approve").val();
-
-        var approvePromptValue = prompt("Approve History Save As", '');
+        
+        if ((approvedCells != null && approvedCells != undefined && approvedCells != "") || (approvedRows != null && approvedRows != undefined && approvedRows != "")){
+            var approvePromptValue = prompt("Approve History Save As", '');
             //$("#timeStamp_ForUpdateData").val('');
             if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
                 return false;
@@ -230,7 +231,9 @@ $(document).ready(function () {
                     data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows,
                     success: function (data) {
                         if(data==1){
-                            //alert("Operation Success.")                    
+                            $("#all_selected_cells").val(''); 
+                            $("#all_selected_row_for_approve").val('');
+                                  
                             ShowForecastResults(assignmentYear);
                         }else{
                             LoaderHide();
@@ -238,7 +241,10 @@ $(document).ready(function () {
                         }
                     }
                 });  
-            }               
+            }       
+        }else{
+            alert("There is no data to approve!");
+        }        
     });
 
     $('#approve_forecast_data').on('click', function () {

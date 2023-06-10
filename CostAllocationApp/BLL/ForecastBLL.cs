@@ -199,13 +199,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateApprovetHistory(approveTimeStampId, year, createdBy, _assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
         }
-        public List<AssignmentHistory> GetAddEmployeeApprovedData(int year)
+        public AssignmentHistory GetAddEmployeeApprovedData(int assignmentId)
         {
-            return forecastDAL.GetAddEmployeeApprovedData(year);
+            return forecastDAL.GetAddEmployeeApprovedData(assignmentId);
         }
-        public List<AssignmentHistory> GetDeleteEmployeeApprovedData(int year)
+        public AssignmentHistory GetDeleteEmployeeApprovedData(int assignmentId)
         {
-            return forecastDAL.GetDeleteEmployeeApprovedData(year);
+            return forecastDAL.GetDeleteEmployeeApprovedData(assignmentId);
         }
         public List<AssignmentHistory> GetCellWiseEmployeeApprovedData(int year)
         {

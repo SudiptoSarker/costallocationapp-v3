@@ -2558,28 +2558,31 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);    
     //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
-    $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
-    $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+    console.log("retrivedData: "+retrivedData);
+    if(typeof retrivedData != "undefined"){
+        $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+        $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
 
-    $("#pending_selected_row").val(retrivedData.isRowPending);
-    $("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
-     
-    $("#hid_SelectedCellPosition").val(x1);
-    $("#selectCellNumber").val(cellName1);
+        $("#pending_selected_row").val(retrivedData.isRowPending);
+        $("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
+        
+        $("#hid_SelectedCellPosition").val(x1);
+        $("#selectCellNumber").val(cellName1);
 
-    if(x2==34){
-        $("#hid_IsRowSelected").val("yes");
-        $("#hidIsRowDeleted").val(retrivedData.isActive);
-        $("#hidSelectedRowNumber").val(sRows);
-    }else{
-        $("#hid_IsRowSelected").val("no");
-        $("#hid_cellNo").val(x2);
-        $("#hidSelectedRowNumber").val(sRows);
+        if(x2==34){
+            $("#hid_IsRowSelected").val("yes");
+            $("#hidIsRowDeleted").val(retrivedData.isActive);
+            $("#hidSelectedRowNumber").val(sRows);
+        }else{
+            $("#hid_IsRowSelected").val("no");
+            $("#hid_cellNo").val(x2);
+            $("#hidSelectedRowNumber").val(sRows);
+        }
+        
+        // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
+        // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
+        // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
     }
-    
-    // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
-    // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
-    // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
 }
 // var focus = function(instance) {
 //     $('#log').append('The table ' + $(instance).prop('id') + ' is focus');

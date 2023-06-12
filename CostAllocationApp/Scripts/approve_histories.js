@@ -118,8 +118,9 @@ $('#btn_export_approve_history_data').on('click', function () {
     var h = window.innerHeight;
     
     jss = $('#jspreadsheet').jspreadsheet({
-        data: _retriveddata,
-        csvHeaders: true,
+        data: _retriveddata,        
+        csvHeaders:true,
+        //tableOverflow:true,
         //filters: true,
         // tableOverflow: true,
         // // freezeColumns: 3,
@@ -138,7 +139,7 @@ $('#btn_export_approve_history_data').on('click', function () {
             { title: "役割(Role)", type: "text", name: "RoleName", width: 120},
             { title: "説明(expl)", type: "text", name: "ExplanationName", width: 120},
             { title: "会社(Com)", type: "text", name: "CompanyName", width: 120},
-            { title: "グレード(Grade)", type: "text", name: "GradePoints", width: 50},
+            { title: "グレード(Grade)", type: "text", name: "GradePoints", width: 100},
             { title: "単価(Unit Price)", type: "text", name: "UnitPrice", width: 100},
             { title: "10月", type: "text", name: "OctPoints", width: 60},
             { title: "11月", type: "text", name: "NovPoints", width: 60},

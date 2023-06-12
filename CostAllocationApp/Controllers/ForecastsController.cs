@@ -605,16 +605,24 @@ namespace CostAllocationApp.Controllers
         }
 
         [HttpPost]
-        [Route("Forecasts/DownloadHistoryData/")]
-        public ActionResult DownloadHistoryData(int timeStampId)
+        //[Route("Forecasts/DownloadHistoryData/")]
+        public ActionResult DownloadHistoryData(int hid_approve_timestamp_id=0)
         {
             ForecastBLL forecastBLL = new ForecastBLL();
-
             List<object> forecastHistoryList = new List<object>();
-            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
-            string timeStampName = forecastBLL.GetHistoryTimeStampName(timeStampId);
-            //var excelData;
+            List<Forecast> historyList = forecastBLL.GetApprovalHistoriesByTimeStampId(hid_approve_timestamp_id);
+
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+
+
+
+
+            //List<object> forecastHistoryList = new List<object>();
+            //List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(hid_approve_timestamp_id);
+            //string timeStampName = forecastBLL.GetHistoryTimeStampName(hid_approve_timestamp_id);
+            //var excelData;
+            //List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
+            string timeStampName = "testing";
             if (distinctAssignmentId.Count > 0)
             {
                 using (var package = new ExcelPackage())
@@ -747,21 +755,25 @@ namespace CostAllocationApp.Controllers
                     int count = 2;
                     foreach (var item in distinctAssignmentId)
                     {
-                        AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+                        ApprovalHistoryViewModal _approvalHistoryViewModal = new ApprovalHistoryViewModal();
                         AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
-                        _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId);
+                        _approvalHistoryViewModal = forecastBLL.GetApprovalNamesForHistory(item, hid_approve_timestamp_id);
 
-                        var employeeName = _assignmentHistoryViewModal.EmployeeName;
-                        var sectionName = _assignmentHistoryViewModal.SectionName;
-                        var departmentName = _assignmentHistoryViewModal.DepartmentName;
-                        var inChargeName = _assignmentHistoryViewModal.InChargeName;
-                        var roleName = _assignmentHistoryViewModal.RoleName;
-                        var explanationName = _assignmentHistoryViewModal.ExplanationName;
-                        var companyName = _assignmentHistoryViewModal.CompanyName;
-                        var gradePoints = _assignmentHistoryViewModal.GradePoints;
-                        var unitPrice = _assignmentHistoryViewModal.UnitPrice;
-                        var remarks = _assignmentHistoryViewModal.Remarks;
-                        var isUpdate = _assignmentHistoryViewModal.IsUpdate;
+                        //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                        var employeeName = _approvalHistoryViewModal.EmployeeName;
+                        var sectionName = _approvalHistoryViewModal.SectionName;
+                        var departmentName = _approvalHistoryViewModal.DepartmentName;
+                        var inChargeName = _approvalHistoryViewModal.InChargeName;
+                        var roleName = _approvalHistoryViewModal.RoleName;
+                        var explanationName = _approvalHistoryViewModal.ExplanationName;
+                        var companyName = _approvalHistoryViewModal.CompanyName;
+                        var gradePoints = _approvalHistoryViewModal.GradePoints;
+                        var unitPrice = _approvalHistoryViewModal.UnitPrice;
+                        var remarks = _approvalHistoryViewModal.Remarks;
+                        var isUpdate = _approvalHistoryViewModal.IsUpdate;
+                        var isDeleteRow = _approvalHistoryViewModal.IsDeleteEmployee;
+                        var isAddRow = _approvalHistoryViewModal.IsAddEmployee;
+                        var isUpdateCells = _approvalHistoryViewModal.IsCellWiseUpdate;
 
                         var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
@@ -858,6 +870,7 @@ namespace CostAllocationApp.Controllers
                     var excelData = package.GetAsByteArray();
                     var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     var fileName = timeStampName + ".xlsx";
+                    
                     return File(excelData, contentType, fileName);
                 }
             }

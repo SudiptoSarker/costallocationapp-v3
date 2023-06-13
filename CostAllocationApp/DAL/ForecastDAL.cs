@@ -1843,5 +1843,35 @@ namespace CostAllocationApp.DAL
                 return timeStampName;
             }
         }
+        public string GetApproveHistoryTimeStampName(int timeStampId)
+        {
+            string query = "";
+            query = query + "select Id,ApproveTimeStamp from ApproveTimeStamps where id=" + timeStampId;
+
+            string timeStampName = "";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            timeStampName = rdr["ApproveTimeStamp"] is DBNull ? "" : rdr["ApproveTimeStamp"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return timeStampName;
+            }
+        }
+
     }
 }

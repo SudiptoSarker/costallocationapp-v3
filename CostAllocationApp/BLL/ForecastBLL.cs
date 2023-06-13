@@ -343,5 +343,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoryTimeStampName(timeStampId);
         }
+        public string GetApproveHistoryTimeStampName(int timeStampId)
+        {
+            return forecastDAL.GetApproveHistoryTimeStampName(timeStampId);
+        }
     }
 }

@@ -638,139 +638,116 @@ namespace CostAllocationApp.Controllers
                         sheet.Cells["A1"].Style.Font.Bold = true;
                         sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["A1:A1"].AutoFitColumns();
 
                         sheet.Cells["B1"].Value = "部署(Dept)";
                         sheet.Cells["B1"].Style.Font.Bold = true;
                         sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["B1"].AutoFitColumns();
 
                         sheet.Cells["C1"].Value = "担当作業(In chg)	";
                         sheet.Cells["C1"].Style.Font.Bold = true;
                         sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["C1"].AutoFitColumns();
 
                         sheet.Cells["D1"].Value = "役割(Role)";
                         sheet.Cells["D1"].Style.Font.Bold = true;
                         sheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["D1"].AutoFitColumns();
 
                         sheet.Cells["E1"].Value = "説明(expl)";
                         sheet.Cells["E1"].Style.Font.Bold = true;
                         sheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["E1"].AutoFitColumns();
 
                         sheet.Cells["F1"].Value = "従業員名(Emp)";
                         sheet.Cells["F1"].Style.Font.Bold = true; ;
                         sheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["F1"].AutoFitColumns();
 
                         //sheet.Cells["C1"].Value = "Operation Type";
                         //sheet.Cells["C1"].Style.Font.Bold = true;
                         //sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         //sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        //sheet.Cells["G1:G1"].AutoFitColumns();
 
                         sheet.Cells["G1"].Value = "Remaks";
                         sheet.Cells["G1"].Style.Font.Bold = true;
                         sheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["G1:G1"].AutoFitColumns();
-
+                                                
                         sheet.Cells["H1"].Value = "会社(Com)	";
                         sheet.Cells["H1"].Style.Font.Bold = true;
                         sheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["H1:H1"].AutoFitColumns();
 
                         sheet.Cells["I1"].Value = "グレード(Grade)";
                         sheet.Cells["I1"].Style.Font.Bold = true;
                         sheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["I1:I1"].AutoFitColumns();
 
                         sheet.Cells["J1"].Value = "単価(Unit Price)	";
                         sheet.Cells["J1"].Style.Font.Bold = true;
                         sheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["J1:J1"].AutoFitColumns();
 
                         sheet.Cells["K1"].Value = "10";
                         sheet.Cells["K1"].Style.Font.Bold = true;
                         sheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["K1:K1"].AutoFitColumns();
 
                         sheet.Cells["L1"].Value = "11";
                         sheet.Cells["L1"].Style.Font.Bold = true;
                         sheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["L1:L1"].AutoFitColumns();
 
                         sheet.Cells["M1"].Value = "12";
                         sheet.Cells["M1"].Style.Font.Bold = true;
                         sheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["M1:M1"].AutoFitColumns();
 
                         sheet.Cells["N1"].Value = "1";
                         sheet.Cells["N1"].Style.Font.Bold = true;
                         sheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["N1:N1"].AutoFitColumns();
 
                         sheet.Cells["O1"].Value = "2";
                         sheet.Cells["O1"].Style.Font.Bold = true;
                         sheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["O1:O1"].AutoFitColumns();
 
                         sheet.Cells["P1"].Value = "3";
                         sheet.Cells["P1"].Style.Font.Bold = true;
                         sheet.Cells["P1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["P1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["P1:P1"].AutoFitColumns();
 
                         sheet.Cells["Q1"].Value = "4";
                         sheet.Cells["Q1"].Style.Font.Bold = true;
                         sheet.Cells["Q1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["Q1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["Q1:Q1"].AutoFitColumns();
 
                         sheet.Cells["R1"].Value = "5";
                         sheet.Cells["R1"].Style.Font.Bold = true;
                         sheet.Cells["R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["R1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["R1:R1"].AutoFitColumns();
 
                         sheet.Cells["S1"].Value = "6";
                         sheet.Cells["S1"].Style.Font.Bold = true;
                         sheet.Cells["S1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["S1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["S1:S1"].AutoFitColumns();
 
                         sheet.Cells["T1"].Value = "7";
                         sheet.Cells["T1"].Style.Font.Bold = true;
                         sheet.Cells["T1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["T1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["T1:T1"].AutoFitColumns();
 
                         sheet.Cells["U1"].Value = "8";
                         sheet.Cells["U1"].Style.Font.Bold = true;
                         sheet.Cells["U1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         sheet.Cells["U1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["U1:U1"].AutoFitColumns();
 
                         sheet.Cells["V1"].Value = "9";
                         sheet.Cells["V1"].Style.Font.Bold = true;
                         sheet.Cells["V1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        sheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                        sheet.Cells["V1:V1"].AutoFitColumns();
+                        sheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);                       
 
                         int count = 2;
                         foreach (var item in distinctAssignmentId)
@@ -831,35 +808,15 @@ namespace CostAllocationApp.Controllers
                             {
                                 //sheet.Cells["A" + count].Value = historyList[0].CreatedBy;
                                 sheet.Cells["A" + count].Value = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName;
-                                sheet.Cells["A" + count].AutoFitColumns();
-
                                 sheet.Cells["B" + count].Value = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName;
-                                sheet.Cells["B" + count].AutoFitColumns();
-
                                 sheet.Cells["C" + count].Value = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName;
-                                sheet.Cells["C" + count].AutoFitColumns();
-
                                 sheet.Cells["D" + count].Value = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName;
-                                sheet.Cells["D" + count].AutoFitColumns();
-
                                 sheet.Cells["E" + count].Value = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName;
-                                sheet.Cells["E" + count].AutoFitColumns();
-
                                 sheet.Cells["F" + count].Value = employeeName;
-                                sheet.Cells["F" + count].AutoFitColumns();
-
                                 sheet.Cells["G" + count].Value = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks;
-                                sheet.Cells["G" + count].AutoFitColumns();
-
                                 sheet.Cells["H" + count].Value = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName;
-                                sheet.Cells["H" + count].AutoFitColumns();
-
                                 sheet.Cells["I" + count].Value = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints;
-                                sheet.Cells["I" + count].AutoFitColumns();
-
                                 sheet.Cells["J" + count].Value = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(_objOriginalForecastedData.UnitPrice).ToString("N0");
-                                sheet.Cells["J" + count].AutoFitColumns();
-
 
                                 //sheet.Cells["C" + count].Value = "Updated";                                                                                                                                
 
@@ -879,35 +836,15 @@ namespace CostAllocationApp.Controllers
                             else
                             {
                                 sheet.Cells["A" + count].Value = sectionName == "" ? "" : sectionName;
-                                sheet.Cells["A" + count].AutoFitColumns();
-
                                 sheet.Cells["B" + count].Value = departmentName == "" ? "" : departmentName;
-                                sheet.Cells["B" + count].AutoFitColumns();
-
                                 sheet.Cells["C" + count].Value = inChargeName == "" ? "" : inChargeName;
-                                sheet.Cells["C" + count].AutoFitColumns();
-
                                 sheet.Cells["D" + count].Value = roleName == "" ? "" : roleName;
-                                sheet.Cells["D" + count].AutoFitColumns();
-
                                 sheet.Cells["E" + count].Value = explanationName == "" ? "" : explanationName;
-                                sheet.Cells["E" + count].AutoFitColumns();
-                                
                                 sheet.Cells["F" + count].Value = employeeName;
-                                sheet.Cells["F" + count].AutoFitColumns();
-
                                 sheet.Cells["G" + count].Value = remarks == "" ? "" : remarks;
-                                sheet.Cells["G" + count].AutoFitColumns();
-
                                 sheet.Cells["H" + count].Value = companyName == "" ? "" : companyName;
-                                sheet.Cells["H" + count].AutoFitColumns();
-
                                 sheet.Cells["I" + count].Value = gradePoints == "0" ? "" : gradePoints;
-                                sheet.Cells["I" + count].AutoFitColumns();
-
                                 sheet.Cells["J" + count].Value = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0");
-                                sheet.Cells["J" + count].AutoFitColumns();
-
 
                                 //sheet.Cells["A" + count].Value = historyList[0].CreatedBy;                                
                                 //sheet.Cells["C" + count].Value = "Inserted";                                                                                                                                                                                                                                

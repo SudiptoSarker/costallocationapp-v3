@@ -1172,7 +1172,7 @@ namespace CostAllocationApp.DAL
             string query = "";
             query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate   ";
-            query = query + "   ,eh.IsAddEmployee,eh.IsDeleteEmployee,eh.IsCellWiseUpdate ";
+            query = query + "   ,eh.IsAddEmployee,eh.IsDeleteEmployee,eh.IsCellWiseUpdate,e.Id 'EmployeeId' ";
             query = query + "From ApproveHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
@@ -1184,6 +1184,8 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
             query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
             query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId;
+            query = query + " Order By ea.EmployeeName asc";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1196,6 +1198,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             _approvalHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
+                            _approvalHistoryViewModal.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             _approvalHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
                             _approvalHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             _approvalHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();

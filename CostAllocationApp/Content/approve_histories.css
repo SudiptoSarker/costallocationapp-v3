@@ -44,7 +44,7 @@
 .container {
     width:5000px;
 }
-#btn_export_approve_history_data{
+/* #btn_export_approve_history_data{
     background-color: #009ef7;
     border-collapse: collapse;
     font-size: 10px;
@@ -54,4 +54,4 @@
     white-space: nowrap !important;
     padding-top: 4px;
     margin-left: 831px;
-}
+} */

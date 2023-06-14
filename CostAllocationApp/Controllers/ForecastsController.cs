@@ -856,17 +856,53 @@ namespace CostAllocationApp.Controllers
                                 bool isQCSectionExists = false;
                                 bool isSameEmployee = false;
                                 bool isSameEmployeeQc = false;
+                                string tempDepartmentName = "";
+
+                                bool isNewObjAdd = false;
 
                                 foreach (var originalItem in downloadApproveHistoryViewModals)
                                 {
                                     if (originalItem.EmployeeId == employeeId)
                                     {
                                         isSameEmployee = true;
+                                        tempDepartmentName = originalItem.DepartmentName;
+
+                                        if (tempDepartmentName == "品証")
+                                        {
+                                            if (departmentName == "品証")
+                                            {
+                                                //update
+                                                originalItem.OctPoints = originalItem.OctPoints + octP;
+                                                originalItem.NovPoints = originalItem.NovPoints + novP;
+                                                originalItem.DecPoints = originalItem.DecPoints + decP;
+                                                originalItem.JanPoints = originalItem.JanPoints + janP;
+                                                originalItem.FebPoints = originalItem.FebPoints + febP;
+                                                originalItem.MarPoints = originalItem.MarPoints + marP;
+                                                originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                                originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                                originalItem.JunPoints = originalItem.JunPoints + junP;
+                                                originalItem.JulPoints = originalItem.JulPoints + julP;
+                                                originalItem.AugPoints = originalItem.AugPoints + augP;
+                                                originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                            }
+                                            else
+                                            {
+                                                //add object
+                                                isNewObjAdd = true;
+                                                
+                                            }
+                                        }
+                                        else
+                                        {
+                                            isNewObjAdd = true;
+                                        }
+                                       
+                                        break;
                                         //if(originalItem.DepartmentName == )
                                     }                                          
                                 }
 
-                                if (!isSameEmployee)
+                                if (!isSameEmployee || isNewObjAdd)
                                 {
                                     DownloadApproveHistoryViewModal downloadApproveHistoryViewModal2 = new DownloadApproveHistoryViewModal();
                                     downloadApproveHistoryViewModal2.EmployeeName = employeeName;
@@ -887,358 +923,286 @@ namespace CostAllocationApp.Controllers
                                     downloadApproveHistoryViewModal2.SepPoints = sepP;
                                     downloadApproveHistoryViewModals.Add(downloadApproveHistoryViewModal2);
                                 }
+                                //else
+                                //{
+                                //    if(tempDepartmentName == "品証")
+                                //    {
+                                //        if (departmentName == "品証")
+                                //        {
+                                //            //update
+                                //        }
+                                //        else
+                                //        {
+                                //            //add object
+                                //        }
+                                //    }
+                                //    if(departmentName == "品証" && tempDepartmentName == "品証")
+                                //    {
+
+                                //    }
+                                //}
                                 //new logic: end
 
-                                if (departmentName == "品証")
-                                {                                    
-                                    foreach (var originalItem in downloadApproveHistoryViewModals)
-                                    {
-                                        if (originalItem.DepartmentName == "品証")
-                                        {
-                                            isQCSectionExists = true;
+                                //if (departmentName == "品証")
+                                //{                                    
+                                //    foreach (var originalItem in downloadApproveHistoryViewModals)
+                                //    {
+                                //        if (originalItem.DepartmentName == "品証")
+                                //        {
+                                //            isQCSectionExists = true;
 
-                                            originalItem.OctPoints = originalItem.OctPoints + octP;
-                                            originalItem.NovPoints = originalItem.NovPoints + novP;
-                                            originalItem.DecPoints = originalItem.DecPoints + decP;
-                                            originalItem.JanPoints = originalItem.JanPoints + janP;
-                                            originalItem.FebPoints = originalItem.FebPoints + febP;
-                                            originalItem.MarPoints = originalItem.MarPoints + marP;
-                                            originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                            originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                            originalItem.JunPoints = originalItem.JunPoints + junP;
-                                            originalItem.JulPoints = originalItem.JulPoints + julP;
-                                            originalItem.AugPoints = originalItem.AugPoints + augP;
-                                            originalItem.SepPoints = originalItem.SepPoints + sepP;
-                                        }                                       
-                                    }
+                                //            originalItem.OctPoints = originalItem.OctPoints + octP;
+                                //            originalItem.NovPoints = originalItem.NovPoints + novP;
+                                //            originalItem.DecPoints = originalItem.DecPoints + decP;
+                                //            originalItem.JanPoints = originalItem.JanPoints + janP;
+                                //            originalItem.FebPoints = originalItem.FebPoints + febP;
+                                //            originalItem.MarPoints = originalItem.MarPoints + marP;
+                                //            originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                //            originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                //            originalItem.JunPoints = originalItem.JunPoints + junP;
+                                //            originalItem.JulPoints = originalItem.JulPoints + julP;
+                                //            originalItem.AugPoints = originalItem.AugPoints + augP;
+                                //            originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                //        }                                       
+                                //    }
 
-                                    if (!isQCSectionExists)
-                                    {
-                                        DownloadApproveHistoryViewModal downloadApproveHistoryViewModal2 = new DownloadApproveHistoryViewModal();
-                                        downloadApproveHistoryViewModal2.EmployeeName = employeeName;
-                                        downloadApproveHistoryViewModal2.DepartmentName = departmentName;
+                                //    if (!isQCSectionExists)
+                                //    {
+                                //        DownloadApproveHistoryViewModal downloadApproveHistoryViewModal2 = new DownloadApproveHistoryViewModal();
+                                //        downloadApproveHistoryViewModal2.EmployeeName = employeeName;
+                                //        downloadApproveHistoryViewModal2.DepartmentName = departmentName;
 
-                                        downloadApproveHistoryViewModal2.OctPoints = octP;
-                                        downloadApproveHistoryViewModal2.NovPoints = novP;
-                                        downloadApproveHistoryViewModal2.DecPoints = decP;
-                                        downloadApproveHistoryViewModal2.JanPoints = janP;
-                                        downloadApproveHistoryViewModal2.FebPoints = febP;
-                                        downloadApproveHistoryViewModal2.MarPoints = marP;
-                                        downloadApproveHistoryViewModal2.AprPoints = aprP;
-                                        downloadApproveHistoryViewModal2.MayPoints = mayP;
-                                        downloadApproveHistoryViewModal2.JunPoints = junP;
-                                        downloadApproveHistoryViewModal2.JulPoints = julP;
-                                        downloadApproveHistoryViewModal2.AugPoints = augP;
-                                        downloadApproveHistoryViewModal2.SepPoints = sepP;
-                                        downloadApproveHistoryViewModals.Add(downloadApproveHistoryViewModal2);
-                                    }
-                                }
-                                else
-                                {
-                                    bool isNotQCSection = false; 
-                                    foreach (var originalItem in downloadApproveHistoryViewModals)
-                                    {
-                                        if (originalItem.DepartmentName != "品証")
-                                        {
-                                            isNotQCSection = true;
+                                //        downloadApproveHistoryViewModal2.OctPoints = octP;
+                                //        downloadApproveHistoryViewModal2.NovPoints = novP;
+                                //        downloadApproveHistoryViewModal2.DecPoints = decP;
+                                //        downloadApproveHistoryViewModal2.JanPoints = janP;
+                                //        downloadApproveHistoryViewModal2.FebPoints = febP;
+                                //        downloadApproveHistoryViewModal2.MarPoints = marP;
+                                //        downloadApproveHistoryViewModal2.AprPoints = aprP;
+                                //        downloadApproveHistoryViewModal2.MayPoints = mayP;
+                                //        downloadApproveHistoryViewModal2.JunPoints = junP;
+                                //        downloadApproveHistoryViewModal2.JulPoints = julP;
+                                //        downloadApproveHistoryViewModal2.AugPoints = augP;
+                                //        downloadApproveHistoryViewModal2.SepPoints = sepP;
+                                //        downloadApproveHistoryViewModals.Add(downloadApproveHistoryViewModal2);
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    bool isNotQCSection = false; 
+                                //    foreach (var originalItem in downloadApproveHistoryViewModals)
+                                //    {
+                                //        if (originalItem.DepartmentName != "品証")
+                                //        {
+                                //            isNotQCSection = true;
 
-                                            originalItem.OctPoints = originalItem.OctPoints + octP;
-                                            originalItem.NovPoints = originalItem.NovPoints + novP;
-                                            originalItem.DecPoints = originalItem.DecPoints + decP;
-                                            originalItem.JanPoints = originalItem.JanPoints + janP;
-                                            originalItem.FebPoints = originalItem.FebPoints + febP;
-                                            originalItem.MarPoints = originalItem.MarPoints + marP;
-                                            originalItem.AprPoints = originalItem.AprPoints + augP;
-                                            originalItem.MayPoints = originalItem.MayPoints + marP;
-                                            originalItem.JunPoints = originalItem.JunPoints + julP;
-                                            originalItem.JulPoints = originalItem.JulPoints + julP;
-                                            originalItem.AugPoints = originalItem.AugPoints + augP;
-                                            originalItem.SepPoints = originalItem.SepPoints + sepP;
-                                        }
-                                    }
-                                    if (!isNotQCSection)
-                                    {
-                                        DownloadApproveHistoryViewModal downloadApproveHistoryViewModal3 = new DownloadApproveHistoryViewModal();
-                                        downloadApproveHistoryViewModal3.EmployeeName = employeeName;
-                                        downloadApproveHistoryViewModal3.DepartmentName = departmentName;
+                                //            originalItem.OctPoints = originalItem.OctPoints + octP;
+                                //            originalItem.NovPoints = originalItem.NovPoints + novP;
+                                //            originalItem.DecPoints = originalItem.DecPoints + decP;
+                                //            originalItem.JanPoints = originalItem.JanPoints + janP;
+                                //            originalItem.FebPoints = originalItem.FebPoints + febP;
+                                //            originalItem.MarPoints = originalItem.MarPoints + marP;
+                                //            originalItem.AprPoints = originalItem.AprPoints + augP;
+                                //            originalItem.MayPoints = originalItem.MayPoints + marP;
+                                //            originalItem.JunPoints = originalItem.JunPoints + julP;
+                                //            originalItem.JulPoints = originalItem.JulPoints + julP;
+                                //            originalItem.AugPoints = originalItem.AugPoints + augP;
+                                //            originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                //        }
+                                //    }
+                                //    if (!isNotQCSection)
+                                //    {
+                                //        DownloadApproveHistoryViewModal downloadApproveHistoryViewModal3 = new DownloadApproveHistoryViewModal();
+                                //        downloadApproveHistoryViewModal3.EmployeeName = employeeName;
+                                //        downloadApproveHistoryViewModal3.DepartmentName = departmentName;
 
-                                        downloadApproveHistoryViewModal3.OctPoints = octP;
-                                        downloadApproveHistoryViewModal3.NovPoints = novP;
-                                        downloadApproveHistoryViewModal3.DecPoints = decP;
-                                        downloadApproveHistoryViewModal3.JanPoints = janP;
-                                        downloadApproveHistoryViewModal3.FebPoints = febP;
-                                        downloadApproveHistoryViewModal3.MarPoints = marP;
-                                        downloadApproveHistoryViewModal3.AprPoints = aprP;
-                                        downloadApproveHistoryViewModal3.MayPoints = mayP;
-                                        downloadApproveHistoryViewModal3.JunPoints = junP;
-                                        downloadApproveHistoryViewModal3.JulPoints = julP;
-                                        downloadApproveHistoryViewModal3.AugPoints = augP;
-                                        downloadApproveHistoryViewModal3.SepPoints = sepP;
-                                        downloadApproveHistoryViewModals.Add(downloadApproveHistoryViewModal3);
-                                    }
-                                }
+                                //        downloadApproveHistoryViewModal3.OctPoints = octP;
+                                //        downloadApproveHistoryViewModal3.NovPoints = novP;
+                                //        downloadApproveHistoryViewModal3.DecPoints = decP;
+                                //        downloadApproveHistoryViewModal3.JanPoints = janP;
+                                //        downloadApproveHistoryViewModal3.FebPoints = febP;
+                                //        downloadApproveHistoryViewModal3.MarPoints = marP;
+                                //        downloadApproveHistoryViewModal3.AprPoints = aprP;
+                                //        downloadApproveHistoryViewModal3.MayPoints = mayP;
+                                //        downloadApproveHistoryViewModal3.JunPoints = junP;
+                                //        downloadApproveHistoryViewModal3.JulPoints = julP;
+                                //        downloadApproveHistoryViewModal3.AugPoints = augP;
+                                //        downloadApproveHistoryViewModal3.SepPoints = sepP;
+                                //        downloadApproveHistoryViewModals.Add(downloadApproveHistoryViewModal3);
+                                //    }
+                                //}
+
                             }
-
-                            //if (isUpdate)
-                            //{
-                            //    //sheet.Cells["A" + count].Value = historyList[0].CreatedBy;
-                            //    sheet.Cells["A" + count].Value = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName;
-                            //    sheet.Cells["A" + count].AutoFitColumns();
-
-                            //    sheet.Cells["B" + count].Value = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName;
-                            //    sheet.Cells["B" + count].AutoFitColumns();
-
-                            //    sheet.Cells["C" + count].Value = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName;
-                            //    sheet.Cells["C" + count].AutoFitColumns();
-
-                            //    sheet.Cells["D" + count].Value = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName;
-                            //    sheet.Cells["D" + count].AutoFitColumns();
-
-                            //    sheet.Cells["E" + count].Value = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName;
-                            //    sheet.Cells["E" + count].AutoFitColumns();
-
-                            //    sheet.Cells["F" + count].Value = employeeName;
-                            //    sheet.Cells["F" + count].AutoFitColumns();
-
-                            //    sheet.Cells["G" + count].Value = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks;
-                            //    sheet.Cells["G" + count].AutoFitColumns();
-
-                            //    sheet.Cells["H" + count].Value = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName;
-                            //    sheet.Cells["H" + count].AutoFitColumns();
-
-                            //    sheet.Cells["I" + count].Value = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints;
-                            //    sheet.Cells["I" + count].AutoFitColumns();
-
-                            //    sheet.Cells["J" + count].Value = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(_objOriginalForecastedData.UnitPrice).ToString("N0");
-                            //    sheet.Cells["J" + count].AutoFitColumns();
-
-
-                            //    //sheet.Cells["C" + count].Value = "Updated";                                                                                                                                
-
-                            //    sheet.Cells["K" + count].Value = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0");
-                            //    sheet.Cells["L" + count].Value = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0");
-                            //    sheet.Cells["M" + count].Value = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0");
-                            //    sheet.Cells["N" + count].Value = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0");
-                            //    sheet.Cells["O" + count].Value = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0");
-                            //    sheet.Cells["P" + count].Value = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0");
-                            //    sheet.Cells["Q" + count].Value = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0");
-                            //    sheet.Cells["R" + count].Value = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0");
-                            //    sheet.Cells["S" + count].Value = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0");
-                            //    sheet.Cells["T" + count].Value = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0");
-                            //    sheet.Cells["U" + count].Value = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0");
-                            //    sheet.Cells["V" + count].Value = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0");                            
-                            //}
-                            //else
-                            //{
-                            //    sheet.Cells["A" + count].Value = sectionName == "" ? "" : sectionName;
-                            //    sheet.Cells["A" + count].AutoFitColumns();
-
-                            //    sheet.Cells["B" + count].Value = departmentName == "" ? "" : departmentName;
-                            //    sheet.Cells["B" + count].AutoFitColumns();
-
-                            //    sheet.Cells["C" + count].Value = inChargeName == "" ? "" : inChargeName;
-                            //    sheet.Cells["C" + count].AutoFitColumns();
-
-                            //    sheet.Cells["D" + count].Value = roleName == "" ? "" : roleName;
-                            //    sheet.Cells["D" + count].AutoFitColumns();
-
-                            //    sheet.Cells["E" + count].Value = explanationName == "" ? "" : explanationName;
-                            //    sheet.Cells["E" + count].AutoFitColumns();
-                                
-                            //    sheet.Cells["F" + count].Value = employeeName;
-                            //    sheet.Cells["F" + count].AutoFitColumns();
-
-                            //    sheet.Cells["G" + count].Value = remarks == "" ? "" : remarks;
-                            //    sheet.Cells["G" + count].AutoFitColumns();
-
-                            //    sheet.Cells["H" + count].Value = companyName == "" ? "" : companyName;
-                            //    sheet.Cells["H" + count].AutoFitColumns();
-
-                            //    sheet.Cells["I" + count].Value = gradePoints == "0" ? "" : gradePoints;
-                            //    sheet.Cells["I" + count].AutoFitColumns();
-
-                            //    sheet.Cells["J" + count].Value = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0");
-                            //    sheet.Cells["J" + count].AutoFitColumns();
-
-
-                            //    //sheet.Cells["A" + count].Value = historyList[0].CreatedBy;                                
-                            //    //sheet.Cells["C" + count].Value = "Inserted";                                                                                                                                                                                                                                
-
-                            //    sheet.Cells["K" + count].Value = octP == 0 ? "" : octP.ToString("0.0");
-                            //    sheet.Cells["L" + count].Value = novP == 0 ? "" : novP.ToString("0.0");
-                            //    sheet.Cells["M" + count].Value = decP == 0 ? "" : decP.ToString("0.0");
-                            //    sheet.Cells["N" + count].Value = janP == 0 ? "" : janP.ToString("0.0");
-                            //    sheet.Cells["O" + count].Value = febP == 0 ? "" : febP.ToString("0.0");
-                            //    sheet.Cells["P" + count].Value = marP == 0 ? "" : marP.ToString("0.0");
-                            //    sheet.Cells["Q" + count].Value = aprP == 0 ? "" : aprP.ToString("0.0");
-                            //    sheet.Cells["R" + count].Value = mayP == 0 ? "" : mayP.ToString("0.0");
-                            //    sheet.Cells["S" + count].Value = junP == 0 ? "" : junP.ToString("0.0");
-                            //    sheet.Cells["T" + count].Value = julP == 0 ? "" : julP.ToString("0.0");
-                            //    sheet.Cells["U" + count].Value = augP == 0 ? "" : augP.ToString("0.0");
-                            //    sheet.Cells["V" + count].Value = sepP == 0 ? "" : sepP.ToString("0.0");                            
-                            //}
                             
                             count++;
                         }
 
-                        foreach(var origianlSheetItem in downloadApproveHistoryViewModals)
-                        {                            
-                            sheet.Cells["A" + count].Value = origianlSheetItem.EmployeeName;
-                            sheet.Cells["A" + count].AutoFitColumns();
-
-                            if(origianlSheetItem.DepartmentName == "品証")
+                        if (downloadApproveHistoryViewModals.Count > 0)
+                        {
+                            int originalIndex = 2;
+                            foreach (var origianlSheetItem in downloadApproveHistoryViewModals)
                             {
-                                sheet.Cells["B" + count].Value = origianlSheetItem.DepartmentName; ;
-                                sheet.Cells["B" + count].AutoFitColumns();
+                                sheet.Cells["A" + originalIndex].Value = origianlSheetItem.EmployeeName;
+                                sheet.Cells["A" + originalIndex].AutoFitColumns();
 
+                                if (origianlSheetItem.DepartmentName == "品証")
+                                {
+                                    sheet.Cells["B" + originalIndex].Value = origianlSheetItem.DepartmentName; ;
+                                    sheet.Cells["B" + originalIndex].AutoFitColumns();
+
+                                }
+                                else
+                                {
+                                    sheet.Cells["B" + originalIndex].Value = "";
+                                    sheet.Cells["B" + originalIndex].AutoFitColumns();
+
+                                }
+
+                                sheet.Cells["C" + originalIndex].Value = origianlSheetItem.OctPoints.ToString("0.0");
+                                sheet.Cells["D" + originalIndex].Value = origianlSheetItem.NovPoints.ToString("0.0");
+                                sheet.Cells["E" + originalIndex].Value = origianlSheetItem.DecPoints.ToString("0.0");
+                                sheet.Cells["F" + originalIndex].Value = origianlSheetItem.JanPoints.ToString("0.0");
+                                sheet.Cells["G" + originalIndex].Value = origianlSheetItem.FebPoints.ToString("0.0");
+                                sheet.Cells["H" + originalIndex].Value = origianlSheetItem.MarPoints.ToString("0.0");
+                                sheet.Cells["I" + originalIndex].Value = origianlSheetItem.AprPoints.ToString("0.0");
+                                sheet.Cells["J" + originalIndex].Value = origianlSheetItem.MayPoints.ToString("0.0");
+                                sheet.Cells["K" + originalIndex].Value = origianlSheetItem.JunPoints.ToString("0.0");
+                                sheet.Cells["L" + originalIndex].Value = origianlSheetItem.JulPoints.ToString("0.0");
+                                sheet.Cells["M" + originalIndex].Value = origianlSheetItem.AugPoints.ToString("0.0");
+                                sheet.Cells["N" + originalIndex].Value = origianlSheetItem.SepPoints.ToString("0.0");
+
+                                originalIndex++;
                             }
-                            else
-                            {
-                                sheet.Cells["B" + count].Value = "";
-                                sheet.Cells["B" + count].AutoFitColumns();
 
-                            }
-
-                            sheet.Cells["C" + count].Value = origianlSheetItem.OctPoints.ToString("0.0");
-                            sheet.Cells["D" + count].Value = origianlSheetItem.NovPoints.ToString("0.0");
-                            sheet.Cells["E" + count].Value = origianlSheetItem.DecPoints.ToString("0.0");
-                            sheet.Cells["F" + count].Value = origianlSheetItem.JanPoints.ToString("0.0");
-                            sheet.Cells["G" + count].Value = origianlSheetItem.FebPoints.ToString("0.0");
-                            sheet.Cells["H" + count].Value = origianlSheetItem.MarPoints.ToString("0.0");
-                            sheet.Cells["I" + count].Value = origianlSheetItem.AprPoints.ToString("0.0");
-                            sheet.Cells["J" + count].Value = origianlSheetItem.MayPoints.ToString("0.0");
-                            sheet.Cells["K" + count].Value = origianlSheetItem.JunPoints.ToString("0.0");
-                            sheet.Cells["L" + count].Value = origianlSheetItem.JulPoints.ToString("0.0");
-                            sheet.Cells["M" + count].Value = origianlSheetItem.AugPoints.ToString("0.0");
-                            sheet.Cells["N" + count].Value = origianlSheetItem.SepPoints.ToString("0.0");
                         }
                         //*****************Download: Original: End***********************//
 
                         //*****************Download: Each Person: Start***********************//
                         var eachPersonSheet = package.Workbook.Worksheets.Add("Download(Each person)");
-                        eachPersonSheet.Cells["A1"].Value = "利用者";
-                        eachPersonSheet.Cells["A1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["A1"].Value = "利用者";
+                        //eachPersonSheet.Cells["A1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        eachPersonSheet.Cells["A1"].Value = "従業員名(Emp)";
+                        eachPersonSheet.Cells["A1"].Style.Font.Bold = true; ;
                         eachPersonSheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["B1"].Value = "従業員名(Emp)";
-                        eachPersonSheet.Cells["B1"].Style.Font.Bold = true; ;
+                        //eachPersonSheet.Cells["C1"].Value = "Operation Type";
+                        //eachPersonSheet.Cells["C1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["D1"].Value = "Remaks";
+                        //eachPersonSheet.Cells["D1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+
+                        //eachPersonSheet.Cells["E1"].Value = "区分(Section)	";
+                        //eachPersonSheet.Cells["E1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+
+                        eachPersonSheet.Cells["B1"].Value = "部署(Dept)";
+                        eachPersonSheet.Cells["B1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["C1"].Value = "Operation Type";
+
+                        //eachPersonSheet.Cells["G1"].Value = "担当作業(In chg)	";
+                        //eachPersonSheet.Cells["G1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["H1"].Value = "役割(Role)";
+                        //eachPersonSheet.Cells["H1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["I1"].Value = "説明(expl)";
+                        //eachPersonSheet.Cells["I1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["J1"].Value = "会社(Com)	";
+                        //eachPersonSheet.Cells["J1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["K1"].Value = "グレード(Grade)";
+                        //eachPersonSheet.Cells["K1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        //eachPersonSheet.Cells["L1"].Value = "単価(Unit Price)	";
+                        //eachPersonSheet.Cells["L1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        eachPersonSheet.Cells["C1"].Value = "10";
                         eachPersonSheet.Cells["C1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["D1"].Value = "Remaks";
+                        eachPersonSheet.Cells["D1"].Value = "11";
                         eachPersonSheet.Cells["D1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-
-                        eachPersonSheet.Cells["E1"].Value = "区分(Section)	";
+                        eachPersonSheet.Cells["E1"].Value = "12";
                         eachPersonSheet.Cells["E1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-
-                        eachPersonSheet.Cells["F1"].Value = "部署(Dept)";
+                        eachPersonSheet.Cells["F1"].Value = "1";
                         eachPersonSheet.Cells["F1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-
-                        eachPersonSheet.Cells["G1"].Value = "担当作業(In chg)	";
+                        eachPersonSheet.Cells["G1"].Value = "2";
                         eachPersonSheet.Cells["G1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["H1"].Value = "役割(Role)";
+                        eachPersonSheet.Cells["H1"].Value = "3";
                         eachPersonSheet.Cells["H1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["I1"].Value = "説明(expl)";
+                        eachPersonSheet.Cells["I1"].Value = "4";
                         eachPersonSheet.Cells["I1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["J1"].Value = "会社(Com)	";
+                        eachPersonSheet.Cells["J1"].Value = "5";
                         eachPersonSheet.Cells["J1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["K1"].Value = "グレード(Grade)";
+                        eachPersonSheet.Cells["K1"].Value = "6";
                         eachPersonSheet.Cells["K1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["L1"].Value = "単価(Unit Price)	";
+                        eachPersonSheet.Cells["L1"].Value = "7";
                         eachPersonSheet.Cells["L1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["M1"].Value = "10";
+                        eachPersonSheet.Cells["M1"].Value = "8";
                         eachPersonSheet.Cells["M1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["N1"].Value = "11";
+                        eachPersonSheet.Cells["N1"].Value = "9";
                         eachPersonSheet.Cells["N1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["O1"].Value = "12";
-                        eachPersonSheet.Cells["O1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["P1"].Value = "1";
-                        eachPersonSheet.Cells["P1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["P1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["P1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["Q1"].Value = "2";
-                        eachPersonSheet.Cells["Q1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["Q1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["Q1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["R1"].Value = "3";
-                        eachPersonSheet.Cells["R1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["R1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["S1"].Value = "4";
-                        eachPersonSheet.Cells["S1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["S1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["S1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["T1"].Value = "5";
-                        eachPersonSheet.Cells["T1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["T1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["T1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["U1"].Value = "6";
-                        eachPersonSheet.Cells["U1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["U1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["U1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["V1"].Value = "7";
-                        eachPersonSheet.Cells["V1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["V1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["W1"].Value = "8";
-                        eachPersonSheet.Cells["W1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["W1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["W1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["X1"].Value = "9";
-                        eachPersonSheet.Cells["X1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["X1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["X1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
+                        List<DownloadApproveHistoryViewModal> objEachPersonList = new List<DownloadApproveHistoryViewModal>();
                         int countEachPerson = 2;
                         foreach (var item in distinctAssignmentId)
                         {
@@ -1248,6 +1212,7 @@ namespace CostAllocationApp.Controllers
 
                             //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
                             var employeeName = _approvalHistoryViewModal.EmployeeName;
+                            var employeeId = _approvalHistoryViewModal.EmployeeId;
                             var sectionName = _approvalHistoryViewModal.SectionName;
                             var departmentName = _approvalHistoryViewModal.DepartmentName;
                             var inChargeName = _approvalHistoryViewModal.InChargeName;
@@ -1294,64 +1259,163 @@ namespace CostAllocationApp.Controllers
                             var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
                             var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
 
-                            if (isUpdate)
+                            if (countEachPerson == 2)
                             {
-                                eachPersonSheet.Cells["A" + countEachPerson].Value = historyList[0].CreatedBy;
-                                eachPersonSheet.Cells["B" + countEachPerson].Value = employeeName;
-                                eachPersonSheet.Cells["C" + countEachPerson].Value = "Updated";
-                                eachPersonSheet.Cells["D" + countEachPerson].Value = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks;
-                                eachPersonSheet.Cells["E" + countEachPerson].Value = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName;
-                                eachPersonSheet.Cells["F" + countEachPerson].Value = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName;
-                                eachPersonSheet.Cells["G" + countEachPerson].Value = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName;
-                                eachPersonSheet.Cells["H" + countEachPerson].Value = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName;
-                                eachPersonSheet.Cells["I" + countEachPerson].Value = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName;
-                                eachPersonSheet.Cells["J" + countEachPerson].Value = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName;
-                                eachPersonSheet.Cells["K" + countEachPerson].Value = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints;
-                                eachPersonSheet.Cells["L" + countEachPerson].Value = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice;
+                                DownloadApproveHistoryViewModal eachPerson = new DownloadApproveHistoryViewModal();
 
-                                eachPersonSheet.Cells["M" + countEachPerson].Value = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["N" + countEachPerson].Value = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["O" + countEachPerson].Value = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["P" + countEachPerson].Value = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["Q" + countEachPerson].Value = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["R" + countEachPerson].Value = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["S" + countEachPerson].Value = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["T" + countEachPerson].Value = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["U" + countEachPerson].Value = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["V" + countEachPerson].Value = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["W" + countEachPerson].Value = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0");
-                                eachPersonSheet.Cells["X" + countEachPerson].Value = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0");
+                                eachPerson.EmployeeName = employeeName;
+                                eachPerson.EmployeeId = employeeId;
+                                eachPerson.DepartmentName = departmentName;
+
+                                eachPerson.OctPoints = octP;
+                                eachPerson.NovPoints = novP;
+                                eachPerson.DecPoints = decP;
+                                eachPerson.JanPoints = janP;
+                                eachPerson.FebPoints = febP;
+                                eachPerson.MarPoints = marP;
+                                eachPerson.AprPoints = aprP;
+                                eachPerson.MayPoints = mayP;
+                                eachPerson.JunPoints = junP;
+                                eachPerson.JulPoints = julP;
+                                eachPerson.AugPoints = augP;
+                                eachPerson.SepPoints = sepP;
+                                objEachPersonList.Add(eachPerson);
                             }
                             else
                             {
-                                eachPersonSheet.Cells["A" + countEachPerson].Value = historyList[0].CreatedBy;
-                                eachPersonSheet.Cells["B" + countEachPerson].Value = employeeName;
-                                eachPersonSheet.Cells["C" + countEachPerson].Value = "Inserted";
-                                eachPersonSheet.Cells["D" + countEachPerson].Value = remarks == "" ? "" : remarks;
-                                eachPersonSheet.Cells["E" + countEachPerson].Value = sectionName == "" ? "" : sectionName;
-                                eachPersonSheet.Cells["F" + countEachPerson].Value = departmentName == "" ? "" : departmentName;
-                                eachPersonSheet.Cells["G" + countEachPerson].Value = inChargeName == "" ? "" : inChargeName;
-                                eachPersonSheet.Cells["H" + countEachPerson].Value = roleName == "" ? "" : roleName;
-                                eachPersonSheet.Cells["I" + countEachPerson].Value = explanationName == "" ? "" : explanationName;
-                                eachPersonSheet.Cells["J" + countEachPerson].Value = companyName == "" ? "" : companyName;
-                                eachPersonSheet.Cells["K" + countEachPerson].Value = gradePoints == "0" ? "" : gradePoints;
-                                eachPersonSheet.Cells["L" + countEachPerson].Value = unitPrice == "0" ? "" : unitPrice;
+                                bool isSamePersonForEachPerson = false;
 
-                                eachPersonSheet.Cells["M" + countEachPerson].Value = octP == 0 ? "" : octP.ToString("0.0");
-                                eachPersonSheet.Cells["N" + countEachPerson].Value = novP == 0 ? "" : novP.ToString("0.0");
-                                eachPersonSheet.Cells["O" + countEachPerson].Value = decP == 0 ? "" : decP.ToString("0.0");
-                                eachPersonSheet.Cells["P" + countEachPerson].Value = janP == 0 ? "" : janP.ToString("0.0");
-                                eachPersonSheet.Cells["Q" + countEachPerson].Value = febP == 0 ? "" : febP.ToString("0.0");
-                                eachPersonSheet.Cells["R" + countEachPerson].Value = marP == 0 ? "" : marP.ToString("0.0");
-                                eachPersonSheet.Cells["S" + countEachPerson].Value = aprP == 0 ? "" : aprP.ToString("0.0");
-                                eachPersonSheet.Cells["T" + countEachPerson].Value = mayP == 0 ? "" : mayP.ToString("0.0");
-                                eachPersonSheet.Cells["U" + countEachPerson].Value = junP == 0 ? "" : junP.ToString("0.0");
-                                eachPersonSheet.Cells["V" + countEachPerson].Value = julP == 0 ? "" : julP.ToString("0.0");
-                                eachPersonSheet.Cells["W" + countEachPerson].Value = augP == 0 ? "" : augP.ToString("0.0");
-                                eachPersonSheet.Cells["X" + countEachPerson].Value = sepP == 0 ? "" : sepP.ToString("0.0");
+                                foreach(var eachPersonFromItem in objEachPersonList)
+                                {
+                                    if(eachPersonFromItem.EmployeeId == employeeId)
+                                    {
+                                        isSamePersonForEachPerson = true;
+                                        eachPersonFromItem.EmployeeName = employeeName;
+                                        eachPersonFromItem.EmployeeId = employeeId;
+                                        eachPersonFromItem.DepartmentName = departmentName;
+
+                                        eachPersonFromItem.OctPoints = eachPersonFromItem.OctPoints + octP;
+                                        eachPersonFromItem.NovPoints = eachPersonFromItem.NovPoints + novP;
+                                        eachPersonFromItem.DecPoints = eachPersonFromItem.DecPoints + decP;
+                                        eachPersonFromItem.JanPoints = eachPersonFromItem.JanPoints + janP;
+                                        eachPersonFromItem.FebPoints = eachPersonFromItem.FebPoints + febP;
+                                        eachPersonFromItem.MarPoints = eachPersonFromItem.MarPoints + marP;
+                                        eachPersonFromItem.AprPoints = eachPersonFromItem.AprPoints + aprP;
+                                        eachPersonFromItem.MayPoints = eachPersonFromItem.MayPoints + mayP;
+                                        eachPersonFromItem.JunPoints = eachPersonFromItem.JunPoints + junP;
+                                        eachPersonFromItem.JulPoints = eachPersonFromItem.JulPoints + julP;
+                                        eachPersonFromItem.AugPoints = eachPersonFromItem.AugPoints + augP;
+                                        eachPersonFromItem.SepPoints = eachPersonFromItem.SepPoints + sepP;                                        
+                                    }                                    
+                                }
+
+                                if (!isSamePersonForEachPerson)
+                                {
+                                    DownloadApproveHistoryViewModal eachPerson2 = new DownloadApproveHistoryViewModal();
+
+                                    eachPerson2.EmployeeName = employeeName;
+                                    eachPerson2.EmployeeId = employeeId;
+                                    eachPerson2.DepartmentName = departmentName;
+
+                                    eachPerson2.OctPoints = octP;
+                                    eachPerson2.NovPoints = novP;
+                                    eachPerson2.DecPoints = decP;
+                                    eachPerson2.JanPoints = janP;
+                                    eachPerson2.FebPoints = febP;
+                                    eachPerson2.MarPoints = marP;
+                                    eachPerson2.AprPoints = aprP;
+                                    eachPerson2.MayPoints = mayP;
+                                    eachPerson2.JunPoints = junP;
+                                    eachPerson2.JulPoints = julP;
+                                    eachPerson2.AugPoints = augP;
+                                    eachPerson2.SepPoints = sepP;
+                                    objEachPersonList.Add(eachPerson2);
+                                }
                             }
 
+                            //if (isUpdate)
+                            //{
+                            //    eachPersonSheet.Cells["A" + countEachPerson].Value = historyList[0].CreatedBy;
+                            //    eachPersonSheet.Cells["B" + countEachPerson].Value = employeeName;
+                            //    eachPersonSheet.Cells["C" + countEachPerson].Value = "Updated";
+                            //    eachPersonSheet.Cells["D" + countEachPerson].Value = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks;
+                            //    eachPersonSheet.Cells["E" + countEachPerson].Value = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName;
+                            //    eachPersonSheet.Cells["F" + countEachPerson].Value = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName;
+                            //    eachPersonSheet.Cells["G" + countEachPerson].Value = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName;
+                            //    eachPersonSheet.Cells["H" + countEachPerson].Value = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName;
+                            //    eachPersonSheet.Cells["I" + countEachPerson].Value = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName;
+                            //    eachPersonSheet.Cells["J" + countEachPerson].Value = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName;
+                            //    eachPersonSheet.Cells["K" + countEachPerson].Value = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints;
+                            //    eachPersonSheet.Cells["L" + countEachPerson].Value = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice;
+
+                            //    eachPersonSheet.Cells["M" + countEachPerson].Value = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["N" + countEachPerson].Value = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["O" + countEachPerson].Value = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["P" + countEachPerson].Value = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["Q" + countEachPerson].Value = febP == febPOriginal ? "" : "(" + febP.ToString("0.0") + ") " + febPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["R" + countEachPerson].Value = marP == marPOriginal ? "" : "(" + marP.ToString("0.0") + ") " + marPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["S" + countEachPerson].Value = aprP == aprPOriginal ? "" : "(" + aprP.ToString("0.0") + ") " + aprPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["T" + countEachPerson].Value = mayP == mayPOriginal ? "" : "(" + mayP.ToString("0.0") + ") " + mayPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["U" + countEachPerson].Value = junP == junPOriginal ? "" : "(" + junP.ToString("0.0") + ") " + junPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["V" + countEachPerson].Value = julP == julPOriginal ? "" : "(" + julP.ToString("0.0") + ") " + julPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["W" + countEachPerson].Value = augP == augPOriginal ? "" : "(" + augP.ToString("0.0") + ") " + augPOriginal.ToString("0.0");
+                            //    eachPersonSheet.Cells["X" + countEachPerson].Value = sepP == sepPOriginal ? "" : "(" + sepP.ToString("0.0") + ") " + sepPOriginal.ToString("0.0");
+                            //}
+                            //else
+                            //{
+                            //    eachPersonSheet.Cells["A" + countEachPerson].Value = historyList[0].CreatedBy;
+                            //    eachPersonSheet.Cells["B" + countEachPerson].Value = employeeName;
+                            //    eachPersonSheet.Cells["C" + countEachPerson].Value = "Inserted";
+                            //    eachPersonSheet.Cells["D" + countEachPerson].Value = remarks == "" ? "" : remarks;
+                            //    eachPersonSheet.Cells["E" + countEachPerson].Value = sectionName == "" ? "" : sectionName;
+                            //    eachPersonSheet.Cells["F" + countEachPerson].Value = departmentName == "" ? "" : departmentName;
+                            //    eachPersonSheet.Cells["G" + countEachPerson].Value = inChargeName == "" ? "" : inChargeName;
+                            //    eachPersonSheet.Cells["H" + countEachPerson].Value = roleName == "" ? "" : roleName;
+                            //    eachPersonSheet.Cells["I" + countEachPerson].Value = explanationName == "" ? "" : explanationName;
+                            //    eachPersonSheet.Cells["J" + countEachPerson].Value = companyName == "" ? "" : companyName;
+                            //    eachPersonSheet.Cells["K" + countEachPerson].Value = gradePoints == "0" ? "" : gradePoints;
+                            //    eachPersonSheet.Cells["L" + countEachPerson].Value = unitPrice == "0" ? "" : unitPrice;
+
+                            //    eachPersonSheet.Cells["M" + countEachPerson].Value = octP == 0 ? "" : octP.ToString("0.0");
+                            //    eachPersonSheet.Cells["N" + countEachPerson].Value = novP == 0 ? "" : novP.ToString("0.0");
+                            //    eachPersonSheet.Cells["O" + countEachPerson].Value = decP == 0 ? "" : decP.ToString("0.0");
+                            //    eachPersonSheet.Cells["P" + countEachPerson].Value = janP == 0 ? "" : janP.ToString("0.0");
+                            //    eachPersonSheet.Cells["Q" + countEachPerson].Value = febP == 0 ? "" : febP.ToString("0.0");
+                            //    eachPersonSheet.Cells["R" + countEachPerson].Value = marP == 0 ? "" : marP.ToString("0.0");
+                            //    eachPersonSheet.Cells["S" + countEachPerson].Value = aprP == 0 ? "" : aprP.ToString("0.0");
+                            //    eachPersonSheet.Cells["T" + countEachPerson].Value = mayP == 0 ? "" : mayP.ToString("0.0");
+                            //    eachPersonSheet.Cells["U" + countEachPerson].Value = junP == 0 ? "" : junP.ToString("0.0");
+                            //    eachPersonSheet.Cells["V" + countEachPerson].Value = julP == 0 ? "" : julP.ToString("0.0");
+                            //    eachPersonSheet.Cells["W" + countEachPerson].Value = augP == 0 ? "" : augP.ToString("0.0");
+                            //    eachPersonSheet.Cells["X" + countEachPerson].Value = sepP == 0 ? "" : sepP.ToString("0.0");
+                            //}
+
                             countEachPerson++;
+                        }
+                        
+                        if (objEachPersonList.Count > 0)
+                        {
+                            int eachPersonIndex = 2;
+                            foreach (var eachItem in objEachPersonList)
+                            {
+                                eachPersonSheet.Cells["A" + eachPersonIndex].Value = eachItem.EmployeeName;
+                                eachPersonSheet.Cells["B" + eachPersonIndex].Value = eachItem.DepartmentName;
+                                
+                                eachPersonSheet.Cells["C" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
+                                eachPersonSheet.Cells["D" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");
+                                eachPersonSheet.Cells["E" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.0");
+                                eachPersonSheet.Cells["F" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.0");
+                                eachPersonSheet.Cells["G" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.0");
+                                eachPersonSheet.Cells["H" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.0");
+                                eachPersonSheet.Cells["I" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.0");
+                                eachPersonSheet.Cells["J" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.0");
+                                eachPersonSheet.Cells["K" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.0");
+                                eachPersonSheet.Cells["L" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.0");
+                                eachPersonSheet.Cells["M" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.0");
+                                eachPersonSheet.Cells["N" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.0");
+
+                                eachPersonIndex++;
+                            }
                         }
                         //*****************Download: Each Person: End***********************//
 

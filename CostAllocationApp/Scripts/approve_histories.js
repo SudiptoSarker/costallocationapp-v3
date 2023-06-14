@@ -155,7 +155,10 @@ $('#btn_export_approve_history_data').on('click', function () {
         ],        
     });
 
-    jss.download(true);
-
+    //jss.download(true);
+    jss.download(document.getElementById('jspreadsheet'), {
+        filename: 'file.xsl',
+        author: 's',
+    });
     // $('#jspreadsheet').jexcel('download');
 });

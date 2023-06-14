@@ -266,6 +266,7 @@
     <Compile Include="ViewModels\ActualCostViewModel.cs" />
     <Compile Include="ViewModels\ApprovalHistoryViewModal.cs" />
     <Compile Include="ViewModels\AssignmentHistoryViewModal.cs" />
+    <Compile Include="ViewModels\DownloadApproveHistoryViewModal.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />

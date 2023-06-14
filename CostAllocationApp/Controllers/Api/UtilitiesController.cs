@@ -2192,7 +2192,8 @@ namespace CostAllocationApp.Controllers.Api
                             ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,
                             CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,
                             GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
-                            UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
+                            //UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
+                            UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(_objOriginalForecastedData.UnitPrice).ToString("N0"),
                             Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType= "Updated",
@@ -2224,7 +2225,7 @@ namespace CostAllocationApp.Controllers.Api
                             ExplanationName = explanationName == "" ? "" : explanationName,
                             CompanyName = companyName == "" ? "" : companyName,                             
                             GradePoints = gradePoints == "0" ? "" : gradePoints,
-                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType = "Inserted",
@@ -2351,7 +2352,7 @@ namespace CostAllocationApp.Controllers.Api
                             ExplanationName = explanationName == "" ? "" : explanationName,
                             CompanyName = companyName == "" ? "" : companyName,
                             GradePoints = gradePoints == "0" ? "" : gradePoints,
-                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType="Add Employee",
@@ -2382,7 +2383,7 @@ namespace CostAllocationApp.Controllers.Api
                             ExplanationName = explanationName == "" ? "" : explanationName,
                             CompanyName = companyName == "" ? "" : companyName,
                             GradePoints = gradePoints == "0" ? "" : gradePoints,
-                            UnitPrice = unitPrice == "0" ? "" : unitPrice,
+                            UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType = "Delete Employee",
@@ -2405,7 +2406,8 @@ namespace CostAllocationApp.Controllers.Api
                         var cellWisePreviousData = forecastBLL.GetCellWiseUpdatePreviousData(item);
                         var cellWiseOriginalData = forecastBLL.GetCellWiseUpdateOriginalData(item,timeStampId);
 
-                        var employeeName_Cells = _approvalHistoryViewModal.EmployeeName;
+                        //var employeeName_Cells = _approvalHistoryViewModal.EmployeeName;
+                        var employeeName_Cells = cellWiseOriginalData.EmployeeName;
 
                         var approvedCells = cellWiseOriginalData.ApprovedCells;
                         

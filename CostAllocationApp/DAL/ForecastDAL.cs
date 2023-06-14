@@ -1117,7 +1117,7 @@ namespace CostAllocationApp.DAL
             AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
 
             string query = "";
-            query = "Select eh.Id,eh.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate   ";
             query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
@@ -1170,9 +1170,9 @@ namespace CostAllocationApp.DAL
             ApprovalHistoryViewModal _approvalHistoryViewModal = new ApprovalHistoryViewModal();
 
             string query = "";
-            query = "Select eh.Id,eh.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate   ";
-            query = query + "   ,eh.IsAddEmployee,eh.IsDeleteEmployee,eh.IsCellWiseUpdate ";
+            query = query + "   ,eh.IsAddEmployee,eh.IsDeleteEmployee,eh.IsCellWiseUpdate,e.Id 'EmployeeId' ";
             query = query + "From ApproveHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
@@ -1184,6 +1184,8 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
             query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
             query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId;
+            query = query + " Order By ea.EmployeeName asc";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1196,6 +1198,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             _approvalHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
+                            _approvalHistoryViewModal.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             _approvalHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
                             _approvalHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             _approvalHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
@@ -1701,13 +1704,13 @@ namespace CostAllocationApp.DAL
             AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
             string query = "";
             //query = "select top 1 * from EmployeesAssignmentsWithCostsHistory where EmployeeAssignmentId = "+assignmentId+" Order by Id desc ";
-            query = "Select eh.Id,eh.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.MonthId_Points ";
             query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
             query = query + "    Left Join Departments d On eh.DepartmentId = d.Id ";
-            query = query + "    Left Join InCharges i On eh.InChargeId = e.Id ";
+            query = query + "    Left Join InCharges i On eh.InChargeId = i.Id ";
             query = query + "    Left Join Roles r On eh.RoleId = r.Id ";
             query = query + "    Left Join Explanations ex On eh.ExplanationId = ex.Id ";
             query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
@@ -1759,14 +1762,14 @@ namespace CostAllocationApp.DAL
         {
             AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
             string query = "";
-            query = query + "Select ah.Id,ah.TimeStampId,e.FullName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
+            query = query + "Select ah.Id,ah.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "	,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName' ";
             query = query + "	,g.GradePoints,ah.UnitPrice,ea.Remarks,ah.IsUpdate,ah.MonthId_Points ,ah.ApprovedCells ";
             query = query + "From ApproveHistory ah "; 
             query = query + "	Left Join Employees e On ah.EmployeeId = e.Id ";
             query = query + "	Left Join Sections s On ah.SectionId = s.Id ";
             query = query + "	Left Join Departments d On ah.DepartmentId = d.Id ";
-            query = query + "	Left Join InCharges i On ah.InChargeId = e.Id "; 
+            query = query + "	Left Join InCharges i On ah.InChargeId = i.Id "; 
             query = query + "	Left Join Roles r On ah.RoleId = r.Id "; 
             query = query + "	Left Join Explanations ex On ah.ExplanationId = ex.Id ";
             query = query + "	Left Join Companies c On ah.CompanyId = c.Id "; 
@@ -1843,5 +1846,35 @@ namespace CostAllocationApp.DAL
                 return timeStampName;
             }
         }
+        public string GetApproveHistoryTimeStampName(int timeStampId)
+        {
+            string query = "";
+            query = query + "select Id,ApproveTimeStamp from ApproveTimeStamps where id=" + timeStampId;
+
+            string timeStampName = "";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            timeStampName = rdr["ApproveTimeStamp"] is DBNull ? "" : rdr["ApproveTimeStamp"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return timeStampName;
+            }
+        }
+
     }
 }

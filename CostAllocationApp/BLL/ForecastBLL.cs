@@ -240,11 +240,28 @@ namespace CostAllocationApp.BLL
 
                 if (!string.IsNullOrEmpty(tempValue))
                 {
-                    return tempValue;
+                    if (cellNo == 10)
+                    {
+                        return Convert.ToInt32(tempValue).ToString("N0");
+                    }
+                    else
+                    {
+                        return tempValue;
+                    }
                 }
                 else
                 {
-                    var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                    var tempCellValue = "";
+                    if (cellNo == 10)
+                    {
+                        tempCellValue = previousCellName == originalCellName ? Convert.ToInt32(originalCellName).ToString("N0") : "(" + Convert.ToInt32(previousCellName).ToString("N0") + ") " + Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                        tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
+                    }
+                    
                     return tempCellValue;
                     //return "(" + previousCellName + ")" + originalCellName;
                 }
@@ -253,11 +270,26 @@ namespace CostAllocationApp.BLL
             {
                 if (cellNo == Convert.ToInt32(approvedCells))
                 {
-                    return originalCellName;
+                    if (cellNo == 10) {
+                        return Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        return originalCellName;
+                    }                    
                 }
                 else
                 {
-                    var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                    var tempCellValue = "";
+                    if (cellNo == 10)
+                    {
+                        tempCellValue = previousCellName == originalCellName ? Convert.ToInt32(originalCellName).ToString("N0") : "(" + Convert.ToInt32(previousCellName).ToString("N0") + ") " + Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                        tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
+                    }                        
                     return tempCellValue;
                     //return "(" + previousCellName + ")" + originalCellName;
                 }
@@ -276,7 +308,7 @@ namespace CostAllocationApp.BLL
                 {
                     if (cellNo == Convert.ToInt32(approvedItems))
                     {
-                        tempValue = originalCellName.ToString();
+                        tempValue = originalCellName.ToString("0.0");
                         break;
                     }
                 }
@@ -287,19 +319,21 @@ namespace CostAllocationApp.BLL
                 }
                 else
                 {
-                    var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    var cellManMonths = "";
                     return cellManMonths;
                 }
             }
             else
             {
                 if (cellNo == Convert.ToInt32(approvedCells))
-                {                    
-                    return originalCellName.ToString();
+                {
+                    return originalCellName.ToString("0.0");
                 }
                 else
                 {
-                    var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    var cellManMonths = "";
                     return cellManMonths;
                 }
 
@@ -308,6 +342,10 @@ namespace CostAllocationApp.BLL
         public string GetHistoryTimeStampName(int timeStampId)
         {
             return forecastDAL.GetHistoryTimeStampName(timeStampId);
+        }
+        public string GetApproveHistoryTimeStampName(int timeStampId)
+        {
+            return forecastDAL.GetApproveHistoryTimeStampName(timeStampId);
         }
     }
 }

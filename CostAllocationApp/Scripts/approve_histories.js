@@ -241,7 +241,7 @@ $('#btn_export_approve_history_data').on('click', function () {
     //     //minDimensions: [6, 10],       
     // });
 
-    // jss.download(true);
+    jss.download(true);
 
     // $('#jspreadsheet').jexcel('download');
 });

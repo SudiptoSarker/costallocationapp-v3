@@ -876,6 +876,7 @@ function ShowForecastResults(year) {
                         var rowNumber = parseInt(y) + 1;
                         if (parseInt(value) !== 3) {
                             $(jss.getCell("J" + rowNumber)).addClass('readonly');
+                            //jss.setValueFromCoords(parseInt(x)+1, (rowNumber-1), -1, false);
                         }
                         else {
                             $(jss.getCell("J" + rowNumber)).removeClass('readonly');
@@ -889,9 +890,20 @@ function ShowForecastResults(year) {
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                     }
                     if (x == 9) {
+                        if (dataCheck.length == 0) {
+                            jssUpdatedData.push(retrivedData);
+                        }
+                        else {
+                            updateArray(jssUpdatedData, retrivedData);
+                        }
+                        $(cell).css('color', 'red');
+                        $(cell).css('background-color', 'yellow');
+                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                    }
+                    if (x == 10) {
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }

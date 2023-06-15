@@ -780,6 +780,7 @@ namespace CostAllocationApp.Controllers
                             
                             //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
                             var employeeName = _approvalHistoryViewModal.EmployeeName;
+                            var rootEmployeeName = _approvalHistoryViewModal.RootEmployeeName;
                             var employeeId = _approvalHistoryViewModal.EmployeeId;
                             var sectionName = _approvalHistoryViewModal.SectionName;
                             var departmentName = _approvalHistoryViewModal.DepartmentName;
@@ -832,7 +833,7 @@ namespace CostAllocationApp.Controllers
                             {
                                 DownloadApproveHistoryViewModal downloadApproveHistoryViewModal = new DownloadApproveHistoryViewModal();
 
-                                downloadApproveHistoryViewModal.EmployeeName = employeeName;
+                                downloadApproveHistoryViewModal.EmployeeName = rootEmployeeName;
                                 downloadApproveHistoryViewModal.EmployeeId = employeeId;
                                 downloadApproveHistoryViewModal.DepartmentName = departmentName;
 
@@ -894,7 +895,20 @@ namespace CostAllocationApp.Controllers
                                         }
                                         else
                                         {
-                                            isNewObjAdd = true;
+                                            //isNewObjAdd = true;
+                                            //update
+                                            originalItem.OctPoints = originalItem.OctPoints + octP;
+                                            originalItem.NovPoints = originalItem.NovPoints + novP;
+                                            originalItem.DecPoints = originalItem.DecPoints + decP;
+                                            originalItem.JanPoints = originalItem.JanPoints + janP;
+                                            originalItem.FebPoints = originalItem.FebPoints + febP;
+                                            originalItem.MarPoints = originalItem.MarPoints + marP;
+                                            originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                            originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                            originalItem.JunPoints = originalItem.JunPoints + junP;
+                                            originalItem.JulPoints = originalItem.JulPoints + julP;
+                                            originalItem.AugPoints = originalItem.AugPoints + augP;
+                                            originalItem.SepPoints = originalItem.SepPoints + sepP;
                                         }
                                        
                                         break;
@@ -905,7 +919,7 @@ namespace CostAllocationApp.Controllers
                                 if (!isSameEmployee || isNewObjAdd)
                                 {
                                     DownloadApproveHistoryViewModal downloadApproveHistoryViewModal2 = new DownloadApproveHistoryViewModal();
-                                    downloadApproveHistoryViewModal2.EmployeeName = employeeName;
+                                    downloadApproveHistoryViewModal2.EmployeeName = rootEmployeeName;
                                     downloadApproveHistoryViewModal2.DepartmentName = departmentName;
                                     downloadApproveHistoryViewModal2.EmployeeId = employeeId;
 
@@ -1106,10 +1120,10 @@ namespace CostAllocationApp.Controllers
                         //eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
 
-                        eachPersonSheet.Cells["B1"].Value = "部署(Dept)";
-                        eachPersonSheet.Cells["B1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+                        //eachPersonSheet.Cells["B1"].Value = "部署(Dept)";
+                        //eachPersonSheet.Cells["B1"].Style.Font.Bold = true;
+                        //eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        //eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
 
                         //eachPersonSheet.Cells["G1"].Value = "担当作業(In chg)	";
@@ -1142,65 +1156,65 @@ namespace CostAllocationApp.Controllers
                         //eachPersonSheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         //eachPersonSheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["C1"].Value = "10";
+                        eachPersonSheet.Cells["B1"].Value = "10";
+                        eachPersonSheet.Cells["B1"].Style.Font.Bold = true;
+                        eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
+
+                        eachPersonSheet.Cells["C1"].Value = "11";
                         eachPersonSheet.Cells["C1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["D1"].Value = "11";
+                        eachPersonSheet.Cells["D1"].Value = "12";
                         eachPersonSheet.Cells["D1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["E1"].Value = "12";
+                        eachPersonSheet.Cells["E1"].Value = "1";
                         eachPersonSheet.Cells["E1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["F1"].Value = "1";
+                        eachPersonSheet.Cells["F1"].Value = "2";
                         eachPersonSheet.Cells["F1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["G1"].Value = "2";
+                        eachPersonSheet.Cells["G1"].Value = "3";
                         eachPersonSheet.Cells["G1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["H1"].Value = "3";
+                        eachPersonSheet.Cells["H1"].Value = "4";
                         eachPersonSheet.Cells["H1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["I1"].Value = "4";
+                        eachPersonSheet.Cells["I1"].Value = "5";
                         eachPersonSheet.Cells["I1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["J1"].Value = "5";
+                        eachPersonSheet.Cells["J1"].Value = "6";
                         eachPersonSheet.Cells["J1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["K1"].Value = "6";
+                        eachPersonSheet.Cells["K1"].Value = "7";
                         eachPersonSheet.Cells["K1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["L1"].Value = "7";
+                        eachPersonSheet.Cells["L1"].Value = "8";
                         eachPersonSheet.Cells["L1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-                        eachPersonSheet.Cells["M1"].Value = "8";
+                        eachPersonSheet.Cells["M1"].Value = "9";
                         eachPersonSheet.Cells["M1"].Style.Font.Bold = true;
                         eachPersonSheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         eachPersonSheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
-
-                        eachPersonSheet.Cells["N1"].Value = "9";
-                        eachPersonSheet.Cells["N1"].Style.Font.Bold = true;
-                        eachPersonSheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        eachPersonSheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
                         List<DownloadApproveHistoryViewModal> objEachPersonList = new List<DownloadApproveHistoryViewModal>();
                         int countEachPerson = 2;
@@ -1212,6 +1226,7 @@ namespace CostAllocationApp.Controllers
 
                             //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
                             var employeeName = _approvalHistoryViewModal.EmployeeName;
+                            var rootEmployeeName = _approvalHistoryViewModal.RootEmployeeName;
                             var employeeId = _approvalHistoryViewModal.EmployeeId;
                             var sectionName = _approvalHistoryViewModal.SectionName;
                             var departmentName = _approvalHistoryViewModal.DepartmentName;
@@ -1263,7 +1278,7 @@ namespace CostAllocationApp.Controllers
                             {
                                 DownloadApproveHistoryViewModal eachPerson = new DownloadApproveHistoryViewModal();
 
-                                eachPerson.EmployeeName = employeeName;
+                                eachPerson.EmployeeName = rootEmployeeName;
                                 eachPerson.EmployeeId = employeeId;
                                 eachPerson.DepartmentName = departmentName;
 
@@ -1290,7 +1305,7 @@ namespace CostAllocationApp.Controllers
                                     if(eachPersonFromItem.EmployeeId == employeeId)
                                     {
                                         isSamePersonForEachPerson = true;
-                                        eachPersonFromItem.EmployeeName = employeeName;
+                                        eachPersonFromItem.EmployeeName = rootEmployeeName;
                                         eachPersonFromItem.EmployeeId = employeeId;
                                         eachPersonFromItem.DepartmentName = departmentName;
 
@@ -1313,7 +1328,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     DownloadApproveHistoryViewModal eachPerson2 = new DownloadApproveHistoryViewModal();
 
-                                    eachPerson2.EmployeeName = employeeName;
+                                    eachPerson2.EmployeeName = rootEmployeeName;
                                     eachPerson2.EmployeeId = employeeId;
                                     eachPerson2.DepartmentName = departmentName;
 
@@ -1399,20 +1414,20 @@ namespace CostAllocationApp.Controllers
                             foreach (var eachItem in objEachPersonList)
                             {
                                 eachPersonSheet.Cells["A" + eachPersonIndex].Value = eachItem.EmployeeName;
-                                eachPersonSheet.Cells["B" + eachPersonIndex].Value = eachItem.DepartmentName;
+                                //eachPersonSheet.Cells["B" + eachPersonIndex].Value = eachItem.DepartmentName;
                                 
-                                eachPersonSheet.Cells["C" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
-                                eachPersonSheet.Cells["D" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");
-                                eachPersonSheet.Cells["E" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.0");
-                                eachPersonSheet.Cells["F" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.0");
-                                eachPersonSheet.Cells["G" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.0");
-                                eachPersonSheet.Cells["H" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.0");
-                                eachPersonSheet.Cells["I" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.0");
-                                eachPersonSheet.Cells["J" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.0");
-                                eachPersonSheet.Cells["K" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.0");
-                                eachPersonSheet.Cells["L" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.0");
-                                eachPersonSheet.Cells["M" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.0");
-                                eachPersonSheet.Cells["N" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.0");
+                                eachPersonSheet.Cells["B" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
+                                eachPersonSheet.Cells["C" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");
+                                eachPersonSheet.Cells["D" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.0");
+                                eachPersonSheet.Cells["E" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.0");
+                                eachPersonSheet.Cells["F" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.0");
+                                eachPersonSheet.Cells["G" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.0");
+                                eachPersonSheet.Cells["H" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.0");
+                                eachPersonSheet.Cells["I" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.0");
+                                eachPersonSheet.Cells["J" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.0");
+                                eachPersonSheet.Cells["K" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.0");
+                                eachPersonSheet.Cells["L" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.0");
+                                eachPersonSheet.Cells["M" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.0");
 
                                 eachPersonIndex++;
                             }

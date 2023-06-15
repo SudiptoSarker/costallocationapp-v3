@@ -23,6 +23,6 @@ namespace CostAllocationApp.ViewModels
         public bool IsAddEmployee { get; set; }
         public bool IsDeleteEmployee { get; set; }
         public bool IsCellWiseUpdate { get; set; }
-
+        public string RootEmployeeName { get; set; }
     }
 }

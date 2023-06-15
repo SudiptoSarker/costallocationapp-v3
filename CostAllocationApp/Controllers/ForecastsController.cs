@@ -854,31 +854,17 @@ namespace CostAllocationApp.Controllers
                             else
                             {
                                 //new logic: start
-                                bool isQCSectionExists = false;
                                 bool isSameEmployee = false;
-                                bool isSameEmployeeQc = false;
                                 string tempDepartmentName = "";
-
                                 bool isNewObjAdd = false;
-
                                 bool isUpdateList = false;
-                                bool isAddToList = false;
-                                int sameEmployeeCount = 1;
 
                                 foreach (var originalItem in downloadApproveHistoryViewModals)
                                 {
                                     if (originalItem.EmployeeId == employeeId)
                                     {                                        
                                         isSameEmployee = true;
-                                        tempDepartmentName = originalItem.DepartmentName;
-                                        //if(tempDepartmentName == "品証" && departmentName == "品証")
-                                        //{
-                                        //    //update
-                                        //}
-                                        //else if (tempDepartmentName == "品証" && departmentName != "品証")
-                                        //{
-                                        //    //add
-                                        //}else if()
+                                        tempDepartmentName = originalItem.DepartmentName;                                
 
                                         if (tempDepartmentName == "品証")
                                         {
@@ -886,31 +872,17 @@ namespace CostAllocationApp.Controllers
                                             {
                                                 //update
                                                 isUpdateList = true;
-
-                                                //originalItem.OctPoints = originalItem.OctPoints + octP;
-                                                //originalItem.NovPoints = originalItem.NovPoints + novP;
-                                                //originalItem.DecPoints = originalItem.DecPoints + decP;
-                                                //originalItem.JanPoints = originalItem.JanPoints + janP;
-                                                //originalItem.FebPoints = originalItem.FebPoints + febP;
-                                                //originalItem.MarPoints = originalItem.MarPoints + marP;
-                                                //originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                                //originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                                //originalItem.JunPoints = originalItem.JunPoints + junP;
-                                                //originalItem.JulPoints = originalItem.JulPoints + julP;
-                                                //originalItem.AugPoints = originalItem.AugPoints + augP;
-                                                //originalItem.SepPoints = originalItem.SepPoints + sepP;
-                                                break;
+                                                //break;
+                                                goto SkipToEnd;
                                             }
                                             else
                                             {
-                                                //add object
-                                                //var employeList = downloadApproveHistoryViewModals.Where(h => h.EmployeeId == originalItem.EmployeeId).ToList();
-                                                //List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeId).Distinct().ToList();                                                
                                                 int employeList = downloadApproveHistoryViewModals.Count(rec => rec.EmployeeId == employeeId);
                                                 if (employeList > 1)
                                                 {
                                                     isUpdateList = true;
-                                                    break;
+                                                    //break;
+                                                    goto SkipToEnd;
                                                 }
                                                 else
                                                 {
@@ -922,51 +894,35 @@ namespace CostAllocationApp.Controllers
                                         else
                                         {
                                             int employeList = downloadApproveHistoryViewModals.Count(rec => rec.EmployeeId == employeeId);
-                                            if (employeList > 0)
+                                            if (employeList > 1)
                                             {
                                                 isUpdateList = true;
-                                                break;
+                                                //break;
+                                                goto SkipToEnd;
                                             }
                                             else
                                             {
                                                 isNewObjAdd = true;
-                                            }
-
-                                            ////isNewObjAdd = true;
-                                            ////update
-                                            //originalItem.OctPoints = originalItem.OctPoints + octP;
-                                            //originalItem.NovPoints = originalItem.NovPoints + novP;
-                                            //originalItem.DecPoints = originalItem.DecPoints + decP;
-                                            //originalItem.JanPoints = originalItem.JanPoints + janP;
-                                            //originalItem.FebPoints = originalItem.FebPoints + febP;
-                                            //originalItem.MarPoints = originalItem.MarPoints + marP;
-                                            //originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                            //originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                            //originalItem.JunPoints = originalItem.JunPoints + junP;
-                                            //originalItem.JulPoints = originalItem.JulPoints + julP;
-                                            //originalItem.AugPoints = originalItem.AugPoints + augP;
-                                            //originalItem.SepPoints = originalItem.SepPoints + sepP;
-                                        }
-                                       
+                                            }                                          
+                                        }                                       
                                         break;
-                                        //if(originalItem.DepartmentName == )
                                     }
-
-                                    if (isUpdateList)
-                                    {
-                                        originalItem.OctPoints = originalItem.OctPoints + octP;
-                                        originalItem.NovPoints = originalItem.NovPoints + novP;
-                                        originalItem.DecPoints = originalItem.DecPoints + decP;
-                                        originalItem.JanPoints = originalItem.JanPoints + janP;
-                                        originalItem.FebPoints = originalItem.FebPoints + febP;
-                                        originalItem.MarPoints = originalItem.MarPoints + marP;
-                                        originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                        originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                        originalItem.JunPoints = originalItem.JunPoints + junP;
-                                        originalItem.JulPoints = originalItem.JulPoints + julP;
-                                        originalItem.AugPoints = originalItem.AugPoints + augP;
-                                        originalItem.SepPoints = originalItem.SepPoints + sepP;
-                                    }
+                                    SkipToEnd:                                        
+                                        if (isUpdateList)
+                                        {
+                                            originalItem.OctPoints = originalItem.OctPoints + octP;
+                                            originalItem.NovPoints = originalItem.NovPoints + novP;
+                                            originalItem.DecPoints = originalItem.DecPoints + decP;
+                                            originalItem.JanPoints = originalItem.JanPoints + janP;
+                                            originalItem.FebPoints = originalItem.FebPoints + febP;
+                                            originalItem.MarPoints = originalItem.MarPoints + marP;
+                                            originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                            originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                            originalItem.JunPoints = originalItem.JunPoints + junP;
+                                            originalItem.JulPoints = originalItem.JulPoints + julP;
+                                            originalItem.AugPoints = originalItem.AugPoints + augP;
+                                            originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                        }
                                 }
 
                                 if (!isSameEmployee || isNewObjAdd)
@@ -1107,7 +1063,8 @@ namespace CostAllocationApp.Controllers
                         if (downloadApproveHistoryViewModals.Count > 0)
                         {
                             int originalIndex = 2;
-                            foreach (var origianlSheetItem in downloadApproveHistoryViewModals)
+                            List<DownloadApproveHistoryViewModal> downloadApproveHistoryViewModals2 = downloadApproveHistoryViewModals.OrderBy(x => x.EmployeeName).ToList();
+                            foreach (var origianlSheetItem in downloadApproveHistoryViewModals2)
                             {
                                 sheet.Cells["A" + originalIndex].Value = origianlSheetItem.EmployeeName;
                                 sheet.Cells["A" + originalIndex].AutoFitColumns();

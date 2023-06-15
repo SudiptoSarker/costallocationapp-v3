@@ -188,7 +188,6 @@ $(function () {
 
 
 
-
 $(document).ready(function () {
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
@@ -544,7 +543,22 @@ function ShowForecastResults(year) {
                 type: "dropdown", 
                 source: gradesForJexcel, 
                 name: "GradeId", 
-                width: 60 
+                width: 60,
+                filter: (instance, cell, c, r, source) => {
+                    
+                    let row = parseInt(r);
+                    let column = parseInt(c) - 1;
+                    
+                    var value1 = instance.jexcel.getValueFromCoords(column, row);
+                    debugger;
+                    if (parseInt(value1) != 3) {
+                        //debugger;
+                        return [];
+                    }
+                    else {
+                        return gradesForJexcel;
+                    }
+                },
             },
             { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
             {
@@ -872,11 +886,16 @@ function ShowForecastResults(year) {
                         debugger;
                         var rowNumber = parseInt(y) + 1;
                         if (parseInt(value) !== 3) {
+                            var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                            element[0].cells[10].innerText = '';
                             $(jss.getCell("J" + rowNumber)).addClass('readonly');
-                            //jss.setValueFromCoords(parseInt(x)+1, (rowNumber-1), -1, false);
+                            $(jss.getCell("J" + rowNumber)).css('color', 'black');
+                            $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
                         }
                         else {
                             $(jss.getCell("J" + rowNumber)).removeClass('readonly');
+                            $(jss.getCell("J" + rowNumber)).css('color', 'black');
+                            $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
                         }
 
                         if (dataCheck.length == 0) {

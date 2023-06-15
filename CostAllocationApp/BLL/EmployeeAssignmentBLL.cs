@@ -299,50 +299,50 @@ namespace CostAllocationApp.BLL
                     }
                 }
 
-                //employees.Add(new ForecastAssignmentViewModel
-                //{
-                //    EmployeeName = "Head Count",
-                //    OctPoints = OctHeadCount.Count().ToString(),
-                //    NovPoints = NovHeadCount.Count().ToString(),
-                //    DecPoints = DecHeadCount.Count().ToString(),
-                //    JanPoints = JanHeadCount.Count().ToString(),
-                //    FebPoints = FebHeadCount.Count().ToString(),
-                //    MarPoints = MarHeadCount.Count().ToString(),
-                //    AprPoints = AprHeadCount.Count().ToString(),
-                //    MayPoints = MayHeadCount.Count().ToString(),
-                //    JunPoints = JunHeadCount.Count().ToString(),
-                //    JulPoints = JulHeadCount.Count().ToString(),
-                //    AugPoints = AugHeadCount.Count().ToString(),
-                //    SepPoints = SepHeadCount.Count().ToString(),
-                //});
+                employees.Add(new ForecastAssignmentViewModel
+                {
+                    EmployeeName = "Head Count",
+                    OctPoints = OctHeadCount.Count().ToString(),
+                    NovPoints = NovHeadCount.Count().ToString(),
+                    DecPoints = DecHeadCount.Count().ToString(),
+                    JanPoints = JanHeadCount.Count().ToString(),
+                    FebPoints = FebHeadCount.Count().ToString(),
+                    MarPoints = MarHeadCount.Count().ToString(),
+                    AprPoints = AprHeadCount.Count().ToString(),
+                    MayPoints = MayHeadCount.Count().ToString(),
+                    JunPoints = JunHeadCount.Count().ToString(),
+                    JulPoints = JulHeadCount.Count().ToString(),
+                    AugPoints = AugHeadCount.Count().ToString(),
+                    SepPoints = SepHeadCount.Count().ToString(),
+                });
 
             }
 
             // calculate total...
-            //if (employees.Count > 0)
-            //{
-                
-            //    var countedRow = employees.Count-1;
-            //    employees.Add(new ForecastAssignmentViewModel
-            //    {
-            //        EmployeeName = "Total",
+            if (employees.Count > 0)
+            {
 
-            //        OctPoints = $@"=SUM(K1:K{countedRow})",
-            //        NovPoints = $@"=SUM(L1:L{countedRow})",
-            //        DecPoints = $@"=SUM(M1:M{countedRow})",
-            //        JanPoints = $@"=SUM(N1:N{countedRow})",
-            //        FebPoints = $@"=SUM(O1:O{countedRow})",
-            //        MarPoints = $@"=SUM(P1:P{countedRow})",
-            //        AprPoints = $@"=SUM(Q1:Q{countedRow})",
-            //        MayPoints = $@"=SUM(R1:R{countedRow})",
-            //        JunPoints = $@"=SUM(S1:S{countedRow})",
-            //        JulPoints = $@"=SUM(T1:T{countedRow})",
-            //        AugPoints = $@"=SUM(U1:U{countedRow})",
-            //        SepPoints = $@"=SUM(V1:V{countedRow})",
-            //    });
-            //}
+                var countedRow = employees.Count - 1;
+                employees.Add(new ForecastAssignmentViewModel
+                {
+                    EmployeeName = "Total",
 
-            
+                    OctPoints = $@"=SUM(K1:K{countedRow})",
+                    NovPoints = $@"=SUM(L1:L{countedRow})",
+                    DecPoints = $@"=SUM(M1:M{countedRow})",
+                    JanPoints = $@"=SUM(N1:N{countedRow})",
+                    FebPoints = $@"=SUM(O1:O{countedRow})",
+                    MarPoints = $@"=SUM(P1:P{countedRow})",
+                    AprPoints = $@"=SUM(Q1:Q{countedRow})",
+                    MayPoints = $@"=SUM(R1:R{countedRow})",
+                    JunPoints = $@"=SUM(S1:S{countedRow})",
+                    JulPoints = $@"=SUM(T1:T{countedRow})",
+                    AugPoints = $@"=SUM(U1:U{countedRow})",
+                    SepPoints = $@"=SUM(V1:V{countedRow})",
+                });
+            }
+
+
 
             if (employees.Count > 0)
             {

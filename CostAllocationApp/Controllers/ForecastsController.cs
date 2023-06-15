@@ -910,7 +910,7 @@ namespace CostAllocationApp.Controllers
                                                 if (employeList > 1)
                                                 {
                                                     isUpdateList = true;
-                                                    //break;
+                                                    break;
                                                 }
                                                 else
                                                 {
@@ -925,7 +925,7 @@ namespace CostAllocationApp.Controllers
                                             if (employeList > 0)
                                             {
                                                 isUpdateList = true;
-                                                //
+                                                break;
                                             }
                                             else
                                             {

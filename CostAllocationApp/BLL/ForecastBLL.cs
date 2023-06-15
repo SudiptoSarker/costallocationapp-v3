@@ -347,5 +347,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetApproveHistoryTimeStampName(timeStampId);
         }
+        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles()
+        {
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();            
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
+            return forecsatEmployeeAssignmentViewModels;
+            //List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+        }
     }
 }

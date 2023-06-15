@@ -861,59 +861,112 @@ namespace CostAllocationApp.Controllers
 
                                 bool isNewObjAdd = false;
 
+                                bool isUpdateList = false;
+                                bool isAddToList = false;
+                                int sameEmployeeCount = 1;
+
                                 foreach (var originalItem in downloadApproveHistoryViewModals)
                                 {
                                     if (originalItem.EmployeeId == employeeId)
-                                    {
+                                    {                                        
                                         isSameEmployee = true;
                                         tempDepartmentName = originalItem.DepartmentName;
+                                        //if(tempDepartmentName == "品証" && departmentName == "品証")
+                                        //{
+                                        //    //update
+                                        //}
+                                        //else if (tempDepartmentName == "品証" && departmentName != "品証")
+                                        //{
+                                        //    //add
+                                        //}else if()
 
                                         if (tempDepartmentName == "品証")
                                         {
                                             if (departmentName == "品証")
                                             {
                                                 //update
-                                                originalItem.OctPoints = originalItem.OctPoints + octP;
-                                                originalItem.NovPoints = originalItem.NovPoints + novP;
-                                                originalItem.DecPoints = originalItem.DecPoints + decP;
-                                                originalItem.JanPoints = originalItem.JanPoints + janP;
-                                                originalItem.FebPoints = originalItem.FebPoints + febP;
-                                                originalItem.MarPoints = originalItem.MarPoints + marP;
-                                                originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                                originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                                originalItem.JunPoints = originalItem.JunPoints + junP;
-                                                originalItem.JulPoints = originalItem.JulPoints + julP;
-                                                originalItem.AugPoints = originalItem.AugPoints + augP;
-                                                originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                                isUpdateList = true;
+
+                                                //originalItem.OctPoints = originalItem.OctPoints + octP;
+                                                //originalItem.NovPoints = originalItem.NovPoints + novP;
+                                                //originalItem.DecPoints = originalItem.DecPoints + decP;
+                                                //originalItem.JanPoints = originalItem.JanPoints + janP;
+                                                //originalItem.FebPoints = originalItem.FebPoints + febP;
+                                                //originalItem.MarPoints = originalItem.MarPoints + marP;
+                                                //originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                                //originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                                //originalItem.JunPoints = originalItem.JunPoints + junP;
+                                                //originalItem.JulPoints = originalItem.JulPoints + julP;
+                                                //originalItem.AugPoints = originalItem.AugPoints + augP;
+                                                //originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                                break;
                                             }
                                             else
                                             {
                                                 //add object
-                                                isNewObjAdd = true;
+                                                //var employeList = downloadApproveHistoryViewModals.Where(h => h.EmployeeId == originalItem.EmployeeId).ToList();
+                                                //List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeId).Distinct().ToList();                                                
+                                                int employeList = downloadApproveHistoryViewModals.Count(rec => rec.EmployeeId == employeeId);
+                                                if (employeList > 1)
+                                                {
+                                                    isUpdateList = true;
+                                                    //break;
+                                                }
+                                                else
+                                                {
+                                                    isNewObjAdd = true;
+                                                }                                                
                                                 
                                             }
                                         }
                                         else
                                         {
-                                            //isNewObjAdd = true;
-                                            //update
-                                            originalItem.OctPoints = originalItem.OctPoints + octP;
-                                            originalItem.NovPoints = originalItem.NovPoints + novP;
-                                            originalItem.DecPoints = originalItem.DecPoints + decP;
-                                            originalItem.JanPoints = originalItem.JanPoints + janP;
-                                            originalItem.FebPoints = originalItem.FebPoints + febP;
-                                            originalItem.MarPoints = originalItem.MarPoints + marP;
-                                            originalItem.AprPoints = originalItem.AprPoints + aprP;
-                                            originalItem.MayPoints = originalItem.MayPoints + mayP;
-                                            originalItem.JunPoints = originalItem.JunPoints + junP;
-                                            originalItem.JulPoints = originalItem.JulPoints + julP;
-                                            originalItem.AugPoints = originalItem.AugPoints + augP;
-                                            originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                            int employeList = downloadApproveHistoryViewModals.Count(rec => rec.EmployeeId == employeeId);
+                                            if (employeList > 0)
+                                            {
+                                                isUpdateList = true;
+                                                //
+                                            }
+                                            else
+                                            {
+                                                isNewObjAdd = true;
+                                            }
+
+                                            ////isNewObjAdd = true;
+                                            ////update
+                                            //originalItem.OctPoints = originalItem.OctPoints + octP;
+                                            //originalItem.NovPoints = originalItem.NovPoints + novP;
+                                            //originalItem.DecPoints = originalItem.DecPoints + decP;
+                                            //originalItem.JanPoints = originalItem.JanPoints + janP;
+                                            //originalItem.FebPoints = originalItem.FebPoints + febP;
+                                            //originalItem.MarPoints = originalItem.MarPoints + marP;
+                                            //originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                            //originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                            //originalItem.JunPoints = originalItem.JunPoints + junP;
+                                            //originalItem.JulPoints = originalItem.JulPoints + julP;
+                                            //originalItem.AugPoints = originalItem.AugPoints + augP;
+                                            //originalItem.SepPoints = originalItem.SepPoints + sepP;
                                         }
                                        
                                         break;
                                         //if(originalItem.DepartmentName == )
-                                    }                                          
+                                    }
+
+                                    if (isUpdateList)
+                                    {
+                                        originalItem.OctPoints = originalItem.OctPoints + octP;
+                                        originalItem.NovPoints = originalItem.NovPoints + novP;
+                                        originalItem.DecPoints = originalItem.DecPoints + decP;
+                                        originalItem.JanPoints = originalItem.JanPoints + janP;
+                                        originalItem.FebPoints = originalItem.FebPoints + febP;
+                                        originalItem.MarPoints = originalItem.MarPoints + marP;
+                                        originalItem.AprPoints = originalItem.AprPoints + aprP;
+                                        originalItem.MayPoints = originalItem.MayPoints + mayP;
+                                        originalItem.JunPoints = originalItem.JunPoints + junP;
+                                        originalItem.JulPoints = originalItem.JulPoints + julP;
+                                        originalItem.AugPoints = originalItem.AugPoints + augP;
+                                        originalItem.SepPoints = originalItem.SepPoints + sepP;
+                                    }
                                 }
 
                                 if (!isSameEmployee || isNewObjAdd)

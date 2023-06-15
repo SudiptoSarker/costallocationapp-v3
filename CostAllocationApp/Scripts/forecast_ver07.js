@@ -886,7 +886,7 @@ function ShowForecastResults(year) {
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     if (x == 8) {
-                        debugger;
+                        //debugger;
                         var rowNumber = parseInt(y) + 1;
                         if (parseInt(value) !== 3) {
                             var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);

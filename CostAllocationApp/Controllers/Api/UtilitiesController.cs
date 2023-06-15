@@ -837,7 +837,22 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.RoleId = item.RoleId;
                         employeeAssignment.ExplanationId = item.ExplanationId;
                         employeeAssignment.CompanyId = item.CompanyId;
-                        employeeAssignment.GradeId = item.GradeId;
+                        if (item.CompanyId != null)
+                        {
+                            if (item.CompanyId.Value != 3)
+                            {
+                                employeeAssignment.GradeId = null;
+                            }
+                            else
+                            {
+                                employeeAssignment.GradeId = item.GradeId;
+                            }
+                        }
+                        else
+                        {
+                            employeeAssignment.GradeId = null;
+                        }
+
                         employeeAssignment.UnitPrice = item.UnitPrice;
 
                         //AssignmentHistory
@@ -1425,8 +1440,22 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.RoleId = item.RoleId;
                         employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
                         employeeAssignment.CompanyId = item.CompanyId;
+                        if (item.CompanyId != null)
+                        {
+                            if (item.CompanyId.Value != 3)
+                            {
+                                employeeAssignment.GradeId = null;
+                            }
+                            else
+                            {
+                                employeeAssignment.GradeId = item.GradeId;
+                            }
+                        }
+                        else
+                        {
+                            employeeAssignment.GradeId = null;
+                        }
                         employeeAssignment.UnitPrice = item.UnitPrice;
-                        employeeAssignment.GradeId = item.GradeId;
                         employeeAssignment.Year = item.Year.ToString();
                         employeeAssignment.IsActive = true.ToString();
                         employeeAssignment.SubCode = 1;

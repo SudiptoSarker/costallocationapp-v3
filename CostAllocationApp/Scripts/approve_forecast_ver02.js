@@ -202,28 +202,49 @@ $(document).ready(function () {
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('Select valid year!!!');
             return false;
-        }     
+        }  
         
-        // LoaderShowJexcel();        
-        LoaderShow();                
-
-        $.ajax({
-            url: `/api/utilities/UpdateApprovedData`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: "assignmentYear=" + assignmentYear,
-            success: function (data) {
-                if(data==1){
-                    //alert("Operation Success.")                    
-                    ShowForecastResults(assignmentYear);
-                }else{
-                    LoaderHide();
-                    alert("There is no approved data to save!")
-                }
-            }
-        });   
+        var approvedCells = $("#all_selected_cells").val(); 
+        var approvedRows = $("#all_selected_row_for_approve").val();
+        
+        if ((approvedCells != null && approvedCells != undefined && approvedCells != "") || (approvedRows != null && approvedRows != undefined && approvedRows != "")){
+            var approvePromptValue = prompt("Approve History Save As", '');
+            //$("#timeStamp_ForUpdateData").val('');
+            if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
+                return false;
+            }else{
+                // LoaderShowJexcel();        
+                LoaderShow();        
+                var dateObj = new Date();
+                var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                var day = dateObj.getDate();
+                var year = dateObj.getUTCFullYear();    
+                var miliSeconds= dateObj.getMilliseconds();    
+                var timestamp = `${year}${month}${day}${miliSeconds}_`; 
+                
+                $.ajax({
+                    url: `/api/utilities/UpdateApprovedData`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    dataType: 'json',
+                    data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows,
+                    success: function (data) {
+                        if(data==1){
+                            $("#all_selected_cells").val(''); 
+                            $("#all_selected_row_for_approve").val('');
+                                  
+                            ShowForecastResults(assignmentYear);
+                        }else{
+                            LoaderHide();
+                            alert("There is no approved data to save!")
+                        }
+                    }
+                });  
+            }       
+        }else{
+            alert("There is no data to approve!");
+        }        
     });
 
     $('#approve_forecast_data').on('click', function () {
@@ -233,98 +254,6 @@ $(document).ready(function () {
             $("#hidSelectedRow_AssignementId").val('');
             alert("There is no data to approve!");
         }else{
-            // var approvePromptValue = prompt("Approve History Save As", '');
-            // //$("#timeStamp_ForUpdateData").val('');
-            // if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
-            //     return false;
-            // }else
-            // {
-            //     // LoaderShow();
-            //     //return false;
-
-            //     var data_Info = {
-            //         Id: approveAssignmentId
-            //     };
-            //     var cellPosition = $("#hid_SelectedCellPosition").val();
-            //     var selectedCells = $("#hid_cellNo").val();
-            //     var isRowSelected = $("#hid_IsRowSelected").val();
-
-            //     if(isRowSelected=="yes"){
-            //         //approve rows
-            //         $.ajax({
-            //             url: `/api/utilities/ApprovedForecastData`,
-            //             contentType: 'application/json',
-            //             type: 'GET',
-            //             async: true,
-            //             dataType: 'json',
-            //             data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-            //             success: function (data) {
-            //                 if(data==1){
-            //                     var rowNumber = $("#hidSelectedRowNumber").val();
-            //                     if(isDeleted =='true'){
-            //                         SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                     }else{
-            //                         //SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                         SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-            //                     }
-            //                     $("#hidSelectedRow_AssignementId").val("");
-            //                     $("#hidIsRowDeleted").val("");
-            //                     // LoaderHide();
-            //                     // alert("Operation Success.")
-            //                 }
-            //                 else{
-            //                     // LoaderHide();
-            //                     alert("There is no data to approved!")
-            //                 }
-            //                 //_retriveddata = data;
-            //             }
-            //         });       
-            //     }else{
-            //         //approve cells
-            //         $.ajax({
-            //             url: `/api/utilities/ApprovedCellData`,
-            //             contentType: 'application/json',
-            //             type: 'GET',
-            //             async: true,
-            //             dataType: 'json',
-            //             data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-            //             success: function (data) {
-            //                 if(data==1){
-            //                     var assignmentYear = $('#assignment_year_list').val();
-            //                     // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            //                     //     alert('Select valid year!!!');
-            //                     //     return false;
-            //                     // }    
-            //                     var cellNo = $("#selectCellNumber").val();
-            //                     // LoaderHide();
-            //                     SetCellWiseColor(cellNo)
-            //                     //alert("Operation Success.")                    
-            //                     //ShowForecastResults(assignmentYear);
-            //                     //$(cellPosition).css('color', 'red');                            
-            //                     // alert("Operation Success.")
-            //                     // location.reload();
-
-            //                     // var selectedCells = $("#hid_cellNo").val();
-
-            //                     // var rowNumber = $("#hidSelectedRowNumber").val();
-            //                     // if(isDeleted =='true'){
-            //                     //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-            //                     // }else{
-            //                     //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-            //                     // }
-            //                     // $("#hidSelectedRow_AssignementId").val("");
-            //                     // $("#hidIsRowDeleted").val("");
-                                
-            //                 }
-            //                 else{
-            //                     // LoaderHide();
-            //                     alert("There is no data to approved!")
-            //                 }
-            //                 //_retriveddata = data;
-            //             }
-            //         });       
-            //     }
-            // }
             // LoaderShow();
             //return false;
 
@@ -334,11 +263,15 @@ $(document).ready(function () {
             var cellPosition = $("#hid_SelectedCellPosition").val();
             var selectedCells = $("#hid_cellNo").val();
             var isRowSelected = $("#hid_IsRowSelected").val();
+            
+            var strApprovedCellsStore = "";
+            var strApprovedRowsStore = "";
 
             if(isRowSelected=="yes"){
                 //approve rows
                 $.ajax({
-                    url: `/api/utilities/ApprovedForecastData`,
+                    //url: `/api/utilities/ApprovedForecastData`,
+                    url: `/api/utilities/IsValidForApprovalRow`,
                     contentType: 'application/json',
                     type: 'GET',
                     async: true,
@@ -346,29 +279,53 @@ $(document).ready(function () {
                     data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
                     success: function (data) {
                         if(data==1){
-                            var rowNumber = $("#hidSelectedRowNumber").val();
-                            if(isDeleted =='true'){
-                                SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                            }else{
-                                //SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                                SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-                            }
-                            $("#hidSelectedRow_AssignementId").val("");
-                            $("#hidIsRowDeleted").val("");
-                            // LoaderHide();
-                            // alert("Operation Success.")
+                            var approvedRows = $("#all_selected_row_for_approve").val();                               
+                            var isApprovedRowColorChanged = false;
+
+                            //store approved data!
+                            if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
+                                strApprovedRowsStore = approveAssignmentId;
+                                $("#all_selected_row_for_approve").val(strApprovedRowsStore);
+                                isApprovedRowColorChanged = true;
+                            }else{         
+                                var isValidForApprove = false;
+                                var arrCells = approvedRows.split(',');        
+                                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                                    if(approveAssignmentId == nestedValue){
+                                        isValidForApprove = false;
+                                    }
+                                    else{
+                                        isValidForApprove = true;
+                                        isApprovedRowColorChanged = true;
+                                    }                                                            
+                                });  
+                                if(isValidForApprove){
+                                    strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
+                                    $("#all_selected_row_for_approve").val(strApprovedRowsStore);
+                                }else{
+                                    alert("There is no data to approved!")
+                                }                                           
+                            } 
+
+                            if(isApprovedRowColorChanged){
+                               var rowNumber = $("#hidSelectedRowNumber").val();
+                                if(isDeleted =='true'){
+                                    SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                                }else{
+                                    SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                                }
+                                $("#hidSelectedRow_AssignementId").val("");
+                                $("#hidIsRowDeleted").val("");                                                                          
+                            }                            
                         }
                         else{
-                            // LoaderHide();
                             alert("There is no data to approved!")
                         }
-                        //_retriveddata = data;
                     }
                 });       
-            }else{
-                //approve cells
+            }else{                
                 $.ajax({
-                    url: `/api/utilities/ApprovedCellData`,
+                    url: `/api/utilities/IsValidForApprovalCell`,
                     contentType: 'application/json',
                     type: 'GET',
                     async: true,
@@ -376,43 +333,201 @@ $(document).ready(function () {
                     data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
                     success: function (data) {
                         if(data==1){
-                            var assignmentYear = $('#assignment_year_list').val();
-                            // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-                            //     alert('Select valid year!!!');
-                            //     return false;
-                            // }    
-                            var cellNo = $("#selectCellNumber").val();
-                            // LoaderHide();
-                            SetCellWiseColor(cellNo)
-                            //alert("Operation Success.")                    
-                            //ShowForecastResults(assignmentYear);
-                            //$(cellPosition).css('color', 'red');                            
-                            // alert("Operation Success.")
-                            // location.reload();
+                            var approvedCells = $("#all_selected_cells").val();                               
+                            var isApprovedCellColorChanged = false;
 
-                            // var selectedCells = $("#hid_cellNo").val();
-
-                            // var rowNumber = $("#hidSelectedRowNumber").val();
-                            // if(isDeleted =='true'){
-                            //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-                            // }else{
-                            //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-                            // }
-                            // $("#hidSelectedRow_AssignementId").val("");
-                            // $("#hidIsRowDeleted").val("");
-                            
+                            //store approved data!
+                            if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
+                                strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
+                                $("#all_selected_cells").val(strApprovedCellsStore);
+                                isApprovedCellColorChanged = true;
+                            }else{         
+                                var isValidForApprove = false;
+                                var arrCells = approvedCells.split(',');        
+                                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                                    var arrNestedCells = nestedValue.split('_');
+                                    if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){
+                                        isValidForApprove = false;
+                                    }
+                                    else{
+                                        isValidForApprove = true;
+                                        isApprovedCellColorChanged = true;
+                                    }                                                            
+                                });  
+                                if(isValidForApprove){
+                                    strApprovedCellsStore = approvedCells+","+approveAssignmentId +"_"+ selectedCells;;   
+                                    $("#all_selected_cells").val(strApprovedCellsStore);
+                                }else{
+                                    alert("There is no data to approved!")
+                                }                                           
+                            } 
+                            if(isApprovedCellColorChanged){
+                                var assignmentYear = $('#assignment_year_list').val();                            
+                                var cellNo = $("#selectCellNumber").val();                                                                
+                                SetCellWiseColor(cellNo);       
+                            }
                         }
                         else{
-                            // LoaderHide();
                             alert("There is no data to approved!")
                         }
-                        //_retriveddata = data;
                     }
                 });       
-            }
+            }            
         }       
     });
 
+    $('#unapprove_forecast_data').on('click', function () {       
+
+        var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
+        var isDeleted = $("#hidIsRowDeleted").val();
+        if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
+            $("#hidSelectedRow_AssignementId").val('');
+            alert("There is no data to approve!");
+        }else{
+            // LoaderShow();
+            //return false;
+
+            var data_Info = {
+                Id: approveAssignmentId
+            };
+            var cellPosition = $("#hid_SelectedCellPosition").val();
+            var selectedCells = $("#hid_cellNo").val();
+            var isRowSelected = $("#hid_IsRowSelected").val();
+            
+            
+            if(isRowSelected=="yes"){
+                //un approve rows
+                var approvedCells = $("#all_selected_row_for_approve").val();   
+                var arrCells = approvedCells.split(',');        
+
+                var restoreApproveCells = "";
+                var isValidForUnapprove = true;
+
+                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                    //var arrNestedCells = nestedValue.split('_');
+                    if(approveAssignmentId == nestedValue){                        
+                        isValidForUnapprove = false;
+                    }
+                    else{
+                        if(restoreApproveCells==""){
+                            restoreApproveCells = nestedValue;
+                        }else{
+                            restoreApproveCells = restoreApproveCells+","+nestedValue;
+                        }                        
+                    }                                                            
+                }); 
+                if(isValidForUnapprove){                    
+                    alert("There is no data to approved!");
+                }else{
+                    $("#all_selected_row_for_approve").val(restoreApproveCells);   
+                    var rowNumber = $("#hidSelectedRowNumber").val();
+                    if(isDeleted =='true'){
+                        var selectRowIsPendingForApproval = $("#pending_selected_row").val();
+                        if(selectRowIsPendingForApproval =='true'){
+                            SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
+                        }else{
+                            SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
+                        }                        
+                    }else{
+                        var deletedRowIsPendingForApproval = $("#pending_selected_deleted_row").val();
+                        if(deletedRowIsPendingForApproval =='true'){
+                            SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
+                        }else{
+                            SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
+                        }                          
+                    }
+                    $("#hidSelectedRow_AssignementId").val("");
+                    $("#hidIsRowDeleted").val("");
+                }                  
+            }else{
+                //un approve cells
+                var approvedCells = $("#all_selected_cells").val();   
+                var arrCells = approvedCells.split(',');        
+
+                var restoreApproveCells = "";
+                var isValidForUnapprove = true;
+
+                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                    var arrNestedCells = nestedValue.split('_');
+                    if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){                        
+                        isValidForUnapprove = false;
+                    }
+                    else{
+                        if(restoreApproveCells==""){
+                            restoreApproveCells = arrNestedCells[0]+"_"+arrNestedCells[1];
+                        }else{
+                            restoreApproveCells = restoreApproveCells+","+arrNestedCells[0]+"_"+arrNestedCells[1];
+                        }                        
+                    }                                                            
+                }); 
+                if(isValidForUnapprove){                    
+                    alert("There is no data to approved!");
+                }else{
+                    $("#all_selected_cells").val(restoreApproveCells);   
+                    var cellNo = $("#selectCellNumber").val();    
+                    
+                    var pendingCells = $("#pending_cells_selected_cells").val();
+                    var arrPendingCells = pendingCells.split(',');        
+                    var isPendingCells = false;
+                    $.each(arrPendingCells, function (nextedIndex, nestedValue) { 
+                        if(selectedCells == nestedValue){
+                            isPendingCells = true;  
+                        }
+                    }); 
+                    if(isPendingCells){
+                        SetRowColor_PendingCells(cellNo) ;
+                    }
+                    else{
+                        SetCellWiseColor_ForUnApproved(cellNo);                                                                              
+                    }                
+                    //SetCellWiseColor_ForUnApproved(cellNo)
+                }
+
+                // $.ajax({
+                //     url: `/api/utilities/UnApprovedCellData`,
+                //     contentType: 'application/json',
+                //     type: 'GET',
+                //     async: true,
+                //     dataType: 'json',
+                //     data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
+                //     success: function (data) {
+                //         if(data==1){
+                //             var assignmentYear = $('#assignment_year_list').val();
+                //             // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+                //             //     alert('Select valid year!!!');
+                //             //     return false;
+                //             // }    
+                //             var cellNo = $("#selectCellNumber").val();
+                //             // LoaderHide();
+                //             SetCellWiseColor_ForUnApproved(cellNo)
+                //             //alert("Operation Success.")                    
+                //             //ShowForecastResults(assignmentYear);
+                //             //$(cellPosition).css('color', 'red');                            
+                //             // alert("Operation Success.")
+                //             // location.reload();
+
+                //             // var selectedCells = $("#hid_cellNo").val();
+
+                //             // var rowNumber = $("#hidSelectedRowNumber").val();
+                //             // if(isDeleted =='true'){
+                //             //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                //             // }else{
+                //             //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                //             // }
+                //             // $("#hidSelectedRow_AssignementId").val("");
+                //             // $("#hidIsRowDeleted").val("");
+                            
+                //         }
+                //         else{
+                //             // LoaderHide();
+                //             alert("There is no data to approved!")
+                //         }
+                //         //_retriveddata = data;
+                //     }
+                // });       
+            }            
+        }       
+    });
 
 
     $(document).on('change', '#section_search', function () {
@@ -431,6 +546,8 @@ $(document).ready(function () {
     
     $(document).on('click', '#assignment_year_data ', function () {    
         var assignmentYear = $('#assignment_year_list').val();
+        $("#all_selected_cells").val("");
+        $("#all_selected_row_for_approve").val("");
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('Select valid year!!!');
             return false;
@@ -823,500 +940,505 @@ function ShowForecastResults(year) {
             { title: "IsActive", type: 'hidden', name: "IsActive" },
             { title: "BCYRCellApproved", type: 'hidden', name: "BCYRCellApproved" },
             { title: "IsApproved", type: 'hidden', name: "IsApproved" },
+            { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
+
+            { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
+            { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
         ],
         minDimensions: [6, 10],
         columnSorting: true,
-        onbeforechange: function (instance, cell, x, y, value) {
+        // onbeforechange: function (instance, cell, x, y, value) {
 
-            //alert(value);
-            if (x == 11) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 12) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 13) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 14) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 15) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 16) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 17) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 18) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 19) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 20) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 21) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-            if (x == 22) {
-                beforeChangedValue = jss.getValueFromCoords(x, y);
-            }
-        },
-        onchange: function (instance, cell, x, y, value) {
-            //debugger;
-            var checkId = jss.getValueFromCoords(0, y);
-            var employeeId = jss.getValueFromCoords(35, y);
+        //     //alert(value);
+        //     if (x == 11) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 12) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 13) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 14) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 15) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 16) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 17) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 18) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 19) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 20) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 21) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        //     if (x == 22) {
+        //         beforeChangedValue = jss.getValueFromCoords(x, y);
+        //     }
+        // },
+        
+        // onchange: function (instance, cell, x, y, value) {
+        //     //debugger;
+        //     var checkId = jss.getValueFromCoords(0, y);
+        //     var employeeId = jss.getValueFromCoords(35, y);
 
-            if (checkId == null || checkId == '' || checkId == undefined) {
+        //     if (checkId == null || checkId == '' || checkId == undefined) {
 
-                var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-                retrivedData.assignmentId = "new-" + newRowCount;
+        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
+        //         retrivedData.assignmentId = "new-" + newRowCount;
 
-                jssInsertedData.push(retrivedData);
-                newRowCount++;
-                jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-                jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
-            }
-            else {
-                var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-                if (retrivedData.assignmentId.toString().includes('new')) {
-                    updateArrayForInsert(jssInsertedData, retrivedData);
-                }
-                else {
-                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                    if (x == 2) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
-                    }
-                    if (x == 3) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 4) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 5) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 6) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 7) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 8) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 9) {
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 11) {
-                        var octSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                octSum += parseFloat(value.childNodes[12].innerText);
-                            }
+        //         jssInsertedData.push(retrivedData);
+        //         newRowCount++;
+        //         jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
+        //         jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
+        //         jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+        //     }
+        //     else {
+        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
+        //         if (retrivedData.assignmentId.toString().includes('new')) {
+        //             updateArrayForInsert(jssInsertedData, retrivedData);
+        //         }
+        //         else {
+        //             var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+        //             if (x == 2) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
+        //             }
+        //             if (x == 3) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 4) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 5) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 6) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 7) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 8) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 9) {
+        //                 if (dataCheck.length == 0) {
+        //                     jssUpdatedData.push(retrivedData);
+        //                 }
+        //                 else {
+        //                     updateArray(jssUpdatedData, retrivedData);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 11) {
+        //                 var octSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         octSum += parseFloat(value.childNodes[12].innerText);
+        //                     }
 
-                        });
+        //                 });
 
-                        if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-                            octSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+        //                     octSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                        }
-                        else {
+        //                 }
+        //                 else {
 
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
+        //                         updateArray(jssUpdatedData, retrivedData);
+        //                     }
 
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
 
-                    }
-                    if (x == 12) {
-                        var novSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                novSum += parseFloat(value.childNodes[13].innerText);
-                            }
+        //             }
+        //             if (x == 12) {
+        //                 var novSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         novSum += parseFloat(value.childNodes[13].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
-                            novSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
+        //                     novSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 13) {
-                        var decSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                decSum += parseFloat(value.childNodes[14].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 13) {
+        //                 var decSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         decSum += parseFloat(value.childNodes[14].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
-                            decSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
+        //                     decSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 14) {
-                        var janSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                janSum += parseFloat(value.childNodes[15].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 14) {
+        //                 var janSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         janSum += parseFloat(value.childNodes[15].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
-                            janSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
+        //                     janSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 15) {
-                        var febSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                febSum += parseFloat(value.childNodes[16].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 15) {
+        //                 var febSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         febSum += parseFloat(value.childNodes[16].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
-                            febSum = 1;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
+        //                     febSum = 1;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 16) {
-                        var marSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                marSum += parseFloat(value.childNodes[17].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 16) {
+        //                 var marSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         marSum += parseFloat(value.childNodes[17].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
-                            marSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
+        //                     marSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 17) {
-                        var aprSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                aprSum += parseFloat(value.childNodes[18].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 17) {
+        //                 var aprSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         aprSum += parseFloat(value.childNodes[18].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
-                            aprSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
+        //                     aprSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 18) {
-                        var maySum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                maySum += parseFloat(value.childNodes[19].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 18) {
+        //                 var maySum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         maySum += parseFloat(value.childNodes[19].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 19) {
-                        var junSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                junSum += parseFloat(value.childNodes[20].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 19) {
+        //                 var junSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         junSum += parseFloat(value.childNodes[20].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
-                            junSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
+        //                     junSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 20) {
-                        var julSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                julSum += parseFloat(value.childNodes[21].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 20) {
+        //                 var julSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         julSum += parseFloat(value.childNodes[21].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 21) {
-                        var augSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                augSum += parseFloat(value.childNodes[22].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 21) {
+        //                 var augSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         augSum += parseFloat(value.childNodes[22].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
-                            augSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
+        //                     augSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    if (x == 22) {
-                        var sepSum = 0;
-                        $.each(jss.rows, (index, value) => {
-                            if (value.childNodes[36].innerText == employeeId.toString()) {
-                                sepSum += parseFloat(value.childNodes[23].innerText);
-                            }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //             if (x == 22) {
+        //                 var sepSum = 0;
+        //                 $.each(jss.rows, (index, value) => {
+        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
+        //                         sepSum += parseFloat(value.childNodes[23].innerText);
+        //                     }
 
-                        });
-                        if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
-                            sepSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                        }
-                        else {
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
+        //                 });
+        //                 if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
+        //                     sepSum = 0;
+        //                     alert('Input not valid');
+        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
+        //                 }
+        //                 else {
+        //                     if (dataCheck.length == 0) {
+        //                         jssUpdatedData.push(retrivedData);
+        //                     }
+        //                     else {
 
-                                updateArray(jssUpdatedData, retrivedData);
+        //                         updateArray(jssUpdatedData, retrivedData);
 
-                            }
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                }
+        //                     }
+        //                 }
+        //                 $(cell).css('color', 'red');
+        //                 $(cell).css('background-color', 'yellow');
+        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+        //             }
+        //         }
 
-            }
+        //     }
 
-        },
+        // },
         oninsertrow: newRowInserted,
         ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {            
@@ -1328,8 +1450,9 @@ function ShowForecastResults(year) {
 
     $("#saved_approved_data").css("display", "block");
     $("#approve_forecast_data").css("display", "block");
+    $("#unapprove_forecast_data").css("display", "block");
 
-    jss.deleteColumn(42, 15);
+    jss.deleteColumn(45, 15);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1401,6 +1524,11 @@ function ShowForecastResults(year) {
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {
+        // if (value['36'] == true && value['38'] == true) {
+        //     SetRowColor_ApprovedRow(count);
+        // }else if (value['36'] == true && value['38'] == false) {
+        //     SetRowColor(count);
+        // }
         if (value['36'] == true && value['38'] == true) {
             SetRowColor_ApprovedRow(count);
         }else if (value['36'] == true && value['38'] == false) {
@@ -1409,433 +1537,428 @@ function ShowForecastResults(year) {
         else {
             var isApprovedCells = value['41'];
             var columnInfo = value['37'];
-            var infoArray = columnInfo.split(',');
+            var infoArray = columnInfo.split(',');            
 
-            $.each(infoArray, function (nextedIndex, nestedValue) {        
-                if( value['0'] ==   54)      
-                {
-                    console.log("test");
-                }
-                
+            $.each(infoArray, function (nextedIndex, nestedValue) {                                    
                 if (parseInt(nestedValue) == 1) {
-                    // jss.setStyle("B" + count, "background-color", "yellow");
-                    // jss.setStyle("B" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("B" + count, "background-color", "red");
-                        jss.setStyle("B" + count, "color", "black");
-                    }else{
-                        jss.setStyle("B" + count, "background-color", "yellow");
-                        jss.setStyle("B" + count, "color", "red");
-                    }                    
+                    jss.setStyle("B" + count, "background-color", "yellow");
+                    jss.setStyle("B" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("B" + count, "background-color", "red");
+                    //     jss.setStyle("B" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("B" + count, "background-color", "yellow");
+                    //     jss.setStyle("B" + count, "color", "red");
+                    // }                    
                 }
                 
                 if (parseInt(nestedValue) == 2) {
-                    // jss.setStyle("C" + count, "background-color", "yellow");
-                    // jss.setStyle("C" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("C" + count, "background-color", "red");
-                        jss.setStyle("C" + count, "color", "black");
-                    }else{
-                        jss.setStyle("C" + count, "background-color", "yellow");
-                        jss.setStyle("C" + count, "color", "red");
-                    }  
+                    jss.setStyle("C" + count, "background-color", "yellow");
+                    jss.setStyle("C" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("C" + count, "background-color", "red");
+                    //     jss.setStyle("C" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("C" + count, "background-color", "yellow");
+                    //     jss.setStyle("C" + count, "color", "red");
+                    // }  
                 }
                 
                 if (parseInt(nestedValue) == 3) {
-                    // jss.setStyle("D" + count, "background-color", "yellow");
-                    // jss.setStyle("D" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("D" + count, "background-color", "red");
-                        jss.setStyle("D" + count, "color", "black");
-                    }else{
-                        jss.setStyle("D" + count, "background-color", "yellow");
-                        jss.setStyle("D" + count, "color", "red");
-                    }                      
+                    jss.setStyle("D" + count, "background-color", "yellow");
+                    jss.setStyle("D" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("D" + count, "background-color", "red");
+                    //     jss.setStyle("D" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("D" + count, "background-color", "yellow");
+                    //     jss.setStyle("D" + count, "color", "red");
+                    // }                      
                 }
                 
                 if (parseInt(nestedValue) == 4) {
-                    // jss.setStyle("E" + count, "background-color", "yellow");
-                    // jss.setStyle("E" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("E" + count, "background-color", "red");
-                        jss.setStyle("E" + count, "color", "black");
-                    }else{
-                        jss.setStyle("E" + count, "background-color", "yellow");
-                        jss.setStyle("E" + count, "color", "red");
-                    } 
+                    jss.setStyle("E" + count, "background-color", "yellow");
+                    jss.setStyle("E" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("E" + count, "background-color", "red");
+                    //     jss.setStyle("E" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("E" + count, "background-color", "yellow");
+                    //     jss.setStyle("E" + count, "color", "red");
+                    // } 
                 }
                 
                 if (parseInt(nestedValue) == 5) {
-                    // jss.setStyle("F" + count, "background-color", "yellow");
-                    // jss.setStyle("F" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("F" + count, "background-color", "red");
-                        jss.setStyle("F" + count, "color", "black");
-                    }else{
-                        jss.setStyle("F" + count, "background-color", "yellow");
-                        jss.setStyle("F" + count, "color", "red");
-                    } 
+                    jss.setStyle("F" + count, "background-color", "yellow");
+                    jss.setStyle("F" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("F" + count, "background-color", "red");
+                    //     jss.setStyle("F" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("F" + count, "background-color", "yellow");
+                    //     jss.setStyle("F" + count, "color", "red");
+                    // } 
                 }
                 
                 if (parseInt(nestedValue) == 6) {
-                    // jss.setStyle("G" + count, "background-color", "yellow");
-                    // jss.setStyle("G" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("G" + count, "background-color", "red");
-                        jss.setStyle("G" + count, "color", "black");
-                    }else{
-                        jss.setStyle("G" + count, "background-color", "yellow");
-                        jss.setStyle("G" + count, "color", "red");
-                    }                   
+                    jss.setStyle("G" + count, "background-color", "yellow");
+                    jss.setStyle("G" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("G" + count, "background-color", "red");
+                    //     jss.setStyle("G" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("G" + count, "background-color", "yellow");
+                    //     jss.setStyle("G" + count, "color", "red");
+                    // }                   
                 }
                 
                 if (parseInt(nestedValue) == 7) {
-                    // jss.setStyle("H" + count, "background-color", "yellow");
-                    // jss.setStyle("H" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("H" + count, "background-color", "red");
-                        jss.setStyle("H" + count, "color", "black");
-                    }else{
-                        jss.setStyle("H" + count, "background-color", "yellow");
-                        jss.setStyle("H" + count, "color", "red");
-                    } 
+                    jss.setStyle("H" + count, "background-color", "yellow");
+                    jss.setStyle("H" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("H" + count, "background-color", "red");
+                    //     jss.setStyle("H" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("H" + count, "background-color", "yellow");
+                    //     jss.setStyle("H" + count, "color", "red");
+                    // } 
                 }
                 
                 if (parseInt(nestedValue) == 8) {
-                    // jss.setStyle("I" + count, "background-color", "yellow");
-                    // jss.setStyle("I" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("I" + count, "background-color", "red");
-                        jss.setStyle("I" + count, "color", "black");
-                    }else{
-                        jss.setStyle("I" + count, "background-color", "yellow");
-                        jss.setStyle("I" + count, "color", "red");
-                    } 
+                    jss.setStyle("I" + count, "background-color", "yellow");
+                    jss.setStyle("I" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("I" + count, "background-color", "red");
+                    //     jss.setStyle("I" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("I" + count, "background-color", "yellow");
+                    //     jss.setStyle("I" + count, "color", "red");
+                    // } 
                 }
                 
                 if (parseInt(nestedValue) == 9) {
-                    // jss.setStyle("J" + count, "background-color", "yellow");
-                    // jss.setStyle("J" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("J" + count, "background-color", "red");
-                        jss.setStyle("J" + count, "color", "black");
-                    }else{
-                        jss.setStyle("J" + count, "background-color", "yellow");
-                        jss.setStyle("J" + count, "color", "red");
-                    }
+                    jss.setStyle("J" + count, "background-color", "yellow");
+                    jss.setStyle("J" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("J" + count, "background-color", "red");
+                    //     jss.setStyle("J" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("J" + count, "background-color", "yellow");
+                    //     jss.setStyle("J" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 10) {
-                    // jss.setStyle("K" + count, "background-color", "yellow");
-                    // jss.setStyle("K" + count, "color", "red");
+                    jss.setStyle("K" + count, "background-color", "yellow");
+                    jss.setStyle("K" + count, "color", "red");
 
-                    if(isApprovedCells == true){
-                        jss.setStyle("K" + count, "background-color", "red");
-                        jss.setStyle("K" + count, "color", "black");
-                    }else{
-                        jss.setStyle("K" + count, "background-color", "yellow");
-                        jss.setStyle("K" + count, "color", "red");
-                    }
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("K" + count, "background-color", "red");
+                    //     jss.setStyle("K" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("K" + count, "background-color", "yellow");
+                    //     jss.setStyle("K" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 11) {
-                    // jss.setStyle("L" + count, "background-color", "yellow");
-                    // jss.setStyle("L" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("L" + count, "background-color", "red");
-                        jss.setStyle("L" + count, "color", "black");
-                    }else{
-                        jss.setStyle("L" + count, "background-color", "yellow");
-                        jss.setStyle("L" + count, "color", "red");
-                    }
+                    jss.setStyle("L" + count, "background-color", "yellow");
+                    jss.setStyle("L" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("L" + count, "background-color", "red");
+                    //     jss.setStyle("L" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("L" + count, "background-color", "yellow");
+                    //     jss.setStyle("L" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 12) {
-                    // jss.setStyle("M" + count, "background-color", "yellow");
-                    // jss.setStyle("M" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("M" + count, "background-color", "red");
-                        jss.setStyle("M" + count, "color", "black");
-                    }else{
-                        jss.setStyle("M" + count, "background-color", "yellow");
-                        jss.setStyle("M" + count, "color", "red");
-                    }
+                    jss.setStyle("M" + count, "background-color", "yellow");
+                    jss.setStyle("M" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("M" + count, "background-color", "red");
+                    //     jss.setStyle("M" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("M" + count, "background-color", "yellow");
+                    //     jss.setStyle("M" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 13) {
-                    // jss.setStyle("N" + count, "background-color", "yellow");
-                    // jss.setStyle("N" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("N" + count, "background-color", "red");
-                        jss.setStyle("N" + count, "color", "black");
-                    }else{
-                        jss.setStyle("N" + count, "background-color", "yellow");
-                        jss.setStyle("N" + count, "color", "red");
-                    }
+                    jss.setStyle("N" + count, "background-color", "yellow");
+                    jss.setStyle("N" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("N" + count, "background-color", "red");
+                    //     jss.setStyle("N" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("N" + count, "background-color", "yellow");
+                    //     jss.setStyle("N" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 14) {
-                    // jss.setStyle("O" + count, "background-color", "yellow");
-                    // jss.setStyle("O" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("O" + count, "background-color", "red");
-                        jss.setStyle("O" + count, "color", "black");
-                    }else{
-                        jss.setStyle("O" + count, "background-color", "yellow");
-                        jss.setStyle("O" + count, "color", "red");
-                    }
+                    jss.setStyle("O" + count, "background-color", "yellow");
+                    jss.setStyle("O" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("O" + count, "background-color", "red");
+                    //     jss.setStyle("O" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("O" + count, "background-color", "yellow");
+                    //     jss.setStyle("O" + count, "color", "red");
+                    // }
                 }  
                           
                 if (parseInt(nestedValue) == 15) {
-                    // jss.setStyle("P" + count, "background-color", "yellow");
-                    // jss.setStyle("P" + count, "color", "red"); 
-                    if(isApprovedCells == true){
-                        jss.setStyle("P" + count, "background-color", "red");
-                        jss.setStyle("P" + count, "color", "black");
-                    }else{
-                        jss.setStyle("P" + count, "background-color", "yellow");
-                        jss.setStyle("P" + count, "color", "red");
-                    }
+                    jss.setStyle("P" + count, "background-color", "yellow");
+                    jss.setStyle("P" + count, "color", "red"); 
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("P" + count, "background-color", "red");
+                    //     jss.setStyle("P" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("P" + count, "background-color", "yellow");
+                    //     jss.setStyle("P" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 16) {
-                    // jss.setStyle("Q" + count, "background-color", "yellow");
-                    // jss.setStyle("Q" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("Q" + count, "background-color", "red");
-                        jss.setStyle("Q" + count, "color", "black");
-                    }else{
-                        jss.setStyle("Q" + count, "background-color", "yellow");
-                        jss.setStyle("Q" + count, "color", "red");
-                    }
+                    jss.setStyle("Q" + count, "background-color", "yellow");
+                    jss.setStyle("Q" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("Q" + count, "background-color", "red");
+                    //     jss.setStyle("Q" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("Q" + count, "background-color", "yellow");
+                    //     jss.setStyle("Q" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 17) {
-                    // jss.setStyle("R" + count, "background-color", "yellow");
-                    // jss.setStyle("R" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("R" + count, "background-color", "red");
-                        jss.setStyle("R" + count, "color", "black");
-                    }else{
-                        jss.setStyle("R" + count, "background-color", "yellow");
-                        jss.setStyle("R" + count, "color", "red");
-                    }
+                    jss.setStyle("R" + count, "background-color", "yellow");
+                    jss.setStyle("R" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("R" + count, "background-color", "red");
+                    //     jss.setStyle("R" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("R" + count, "background-color", "yellow");
+                    //     jss.setStyle("R" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 18) {
-                    // jss.setStyle("S" + count, "background-color", "yellow");
-                    // jss.setStyle("S" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("S" + count, "background-color", "red");
-                        jss.setStyle("S" + count, "color", "black");
-                    }else{
-                        jss.setStyle("S" + count, "background-color", "yellow");
-                        jss.setStyle("S" + count, "color", "red");
-                    }
+                    jss.setStyle("S" + count, "background-color", "yellow");
+                    jss.setStyle("S" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("S" + count, "background-color", "red");
+                    //     jss.setStyle("S" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("S" + count, "background-color", "yellow");
+                    //     jss.setStyle("S" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 19) {
-                    // jss.setStyle("T" + count, "background-color", "yellow");
-                    // jss.setStyle("T" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("T" + count, "background-color", "red");
-                        jss.setStyle("T" + count, "color", "black");
-                    }else{
-                        jss.setStyle("T" + count, "background-color", "yellow");
-                        jss.setStyle("T" + count, "color", "red");
-                    }
+                    jss.setStyle("T" + count, "background-color", "yellow");
+                    jss.setStyle("T" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("T" + count, "background-color", "red");
+                    //     jss.setStyle("T" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("T" + count, "background-color", "yellow");
+                    //     jss.setStyle("T" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 20) {
-                    // jss.setStyle("U" + count, "background-color", "yellow");
-                    // jss.setStyle("U" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("U" + count, "background-color", "red");
-                        jss.setStyle("U" + count, "color", "black");
-                    }else{
-                        jss.setStyle("U" + count, "background-color", "yellow");
-                        jss.setStyle("U" + count, "color", "red");
-                    }
+                    jss.setStyle("U" + count, "background-color", "yellow");
+                    jss.setStyle("U" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("U" + count, "background-color", "red");
+                    //     jss.setStyle("U" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("U" + count, "background-color", "yellow");
+                    //     jss.setStyle("U" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 21) {
-                    // jss.setStyle("V" + count, "background-color", "yellow");
-                    // jss.setStyle("V" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("V" + count, "background-color", "red");
-                        jss.setStyle("V" + count, "color", "black");
-                    }else{
-                        jss.setStyle("V" + count, "background-color", "yellow");
-                        jss.setStyle("V" + count, "color", "red");
-                    }
+                    jss.setStyle("V" + count, "background-color", "yellow");
+                    jss.setStyle("V" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("V" + count, "background-color", "red");
+                    //     jss.setStyle("V" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("V" + count, "background-color", "yellow");
+                    //     jss.setStyle("V" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 22) {
-                    // jss.setStyle("W" + count, "background-color", "yellow");
-                    // jss.setStyle("W" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("W" + count, "background-color", "red");
-                        jss.setStyle("W" + count, "color", "black");
-                    }else{
-                        jss.setStyle("W" + count, "background-color", "yellow");
-                        jss.setStyle("W" + count, "color", "red");
-                    }
+                    jss.setStyle("W" + count, "background-color", "yellow");
+                    jss.setStyle("W" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("W" + count, "background-color", "red");
+                    //     jss.setStyle("W" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("W" + count, "background-color", "yellow");
+                    //     jss.setStyle("W" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 23) {
                     jss.setStyle("X" + count, "background-color", "yellow");
                     jss.setStyle("X" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("X" + count, "background-color", "red");
-                        jss.setStyle("X" + count, "color", "black");
-                    }else{
-                        jss.setStyle("X" + count, "background-color", "yellow");
-                        jss.setStyle("X" + count, "color", "red");
-                    }
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("X" + count, "background-color", "red");
+                    //     jss.setStyle("X" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("X" + count, "background-color", "yellow");
+                    //     jss.setStyle("X" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 24) {
-                    // jss.setStyle("Y" + count, "background-color", "yellow");
-                    // jss.setStyle("Y" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("Y" + count, "background-color", "red");
-                        jss.setStyle("Y" + count, "color", "black");
-                    }else{
-                        jss.setStyle("Y" + count, "background-color", "yellow");
-                        jss.setStyle("Y" + count, "color", "red");
-                    }
+                    jss.setStyle("Y" + count, "background-color", "yellow");
+                    jss.setStyle("Y" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("Y" + count, "background-color", "red");
+                    //     jss.setStyle("Y" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("Y" + count, "background-color", "yellow");
+                    //     jss.setStyle("Y" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 25) {
-                    // jss.setStyle("Z" + count, "background-color", "yellow");
-                    // jss.setStyle("Z" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("Z" + count, "background-color", "red");
-                        jss.setStyle("Z" + count, "color", "black");
-                    }else{
-                        jss.setStyle("Z" + count, "background-color", "yellow");
-                        jss.setStyle("Z" + count, "color", "red");
-                    }
+                    jss.setStyle("Z" + count, "background-color", "yellow");
+                    jss.setStyle("Z" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("Z" + count, "background-color", "red");
+                    //     jss.setStyle("Z" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("Z" + count, "background-color", "yellow");
+                    //     jss.setStyle("Z" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 26) {
-                    // jss.setStyle("AA" + count, "background-color", "yellow");
-                    // jss.setStyle("AA" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AA" + count, "background-color", "red");
-                        jss.setStyle("AA" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AA" + count, "background-color", "yellow");
-                        jss.setStyle("AA" + count, "color", "red");
-                    }
+                    jss.setStyle("AA" + count, "background-color", "yellow");
+                    jss.setStyle("AA" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AA" + count, "background-color", "red");
+                    //     jss.setStyle("AA" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AA" + count, "background-color", "yellow");
+                    //     jss.setStyle("AA" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 27) {
-                    // jss.setStyle("AB" + count, "background-color", "yellow");
-                    // jss.setStyle("AB" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AB" + count, "background-color", "red");
-                        jss.setStyle("AB" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AB" + count, "background-color", "yellow");
-                        jss.setStyle("AB" + count, "color", "red");
-                    }
+                    jss.setStyle("AB" + count, "background-color", "yellow");
+                    jss.setStyle("AB" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AB" + count, "background-color", "red");
+                    //     jss.setStyle("AB" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AB" + count, "background-color", "yellow");
+                    //     jss.setStyle("AB" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 28) {
-                    // jss.setStyle("AC" + count, "background-color", "yellow");
-                    // jss.setStyle("AC" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AC" + count, "background-color", "red");
-                        jss.setStyle("AC" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AC" + count, "background-color", "yellow");
-                        jss.setStyle("AC" + count, "color", "red");
-                    }
+                    jss.setStyle("AC" + count, "background-color", "yellow");
+                    jss.setStyle("AC" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AC" + count, "background-color", "red");
+                    //     jss.setStyle("AC" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AC" + count, "background-color", "yellow");
+                    //     jss.setStyle("AC" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 29) {
-                    // jss.setStyle("AD" + count, "background-color", "yellow");
-                    // jss.setStyle("AD" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AD" + count, "background-color", "red");
-                        jss.setStyle("AD" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AD" + count, "background-color", "yellow");
-                        jss.setStyle("AD" + count, "color", "red");
-                    }
+                    jss.setStyle("AD" + count, "background-color", "yellow");
+                    jss.setStyle("AD" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AD" + count, "background-color", "red");
+                    //     jss.setStyle("AD" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AD" + count, "background-color", "yellow");
+                    //     jss.setStyle("AD" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 30) {
-                    // jss.setStyle("AE" + count, "background-color", "yellow");
-                    // jss.setStyle("AE" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AE" + count, "background-color", "red");
-                        jss.setStyle("AE" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AE" + count, "background-color", "yellow");
-                        jss.setStyle("AE" + count, "color", "red");
-                    }
+                    jss.setStyle("AE" + count, "background-color", "yellow");
+                    jss.setStyle("AE" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AE" + count, "background-color", "red");
+                    //     jss.setStyle("AE" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AE" + count, "background-color", "yellow");
+                    //     jss.setStyle("AE" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 31) {
-                    // jss.setStyle("AF" + count, "background-color", "yellow");
-                    // jss.setStyle("AF" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AF" + count, "background-color", "red");
-                        jss.setStyle("AF" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AF" + count, "background-color", "yellow");
-                        jss.setStyle("AF" + count, "color", "red");
-                    }
+                    jss.setStyle("AF" + count, "background-color", "yellow");
+                    jss.setStyle("AF" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AF" + count, "background-color", "red");
+                    //     jss.setStyle("AF" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AF" + count, "background-color", "yellow");
+                    //     jss.setStyle("AF" + count, "color", "red");
+                    // }
                 }
                 
                 if (parseInt(nestedValue) == 32) {
-                    // jss.setStyle("AG" + count, "background-color", "yellow");
-                    // jss.setStyle("AG" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AG" + count, "background-color", "red");
-                        jss.setStyle("AG" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AG" + count, "background-color", "yellow");
-                        jss.setStyle("AG" + count, "color", "red");
-                    }
+                    jss.setStyle("AG" + count, "background-color", "yellow");
+                    jss.setStyle("AG" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AG" + count, "background-color", "red");
+                    //     jss.setStyle("AG" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AG" + count, "background-color", "yellow");
+                    //     jss.setStyle("AG" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 33) {
-                    // jss.setStyle("AH" + count, "background-color", "yellow");
-                    // jss.setStyle("AH" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AH" + count, "background-color", "red");
-                        jss.setStyle("AH" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AH" + count, "background-color", "yellow");
-                        jss.setStyle("AH" + count, "color", "red");
-                    }
+                    jss.setStyle("AH" + count, "background-color", "yellow");
+                    jss.setStyle("AH" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AH" + count, "background-color", "red");
+                    //     jss.setStyle("AH" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AH" + count, "background-color", "yellow");
+                    //     jss.setStyle("AH" + count, "color", "red");
+                    // }
                 }
                
                 if (parseInt(nestedValue) == 34) {
-                    // jss.setStyle("AI" + count, "background-color", "yellow");
-                    // jss.setStyle("AI" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AI" + count, "background-color", "red");
-                        jss.setStyle("AI" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AI" + count, "background-color", "yellow");
-                        jss.setStyle("AI" + count, "color", "red");
-                    }                    
+                    jss.setStyle("AI" + count, "background-color", "yellow");
+                    jss.setStyle("AI" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AI" + count, "background-color", "red");
+                    //     jss.setStyle("AI" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AI" + count, "background-color", "yellow");
+                    //     jss.setStyle("AI" + count, "color", "red");
+                    // }                    
                 }
                 
                 if (parseInt(nestedValue) == 35) {
-                    // jss.setStyle("AJ" + count, "background-color", "yellow");
-                    // jss.setStyle("AJ" + count, "color", "red");
-                    if(isApprovedCells == true){
-                        jss.setStyle("AJ" + count, "background-color", "red");
-                        jss.setStyle("AJ" + count, "color", "black");
-                    }else{
-                        jss.setStyle("AJ" + count, "background-color", "yellow");
-                        jss.setStyle("AJ" + count, "color", "red");
-                    }
+                    jss.setStyle("AJ" + count, "background-color", "yellow");
+                    jss.setStyle("AJ" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AJ" + count, "background-color", "red");
+                    //     jss.setStyle("AJ" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AJ" + count, "background-color", "yellow");
+                    //     jss.setStyle("AJ" + count, "color", "red");
+                    // }
                 }
             });
 
@@ -1991,13 +2114,170 @@ function ShowForecastResults(year) {
                     jss.setStyle("AJ" + count, "color", "red");
                 }
             });
+
+            // //pending cells color
+            var bCYRCellPending = value['42'];
+            var arrBCYRCellPending = bCYRCellPending.split(',');
+            $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
+                if (parseInt(nestedValue2) == 1) {
+                    jss.setStyle("B" + count, "background-color", "red");
+                    jss.setStyle("B" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 2) {
+                    jss.setStyle("C" + count, "background-color", "red");
+                    jss.setStyle("C" + count, "color", "black");
+                }
+
+                if (parseInt(nestedValue2) == 3) {
+                    jss.setStyle("D" + count, "background-color", "red");
+                    jss.setStyle("D" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 4) {
+                    jss.setStyle("E" + count, "background-color", "red");
+                    jss.setStyle("E" + count, "color", "black");
+                }
+ 
+                if (parseInt(nestedValue2) == 5) {
+                    jss.setStyle("F" + count, "background-color", "red");
+                    jss.setStyle("F" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 6) {
+                    jss.setStyle("G" + count, "background-color", "red");
+                    jss.setStyle("G" + count, "color", "black");
+                }
+
+                if (parseInt(nestedValue2) == 7) {
+                    jss.setStyle("H" + count, "background-color", "red");
+                    jss.setStyle("H" + count, "color", "black");
+                }
+             
+                if (parseInt(nestedValue2) == 8) {
+                    jss.setStyle("I" + count, "background-color", "red");
+                    jss.setStyle("I" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 9) {
+                    jss.setStyle("J" + count, "background-color", "red");
+                    jss.setStyle("J" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 10) {
+                    jss.setStyle("K" + count, "background-color", "red");
+                    jss.setStyle("K" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 11) {
+                    jss.setStyle("L" + count, "background-color", "red");
+                    jss.setStyle("L" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 12) {
+                    jss.setStyle("M" + count, "background-color", "red");
+                    jss.setStyle("M" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 13) {
+                    jss.setStyle("N" + count, "background-color", "red");
+                    jss.setStyle("N" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 14) {
+                    jss.setStyle("O" + count, "background-color", "red");
+                    jss.setStyle("O" + count, "color", "black");
+                }
+             
+                if (parseInt(nestedValue2) == 15) {
+                    jss.setStyle("P" + count, "background-color", "red");
+                    jss.setStyle("P" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 16) {
+                    jss.setStyle("Q" + count, "background-color", "red");
+                    jss.setStyle("Q" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 17) {
+                    jss.setStyle("R" + count, "background-color", "red");
+                    jss.setStyle("R" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 18) {
+                    jss.setStyle("S" + count, "background-color", "red");
+                    jss.setStyle("S" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 19) {
+                    jss.setStyle("T" + count, "background-color", "red");
+                    jss.setStyle("T" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 20) {
+                    jss.setStyle("U" + count, "background-color", "red");
+                    jss.setStyle("U" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 21) {
+                    jss.setStyle("V" + count, "background-color", "red");
+                    jss.setStyle("V" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 22) {
+                    jss.setStyle("W" + count, "background-color", "red");
+                    jss.setStyle("W" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 23) {
+                    jss.setStyle("X" + count, "background-color", "red");
+                    jss.setStyle("X" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 24) {
+                    jss.setStyle("Y" + count, "background-color", "red");
+                    jss.setStyle("Y" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 25) {
+                    jss.setStyle("Z" + count, "background-color", "red");
+                    jss.setStyle("Z" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 26) {
+                    jss.setStyle("AA" + count, "background-color", "red");
+                    jss.setStyle("AA" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 27) {
+                    jss.setStyle("AB" + count, "background-color", "red");
+                    jss.setStyle("AB" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 28) {
+                    jss.setStyle("AC" + count, "background-color", "red");
+                    jss.setStyle("AC" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 29) {
+                    jss.setStyle("AD" + count, "background-color", "red");
+                    jss.setStyle("AD" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 30) {
+                    jss.setStyle("AE" + count, "background-color", "red");
+                    jss.setStyle("AE" + count, "color", "black");
+                }
+                
+                if (parseInt(nestedValue2) == 31) {
+                    jss.setStyle("AF" + count, "background-color", "red");
+                    jss.setStyle("AF" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 32) {
+                    jss.setStyle("AG" + count, "background-color", "red");
+                    jss.setStyle("AG" + count, "color", "black");
+                }
+              
+                if (parseInt(nestedValue2) == 33) {
+                    jss.setStyle("AH" + count, "background-color", "red");
+                    jss.setStyle("AH" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 34) {
+                    jss.setStyle("AI" + count, "background-color", "red");
+                    jss.setStyle("AI" + count, "color", "black");
+                }
+                if (parseInt(nestedValue2) == 35) {
+                    jss.setStyle("AJ" + count, "background-color", "red");
+                    jss.setStyle("AJ" + count, "color", "black");
+                }
+            });
+            
         }
 
-        if (value['38'] == false && value['39'] == false) {
+        if (value['38'] == false && value['39'] == false && value['44'] == false) {
             DisableRow(count);
         }
-        else if(value['38'] == true && value['39'] == false){
-            SetRowColor_ForDeletedRow(count)
+        else if(value['43'] == true){
+            SetRowColor_UnapprovedDeleteRow(count)
+        }
+        else if(value['44'] == true){
+            SetRowColor_UnapprovedDeleteRow(count)
         }
         count++;
     });
@@ -2253,7 +2533,13 @@ function SetCellWiseColor(cellName){
     jss.setStyle(cellName,"color", "red");
     $(jss.getCell(cellName)).addClass('readonly');    
 }
-
+function SetCellWiseColor_ForUnApproved(cellName){
+    $(jss.getCell(cellName)).removeClass('readonly');
+    jss.setStyle(cellName,"background-color", "yellow");
+    jss.setStyle(cellName,"color", "blue");
+    jss.setStyle(cellName,"color", "red");
+    $(jss.getCell(cellName)).addClass('readonly');    
+}
 var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     // if(y2 !=92){
         
@@ -2272,23 +2558,31 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);    
     //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
-    $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
-    $("#hid_SelectedCellPosition").val(x1);
-    $("#selectCellNumber").val(cellName1);
+    console.log("retrivedData: "+retrivedData);
+    if(typeof retrivedData != "undefined"){
+        $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+        $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
 
-    if(x2==34){
-        $("#hid_IsRowSelected").val("yes");
-        $("#hidIsRowDeleted").val(retrivedData.isActive);
-        $("#hidSelectedRowNumber").val(sRows);
-    }else{
-        $("#hid_IsRowSelected").val("no");
-        $("#hid_cellNo").val(x2);
-        $("#hidSelectedRowNumber").val(sRows);
+        $("#pending_selected_row").val(retrivedData.isRowPending);
+        $("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
+        
+        $("#hid_SelectedCellPosition").val(x1);
+        $("#selectCellNumber").val(cellName1);
+
+        if(x2==46){
+            $("#hid_IsRowSelected").val("yes");
+            $("#hidIsRowDeleted").val(retrivedData.isActive);
+            $("#hidSelectedRowNumber").val(sRows);
+        }else{
+            $("#hid_IsRowSelected").val("no");
+            $("#hid_cellNo").val(x2);
+            $("#hidSelectedRowNumber").val(sRows);
+        }
+        
+        // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
+        // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
+        // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
     }
-    
-    // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
-    // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
-    // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
 }
 // var focus = function(instance) {
 //     $('#log').append('The table ' + $(instance).prop('id') + ' is focus');
@@ -2381,38 +2675,44 @@ function retrivedObject(rowData) {
 }
 
 function retrivedObject_ApprovalData(rowData) {
-    return {
-        assignmentId: rowData[0],
-        employeeName: rowData[1],
-        remarks: rowData[2],
-        employeeId: rowData[35],
-        sectionId: rowData[3],
-        departmentId: rowData[4],
-        inchargeId: rowData[5],
-        roleId: rowData[6],
-        explanationId: rowData[7],
-        companyId: rowData[8],
-        gradeId: rowData[9],
-        unitPrice: parseFloat(rowData[10]),
-        octPoint: parseFloat(rowData[11]),
-        novPoint: parseFloat(rowData[12]),
-        decPoint: parseFloat(rowData[13]),
-        janPoint: parseFloat(rowData[14]),
-        febPoint: parseFloat(rowData[15]),
-        marPoint: parseFloat(rowData[16]),
-        aprPoint: parseFloat(rowData[17]),
-        mayPoint: parseFloat(rowData[18]),
-        junPoint: parseFloat(rowData[19]),
-        julPoint: parseFloat(rowData[20]),
-        augPoint: parseFloat(rowData[21]),
-        sepPoint: parseFloat(rowData[22]),
-        year: document.getElementById('assignment_year_list').value,
-        bcyr: rowData[36],
-        bCYRApproved: rowData[37],
-        isActive: rowData[39],
-        BCYRCellApproved: rowData[40],
-        isApproved: rowData[41]
-    };
+    if(typeof rowData != "undefined"){
+        return {
+            assignmentId: rowData[0],
+            employeeName: rowData[1],
+            remarks: rowData[2],
+            employeeId: rowData[35],
+            sectionId: rowData[3],
+            departmentId: rowData[4],
+            inchargeId: rowData[5],
+            roleId: rowData[6],
+            explanationId: rowData[7],
+            companyId: rowData[8],
+            gradeId: rowData[9],
+            unitPrice: parseFloat(rowData[10]),
+            octPoint: parseFloat(rowData[11]),
+            novPoint: parseFloat(rowData[12]),
+            decPoint: parseFloat(rowData[13]),
+            janPoint: parseFloat(rowData[14]),
+            febPoint: parseFloat(rowData[15]),
+            marPoint: parseFloat(rowData[16]),
+            aprPoint: parseFloat(rowData[17]),
+            mayPoint: parseFloat(rowData[18]),
+            junPoint: parseFloat(rowData[19]),
+            julPoint: parseFloat(rowData[20]),
+            augPoint: parseFloat(rowData[21]),
+            sepPoint: parseFloat(rowData[22]),
+            year: document.getElementById('assignment_year_list').value,
+            bcyr: rowData[36],
+            bCYRApproved: rowData[37],
+            isActive: rowData[39],
+            BCYRCellApproved: rowData[40],
+            isApproved: rowData[41],
+            bCYRCellPending: rowData[42],
+            isRowPending: rowData[43],
+            isDeletePending: rowData[44]
+        };
+    }
+    
 }
 
 function DeleteRecords() {
@@ -2512,8 +2812,8 @@ function UpdateForecast(){
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
-
-        var timestamp = `${year}${month}${day}_`;
+        var miliSeconds= dateObj.getMilliseconds();    
+        var timestamp = `${year}${month}${day}${miliSeconds}_`;
         var promptValue = prompt("History Save As", '');
 
         if (promptValue == null || promptValue == undefined || promptValue == "") {
@@ -3028,6 +3328,374 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     //jss.setStyle("A"+insertedRowNumber,"color", "red");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
+
+function SetRowColor_AfterUnApproved(insertedRowNumber){
+    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("B"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("X"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
+    
+    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle("A"+insertedRowNumber,"color", "red");
+    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+}
+
+function SetRowColor_AfterUnApproved_Delete(insertedRowNumber){
+    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("B"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("B"+insertedRowNumber,"color", "black");
+    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("C"+insertedRowNumber,"color", "black");
+    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("D"+insertedRowNumber,"color", "black");
+    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("E"+insertedRowNumber,"color", "black");
+    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("F"+insertedRowNumber,"color", "black");
+    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("G"+insertedRowNumber,"color", "black");
+    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("H"+insertedRowNumber,"color", "black");
+    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("I"+insertedRowNumber,"color", "black");
+    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("J"+insertedRowNumber,"color", "black");
+    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("K"+insertedRowNumber,"color", "black");
+    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("L"+insertedRowNumber,"color", "black");
+    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("M"+insertedRowNumber,"color", "black");
+    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("N"+insertedRowNumber,"color", "black");
+    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("O"+insertedRowNumber,"color", "black");
+    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("P"+insertedRowNumber,"color", "black");
+    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("Q"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("R"+insertedRowNumber,"color", "black");
+    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("S"+insertedRowNumber,"color", "black");
+    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("T"+insertedRowNumber,"color", "black");
+    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("U"+insertedRowNumber,"color", "black");
+    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("V"+insertedRowNumber,"color", "black");
+    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("W"+insertedRowNumber,"color", "black");
+    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("X"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("X"+insertedRowNumber,"color", "black");
+    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("Y"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("Z"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AA"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AB"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AC"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AD"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AE"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
+    
+    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AF"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AG"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AH"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AI"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "gray");
+    jss.setStyle("AJ"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+}
 function SetRowColor_ForDeletedRow(insertedRowNumber){  
     $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("A"+insertedRowNumber,"background-color", "#ffcccc");
@@ -3209,6 +3877,7 @@ function SetRowColor_ForDeletedRow(insertedRowNumber){
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
 }
+
 function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle("A"+insertedRowNumber,"background-color", "white");
     jss.setStyle("A"+insertedRowNumber,"color", "black");
@@ -3283,6 +3952,7 @@ function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "white");
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
 }
+
 function SetRowColor_ApprovedRow(insertedRowNumber){
     jss.setStyle("A"+insertedRowNumber,"background-color", "LightBlue");
     jss.setStyle("A"+insertedRowNumber,"color", "red");
@@ -3477,4 +4147,197 @@ function DisableRow(rowNumber) {
     jss.setStyle("AI" + rowNumber, "color", "black");
     jss.setStyle("AJ" + rowNumber, "background-color", "gray");
     jss.setStyle("AJ" + rowNumber, "color", "black");
+}
+
+function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
+    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("A"+insertedRowNumber,"color", "white");
+    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("B"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("B"+insertedRowNumber,"color", "black");
+    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("C"+insertedRowNumber,"color", "black");
+    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("D"+insertedRowNumber,"color", "black");
+    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("E"+insertedRowNumber,"color", "black");
+    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("F"+insertedRowNumber,"color", "black");
+    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("G"+insertedRowNumber,"color", "black");
+    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("H"+insertedRowNumber,"color", "black");
+    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("I"+insertedRowNumber,"color", "black");
+    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("J"+insertedRowNumber,"color", "black");
+    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("K"+insertedRowNumber,"color", "black");
+    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("L"+insertedRowNumber,"color", "black");
+    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("M"+insertedRowNumber,"color", "black");
+    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("N"+insertedRowNumber,"color", "black");
+    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("O"+insertedRowNumber,"color", "black");
+    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("P"+insertedRowNumber,"color", "black");
+    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("Q"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("R"+insertedRowNumber,"color", "black");
+    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("S"+insertedRowNumber,"color", "black");
+    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("T"+insertedRowNumber,"color", "black");
+    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("U"+insertedRowNumber,"color", "black");
+    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("V"+insertedRowNumber,"color", "black");
+    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("W"+insertedRowNumber,"color", "black");
+    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("X"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("X"+insertedRowNumber,"color", "black");
+    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Y"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("Y"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Z"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("Z"+insertedRowNumber,"color", "black");
+    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AA"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AA"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AB"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AB"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AC"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AC"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AD"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AD"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AE"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AE"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
+    
+    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AF"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AF"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AG"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AG"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AH"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AH"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AI"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AI"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("AJ"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("AJ"+insertedRowNumber,"color", "black");
+    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+}
+
+
+function SetRowColor_PendingCells(cellName){
+    $(jss.getCell(cellName)).removeClass('readonly');
+    jss.setStyle(cellName,"background-color", "red");
+    jss.setStyle(cellName,"color", "black");    
+    $(jss.getCell(cellName)).addClass('readonly');    
 }

@@ -38,6 +38,15 @@ namespace CostAllocationApp.ViewModels
         public bool BCYRApproved { get; set; }
         public string BCYRCellApproved { get; set; }
         public bool IsApproved { get; set; }
+        public string BCYRCellPending { get; set; }
+        public bool IsRowPending { get; set; }
+        public bool IsDeletePending { get; set; }
+
+        public bool IsAddEmployee { get; set; }
+        public bool IsDeleteEmployee { get; set; }
+        public bool IsCellWiseUpdate { get; set; }
+        public string ApprovedCells { get; set; }
+        public string RootEmployeeName { get; set; }
         // for forecast
         public List<ForecastDto> forecasts { get; set; }
 
@@ -54,6 +63,7 @@ namespace CostAllocationApp.ViewModels
         public string JulPoints { get; set; }
         public string AugPoints { get; set; }
         public string SepPoints { get; set; }
+
         //total
         public string OctTotal { get; set; }
         public string NovTotal { get; set; }

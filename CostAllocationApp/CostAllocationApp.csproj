@@ -61,6 +61,10 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <HintPath>..\packages\ExcelPackage.1.0.0\lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -260,7 +264,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="UserLinks.cs" />
     <Compile Include="ViewModels\ActualCostViewModel.cs" />
+    <Compile Include="ViewModels\ApprovalHistoryViewModal.cs" />
     <Compile Include="ViewModels\AssignmentHistoryViewModal.cs" />
+    <Compile Include="ViewModels\DownloadApproveHistoryViewModal.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />

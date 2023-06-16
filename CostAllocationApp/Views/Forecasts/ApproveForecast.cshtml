@@ -33,7 +33,30 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="year_data_search">
+
+        <div class="container">
+            <div class="row" id="year_data_search">
+                <div class="col-sm">
+                    <select id="assignment_year_list" class=""></select>
+                </div>
+                <div class="col-sm">
+                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+                </div>
+                <div class="col-sm">                    
+                </div>
+                <div class="col-sm">
+                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;margin-left:21px;background-color: red !important;,color:white;">取消(undo)</button>
+                </div>
+                <div class="col-sm">
+                    <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:-3px;background-color: Blue !important;">承認(Approve)</button>
+                </div>
+                <div class="col-sm">
+                    <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:-5px;background-color: green !important; ">保存 (Save)</button>
+                </div>
+            </div>
+        </div>
+
+        @* <div class="row" id="year_data_search">
             <div class="col-3">
                 <select id="assignment_year_list" class=""></select>
             </div>
@@ -42,14 +65,16 @@
             </div>
 
             <div class="col-2">
+                <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;background-color: red !important;,color:white;">Unapprove</button>
             </div>
+
             <div class="col-3">
                 <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:95px;background-color: Blue !important;">承認(Approve)</button>
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:0px;background-color: green !important; ">保存 (Save)</button>
             </div>
-        </div>
+        </div> *@
         <br>      
 
         /***************************\
@@ -107,6 +132,13 @@
 <input type="hidden" id="hid_IsRowSelected" />
 <input type="hidden" id="hid_SelectedCellPosition" />
 <input type="hidden" id="selectCellNumber" />
+
+<input type="hidden" id="all_selected_cells" />
+<input type="hidden" id="all_selected_row_for_approve" />
+
+<input type="hidden" id="pending_cells_selected_cells"/>
+<input type="hidden" id="pending_selected_row"/>
+<input type="hidden" id="pending_selected_deleted_row"/>
 
 
 <div class="search_p">

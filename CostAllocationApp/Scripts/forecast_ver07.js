@@ -14,6 +14,7 @@ var cellwiseColorCode = [];
 var cellwiseColorCodeForInsert = [];
 var changeCount = 0;
 var newRowChangeEventFlag = false;
+var deletedExistingRowIds = [];
 
 function LoaderShow() {
     $("#forecast_table_wrapper").css("display", "none");
@@ -230,7 +231,7 @@ $(document).ready(function () {
         });
 
 
-        if (jssInsertedData.length > 0 || jssUpdatedData.length > 0) {
+        if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {
             $("#save_modal_header").html("年度データー(Emp. Assignments)");
             $("#back_button_show").css("display", "block");
             $("#save_btn_modal").css("display", "block");
@@ -340,7 +341,7 @@ $(document).ready(function () {
         }
 
         console.log("assignmentYear: "+assignmentYear);
-
+        deletedExistingRowIds = [];
         LoaderShowJexcel();            
         setTimeout(function () {                               
             ShowForecastResults(assignmentYear);
@@ -1846,37 +1847,36 @@ function ShowForecastResults(year) {
                     newRowChangeEventFlag = false;
                 }
             });
-
             items.push({
                 title: '選択した要員の削除 (delete)',
                 onclick: function () {
                     var value = obj.getSelectedRows();
                     //debugger;
                     console.log(value);
-                    var assignmentIds = [];
+                    //var assignmentIds = [];
                     if (value.length > 0) {
                         for (let i = 0; i < value.length; i++) {
                             if (value[i].childNodes[1].innerText != '' && value[i].childNodes[1].innerText.toString().includes('new') == false) {
-                                assignmentIds.push(value[i].childNodes[1].innerText);
+                                deletedExistingRowIds.push(value[i].childNodes[1].innerText);
                                 DisableRow(parseInt(value[i].childNodes[0].innerText));
                             }
                             else {
                                 jss.deleteRow(y,1);
                             }
                         }
-                        if (assignmentIds.length > 0) {
-                            $.ajax({
-                                url: `/api/utilities/ExcelDeleteAssignment/`,
-                                contentType: 'application/json',
-                                type: 'DELETE',
-                                async: false,
-                                dataType: 'json',
-                                data: JSON.stringify(assignmentIds),
-                                success: function (data) {
-                                    alert(data);
-                                }
-                            });
-                        }
+                        //if (assignmentIds.length > 0) {
+                        //    $.ajax({
+                        //        url: `/api/utilities/ExcelDeleteAssignment/`,
+                        //        contentType: 'application/json',
+                        //        type: 'DELETE',
+                        //        async: false,
+                        //        dataType: 'json',
+                        //        data: JSON.stringify(assignmentIds),
+                        //        success: function (data) {
+                        //            alert(data);
+                        //        }
+                        //    });
+                        //}
 
                     }
                 }
@@ -3273,6 +3273,32 @@ function UpdateForecast() {
             });
             jssInsertedData = [];
             newRowCount = 1;
+        }
+
+        if (deletedExistingRowIds.length > 0) {
+            $.ajax({
+                url: `/api/utilities/ExcelDeleteAssignment/`,
+                contentType: 'application/json',
+                type: 'DELETE',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify(deletedExistingRowIds),
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+            $("#timeStamp_ForUpdateData").val('');
+            var chat = $.connection.chatHub;
+            $.connection.hub.start();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                chat.server.send('data has been deleted by ', userName);
+            });
+            $("#jspreadsheet").show();
+            //$("#head_total").show();
+            LoaderHide();
+            deletedExistingRowIds = [];
         }
     }
 

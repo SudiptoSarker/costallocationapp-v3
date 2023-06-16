@@ -92,11 +92,14 @@ $(document).ajaxComplete(function(){
 
 function ExportApprovalHistory(){
     var timeStampId = $('#hidTimeStampid').val();
+    var selectedYear = $('#history_year').val();
     console.log("timeStampId: "+timeStampId);
 
     $('#hid_approve_timestamp_id').val(timeStampId);
+    $('#hid_selected_year').val(selectedYear);
+
     $('#frmApproveHistoryExport').submit();
- }
+}
 
 $('#btn_export_approve_history_data').on('click', function () {
     

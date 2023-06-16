@@ -1249,5 +1249,223 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateUnapprovedPendingDeleteRows(year);
         }
+
+        //Get All the data from assignment table with forecast
+        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles(EmployeeAssignmentForecast employeeAssignment)
+        {
+            var employees = employeeAssignmentDAL.GetAllOriginalDataForDownloadFiles(employeeAssignment);
+
+            if (employees.Count > 0)
+            {
+                int count = 1;
+                foreach (var item in employees)
+                {
+                    if (String.IsNullOrEmpty(item.ExplanationId))
+                    {
+                        item.ExplanationId = "0";
+                        item.ExplanationName = "n/a";
+                    }
+                    else
+                    {
+                        item.ExplanationName = explanationsBLL.GetSingleExplanationByExplanationId(Int32.Parse(item.ExplanationId)).ExplanationName;
+                    }
+                    item.SerialNumber = count;
+                    count++;
+                }               
+
+                List<ForecastAssignmentViewModel> redMarkedForecastAssignments = this.MarkedAsRedForForecast(employees);
+                if (redMarkedForecastAssignments.Count > 0)
+                {
+                    foreach (var item in redMarkedForecastAssignments)
+                    {
+                        item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
+                    }
+                }
+
+            }
+            foreach (var item in employees)
+            {
+                item.EmployeeNameWithCodeRemarks += "$" + item.MarkedAsRed.ToString().ToLower() + "$" + item.Id; ;
+            }
+
+            // order by and group by
+            if (employees.Count > 0)
+            {
+                employees = employees.OrderBy(e => e.EmployeeName).GroupBy(e => e.EmployeeName).SelectMany(e => e).ToList();
+            }           
+
+            if (employees.Count > 0)
+            {
+                int count = 1;
+                foreach (var item in employees)
+                {
+                    if (item.EmployeeName.ToLower() == "head count" || item.EmployeeName.ToLower() == "total")
+                    {
+                        continue;
+                    }
+                    if (item.forecasts.Count == 0)
+                    {
+                        item.forecasts = new List<ForecastDto>();
+
+                        item.forecasts.Add(new ForecastDto { Month = 10, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 11, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 12, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 1, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 2, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 3, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 4, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 5, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 6, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 7, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 8, Points = 0, Total = "" });
+                        item.forecasts.Add(new ForecastDto { Month = 9, Points = 0, Total = "" });
+
+                    }
+                    int innerCount = 1;
+                    foreach (var forecast in item.forecasts)
+                    {
+                        if (innerCount == 1)
+                        {
+                            forecast.Total = $"=K{count}*L{count}";
+                        }
+                        if (innerCount == 2)
+                        {
+                            forecast.Total = $"=K{count}*M{count}";
+                        }
+                        if (innerCount == 3)
+                        {
+                            forecast.Total = $"=K{count}*N{count}";
+                        }
+                        if (innerCount == 4)
+                        {
+                            forecast.Total = $"=K{count}*O{count}";
+                        }
+                        if (innerCount == 5)
+                        {
+                            forecast.Total = $"=K{count}*P{count}";
+                        }
+                        if (innerCount == 6)
+                        {
+                            forecast.Total = $"=K{count}*Q{count}";
+                        }
+                        if (innerCount == 7)
+                        {
+                            forecast.Total = $"=K{count}*R{count}";
+                        }
+                        if (innerCount == 8)
+                        {
+                            forecast.Total = $"=K{count}*S{count}";
+                        }
+                        if (innerCount == 9)
+                        {
+                            forecast.Total = $"=K{count}*T{count}";
+                        }
+                        if (innerCount == 10)
+                        {
+                            forecast.Total = $"=K{count}*U{count}";
+                        }
+                        if (innerCount == 11)
+                        {
+                            forecast.Total = $"=K{count}*V{count}";
+                        }
+                        if (innerCount == 12)
+                        {
+                            forecast.Total = $"=K{count}*W{count}";
+                        }
+                        innerCount++;
+                    }
+
+                    count++;
+                }
+                foreach (var item in employees)
+                {
+                    if (item.EmployeeName.ToLower() == "head count" || item.EmployeeName.ToLower() == "total")
+                    {
+                        continue;
+                    }
+                    if (item.forecasts.Count > 0)
+                    {
+                        item.OctPoints = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
+                        item.NovPoints = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
+                        item.DecPoints = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
+                        item.JanPoints = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
+                        item.FebPoints = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
+                        item.MarPoints = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
+                        item.AprPoints = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
+                        item.MayPoints = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
+                        item.JunPoints = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
+                        item.JulPoints = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
+                        item.AugPoints = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
+                        item.SepPoints = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
+
+                        item.OctTotal = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().Total;
+                        item.NovTotal = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().Total;
+                        item.DecTotal = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().Total;
+                        item.JanTotal = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().Total;
+                        item.FebTotal = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().Total;
+                        item.MarTotal = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().Total;
+                        item.AprTotal = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().Total;
+                        item.MayTotal = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().Total;
+                        item.JunTotal = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().Total;
+                        item.JulTotal = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().Total;
+                        item.AugTotal = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Total;
+                        item.SepTotal = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Total;
+
+                        item.forecasts = null;
+                    }
+                    else
+                    {
+                        item.OctPoints = "0";
+                        item.NovPoints = "0";
+                        item.DecPoints = "0";
+                        item.JanPoints = "0";
+                        item.FebPoints = "0";
+                        item.MarPoints = "0";
+                        item.AprPoints = "0";
+                        item.MayPoints = "0";
+                        item.JunPoints = "0";
+                        item.JulPoints = "0";
+                        item.AugPoints = "0";
+                        item.SepPoints = "0";
+
+                        item.OctTotal = "";
+                        item.NovTotal = "";
+                        item.DecTotal = "";
+                        item.JanTotal = "";
+                        item.FebTotal = "";
+                        item.MarTotal = "";
+                        item.AprTotal = "";
+                        item.MayTotal = "";
+                        item.JunTotal = "";
+                        item.JulTotal = "";
+                        item.AugTotal = "";
+                        item.SepTotal = "";
+
+                        item.forecasts = null;
+                    }
+
+
+                }
+
+            }
+
+
+            return employees;
+        }
+        public bool IsApprovedCellsForDownloadExcel(string cellNumber, string approvedCells)
+        {
+            bool isApprovedCell = false;
+
+            var arrApprovedCells = approvedCells.Split(',');
+            foreach (var cellItem in arrApprovedCells)
+            {
+                if (cellItem == cellNumber)
+                {
+                    isApprovedCell = true;
+                }
+            }
+
+            return isApprovedCell;
+        }
     }
 }

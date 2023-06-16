@@ -1876,6 +1876,59 @@ namespace CostAllocationApp.DAL
                 return timeStampName;
             }
         }
+        public int UpdateEmployeeAssignmentApprovedCellsByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            int result = 0;
 
+            string query = $@"Update EmployeesAssignments Set ApprovedCells = @approvedCells Where Id=@assignmentId And Year=@year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@approvedCells", assignmentHistory.ApprovedCells);
+                cmd.Parameters.AddWithValue("@assignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+        public string GetApprovedCellsByAssignmentId(string employeeAssignmentId)
+        {
+            string query = "";
+            query = query + "SELECT Id,ApprovedCells FROM EmployeesAssignments WHERE Id= "+ employeeAssignmentId;
+
+            string approvedCells = "";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            approvedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return approvedCells;
+            }
+        }
     }
 }

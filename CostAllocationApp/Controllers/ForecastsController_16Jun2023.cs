@@ -779,15 +779,9 @@ namespace CostAllocationApp.Controllers
                             var remarks = item.Remarks;   
                             
                             var isDeleteRow = item.IsDeleteEmployee;
-                            if(rootEmployeeName == "太田 飛鳥")
-                            {
-                                var testTm = "test";
-                                //test
-                            }
                             var isAddRow = item.IsAddEmployee;
-                            var isUpdateCells = item.IsCellWiseUpdate;
-                            var approvedCells = item.ApprovedCells;
-
+                            var isUpdateCells = item.IsCellWiseUpdate;                                                  
+                            
                             var octPOriginal = item.OctPoints;
                             var novPOriginal = item.NovPoints;
                             var decPOriginal = item.DecPoints;
@@ -802,593 +796,62 @@ namespace CostAllocationApp.Controllers
                             var sepPOriginal = item.SepPoints;
                             if (isAddRow)
                             {
-                                sheet.Cells["A" + count].Value = sectionName;
-                                sheet.Cells["A" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["A" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["A" + count].AutoFitColumns();
 
-                                sheet.Cells["B" + count].Value = departmentName;
-                                sheet.Cells["B" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["B" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["B" + count].AutoFitColumns();
-
-                                sheet.Cells["C" + count].Value = inChargeName;
-                                sheet.Cells["C" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["C" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["C" + count].AutoFitColumns();
-
-                                sheet.Cells["D" + count].Value = roleName;
-                                sheet.Cells["D" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["D" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["D" + count].AutoFitColumns();
-
-                                sheet.Cells["E" + count].Value = explanationName;
-                                sheet.Cells["E" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["E" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["E" + count].AutoFitColumns();
-
-                                sheet.Cells["F" + count].Value = employeeName;
-                                sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["F" + count].AutoFitColumns();
-
-                                sheet.Cells["G" + count].Value = remarks;
-                                sheet.Cells["G" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["G" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["G" + count].AutoFitColumns();
-
-                                sheet.Cells["H" + count].Value = companyName;
-                                sheet.Cells["H" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["H" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["H" + count].AutoFitColumns();
-
-                                sheet.Cells["I" + count].Value = gradePoints;
-                                sheet.Cells["I" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["I" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["I" + count].AutoFitColumns();
-
-                                sheet.Cells["J" + count].Value = unitPrice;
-                                sheet.Cells["J" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["J" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["J" + count].AutoFitColumns();
-
-                                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                sheet.Cells["K" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["K" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["K" + count].AutoFitColumns();
-
-                                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                sheet.Cells["L" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["L" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["L" + count].AutoFitColumns();
-
-                                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                sheet.Cells["M" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["M" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["M" + count].AutoFitColumns();
-
-                                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                sheet.Cells["N" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["N" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["N" + count].AutoFitColumns();
-
-                                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                sheet.Cells["O" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["O" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["O" + count].AutoFitColumns();
-
-                                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                sheet.Cells["P" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["P" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["P" + count].AutoFitColumns();
-
-                                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                sheet.Cells["Q" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["Q" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["Q" + count].AutoFitColumns();
-
-                                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                sheet.Cells["R" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["R" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["R" + count].AutoFitColumns();
-
-                                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                sheet.Cells["S" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["S" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["S" + count].AutoFitColumns();
-
-                                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                sheet.Cells["T" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["T" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["T" + count].AutoFitColumns();
-
-                                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                sheet.Cells["U" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["U" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["U" + count].AutoFitColumns();
-
-                                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                                sheet.Cells["V" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["V" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                sheet.Cells["V" + count].AutoFitColumns();
                             }
                             else if (isDeleteRow)
                             {
-                                sheet.Cells["A" + count].Value = sectionName;
-                                sheet.Cells["A" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["A" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["A" + count].AutoFitColumns();
 
-                                sheet.Cells["B" + count].Value = departmentName;
-                                sheet.Cells["B" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["B" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["B" + count].AutoFitColumns();
-
-                                sheet.Cells["C" + count].Value = inChargeName;
-                                sheet.Cells["C" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["C" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["C" + count].AutoFitColumns();
-
-                                sheet.Cells["D" + count].Value = roleName;
-                                sheet.Cells["D" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["D" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["D" + count].AutoFitColumns();
-
-                                sheet.Cells["E" + count].Value = explanationName;
-                                sheet.Cells["E" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["E" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["E" + count].AutoFitColumns();
-
-                                sheet.Cells["F" + count].Value = employeeName;
-                                sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["F" + count].AutoFitColumns();
-
-                                sheet.Cells["G" + count].Value = remarks;
-                                sheet.Cells["G" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["G" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["G" + count].AutoFitColumns();
-
-                                sheet.Cells["H" + count].Value = companyName;
-                                sheet.Cells["H" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["H" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["H" + count].AutoFitColumns();
-
-                                sheet.Cells["I" + count].Value = gradePoints;
-                                sheet.Cells["I" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["I" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["I" + count].AutoFitColumns();
-
-                                sheet.Cells["J" + count].Value = unitPrice;
-                                sheet.Cells["J" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["J" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["J" + count].AutoFitColumns();
-
-                                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                sheet.Cells["K" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["K" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["K" + count].AutoFitColumns();
-
-                                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                sheet.Cells["L" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["L" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["L" + count].AutoFitColumns();
-
-                                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                sheet.Cells["M" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["M" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["M" + count].AutoFitColumns();
-
-                                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                sheet.Cells["N" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["N" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["N" + count].AutoFitColumns();
-
-                                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                sheet.Cells["O" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["O" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["O" + count].AutoFitColumns();
-
-                                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                sheet.Cells["P" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["P" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["P" + count].AutoFitColumns();
-
-                                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                sheet.Cells["Q" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["Q" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["Q" + count].AutoFitColumns();
-
-                                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                sheet.Cells["R" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["R" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["R" + count].AutoFitColumns();
-
-                                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                sheet.Cells["S" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["S" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["S" + count].AutoFitColumns();
-
-                                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                sheet.Cells["T" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["T" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["T" + count].AutoFitColumns();
-
-                                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                sheet.Cells["U" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["U" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["U" + count].AutoFitColumns();
-
-                                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                                sheet.Cells["V" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                sheet.Cells["V" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
-                                sheet.Cells["V" + count].AutoFitColumns();
-                            }
-                            else if (!string.IsNullOrEmpty(approvedCells))
+                            }else if (isUpdateCells)
                             {
-                                bool isSectionApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("3", approvedCells);
-                                if (isSectionApproved)
-                                {
-                                    sheet.Cells["A" + count].Value = sectionName;
-                                    sheet.Cells["A" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["A" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["A" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["A" + count].Value = sectionName;
-                                    sheet.Cells["A" + count].AutoFitColumns();
-                                }                                
 
-                                
-                                bool isDeptApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("4", approvedCells);
-                                if (isDeptApproved)
-                                {
-                                    sheet.Cells["B" + count].Value = departmentName;
-                                    sheet.Cells["B" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["B" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["B" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["B" + count].Value = departmentName;
-                                    sheet.Cells["B" + count].AutoFitColumns();
-                                }
-                                
-                                bool isInChargeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("5", approvedCells);
-                                if (isInChargeApproved)
-                                {
-                                    sheet.Cells["C" + count].Value = inChargeName;
-                                    sheet.Cells["C" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["C" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["C" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["C" + count].Value = inChargeName;
-                                    sheet.Cells["C" + count].AutoFitColumns();
-                                }
-
-                                bool isRoleApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("6", approvedCells);
-                                if (isRoleApproved)
-                                {
-                                    sheet.Cells["D" + count].Value = roleName;
-                                    sheet.Cells["D" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["D" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["D" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["D" + count].Value = roleName;
-                                    sheet.Cells["D" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isExplanationApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("7", approvedCells);
-                                if (isExplanationApproved)
-                                {
-                                    sheet.Cells["E" + count].Value = explanationName;
-                                    sheet.Cells["E" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["E" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["E" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["E" + count].Value = explanationName;
-                                    sheet.Cells["E" + count].AutoFitColumns();
-                                }
-                                
-                                bool isEmployeeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("1", approvedCells);
-                                if (isEmployeeApproved)
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                    sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["F" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                    sheet.Cells["F" + count].AutoFitColumns();
-                                }
-                                
-                                bool isRemarksApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("2", approvedCells);
-                                if (isRemarksApproved)
-                                {
-                                    sheet.Cells["G" + count].Value = remarks;
-                                    sheet.Cells["G" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["G" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["G" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                    sheet.Cells["F" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isCompanyApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("8", approvedCells);
-                                if (isCompanyApproved)
-                                {
-                                    sheet.Cells["H" + count].Value = companyName;
-                                    sheet.Cells["H" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["H" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["H" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["H" + count].Value = companyName;
-                                    sheet.Cells["H" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isGradeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("9", approvedCells);
-                                if (isGradeApproved)
-                                {
-                                    sheet.Cells["I" + count].Value = gradePoints;
-                                    sheet.Cells["I" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["I" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["I" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["I" + count].Value = gradePoints;
-                                    sheet.Cells["I" + count].AutoFitColumns();
-                                }
-                                
-                                bool isUnitApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("10", approvedCells);
-                                if (isUnitApproved)
-                                {
-                                    sheet.Cells["J" + count].Value = unitPrice;
-                                    sheet.Cells["J" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["J" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["J" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["J" + count].Value = unitPrice;
-                                    sheet.Cells["J" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isOctPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("11", approvedCells);
-                                if (isOctPApproved)
-                                {
-                                    sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                    sheet.Cells["K" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["K" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["K" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                    sheet.Cells["K" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isNovPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("12", approvedCells);
-                                if (isNovPApproved)
-                                {
-                                    sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                    sheet.Cells["L" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["L" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["L" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                    sheet.Cells["L" + count].AutoFitColumns();
-                                }
-                                
-                                bool isDecPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("13", approvedCells);
-                                if (isDecPApproved)
-                                {
-                                    sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                    sheet.Cells["M" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["M" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["M" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                    sheet.Cells["M" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isJanPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("14", approvedCells);
-                                if (isJanPApproved)
-                                {
-                                    sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                    sheet.Cells["N" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["N" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["N" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                    sheet.Cells["N" + count].AutoFitColumns();
-                                }
-                                
-                                bool isFebPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("15", approvedCells);
-                                if (isFebPApproved)
-                                {
-                                    sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                    sheet.Cells["O" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["O" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["O" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                    sheet.Cells["O" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isMarPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("16", approvedCells);
-                                if (isMarPApproved)
-                                {
-                                    sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                    sheet.Cells["P" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["P" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["P" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                    sheet.Cells["P" + count].AutoFitColumns();
-                                }
-                                
-                                bool isAprPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("17", approvedCells);
-                                if (isAprPApproved)
-                                {
-                                    sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                    sheet.Cells["Q" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["Q" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["Q" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                    sheet.Cells["Q" + count].AutoFitColumns();
-                                }
-                                
-                                bool isMayPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("18", approvedCells);
-                                if (isMayPApproved)
-                                {
-                                    sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                    sheet.Cells["R" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["R" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["R" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                    sheet.Cells["R" + count].AutoFitColumns();
-                                }
-
-                                
-                                bool isJunPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("19", approvedCells);
-                                if (isJunPApproved)
-                                {
-                                    sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                    sheet.Cells["S" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["S" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["S" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                    sheet.Cells["S" + count].AutoFitColumns();
-                                }
-                                
-                                bool isJulPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("20", approvedCells);
-                                if (isJulPApproved)
-                                {
-                                    sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                    sheet.Cells["T" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["T" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["T" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                    sheet.Cells["T" + count].AutoFitColumns();
-                                }
-                                
-                                bool isAugPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("21", approvedCells);
-                                if (isAugPApproved)
-                                {
-                                    sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                    sheet.Cells["U" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["U" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["U" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                    sheet.Cells["U" + count].AutoFitColumns();
-                                }
-                                
-                                bool isSeptPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("22", approvedCells);
-                                if (isSeptPApproved)
-                                {
-                                    sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                                    sheet.Cells["V" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                    sheet.Cells["V" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                                    sheet.Cells["V" + count].AutoFitColumns();
-                                }
-                                else
-                                {
-                                    sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                                    sheet.Cells["V" + count].AutoFitColumns();
-                                }
                             }
                             else
                             {
-                                sheet.Cells["A" + count].Value = sectionName;
-                                sheet.Cells["A" + count].AutoFitColumns();
 
-                                sheet.Cells["B" + count].Value = departmentName;
-                                sheet.Cells["B" + count].AutoFitColumns();
-
-                                sheet.Cells["C" + count].Value = inChargeName;
-                                sheet.Cells["C" + count].AutoFitColumns();
-
-                                sheet.Cells["D" + count].Value = roleName;
-                                sheet.Cells["D" + count].AutoFitColumns();
-
-                                sheet.Cells["E" + count].Value = explanationName;
-                                sheet.Cells["E" + count].AutoFitColumns();
-
-                                sheet.Cells["F" + count].Value = employeeName;
-                                sheet.Cells["F" + count].AutoFitColumns();
-
-                                sheet.Cells["G" + count].Value = remarks;
-                                sheet.Cells["G" + count].AutoFitColumns();
-
-                                sheet.Cells["H" + count].Value = companyName;
-                                sheet.Cells["H" + count].AutoFitColumns();
-
-                                sheet.Cells["I" + count].Value = gradePoints;
-                                sheet.Cells["I" + count].AutoFitColumns();
-
-                                sheet.Cells["J" + count].Value = unitPrice;
-                                sheet.Cells["J" + count].AutoFitColumns();
-
-                                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
                             }
-                            
+                            sheet.Cells["A" + count].Value = sectionName;
+                            sheet.Cells["A" + count].AutoFitColumns();
+
+                            sheet.Cells["B" + count].Value = departmentName ;
+                            sheet.Cells["B" + count].AutoFitColumns();
+
+                            sheet.Cells["C" + count].Value = inChargeName;
+                            sheet.Cells["C" + count].AutoFitColumns();
+
+                            sheet.Cells["D" + count].Value = roleName;
+                            sheet.Cells["D" + count].AutoFitColumns();
+
+                            sheet.Cells["E" + count].Value = explanationName;
+                            sheet.Cells["E" + count].AutoFitColumns();
+
+                            sheet.Cells["F" + count].Value = employeeName;
+                            sheet.Cells["F" + count].AutoFitColumns();
+
+                            sheet.Cells["G" + count].Value = remarks;
+                            sheet.Cells["G" + count].AutoFitColumns();
+
+                            sheet.Cells["H" + count].Value = companyName;
+                            sheet.Cells["H" + count].AutoFitColumns();
+
+                            sheet.Cells["I" + count].Value = gradePoints;
+                            sheet.Cells["I" + count].AutoFitColumns();
+
+                            sheet.Cells["J" + count].Value = unitPrice;
+                            sheet.Cells["J" + count].AutoFitColumns();
+
+                            sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                            sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                            sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                            sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                            sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                            sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                            sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                            sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                            sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                            sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                            sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                            sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+
                             count++;
                         }
                        

@@ -355,5 +355,13 @@ namespace CostAllocationApp.BLL
             //List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
         }
+        public int UpdateEmployeeAssignmentApprovedCellsByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            return forecastDAL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(assignmentHistory);
+        }
+        public string GetApprovedCellsByAssignmentId(string employeeAssignmentId)
+        {
+            return forecastDAL.GetApprovedCellsByAssignmentId(employeeAssignmentId);
+        }
     }
 }

@@ -3876,6 +3876,39 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear), createdBy,_assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
                 }
+                if (_assignmentHistorys_CellWise.Count > 0)
+                {
+                    foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
+                    {
+                        string tempApprovedCells = forecastBLL.GetApprovedCellsByAssignmentId(cellWiseEmployeeItem.EmployeeAssignmentId);
+                        cellWiseEmployeeItem.ApprovedCells = cellWiseEmployeeItem.ApprovedCells + "," + tempApprovedCells;
+                        var storeApprovedCells = "";
+                        if (!string.IsNullOrEmpty(cellWiseEmployeeItem.ApprovedCells))
+                        {
+                            var arrApprovedCells = cellWiseEmployeeItem.ApprovedCells.Split(',');                           
+                            foreach(var approvedCellItem in arrApprovedCells)
+                            {
+                                if (string.IsNullOrEmpty(storeApprovedCells))
+                                {
+                                    storeApprovedCells = approvedCellItem;
+                                }
+                                else
+                                {
+                                    var arrCheckIfTheCellsAlreadyExists = storeApprovedCells.Split(',');
+                                    foreach(var indexItem in arrCheckIfTheCellsAlreadyExists)
+                                    {
+                                        if(indexItem != approvedCellItem)
+                                        {
+                                            storeApprovedCells = storeApprovedCells+","+approvedCellItem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        cellWiseEmployeeItem.ApprovedCells = storeApprovedCells;
+                        int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(cellWiseEmployeeItem);
+                    }
+                }                
             }                            
             //approve history: end
             

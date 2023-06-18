@@ -177,6 +177,7 @@
     <Compile Include="BLL\ExplanationsBLL.cs" />
     <Compile Include="BLL\ForecastBLL.cs" />
     <Compile Include="BLL\InChargeBLL.cs" />
+    <Compile Include="BLL\QaProportionBLL.cs" />
     <Compile Include="BLL\RoleBLL.cs" />
     <Compile Include="BLL\SalaryBLL.cs" />
     <Compile Include="BLL\SectionBLL.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="DAL\ExplanationDAL.cs" />
     <Compile Include="DAL\ForecastDAL.cs" />
     <Compile Include="DAL\InChargeDAL.cs" />
+    <Compile Include="DAL\QaProportionDAL.cs" />
     <Compile Include="DAL\RoleDAL.cs" />
     <Compile Include="DAL\SalaryDAL.cs" />
     <Compile Include="DAL\SectionDAL.cs" />
@@ -251,6 +253,7 @@
     <Compile Include="Models\Explanation.cs" />
     <Compile Include="Models\ForecastHisory.cs" />
     <Compile Include="Models\InCharge.cs" />
+    <Compile Include="Models\QaProportion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
@@ -272,6 +275,7 @@
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastYear.cs" />
+    <Compile Include="ViewModels\QaProportionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\actualcost.css" />
@@ -317,6 +321,7 @@
     <Content Include="Content\nameregistration.css" />
     <Content Include="Content\nameregistration_ver02.css" />
     <Content Include="Content\prettify.min.css" />
+    <Content Include="Content\qa_proportion.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\roles.css" />
     <Content Include="Content\roles_ver02.css" />
@@ -753,6 +758,7 @@
     <Content Include="Scripts\nameregistration_ver02.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\prettify.min.js" />
+    <Content Include="Scripts\qa_proportion.js" />
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\roles.js" />
@@ -813,6 +819,7 @@
     <Content Include="Views\Forecasts\Apportionment.cshtml" />
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
     <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
+    <Content Include="Views\Forecasts\QaProportion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

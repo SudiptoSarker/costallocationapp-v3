@@ -784,6 +784,9 @@ function ShowForecastResults(year) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
         },
+        //onafterchanges: function () {
+        //    console.log(jss);
+        //},
         onchange: function (instance, cell, x, y, value) {
             //debugger;
             var checkId = jss.getValueFromCoords(0, y);
@@ -935,35 +938,43 @@ function ShowForecastResults(year) {
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     if (x == 11) {
-                        console.log(jss.getData());
+                        //console.log(jss.getData());
+                        //let once = true;
                         var octSum = 0;
+                        //var dd = jss.getData();
+                        //debugger;
+                        //if (once==true) {
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                    octSum += parseFloat(parseFloat(dataValue[11]));
+                                }
 
-                        
-                        $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                octSum += parseFloat(dataValue[11]);
-                            }
+                            });
 
-                        });
-                        if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-                            octSum = 0;
-                            alert('Input not valid');
-                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+                                //cell.childNodes[11].data = beforeChangedValue;
+                                //once = false;
 
-                        }
-                        else {
-
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
 
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                                if (dataCheck.length == 0) {
+                                    jssUpdatedData.push(retrivedData);
+                                }
+                                else {
+                                    updateArray(jssUpdatedData, retrivedData);
+                                }
+
+                            }
+                            $(cell).css('color', 'red');
+                            $(cell).css('background-color', 'yellow');
+                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                        //}
+                        
+
 
                     }
                     if (x == 12) {
@@ -1892,7 +1903,7 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
-    jss.deleteColumn(45, 15);
+    jss.deleteColumn(45, 17);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');

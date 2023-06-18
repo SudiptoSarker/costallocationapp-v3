@@ -1852,5 +1852,11 @@ namespace CostAllocationApp.Controllers
             }
             //return Ok(forecastHistoryList);
         }
+
+
+        public ActionResult QaProportion()
+        {
+            return View();
+        }
     }
 }

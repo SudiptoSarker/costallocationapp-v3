@@ -4152,7 +4152,7 @@ function DisableRow(rowNumber) {
 function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
     $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("A"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "white");
+    // jss.setStyle("A"+insertedRowNumber,"color", "white");
     jss.setStyle("A"+insertedRowNumber,"color", "black");
     $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
 

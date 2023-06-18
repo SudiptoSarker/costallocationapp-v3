@@ -363,5 +363,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetApprovedCellsByAssignmentId(employeeAssignmentId);
         }
+        public int UpdateEmployeeAssignmentApprovedRowByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            return forecastDAL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(assignmentHistory); 
+        }
     }
 }

@@ -3876,6 +3876,16 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStamp, Convert.ToInt32(assignmentYear), createdBy,_assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
                 }
+                //store approved row for download excel
+                if(_assignmentHistories_Add.Count > 0)
+                {
+                    foreach (var addRowItem in _assignmentHistories_Add)
+                    {
+                        int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(addRowItem);
+                    }
+                }
+
+                //store approved cell for download excel 
                 if (_assignmentHistorys_CellWise.Count > 0)
                 {
                     foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)

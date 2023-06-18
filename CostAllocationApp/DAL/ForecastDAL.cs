@@ -1930,5 +1930,30 @@ namespace CostAllocationApp.DAL
                 return approvedCells;
             }
         }
+        public int UpdateEmployeeAssignmentApprovedRowByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            int result = 0;
+
+            string query = $@"Update EmployeesAssignments Set IsAddEmployee = @isAddEmployee Where Id=@assignmentId And Year=@year";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@isAddEmployee", 1);
+                cmd.Parameters.AddWithValue("@assignmentId", assignmentHistory.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@year", assignmentHistory.Year);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

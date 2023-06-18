@@ -1760,157 +1760,78 @@ namespace CostAllocationApp.Controllers
                         int distributedCount = 2;
                         foreach (var item in forecastAssignmentViewModels)
                         {
-                            if(item.DepartmentName == "品証")
-                            {
+                            var employeeName = item.EmployeeName;
+                            var rootEmployeeName = item.RootEmployeeName;
+                            var employeeId = item.EmployeeId;
+                            var sectionName = item.SectionName;
+                            var departmentName = item.DepartmentName;
+                            var inChargeName = item.InchargeName;
+                            var roleName = item.RoleName;
+                            var explanationName = item.ExplanationName;
+                            var companyName = item.CompanyName;
+                            var gradePoints = item.GradePoint;
+                            var unitPrice = item.UnitPrice;
+                            var remarks = item.Remarks;
 
-                                var employeeName = item.EmployeeName;
-                                var rootEmployeeName = item.RootEmployeeName;
-                                var employeeId = item.EmployeeId;
-                                var sectionName = item.SectionName;
-                                var departmentName = item.DepartmentName;
-                                var inChargeName = item.InchargeName;
-                                var roleName = item.RoleName;
-                                var explanationName = item.ExplanationName;
-                                var companyName = item.CompanyName;
-                                var gradePoints = item.GradePoint;
-                                var unitPrice = item.UnitPrice;
-                                var remarks = item.Remarks;
+                            var isDeleteRow = item.IsDeleteEmployee;
+                            var isAddRow = item.IsAddEmployee;
+                            var isUpdateCells = item.IsCellWiseUpdate;
 
-                                var isDeleteRow = item.IsDeleteEmployee;
-                                var isAddRow = item.IsAddEmployee;
-                                var isUpdateCells = item.IsCellWiseUpdate;
+                            var octPOriginal = item.OctPoints;
+                            var novPOriginal = item.NovPoints;
+                            var decPOriginal = item.DecPoints;
+                            var janPOriginal = item.JanPoints;
+                            var febPOriginal = item.FebPoints;
+                            var marPOriginal = item.MarPoints;
+                            var aprPOriginal = item.AprPoints;
+                            var mayPOriginal = item.MayPoints;
+                            var junPOriginal = item.JunPoints;
+                            var julPOriginal = item.JulPoints;
+                            var augPOriginal = item.AugPoints;
+                            var sepPOriginal = item.SepPoints;
 
-                                var octPOriginal = item.OctPoints;
-                                var novPOriginal = item.NovPoints;
-                                var decPOriginal = item.DecPoints;
-                                var janPOriginal = item.JanPoints;
-                                var febPOriginal = item.FebPoints;
-                                var marPOriginal = item.MarPoints;
-                                var aprPOriginal = item.AprPoints;
-                                var mayPOriginal = item.MayPoints;
-                                var junPOriginal = item.JunPoints;
-                                var julPOriginal = item.JulPoints;
-                                var augPOriginal = item.AugPoints;
-                                var sepPOriginal = item.SepPoints;
+                            distributedWorksheet.Cells["A" + distributedCount].Value = sectionName;
+                            distributedWorksheet.Cells["A" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["A" + distributedCount].Value = sectionName;
-                                distributedWorksheet.Cells["A" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["B" + distributedCount].Value = departmentName;
+                            distributedWorksheet.Cells["B" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["B" + distributedCount].Value = departmentName;
-                                distributedWorksheet.Cells["B" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["C" + distributedCount].Value = inChargeName;
+                            distributedWorksheet.Cells["C" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["C" + distributedCount].Value = inChargeName;
-                                distributedWorksheet.Cells["C" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["D" + distributedCount].Value = roleName;
+                            distributedWorksheet.Cells["D" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["D" + distributedCount].Value = roleName;
-                                distributedWorksheet.Cells["D" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["E" + distributedCount].Value = explanationName;
+                            distributedWorksheet.Cells["E" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["E" + distributedCount].Value = explanationName;
-                                distributedWorksheet.Cells["E" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["F" + distributedCount].Value = employeeName;
+                            distributedWorksheet.Cells["F" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["F" + distributedCount].Value = employeeName;
-                                distributedWorksheet.Cells["F" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["G" + distributedCount].Value = remarks;
+                            distributedWorksheet.Cells["G" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["G" + distributedCount].Value = remarks;
-                                distributedWorksheet.Cells["G" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["H" + distributedCount].Value = companyName;
+                            distributedWorksheet.Cells["H" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["H" + distributedCount].Value = companyName;
-                                distributedWorksheet.Cells["H" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["I" + distributedCount].Value = gradePoints;
+                            distributedWorksheet.Cells["I" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["I" + distributedCount].Value = gradePoints;
-                                distributedWorksheet.Cells["I" + distributedCount].AutoFitColumns();
+                            distributedWorksheet.Cells["J" + distributedCount].Value = unitPrice;
+                            distributedWorksheet.Cells["J" + distributedCount].AutoFitColumns();
 
-                                distributedWorksheet.Cells["J" + distributedCount].Value = unitPrice;
-                                distributedWorksheet.Cells["J" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["K" + distributedCount].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["L" + distributedCount].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["M" + distributedCount].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["N" + distributedCount].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["O" + distributedCount].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["P" + distributedCount].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["Q" + distributedCount].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["R" + distributedCount].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["S" + distributedCount].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["T" + distributedCount].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["U" + distributedCount].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["V" + distributedCount].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                            }
-                            else
-                            {
-                                var employeeName = item.EmployeeName;
-                                var rootEmployeeName = item.RootEmployeeName;
-                                var employeeId = item.EmployeeId;
-                                var sectionName = item.SectionName;
-                                var departmentName = item.DepartmentName;
-                                var inChargeName = item.InchargeName;
-                                var roleName = item.RoleName;
-                                var explanationName = item.ExplanationName;
-                                var companyName = item.CompanyName;
-                                var gradePoints = item.GradePoint;
-                                var unitPrice = item.UnitPrice;
-                                var remarks = item.Remarks;
-
-                                var isDeleteRow = item.IsDeleteEmployee;
-                                var isAddRow = item.IsAddEmployee;
-                                var isUpdateCells = item.IsCellWiseUpdate;
-
-                                var octPOriginal = item.OctPoints;
-                                var novPOriginal = item.NovPoints;
-                                var decPOriginal = item.DecPoints;
-                                var janPOriginal = item.JanPoints;
-                                var febPOriginal = item.FebPoints;
-                                var marPOriginal = item.MarPoints;
-                                var aprPOriginal = item.AprPoints;
-                                var mayPOriginal = item.MayPoints;
-                                var junPOriginal = item.JunPoints;
-                                var julPOriginal = item.JulPoints;
-                                var augPOriginal = item.AugPoints;
-                                var sepPOriginal = item.SepPoints;
-
-                                distributedWorksheet.Cells["A" + distributedCount].Value = sectionName;
-                                distributedWorksheet.Cells["A" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["B" + distributedCount].Value = departmentName;
-                                distributedWorksheet.Cells["B" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["C" + distributedCount].Value = inChargeName;
-                                distributedWorksheet.Cells["C" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["D" + distributedCount].Value = roleName;
-                                distributedWorksheet.Cells["D" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["E" + distributedCount].Value = explanationName;
-                                distributedWorksheet.Cells["E" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["F" + distributedCount].Value = employeeName;
-                                distributedWorksheet.Cells["F" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["G" + distributedCount].Value = remarks;
-                                distributedWorksheet.Cells["G" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["H" + distributedCount].Value = companyName;
-                                distributedWorksheet.Cells["H" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["I" + distributedCount].Value = gradePoints;
-                                distributedWorksheet.Cells["I" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["J" + distributedCount].Value = unitPrice;
-                                distributedWorksheet.Cells["J" + distributedCount].AutoFitColumns();
-
-                                distributedWorksheet.Cells["K" + distributedCount].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["L" + distributedCount].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["M" + distributedCount].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["N" + distributedCount].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["O" + distributedCount].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["P" + distributedCount].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["Q" + distributedCount].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["R" + distributedCount].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["S" + distributedCount].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["T" + distributedCount].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["U" + distributedCount].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                distributedWorksheet.Cells["V" + distributedCount].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                            }
+                            distributedWorksheet.Cells["K" + distributedCount].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["L" + distributedCount].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["M" + distributedCount].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["N" + distributedCount].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["O" + distributedCount].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["P" + distributedCount].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["Q" + distributedCount].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["R" + distributedCount].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["S" + distributedCount].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["T" + distributedCount].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["U" + distributedCount].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                            distributedWorksheet.Cells["V" + distributedCount].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
 
                             distributedCount++;
                         }

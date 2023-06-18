@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using CostAllocationApp.Dtos;
 
 namespace CostAllocationApp.ViewModels
 {
-    public class ForecastAssignmentViewModel
+    public class ForecastDistributdViewModal
     {
-        // for assignment
         public int SerialNumber { get; set; }
         public int Id { get; set; }
         public int EmployeeId { get; set; }
@@ -41,7 +39,6 @@ namespace CostAllocationApp.ViewModels
         public string BCYRCellPending { get; set; }
         public bool IsRowPending { get; set; }
         public bool IsDeletePending { get; set; }
-        public int Year { get; set; }
 
         public bool IsAddEmployee { get; set; }
         public bool IsDeleteEmployee { get; set; }
@@ -49,7 +46,6 @@ namespace CostAllocationApp.ViewModels
         public string ApprovedCells { get; set; }
         public string RootEmployeeName { get; set; }
         // for forecast
-        public List<ForecastDto> forecasts { get; set; }
 
         // points
         public string OctPoints { get; set; }
@@ -65,18 +61,19 @@ namespace CostAllocationApp.ViewModels
         public string AugPoints { get; set; }
         public string SepPoints { get; set; }
 
-        //total
-        public string OctTotal { get; set; }
-        public string NovTotal { get; set; }
-        public string DecTotal { get; set; }
-        public string JanTotal { get; set; }
-        public string FebTotal { get; set; }
-        public string MarTotal { get; set; }
-        public string AprTotal { get; set; }
-        public string MayTotal { get; set; }
-        public string JunTotal { get; set; }
-        public string JulTotal { get; set; }
-        public string AugTotal { get; set; }
-        public string SepTotal { get; set; }
+        // percent
+        public decimal OctPercentage { get; set; }
+        public decimal NovPercentage { get; set; }
+        public decimal DecPercentage { get; set; }
+        public decimal JanPercentage { get; set; }
+        public decimal FebPercentage { get; set; }
+        public decimal MarPercentage { get; set; }
+        public decimal AprPercentage { get; set; }
+        public decimal Maypercentage { get; set; }
+        public decimal JunPercentage { get; set; }
+        public decimal JulPercentage { get; set; }
+        public decimal AugPercentage { get; set; }
+        public decimal SepPercentage { get; set; }
+
     }
 }

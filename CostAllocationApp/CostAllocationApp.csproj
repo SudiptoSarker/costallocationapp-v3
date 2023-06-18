@@ -269,6 +269,7 @@
     <Compile Include="ViewModels\DownloadApproveHistoryViewModal.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
+    <Compile Include="ViewModels\ForecastDistributdViewModal.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastYear.cs" />

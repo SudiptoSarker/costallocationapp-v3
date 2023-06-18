@@ -1467,5 +1467,14 @@ namespace CostAllocationApp.BLL
 
             return isApprovedCell;
         }
+        public List<ForecastDistributdViewModal> GetQCAssignemntsPercentage(int assignmentId)
+        {
+            return employeeAssignmentDAL.GetQCAssignemntsPercentage(assignmentId);
+        }
+
+        public List<ForecastDistributdViewModal> GetQCAssignemntsPercentageByEmployeeIdAndYear(int employeeId, int year)
+        {
+            return employeeAssignmentDAL.GetQCAssignemntsPercentageByEmployeeIdAndYear(employeeId, year);
+        }
     }
 }

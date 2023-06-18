@@ -786,9 +786,13 @@ function ShowForecastResults(year) {
         onchange: function (instance, cell, x, y, value) {            
             var checkId = jss.getValueFromCoords(0, y);
             var employeeId = jss.getValueFromCoords(35, y);
+            
+            console.log("checkId: "+checkId);
+            console.log("employeeId: "+employeeId);
 
-            if (checkId == null || checkId == '' || checkId == undefined) {
-
+             if (checkId == null || checkId == '' || checkId == undefined) {
+            //if (0) {
+                //add new employee on change get value.
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 retrivedData.assignmentId = "new-" + newRowCount;
 
@@ -942,6 +946,8 @@ function ShowForecastResults(year) {
 
                         });
                         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+                            console.log("value: "+value);
+                            console.log("value: "+octSum);
                             octSum = 0;
                             alert('Input not valid');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);

@@ -1769,35 +1769,75 @@ namespace CostAllocationApp.Controllers
                         int distributedCount = 2;
                         foreach (var item in forecastAssignmentViewModels)
                         {
+                            if (!item.IsDeleteEmployee) { 
 
-                            //new logic: start
-                            bool isSameDistributedEmployee = false;
+                                //new logic: start
+                                bool isSameDistributedEmployee = false;
 
-                            if (item.DepartmentName == "品証")
-                            {
-                                if (forecastAssignmentViewModelsForDistinctEmployees.Count > 0)
+                                if (item.DepartmentName == "品証")
                                 {
-                                    foreach(var distributedItem in forecastAssignmentViewModelsForDistinctEmployees)
+                                    if (forecastAssignmentViewModelsForDistinctEmployees.Count > 0)
                                     {
-                                        if(distributedItem.EmployeeId == item.EmployeeId)
+                                        foreach(var distributedItem in forecastAssignmentViewModelsForDistinctEmployees)
                                         {
-                                            isSameDistributedEmployee = true;
-                                            distributedItem.OctPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.OctPoints) + Convert.ToDecimal(item.OctPoints)).ToString();
-                                            distributedItem.NovPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.NovPoints) + Convert.ToDecimal(item.NovPoints)).ToString();
-                                            distributedItem.DecPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.DecPoints) + Convert.ToDecimal(item.DecPoints)).ToString();
-                                            distributedItem.JanPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JanPoints) + Convert.ToDecimal(item.JanPoints)).ToString();
-                                            distributedItem.FebPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.FebPoints) + Convert.ToDecimal(item.FebPoints)).ToString();
-                                            distributedItem.MarPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.MarPoints) + Convert.ToDecimal(item.MarPoints)).ToString();
-                                            distributedItem.AprPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.AprPoints) + Convert.ToDecimal(item.AprPoints)).ToString();
-                                            distributedItem.MayPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.MayPoints) + Convert.ToDecimal(item.MayPoints)).ToString();
-                                            distributedItem.JunPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JunPoints) + Convert.ToDecimal(item.JunPoints)).ToString();
-                                            distributedItem.JulPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JulPoints) + Convert.ToDecimal(item.JulPoints)).ToString();
-                                            distributedItem.AugPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.AugPoints) + Convert.ToDecimal(item.AugPoints)).ToString();
-                                            distributedItem.SepPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.SepPoints) + Convert.ToDecimal(item.SepPoints)).ToString();
-                                        }                                        
-                                    }
+                                            if(distributedItem.EmployeeId == item.EmployeeId)
+                                            {
+                                                isSameDistributedEmployee = true;
+                                                distributedItem.OctPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.OctPoints) + Convert.ToDecimal(item.OctPoints)).ToString();
+                                                distributedItem.NovPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.NovPoints) + Convert.ToDecimal(item.NovPoints)).ToString();
+                                                distributedItem.DecPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.DecPoints) + Convert.ToDecimal(item.DecPoints)).ToString();
+                                                distributedItem.JanPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JanPoints) + Convert.ToDecimal(item.JanPoints)).ToString();
+                                                distributedItem.FebPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.FebPoints) + Convert.ToDecimal(item.FebPoints)).ToString();
+                                                distributedItem.MarPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.MarPoints) + Convert.ToDecimal(item.MarPoints)).ToString();
+                                                distributedItem.AprPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.AprPoints) + Convert.ToDecimal(item.AprPoints)).ToString();
+                                                distributedItem.MayPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.MayPoints) + Convert.ToDecimal(item.MayPoints)).ToString();
+                                                distributedItem.JunPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JunPoints) + Convert.ToDecimal(item.JunPoints)).ToString();
+                                                distributedItem.JulPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.JulPoints) + Convert.ToDecimal(item.JulPoints)).ToString();
+                                                distributedItem.AugPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.AugPoints) + Convert.ToDecimal(item.AugPoints)).ToString();
+                                                distributedItem.SepPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.SepPoints) + Convert.ToDecimal(item.SepPoints)).ToString();
+                                            }                                        
+                                        }
 
-                                    if (!isSameDistributedEmployee)
+                                        if (!isSameDistributedEmployee)
+                                        {
+                                            ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
+
+                                            forecastAssignmentViewModel2.EmployeeName = item.EmployeeName;
+                                            forecastAssignmentViewModel2.RootEmployeeName = item.RootEmployeeName;
+                                            forecastAssignmentViewModel2.EmployeeId = item.EmployeeId;
+                                            forecastAssignmentViewModel2.SectionName = item.SectionName;
+                                            forecastAssignmentViewModel2.DepartmentName = item.DepartmentName;
+                                            forecastAssignmentViewModel2.InchargeName = item.InchargeName;
+                                            forecastAssignmentViewModel2.RoleName = item.RoleName;
+                                            forecastAssignmentViewModel2.ExplanationName = item.ExplanationName;
+                                            forecastAssignmentViewModel2.CompanyName = item.CompanyName;
+                                            forecastAssignmentViewModel2.GradePoint = item.GradePoint;
+                                            forecastAssignmentViewModel2.UnitPrice = item.UnitPrice;
+                                            forecastAssignmentViewModel2.Remarks = item.Remarks;
+                                            forecastAssignmentViewModel2.Year = item.Year;
+
+                                            forecastAssignmentViewModel2.IsDeleteEmployee = item.IsDeleteEmployee;
+                                            forecastAssignmentViewModel2.IsAddEmployee = item.IsAddEmployee;
+                                            forecastAssignmentViewModel2.IsCellWiseUpdate = item.IsCellWiseUpdate;
+                                            forecastAssignmentViewModel2.ApprovedCells = item.ApprovedCells;
+
+                                            forecastAssignmentViewModel2.OctPoints = item.OctPoints;
+                                            forecastAssignmentViewModel2.NovPoints = item.NovPoints;
+                                            forecastAssignmentViewModel2.DecPoints = item.DecPoints;
+                                            forecastAssignmentViewModel2.JanPoints = item.JanPoints;
+                                            forecastAssignmentViewModel2.FebPoints = item.FebPoints;
+                                            forecastAssignmentViewModel2.MarPoints = item.MarPoints;
+                                            forecastAssignmentViewModel2.AprPoints = item.AprPoints;
+                                            forecastAssignmentViewModel2.MayPoints = item.MayPoints;
+                                            forecastAssignmentViewModel2.JunPoints = item.JunPoints;
+                                            forecastAssignmentViewModel2.JulPoints = item.JulPoints;
+                                            forecastAssignmentViewModel2.AugPoints = item.AugPoints;
+                                            forecastAssignmentViewModel2.SepPoints = item.SepPoints;
+
+                                            forecastAssignmentViewModelsForDistinctEmployees.Add(forecastAssignmentViewModel2);
+                                        }
+                                    }
+                                    else
                                     {
                                         ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
 
@@ -1837,45 +1877,6 @@ namespace CostAllocationApp.Controllers
                                     }
                                 }
                                 else
-                                {
-                                    ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
-
-                                    forecastAssignmentViewModel2.EmployeeName = item.EmployeeName;
-                                    forecastAssignmentViewModel2.RootEmployeeName = item.RootEmployeeName;
-                                    forecastAssignmentViewModel2.EmployeeId = item.EmployeeId;
-                                    forecastAssignmentViewModel2.SectionName = item.SectionName;
-                                    forecastAssignmentViewModel2.DepartmentName = item.DepartmentName;
-                                    forecastAssignmentViewModel2.InchargeName = item.InchargeName;
-                                    forecastAssignmentViewModel2.RoleName = item.RoleName;
-                                    forecastAssignmentViewModel2.ExplanationName = item.ExplanationName;
-                                    forecastAssignmentViewModel2.CompanyName = item.CompanyName;
-                                    forecastAssignmentViewModel2.GradePoint = item.GradePoint;
-                                    forecastAssignmentViewModel2.UnitPrice = item.UnitPrice;
-                                    forecastAssignmentViewModel2.Remarks = item.Remarks;
-                                    forecastAssignmentViewModel2.Year = item.Year;
-
-                                    forecastAssignmentViewModel2.IsDeleteEmployee = item.IsDeleteEmployee;
-                                    forecastAssignmentViewModel2.IsAddEmployee = item.IsAddEmployee;
-                                    forecastAssignmentViewModel2.IsCellWiseUpdate = item.IsCellWiseUpdate;
-                                    forecastAssignmentViewModel2.ApprovedCells = item.ApprovedCells;
-
-                                    forecastAssignmentViewModel2.OctPoints = item.OctPoints;
-                                    forecastAssignmentViewModel2.NovPoints = item.NovPoints;
-                                    forecastAssignmentViewModel2.DecPoints = item.DecPoints;
-                                    forecastAssignmentViewModel2.JanPoints = item.JanPoints;
-                                    forecastAssignmentViewModel2.FebPoints = item.FebPoints;
-                                    forecastAssignmentViewModel2.MarPoints = item.MarPoints;
-                                    forecastAssignmentViewModel2.AprPoints = item.AprPoints;
-                                    forecastAssignmentViewModel2.MayPoints = item.MayPoints;
-                                    forecastAssignmentViewModel2.JunPoints = item.JunPoints;
-                                    forecastAssignmentViewModel2.JulPoints = item.JulPoints;
-                                    forecastAssignmentViewModel2.AugPoints = item.AugPoints;
-                                    forecastAssignmentViewModel2.SepPoints = item.SepPoints;
-
-                                    forecastAssignmentViewModelsForDistinctEmployees.Add(forecastAssignmentViewModel2);
-                                }
-                            }
-                            else
                             {
                                 ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
                                 
@@ -1913,7 +1914,8 @@ namespace CostAllocationApp.Controllers
 
                                 forecastAssignmentViewModelsForDistinctEmployees.Add(forecastAssignmentViewModel2);
                             }
-                            //new logic: end                            
+                                //new logic: end      
+                            }
                         }
 
                         if (forecastAssignmentViewModelsForDistinctEmployees.Count > 0)
@@ -1921,148 +1923,148 @@ namespace CostAllocationApp.Controllers
                             int distributedCountDistinct = 2;
                             foreach (var distributedItem in forecastAssignmentViewModelsForDistinctEmployees)
                             {
-
-                                if (distributedItem.DepartmentName == "品証")
-                                {
-                                    List<ForecastDistributdViewModal> forecastAssignmentViewModelsForQCPercentage = employeeAssignmentBLL.GetQCAssignemntsPercentageByEmployeeIdAndYear(distributedItem.EmployeeId, Convert.ToInt32(hid_selected_year));
-                                    if (forecastAssignmentViewModelsForQCPercentage.Count > 0)
+                                 if (!distributedItem.IsDeleteEmployee) { 
+                                    if (distributedItem.DepartmentName == "品証")
                                     {
-                                        foreach (var qcItem in forecastAssignmentViewModelsForQCPercentage)
+                                        List<ForecastDistributdViewModal> forecastAssignmentViewModelsForQCPercentage = employeeAssignmentBLL.GetQCAssignemntsPercentageByEmployeeIdAndYear(distributedItem.EmployeeId, Convert.ToInt32(hid_selected_year));
+                                        if (forecastAssignmentViewModelsForQCPercentage.Count > 0)
                                         {
-                                            var employeeName = distributedItem.EmployeeName;
-                                            var rootEmployeeName = distributedItem.RootEmployeeName;
-                                            var employeeId = distributedItem.EmployeeId;
-                                            var sectionName = distributedItem.SectionName;
-                                            var departmentName = qcItem.DepartmentName;
-                                            var inChargeName = distributedItem.InchargeName;
-                                            var roleName = distributedItem.RoleName;
-                                            var explanationName = distributedItem.ExplanationName;
-                                            var companyName = distributedItem.CompanyName;
-                                            var gradePoints = distributedItem.GradePoint;
-                                            var unitPrice = distributedItem.UnitPrice;
-                                            var remarks = distributedItem.Remarks;
+                                            foreach (var qcItem in forecastAssignmentViewModelsForQCPercentage)
+                                            {
+                                                var employeeName = distributedItem.EmployeeName;
+                                                var rootEmployeeName = distributedItem.RootEmployeeName;
+                                                var employeeId = distributedItem.EmployeeId;
+                                                var sectionName = distributedItem.SectionName;
+                                                var departmentName = qcItem.DepartmentName;
+                                                var inChargeName = distributedItem.InchargeName;
+                                                var roleName = distributedItem.RoleName;
+                                                var explanationName = distributedItem.ExplanationName;
+                                                var companyName = distributedItem.CompanyName;
+                                                var gradePoints = distributedItem.GradePoint;
+                                                var unitPrice = distributedItem.UnitPrice;
+                                                var remarks = distributedItem.Remarks;
 
-                                            var isDeleteRow = distributedItem.IsDeleteEmployee;
-                                            var isAddRow = distributedItem.IsAddEmployee;
-                                            var isUpdateCells = distributedItem.IsCellWiseUpdate;
-                                            var approvedCells = distributedItem.ApprovedCells;
+                                                var isDeleteRow = distributedItem.IsDeleteEmployee;
+                                                var isAddRow = distributedItem.IsAddEmployee;
+                                                var isUpdateCells = distributedItem.IsCellWiseUpdate;
+                                                var approvedCells = distributedItem.ApprovedCells;
 
-                                            var octPOriginal = (Convert.ToDecimal(distributedItem.OctPoints) * qcItem.OctPercentage) / 100;
-                                            var novPOriginal = (Convert.ToDecimal(distributedItem.NovPoints) * qcItem.NovPercentage) / 100;
-                                            var decPOriginal = (Convert.ToDecimal(distributedItem.DecPoints) * qcItem.DecPercentage) / 100;
-                                            var janPOriginal = (Convert.ToDecimal(distributedItem.JanPoints) * qcItem.JanPercentage) / 100;
-                                            var febPOriginal = (Convert.ToDecimal(distributedItem.FebPoints) * qcItem.FebPercentage) / 100;
-                                            var marPOriginal = (Convert.ToDecimal(distributedItem.MarPoints) * qcItem.MarPercentage) / 100;
-                                            var aprPOriginal = (Convert.ToDecimal(distributedItem.AprPoints) * qcItem.AprPercentage) / 100;
-                                            var mayPOriginal = (Convert.ToDecimal(distributedItem.MayPoints) * qcItem.Maypercentage) / 100;
-                                            var junPOriginal = (Convert.ToDecimal(distributedItem.JunPoints) * qcItem.JunPercentage) / 100;
-                                            var julPOriginal = (Convert.ToDecimal(distributedItem.JulPoints) * qcItem.JulPercentage) / 100;
-                                            var augPOriginal = (Convert.ToDecimal(distributedItem.AugPoints) * qcItem.AugPercentage) / 100;
-                                            var sepPOriginal = (Convert.ToDecimal(distributedItem.SepPoints) * qcItem.SepPercentage) / 100;
+                                                var octPOriginal = (Convert.ToDecimal(distributedItem.OctPoints) * qcItem.OctPercentage) / 100;
+                                                var novPOriginal = (Convert.ToDecimal(distributedItem.NovPoints) * qcItem.NovPercentage) / 100;
+                                                var decPOriginal = (Convert.ToDecimal(distributedItem.DecPoints) * qcItem.DecPercentage) / 100;
+                                                var janPOriginal = (Convert.ToDecimal(distributedItem.JanPoints) * qcItem.JanPercentage) / 100;
+                                                var febPOriginal = (Convert.ToDecimal(distributedItem.FebPoints) * qcItem.FebPercentage) / 100;
+                                                var marPOriginal = (Convert.ToDecimal(distributedItem.MarPoints) * qcItem.MarPercentage) / 100;
+                                                var aprPOriginal = (Convert.ToDecimal(distributedItem.AprPoints) * qcItem.AprPercentage) / 100;
+                                                var mayPOriginal = (Convert.ToDecimal(distributedItem.MayPoints) * qcItem.Maypercentage) / 100;
+                                                var junPOriginal = (Convert.ToDecimal(distributedItem.JunPoints) * qcItem.JunPercentage) / 100;
+                                                var julPOriginal = (Convert.ToDecimal(distributedItem.JulPoints) * qcItem.JulPercentage) / 100;
+                                                var augPOriginal = (Convert.ToDecimal(distributedItem.AugPoints) * qcItem.AugPercentage) / 100;
+                                                var sepPOriginal = (Convert.ToDecimal(distributedItem.SepPoints) * qcItem.SepPercentage) / 100;
 
-                                            //distributedWorksheet.Cells["A" + distributedCountDistinct].Value = sectionName;
+                                                //distributedWorksheet.Cells["A" + distributedCountDistinct].Value = sectionName;
+                                                //distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["B" + distributedCountDistinct].Value = departmentName;
+                                                //distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["C" + distributedCountDistinct].Value = inChargeName;
+                                                //distributedWorksheet.Cells["C" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["D" + distributedCountDistinct].Value = roleName;
+                                                //distributedWorksheet.Cells["D" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["E" + distributedCountDistinct].Value = explanationName;
+                                                //distributedWorksheet.Cells["E" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["F" + distributedCountDistinct].Value = employeeName;
+                                                //distributedWorksheet.Cells["F" + distributedCountDistinct].AutoFitColumns();
+                                                distributedWorksheet.Cells["A" + distributedCountDistinct].Value = rootEmployeeName;
+                                                distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["G" + distributedCountDistinct].Value = remarks;
+                                                //distributedWorksheet.Cells["G" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["H" + distributedCountDistinct].Value = companyName;
+                                                //distributedWorksheet.Cells["H" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["I" + distributedCountDistinct].Value = gradePoints;
+                                                //distributedWorksheet.Cells["I" + distributedCountDistinct].AutoFitColumns();
+
+                                                //distributedWorksheet.Cells["J" + distributedCountDistinct].Value = unitPrice;
+                                                //distributedWorksheet.Cells["J" + distributedCountDistinct].AutoFitColumns();
+
+                                                distributedWorksheet.Cells["B" + distributedCountDistinct].Value = departmentName;
+                                                distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
+
+                                                distributedWorksheet.Cells["C" + distributedCountDistinct].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["D" + distributedCountDistinct].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["E" + distributedCountDistinct].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["F" + distributedCountDistinct].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["G" + distributedCountDistinct].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["H" + distributedCountDistinct].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["I" + distributedCountDistinct].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["J" + distributedCountDistinct].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["K" + distributedCountDistinct].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["L" + distributedCountDistinct].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["M" + distributedCountDistinct].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                                                distributedWorksheet.Cells["N" + distributedCountDistinct].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+
+                                                distributedCountDistinct++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //distributedWorksheet.Cells["A" + distributedCountDistinct].Value = distributedItem.DepartmentName;
                                             //distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["B" + distributedCountDistinct].Value = departmentName;
+                                            //distributedWorksheet.Cells["B" + distributedCountDistinct].Value = distributedItem.DepartmentName;
                                             //distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["C" + distributedCountDistinct].Value = inChargeName;
+                                            //distributedWorksheet.Cells["C" + distributedCountDistinct].Value = distributedItem.InchargeName;
                                             //distributedWorksheet.Cells["C" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["D" + distributedCountDistinct].Value = roleName;
+                                            //distributedWorksheet.Cells["D" + distributedCountDistinct].Value = distributedItem.RoleName;
                                             //distributedWorksheet.Cells["D" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["E" + distributedCountDistinct].Value = explanationName;
+                                            //distributedWorksheet.Cells["E" + distributedCountDistinct].Value = distributedItem.ExplanationName;
                                             //distributedWorksheet.Cells["E" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["F" + distributedCountDistinct].Value = employeeName;
-                                            //distributedWorksheet.Cells["F" + distributedCountDistinct].AutoFitColumns();
-                                            distributedWorksheet.Cells["A" + distributedCountDistinct].Value = rootEmployeeName;
+                                            distributedWorksheet.Cells["A" + distributedCountDistinct].Value = distributedItem.RootEmployeeName;
                                             distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["G" + distributedCountDistinct].Value = remarks;
+                                            //distributedWorksheet.Cells["G" + distributedCountDistinct].Value = distributedItem.Remarks;
                                             //distributedWorksheet.Cells["G" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["H" + distributedCountDistinct].Value = companyName;
+                                            //distributedWorksheet.Cells["H" + distributedCountDistinct].Value = distributedItem.CompanyName;
                                             //distributedWorksheet.Cells["H" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["I" + distributedCountDistinct].Value = gradePoints;
+                                            //distributedWorksheet.Cells["I" + distributedCountDistinct].Value = distributedItem.GradePoint;
                                             //distributedWorksheet.Cells["I" + distributedCountDistinct].AutoFitColumns();
 
-                                            //distributedWorksheet.Cells["J" + distributedCountDistinct].Value = unitPrice;
+                                            //distributedWorksheet.Cells["J" + distributedCountDistinct].Value = distributedItem.UnitPrice;
                                             //distributedWorksheet.Cells["J" + distributedCountDistinct].AutoFitColumns();
 
-                                            distributedWorksheet.Cells["B" + distributedCountDistinct].Value = departmentName;
+                                            distributedWorksheet.Cells["B" + distributedCountDistinct].Value = distributedItem.DepartmentName;
                                             distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
 
-                                            distributedWorksheet.Cells["C" + distributedCountDistinct].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["D" + distributedCountDistinct].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["E" + distributedCountDistinct].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["F" + distributedCountDistinct].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["G" + distributedCountDistinct].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["H" + distributedCountDistinct].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["I" + distributedCountDistinct].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["J" + distributedCountDistinct].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["K" + distributedCountDistinct].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["L" + distributedCountDistinct].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["M" + distributedCountDistinct].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                            distributedWorksheet.Cells["N" + distributedCountDistinct].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                                            distributedWorksheet.Cells["C" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.OctPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["D" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.NovPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["E" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.DecPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["F" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JanPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["G" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.FebPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["H" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.MarPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["I" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.AprPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["J" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.MayPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["K" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JunPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["L" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JulPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["M" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.AugPoints).ToString("0.0");
+                                            distributedWorksheet.Cells["N" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.SepTotal).ToString("0.0");
 
                                             distributedCountDistinct++;
                                         }
                                     }
                                     else
-                                    {
-                                        //distributedWorksheet.Cells["A" + distributedCountDistinct].Value = distributedItem.DepartmentName;
-                                        //distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["B" + distributedCountDistinct].Value = distributedItem.DepartmentName;
-                                        //distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["C" + distributedCountDistinct].Value = distributedItem.InchargeName;
-                                        //distributedWorksheet.Cells["C" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["D" + distributedCountDistinct].Value = distributedItem.RoleName;
-                                        //distributedWorksheet.Cells["D" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["E" + distributedCountDistinct].Value = distributedItem.ExplanationName;
-                                        //distributedWorksheet.Cells["E" + distributedCountDistinct].AutoFitColumns();
-
-                                        distributedWorksheet.Cells["A" + distributedCountDistinct].Value = distributedItem.RootEmployeeName;
-                                        distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["G" + distributedCountDistinct].Value = distributedItem.Remarks;
-                                        //distributedWorksheet.Cells["G" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["H" + distributedCountDistinct].Value = distributedItem.CompanyName;
-                                        //distributedWorksheet.Cells["H" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["I" + distributedCountDistinct].Value = distributedItem.GradePoint;
-                                        //distributedWorksheet.Cells["I" + distributedCountDistinct].AutoFitColumns();
-
-                                        //distributedWorksheet.Cells["J" + distributedCountDistinct].Value = distributedItem.UnitPrice;
-                                        //distributedWorksheet.Cells["J" + distributedCountDistinct].AutoFitColumns();
-
-                                        distributedWorksheet.Cells["B" + distributedCountDistinct].Value = distributedItem.DepartmentName;
-                                        distributedWorksheet.Cells["B" + distributedCountDistinct].AutoFitColumns();
-
-                                        distributedWorksheet.Cells["C" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.OctPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["D" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.NovPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["E" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.DecPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["F" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JanPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["G" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.FebPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["H" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.MarPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["I" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.AprPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["J" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.MayPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["K" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JunPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["L" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.JulPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["M" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.AugPoints).ToString("0.0");
-                                        distributedWorksheet.Cells["N" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.SepTotal).ToString("0.0");
-
-                                        distributedCountDistinct++;
-                                    }
-                                }
-                                else
                                 {
                                     //distributedWorksheet.Cells["A" + distributedCountDistinct].Value = distributedItem.DepartmentName;
                                     //distributedWorksheet.Cells["A" + distributedCountDistinct].AutoFitColumns();
@@ -2111,7 +2113,8 @@ namespace CostAllocationApp.Controllers
                                     distributedWorksheet.Cells["N" + distributedCountDistinct].Value = Convert.ToDecimal(distributedItem.SepTotal).ToString("0.0");
 
                                     distributedCountDistinct++;
-                                }                                
+                                }
+                                }
                             }
                         }
                         ////*****************Download: Distributed: End***********************//

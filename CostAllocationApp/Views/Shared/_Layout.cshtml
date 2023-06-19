@@ -120,7 +120,7 @@
         $('button').on('submit', function () { inFormOrLink = true; });
         $('a').on('click', function () { inFormOrLink = true; });
 
-        //check for Navigation Timing API support
+        @* //check for Navigation Timing API support
         if (window.performance) {
             //console.info("window.performance works fine on this browser");
         }
@@ -138,7 +138,19 @@
                     //BrowserLogOut();
                 }
             })
-        }
+        } *@
+
+        @* window.onbeforeunload = function (event) {
+            var message = 'Please click on Save button to leave this page';
+            if (typeof event == 'undefined') {
+                event = window.event;
+            }
+            if (event) {
+                event.returnValue = message;
+            }
+            return message;
+        }; *@
+        
     </script>
 </body>
 </html>

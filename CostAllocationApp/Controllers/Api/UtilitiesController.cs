@@ -177,20 +177,8 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [HttpGet]
-        public IHttpActionResult SearchForecastEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year,string timeStampId)
-        //public IHttpActionResult SearchForecastEmployee(EmployeeAssignmentDTO employeeAssignment)
-        {
-            ////employeeName = "";
-            ////sectionId = "";
-            ////departmentId = "";
-            ////inchargeId = "";
-            ////roleId = "";
-            ////explanationId = "";
-            ////companyId = "";
-            ////status = "";
-            ////year = "";
-
-            //EmployeeAssignmentf employeeAssignment = new EmployeeAssignment();
+        public IHttpActionResult SearchForecastEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year,string timeStampId)        
+        {            
             EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
 
             if (!string.IsNullOrEmpty(employeeName))
@@ -200,22 +188,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 employeeAssignment.EmployeeName = "";
-            }
-            //if (sectionId != null)
-            //{
-            //    if (sectionId.Length > 0)
-            //    {
-            //        string ids = "";
-            //        foreach (var item in sectionId)
-            //        {
-            //            ids += $"{item},";
-            //        }
-            //        ids = ids.TrimEnd(',');
-
-            //        //where += $" ea.SectionId in ({ids}) and ";
-            //    }
-
-            //}
+            }            
 
             if (!string.IsNullOrEmpty(sectionId))
             {
@@ -248,15 +221,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 employeeAssignment.RoleId = "";
-            }
-            //if (!string.IsNullOrEmpty(explanationId))
-            //{
-            //    employeeAssignment.ExplanationId = Convert.ToInt32(explanationId);
-            //}
-            //else
-            //{
-            //    employeeAssignment.ExplanationId = 0;
-            //}
+            }            
 
             employeeAssignment.ExplanationId = explanationId;
             if (!string.IsNullOrEmpty(companyId))
@@ -294,13 +259,91 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
 
-        //[HttpGet]
-        //public IHttpActionResult SearchForecastEmployee(EmployeeAssignmentDTO employeeAssignment)
-        //{
-        //    List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
 
-        //    return Ok(forecsatEmployeeAssignmentViewModels);
-        //}
+        [Route("api/utilities/GetAllAssignmentData")]
+        [HttpGet]
+        public IHttpActionResult GetAllAssignmentData(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
+        {
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
+
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                employeeAssignment.EmployeeName = employeeName.Trim();
+            }
+            else
+            {
+                employeeAssignment.EmployeeName = "";
+            }
+
+            if (!string.IsNullOrEmpty(sectionId))
+            {
+                employeeAssignment.SectionId = sectionId;
+            }
+            else
+            {
+                employeeAssignment.SectionId = "";
+            }
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                employeeAssignment.DepartmentId = departmentId;
+            }
+            else
+            {
+                employeeAssignment.DepartmentId = "";
+            }
+            if (!string.IsNullOrEmpty(inchargeId))
+            {
+                employeeAssignment.InchargeId = inchargeId;
+            }
+            else
+            {
+                employeeAssignment.InchargeId = "";
+            }
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                employeeAssignment.RoleId = roleId;
+            }
+            else
+            {
+                employeeAssignment.RoleId = "";
+            }
+
+            employeeAssignment.ExplanationId = explanationId;
+            if (!string.IsNullOrEmpty(companyId))
+            {
+                employeeAssignment.CompanyId = companyId;
+            }
+            else
+            {
+                employeeAssignment.CompanyId = "";
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                employeeAssignment.Year = year;
+            }
+            else
+            {
+                employeeAssignment.Year = "";
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                employeeAssignment.IsActive = status;
+            }
+            else
+            {
+                employeeAssignment.IsActive = "";
+            }
+
+            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllAssignmentData(employeeAssignment);
+            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+
+            return Ok(forecsatEmployeeAssignmentViewModels);
+        }
 
 
         [Route("api/utilities/CompareGrade/{unitPrice}")]
@@ -3673,7 +3716,7 @@ namespace CostAllocationApp.Controllers.Api
                 employeeAssignment.IsActive = "";
             }
             //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
-            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllAssignmentData(employeeAssignment);
             List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
             return Ok(forecsatEmployeeAssignmentViewModels);

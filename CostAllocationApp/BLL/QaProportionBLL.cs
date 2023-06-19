@@ -64,7 +64,7 @@ namespace CostAllocationApp.BLL
                         augTotal += Convert.ToDouble(forecastData.Where(f => f.Month == 8).SingleOrDefault().Points)*unitPrice;
                         sepTotal += Convert.ToDouble(forecastData.Where(f => f.Month == 9).SingleOrDefault().Points)*unitPrice;
                     }
-                    list.Add(new {EmployeeName=item.EmployeeName, OctTotal= octTotal, NovTotal= novTotal, DecTotal= decTotal, JanTotal= janTotal,FebTotal=febTotal,MarTotal=marTotal,AprTotal= aprTotal,MayTotal=mayTotal,JunTotal=junTotal,JulTotal=julTotal,AugTotal=augTotal,SepTotal=sepTotal });
+                    list.Add(new {EmployeeName=item.EmployeeName, OctTotal= octTotal.ToString("N0"), NovTotal= novTotal.ToString("N0"), DecTotal= decTotal.ToString("N0"), JanTotal= janTotal.ToString("N0"), FebTotal=febTotal.ToString("N0"), MarTotal=marTotal.ToString("N0"), AprTotal= aprTotal.ToString("N0"), MayTotal=mayTotal.ToString("N0"), JunTotal=junTotal.ToString("N0"), JulTotal=julTotal.ToString("N0"), AugTotal=augTotal.ToString("N0"), SepTotal=sepTotal.ToString("N0") });
                     countedEmployeeId.Add(item.EmployeeId);
                 }
                 octTotal = 0; novTotal = 0; decTotal = 0; janTotal = 0; febTotal = 0; marTotal = 0; aprTotal = 0; mayTotal = 0; junTotal = 0; julTotal = 0; augTotal = 0; sepTotal = 0;

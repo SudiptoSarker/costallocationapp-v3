@@ -1452,7 +1452,7 @@ function ShowForecastResults(year) {
     $("#approve_forecast_data").css("display", "block");
     $("#unapprove_forecast_data").css("display", "block");
 
-    jss.deleteColumn(45, 15);
+    jss.deleteColumn(45, 18);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -2569,7 +2569,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         $("#hid_SelectedCellPosition").val(x1);
         $("#selectCellNumber").val(cellName1);
 
-        if(x2==46){
+        if(x2==34){
             $("#hid_IsRowSelected").val("yes");
             $("#hidIsRowDeleted").val(retrivedData.isActive);
             $("#hidSelectedRowNumber").val(sRows);

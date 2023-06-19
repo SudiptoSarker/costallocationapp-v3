@@ -226,7 +226,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 employeeCount = data.length;
-                console.log(employeeCount);
             }
         });
 
@@ -258,7 +257,6 @@ $(document).ready(function () {
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
                 success: function (data) {
                     rowCount = data;
-                    console.log(rowCount);
                     $.ajax({
                         url: `/api/utilities/GetMatchedUserNames/`,
                         contentType: 'application/json',
@@ -340,7 +338,6 @@ $(document).ready(function () {
             assignmentYear = 2023;
         }
 
-        console.log("assignmentYear: "+assignmentYear);
         deletedExistingRowIds = [];
         LoaderShowJexcel();            
         setTimeout(function () {                               
@@ -357,7 +354,6 @@ $(document).ready(function () {
 
 function ShowForecastResults(year) {
     //LoaderShow();
-    //debugger;
 
     //$("#loading").css("display", "block");
     var employeeName = $('#name_search').val();
@@ -406,7 +402,7 @@ function ShowForecastResults(year) {
 
     var _retriveddata = [];
     $.ajax({
-        url: `/api/utilities/SearchForecastEmployee`,
+        url: `/api/utilities/GetAllAssignmentData`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -550,9 +546,7 @@ function ShowForecastResults(year) {
                     let column = parseInt(c) - 1;
                     
                     var value1 = instance.jexcel.getValueFromCoords(column, row);
-                    debugger;
                     if (parseInt(value1) != 3) {
-                        //debugger;
                         return [];
                     }
                     else {
@@ -785,10 +779,8 @@ function ShowForecastResults(year) {
             }
         },
         //onafterchanges: function () {
-        //    console.log(jss);
         //},
         onchange: function (instance, cell, x, y, value) {
-            //debugger;
             var checkId = jss.getValueFromCoords(0, y);
             var employeeId = jss.getValueFromCoords(35, y);
 
@@ -815,14 +807,11 @@ function ShowForecastResults(year) {
             }
             else {
                 var retrivedData = retrivedObject(jss.getRowData(y));
-                console.log(retrivedData);
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                 }
                 else {
                     var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-                    //console.log(checkId);
-
                     if (x == 2) {
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
@@ -890,7 +879,6 @@ function ShowForecastResults(year) {
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     if (x == 8) {
-                        //debugger;
                         var rowNumber = parseInt(y) + 1;
                         if (parseInt(value) !== 3) {
                             var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -938,11 +926,9 @@ function ShowForecastResults(year) {
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     if (x == 11) {
-                        //console.log(jss.getData());
                         //let once = true;
                         var octSum = 0;
                         //var dd = jss.getData();
-                        //debugger;
                         //if (once==true) {
                             $.each(jss.getData(), (index, dataValue) => {
                                 if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -1039,7 +1025,6 @@ function ShowForecastResults(year) {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                 janSum += parseFloat(dataValue[14]);
                             }
-
                         });
                         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                             janSum = 0;
@@ -1274,8 +1259,6 @@ function ShowForecastResults(year) {
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
-
-                    console.log(cellwiseColorCode);
                 }
 
             }
@@ -1293,13 +1276,11 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員を追加 (Add Emp)',
                 onclick: function () {
-                    //debugger;
                     obj.insertRow(1, parseInt(y));
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
                     setTimeout(function () {
                         SetRowColor(insertedRowNumber);
-                        console.log(insertedRowNumber);
                         jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
 
                         $('#jexcel_add_employee_modal').modal('show');
@@ -1313,13 +1294,11 @@ function ShowForecastResults(year) {
             items.push({
                 title: '要員のコピー（単価変更）(unit price)',
                 onclick: function () {
-                    //console.log(obj);
                     var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
                     if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
                         return false;
                     }
 
-                    debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
@@ -1336,7 +1315,6 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
                                 
                                 if (isNaN(x[0])) {
@@ -1356,7 +1334,6 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == 'new-'+minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1370,7 +1347,6 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == 'new-'+minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
                                 break;
@@ -1385,7 +1361,6 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
@@ -1398,7 +1373,6 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1411,7 +1385,6 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
                                 break;
@@ -1503,7 +1476,6 @@ function ShowForecastResults(year) {
                     if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
                         return false;
                     }
-                    debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
@@ -1519,7 +1491,6 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
@@ -1539,7 +1510,6 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == 'new-' + minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1553,7 +1523,6 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == 'new-' + minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
                                 break;
@@ -1565,7 +1534,6 @@ function ShowForecastResults(year) {
 
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
@@ -1578,7 +1546,6 @@ function ShowForecastResults(year) {
 
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1591,7 +1558,6 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
                                 break;
@@ -1686,7 +1652,6 @@ function ShowForecastResults(year) {
                     if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
                         return false;
                     }
-                    //debugger;
                     newRowChangeEventFlag = true;
                     var allData = jss.getData();
                     let nextRow = parseInt(y) + 1;
@@ -1704,7 +1669,6 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
@@ -1724,7 +1688,6 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == 'new-' + minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1738,7 +1701,6 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == 'new-' + minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
                                 break;
@@ -1747,10 +1709,8 @@ function ShowForecastResults(year) {
                     } else {
                         newEmployeeId = "new-" + newRowCount;
 
-                        //debugger;
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[35] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
@@ -1761,7 +1721,6 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
                         for (let x = 0; x < allData.length; x++) {
-                            //debugger;
                             if (allData[x][0] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
@@ -1775,7 +1734,6 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            //console.log(x);
                             if (x[0] == minAssignmentNumber) {
                                 newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
                                 break;
@@ -1865,8 +1823,6 @@ function ShowForecastResults(year) {
                 title: '選択した要員の削除 (delete)',
                 onclick: function () {
                     var value = obj.getSelectedRows();
-                    //debugger;
-                    console.log(value);
                     //var assignmentIds = [];
                     if (value.length > 0) {
                         for (let i = 0; i < value.length; i++) {
@@ -1903,7 +1859,7 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
-    jss.deleteColumn(45, 17);
+    jss.deleteColumn(45, 18);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1932,7 +1888,6 @@ function ShowForecastResults(year) {
         //    $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
         //    allEmployeeName1.push(value);
         //});
-        //console.log(allEmployeeName);
 
         $("#hider").fadeIn("slow");
         $('.search_p').fadeIn("slow");
@@ -2003,12 +1958,7 @@ function ShowForecastResults(year) {
             var isApprovedCells = value['41'];
             var columnInfo = value['37'];
             var infoArray = columnInfo.split(',');
-            console.log(infoArray);
             $.each(infoArray, function (nextedIndex, nestedValue) {        
-                if( value['0'] ==   54)      
-                {
-                    console.log("test");
-                }
                 
                 if (parseInt(nestedValue) == 1) {
                     jss.setStyle("B" + count, "background-color", "yellow");
@@ -2746,14 +2696,14 @@ function ShowForecastResults(year) {
         //     SetRowColor_ForDeletedRow(count)
         // }        
         if (value['38'] == false && value['39'] == false && value['44'] == false) {
-            DisableRow(count);
+            //DisableRow(count);
         }
-        else if(value['43'] == true){
+        else if(value['43'] == true || value['44'] == true){
             SetRowColor_UnapprovedDeleteRow(count)
         }
-        else if(value['44'] == true){
-            SetRowColor_UnapprovedDeleteRow(count)
-        }
+        // else if(value['44'] == true){
+        //     //SetRowColor_UnapprovedDeleteRow(count)
+        // }
         count++;
     });
 
@@ -2762,7 +2712,6 @@ function ShowForecastResults(year) {
 
 //$('#search_p_text_box').on('keyup', function () {
 //    var name = $(this).val();
-//    console.log(allEmployeeName1);
 //    if (allEmployeeName1.length > 0) {
 //        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
 
@@ -2830,11 +2779,8 @@ $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_inchar
 
 
 var newRowInserted = function (instance, x, y, newRow) {
-    console.log(jss.getData(false));
     var totalRow = jss.getData(false);
-    console.log(`A${totalRow.length - 2}`);
     jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
-    //console.log(newRow.options);
     //var sectionCell = newRow[0][2];
     //$(sectionCell).append();
 
@@ -2903,7 +2849,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
     }
     if (x == 11) {
-        debugger;
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
             if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
@@ -3226,7 +3171,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 }
 
 function retrivedObject(rowData) {
-    //debugger;
     return {
         assignmentId: rowData[0],
         employeeName: rowData[1],
@@ -3408,7 +3352,6 @@ function UpdateForecast() {
             }
 
             insertMessage = "Successfully data inserted.";
-            console.log(jssInsertedData);
             var update_timeStampId = $("#timeStamp_ForUpdateData").val();
 
             $.ajax({
@@ -3421,7 +3364,6 @@ function UpdateForecast() {
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
                 success: function (data) {
                     var allJexcelData = jss.getData();
-                    console.log(data);
                     for (let i = 0; i < data.length; i++) {
 
                         $.each(allJexcelData, (index, dataValue) => {
@@ -3531,7 +3473,6 @@ function CompareUpdatedData() {
             success: function (data) {
                 $('#display_matched_rows table tbody').empty();
                 $.each(data, function (index, element) {
-                    console.log(element);
                     $('#display_matched_rows table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
                 });
             }
@@ -3674,7 +3615,6 @@ function validate(){
 
 $('#frm_import_year_data').submit(validate);
 function SetRowColor(insertedRowNumber){
-    console.log("insertedRowNumber: "+insertedRowNumber);
 
     jss.setStyle("A"+insertedRowNumber,"background-color", "yellow");
     jss.setStyle("A"+insertedRowNumber,"color", "red");
@@ -4135,178 +4075,178 @@ function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
 
     $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("B"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("B"+insertedRowNumber,"color", "black");
     $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("C"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("C"+insertedRowNumber,"color", "black");
     $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("D"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("D"+insertedRowNumber,"color", "black");
     $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("E"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("E"+insertedRowNumber,"color", "black");
     $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("F"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("F"+insertedRowNumber,"color", "black");
     $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("G"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("G"+insertedRowNumber,"color", "black");
     $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("H"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("H"+insertedRowNumber,"color", "black");
     $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("I"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("I"+insertedRowNumber,"color", "black");
     $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("J"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("J"+insertedRowNumber,"color", "black");
     $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("K"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("K"+insertedRowNumber,"color", "black");
     $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("L"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("L"+insertedRowNumber,"color", "black");
     $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("M"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("M"+insertedRowNumber,"color", "black");
     $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("N"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("N"+insertedRowNumber,"color", "black");
     $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("O"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("O"+insertedRowNumber,"color", "black");
     $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("P"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("P"+insertedRowNumber,"color", "black");
     $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("Q"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("Q"+insertedRowNumber,"color", "black");
     $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("R"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("R"+insertedRowNumber,"color", "black");
     $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("S"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("S"+insertedRowNumber,"color", "black");
     $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("T"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("T"+insertedRowNumber,"color", "black");
     $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("U"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("U"+insertedRowNumber,"color", "black");
     $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("V"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("V"+insertedRowNumber,"color", "black");
     $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("W"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("W"+insertedRowNumber,"color", "black");
     $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("X"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("X"+insertedRowNumber,"color", "black");
     $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("Y"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("Y"+insertedRowNumber,"color", "black");
     $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("Z"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("Z"+insertedRowNumber,"color", "black");
     $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AA"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AA"+insertedRowNumber,"color", "black");
     $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AB"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AB"+insertedRowNumber,"color", "black");
     $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AC"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AC"+insertedRowNumber,"color", "black");
     $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AD"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AD"+insertedRowNumber,"color", "black");
     $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AE"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AE"+insertedRowNumber,"color", "black");
     $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
     
     $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AF"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AF"+insertedRowNumber,"color", "black");
     $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AG"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AG"+insertedRowNumber,"color", "black");
     $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AH"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AH"+insertedRowNumber,"color", "black");
     $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AI"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AI"+insertedRowNumber,"color", "black");
     $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "red");
-    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    jss.setStyle("AJ"+insertedRowNumber,"color", "black");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }

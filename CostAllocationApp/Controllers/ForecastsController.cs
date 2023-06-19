@@ -1773,6 +1773,7 @@ namespace CostAllocationApp.Controllers
 
                                 //new logic: start
                                 bool isSameDistributedEmployee = false;
+                                bool isSameQCEmployee = false;
 
                                 if (item.DepartmentName == "品証")
                                 {
@@ -1780,8 +1781,9 @@ namespace CostAllocationApp.Controllers
                                     {
                                         foreach(var distributedItem in forecastAssignmentViewModelsForDistinctEmployees)
                                         {
-                                            if(distributedItem.EmployeeId == item.EmployeeId)
+                                            if(distributedItem.EmployeeId == item.EmployeeId && distributedItem.DepartmentName == "品証")
                                             {
+                                                isSameQCEmployee = true;
                                                 isSameDistributedEmployee = true;
                                                 distributedItem.OctPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.OctPoints) + Convert.ToDecimal(item.OctPoints)).ToString();
                                                 distributedItem.NovPoints = Convert.ToDecimal(Convert.ToDecimal(distributedItem.NovPoints) + Convert.ToDecimal(item.NovPoints)).ToString();
@@ -1877,43 +1879,43 @@ namespace CostAllocationApp.Controllers
                                     }
                                 }
                                 else
-                            {
-                                ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
+                                {
+                                    ForecastAssignmentViewModel forecastAssignmentViewModel2 = new ForecastAssignmentViewModel();
                                 
-                                forecastAssignmentViewModel2.EmployeeName = item.EmployeeName;
-                                forecastAssignmentViewModel2.RootEmployeeName = item.RootEmployeeName;
-                                forecastAssignmentViewModel2.EmployeeId = item.EmployeeId;
-                                forecastAssignmentViewModel2.SectionName = item.SectionName;
-                                forecastAssignmentViewModel2.DepartmentName = item.DepartmentName;
-                                forecastAssignmentViewModel2.InchargeName = item.InchargeName;
-                                forecastAssignmentViewModel2.RoleName = item.RoleName;
-                                forecastAssignmentViewModel2.ExplanationName = item.ExplanationName;
-                                forecastAssignmentViewModel2.CompanyName = item.CompanyName;
-                                forecastAssignmentViewModel2.GradePoint = item.GradePoint;
-                                forecastAssignmentViewModel2.UnitPrice = item.UnitPrice;
-                                forecastAssignmentViewModel2.Remarks = item.Remarks;
-                                forecastAssignmentViewModel2.Year = item.Year;
+                                    forecastAssignmentViewModel2.EmployeeName = item.EmployeeName;
+                                    forecastAssignmentViewModel2.RootEmployeeName = item.RootEmployeeName;
+                                    forecastAssignmentViewModel2.EmployeeId = item.EmployeeId;
+                                    forecastAssignmentViewModel2.SectionName = item.SectionName;
+                                    forecastAssignmentViewModel2.DepartmentName = item.DepartmentName;
+                                    forecastAssignmentViewModel2.InchargeName = item.InchargeName;
+                                    forecastAssignmentViewModel2.RoleName = item.RoleName;
+                                    forecastAssignmentViewModel2.ExplanationName = item.ExplanationName;
+                                    forecastAssignmentViewModel2.CompanyName = item.CompanyName;
+                                    forecastAssignmentViewModel2.GradePoint = item.GradePoint;
+                                    forecastAssignmentViewModel2.UnitPrice = item.UnitPrice;
+                                    forecastAssignmentViewModel2.Remarks = item.Remarks;
+                                    forecastAssignmentViewModel2.Year = item.Year;
 
-                                forecastAssignmentViewModel2.IsDeleteEmployee = item.IsDeleteEmployee;
-                                forecastAssignmentViewModel2.IsAddEmployee = item.IsAddEmployee;
-                                forecastAssignmentViewModel2.IsCellWiseUpdate = item.IsCellWiseUpdate;
-                                forecastAssignmentViewModel2.ApprovedCells = item.ApprovedCells;
+                                    forecastAssignmentViewModel2.IsDeleteEmployee = item.IsDeleteEmployee;
+                                    forecastAssignmentViewModel2.IsAddEmployee = item.IsAddEmployee;
+                                    forecastAssignmentViewModel2.IsCellWiseUpdate = item.IsCellWiseUpdate;
+                                    forecastAssignmentViewModel2.ApprovedCells = item.ApprovedCells;
 
-                                forecastAssignmentViewModel2.OctPoints = item.OctPoints;
-                                forecastAssignmentViewModel2.NovPoints = item.NovPoints;
-                                forecastAssignmentViewModel2.DecPoints  = item.DecPoints;
-                                forecastAssignmentViewModel2.JanPoints  = item.JanPoints;
-                                forecastAssignmentViewModel2.FebPoints  = item.FebPoints;
-                                forecastAssignmentViewModel2.MarPoints = item.MarPoints;
-                                forecastAssignmentViewModel2.AprPoints = item.AprPoints;
-                                forecastAssignmentViewModel2.MayPoints = item.MayPoints;
-                                forecastAssignmentViewModel2.JunPoints = item.JunPoints;
-                                forecastAssignmentViewModel2.JulPoints = item.JulPoints;
-                                forecastAssignmentViewModel2.AugPoints = item.AugPoints;
-                                forecastAssignmentViewModel2.SepPoints = item.SepPoints;
+                                    forecastAssignmentViewModel2.OctPoints = item.OctPoints;
+                                    forecastAssignmentViewModel2.NovPoints = item.NovPoints;
+                                    forecastAssignmentViewModel2.DecPoints  = item.DecPoints;
+                                    forecastAssignmentViewModel2.JanPoints  = item.JanPoints;
+                                    forecastAssignmentViewModel2.FebPoints  = item.FebPoints;
+                                    forecastAssignmentViewModel2.MarPoints = item.MarPoints;
+                                    forecastAssignmentViewModel2.AprPoints = item.AprPoints;
+                                    forecastAssignmentViewModel2.MayPoints = item.MayPoints;
+                                    forecastAssignmentViewModel2.JunPoints = item.JunPoints;
+                                    forecastAssignmentViewModel2.JulPoints = item.JulPoints;
+                                    forecastAssignmentViewModel2.AugPoints = item.AugPoints;
+                                    forecastAssignmentViewModel2.SepPoints = item.SepPoints;
 
-                                forecastAssignmentViewModelsForDistinctEmployees.Add(forecastAssignmentViewModel2);
-                            }
+                                    forecastAssignmentViewModelsForDistinctEmployees.Add(forecastAssignmentViewModel2);
+                                }
                                 //new logic: end      
                             }
                         }

@@ -20,7 +20,6 @@ function LoadJexcel() {
     }
     LoaderShow();
     setTimeout(function () {
-        debugger;
         $.ajax({
             url: '/Registration/GetUserRole',
             contentType: 'application/json',
@@ -28,7 +27,6 @@ function LoadJexcel() {
             async: false,
             dataType: 'json',
             success: function (data) {
-                console.log(data)
                 if (parseInt(data) === 1 || parseInt(data) === 2) {
                     userRoleflag = false;
                 }
@@ -45,7 +43,6 @@ function LoadJexcel() {
             async: false,
             dataType: 'json',
             success: function (data) {
-                console.log(data);
                 LoaderHide();
                 _retriveddata = data;
 
@@ -82,7 +79,6 @@ function LoadJexcel() {
   
                 var w = window.innerWidth;
                 var h = window.innerHeight;
-                console.log(h);
                 jss = $('#jspreadsheet').jspreadsheet({
                     data: _retriveddata,
                     filters: true,
@@ -266,7 +262,6 @@ $(document).ready(function () {
         async: false,
         dataType: 'json',
         success: function (data) {
-            debugger;
             $('#assignment_year').empty();
             $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
             $.each(data, function (index, element) {
@@ -331,7 +326,6 @@ $(document).ready(function () {
     //            dataToSend.push(obj);
     //        });
 
-    //        console.log(dataToSend);
     //        $.ajax({
     //            url: `/api/utilities/CreateActualCost`,
     //            contentType: 'application/json',

@@ -1146,7 +1146,7 @@ namespace CostAllocationApp.DAL
                             forecast.Year = Convert.ToInt32(rdr["Year"]);
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             forecast.Points = Convert.ToDecimal(rdr["Points"]);
-                            //forecast.Total = Convert.ToDecimal(rdr["Total"]);
+                            //forecast.Total = rdr["Total"].ToString();
                             //forecast.Total = rdr["Total"].ToString();
                             //forecast.Total = Convert.ToDecimal(forecast.Total).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
                             //forecast.Total = Convert.ToInt32(rdr["Total"]).ToString("N0");

@@ -29,6 +29,7 @@ namespace CostAllocationApp.Controllers.Api
         UserBLL userBLL = null;
         ActualCostBLL actualCostBLL = null;
         UserRoleBLL userRoleBLL = null;
+        QaProportionBLL qaProportionBLL = null;
         
 
         public UtilitiesController()
@@ -46,6 +47,7 @@ namespace CostAllocationApp.Controllers.Api
             userBLL = new UserBLL();
             actualCostBLL = new ActualCostBLL();
             userRoleBLL = new UserRoleBLL();
+            qaProportionBLL = new QaProportionBLL();
         }
 
 
@@ -3996,7 +3998,7 @@ namespace CostAllocationApp.Controllers.Api
         //    {
         //        using (var package = new ExcelPackage())
         //        {
-                    
+
         //            var sheet = package.Workbook.Worksheets.Add("Sheet1");
         //            sheet.Cells["A1"].Value = "利用者";
         //            sheet.Cells["A1"].Style.Font.Bold = true;
@@ -4139,7 +4141,7 @@ namespace CostAllocationApp.Controllers.Api
         //                var unitPrice = _assignmentHistoryViewModal.UnitPrice;
         //                var remarks = _assignmentHistoryViewModal.Remarks;
         //                var isUpdate = _assignmentHistoryViewModal.IsUpdate;
-                        
+
         //                var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
         //                var octP = tempList.Where(p => p.Month == 10).SingleOrDefault().Points;
@@ -4299,8 +4301,26 @@ namespace CostAllocationApp.Controllers.Api
 
 
         //    }
-            
+
         //    return Ok(forecastHistoryList);
         //}
+
+        [HttpGet]
+        [Route("api/utilities/QaProportion/")]
+        public IHttpActionResult QaProportion(int year)
+        {
+            var department = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
+            List<QaProportionViewModel> qaProportions = qaProportionBLL.SearchAssignmentByYear_Department(year, department.Id);
+            return Ok(qaProportions);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/QaAssignmentTotal/")]
+        public IHttpActionResult QaAssignmentTotal(int year)
+        {
+            var department = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
+            List<object> qaAssignments = qaProportionBLL.SearchAssignmentByYear_Department_Data(year, department.Id);
+            return Ok(qaAssignments);
+        }
     }
 }

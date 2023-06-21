@@ -5,6 +5,7 @@ using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.ViewModels;
 using CostAllocationApp.DAL;
+using CostAllocationApp.Models;
 
 namespace CostAllocationApp.BLL
 {
@@ -23,11 +24,12 @@ namespace CostAllocationApp.BLL
         public List<QaProportionViewModel> SearchAssignmentByYear_Department(int year, int departmentId)
         {
             List<QaProportionViewModel> qaProportionViewModels = new List<QaProportionViewModel>();
-            var nameList =  proportionDAL.SearchAssignmentByYear_Department(year, departmentId).Distinct().ToList();
-            foreach (var item in nameList)
+            var filteredAssignmentList =  proportionDAL.SearchAssignmentByYear_Department(year, departmentId).GroupBy(a=>a.EmployeeId).Select(group=> group.First());
+            foreach (var item in filteredAssignmentList)
             {
                 QaProportionViewModel qaProportionViewModel = new QaProportionViewModel();
-                qaProportionViewModel.EmployeeName = item;
+                qaProportionViewModel.EmployeeId = item.EmployeeId;
+                qaProportionViewModel.EmployeeName = item.EmployeeName;
                 qaProportionViewModels.Add(qaProportionViewModel);
             }
 
@@ -73,6 +75,12 @@ namespace CostAllocationApp.BLL
 
             return list;
         }
-        
+
+        public int CreateQaProportion(QaProportion qaProportion)
+        {
+            return proportionDAL.CreateQaProportion(qaProportion);
+        }
+
+
     }
 }

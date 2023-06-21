@@ -5,11 +5,30 @@ var _retriveddata_1;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
+var beforeChangedValue = 0;
 
 
 const channel = new BroadcastChannel("actualCost");
 
-
+function retrivedObject(rowData) {
+    return {
+        employeeId: rowData[0],
+        employeeName: rowData[1],
+        DepartmentId: rowData[2],
+        octPoint: parseFloat(rowData[3]),
+        novPoint: parseFloat(rowData[4]),
+        decPoint: parseFloat(rowData[5]),
+        janPoint: parseFloat(rowData[6]),
+        febPoint: parseFloat(rowData[7]),
+        marPoint: parseFloat(rowData[8]),
+        aprPoint: parseFloat(rowData[9]),
+        mayPoint: parseFloat(rowData[10]),
+        junPoint: parseFloat(rowData[11]),
+        julPoint: parseFloat(rowData[12]),
+        augPoint: parseFloat(rowData[13]),
+        sepPoint: parseFloat(rowData[14])
+    };
+}
 
 function LoadJexcel() {
     var year = $('#assignment_year').val();
@@ -35,16 +54,10 @@ function LoadJexcel() {
                 }
             }
         });
+    // 1st jexcel
 
-        $.ajax({
-            url: `/api/utilities/QaProportion?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
+ {
                 LoaderHide();
-                _retriveddata = data;
 
                 if (jss != undefined) {
                     jss.destroy();
@@ -77,21 +90,18 @@ function LoadJexcel() {
                 });
               
   
-                var w = window.innerWidth;
-                var h = window.innerHeight;
                 jss = $('#jspreadsheet').jspreadsheet({
                     data: _retriveddata,
                     filters: true,
                     tableOverflow: true,
                     freezeColumns: 3,
                     defaultColWidth: 50,
-                     //tableWidth: w - 500 + "px",
-                     //tableHeight: (h - 300) + "px",
-                    tableWidth: w - 300 + "px",
-                    tableHeight: (h - 300) + "px",
+                    tableWidth: (window.innerWidth - 300) + "px",
+                    tableHeight: (window.innerHeight - 300) + "px",
 
                     columns: [
-                        
+                        { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
+
                         { title: "Employee Name", type: 'text', name: "EmployeeName", width: 100 },
 
                         { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
@@ -120,18 +130,411 @@ function LoadJexcel() {
 
                         { title: "9月", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
 
+                        
+
                     ],
                     columnSorting: true,
                     contextMenu: function (obj, x, y, e) {
+                        var items = [];
+                        var nextRow = parseInt(y) + 1;
+                        items.push({
+                            title: 'duplicate',
+                            onclick: () => {
+                                obj.insertRow(1, parseInt(y));
+                                var retrivedData = retrivedObject(jss.getRowData(y));
 
+                                obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
+                                obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                                obj.setValueFromCoords(2, nextRow, retrivedData.departmentId, false);
+                                obj.setValueFromCoords(3, nextRow, retrivedData.octPoint, false);
+                                obj.setValueFromCoords(4, nextRow, retrivedData.novPoint, false);
+                                obj.setValueFromCoords(5, nextRow, retrivedData.decPoint, false);
+                                obj.setValueFromCoords(6, nextRow, retrivedData.janPoint, false);
+                                obj.setValueFromCoords(7, nextRow, retrivedData.febPoint, false);
+                                obj.setValueFromCoords(8, nextRow, retrivedData.marPoint, false);
+                                obj.setValueFromCoords(9, nextRow, retrivedData.aprPoint, false);
+                                obj.setValueFromCoords(10, nextRow, retrivedData.mayPoint, false);
+                                obj.setValueFromCoords(11, nextRow, retrivedData.junPoint, false);
+                                obj.setValueFromCoords(12, nextRow, retrivedData.julPoint, false);
+                                obj.setValueFromCoords(13, nextRow, retrivedData.augPoint, false);
+                                obj.setValueFromCoords(14, nextRow, retrivedData.sepPoint, false);
+                            }
+                        });
+
+                        return items;
+                    },
+                    onbeforechange: function (instance, cell, x, y, value) {
+
+                        //alert(value);
+                        if (x == 3) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 4) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 5) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 6) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 7) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 8) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 9) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 10) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 11) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 12) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 13) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                        if (x == 14) {
+                            beforeChangedValue = jss.getValueFromCoords(x, y);
+                        }
+                    },
+                    onchange: (instance, cell, x, y, value)=>{
+                        if (x==3) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0,y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 4) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 5) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 6) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 7) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 8) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 9) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 10) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 11) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 12) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 13) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
+                        if (x == 14) {
+                            var octSum = 0;
+                            var employeeId = jss.getValueFromCoords(0, y);
+                            $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[0].toString() == employeeId.toString()) {
+                                    octSum += parseFloat(parseFloat(dataValue[3]));
+                                }
+
+                            });
+
+                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                                octSum = 0;
+                                alert('Input not valid');
+                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                            }
+                            //else {
+
+                            //    if (dataCheck.length == 0) {
+                            //        jssUpdatedData.push(retrivedData);
+                            //    }
+                            //    else {
+                            //        updateArray(jssUpdatedData, retrivedData);
+                            //    }
+
+                            //}
+                        }
                     }
                 });
-                jss.deleteColumn(21, 4);
+                //jss.deleteColumn(21, 4);
 
               
 
             }
-        });
 
         // another jexcel table
 
@@ -250,11 +653,72 @@ function ColumnOrder(columnNumber, orderBy) {
     }
 }
 $(document).ready(function () {
-    //channel.addEventListener("message", e => {
-    //    LoadJexcel();
-    //});
+
     
     // LoaderHide();
+
+
+    $('#employee_wise_save_button').on('click', () => {
+
+        if (jss != undefined) {
+            var year = $('#assignment_year').val();
+            let employeeWiseProportionObjectList = [];
+            let employeeWiseProportionList = jss.getData();
+            if (employeeWiseProportionList.length > 0) {
+                $.each(employeeWiseProportionList, (index, singleItemValue) => {
+                    employeeWiseProportionObjectList.push({
+                        EmployeeId: singleItemValue[0],
+                        DepartmentId: singleItemValue[2],
+                        OctPercentage: singleItemValue[3],
+                        NovPercentage: singleItemValue[4],
+                        DecPercentage: singleItemValue[5],
+                        JanPercentage: singleItemValue[6],
+                        FebPercentage: singleItemValue[7],
+                        MarPercentage: singleItemValue[8],
+                        AprPercentage: singleItemValue[9],
+                        MayPercentage: singleItemValue[10],
+                        JunPercentage: singleItemValue[11],
+                        JulPercentage: singleItemValue[12],
+                        AugPercentage: singleItemValue[13],
+                        SepPercentage: singleItemValue[14],
+                    });
+                });
+
+                $.ajax({
+                    url: `/api/utilities/CreateQaProportion`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
+                    success: function (data) {
+                        //$("#timeStamp_ForUpdateData").val(data);
+                        //var chat = $.connection.chatHub;
+                        //$.connection.hub.start();
+                        // Start the connection.
+                        //$.connection.hub.start().done(function () {
+                        //    chat.server.send('data has been updated by ', userName);
+                        //});
+                        //$("#jspreadsheet").show();
+                        //$("#head_total").show();
+                        employeeWiseProportionObjectList = [];
+                        alert(data);
+                        LoaderHide();
+                    }
+                });
+            } else {
+                alert('No data found!');
+                return false;
+            }
+        }
+        else {
+            alert('No table found!');
+            return false;
+        }
+
+    });
+
+
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
         contentType: 'application/json',
@@ -271,10 +735,54 @@ $(document).ready(function () {
     });
 
     $('#actual_cost').on('click', function () {
+        //LoadJexcel();
+        var year = $('#assignment_year').val();
+
+        $.ajax({
+            url: `/api/utilities/QaProportion?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#merged_employee_from_qc').empty();
+                $('#merged_employee_from_qc').append(`<option value=''></option>`);
+                $.each(data, function (index, element) {
+                    $('#merged_employee_from_qc').append(`<option value='${element.EmployeeId}_${element.EmployeeName}'>${element.EmployeeName}</option>`);
+                });
+            }
+        });
+    });
+
+    $('#add_button').on('click', function () {
+        var datas = $('#merged_employee_from_qc').val();
+        _retriveddata = [];
+        $.each(datas, function (index, itemValue) {
+            var splittedString = itemValue.split('_');
+            _retriveddata.push({
+                EmployeeId: splittedString[0],
+                EmployeeName: splittedString[1],
+                DepartmentId: null,
+                OctPercentage: 0,
+                NovPercentage: 0,
+                DecPercentage: 0,
+                JanPercentage: 0,
+                FebPercentage: 0,
+                MarPercentage: 0,
+                AprPercentage: 0,
+                MayPercentage: 0,
+                JunPercentage: 0,
+                JulPercentage: 0,
+                AugPercentage: 0,
+                SepPercentage: 0,
+               
+
+            });
+        });
         LoadJexcel();
     });
 
-
+    $('#merged_employee_from_qc').select2({ placeholder: "Select Employee",});
 
     $("#hider").hide();
     $(".search_p").hide();

@@ -233,6 +233,7 @@
     <Compile Include="Dtos\ForecastDto.cs" />
     <Compile Include="Dtos\ForecastHistoryDto.cs" />
     <Compile Include="Dtos\ForecastUpdateHistoryDto.cs" />
+    <Compile Include="Dtos\QaProportionDto.cs" />
     <Compile Include="Dtos\SendToForecaseApiDto.cs" />
     <Compile Include="Dtos\SukeyDto.cs" />
     <Compile Include="Dtos\SukeyQADto.cs" />

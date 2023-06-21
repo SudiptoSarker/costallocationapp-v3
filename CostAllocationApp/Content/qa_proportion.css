@@ -128,6 +128,26 @@ body {
     border: 1px solid #ccc !important;
     text-align: center;
 }
+#merged_employee_from_qc {
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+}
+#add_button {
+    margin-left: -11px;
+    margin-top: -1px;
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    height: 30px;
+    border: 1px solid #ccc !important;
+}
 
 #nav1, #nav2 {
     font-size: 12px;

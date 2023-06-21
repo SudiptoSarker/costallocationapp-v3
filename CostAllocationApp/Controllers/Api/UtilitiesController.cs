@@ -4365,5 +4365,43 @@ namespace CostAllocationApp.Controllers.Api
             List<object> qaAssignments = qaProportionBLL.SearchAssignmentByYear_Department_Data(year, department.Id);
             return Ok(qaAssignments);
         }
+
+        [HttpPost]
+        [Route("api/utilities/CreateQaProportion/")]
+        public IHttpActionResult CreateQaProportion(QaProportionDto proportionDto)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (proportionDto.QaProportionViewModels.Count > 0)
+            {
+                foreach (var item in proportionDto.QaProportionViewModels)
+                {
+                    QaProportion qaProportion = new QaProportion();
+                    qaProportion.EmployeeId = item.EmployeeId;
+                    qaProportion.DepartmentId = item.DepartmentId;
+                    qaProportion.OctPercentage = item.OctPercentage;
+                    qaProportion.NovPercentage = item.NovPercentage;
+                    qaProportion.DecPercentage = item.DecPercentage;
+                    qaProportion.JanPercentage = item.JanPercentage;
+                    qaProportion.FebPercentage = item.FebPercentage;
+                    qaProportion.MarPercentage = item.MarPercentage;
+                    qaProportion.AprPercentage = item.AprPercentage;
+                    qaProportion.MayPercentage = item.MayPercentage;
+                    qaProportion.JunPercentage = item.JunPercentage;
+                    qaProportion.JulPercentage = item.JulPercentage;
+                    qaProportion.AugPercentage = item.AugPercentage;
+                    qaProportion.SepPercentage = item.SepPercentage;
+                    qaProportion.Year = proportionDto.Year;
+                    qaProportion.CreatedBy = session["userName"].ToString();
+                    qaProportion.CreatedDate = DateTime.Now;
+                    qaProportionBLL.CreateQaProportion(qaProportion);
+                }
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return Ok("No data to update!");
+            }
+            
+        }
     }
 }

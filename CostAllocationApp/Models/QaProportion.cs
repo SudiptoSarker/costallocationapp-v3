@@ -8,8 +8,8 @@ namespace CostAllocationApp.Models
     public class QaProportion : Common
     {
         public int Id { get; set; }
-        public int AssignmentId { get; set; }
-        public int? DepartmentId { get; set; }
+        public int EmployeeId { get; set; }
+        public string DepartmentId { get; set; }
         public double OctPercentage { get; set; }
         public double NovPercentage { get; set; }
         public double DecPercentage { get; set; }

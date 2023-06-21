@@ -4,6 +4,18 @@ var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
 
+const channel = new BroadcastChannel("actualCost");
+
+function LoaderShow() {
+    $("#jspreadsheet").hide();
+    $("#loading").css("display", "block");
+}
+function LoaderHide() {
+    $("#jspreadsheet").show();
+    $("#loading").css("display", "none");
+}
+
+
 
 $(document).ready(function () {
     $.ajax({
@@ -25,12 +37,13 @@ $(document).ready(function () {
     {
         var queryStrings = getUrlVars();
         //var year = $('#assignment_year').val();
-        var year = 2023;
+        var year = queryStrings['year'];
 
         if (year == null || year == '' || year == undefined) {
             alert('Select Year!!!');
             return false;
         }
+        LoaderShow();
         setTimeout(function () {
             $.ajax({
                 url: '/Registration/GetUserRole',
@@ -49,14 +62,14 @@ $(document).ready(function () {
                 }
             });
             $.ajax({
-                url: `/api/utilities/GetAssignmentsByYear?year=${year}`,
+                url: `/api/utilities/GetActualCostConfirmData?year=${year}&monthId=${queryStrings['month']}`,
                 contentType: 'application/json',
                 type: 'GET',
                 async: false,
                 dataType: 'json',
                 success: function (data) {
                     //console.log(data);
-                    //LoaderHide();
+                    LoaderHide();
                     _retriveddata = data;
 
                     if (jss != undefined) {
@@ -158,7 +171,7 @@ $(document).ready(function () {
                         tableHeight: (h - 300) + "px",
 
                         columns: [
-                            { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
+                            { title: "Assignment Id", type: 'hidden', name: "Id" },
                             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
                             { title: "Remarks", type: "text", name: "Remarks", width: 60 },
                             { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
@@ -169,49 +182,49 @@ $(document).ready(function () {
                             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
                             //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
                             {
-                                title: `${queryStrings['month']}月 Unit Price`,
+                                title: `${queryStrings['month']}月単価(uc)`,
                                 type: "decimal",
-                                name: "OctCost",
+                                name: "UnitPrice",
                                 mask: "#,##0",
                                 //decimal:'.',
                                 width: 100,
                                 readOnly: true
                             },
                             {
-                                title: `${queryStrings['month']}月 Man Month (forecast)`,
+                                title: `${queryStrings['month']}月工数(mm)`,
                                 type: "decimal",
-                                name: "NovCost",
+                                name: "ForecastedPoints",
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
                                 readOnly: true
                             },
                             {
-                                title: `${queryStrings['month']}月 Cost (forecast)`,
+                                title: `${queryStrings['month']}月予定額(forcasted)`,
                                 type: "decimal",
-                                name: "DecCost",
+                                name: "ForecastedTotal",
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
                                 readOnly: true
                             },
                             {
-                                title: `${queryStrings['month']}月 Man Month`,
+                                title: `${queryStrings['month']}月実工数(amm)`,
                                 type: "decimal",
-                                name: "JanCost",
-                                mask: "#,##0",
+                                name: "ManMonth",
+                                //mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
                                 //readOnly: true
                             },
                              {
-                                title: `${queryStrings['month']}月 Actual Cost`,
+                                 title: `${queryStrings['month']}月実績(ac)`,
                                 type: "decimal",
-                                name: "FebCost",
+                                 name: "ActualCostAmount",
                                 mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
-                                readOnly: userRoleflag
+                                //readOnly: userRoleflag
                             }
                         ],
                         columnSorting: true,
@@ -219,7 +232,7 @@ $(document).ready(function () {
 
                         }
                     });
-                    jss.deleteColumn(13, 20);
+                    //jss.deleteColumn(13, 20);
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -233,8 +246,8 @@ $(document).ready(function () {
                     //var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
                     //octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
 
-                    //var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-                    //novElement.append('<input type="checkbox" id="nov_chk"  style="display:inline-block;margin-left: 10px;"/>');
+                    //var ActualCostAmountElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
+                    //ActualCostAmountElement.append('<input type="checkbox" id="ActualCostAmount_chk"  style="display:inline-block;margin-left: 10px;"/>');
 
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                         $('.search_p').css('display', 'block');
@@ -249,6 +262,54 @@ $(document).ready(function () {
 
 
     }
+
+
+    $('#create_actual_cost').on('click', function () {
+        var queryStrings = getUrlVars();
+        var dataToSend = [];
+        //var year = $('#assignment_year').val();
+
+        if (jss != undefined) {
+            var data = jss.getData(false);
+            $.each(data, function (index, value) {
+                var obj = {
+                    assignmentId: value[0],
+                    manHour: parseFloat(value[12]),
+                    actualCostAmount :  parseFloat(value[13])
+                };
+
+                dataToSend.push(obj);
+            });
+
+            console.log(dataToSend);
+            $.ajax({
+                url: `/api/utilities/CreateActualCost`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({
+                    ActualCosts: dataToSend,
+                    Year: queryStrings['year'],
+                    Month: queryStrings['month'],
+                }),
+                success: function (data) {
+                    alert("Operation Success.");
+                    channel.postMessage('done');
+                    window.close();
+                }
+            });
+        }
+        else {
+            alert('No Data Found!');
+        }
+    });
+
+    $('#cancel_actual_cost').on('click', function () {
+        channel.postMessage('done');
+        window.close();
+    });
+
 
 });
 

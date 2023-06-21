@@ -7,7 +7,7 @@ namespace CostAllocationApp.Dtos
 {
     public class ForecastUpdateHistoryDto
     {
-        public int AssignmentId { get; set; }
+        public string AssignmentId { get; set; }
         //public int Id { get; set; }
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -22,7 +22,8 @@ namespace CostAllocationApp.Dtos
         public bool IsActive { get; set; }
         public string Remarks { get; set; }
         //public int SubCode { get; set; }
-
+        public bool BCYR { get; set; }
+        public string BCYRCell { get; set; }
 
         public decimal OctPoint { get; set; }
         public decimal NovPoint { get; set; }

@@ -1,0 +1,320 @@
+﻿@model CostAllocationApp.ViewModels.ForecastViewModal
+
+@{
+    ViewBag.Title = "年度データの承認 (Approval)";
+}
+@section Styles {
+    @* <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" /> *@
+    <link href="/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/approve_forecast.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">
+
+    @{
+        /***************************\
+        Show Loader
+        \***************************/
+        <div id="approve_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データの承認</span></div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="forecast">
+                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                        <center>
+                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
+                            <br>
+                            <strong>Please wait a moment...</strong>
+                            <br>
+                            <br>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="year_data_search">
+            <div class="col-3">
+                <select id="assignment_year_list" class=""></select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+            </div>
+
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;background-color: red !important;,color:white;">Unapprove</button>
+            </div>
+
+            <div class="col-3">
+                <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:95px;background-color: Blue !important;">承認(Approve)</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:0px;background-color: green !important; ">保存 (Save)</button>
+            </div>
+        </div>
+        <br>      
+
+        /***************************\
+        Employee Assignment: approved forecast
+        \***************************/
+        <div class="row" id="year_data_list">
+            <div class="col-md-12">
+            </div>
+
+            <div class="col-md-12">
+                <div id="hider"></div>
+
+                <div id="jspreadsheet"></div>
+            </div>
+            <div class="col-12">
+                <table id="head_total" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>      
+    }
+</div>
+
+
+
+<input type="hidden" id="hidSectionId" />
+<input type="hidden" id="hidDepartmentId" />
+<input type="hidden" id="hidInChargeId" />
+<input type="hidden" id="hidRoleId" />
+<input type="hidden" id="hidExplanationId" />
+<input type="hidden" id="hidCompanyid" />
+<input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
+<input type="hidden" id="hidDefaultForecastYear" value="" />
+<input type="hidden" id="hidSelectedRow_AssignementId" />
+<input type="hidden" id="hidSelectedRowNumber" />
+<input type="hidden" id="hidIsRowDeleted" />
+<input type="hidden" id="hid_cellNo" />
+<input type="hidden" id="hid_IsRowSelected" />
+<input type="hidden" id="hid_SelectedCellPosition" />
+<input type="hidden" id="selectCellNumber" />
+
+
+<div class="search_p">
+    <ul id="search_p_asc_desc">
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
+    </div>
+</div>
+
+<div class="search_section">
+    <ul id="search_section_asc_desc">
+        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">Ascending</span></li>
+        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
+    </div>
+</div>
+
+<div class="search_department">
+    <ul id="search_department_asc_desc">
+        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">Ascending</span></li>
+        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
+    </div>
+</div>
+<div class="search_incharge">
+    <ul id="search_incharge_asc_desc">
+        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">Ascending</span></li>
+        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
+    </div>
+</div>
+<div class="search_role">
+    <ul id="search_role_asc_desc">
+        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">Ascending</span></li>
+        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_role">Close</button>
+    </div>
+</div>
+
+<div class="search_explanation">
+    <ul id="search_explanation_asc_desc">
+        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">Ascending</span></li>
+        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_explanation">Close</button>
+    </div>
+</div>
+<div class="search_company">
+    <ul id="search_company_asc_desc">
+        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">Ascending</span></li>
+        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
+    </div>
+</div>
+<div class="search_grade">
+    <ul id="search_grade_asc_desc">
+        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">Ascending</span></li>
+        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
+    </div>
+</div>
+<div class="search_unit_price">
+    <ul id="search_unit_price_asc_desc">
+        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">Ascending</span></li>
+        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">Descending</span></li>
+    </ul>
+    <div class="search_p_footer">
+        <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/approve_forecast_ver02.js"></script>
+    <script src="/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+            var chat = $.connection.chatHub;            
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName != value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+
+                        });
+
+                    }
+                });
+            };
+        });
+        $(document).ready(function () {
+           // $("table1").DataTable();
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+
+        });
+        function bs_input_file() {
+            $(".input-file").before(
+                function () {
+                    if (!$(this).prev().hasClass('input-ghost')) {
+                        var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
+                        element.attr("name", $(this).attr("name"));
+                        element.change(function () {
+                            element.next(element).find('input').val((element.val()).split('\\').pop());
+                        });
+                        $(this).find("button.btn-choose").click(function () {
+                            element.click();
+                        });
+                        $(this).find("button.btn-reset").click(function () {
+                            element.val(null);
+                            $(this).parents(".input-file").find('input').val('');
+                        });
+                        $(this).find('input').css("cursor", "pointer");
+                        $(this).find('input').mousedown(function () {
+                            $(this).parents('.input-file').prev().click();
+                            return false;
+                        });
+                        return element;
+                    }
+                }
+            );
+        }
+
+        function clear() {
+            var input = $("#dataFile").val('');
+        };
+        $(function () {
+            clear();
+            bs_input_file();
+        });
+    </script>
+}
+
+

@@ -100,7 +100,7 @@
                 <div class="col-2">
                 </div>
                 <div class="col-3">                    
-                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: orange;">キャンセル</button>
+                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: gray;">キャンセル</button>
                 </div>
                 <div class="col-2">
                     <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left:35px;">保存 (Save)</button>
@@ -160,7 +160,7 @@
 <input type="hidden" id="hidCompanyid" />
 <input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
 <input type="hidden" id="hidDefaultForecastYear" value="" />
-
+<input type="hidden" id="timeStamp_ForUpdateData" value="" />
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">

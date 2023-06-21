@@ -406,7 +406,10 @@ namespace CostAllocationApp.BLL
                     {
                         int approvedEmployeeAssignmentLastId = employeeAssignmentBLL.GetApprovedAssignmentLastId();
                         List<Forecast> forecasts = new List<Forecast>();
-
+                        if (employeeAssignment.Id == 24)
+                        {
+                            //test
+                        }
                         forecasts = forecastDAL.GetApprovedForecastedDataByAssignmentId(employeeAssignment.Id, year);
 
                         foreach (var forecastItem in forecasts)
@@ -444,6 +447,14 @@ namespace CostAllocationApp.BLL
         public string GetApprovedCellsByTimestampId(int assingmentId, int cellNo, int approvedTimestampId, string year)
         {
             return forecastDAL.GetApprovedCellsByTimestampId(assingmentId, cellNo, approvedTimestampId, year);
+        }
+        public int UpdateOriginalForecast(Forecast forecast)
+        {
+            return forecastDAL.UpdateOriginalForecast(forecast);
+        }
+        public int InsertOriginalForecast(Forecast forecast)
+        {
+            return forecastDAL.InsertOriginalForecast(forecast); 
         }
     }
 }

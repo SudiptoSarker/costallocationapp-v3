@@ -262,6 +262,7 @@ namespace CostAllocationApp.DAL
                             assignmentHistories.UpdatedBy = rdr["UpdatedBy"] is DBNull ? "" : rdr["UpdatedBy"].ToString();
                             assignmentHistories.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
                             assignmentHistories.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+                            assignmentHistories.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
 
                             if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
                             {
@@ -1958,7 +1959,7 @@ namespace CostAllocationApp.DAL
         public List<ExcelAssignmentDto> GetApprovedForecastedDataByYear(int year)
         {
             string query = $@"
-                                SELECT	ea.id as AssignmentId,ea.EmployeeId,ea.SectionId,ea.DepartmentId,ea.InChargeId,ea.RoleId,ea.ExplanationId,ea.CompanyId,ea.UnitPrice,ea.GradeId
+                                SELECT	ea.Id as AssignmentId,ea.EmployeeId,ea.SectionId,ea.DepartmentId,ea.InChargeId,ea.RoleId,ea.ExplanationId,ea.CompanyId,ea.UnitPrice,ea.GradeId
 		                                ,ea.CreatedBy,ea.UpdatedBy,ea.CreatedDate,ea.UpdatedDate,ea.IsActive, ea.Remarks,ea.SubCode,ea.Year,ea.EmployeeName 'EmployeeModifiedName',ea.IsDeleted
 		                                ,emp.FullName 'EmployeeRootName',sec.Name as SectionName, dep.Name as DepartmentName, inc.Name as InchargeName,rl.Name as RoleName, com.Name as CompanyName,gd.GradePoints
                                 FROM EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
@@ -2065,7 +2066,7 @@ namespace CostAllocationApp.DAL
                             }
                             else
                             {
-                                forecast.Points = Convert.ToInt32(rdr["Points"]);
+                                forecast.Points = Convert.ToDecimal(rdr["Points"]);
                             }
                             if (rdr["Total"] == DBNull.Value)
                             {
@@ -2370,6 +2371,66 @@ namespace CostAllocationApp.DAL
                 }
 
                 return approvedCells;
+            }
+        }
+        public int UpdateOriginalForecast(Forecast forecast)
+        {
+            int result = 0;
+            string query = $@"update CostsOrg set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeAssignmentsId=@employeeAssignmentsId and MonthId=@monthId";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+
+
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+
+                cmd.Parameters.AddWithValue("@updatedBy", forecast.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", DateTime.Now);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+        public int InsertOriginalForecast(Forecast forecast)
+        {
+            int result = 0;                                
+            string query = $@"insert into CostsOrg(EmployeeAssignmentsId,Year,MonthId,Points,Total,CreatedBy,CreatedDate) values(@employeeAssignmentsId,@year,@monthId,@points,@total,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+
+
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+
+                cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
             }
         }
     }

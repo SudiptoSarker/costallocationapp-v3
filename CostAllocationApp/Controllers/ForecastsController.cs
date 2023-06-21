@@ -1156,8 +1156,8 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                    sheet.Cells["F" + count].AutoFitColumns();
+                                    sheet.Cells["G" + count].Value = remarks;
+                                    sheet.Cells["G" + count].AutoFitColumns();
                                 }
 
                                 

@@ -1685,5 +1685,25 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetApprovedAssignmentLastId();
         }
+        public int CheckForOriginalAssignmentIsExists(int assignmentId)
+        {
+            return employeeAssignmentDAL.CheckForOriginalAssignmentIsExists(assignmentId);
+        }
+        public int UpdateOriginalAssignment(AssignmentHistory _assignmentHistory,string columnValue, string columnName)
+        {
+            return employeeAssignmentDAL.UpdateOriginalAssignment(_assignmentHistory, columnValue, columnName);
+        }
+        public int InsertOriginalAssignment(AssignmentHistory _assignmentHistory, string columnValue, string columnName)
+        {
+            return employeeAssignmentDAL.InsertOriginalAssignment(_assignmentHistory, columnValue, columnName);
+        }
+        public int CheckForOriginalForecastDataIsExists(int assignmentId)
+        {
+            return employeeAssignmentDAL.CheckForOriginalForecastDataIsExists(assignmentId);
+        }
+        public int CheckMonthIdExistsForOrgForecast(int assignmentId,int monthId)
+        {
+            return employeeAssignmentDAL.CheckMonthIdExistsForOrgForecast(assignmentId, monthId);
+        }
     }
 }

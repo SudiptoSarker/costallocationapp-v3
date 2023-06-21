@@ -23,5 +23,6 @@ namespace CostAllocationApp.Models
         public string MonthId_Points { get; set; }
         public string ApprovedCells { get; set; }
         //public List<Forecast> Forecasts { get; set; }
+        public string Remarks { get; set; }
     }
 }

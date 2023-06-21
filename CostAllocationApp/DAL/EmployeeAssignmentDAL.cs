@@ -1181,7 +1181,7 @@ namespace CostAllocationApp.DAL
         public List<ForecastDto> GetApprovedForecastdData(int assignmentId, string year)
         {
             List<ForecastDto> forecasts = new List<ForecastDto>();
-            string query = "select * from Costs where EmployeeAssignmentsId=" + assignmentId + " and Year=" + year;
+            string query = "select * from ApprovedCosts where ApprovedEmployeeAssignmentsId=" + assignmentId + " and Year=" + year;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -3086,14 +3086,23 @@ namespace CostAllocationApp.DAL
                 }
                 cmd.Parameters.AddWithValue("@subCode", employeeAssignment.SubCode);
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
-                if (employeeAssignment.EmployeeName == null)
+
+                if (!string.IsNullOrEmpty(employeeAssignment.EmployeeModifiedName))
                 {
-                    cmd.Parameters.AddWithValue("@employeeName", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeModifiedName);
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
+                    if (employeeAssignment.EmployeeRootName == null)
+                    {
+                        cmd.Parameters.AddWithValue("@employeeName", DBNull.Value);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeRootName);
+                    }                        
                 }
+                
                 cmd.Parameters.AddWithValue("@isDeleted", employeeAssignment.IsDeleted);
 
                 try
@@ -3130,6 +3139,251 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        //Check if the original data is already exists!
+        public int CheckForOriginalAssignmentIsExists(int assignmentId)
+        {
+            int result = 0;
+            string query = $@"SELECT * FROM EmployeesAssignmentsOrg WHERE EmployeesAssignmentId = {assignmentId}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
+
+        }
+        //update original assignment data
+        public int UpdateOriginalAssignment(AssignmentHistory _assignmentHistory, string columnValue, string columnName)
+        {
+            int result = 0;
+            //string query = $@"update EmployeesAssignmentsOrg set EmployeeId=@employeeId,  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks where EmployeesAssignmentId=@id";
+            string query = "Update EmployeesAssignmentsOrg Set "+ columnName+"="+ columnValue+ " Where EmployeesAssignmentId="+_assignmentHistory.EmployeeAssignmentId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@employeeId", _assignmentHistory.EmployeeId);
+                //if (_assignmentHistory.SectionId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@sectionId", _assignmentHistory.SectionId);
+                //}
+                //if (_assignmentHistory.DepartmentId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@departmentId", _assignmentHistory.DepartmentId);
+                //}
+                //if (_assignmentHistory.InChargeId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@inChargeId", _assignmentHistory.InChargeId);
+                //}
+
+                //if (_assignmentHistory.RoleId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@roleId", _assignmentHistory.RoleId);
+                //}
+
+                //if (String.IsNullOrEmpty(_assignmentHistory.ExplanationId))
+                //{
+                //    cmd.Parameters.AddWithValue("@explanationId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@explanationId", _assignmentHistory.ExplanationId);
+                //}
+
+                //if (_assignmentHistory.CompanyId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@companyId", _assignmentHistory.CompanyId);
+                //}
+
+                //if (_assignmentHistory.GradeId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@gradeId", _assignmentHistory.GradeId);
+                //}
+                //cmd.Parameters.AddWithValue("@unitPrice", _assignmentHistory.UnitPrice);
+                //cmd.Parameters.AddWithValue("@updatedBy", _assignmentHistory.UpdatedBy);
+                //cmd.Parameters.AddWithValue("@updatedDate", DateTime.Now);
+                //cmd.Parameters.AddWithValue("@id", _assignmentHistory.Id);
+                //cmd.Parameters.AddWithValue("@remarks", _assignmentHistory.Remarks);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        
+        //insert original data
+        public int InsertOriginalAssignment(AssignmentHistory _assignmentHistory, string columnValue, string columnName)
+        {
+            int result = 0;
+            //string query = $@"insert into EmployeesAssignmentsOrg(EmployeeId,EmployeesAssignmentId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,Remarks,Year) values(@employeeId,@employeesAssignmentId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@remarks,@year);";            
+            string query = "Insert Into EmployeesAssignmentsOrg (EmployeesAssignmentId," + columnName + ",Year) Values(@employeesAssignmentId," + columnValue + ", @year) ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                //cmd.Parameters.AddWithValue("@employeeId", _assignmentHistory.EmployeeId);
+                //if (_assignmentHistory.SectionId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@sectionId", _assignmentHistory.SectionId);
+                //}                
+                //if (_assignmentHistory.DepartmentId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@departmentId", _assignmentHistory.DepartmentId);
+                //}
+                //if (_assignmentHistory.InChargeId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@inChargeId", _assignmentHistory.InChargeId);
+                //}
+
+                //if (_assignmentHistory.RoleId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@roleId", _assignmentHistory.RoleId);
+                //}
+
+                //if (String.IsNullOrEmpty(_assignmentHistory.ExplanationId))
+                //{
+                //    cmd.Parameters.AddWithValue("@explanationId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@explanationId", _assignmentHistory.ExplanationId);
+                //}                
+                //if (_assignmentHistory.CompanyId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@companyId", _assignmentHistory.CompanyId);
+                //}
+
+                //if (_assignmentHistory.GradeId == null)
+                //{
+                //    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@gradeId", _assignmentHistory.GradeId);
+                //}
+                //cmd.Parameters.AddWithValue("@unitPrice", _assignmentHistory.UnitPrice);
+                //cmd.Parameters.AddWithValue("@createdBy", _assignmentHistory.CreatedBy);
+                //cmd.Parameters.AddWithValue("@createdDate", _assignmentHistory.CreatedDate);
+                cmd.Parameters.AddWithValue("@employeesAssignmentId", _assignmentHistory.Id);
+                //cmd.Parameters.AddWithValue("@remarks", _assignmentHistory.Remarks);
+                cmd.Parameters.AddWithValue("@year", _assignmentHistory.Year);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {                
+                }
+
+                return result;
+            }
+       }
+
+        //Check if the original data is already exists!
+        public int CheckForOriginalForecastDataIsExists(int assignmentId)
+        {
+            int result = 0;
+            string query = $@"SELECT * FROM CostsOrg WHERE EmployeeAssignmentsId = {assignmentId}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        //Check if the original data is already exists!
+        public int CheckMonthIdExistsForOrgForecast(int assignmentId,int monthId)
+        {
+            int result = 0;
+            string query = $@"SELECT * FROM CostsOrg WHERE EmployeeAssignmentsId = {assignmentId} AND MonthId={monthId}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
     }
 }

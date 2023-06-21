@@ -911,11 +911,546 @@ namespace CostAllocationApp.Controllers.Api
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;
 
+                        //check if assignment exists in original
+                        //int  checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
+
+                        //if (checkResults > 0) {
+                        //    //update original data
+                        //    int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory);
+                        //}
+                        //else
+                        //{
+                        //    //insert original data
+                        //    int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory);
+                        //}
+
+                        if (forecastHistoryDto.CellInfo.Count > 0)
+                        {
+                            foreach (var cellItem in forecastHistoryDto.CellInfo)
+                            {                                
+                                var itemData = cellItem.Split('_');
+                                if(Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
+                                {
+                                    int checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
+
+                                    if (Convert.ToInt32(itemData[1]) == 2)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory,_assignmentHistory.Remarks, "Remarks");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.Remarks, "Remarks");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 3)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.SectionId, "SectionId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.SectionId, "SectionId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 4)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.DepartmentId, "DepartmentId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.DepartmentId, "DepartmentId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 5)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.InChargeId, "InChargeId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.InChargeId, "InChargeId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 6)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.RoleId, "RoleId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.RoleId, "RoleId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 7)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.ExplanationId, "ExplanationId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.ExplanationId, "ExplanationId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 8)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.CompanyId, "CompanyId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.CompanyId, "CompanyId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 9)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.GradeId, "GradeId");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.GradeId, "GradeId");
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 10)
+                                    {
+                                        if (checkResults > 0)
+                                        {
+                                            //update original data
+                                            int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.UnitPrice, "UnitPrice");
+                                        }
+                                        else
+                                        {
+                                            //insert original data
+                                            int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.UnitPrice, "UnitPrice");
+                                        }
+                                    }
+                                   
+                                }
+                            }
+                        }
+
+                        //update assignment data
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
+                        //original forecasted data
                         forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId)));
                         assignmentHistories.Add(_assignmentHistory);
+                        
+                        //update/insert the original forecasted data
+                        if (forecastHistoryDto.CellInfo.Count > 0)
+                        {
+                            List<Forecast> _objPreviousForecastedData = forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId));
 
+                            foreach (var cellItem in forecastHistoryDto.CellInfo)
+                            {
+                                var itemData = cellItem.Split('_');
+                                if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
+                                {
+                                    //check if forecast data already exists in original
+                                    int forecastResulttOrg = employeeAssignmentBLL.CheckForOriginalForecastDataIsExists(Convert.ToInt32(item.AssignmentId));
+
+                                    if (Convert.ToInt32(itemData[1]) == 11)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId),10);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 10)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }                                                    
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 10)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 12)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 11)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 11)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 13)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 12);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 12)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 12)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 14)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 1);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 1)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 1)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 15)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 2);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 2)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 2)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 16)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 3);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 3)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 3)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 17)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 4);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 4)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 4)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 18)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 5);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 5)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 5)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 19)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 6);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 6)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 6)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 20)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 7);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 7)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 7)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 21)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 8);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 8)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 8)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 22)
+                                    {
+                                        int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 9);
+                                        if (_objPreviousForecastedData.Count > 0)
+                                        {
+                                            if (isMonthExists > 0)
+                                            {
+                                                //update org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 9)
+                                                    {
+                                                        forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //insert org
+                                                foreach (var forecastItem in _objPreviousForecastedData)
+                                                {
+                                                    if (forecastItem.Month == 9)
+                                                    {
+                                                        forecastItem.CreatedBy = session["userName"].ToString();
+                                                        forecastBLL.InsertOriginalForecast(forecastItem);
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                                               
 
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));

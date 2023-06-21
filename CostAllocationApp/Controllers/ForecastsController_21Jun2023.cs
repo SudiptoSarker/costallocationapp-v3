@@ -614,7 +614,7 @@ namespace CostAllocationApp.Controllers
             if (!string.IsNullOrEmpty(hid_selected_year))
             {
                 employeeAssignment.Year = hid_selected_year;
-                forecastAssignmentViewModels = employeeAssignmentBLL.GetAllOriginalDataForDownloadFiles(employeeAssignment, hid_approve_timestamp_id);
+                forecastAssignmentViewModels = employeeAssignmentBLL.GetAllOriginalDataForDownloadFiles(employeeAssignment);
             }
             
             ForecastBLL forecastBLL = new ForecastBLL();
@@ -833,14 +833,7 @@ namespace CostAllocationApp.Controllers
                                 sheet.Cells["E" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                                 sheet.Cells["E" + count].AutoFitColumns();
 
-                                if (!string.IsNullOrEmpty(employeeName))
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                }
-                                else
-                                {
-                                    sheet.Cells["F" + count].Value = rootEmployeeName;
-                                }                                
+                                sheet.Cells["F" + count].Value = employeeName;
                                 sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                 sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                                 sheet.Cells["F" + count].AutoFitColumns();
@@ -952,14 +945,7 @@ namespace CostAllocationApp.Controllers
                                 sheet.Cells["E" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
                                 sheet.Cells["E" + count].AutoFitColumns();
 
-                                if (!string.IsNullOrEmpty(employeeName))
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                }
-                                else
-                                {
-                                    sheet.Cells["F" + count].Value = rootEmployeeName;
-                                }
+                                sheet.Cells["F" + count].Value = employeeName;
                                 sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                 sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
                                 sheet.Cells["F" + count].AutoFitColumns();
@@ -1121,28 +1107,14 @@ namespace CostAllocationApp.Controllers
                                 bool isEmployeeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("1", approvedCells);
                                 if (isEmployeeApproved)
                                 {
-                                    if (!string.IsNullOrEmpty(employeeName))
-                                    {
-                                        sheet.Cells["F" + count].Value = employeeName;
-                                    }
-                                    else
-                                    {
-                                        sheet.Cells["F" + count].Value = rootEmployeeName;
-                                    }
+                                    sheet.Cells["F" + count].Value = employeeName;
                                     sheet.Cells["F" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                     sheet.Cells["F" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                                     sheet.Cells["F" + count].AutoFitColumns();
                                 }
                                 else
                                 {
-                                    if (!string.IsNullOrEmpty(employeeName))
-                                    {
-                                        sheet.Cells["F" + count].Value = employeeName;
-                                    }
-                                    else
-                                    {
-                                        sheet.Cells["F" + count].Value = rootEmployeeName;
-                                    }
+                                    sheet.Cells["F" + count].Value = employeeName;
                                     sheet.Cells["F" + count].AutoFitColumns();
                                 }
                                 
@@ -1394,14 +1366,7 @@ namespace CostAllocationApp.Controllers
                                 sheet.Cells["E" + count].Value = explanationName;
                                 sheet.Cells["E" + count].AutoFitColumns();
 
-                                if (!string.IsNullOrEmpty(employeeName))
-                                {
-                                    sheet.Cells["F" + count].Value = employeeName;
-                                }
-                                else
-                                {
-                                    sheet.Cells["F" + count].Value = rootEmployeeName;
-                                }
+                                sheet.Cells["F" + count].Value = employeeName;
                                 sheet.Cells["F" + count].AutoFitColumns();
 
                                 sheet.Cells["G" + count].Value = remarks;

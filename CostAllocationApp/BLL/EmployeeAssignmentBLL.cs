@@ -1251,9 +1251,9 @@ namespace CostAllocationApp.BLL
         }
 
         //Get All the data from assignment table with forecast
-        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles(EmployeeAssignmentForecast employeeAssignment)
+        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles(EmployeeAssignmentForecast employeeAssignment,int approvedTimestampid)
         {
-            var employees = employeeAssignmentDAL.GetAllOriginalDataForDownloadFiles(employeeAssignment);
+            var employees = employeeAssignmentDAL.GetAllOriginalDataForDownloadFiles(employeeAssignment,approvedTimestampid);
 
             if (employees.Count > 0)
             {
@@ -1278,7 +1278,8 @@ namespace CostAllocationApp.BLL
                 {
                     foreach (var item in redMarkedForecastAssignments)
                     {
-                        item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
+                        //item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
+                        item.forecasts = employeeAssignmentDAL.GetApprovedForecastdData(item.Id, employeeAssignment.Year);
                     }
                 }
 
@@ -1676,6 +1677,13 @@ namespace CostAllocationApp.BLL
 
             return employees;
         }
-
+        public int CreateApprovedAssignmentByTimestampId(EmployeeAssignment employeeAssignment,int approvedTimestampId)
+        {
+            return employeeAssignmentDAL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
+        }
+        public int GetApprovedAssignmentLastId()
+        {
+            return employeeAssignmentDAL.GetApprovedAssignmentLastId();
+        }
     }
 }

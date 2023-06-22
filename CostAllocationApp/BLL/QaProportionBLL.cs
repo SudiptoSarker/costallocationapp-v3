@@ -66,7 +66,7 @@ namespace CostAllocationApp.BLL
                         augTotal += Convert.ToDouble(forecastData.Where(f => f.Month == 8).SingleOrDefault().Points)*unitPrice;
                         sepTotal += Convert.ToDouble(forecastData.Where(f => f.Month == 9).SingleOrDefault().Points)*unitPrice;
                     }
-                    list.Add(new {EmployeeName=item.EmployeeName, OctTotal= octTotal.ToString("N0"), NovTotal= novTotal.ToString("N0"), DecTotal= decTotal.ToString("N0"), JanTotal= janTotal.ToString("N0"), FebTotal=febTotal.ToString("N0"), MarTotal=marTotal.ToString("N0"), AprTotal= aprTotal.ToString("N0"), MayTotal=mayTotal.ToString("N0"), JunTotal=junTotal.ToString("N0"), JulTotal=julTotal.ToString("N0"), AugTotal=augTotal.ToString("N0"), SepTotal=sepTotal.ToString("N0") });
+                    list.Add(new {EmployeeName=item.EmployeeName, OctTotal= octTotal.ToString("#,##0.00"), NovTotal= novTotal.ToString("#,##0.00"), DecTotal= decTotal.ToString("#,##0.00"), JanTotal= janTotal.ToString("#,##0.00"), FebTotal=febTotal.ToString("#,##0.00"), MarTotal=marTotal.ToString("#,##0.00"), AprTotal= aprTotal.ToString("#,##0.00"), MayTotal=mayTotal.ToString("#,##0.00"), JunTotal=junTotal.ToString("#,##0.00"), JulTotal=julTotal.ToString("#,##0.00"), AugTotal=augTotal.ToString("#,##0.00"), SepTotal=sepTotal.ToString("#,##0.00") });
                     countedEmployeeId.Add(item.EmployeeId);
                 }
                 octTotal = 0; novTotal = 0; decTotal = 0; janTotal = 0; febTotal = 0; marTotal = 0; aprTotal = 0; mayTotal = 0; junTotal = 0; julTotal = 0; augTotal = 0; sepTotal = 0;
@@ -81,6 +81,40 @@ namespace CostAllocationApp.BLL
             return proportionDAL.CreateQaProportion(qaProportion);
         }
 
+        public List<object> GetQaProportionDataByYear(int year)
+        {
+            List<object> qaProportionList = new List<object>();
+            var data = proportionDAL.GetQaProportionDataByYear(year);
+            foreach (var item in data)
+            {
+                var generatedQaProportin = new {
+                    EmployeeId = item.EmployeeId,
+                    EmployeeName = item.EmployeeName,
+                    DepartmentId = item.DepartmentId,
+                    OctPercentage = item.OctPercentage,
+                    NovPercentage = item.NovPercentage,
+                    DecPercentage = item.DecPercentage,
+                    JanPercentage = item.JanPercentage,
+                    FebPercentage = item.FebPercentage,
+                    MarPercentage = item.MarPercentage,
+                    AprPercentage = item.AprPercentage,
+                    MayPercentage = item.MayPercentage,
+                    JunPercentage = item.JunPercentage,
+                    JulPercentage = item.JulPercentage,
+                    AugPercentage = item.AugPercentage,
+                    SepPercentage = item.SepPercentage,
+                    Id = item.Id
+                };
 
+                qaProportionList.Add(generatedQaProportin);
+            }
+
+            return qaProportionList;
+        }
+
+        public int UpdateQaProportion(QaProportion qaProportion)
+        {
+            return proportionDAL.UpdateQaProportion(qaProportion);
+        }
     }
 }

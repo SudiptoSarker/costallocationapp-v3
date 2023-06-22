@@ -54,558 +54,486 @@ function LoadJexcel() {
                 }
             }
         });
-    // 1st jexcel
+        // 1st jexcel
+
+        {
+        LoaderHide();
+
+        if (jss != undefined) {
+            jss.destroy();
+            $('#jspreadsheet').empty();
+        }
+
+        var sectionsForJexcel = [];
+        var departmentsForJexcel = [];
+        var inchargesForJexcel = [];
+        var rolesForJexcel = [];
+        var explanationsForJexcel = [];
+        var companiesForJexcel = [];
 
- {
-                LoaderHide();
-
-                if (jss != undefined) {
-                    jss.destroy();
-                    $('#jspreadsheet').empty();
-                }
-
-                var sectionsForJexcel = [];
-                var departmentsForJexcel = [];
-                var inchargesForJexcel = [];
-                var rolesForJexcel = [];
-                var explanationsForJexcel = [];
-                var companiesForJexcel = [];
-
-                
-                $.ajax({
-                    url: `/api/Departments`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $.each(data, (index, value) => {
-                            if (value.DepartmentName !== '品証') {
-                                departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-                            }
-                            
-                        });
-                    }
-                });
-              
-  
-                jss = $('#jspreadsheet').jspreadsheet({
-                    data: _retriveddata,
-                    filters: true,
-                    tableOverflow: true,
-                    freezeColumns: 3,
-                    defaultColWidth: 50,
-                    tableWidth: (window.innerWidth - 300) + "px",
-                    tableHeight: (window.innerHeight - 300) + "px",
-
-                    columns: [
-                        { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
-
-                        { title: "Employee Name", type: 'text', name: "EmployeeName", width: 100 },
-
-                        { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
-
-                        { title: "10月", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
-
-                        { title: "11月", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "12月", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "1月", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "2月", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "3月", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "4月", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "5月", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "6月", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "7月", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "8月", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "9月", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
-
-                        
-
-                    ],
-                    columnSorting: true,
-                    contextMenu: function (obj, x, y, e) {
-                        var items = [];
-                        var nextRow = parseInt(y) + 1;
-                        items.push({
-                            title: 'duplicate',
-                            onclick: () => {
-                                obj.insertRow(1, parseInt(y));
-                                var retrivedData = retrivedObject(jss.getRowData(y));
-
-                                obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
-                                obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
-                                obj.setValueFromCoords(2, nextRow, retrivedData.departmentId, false);
-                                obj.setValueFromCoords(3, nextRow, retrivedData.octPoint, false);
-                                obj.setValueFromCoords(4, nextRow, retrivedData.novPoint, false);
-                                obj.setValueFromCoords(5, nextRow, retrivedData.decPoint, false);
-                                obj.setValueFromCoords(6, nextRow, retrivedData.janPoint, false);
-                                obj.setValueFromCoords(7, nextRow, retrivedData.febPoint, false);
-                                obj.setValueFromCoords(8, nextRow, retrivedData.marPoint, false);
-                                obj.setValueFromCoords(9, nextRow, retrivedData.aprPoint, false);
-                                obj.setValueFromCoords(10, nextRow, retrivedData.mayPoint, false);
-                                obj.setValueFromCoords(11, nextRow, retrivedData.junPoint, false);
-                                obj.setValueFromCoords(12, nextRow, retrivedData.julPoint, false);
-                                obj.setValueFromCoords(13, nextRow, retrivedData.augPoint, false);
-                                obj.setValueFromCoords(14, nextRow, retrivedData.sepPoint, false);
-                            }
-                        });
-
-                        return items;
-                    },
-                    onbeforechange: function (instance, cell, x, y, value) {
-
-                        //alert(value);
-                        if (x == 3) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 4) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 5) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 6) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 7) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 8) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 9) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 10) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 11) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 12) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 13) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                        if (x == 14) {
-                            beforeChangedValue = jss.getValueFromCoords(x, y);
-                        }
-                    },
-                    onchange: (instance, cell, x, y, value)=>{
-                        if (x==3) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0,y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 4) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 5) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 6) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 7) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 8) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 9) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 10) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 11) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 12) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 13) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                        if (x == 14) {
-                            var octSum = 0;
-                            var employeeId = jss.getValueFromCoords(0, y);
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[0].toString() == employeeId.toString()) {
-                                    octSum += parseFloat(parseFloat(dataValue[3]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                            }
-                            //else {
-
-                            //    if (dataCheck.length == 0) {
-                            //        jssUpdatedData.push(retrivedData);
-                            //    }
-                            //    else {
-                            //        updateArray(jssUpdatedData, retrivedData);
-                            //    }
-
-                            //}
-                        }
-                    }
-                });
-                //jss.deleteColumn(21, 4);
-
-              
-
-            }
-
-        // another jexcel table
 
         $.ajax({
-            url: `/api/utilities/CreateApportionment?year=${year}`,
+            url: `/api/Departments`,
             contentType: 'application/json',
             type: 'GET',
             async: false,
             dataType: 'json',
-            success: function (data1) {
-                LoaderHide();
-                _retriveddata_1 = data1;
+            success: function (data) {
 
-                if (jss_1 != undefined) {
-                    jss_1.destroy();
-                    $('#jspreadsheet_1').empty();
-                }
+                $.each(data, (index, value) => {
+                    if (value.DepartmentName !== '品証') {
+                        departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
+                    }
 
-                jss_1 = $('#jspreadsheet_1').jspreadsheet({
-                    data: _retriveddata_1,
-                    //filters: true,
-                    tableOverflow: true,
-                    //freezeColumns: 3,
-                    defaultColWidth: 100,
-                    tableWidth: (window.innerWidth - 300) + "px",
-                    tableHeight: (window.innerHeight - 300) + "px",
-                    columns: [
-                        { title: "Department Id", type: 'hidden', name: "DepartmentId" },
-                        { title: "Department Name", type: 'text', name: "DepartmentName" },
-
-                        { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
-
-                        { title: "11月 (QA ratio)", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "12月 (QA ratio)", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "1月 (QA ratio)", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "2月 (QA ratio)", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "3月 (QA ratio)", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
-
-
-                        { title: "4月 (QA ratio)", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "5月 (QA ratio)", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "6月 (QA ratio)", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "7月 (QA ratio)", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
-
-                        { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
-
-                    ],
-                    //onchange: function (instance, cell, x, y, value) {
-                    //    var count = 0;
-                    //    var allPercentage = jss.getData();
-                    //    $.each(allPercentage, function (index, value) {
-                    //        count += value[x];
-                    //    });
-
-                    //    if (count > 100 || count < 0) {
-                    //        alert("invalid value!");
-                    //        jss.setValueFromCoords(x, y, 0, false);
-                    //    }
-                    //},
                 });
             }
         });
+
+
+        jss = $('#jspreadsheet').jspreadsheet({
+            data: _retriveddata,
+            filters: true,
+            tableOverflow: true,
+            freezeColumns: 3,
+            defaultColWidth: 50,
+            tableWidth: (window.innerWidth - 300) + "px",
+            tableHeight: (window.innerHeight - 300) + "px",
+
+            columns: [
+                { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
+
+                { title: "Employee Name", type: 'text', name: "EmployeeName", width: 100 },
+
+                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
+
+                { title: "10月", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
+
+                { title: "11月", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
+
+                { title: "12月", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
+
+                { title: "1月", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
+
+                { title: "2月", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
+
+                { title: "3月", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
+
+                { title: "4月", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
+
+                { title: "5月", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
+
+                { title: "6月", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
+
+                { title: "7月", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
+
+                { title: "8月", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
+
+                { title: "9月", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
+
+                { title: "Id", type: 'text', name: "Id", type: 'hidden' },
+
+            ],
+            columnSorting: true,
+            contextMenu: function (obj, x, y, e) {
+                var items = [];
+                var nextRow = parseInt(y) + 1;
+                items.push({
+                    title: 'duplicate',
+                    onclick: () => {
+                        obj.insertRow(1, parseInt(y));
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+
+                        obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                        obj.setValueFromCoords(2, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(3, nextRow, retrivedData.octPoint, false);
+                        obj.setValueFromCoords(4, nextRow, retrivedData.novPoint, false);
+                        obj.setValueFromCoords(5, nextRow, retrivedData.decPoint, false);
+                        obj.setValueFromCoords(6, nextRow, retrivedData.janPoint, false);
+                        obj.setValueFromCoords(7, nextRow, retrivedData.febPoint, false);
+                        obj.setValueFromCoords(8, nextRow, retrivedData.marPoint, false);
+                        obj.setValueFromCoords(9, nextRow, retrivedData.aprPoint, false);
+                        obj.setValueFromCoords(10, nextRow, retrivedData.mayPoint, false);
+                        obj.setValueFromCoords(11, nextRow, retrivedData.junPoint, false);
+                        obj.setValueFromCoords(12, nextRow, retrivedData.julPoint, false);
+                        obj.setValueFromCoords(13, nextRow, retrivedData.augPoint, false);
+                        obj.setValueFromCoords(14, nextRow, retrivedData.sepPoint, false);
+                    }
+                });
+
+                return items;
+            },
+            onbeforechange: function (instance, cell, x, y, value) {
+
+                //alert(value);
+                if (x == 3) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 4) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 5) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 6) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 7) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 8) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 9) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 10) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 11) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 12) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 13) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+                if (x == 14) {
+                    beforeChangedValue = jss.getValueFromCoords(x, y);
+                }
+            },
+            onchange: (instance, cell, x, y, value) => {
+                if (x == 3) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 4) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 5) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 6) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 7) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 8) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 9) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 10) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 11) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 12) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 13) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+                if (x == 14) {
+                    var octSum = 0;
+                    var employeeId = jss.getValueFromCoords(0, y);
+                    $.each(jss.getData(), (index, dataValue) => {
+                        if (dataValue[0].toString() == employeeId.toString()) {
+                            octSum += parseFloat(parseFloat(dataValue[3]));
+                        }
+
+                    });
+
+                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                        octSum = 0;
+                        alert('Input not valid');
+                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                    }
+                    //else {
+
+                    //    if (dataCheck.length == 0) {
+                    //        jssUpdatedData.push(retrivedData);
+                    //    }
+                    //    else {
+                    //        updateArray(jssUpdatedData, retrivedData);
+                    //    }
+
+                    //}
+                }
+            }
+        });
+        //jss.deleteColumn(21, 4);
+
+    } 
+
 
         $.ajax({
             url: `/api/utilities/QaAssignmentTotal?year=${year}`,
@@ -627,6 +555,85 @@ function LoadJexcel() {
 
 
 
+}
+
+function LoadJexcel1() {
+    // another jexcel table
+    var year = $('#assignment_year').val();
+
+    if (year == null || year == '' || year == undefined) {
+        alert('Select Year!!!');
+        return false;
+    }
+
+    $.ajax({
+        url: `/api/utilities/CreateApportionment?year=${year}`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data1) {
+            LoaderHide();
+            _retriveddata_1 = data1;
+
+            if (jss_1 != undefined) {
+                jss_1.destroy();
+                $('#jspreadsheet_1').empty();
+            }
+
+            jss_1 = $('#jspreadsheet_1').jspreadsheet({
+                data: _retriveddata_1,
+                //filters: true,
+                tableOverflow: true,
+                //freezeColumns: 3,
+                defaultColWidth: 100,
+                tableWidth: (window.innerWidth - 300) + "px",
+                tableHeight: (window.innerHeight - 300) + "px",
+                columns: [
+                    { title: "Department Id", type: 'hidden', name: "DepartmentId" },
+                    { title: "Department Name", type: 'text', name: "DepartmentName" },
+
+                    { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
+
+                    { title: "11月 (QA ratio)", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "12月 (QA ratio)", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "1月 (QA ratio)", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "2月 (QA ratio)", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "3月 (QA ratio)", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
+
+
+                    { title: "4月 (QA ratio)", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "5月 (QA ratio)", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "6月 (QA ratio)", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "7月 (QA ratio)", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
+
+                    { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
+
+                ],
+                //onchange: function (instance, cell, x, y, value) {
+                //    var count = 0;
+                //    var allPercentage = jss.getData();
+                //    $.each(allPercentage, function (index, value) {
+                //        count += value[x];
+                //    });
+
+                //    if (count > 100 || count < 0) {
+                //        alert("invalid value!");
+                //        jss.setValueFromCoords(x, y, 0, false);
+                //    }
+                //},
+            });
+        }
+    });
 }
 
 function LoaderShow() {
@@ -681,6 +688,7 @@ $(document).ready(function () {
                         JulPercentage: singleItemValue[12],
                         AugPercentage: singleItemValue[13],
                         SepPercentage: singleItemValue[14],
+                        Id: singleItemValue[15]
                     });
                 });
 
@@ -719,6 +727,56 @@ $(document).ready(function () {
     });
 
 
+
+    $('#department_wise_save_button').click(function () {
+        var dataToSend = [];
+        var year = $('#assignment_year').val();
+
+        if (jss_1 != undefined) {
+            var data = jss_1.getData(false);
+            $.each(data, function (index, value) {
+                var obj = {
+                    departmentId: value[0],
+                    octPercentage: parseFloat(value[2]),
+                    novPercentage: parseFloat(value[3]),
+                    decPercentage: parseFloat(value[4]),
+                    janPercentage: parseFloat(value[5]),
+                    bebPercentage: parseFloat(value[6]),
+                    marPercentage: parseFloat(value[7]),
+                    aprPercentage: parseFloat(value[8]),
+                    mayPercentage: parseFloat(value[9]),
+                    junPercentage: parseFloat(value[10]),
+                    julPercentage: parseFloat(value[11]),
+                    augPercentage: parseFloat(value[12]),
+                    sepPercentage: parseFloat(value[13])
+                };
+
+                dataToSend.push(obj);
+            });
+
+            $.ajax({
+                url: `/api/utilities/CreateApportionment`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({
+                    Apportionments: dataToSend,
+                    Year: year,
+                }),
+                success: function (data) {
+                    alert("Operation Success.");
+                }
+            });
+        }
+        else {
+            alert('No Data Found!');
+        }
+    });
+
+
+
+
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
         contentType: 'application/json',
@@ -735,7 +793,7 @@ $(document).ready(function () {
     });
 
     $('#actual_cost').on('click', function () {
-        //LoadJexcel();
+        
         var year = $('#assignment_year').val();
 
         $.ajax({
@@ -752,11 +810,35 @@ $(document).ready(function () {
                 });
             }
         });
+        _retriveddata = [];
+        $.ajax({
+            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                _retriveddata = data;
+            }
+        });
+        LoadJexcel();
+        LoadJexcel1();
     });
 
     $('#add_button').on('click', function () {
         var datas = $('#merged_employee_from_qc').val();
+        var year = $('#assignment_year').val();
         _retriveddata = [];
+        $.ajax({
+            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                _retriveddata = data;
+            }
+        });
         $.each(datas, function (index, itemValue) {
             var splittedString = itemValue.split('_');
             _retriveddata.push({
@@ -775,6 +857,7 @@ $(document).ready(function () {
                 JulPercentage: 0,
                 AugPercentage: 0,
                 SepPercentage: 0,
+                Id: 0
                
 
             });

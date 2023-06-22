@@ -201,5 +201,97 @@ namespace CostAllocationApp.DAL
         //        return result;
         //    }
         //}
+
+        public List<QaProportionViewModel> GetQaProportionDataByYear(int year)
+        {
+
+            string query = "select * from QaProportions join Employees on QaProportions.EmployeeId = Employees.Id  where QaProportions.year = " + year;
+
+            List<QaProportionViewModel> qaProportionEmployeeList = new List<QaProportionViewModel>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            QaProportionViewModel qaProportionViewModel = new QaProportionViewModel();
+                            qaProportionViewModel.Id = Convert.ToInt32(rdr["Id"]);
+                            qaProportionViewModel.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            qaProportionViewModel.EmployeeName = rdr["FullName"].ToString();
+                            qaProportionViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
+                            qaProportionViewModel.OctPercentage = Convert.ToDouble(rdr["OctPercentage"]);
+                            qaProportionViewModel.NovPercentage = Convert.ToDouble(rdr["NovPercentage"]);
+                            qaProportionViewModel.DecPercentage = Convert.ToDouble(rdr["DecPercentage"]);
+                            qaProportionViewModel.JanPercentage = Convert.ToDouble(rdr["JanPercentage"]);
+                            qaProportionViewModel.FebPercentage = Convert.ToDouble(rdr["FebPercentage"]);
+                            qaProportionViewModel.MarPercentage = Convert.ToDouble(rdr["MarPercentage"]);
+                            qaProportionViewModel.AprPercentage = Convert.ToDouble(rdr["AprPercentage"]);
+                            qaProportionViewModel.MayPercentage = Convert.ToDouble(rdr["MayPercentage"]);
+                            qaProportionViewModel.JunPercentage = Convert.ToDouble(rdr["JunPercentage"]);
+                            qaProportionViewModel.JulPercentage = Convert.ToDouble(rdr["JulPercentage"]);
+                            qaProportionViewModel.AugPercentage = Convert.ToDouble(rdr["AugPercentage"]);
+                            qaProportionViewModel.SepPercentage = Convert.ToDouble(rdr["SepPercentage"]);
+                            qaProportionEmployeeList.Add(qaProportionViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return qaProportionEmployeeList;
+        }
+
+        public int UpdateQaProportion(QaProportion qaProportion)
+        {
+            int result = 0;
+            string query = $@"update QaProportions set DepartmentId = @departmentId, OctPercentage= @octPercentage, NovPercentage=@novPercentage, DecPercentage=@decPercentage, JanPercentage=@janPercentage, FebPercentage=@febPercentage,MarPercentage = @marPercentage, AprPercentage=@aprPercentage, MayPercentage=@mayPercentage, JunPercentage=@junPercentage, JulPercentage=@julPercentage, AugPercentage=@augPercentage, SepPercentage=@sepPercentage, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                if (String.IsNullOrEmpty(qaProportion.DepartmentId))
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", Convert.ToInt32(qaProportion.DepartmentId));
+                }
+                cmd.Parameters.AddWithValue("@octPercentage", qaProportion.OctPercentage);
+                cmd.Parameters.AddWithValue("@novPercentage", qaProportion.NovPercentage);
+                cmd.Parameters.AddWithValue("@decPercentage", qaProportion.DecPercentage);
+                cmd.Parameters.AddWithValue("@janPercentage", qaProportion.JanPercentage);
+                cmd.Parameters.AddWithValue("@febPercentage", qaProportion.FebPercentage);
+                cmd.Parameters.AddWithValue("@marPercentage", qaProportion.MarPercentage);
+                cmd.Parameters.AddWithValue("@aprPercentage", qaProportion.AprPercentage);
+                cmd.Parameters.AddWithValue("@mayPercentage", qaProportion.MayPercentage);
+                cmd.Parameters.AddWithValue("@junPercentage", qaProportion.JunPercentage);
+                cmd.Parameters.AddWithValue("@julPercentage", qaProportion.JulPercentage);
+                cmd.Parameters.AddWithValue("@augPercentage", qaProportion.AugPercentage);
+                cmd.Parameters.AddWithValue("@sepPercentage", qaProportion.SepPercentage);
+                cmd.Parameters.AddWithValue("@updatedBy", qaProportion.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", qaProportion.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", qaProportion.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

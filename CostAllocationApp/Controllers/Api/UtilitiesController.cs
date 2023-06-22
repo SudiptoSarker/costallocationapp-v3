@@ -3926,8 +3926,8 @@ namespace CostAllocationApp.Controllers.Api
             List<object> apportionmentList = new List<object>();
 
             var apportionments = actualCostBLL.GetAllApportionmentData(year);
-            var apportionmentsC = 0;
-            if (apportionmentsC > 0)
+            //var apportionmentsC = 0;
+            if (apportionments.Count > 0)
             {
                 var count = 1;
                 foreach (var item in distinctDepartmentIds)
@@ -4894,6 +4894,13 @@ namespace CostAllocationApp.Controllers.Api
             List<QaProportionViewModel> qaProportions = qaProportionBLL.SearchAssignmentByYear_Department(year, department.Id);
             return Ok(qaProportions);
         }
+        [HttpGet]
+        [Route("api/utilities/QaProportionDataByYear/")]
+        public IHttpActionResult QaProportionDataByYear(int year)
+        {
+            var qaProportions = qaProportionBLL.GetQaProportionDataByYear(year);
+            return Ok(qaProportions);
+        }
 
         [HttpGet]
         [Route("api/utilities/QaAssignmentTotal/")]
@@ -4913,7 +4920,9 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in proportionDto.QaProportionViewModels)
                 {
+
                     QaProportion qaProportion = new QaProportion();
+                    qaProportion.Id = item.Id;
                     qaProportion.EmployeeId = item.EmployeeId;
                     qaProportion.DepartmentId = item.DepartmentId;
                     qaProportion.OctPercentage = item.OctPercentage;
@@ -4929,9 +4938,20 @@ namespace CostAllocationApp.Controllers.Api
                     qaProportion.AugPercentage = item.AugPercentage;
                     qaProportion.SepPercentage = item.SepPercentage;
                     qaProportion.Year = proportionDto.Year;
-                    qaProportion.CreatedBy = session["userName"].ToString();
-                    qaProportion.CreatedDate = DateTime.Now;
-                    qaProportionBLL.CreateQaProportion(qaProportion);
+
+                    if (qaProportion.Id > 0)
+                    {
+                        qaProportion.UpdatedBy = session["userName"].ToString();
+                        qaProportion.UpdatedDate = DateTime.Now;
+                        qaProportionBLL.UpdateQaProportion(qaProportion);
+                    }
+                    else
+                    {
+                        qaProportion.CreatedBy = session["userName"].ToString();
+                        qaProportion.CreatedDate = DateTime.Now;
+                        qaProportionBLL.CreateQaProportion(qaProportion);
+                    }
+                    
                 }
                 return Ok("Operation Completed!");
             }

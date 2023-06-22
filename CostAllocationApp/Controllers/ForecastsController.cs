@@ -794,6 +794,7 @@ namespace CostAllocationApp.Controllers
                             var isUpdateCells = item.IsCellWiseUpdate;
                             var approvedCells = item.ApprovedCells;
                             var bCYRCellPending = item.BCYRCellPending;
+                            var employeeAssignmentIdOrg = item.EmployeeAssignmentIdOrg;
 
                             var octPOriginal = item.OctPoints;
                             var novPOriginal = item.NovPoints;
@@ -1059,7 +1060,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("3") > 0)
                                     {
-                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "sec.Name", "Name");
+                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "sec.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalSectionName))
                                         {
                                             sheet.Cells["A" + count].Value = originalSectionName;
@@ -1092,7 +1093,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("4") > 0)
                                     {
-                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "dep.Name", "Name");
+                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "dep.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalDepartmentName))
                                         {
                                             sheet.Cells["B" + count].Value = originalDepartmentName;
@@ -1124,7 +1125,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("5") > 0)
                                     {
-                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "inc.Name", "Name");
+                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "inc.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalInChargeName))
                                         {
                                             sheet.Cells["C" + count].Value = originalInChargeName;
@@ -1156,7 +1157,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("6") > 0)
                                     {
-                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "rl.Name", "Name");
+                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "rl.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalRoleName))
                                         {
                                             sheet.Cells["D" + count].Value = originalRoleName;
@@ -1190,7 +1191,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("7") > 0)
                                     {
-                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "e.Name", "Name");
+                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "e.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalExpName))
                                         {
                                             sheet.Cells["E" + count].Value = originalExpName;
@@ -1250,7 +1251,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("2") > 0)
                                     {
-                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.Remarks", "Remarks");
+                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.Remarks", "Remarks");
                                         if (!string.IsNullOrEmpty(originalRemarksName))
                                         {
                                             sheet.Cells["G" + count].Value = originalRemarksName;
@@ -1283,7 +1284,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("8") > 0)
                                     {
-                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "com.Name", "Name");
+                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "com.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalComName))
                                         {
                                             sheet.Cells["H" + count].Value = originalComName;
@@ -1317,7 +1318,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("9") > 0)
                                     {
-                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "gd.GradePoints", "GradePoints");
+                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "gd.GradePoints", "GradePoints");
                                         if (!string.IsNullOrEmpty(originalGradePointsName))
                                         {
                                             sheet.Cells["I" + count].Value = originalGradePointsName;
@@ -1349,7 +1350,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("10") > 0)
                                     {
-                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.UnitPrice", "UnitPrice");
+                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.UnitPrice", "UnitPrice");
                                         if (!string.IsNullOrEmpty(originalUnitPrice))
                                         {
                                             sheet.Cells["J" + count].Value = originalUnitPrice;
@@ -1381,7 +1382,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("11") > 0)
                                     {
-                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "10");
+                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "10");
                                         sheet.Cells["K" + count].Value = Convert.ToDecimal(octOriginalP).ToString("0.0");
                                         sheet.Cells["K" + count].AutoFitColumns();
 
@@ -1405,7 +1406,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("12") > 0)
                                     {
-                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "11");
+                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "11");
                                         sheet.Cells["L" + count].Value = Convert.ToDecimal(novOriginalP).ToString("0.0");
                                         sheet.Cells["L" + count].AutoFitColumns();
 
@@ -1430,7 +1431,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("13") > 0)
                                     {
-                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "12");
+                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "12");
                                         sheet.Cells["M" + count].Value = Convert.ToDecimal(decOriginalP).ToString("0.0");
                                         sheet.Cells["M" + count].AutoFitColumns();
 
@@ -1456,7 +1457,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("14") > 0)
                                     {
-                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "1");
+                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "1");
                                         sheet.Cells["N" + count].Value = Convert.ToDecimal(janOriginalP).ToString("0.0");
                                         sheet.Cells["N" + count].AutoFitColumns();
 
@@ -1481,7 +1482,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("15") > 0)
                                     {
-                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "2");
+                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "2");
                                         sheet.Cells["O" + count].Value = Convert.ToDecimal(febOriginalP).ToString("0.0");
                                         sheet.Cells["O" + count].AutoFitColumns();
 
@@ -1506,7 +1507,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("16") > 0)
                                     {
-                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "3");
+                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "3");
                                         sheet.Cells["P" + count].Value = Convert.ToDecimal(marOriginalP).ToString("0.0");
                                         sheet.Cells["P" + count].AutoFitColumns();
 
@@ -1531,7 +1532,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("17") > 0)
                                     {
-                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "4");
+                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "4");
                                         sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprOriginalP).ToString("0.0");
                                         sheet.Cells["Q" + count].AutoFitColumns();
 
@@ -1556,7 +1557,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("18") > 0)
                                     {
-                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "5");
+                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "5");
                                         sheet.Cells["R" + count].Value = Convert.ToDecimal(mayOriginalP).ToString("0.0");
                                         sheet.Cells["R" + count].AutoFitColumns();
 
@@ -1582,7 +1583,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("19") > 0)
                                     {
-                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "6");
+                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "6");
                                         sheet.Cells["S" + count].Value = Convert.ToDecimal(junOriginalP).ToString("0.0");
                                         sheet.Cells["S" + count].AutoFitColumns();
 
@@ -1607,7 +1608,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("20") > 0)
                                     {
-                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "7");
+                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "7");
                                         sheet.Cells["T" + count].Value = Convert.ToDecimal(julOriginalP).ToString("0.0");
                                         sheet.Cells["T" + count].AutoFitColumns();
 
@@ -1632,7 +1633,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("21") > 0)
                                     {
-                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "8");
+                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "8");
                                         sheet.Cells["U" + count].Value = Convert.ToDecimal(augOriginalP).ToString("0.0");
                                         sheet.Cells["U" + count].AutoFitColumns();
 
@@ -1657,7 +1658,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if (bCYRCellPending.IndexOf("22") > 0)
                                     {
-                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "9");
+                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "9");
                                         sheet.Cells["V" + count].Value = Convert.ToDecimal(sepOriginalP).ToString("0.0");
                                         sheet.Cells["V" + count].AutoFitColumns();
 
@@ -1671,13 +1672,12 @@ namespace CostAllocationApp.Controllers
                                 }
                             }
                             else
-                            {
-                                
+                            {                                
                                 if (!string.IsNullOrEmpty(bCYRCellPending))
                                 {
                                     if (bCYRCellPending.IndexOf("3") > 0)
                                     {
-                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "sec.Name", "Name");
+                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "sec.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalSectionName))
                                         {
                                             sheet.Cells["A" + count].Value = originalSectionName;
@@ -1697,7 +1697,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("4") > 0)
                                     {
-                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "dep.Name", "Name");
+                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "dep.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalDepartmentName))
                                         {
                                             sheet.Cells["B" + count].Value = originalDepartmentName;
@@ -1717,7 +1717,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("5") > 0)
                                     {
-                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "inc.Name", "Name");
+                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "inc.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalInChargeName))
                                         {
                                             sheet.Cells["C" + count].Value = originalInChargeName;
@@ -1738,7 +1738,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("6") > 0)
                                     {
-                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "rl.Name", "Name");
+                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "rl.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalRoleName))
                                         {
                                             sheet.Cells["D" + count].Value = originalRoleName;
@@ -1759,7 +1759,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("7") > 0)
                                     {
-                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "e.Name", "Name");
+                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "e.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalExpName))
                                         {
                                             sheet.Cells["E" + count].Value = originalExpName;
@@ -1792,7 +1792,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("2") > 0)
                                     {
-                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.Remarks", "Remarks");
+                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.Remarks", "Remarks");
                                         if (!string.IsNullOrEmpty(originalRemarksName))
                                         {
                                             sheet.Cells["G" + count].Value = originalRemarksName;
@@ -1813,7 +1813,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("8") > 0)
                                     {
-                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "com.Name", "Name");
+                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "com.Name", "Name");
                                         if (!string.IsNullOrEmpty(originalComName))
                                         {
                                             sheet.Cells["H" + count].Value = originalComName;
@@ -1834,7 +1834,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("9") > 0)
                                     {
-                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "gd.GradePoints", "GradePoints");
+                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "gd.GradePoints", "GradePoints");
                                         if (!string.IsNullOrEmpty(originalGradePointsName))
                                         {
                                             sheet.Cells["I" + count].Value = originalGradePointsName;
@@ -1855,7 +1855,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("10") > 0)
                                     {
-                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.UnitPrice", "UnitPrice");
+                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.UnitPrice", "UnitPrice");
                                         if (!string.IsNullOrEmpty(originalUnitPrice))
                                         {
                                             sheet.Cells["J" + count].Value = originalUnitPrice;
@@ -1876,7 +1876,7 @@ namespace CostAllocationApp.Controllers
 
                                     if (bCYRCellPending.IndexOf("11") > 0)
                                     {
-                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "10");
+                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "10");
                                         sheet.Cells["K" + count].Value = Convert.ToDecimal(octOriginalP).ToString("0.0");
                                         sheet.Cells["K" + count].AutoFitColumns();
 
@@ -1888,7 +1888,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("12") > 0)
                                     {
-                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "11");
+                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "11");
                                         sheet.Cells["L" + count].Value = Convert.ToDecimal(novOriginalP).ToString("0.0");
                                         sheet.Cells["L" + count].AutoFitColumns();
 
@@ -1900,7 +1900,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("13") > 0)
                                     {
-                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "12");
+                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "12");
                                         sheet.Cells["M" + count].Value = Convert.ToDecimal(decOriginalP).ToString("0.0");
                                         sheet.Cells["M" + count].AutoFitColumns();
 
@@ -1912,7 +1912,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("14") > 0)
                                     {
-                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "1");
+                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "1");
                                         sheet.Cells["N" + count].Value = Convert.ToDecimal(janOriginalP).ToString("0.0");
                                         sheet.Cells["N" + count].AutoFitColumns();
 
@@ -1924,7 +1924,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("15") > 0)
                                     {
-                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "2");
+                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "2");
                                         sheet.Cells["O" + count].Value = Convert.ToDecimal(febOriginalP).ToString("0.0");
                                         sheet.Cells["O" + count].AutoFitColumns();
 
@@ -1936,7 +1936,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("16") > 0)
                                     {
-                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "3");
+                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "3");
                                         sheet.Cells["P" + count].Value = Convert.ToDecimal(marOriginalP).ToString("0.0");
                                         sheet.Cells["P" + count].AutoFitColumns();
 
@@ -1948,7 +1948,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("17") > 0)
                                     {
-                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "4");
+                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "4");
                                         sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprOriginalP).ToString("0.0");
                                         sheet.Cells["Q" + count].AutoFitColumns();
 
@@ -1960,7 +1960,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("18") > 0)
                                     {
-                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "5");
+                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "5");
                                         sheet.Cells["R" + count].Value = Convert.ToDecimal(mayOriginalP).ToString("0.0");
                                         sheet.Cells["R" + count].AutoFitColumns();
 
@@ -1972,7 +1972,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("19") > 0)
                                     {
-                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "6");
+                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "6");
                                         sheet.Cells["S" + count].Value = Convert.ToDecimal(junOriginalP).ToString("0.0");
                                         sheet.Cells["S" + count].AutoFitColumns();
 
@@ -1984,7 +1984,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("20") > 0)
                                     {
-                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "7");
+                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "7");
                                         sheet.Cells["T" + count].Value = Convert.ToDecimal(julOriginalP).ToString("0.0");
                                         sheet.Cells["T" + count].AutoFitColumns();
 
@@ -1996,7 +1996,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("21") > 0)
                                     {
-                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "8");
+                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "8");
                                         sheet.Cells["U" + count].Value = Convert.ToDecimal(augOriginalP).ToString("0.0");
                                         sheet.Cells["U" + count].AutoFitColumns();
 
@@ -2008,7 +2008,7 @@ namespace CostAllocationApp.Controllers
                                     }
                                     if (bCYRCellPending.IndexOf("22") > 0)
                                     {
-                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "9");
+                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "9");
                                         sheet.Cells["V" + count].Value = Convert.ToDecimal(sepOriginalP).ToString("0.0");
                                         sheet.Cells["V" + count].AutoFitColumns();
 

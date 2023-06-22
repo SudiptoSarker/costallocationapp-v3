@@ -2496,7 +2496,7 @@ namespace CostAllocationApp.DAL
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
                             ,ea.IsRowPending,IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
-                            ,ea.IsDeleted
+                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg'
                             from ApprovedEmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -2559,8 +2559,8 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.IsAddEmployee = rdr["IsAddEmployee"] is DBNull ? false : Convert.ToBoolean(rdr["IsAddEmployee"]);
                             forecastEmployeeAssignmentViewModel.IsDeleteEmployee = rdr["IsDeleteEmployee"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleteEmployee"]);
                             forecastEmployeeAssignmentViewModel.IsCellWiseUpdate = rdr["IsCellWiseUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsCellWiseUpdate"]);
-                            forecastEmployeeAssignmentViewModel.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();
-                            forecastEmployeeAssignmentViewModel.RootEmployeeName = rdr["RootEmployeeName"] is DBNull ? "" : rdr["RootEmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();                            
+                            forecastEmployeeAssignmentViewModel.EmployeeAssignmentIdOrg = rdr["EmployeeAssignmentIdOrg"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeAssignmentIdOrg"]);
 
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
@@ -3467,7 +3467,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
 
-                            result = rdr["dbColumnName"] is DBNull ? "" : rdr["dbColumnName"].ToString();
+                            result = rdr[""+ dbColumnName + ""] is DBNull ? "" : rdr["" + dbColumnName + ""].ToString();
 
                         }
                     }

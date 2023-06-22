@@ -793,6 +793,7 @@ namespace CostAllocationApp.Controllers
                             var isAddRow = item.IsAddEmployee;
                             var isUpdateCells = item.IsCellWiseUpdate;
                             var approvedCells = item.ApprovedCells;
+                            var bCYRCellPending = item.BCYRCellPending;
 
                             var octPOriginal = item.OctPoints;
                             var novPOriginal = item.NovPoints;
@@ -1056,8 +1057,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["A" + count].Value = sectionName;
-                                    sheet.Cells["A" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("3") > 0)
+                                    {
+                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "sec.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalSectionName))
+                                        {
+                                            sheet.Cells["A" + count].Value = originalSectionName;
+                                            sheet.Cells["A" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["A" + count].Value = sectionName;
+                                            sheet.Cells["A" + count].AutoFitColumns();
+                                        }                                        
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["A" + count].Value = sectionName;
+                                        sheet.Cells["A" + count].AutoFitColumns();
+                                    }
+                                    
                                 }                                
 
                                 
@@ -1071,8 +1090,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["B" + count].Value = departmentName;
-                                    sheet.Cells["B" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("4") > 0)
+                                    {
+                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "dep.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalDepartmentName))
+                                        {
+                                            sheet.Cells["B" + count].Value = originalDepartmentName;
+                                            sheet.Cells["B" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["B" + count].Value = departmentName;
+                                            sheet.Cells["B" + count].AutoFitColumns();
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["B" + count].Value = departmentName;
+                                        sheet.Cells["B" + count].AutoFitColumns();
+                                    }                                    
                                 }
                                 
                                 bool isInChargeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("5", approvedCells);
@@ -1085,8 +1122,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["C" + count].Value = inChargeName;
-                                    sheet.Cells["C" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("5") > 0)
+                                    {
+                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "inc.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalInChargeName))
+                                        {
+                                            sheet.Cells["C" + count].Value = originalInChargeName;
+                                            sheet.Cells["C" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["C" + count].Value = inChargeName;
+                                            sheet.Cells["C" + count].AutoFitColumns();
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["C" + count].Value = inChargeName;
+                                        sheet.Cells["C" + count].AutoFitColumns();
+                                    }                                    
                                 }
 
                                 bool isRoleApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("6", approvedCells);
@@ -1099,8 +1154,27 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["D" + count].Value = roleName;
-                                    sheet.Cells["D" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("6") > 0)
+                                    {
+                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "rl.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalRoleName))
+                                        {
+                                            sheet.Cells["D" + count].Value = originalRoleName;
+                                            sheet.Cells["D" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["D" + count].Value = roleName;
+                                            sheet.Cells["D" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["D" + count].Value = roleName;
+                                        sheet.Cells["D" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
 
                                 
@@ -1114,8 +1188,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["E" + count].Value = explanationName;
-                                    sheet.Cells["E" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("7") > 0)
+                                    {
+                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "e.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalExpName))
+                                        {
+                                            sheet.Cells["E" + count].Value = originalExpName;
+                                            sheet.Cells["E" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["E" + count].Value = explanationName;
+                                            sheet.Cells["E" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["E" + count].Value = explanationName;
+                                        sheet.Cells["E" + count].AutoFitColumns();
+                                    }                                    
                                 }
                                 
                                 bool isEmployeeApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("1", approvedCells);
@@ -1156,8 +1248,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["G" + count].Value = remarks;
-                                    sheet.Cells["G" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("2") > 0)
+                                    {
+                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.Remarks", "Remarks");
+                                        if (!string.IsNullOrEmpty(originalRemarksName))
+                                        {
+                                            sheet.Cells["G" + count].Value = originalRemarksName;
+                                            sheet.Cells["G" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["G" + count].Value = remarks;
+                                            sheet.Cells["G" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["G" + count].Value = remarks;
+                                        sheet.Cells["G" + count].AutoFitColumns();
+                                    }                                    
                                 }
 
                                 
@@ -1171,8 +1281,27 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["H" + count].Value = companyName;
-                                    sheet.Cells["H" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("8") > 0)
+                                    {
+                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "com.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalComName))
+                                        {
+                                            sheet.Cells["H" + count].Value = originalComName;
+                                            sheet.Cells["H" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["H" + count].Value = companyName;
+                                            sheet.Cells["H" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["H" + count].Value = companyName;
+                                        sheet.Cells["H" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
 
                                 
@@ -1186,8 +1315,26 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["I" + count].Value = gradePoints;
-                                    sheet.Cells["I" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("9") > 0)
+                                    {
+                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "gd.GradePoints", "GradePoints");
+                                        if (!string.IsNullOrEmpty(originalGradePointsName))
+                                        {
+                                            sheet.Cells["I" + count].Value = originalGradePointsName;
+                                            sheet.Cells["I" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["I" + count].Value = gradePoints;
+                                            sheet.Cells["I" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["I" + count].Value = gradePoints;
+                                        sheet.Cells["I" + count].AutoFitColumns();
+                                    }                                    
                                 }
                                 
                                 bool isUnitApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("10", approvedCells);
@@ -1200,10 +1347,27 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["J" + count].Value = unitPrice;
-                                    sheet.Cells["J" + count].AutoFitColumns();
-                                }
+                                    if (bCYRCellPending.IndexOf("10") > 0)
+                                    {
+                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.UnitPrice", "UnitPrice");
+                                        if (!string.IsNullOrEmpty(originalUnitPrice))
+                                        {
+                                            sheet.Cells["J" + count].Value = originalUnitPrice;
+                                            sheet.Cells["J" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["J" + count].Value = unitPrice;
+                                            sheet.Cells["J" + count].AutoFitColumns();
+                                        }
 
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["J" + count].Value = unitPrice;
+                                        sheet.Cells["J" + count].AutoFitColumns();
+                                    }                                    
+                                }
                                 
                                 bool isOctPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("11", approvedCells);
                                 if (isOctPApproved)
@@ -1215,10 +1379,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                    sheet.Cells["K" + count].AutoFitColumns();
-                                }
+                                    if (bCYRCellPending.IndexOf("11") > 0)
+                                    {
+                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "10");
+                                        sheet.Cells["K" + count].Value = Convert.ToDecimal(octOriginalP).ToString("0.0");
+                                        sheet.Cells["K" + count].AutoFitColumns();
 
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                                        sheet.Cells["K" + count].AutoFitColumns();
+                                    }                                    
+                                }
                                 
                                 bool isNovPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("12", approvedCells);
                                 if (isNovPApproved)
@@ -1230,8 +1403,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                    sheet.Cells["L" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("12") > 0)
+                                    {
+                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "11");
+                                        sheet.Cells["L" + count].Value = Convert.ToDecimal(novOriginalP).ToString("0.0");
+                                        sheet.Cells["L" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                                        sheet.Cells["L" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isDecPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("13", approvedCells);
@@ -1244,8 +1428,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                    sheet.Cells["M" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("13") > 0)
+                                    {
+                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "12");
+                                        sheet.Cells["M" + count].Value = Convert.ToDecimal(decOriginalP).ToString("0.0");
+                                        sheet.Cells["M" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                                        sheet.Cells["M" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
 
                                 
@@ -1259,8 +1454,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                    sheet.Cells["N" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("14") > 0)
+                                    {
+                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "1");
+                                        sheet.Cells["N" + count].Value = Convert.ToDecimal(janOriginalP).ToString("0.0");
+                                        sheet.Cells["N" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                                        sheet.Cells["N" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isFebPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("15", approvedCells);
@@ -1273,8 +1479,18 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                    sheet.Cells["O" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("15") > 0)
+                                    {
+                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "2");
+                                        sheet.Cells["O" + count].Value = Convert.ToDecimal(febOriginalP).ToString("0.0");
+                                        sheet.Cells["O" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                                        sheet.Cells["O" + count].AutoFitColumns();
+                                    }                                    
                                 }
 
                                 
@@ -1288,8 +1504,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                    sheet.Cells["P" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("16") > 0)
+                                    {
+                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "3");
+                                        sheet.Cells["P" + count].Value = Convert.ToDecimal(marOriginalP).ToString("0.0");
+                                        sheet.Cells["P" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                                        sheet.Cells["P" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isAprPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("17", approvedCells);
@@ -1302,8 +1529,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                    sheet.Cells["Q" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("17") > 0)
+                                    {
+                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "4");
+                                        sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprOriginalP).ToString("0.0");
+                                        sheet.Cells["Q" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                                        sheet.Cells["Q" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isMayPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("18", approvedCells);
@@ -1316,8 +1554,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                    sheet.Cells["R" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("18") > 0)
+                                    {
+                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "5");
+                                        sheet.Cells["R" + count].Value = Convert.ToDecimal(mayOriginalP).ToString("0.0");
+                                        sheet.Cells["R" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                                        sheet.Cells["R" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
 
                                 
@@ -1331,8 +1580,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                    sheet.Cells["S" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("19") > 0)
+                                    {
+                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "6");
+                                        sheet.Cells["S" + count].Value = Convert.ToDecimal(junOriginalP).ToString("0.0");
+                                        sheet.Cells["S" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                                        sheet.Cells["S" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isJulPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("20", approvedCells);
@@ -1345,8 +1605,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                    sheet.Cells["T" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("20") > 0)
+                                    {
+                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "7");
+                                        sheet.Cells["T" + count].Value = Convert.ToDecimal(julOriginalP).ToString("0.0");
+                                        sheet.Cells["T" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                                        sheet.Cells["T" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isAugPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("21", approvedCells);
@@ -1359,8 +1630,19 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                    sheet.Cells["U" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("21") > 0)
+                                    {
+                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "8");
+                                        sheet.Cells["U" + count].Value = Convert.ToDecimal(augOriginalP).ToString("0.0");
+                                        sheet.Cells["U" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                                        sheet.Cells["U" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                                 
                                 bool isSeptPApproved = employeeAssignmentBLL.IsApprovedCellsForDownloadExcel("22", approvedCells);
@@ -1373,61 +1655,422 @@ namespace CostAllocationApp.Controllers
                                 }
                                 else
                                 {
-                                    sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
-                                    sheet.Cells["V" + count].AutoFitColumns();
+                                    if (bCYRCellPending.IndexOf("22") > 0)
+                                    {
+                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "9");
+                                        sheet.Cells["V" + count].Value = Convert.ToDecimal(sepOriginalP).ToString("0.0");
+                                        sheet.Cells["V" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                                        sheet.Cells["V" + count].AutoFitColumns();
+                                    }
+                                    
                                 }
                             }
                             else
                             {
-                                sheet.Cells["A" + count].Value = sectionName;
-                                sheet.Cells["A" + count].AutoFitColumns();
-
-                                sheet.Cells["B" + count].Value = departmentName;
-                                sheet.Cells["B" + count].AutoFitColumns();
-
-                                sheet.Cells["C" + count].Value = inChargeName;
-                                sheet.Cells["C" + count].AutoFitColumns();
-
-                                sheet.Cells["D" + count].Value = roleName;
-                                sheet.Cells["D" + count].AutoFitColumns();
-
-                                sheet.Cells["E" + count].Value = explanationName;
-                                sheet.Cells["E" + count].AutoFitColumns();
-
-                                if (!string.IsNullOrEmpty(employeeName))
+                                
+                                if (!string.IsNullOrEmpty(bCYRCellPending))
                                 {
-                                    sheet.Cells["F" + count].Value = employeeName;
+                                    if (bCYRCellPending.IndexOf("3") > 0)
+                                    {
+                                        string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "sec.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalSectionName))
+                                        {
+                                            sheet.Cells["A" + count].Value = originalSectionName;
+                                            sheet.Cells["A" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["A" + count].Value = sectionName;
+                                            sheet.Cells["A" + count].AutoFitColumns();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["A" + count].Value = sectionName;
+                                        sheet.Cells["A" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("4") > 0)
+                                    {
+                                        string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "dep.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalDepartmentName))
+                                        {
+                                            sheet.Cells["B" + count].Value = originalDepartmentName;
+                                            sheet.Cells["B" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["B" + count].Value = departmentName;
+                                            sheet.Cells["B" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["B" + count].Value = departmentName;
+                                        sheet.Cells["B" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("5") > 0)
+                                    {
+                                        string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "inc.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalInChargeName))
+                                        {
+                                            sheet.Cells["C" + count].Value = originalInChargeName;
+                                            sheet.Cells["C" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["C" + count].Value = inChargeName;
+                                            sheet.Cells["C" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["C" + count].Value = inChargeName;
+                                        sheet.Cells["C" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("6") > 0)
+                                    {
+                                        string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "rl.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalRoleName))
+                                        {
+                                            sheet.Cells["D" + count].Value = originalRoleName;
+                                            sheet.Cells["D" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["D" + count].Value = roleName;
+                                            sheet.Cells["D" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["D" + count].Value = roleName;
+                                        sheet.Cells["D" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("7") > 0)
+                                    {
+                                        string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "e.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalExpName))
+                                        {
+                                            sheet.Cells["E" + count].Value = originalExpName;
+                                            sheet.Cells["E" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["E" + count].Value = explanationName;
+                                            sheet.Cells["E" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["E" + count].Value = explanationName;
+                                        sheet.Cells["E" + count].AutoFitColumns();
+                                    }
+
+                                    
+
+                                    if (!string.IsNullOrEmpty(employeeName))
+                                    {
+                                        sheet.Cells["F" + count].Value = employeeName;
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["F" + count].Value = rootEmployeeName;
+                                    }
+                                    sheet.Cells["F" + count].AutoFitColumns();
+
+                                    if (bCYRCellPending.IndexOf("2") > 0)
+                                    {
+                                        string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.Remarks", "Remarks");
+                                        if (!string.IsNullOrEmpty(originalRemarksName))
+                                        {
+                                            sheet.Cells["G" + count].Value = originalRemarksName;
+                                            sheet.Cells["G" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["G" + count].Value = remarks;
+                                            sheet.Cells["G" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["G" + count].Value = remarks;
+                                        sheet.Cells["G" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("8") > 0)
+                                    {
+                                        string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "com.Name", "Name");
+                                        if (!string.IsNullOrEmpty(originalComName))
+                                        {
+                                            sheet.Cells["H" + count].Value = originalComName;
+                                            sheet.Cells["H" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["H" + count].Value = companyName;
+                                            sheet.Cells["H" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["H" + count].Value = companyName;
+                                        sheet.Cells["H" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("9") > 0)
+                                    {
+                                        string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "gd.GradePoints", "GradePoints");
+                                        if (!string.IsNullOrEmpty(originalGradePointsName))
+                                        {
+                                            sheet.Cells["I" + count].Value = originalGradePointsName;
+                                            sheet.Cells["I" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["I" + count].Value = gradePoints;
+                                            sheet.Cells["I" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["I" + count].Value = gradePoints;
+                                        sheet.Cells["I" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("10") > 0)
+                                    {
+                                        string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(assignmentId, "ea.UnitPrice", "UnitPrice");
+                                        if (!string.IsNullOrEmpty(originalUnitPrice))
+                                        {
+                                            sheet.Cells["J" + count].Value = originalUnitPrice;
+                                            sheet.Cells["J" + count].AutoFitColumns();
+                                        }
+                                        else
+                                        {
+                                            sheet.Cells["J" + count].Value = unitPrice;
+                                            sheet.Cells["J" + count].AutoFitColumns();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["J" + count].Value = unitPrice;
+                                        sheet.Cells["J" + count].AutoFitColumns();
+                                    }
+
+                                    if (bCYRCellPending.IndexOf("11") > 0)
+                                    {
+                                        decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "10");
+                                        sheet.Cells["K" + count].Value = Convert.ToDecimal(octOriginalP).ToString("0.0");
+                                        sheet.Cells["K" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                                        sheet.Cells["K" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("12") > 0)
+                                    {
+                                        decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "11");
+                                        sheet.Cells["L" + count].Value = Convert.ToDecimal(novOriginalP).ToString("0.0");
+                                        sheet.Cells["L" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                                        sheet.Cells["L" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("13") > 0)
+                                    {
+                                        decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "12");
+                                        sheet.Cells["M" + count].Value = Convert.ToDecimal(decOriginalP).ToString("0.0");
+                                        sheet.Cells["M" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                                        sheet.Cells["M" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("14") > 0)
+                                    {
+                                        decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "1");
+                                        sheet.Cells["N" + count].Value = Convert.ToDecimal(janOriginalP).ToString("0.0");
+                                        sheet.Cells["N" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                                        sheet.Cells["N" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("15") > 0)
+                                    {
+                                        decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "2");
+                                        sheet.Cells["O" + count].Value = Convert.ToDecimal(febOriginalP).ToString("0.0");
+                                        sheet.Cells["O" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                                        sheet.Cells["O" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("16") > 0)
+                                    {
+                                        decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "3");
+                                        sheet.Cells["P" + count].Value = Convert.ToDecimal(marOriginalP).ToString("0.0");
+                                        sheet.Cells["P" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                                        sheet.Cells["P" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("17") > 0)
+                                    {
+                                        decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "4");
+                                        sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprOriginalP).ToString("0.0");
+                                        sheet.Cells["Q" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                                        sheet.Cells["Q" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("18") > 0)
+                                    {
+                                        decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "5");
+                                        sheet.Cells["R" + count].Value = Convert.ToDecimal(mayOriginalP).ToString("0.0");
+                                        sheet.Cells["R" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                                        sheet.Cells["R" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("19") > 0)
+                                    {
+                                        decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "6");
+                                        sheet.Cells["S" + count].Value = Convert.ToDecimal(junOriginalP).ToString("0.0");
+                                        sheet.Cells["S" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                                        sheet.Cells["S" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("20") > 0)
+                                    {
+                                        decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "7");
+                                        sheet.Cells["T" + count].Value = Convert.ToDecimal(julOriginalP).ToString("0.0");
+                                        sheet.Cells["T" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                                        sheet.Cells["T" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("21") > 0)
+                                    {
+                                        decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "8");
+                                        sheet.Cells["U" + count].Value = Convert.ToDecimal(augOriginalP).ToString("0.0");
+                                        sheet.Cells["U" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                                        sheet.Cells["U" + count].AutoFitColumns();
+                                    }
+                                    if (bCYRCellPending.IndexOf("22") > 0)
+                                    {
+                                        decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(assignmentId, "9");
+                                        sheet.Cells["V" + count].Value = Convert.ToDecimal(sepOriginalP).ToString("0.0");
+                                        sheet.Cells["V" + count].AutoFitColumns();
+
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                                        sheet.Cells["V" + count].AutoFitColumns();
+                                    }
                                 }
                                 else
                                 {
-                                    sheet.Cells["F" + count].Value = rootEmployeeName;
-                                }
-                                sheet.Cells["F" + count].AutoFitColumns();
+                                    sheet.Cells["A" + count].Value = sectionName;
+                                    sheet.Cells["A" + count].AutoFitColumns();
 
-                                sheet.Cells["G" + count].Value = remarks;
-                                sheet.Cells["G" + count].AutoFitColumns();
+                                    sheet.Cells["B" + count].Value = departmentName;
+                                    sheet.Cells["B" + count].AutoFitColumns();
 
-                                sheet.Cells["H" + count].Value = companyName;
-                                sheet.Cells["H" + count].AutoFitColumns();
+                                    sheet.Cells["C" + count].Value = inChargeName;
+                                    sheet.Cells["C" + count].AutoFitColumns();
 
-                                sheet.Cells["I" + count].Value = gradePoints;
-                                sheet.Cells["I" + count].AutoFitColumns();
+                                    sheet.Cells["D" + count].Value = roleName;
+                                    sheet.Cells["D" + count].AutoFitColumns();
 
-                                sheet.Cells["J" + count].Value = unitPrice;
-                                sheet.Cells["J" + count].AutoFitColumns();
+                                    sheet.Cells["E" + count].Value = explanationName;
+                                    sheet.Cells["E" + count].AutoFitColumns();
 
-                                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
-                                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
-                                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
-                                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
-                                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
-                                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
-                                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
-                                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
-                                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
-                                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
-                                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
-                                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                                    if (!string.IsNullOrEmpty(employeeName))
+                                    {
+                                        sheet.Cells["F" + count].Value = employeeName;
+                                    }
+                                    else
+                                    {
+                                        sheet.Cells["F" + count].Value = rootEmployeeName;
+                                    }
+                                    sheet.Cells["F" + count].AutoFitColumns();
+
+                                    sheet.Cells["G" + count].Value = remarks;
+                                    sheet.Cells["G" + count].AutoFitColumns();
+
+                                    sheet.Cells["H" + count].Value = companyName;
+                                    sheet.Cells["H" + count].AutoFitColumns();
+
+                                    sheet.Cells["I" + count].Value = gradePoints;
+                                    sheet.Cells["I" + count].AutoFitColumns();
+
+                                    sheet.Cells["J" + count].Value = unitPrice;
+                                    sheet.Cells["J" + count].AutoFitColumns();
+
+                                    sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                                    sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                                    sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                                    sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                                    sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                                    sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                                    sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                                    sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                                    sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                                    sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                                    sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                                    sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                                }                                
                             }
                             
                             count++;

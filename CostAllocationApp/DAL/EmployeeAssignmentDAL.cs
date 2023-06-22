@@ -2551,8 +2551,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
-                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);                            
                             forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                             forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
                             forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
@@ -2979,12 +2978,12 @@ namespace CostAllocationApp.DAL
                                 INSERT INTO ApprovedEmployeesAssignments
 	                                (
 		                                ApprovedTimeStampId,AssignmentId,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId
-		                                ,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,EmployeeName,IsDeleted
+		                                ,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,EmployeeName,IsDeleted,BCYRCellPending
 	                                ) 
                                 values
 	                                (
 		                                @approvedTimeStampId,@assignmentId,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId
-		                                ,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@employeeName,@isDeleted
+		                                ,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@employeeName,@isDeleted,@bCYRCellPending
 	                                )
                             ";
             using (SqlConnection sqlConnection = this.GetConnection())
@@ -3084,6 +3083,15 @@ namespace CostAllocationApp.DAL
                 {
                     cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
                 }
+                if (employeeAssignment.BCYRCellPending == null)
+                {
+                    cmd.Parameters.AddWithValue("@bCYRCellPending", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@bCYRCellPending", employeeAssignment.BCYRCellPending);
+                }
+
                 cmd.Parameters.AddWithValue("@subCode", employeeAssignment.SubCode);
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
 
@@ -3384,6 +3392,125 @@ namespace CostAllocationApp.DAL
                 return result;
             }
 
+        }
+
+        public int RemoveAssignmentDataFromOrgTable(int assignmentId,string dbColumnName)
+        {
+            int result = 0;            
+            string query = "update EmployeesAssignmentsOrg set "+ dbColumnName + "='' where EmployeesAssignmentId="+ assignmentId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);               
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        public int RemoveForecastedDataFromOrgTable(int assignmentId, int dbColumnName)
+        {
+            int result = 0;            
+            string query = "DELETE FROM CostsOrg WHERE EmployeeAssignmentsId="+ assignmentId + " and MonthId="+ dbColumnName;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public string GetOriginalDataForPendingCells(int assignmentId,string dbColumnNameWithDbSchema,string dbColumnName)
+        {
+
+            string query = $@"select {dbColumnNameWithDbSchema}
+                                from EmployeesAssignmentsOrg ea 
+	                            left join Sections sec on ea.SectionId = sec.Id
+                                left join Departments dep on ea.DepartmentId = dep.Id
+                                left join Companies com on ea.CompanyId = com.Id
+                                left join Roles rl on ea.RoleId = rl.Id
+                                left join InCharges inc on ea.InChargeId = inc.Id 
+                                left join Grades gd on ea.GradeId = gd.Id    
+                                left join Explanations e on ea.ExplanationId = e.Id
+                            where ea.EmployeesAssignmentId={assignmentId}";
+
+            string result = "";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            result = rdr["dbColumnName"] is DBNull ? "" : rdr["dbColumnName"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+        public decimal GetMonthWiseOriginalForecastData(int assignmentId, string dbColumnName)
+        {
+
+            string query = $@"select Points from CostsOrg ea where ea.EmployeeAssignmentsId={assignmentId} and MonthId={dbColumnName}";
+
+            decimal result = 0;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            result = rdr["Points"] is DBNull ? 0 : Convert.ToDecimal(rdr["Points"]);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
         }
     }
 }

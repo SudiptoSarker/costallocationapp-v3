@@ -1705,5 +1705,103 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CheckMonthIdExistsForOrgForecast(assignmentId, monthId);
         }
+
+        public int RemoveApprovedDataFromOriginalTable(int assignmentId,int cellNo)
+        {
+            int results = 0;
+            if(cellNo == 2)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "Remarks");
+            }
+            else if (cellNo == 3)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "SectionId");
+            }
+            else if (cellNo == 4)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "DepartmentId");
+            }
+            else if (cellNo == 5)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "InChargeId");
+            }
+            else if (cellNo == 6)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "RoleId");
+            }
+            else if (cellNo == 7)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "ExplanationId");
+            }
+            else if (cellNo == 8)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "CompanyId");
+            }
+            else if (cellNo == 9)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "GradeId");
+            }
+            else if (cellNo == 10)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "UnitPrice");
+            }
+            else if(cellNo == 11)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId,10);
+            }
+            else if (cellNo == 12)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 11);
+            }
+            else if (cellNo == 13)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 12);
+            }
+            else if (cellNo == 14)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 1);
+            }
+            else if (cellNo == 15)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 2);
+            }
+            else if (cellNo == 16)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 3);
+            }
+            else if (cellNo == 17)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 4);
+            }
+            else if (cellNo == 18)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 5);
+            }
+            else if (cellNo == 19)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 6);
+            }
+            else if (cellNo == 20)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 7);
+            }
+            else if (cellNo == 21)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 8);
+            }
+            else if (cellNo == 22)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 9);
+            }
+            return results;
+        }
+        public string GetOriginalDataForPendingCells(int assignmentId, string dbColumnNameWithDbSchema, string dbColumnName)
+        {            
+            return employeeAssignmentDAL.GetOriginalDataForPendingCells(assignmentId, dbColumnNameWithDbSchema, dbColumnName);
+        }
+        public decimal GetMonthWiseOriginalForecastData(int assignmentId, string dbColumnName)
+        {
+            return employeeAssignmentDAL.GetMonthWiseOriginalForecastData(assignmentId,dbColumnName);
+        }
     }
 }

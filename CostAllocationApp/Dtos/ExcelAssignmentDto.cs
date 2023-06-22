@@ -27,6 +27,7 @@ namespace CostAllocationApp.Dtos
         public string EmployeeRootName { get; set; }
         public string EmployeeModifiedName { get; set; }
         public bool IsDeleted { get; set; }
+        public string BCYRCellPending { get; set; }
 
         public decimal OctPoint { get; set; }
         public decimal NovPoint { get; set; }

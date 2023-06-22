@@ -4321,6 +4321,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         string updatedApprovedCells = "";
                         string updatePendingCells = "";
+                        int removeResults = employeeAssignmentBLL.RemoveApprovedDataFromOriginalTable(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(arrCellAndAssignmentId[1]));
 
                         EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear));
 

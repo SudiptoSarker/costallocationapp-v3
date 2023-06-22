@@ -399,6 +399,7 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.IsActive = item.IsActive.ToString();
                     employeeAssignment.IsDeleted = item.IsDeleted;
                     employeeAssignment.Year = item.Year;
+                    employeeAssignment.BCYRCellPending = item.BCYRCellPending;
 
                     int result = employeeAssignmentBLL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
 

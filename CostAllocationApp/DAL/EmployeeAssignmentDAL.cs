@@ -2561,6 +2561,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.IsCellWiseUpdate = rdr["IsCellWiseUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsCellWiseUpdate"]);
                             forecastEmployeeAssignmentViewModel.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();                            
                             forecastEmployeeAssignmentViewModel.EmployeeAssignmentIdOrg = rdr["EmployeeAssignmentIdOrg"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeAssignmentIdOrg"]);
+                            forecastEmployeeAssignmentViewModel.RootEmployeeName = rdr["RootEmployeeName"] is DBNull ? "" : rdr["RootEmployeeName"].ToString();
 
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }

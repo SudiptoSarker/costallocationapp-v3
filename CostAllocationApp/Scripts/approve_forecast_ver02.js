@@ -2569,7 +2569,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         $("#hid_SelectedCellPosition").val(x1);
         $("#selectCellNumber").val(cellName1);
 
-        if(x2==34){
+        if(x2==45){
             $("#hid_IsRowSelected").val("yes");
             $("#hidIsRowDeleted").val(retrivedData.isActive);
             $("#hidSelectedRowNumber").val(sRows);

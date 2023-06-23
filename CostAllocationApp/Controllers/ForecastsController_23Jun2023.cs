@@ -2356,7 +2356,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     if(eachItem.CompanyName.ToLower() == "mw")
                                     {
-                                        eachPersonSheet.Cells["D" + eachPersonIndex].Value = "";
+                                        eachPersonSheet.Cells["D" + eachPersonIndex].Value = "MTI";
                                     }
                                     else
                                     {
@@ -2367,12 +2367,7 @@ namespace CostAllocationApp.Controllers
                                 {
                                     eachPersonSheet.Cells["D" + eachPersonIndex].Value = "";
                                 }
-                                if (!string.IsNullOrEmpty(eachItem.CompanyName)) {
-                                    if(eachItem.CompanyName.ToLower() == "mw")
-                                    {
-                                        eachPersonSheet.Cells["E" + eachPersonIndex].Value = eachItem.GradePoint;
-                                    }                                    
-                                }                                
+                                eachPersonSheet.Cells["E" + eachPersonIndex].Value = eachItem.GradePoint;
 
                                 eachPersonSheet.Cells["F" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
                                 eachPersonSheet.Cells["G" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");

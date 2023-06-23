@@ -145,19 +145,19 @@ function LoadJexcel() {
 
                         obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
                         obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
-                        obj.setValueFromCoords(2, nextRow, retrivedData.departmentId, false);
-                        obj.setValueFromCoords(3, nextRow, retrivedData.octPoint, false);
-                        obj.setValueFromCoords(4, nextRow, retrivedData.novPoint, false);
-                        obj.setValueFromCoords(5, nextRow, retrivedData.decPoint, false);
-                        obj.setValueFromCoords(6, nextRow, retrivedData.janPoint, false);
-                        obj.setValueFromCoords(7, nextRow, retrivedData.febPoint, false);
-                        obj.setValueFromCoords(8, nextRow, retrivedData.marPoint, false);
-                        obj.setValueFromCoords(9, nextRow, retrivedData.aprPoint, false);
-                        obj.setValueFromCoords(10, nextRow, retrivedData.mayPoint, false);
-                        obj.setValueFromCoords(11, nextRow, retrivedData.junPoint, false);
-                        obj.setValueFromCoords(12, nextRow, retrivedData.julPoint, false);
-                        obj.setValueFromCoords(13, nextRow, retrivedData.augPoint, false);
-                        obj.setValueFromCoords(14, nextRow, retrivedData.sepPoint, false);
+                        obj.setValueFromCoords(2, nextRow, null, false);
+                        obj.setValueFromCoords(3, nextRow, 0, false);
+                        obj.setValueFromCoords(4, nextRow, 0, false);
+                        obj.setValueFromCoords(5, nextRow, 0, false);
+                        obj.setValueFromCoords(6, nextRow, 0, false);
+                        obj.setValueFromCoords(7, nextRow, 0, false);
+                        obj.setValueFromCoords(8, nextRow, 0, false);
+                        obj.setValueFromCoords(9, nextRow, 0, false);
+                        obj.setValueFromCoords(10, nextRow, 0, false);
+                        obj.setValueFromCoords(11, nextRow, 0, false);
+                        obj.setValueFromCoords(12, nextRow, 0, false);
+                        obj.setValueFromCoords(13, nextRow, 0, false);
+                        obj.setValueFromCoords(14, nextRow, 0, false);
                     }
                 });
 
@@ -232,17 +232,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 4) {
-                    var octSum = 0;
+                    var novSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            novSum += parseFloat(parseFloat(dataValue[4]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || novSum > 100) {
+                        novSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -259,17 +259,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 5) {
-                    var octSum = 0;
+                    var decSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            decSum += parseFloat(parseFloat(dataValue[5]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || decSum > 100) {
+                        decSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -286,17 +286,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 6) {
-                    var octSum = 0;
+                    var janSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            janSum += parseFloat(parseFloat(dataValue[6]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || janSum > 100) {
+                        janSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -313,17 +313,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 7) {
-                    var octSum = 0;
+                    var febSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            febSum += parseFloat(parseFloat(dataValue[7]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || febSum > 100) {
+                        febSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -340,17 +340,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 8) {
-                    var octSum = 0;
+                    var marSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            marSum += parseFloat(parseFloat(dataValue[8]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || marSum > 100) {
+                        marSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -367,17 +367,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 9) {
-                    var octSum = 0;
+                    var aprSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            aprSum += parseFloat(parseFloat(dataValue[9]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || aprSum > 100) {
+                        aprSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -394,17 +394,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 10) {
-                    var octSum = 0;
+                    var maySum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            maySum += parseFloat(parseFloat(dataValue[10]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || maySum > 100) {
+                        maySum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -421,17 +421,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 11) {
-                    var octSum = 0;
+                    var junSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            junSum += parseFloat(parseFloat(dataValue[11]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || junSum > 100) {
+                        junSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -448,17 +448,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 12) {
-                    var octSum = 0;
+                    var julSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            julSum += parseFloat(parseFloat(dataValue[12]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || julSum > 100) {
+                        julSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -475,17 +475,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 13) {
-                    var octSum = 0;
+                    var augSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            augSum += parseFloat(parseFloat(dataValue[13]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || augSum > 100) {
+                        augSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -502,17 +502,17 @@ function LoadJexcel() {
                     //}
                 }
                 if (x == 14) {
-                    var octSum = 0;
+                    var sepSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
                     $.each(jss.getData(), (index, dataValue) => {
                         if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
+                            sepSum += parseFloat(parseFloat(dataValue[14]));
                         }
 
                     });
 
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
+                    if (isNaN(value) || parseFloat(value) < 0 || sepSum > 100) {
+                        sepSum = 0;
                         alert('Input not valid');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
@@ -535,18 +535,18 @@ function LoadJexcel() {
     } 
 
 
-        $.ajax({
-            url: `/api/utilities/QaAssignmentTotal?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (assignmentData) {
-                $.each(assignmentData, (index, itemValue) => {
-                    $('#qa_assignments').append(`<tr><td>${itemValue.EmployeeName}</td><td>${itemValue.OctTotal}</td><td>${itemValue.NovTotal}</td><td>${itemValue.DecTotal}</td><td>${itemValue.JanTotal}</td><td>${itemValue.FebTotal}</td><td>${itemValue.MarTotal}</td><td>${itemValue.AprTotal}</td><td>${itemValue.MayTotal}</td><td>${itemValue.JunTotal}</td><td>${itemValue.JulTotal}</td><td>${itemValue.AugTotal}</td><td>${itemValue.SepTotal}</td></tr>`);
-                });
-            }
-        });
+        //$.ajax({
+        //    url: `/api/utilities/QaAssignmentTotal?year=${year}`,
+        //    contentType: 'application/json',
+        //    type: 'GET',
+        //    async: false,
+        //    dataType: 'json',
+        //    success: function (assignmentData) {
+        //        $.each(assignmentData, (index, itemValue) => {
+        //            $('#qa_assignments').append(`<tr><td>${itemValue.EmployeeName}</td><td>${itemValue.OctTotal}</td><td>${itemValue.NovTotal}</td><td>${itemValue.DecTotal}</td><td>${itemValue.JanTotal}</td><td>${itemValue.FebTotal}</td><td>${itemValue.MarTotal}</td><td>${itemValue.AprTotal}</td><td>${itemValue.MayTotal}</td><td>${itemValue.JunTotal}</td><td>${itemValue.JulTotal}</td><td>${itemValue.AugTotal}</td><td>${itemValue.SepTotal}</td></tr>`);
+        //        });
+        //    }
+        //});
 
 
 
@@ -565,16 +565,17 @@ function LoadJexcel1() {
         alert('Select Year!!!');
         return false;
     }
-
-    $.ajax({
-        url: `/api/utilities/CreateApportionment?year=${year}`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data1) {
+    LoaderShow();
+    //$.ajax({
+    //    url: `/api/utilities/CreateApportionment?year=${year}`,
+    //    contentType: 'application/json',
+    //    type: 'GET',
+    //    async: false,
+    //    dataType: 'json',
+    //    success: function (data1) 
+    {
             LoaderHide();
-            _retriveddata_1 = data1;
+            //_retriveddata_1 = data1;
 
             if (jss_1 != undefined) {
                 jss_1.destroy();
@@ -617,7 +618,7 @@ function LoadJexcel1() {
                     { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
 
                     { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
-
+                    { title: "Id", type: 'hidden', name: "Id" },
                 ],
                 //onchange: function (instance, cell, x, y, value) {
                 //    var count = 0;
@@ -632,8 +633,8 @@ function LoadJexcel1() {
                 //    }
                 //},
             });
-        }
-    });
+    }
+    //});
 }
 
 function LoaderShow() {
@@ -667,57 +668,69 @@ $(document).ready(function () {
 
     $('#employee_wise_save_button').on('click', () => {
 
+        let flag = true;
         if (jss != undefined) {
-            var year = $('#assignment_year').val();
-            let employeeWiseProportionObjectList = [];
-            let employeeWiseProportionList = jss.getData();
-            if (employeeWiseProportionList.length > 0) {
-                $.each(employeeWiseProportionList, (index, singleItemValue) => {
-                    employeeWiseProportionObjectList.push({
-                        EmployeeId: singleItemValue[0],
-                        DepartmentId: singleItemValue[2],
-                        OctPercentage: singleItemValue[3],
-                        NovPercentage: singleItemValue[4],
-                        DecPercentage: singleItemValue[5],
-                        JanPercentage: singleItemValue[6],
-                        FebPercentage: singleItemValue[7],
-                        MarPercentage: singleItemValue[8],
-                        AprPercentage: singleItemValue[9],
-                        MayPercentage: singleItemValue[10],
-                        JunPercentage: singleItemValue[11],
-                        JulPercentage: singleItemValue[12],
-                        AugPercentage: singleItemValue[13],
-                        SepPercentage: singleItemValue[14],
-                        Id: singleItemValue[15]
+            $.each(jss.getData(), (index, itemValue) => {
+                if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
+                    alert('invalid department!');
+                    flag = false;
+                    return false;
+                }
+            });
+            if (flag) {
+                var year = $('#assignment_year').val();
+                let employeeWiseProportionObjectList = [];
+                let employeeWiseProportionList = jss.getData();
+                if (employeeWiseProportionList.length > 0) {
+                    $.each(employeeWiseProportionList, (index, singleItemValue) => {
+                        employeeWiseProportionObjectList.push({
+                            EmployeeId: singleItemValue[0],
+                            DepartmentId: singleItemValue[2],
+                            OctPercentage: singleItemValue[3],
+                            NovPercentage: singleItemValue[4],
+                            DecPercentage: singleItemValue[5],
+                            JanPercentage: singleItemValue[6],
+                            FebPercentage: singleItemValue[7],
+                            MarPercentage: singleItemValue[8],
+                            AprPercentage: singleItemValue[9],
+                            MayPercentage: singleItemValue[10],
+                            JunPercentage: singleItemValue[11],
+                            JulPercentage: singleItemValue[12],
+                            AugPercentage: singleItemValue[13],
+                            SepPercentage: singleItemValue[14],
+                            Id: singleItemValue[15]
+                        });
                     });
-                });
 
-                $.ajax({
-                    url: `/api/utilities/CreateQaProportion`,
-                    contentType: 'application/json',
-                    type: 'POST',
-                    async: false,
-                    dataType: 'json',
-                    data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
-                    success: function (data) {
-                        //$("#timeStamp_ForUpdateData").val(data);
-                        //var chat = $.connection.chatHub;
-                        //$.connection.hub.start();
-                        // Start the connection.
-                        //$.connection.hub.start().done(function () {
-                        //    chat.server.send('data has been updated by ', userName);
-                        //});
-                        //$("#jspreadsheet").show();
-                        //$("#head_total").show();
-                        employeeWiseProportionObjectList = [];
-                        alert(data);
-                        LoaderHide();
-                    }
-                });
-            } else {
-                alert('No data found!');
-                return false;
+                    $.ajax({
+                        url: `/api/utilities/CreateQaProportion`,
+                        contentType: 'application/json',
+                        type: 'POST',
+                        async: false,
+                        dataType: 'json',
+                        data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
+                        success: function (data) {
+                            //$("#timeStamp_ForUpdateData").val(data);
+                            //var chat = $.connection.chatHub;
+                            //$.connection.hub.start();
+                            // Start the connection.
+                            //$.connection.hub.start().done(function () {
+                            //    chat.server.send('data has been updated by ', userName);
+                            //});
+                            //$("#jspreadsheet").show();
+                            //$("#head_total").show();
+                            employeeWiseProportionObjectList = [];
+                            alert(data);
+                            LoaderHide();
+                        }
+                    });
+                } else {
+                    alert('No data found!');
+                    return false;
+                }
             }
+           
+           
         }
         else {
             alert('No table found!');
@@ -748,7 +761,8 @@ $(document).ready(function () {
                     junPercentage: parseFloat(value[10]),
                     julPercentage: parseFloat(value[11]),
                     augPercentage: parseFloat(value[12]),
-                    sepPercentage: parseFloat(value[13])
+                    sepPercentage: parseFloat(value[13]),
+                    id: value[14]
                 };
 
                 dataToSend.push(obj);
@@ -810,7 +824,24 @@ $(document).ready(function () {
                 });
             }
         });
+
+        $.ajax({
+            url: `/api/utilities/GetFilteredDepartments`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#department_list').empty();
+                $('#department_list').append(`<option value=''></option>`);
+                $.each(data, function (index, element) {
+                    $('#department_list').append(`<option value='${element.Id}_${element.DepartmentName}'>${element.DepartmentName}</option>`);
+                });
+            }
+        });
+
         _retriveddata = [];
+        _retriveddata_1 = [];
         $.ajax({
             url: `/api/utilities/QaProportionDataByYear?year=${year}`,
             contentType: 'application/json',
@@ -821,6 +852,19 @@ $(document).ready(function () {
                 _retriveddata = data;
             }
         });
+
+        $.ajax({
+            url: `/api/utilities/CreateApportionment?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                _retriveddata_1 = data;
+                console.log(data);
+            }
+        });
+
         LoadJexcel();
         LoadJexcel1();
     });
@@ -865,7 +909,47 @@ $(document).ready(function () {
         LoadJexcel();
     });
 
-    $('#merged_employee_from_qc').select2({ placeholder: "Select Employee",});
+    $('#department_list_add_button').on('click', function () {
+        var departmentList = $('#department_list').val();
+        var year = $('#assignment_year').val();
+        _retriveddata_1 = [];
+        $.ajax({
+            url: `/api/utilities/CreateApportionment?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                _retriveddata_1 = data;
+            }
+        });
+        $.each(departmentList, function (index, itemValue) {
+            var splittedString = itemValue.split('_');
+            _retriveddata_1.push({
+                DepartmentId: splittedString[0],
+                DepartmentName: splittedString[1],
+                OctPercentage: 0,
+                NovPercentage: 0,
+                DecPercentage: 0,
+                JanPercentage: 0,
+                FebPercentage: 0,
+                MarPercentage: 0,
+                AprPercentage: 0,
+                MayPercentage: 0,
+                JunPercentage: 0,
+                JulPercentage: 0,
+                AugPercentage: 0,
+                SepPercentage: 0,
+                Id: 0
+
+
+            });
+        });
+        LoadJexcel1();
+    });
+
+    $('#merged_employee_from_qc').select2({ placeholder: "Select Employee", });
+    $('#department_list').select2({ placeholder: "Select Department", });
 
     $("#hider").hide();
     $(".search_p").hide();
@@ -878,74 +962,4 @@ $(document).ready(function () {
     });
 
 
-    //$('#create_actual_cost').on('click', function () {
-    //    var dataToSend = [];
-    //    var year = $('#assignment_year').val();
-
-    //    var oct_flag = $('#oct_chk').is(":checked");
-    //    var nov_flag = $('#nov_chk').is(":checked");
-    //    var dec_flag = $('#dec_chk').is(":checked");
-    //    var jan_flag = $('#jan_chk').is(":checked");
-    //    var feb_flag = $('#feb_chk').is(":checked");
-    //    var mar_flag = $('#mar_chk').is(":checked");
-    //    var apr_flag = $('#apr_chk').is(":checked");
-    //    var may_flag = $('#may_chk').is(":checked");
-    //    var jun_flag = $('#jun_chk').is(":checked");
-    //    var jul_flag = $('#jul_chk').is(":checked");
-    //    var aug_flag = $('#aug_chk').is(":checked");
-    //    var sep_flag = $('#sep_chk').is(":checked");
-
-    //    if (jss != undefined) {
-    //        var data = jss.getData(false);
-    //        $.each(data, function (index, value) {
-    //            var obj = {
-    //                assignmentId: value[0],
-    //                octCost: parseFloat(value[9]),
-    //                novCost: parseFloat(value[10]),
-    //                decCost: parseFloat(value[11]),
-    //                janCost: parseFloat(value[12]),
-    //                febCost: parseFloat(value[13]),
-    //                marCost: parseFloat(value[14]),
-    //                aprCost: parseFloat(value[15]),
-    //                mayCost: parseFloat(value[16]),
-    //                junCost: parseFloat(value[17]),
-    //                julCost: parseFloat(value[18]),
-    //                augCost: parseFloat(value[19]),
-    //                sepCost: parseFloat(value[20])
-    //            };
-
-    //            dataToSend.push(obj);
-    //        });
-
-    //        $.ajax({
-    //            url: `/api/utilities/CreateActualCost`,
-    //            contentType: 'application/json',
-    //            type: 'POST',
-    //            async: false,
-    //            dataType: 'json',
-    //            data: JSON.stringify({
-    //                ActualCosts: dataToSend,
-    //                Year: year,
-    //                OctFlag: oct_flag,
-    //                NovFlag: nov_flag,
-    //                DecFlag: dec_flag,
-    //                JanFlag: jan_flag,
-    //                FebFlag: feb_flag,
-    //                MarFlag: mar_flag,
-    //                AprFlag: apr_flag,
-    //                MayFlag: may_flag,
-    //                JunFlag: jun_flag,
-    //                JulFlag: jul_flag,
-    //                AugFlag: aug_flag,
-    //                SepFlag: sep_flag,
-    //            }),
-    //            success: function (data) {
-    //                alert("Operation Success.");
-    //            }
-    //        });
-    //    }
-    //    else {
-    //        alert('No Data Found!');
-    //    }
-    //});
 });

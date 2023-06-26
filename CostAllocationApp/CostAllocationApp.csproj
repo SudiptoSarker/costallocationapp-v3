@@ -175,6 +175,7 @@
     <Compile Include="BLL\EmployeeBLL.cs" />
     <Compile Include="BLL\EmployeeAssignmentBLL.cs" />
     <Compile Include="BLL\ExplanationsBLL.cs" />
+    <Compile Include="BLL\ExportExcelFileBLL.cs" />
     <Compile Include="BLL\ForecastBLL.cs" />
     <Compile Include="BLL\InChargeBLL.cs" />
     <Compile Include="BLL\QaProportionBLL.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\EmployeeAssignmentDAL.cs" />
     <Compile Include="DAL\ExplanationDAL.cs" />
+    <Compile Include="DAL\ExportExcelFileDAL.cs" />
     <Compile Include="DAL\ForecastDAL.cs" />
     <Compile Include="DAL\InChargeDAL.cs" />
     <Compile Include="DAL\QaProportionDAL.cs" />

@@ -42,6 +42,7 @@ namespace CostAllocationApp.ViewModels
         public bool IsRowPending { get; set; }
         public bool IsDeletePending { get; set; }
         public int Year { get; set; }
+        public int EmployeeAssignmentIdOrg { get; set; }
 
         public bool IsAddEmployee { get; set; }
         public bool IsDeleteEmployee { get; set; }

@@ -3278,6 +3278,7 @@ function AddEmployee() {
     jss.setValueFromCoords(35, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
+
 function UpdateForecast() {
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();
@@ -3321,6 +3322,9 @@ function UpdateForecast() {
                 dataType: 'json',
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                 success: function (data) {
+                    var year = $("#assignment_year_list").val();
+                    ShowForecastResults(year);
+
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();

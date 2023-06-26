@@ -1251,9 +1251,9 @@ namespace CostAllocationApp.BLL
         }
 
         //Get All the data from assignment table with forecast
-        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles(EmployeeAssignmentForecast employeeAssignment)
+        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles(EmployeeAssignmentForecast employeeAssignment,int approvedTimestampid)
         {
-            var employees = employeeAssignmentDAL.GetAllOriginalDataForDownloadFiles(employeeAssignment);
+            var employees = employeeAssignmentDAL.GetAllOriginalDataForDownloadFiles(employeeAssignment,approvedTimestampid);
 
             if (employees.Count > 0)
             {
@@ -1278,7 +1278,8 @@ namespace CostAllocationApp.BLL
                 {
                     foreach (var item in redMarkedForecastAssignments)
                     {
-                        item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
+                        //item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
+                        item.forecasts = employeeAssignmentDAL.GetApprovedForecastdData(item.Id, employeeAssignment.Year);
                     }
                 }
 
@@ -1676,6 +1677,131 @@ namespace CostAllocationApp.BLL
 
             return employees;
         }
+        public int CreateApprovedAssignmentByTimestampId(EmployeeAssignment employeeAssignment,int approvedTimestampId)
+        {
+            return employeeAssignmentDAL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
+        }
+        public int GetApprovedAssignmentLastId()
+        {
+            return employeeAssignmentDAL.GetApprovedAssignmentLastId();
+        }
+        public int CheckForOriginalAssignmentIsExists(int assignmentId)
+        {
+            return employeeAssignmentDAL.CheckForOriginalAssignmentIsExists(assignmentId);
+        }
+        public int UpdateOriginalAssignment(AssignmentHistory _assignmentHistory,string columnValue, string columnName)
+        {
+            return employeeAssignmentDAL.UpdateOriginalAssignment(_assignmentHistory, columnValue, columnName);
+        }
+        public int InsertOriginalAssignment(AssignmentHistory _assignmentHistory, string columnValue, string columnName)
+        {
+            return employeeAssignmentDAL.InsertOriginalAssignment(_assignmentHistory, columnValue, columnName);
+        }
+        public int CheckForOriginalForecastDataIsExists(int assignmentId)
+        {
+            return employeeAssignmentDAL.CheckForOriginalForecastDataIsExists(assignmentId);
+        }
+        public int CheckMonthIdExistsForOrgForecast(int assignmentId,int monthId)
+        {
+            return employeeAssignmentDAL.CheckMonthIdExistsForOrgForecast(assignmentId, monthId);
+        }
 
+        public int RemoveApprovedDataFromOriginalTable(int assignmentId,int cellNo)
+        {
+            int results = 0;
+            if(cellNo == 2)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "Remarks");
+            }
+            else if (cellNo == 3)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "SectionId");
+            }
+            else if (cellNo == 4)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "DepartmentId");
+            }
+            else if (cellNo == 5)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "InChargeId");
+            }
+            else if (cellNo == 6)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "RoleId");
+            }
+            else if (cellNo == 7)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "ExplanationId");
+            }
+            else if (cellNo == 8)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "CompanyId");
+            }
+            else if (cellNo == 9)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "GradeId");
+            }
+            else if (cellNo == 10)
+            {
+                results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "UnitPrice");
+            }
+            else if(cellNo == 11)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId,10);
+            }
+            else if (cellNo == 12)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 11);
+            }
+            else if (cellNo == 13)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 12);
+            }
+            else if (cellNo == 14)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 1);
+            }
+            else if (cellNo == 15)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 2);
+            }
+            else if (cellNo == 16)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 3);
+            }
+            else if (cellNo == 17)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 4);
+            }
+            else if (cellNo == 18)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 5);
+            }
+            else if (cellNo == 19)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 6);
+            }
+            else if (cellNo == 20)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 7);
+            }
+            else if (cellNo == 21)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 8);
+            }
+            else if (cellNo == 22)
+            {
+                employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 9);
+            }
+            return results;
+        }
+        public string GetOriginalDataForPendingCells(int assignmentId, string dbColumnNameWithDbSchema, string dbColumnName)
+        {            
+            return employeeAssignmentDAL.GetOriginalDataForPendingCells(assignmentId, dbColumnNameWithDbSchema, dbColumnName);
+        }
+        public decimal GetMonthWiseOriginalForecastData(int assignmentId, string dbColumnName)
+        {
+            return employeeAssignmentDAL.GetMonthWiseOriginalForecastData(assignmentId,dbColumnName);
+        }
     }
 }

@@ -248,6 +248,11 @@ $(document).ready(function () {
     });
 
     $('#approve_forecast_data').on('click', function () {
+        var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+        var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+        console.log("sRows: "+sRows);
+        console.log("sCols: "+sCols);
+
         var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
         var isDeleted = $("#hidIsRowDeleted").val();
         if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
@@ -1462,6 +1467,12 @@ function ShowForecastResults(year) {
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
 
+    var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+    var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+    
+    console.log("sRows: "+sRows);
+    console.log("sCols: "+sCols);
+
     //employee name column
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {       
         $('.search_p').css('display', 'block');        
@@ -2541,6 +2552,12 @@ function SetCellWiseColor_ForUnApproved(cellName){
     $(jss.getCell(cellName)).addClass('readonly');    
 }
 var selectionActive = function(instance, x1, y1, x2, y2, origin) {
+
+    var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+    var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+    console.log("sRows-ona: "+sRows);
+    console.log("sCols-ona: "+sCols);
+    
     // if(y2 !=92){
         
     // }
@@ -2569,7 +2586,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         $("#hid_SelectedCellPosition").val(x1);
         $("#selectCellNumber").val(cellName1);
 
-        if(x2==34){
+        if(x2==45){
             $("#hid_IsRowSelected").val("yes");
             $("#hidIsRowDeleted").val(retrivedData.isActive);
             $("#hidSelectedRowNumber").val(sRows);

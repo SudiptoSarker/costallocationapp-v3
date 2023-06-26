@@ -1165,7 +1165,7 @@ $(document).ready(function () {
         });
         LoadJexcel();
     });
-
+    
     $('#department_list_add_button').on('click', function () {
         var departmentList = $('#department_list').val();
         var year = $('#assignment_year').val();
@@ -1183,29 +1183,41 @@ $(document).ready(function () {
             });
             loadFlag1 = 1;
         }
-        
-
+        console.log(_retriveddata_1);
         $.each(departmentList, function (index, itemValue) {
+            debugger;
+            let pushFlag = true;
             var splittedString = itemValue.split('_');
-            _retriveddata_1.push({
-                DepartmentId: splittedString[0],
-                DepartmentName: splittedString[1],
-                OctPercentage: 0,
-                NovPercentage: 0,
-                DecPercentage: 0,
-                JanPercentage: 0,
-                FebPercentage: 0,
-                MarPercentage: 0,
-                AprPercentage: 0,
-                MayPercentage: 0,
-                JunPercentage: 0,
-                JulPercentage: 0,
-                AugPercentage: 0,
-                SepPercentage: 0,
-                Id: 0
+
+            for (let i = 0; i < _retriveddata_1.length; i++) {
+                if (_retriveddata_1[i].DepartmentId.toString() == splittedString[0].toString()) {
+                    pushFlag = false;
+                    break;
+                }
+            }
+
+            if (pushFlag) {
+                _retriveddata_1.push({
+                    DepartmentId: splittedString[0],
+                    DepartmentName: splittedString[1],
+                    OctPercentage: 0,
+                    NovPercentage: 0,
+                    DecPercentage: 0,
+                    JanPercentage: 0,
+                    FebPercentage: 0,
+                    MarPercentage: 0,
+                    AprPercentage: 0,
+                    MayPercentage: 0,
+                    JunPercentage: 0,
+                    JulPercentage: 0,
+                    AugPercentage: 0,
+                    SepPercentage: 0,
+                    Id: 0
 
 
-            });
+                });
+            }
+
         });
         LoadJexcel1();
     });

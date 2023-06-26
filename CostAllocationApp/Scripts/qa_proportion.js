@@ -6,6 +6,9 @@ var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
 var beforeChangedValue = 0;
+var loadFlag = 0;
+var loadFlag1 = 0;
+
 
 
 const channel = new BroadcastChannel("actualCost");
@@ -30,6 +33,26 @@ function retrivedObject(rowData) {
     };
 }
 
+function find_duplicate_in_array(arra1) {
+    var object = {};
+    var result = [];
+
+    arra1.forEach(function (item) {
+        if (!object[item])
+            object[item] = 0;
+        object[item] += 1;
+    })
+
+    for (var prop in object) {
+        if (object[prop] >= 2) {
+            result.push(prop);
+        }
+    }
+
+    return result;
+
+}
+
 function LoadJexcel() {
     var year = $('#assignment_year').val();
 
@@ -37,7 +60,7 @@ function LoadJexcel() {
         alert('Select Year!!!');
         return false;
     }
-    LoaderShow();
+    //LoaderShow();
     setTimeout(function () {
         $.ajax({
             url: '/Registration/GetUserRole',
@@ -57,7 +80,7 @@ function LoadJexcel() {
         // 1st jexcel
 
         {
-        LoaderHide();
+        //LoaderHide();
 
         if (jss != undefined) {
             jss.destroy();
@@ -204,6 +227,29 @@ function LoadJexcel() {
                 }
             },
             onchange: (instance, cell, x, y, value) => {
+                //if (x == 2) {
+                //    debugger;
+                //    var deptCount = 0;
+                //    var employeeId = jss.getValueFromCoords(0,y);
+                //    $.each(jss.getData(), (index, itemValue) => {
+                //        //if (itemValue[2] != null || itemValue[2] != '' || itemValue[2] != undefined) {
+                //            if (employeeId != null && (itemValue[0].toString() == employeeId.toString())) {
+                //                if (itemValue[2].toString() == value.toString()) {
+                //                    deptCount++;
+                //                }
+                //            }
+                //        //}
+                //    });
+
+                //    if (deptCount > 1) {
+                //        alert('Duplicate Department');
+                //        var rowNumber = parseInt(y) + 1;
+                //        var element = $(`#jspreadsheet .jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                //        element[0].cells[3].innerText = '';
+                //        console.log(element[0]);
+                //        return false;
+                //    }
+                //}
                 if (x == 3) {
                     var octSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
@@ -565,7 +611,7 @@ function LoadJexcel1() {
         alert('Select Year!!!');
         return false;
     }
-    LoaderShow();
+   // LoaderShow();
     //$.ajax({
     //    url: `/api/utilities/CreateApportionment?year=${year}`,
     //    contentType: 'application/json',
@@ -574,7 +620,7 @@ function LoadJexcel1() {
     //    dataType: 'json',
     //    success: function (data1) 
     {
-            LoaderHide();
+            //LoaderHide();
             //_retriveddata_1 = data1;
 
             if (jss_1 != undefined) {
@@ -669,6 +715,7 @@ $(document).ready(function () {
     $('#employee_wise_save_button').on('click', () => {
 
         let flag = true;
+        let flag1 = true;
         if (jss != undefined) {
             $.each(jss.getData(), (index, itemValue) => {
                 if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
@@ -678,54 +725,169 @@ $(document).ready(function () {
                 }
             });
             if (flag) {
-                var year = $('#assignment_year').val();
-                let employeeWiseProportionObjectList = [];
-                let employeeWiseProportionList = jss.getData();
-                if (employeeWiseProportionList.length > 0) {
-                    $.each(employeeWiseProportionList, (index, singleItemValue) => {
-                        employeeWiseProportionObjectList.push({
-                            EmployeeId: singleItemValue[0],
-                            DepartmentId: singleItemValue[2],
-                            OctPercentage: singleItemValue[3],
-                            NovPercentage: singleItemValue[4],
-                            DecPercentage: singleItemValue[5],
-                            JanPercentage: singleItemValue[6],
-                            FebPercentage: singleItemValue[7],
-                            MarPercentage: singleItemValue[8],
-                            AprPercentage: singleItemValue[9],
-                            MayPercentage: singleItemValue[10],
-                            JunPercentage: singleItemValue[11],
-                            JulPercentage: singleItemValue[12],
-                            AugPercentage: singleItemValue[13],
-                            SepPercentage: singleItemValue[14],
-                            Id: singleItemValue[15]
-                        });
-                    });
+                debugger;
+                let employeeIds = [];
+                $.each(jss.getData(), (index, itemValue) => {
+                    employeeIds.push(parseInt(itemValue[0]));
+                });
+                let uniqueEmployeeIds = employeeIds.filter((value, index, array)=> {
+                    return array.indexOf(value) === index;
+                });
 
-                    $.ajax({
-                        url: `/api/utilities/CreateQaProportion`,
-                        contentType: 'application/json',
-                        type: 'POST',
-                        async: false,
-                        dataType: 'json',
-                        data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
-                        success: function (data) {
-                            //$("#timeStamp_ForUpdateData").val(data);
-                            //var chat = $.connection.chatHub;
-                            //$.connection.hub.start();
-                            // Start the connection.
-                            //$.connection.hub.start().done(function () {
-                            //    chat.server.send('data has been updated by ', userName);
-                            //});
-                            //$("#jspreadsheet").show();
-                            //$("#head_total").show();
-                            employeeWiseProportionObjectList = [];
-                            alert(data);
-                            LoaderHide();
+                let departmentIds = [];
+                for (let i = 0; i < uniqueEmployeeIds.length;i++) {
+                    $.each(jss.getData(), (index1, itemValue1) => {
+                        if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
+                            departmentIds.push(parseInt(itemValue1[2]));
                         }
+                        
                     });
-                } else {
-                    alert('No data found!');
+                    let duplicateElements = find_duplicate_in_array(departmentIds);
+                    if (duplicateElements.length > 0) {
+                        
+                        departmentIds = [];
+                        flag1 = false;
+                        break;
+                    }
+                    else {
+                        departmentIds = [];
+                        var oct_sum = 0;
+                        var nov_sum = 0;
+                        var dec_sum = 0;
+                        var jan_sum = 0;
+                        var feb_sum = 0;
+                        var mar_sum = 0;
+                        var apr_sum = 0;
+                        var may_sum = 0;
+                        var jun_sum = 0;
+                        var jul_sum = 0;
+                        var aug_sum = 0;
+                        var sep_sum = 0;
+
+                        $.each(jss.getData(), (index1, itemValue1) => {
+                            if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
+                                oct_sum += parseFloat(itemValue1[3]);
+                                nov_sum += parseFloat(itemValue1[4]);
+                                dec_sum += parseFloat(itemValue1[5]);
+                                jan_sum += parseFloat(itemValue1[6]);
+                                feb_sum += parseFloat(itemValue1[7]);
+                                mar_sum += parseFloat(itemValue1[8]);
+                                apr_sum += parseFloat(itemValue1[9]);
+                                may_sum += parseFloat(itemValue1[10]);
+                                jun_sum += parseFloat(itemValue1[11]);
+                                jul_sum += parseFloat(itemValue1[12]);
+                                aug_sum += parseFloat(itemValue1[13]);
+                                sep_sum += parseFloat(itemValue1[14]);
+                            }
+
+                        }); // end of each...
+
+                        if (oct_sum != 100) {
+                            alert('Invalid Month (Oct) Value ' + oct_sum);
+                            return false;
+                        }
+                        if (nov_sum != 100) {
+                            alert('Invalid Month (Nov) Value');
+                            return false;
+                        }
+                        if (dec_sum != 100) {
+                            alert('Invalid Month (Dec) Value');
+                            return false;
+                        }
+                        if (jan_sum != 100) {
+                            alert('Invalid Month (Jan) Value');
+                            return false;
+                        }
+                        if (feb_sum != 100) {
+                            alert('Invalid Month (Feb) Value');
+                            return false;
+                        }
+                        if (mar_sum != 100) {
+                            alert('Invalid Month (Mar) Value');
+                            return false;
+                        }
+                        if (apr_sum != 100) {
+                            alert('Invalid Month (Apr) Value');
+                            return false;
+                        }
+                        if (may_sum != 100) {
+                            alert('Invalid Month (May) Value');
+                            return false;
+                        }
+                        if (jun_sum != 100) {
+                            alert('Invalid Month (Jun) Value');
+                            return false;
+                        }
+                        if (jul_sum != 100) {
+                            alert('Invalid Month (Jul) Value');
+                            return false;
+                        }
+                        if (aug_sum != 100) {
+                            alert('Invalid Month (Aug) Value');
+                            return false;
+                        }
+                        if (sep_sum != 100) {
+                            alert('Invalid Month (Sep) Value');
+                            return false;
+                        }
+
+                    }
+                }
+
+                if (flag1) {
+                    var year = $('#assignment_year').val();
+                    let employeeWiseProportionObjectList = [];
+                    let employeeWiseProportionList = jss.getData();
+                    if (employeeWiseProportionList.length > 0) {
+                        $.each(employeeWiseProportionList, (index, singleItemValue) => {
+                            employeeWiseProportionObjectList.push({
+                                EmployeeId: singleItemValue[0],
+                                DepartmentId: singleItemValue[2],
+                                OctPercentage: singleItemValue[3],
+                                NovPercentage: singleItemValue[4],
+                                DecPercentage: singleItemValue[5],
+                                JanPercentage: singleItemValue[6],
+                                FebPercentage: singleItemValue[7],
+                                MarPercentage: singleItemValue[8],
+                                AprPercentage: singleItemValue[9],
+                                MayPercentage: singleItemValue[10],
+                                JunPercentage: singleItemValue[11],
+                                JulPercentage: singleItemValue[12],
+                                AugPercentage: singleItemValue[13],
+                                SepPercentage: singleItemValue[14],
+                                Id: singleItemValue[15]
+                            });
+                        });
+
+                        $.ajax({
+                            url: `/api/utilities/CreateQaProportion`,
+                            contentType: 'application/json',
+                            type: 'POST',
+                            async: false,
+                            dataType: 'json',
+                            data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
+                            success: function (data) {
+                                //$("#timeStamp_ForUpdateData").val(data);
+                                //var chat = $.connection.chatHub;
+                                //$.connection.hub.start();
+                                // Start the connection.
+                                //$.connection.hub.start().done(function () {
+                                //    chat.server.send('data has been updated by ', userName);
+                                //});
+                                //$("#jspreadsheet").show();
+                                //$("#head_total").show();
+                                employeeWiseProportionObjectList = [];
+                                alert(data);
+                                LoaderHide();
+                            }
+                        });
+                    } else {
+                        alert('No data found!');
+                        return false;
+                    }
+                }
+                else {
+                    alert('duplicate departments found');
                     return false;
                 }
             }
@@ -743,10 +905,100 @@ $(document).ready(function () {
 
     $('#department_wise_save_button').click(function () {
         var dataToSend = [];
+        var oct_sum = 0;
+        var nov_sum = 0;
+        var dec_sum = 0;
+        var jan_sum = 0;
+        var feb_sum = 0;
+        var mar_sum = 0;
+        var apr_sum = 0;
+        var may_sum = 0;
+        var jun_sum = 0;
+        var jul_sum = 0;
+        var aug_sum = 0;
+        var sep_sum = 0;
+
         var year = $('#assignment_year').val();
 
         if (jss_1 != undefined) {
             var data = jss_1.getData(false);
+
+            for (let i = 0; i < data.length; i++) {
+                oct_sum += parseFloat(data[i][2]);
+                nov_sum += parseFloat(data[i][3]);
+                dec_sum += parseFloat(data[i][4]);
+                jan_sum += parseFloat(data[i][5]);
+                feb_sum += parseFloat(data[i][6]);
+                mar_sum += parseFloat(data[i][7]);
+                apr_sum += parseFloat(data[i][8]);
+                may_sum += parseFloat(data[i][9]);
+                jun_sum += parseFloat(data[i][10]);
+                jul_sum += parseFloat(data[i][11]);
+                aug_sum += parseFloat(data[i][12]);
+                sep_sum += parseFloat(data[i][13]);
+            }
+            debugger;
+            if (oct_sum != 100) {
+                alert('Invalid Department(Oct) Value ' + oct_sum);
+                dataToSend = [];
+                return false;
+            }
+            if (nov_sum != 100) {
+                alert('Invalid Department(Nov) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (dec_sum != 100) {
+                alert('Invalid Department(Dec) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (jan_sum != 100) {
+                alert('Invalid Department(Jan) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (feb_sum != 100) {
+                alert('Invalid Department(Feb) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (mar_sum != 100) {
+                alert('Invalid Department(Mar) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (apr_sum != 100) {
+                alert('Invalid Department(Apr) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (may_sum != 100) {
+                alert('Invalid Department(May) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (jun_sum != 100) {
+                alert('Invalid Department(Jun) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (jul_sum != 100) {
+                alert('Invalid Department(Jul) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (aug_sum != 100) {
+                alert('Invalid Department(Aug) Value');
+                dataToSend = [];
+                return false;
+            }
+            if (sep_sum != 100) {
+                alert('Invalid Department(Sep) Value');
+                dataToSend = [];
+                return false;
+            }
+
             $.each(data, function (index, value) {
                 var obj = {
                     departmentId: value[0],
@@ -754,7 +1006,7 @@ $(document).ready(function () {
                     novPercentage: parseFloat(value[3]),
                     decPercentage: parseFloat(value[4]),
                     janPercentage: parseFloat(value[5]),
-                    bebPercentage: parseFloat(value[6]),
+                    febPercentage: parseFloat(value[6]),
                     marPercentage: parseFloat(value[7]),
                     aprPercentage: parseFloat(value[8]),
                     mayPercentage: parseFloat(value[9]),
@@ -872,17 +1124,22 @@ $(document).ready(function () {
     $('#add_button').on('click', function () {
         var datas = $('#merged_employee_from_qc').val();
         var year = $('#assignment_year').val();
-        _retriveddata = [];
-        $.ajax({
-            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                _retriveddata = data;
-            }
-        });
+        if (loadFlag==0) {
+            _retriveddata = [];
+            $.ajax({
+                url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    _retriveddata = data;
+                }
+            });
+            loadFlag = 1;
+        }
+        
+        
         $.each(datas, function (index, itemValue) {
             var splittedString = itemValue.split('_');
             _retriveddata.push({
@@ -912,17 +1169,22 @@ $(document).ready(function () {
     $('#department_list_add_button').on('click', function () {
         var departmentList = $('#department_list').val();
         var year = $('#assignment_year').val();
-        _retriveddata_1 = [];
-        $.ajax({
-            url: `/api/utilities/CreateApportionment?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                _retriveddata_1 = data;
-            }
-        });
+        if (loadFlag1==0) {
+            _retriveddata_1 = [];
+            $.ajax({
+                url: `/api/utilities/CreateApportionment?year=${year}`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    _retriveddata_1 = data;
+                }
+            });
+            loadFlag1 = 1;
+        }
+        
+
         $.each(departmentList, function (index, itemValue) {
             var splittedString = itemValue.split('_');
             _retriveddata_1.push({

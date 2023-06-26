@@ -23,6 +23,10 @@ namespace CostAllocationApp.BLL
             int count = 2;
             foreach (var item in forecastAssignmentViewModels)
             {
+                if (item.EmployeeAssignmentIdOrg == 112)
+                {
+                    //test
+                }
                 var assignmentId = item.Id;
                 var employeeName = item.EmployeeName;
                 var rootEmployeeName = item.RootEmployeeName;
@@ -1485,7 +1489,8 @@ namespace CostAllocationApp.BLL
             {
                 if (cellType == "3")
                 {
-                    if (bCYRCellPending.IndexOf("3") > 0)
+                    bool isSectionPending = IsCellPending("3", bCYRCellPending);
+                    if (isSectionPending)
                     {
                         string originalSectionName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "sec.Name", "Name");
                         if (!string.IsNullOrEmpty(originalSectionName))
@@ -1496,7 +1501,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "4")
                 {
-                    if (bCYRCellPending.IndexOf("4") > 0)
+                    bool isDepPending = IsCellPending("4", bCYRCellPending);
+                    if (isDepPending)
                     {
                         string originalDepartmentName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "dep.Name", "Name");
                         if (!string.IsNullOrEmpty(originalDepartmentName))
@@ -1507,7 +1513,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "5")
                 {
-                    if (bCYRCellPending.IndexOf("5") > 0)
+                    bool isInchargePending = IsCellPending("5", bCYRCellPending);
+                    if (isInchargePending)
                     {
                         string originalInChargeName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "inc.Name", "Name");
                         if (!string.IsNullOrEmpty(originalInChargeName))
@@ -1518,7 +1525,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "6")
                 {
-                    if (bCYRCellPending.IndexOf("6") > 0)
+                    bool isRolePending = IsCellPending("6", bCYRCellPending);
+                    if (isRolePending)
                     {
                         string originalRoleName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "rl.Name", "Name");
                         if (!string.IsNullOrEmpty(originalRoleName))
@@ -1529,7 +1537,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "7")
                 {
-                    if (bCYRCellPending.IndexOf("7") > 0)
+                    bool isExplanationPending = IsCellPending("7", bCYRCellPending);
+                    if (isExplanationPending)
                     {
                         string originalExpName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "e.Name", "Name");
                         if (!string.IsNullOrEmpty(originalExpName))
@@ -1540,7 +1549,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "2")
                 {
-                    if (bCYRCellPending.IndexOf("2") > 0)
+                    bool isRemarksPending = IsCellPending("2", bCYRCellPending);
+                    if (isRemarksPending)
                     {
                         string originalRemarksName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.Remarks", "Remarks");
                         if (!string.IsNullOrEmpty(originalRemarksName))
@@ -1551,7 +1561,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "8")
                 {
-                    if (bCYRCellPending.IndexOf("8") > 0)
+                    bool isCompanyPending = IsCellPending("8", bCYRCellPending);
+                    if (isCompanyPending)
                     {
                         string originalComName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "com.Name", "Name");
                         if (!string.IsNullOrEmpty(originalComName))
@@ -1562,7 +1573,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "9")
                 {
-                    if (bCYRCellPending.IndexOf("9") > 0)
+                    bool isGradePending = IsCellPending("9", bCYRCellPending);
+                    if (isGradePending)
                     {
                         string originalGradePointsName = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "gd.GradePoints", "GradePoints");
                         if (!string.IsNullOrEmpty(originalGradePointsName))
@@ -1573,7 +1585,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "10")
                 {
-                    if (bCYRCellPending.IndexOf("10") > 0)
+                    bool isUnitPending = IsCellPending("10", bCYRCellPending);
+                    if (isUnitPending)
                     {
                         string originalUnitPrice = employeeAssignmentBLL.GetOriginalDataForPendingCells(employeeAssignmentIdOrg, "ea.UnitPrice", "UnitPrice");
                         if (!string.IsNullOrEmpty(originalUnitPrice))
@@ -1584,7 +1597,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "11")
                 {
-                    if (bCYRCellPending.IndexOf("11") > 0)
+                    bool isOctPending = IsCellPending("11", bCYRCellPending);
+                    if (isOctPending)
                     {
                         decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "10");
                         returnValue = octOriginalP.ToString();
@@ -1592,7 +1606,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "12")
                 {
-                    if (bCYRCellPending.IndexOf("12") > 0)
+                    bool isNovPending = IsCellPending("12", bCYRCellPending);
+                    if (isNovPending)
                     {
                         decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "11");
                         returnValue = novOriginalP.ToString();
@@ -1600,7 +1615,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "13")
                 {
-                    if (bCYRCellPending.IndexOf("13") > 0)
+                    bool isDecPending = IsCellPending("13", bCYRCellPending);
+                    if (isDecPending)
                     {
                         decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "12");
                         returnValue = decOriginalP.ToString();
@@ -1608,7 +1624,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "14")
                 {
-                    if (bCYRCellPending.IndexOf("14") > 0)
+                    bool isJanPending = IsCellPending("14", bCYRCellPending);
+                    if (isJanPending)
                     {
                         decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "1");
                         returnValue = janOriginalP.ToString();
@@ -1616,7 +1633,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "15")
                 {
-                    if (bCYRCellPending.IndexOf("15") > 0)
+                    bool isFebPending = IsCellPending("15", bCYRCellPending);
+                    if (isFebPending)
                     {
                         decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "2");
                         returnValue = febOriginalP.ToString();
@@ -1624,7 +1642,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "16")
                 {
-                    if (bCYRCellPending.IndexOf("16") > 0)
+                    bool isMarPending = IsCellPending("16", bCYRCellPending);
+                    if (isMarPending)
                     {
                         decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "3");
                         returnValue = marOriginalP.ToString();
@@ -1632,7 +1651,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "17")
                 {
-                    if (bCYRCellPending.IndexOf("17") > 0)
+                    bool isAprPending = IsCellPending("17", bCYRCellPending);
+                    if (isAprPending)
                     {
                         decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "4");
                         returnValue = aprOriginalP.ToString();
@@ -1640,7 +1660,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "18")
                 {
-                    if (bCYRCellPending.IndexOf("18") > 0)
+                    bool isMayPending = IsCellPending("18", bCYRCellPending);
+                    if (isMayPending)
                     {
                         decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "5");
                         returnValue = mayOriginalP.ToString();
@@ -1648,7 +1669,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "19")
                 {
-                    if (bCYRCellPending.IndexOf("19") > 0)
+                    bool isJunPending = IsCellPending("19", bCYRCellPending);
+                    if (isJunPending)
                     {
                         decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "6");
                         returnValue = junOriginalP.ToString();
@@ -1656,7 +1678,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "20")
                 {
-                    if (bCYRCellPending.IndexOf("20") > 0)
+                    bool isJulPending = IsCellPending("20", bCYRCellPending);
+                    if (isJulPending)
                     {
                         decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "7");
                         returnValue = julOriginalP.ToString();
@@ -1664,7 +1687,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "21")
                 {
-                    if (bCYRCellPending.IndexOf("21") > 0)
+                    bool isAugPending = IsCellPending("21", bCYRCellPending);
+                    if (isAugPending)
                     {
                         decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "8");
                         returnValue = augOriginalP.ToString();
@@ -1672,7 +1696,8 @@ namespace CostAllocationApp.BLL
                 }
                 else if (cellType == "22")
                 {
-                    if (bCYRCellPending.IndexOf("21") > 0)
+                    bool isSepPending = IsCellPending("21", bCYRCellPending);
+                    if (isSepPending)
                     {
                         decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "9");
                         returnValue = sepOriginalP.ToString();
@@ -2190,6 +2215,21 @@ namespace CostAllocationApp.BLL
 
             return eachPersonSheet;
         }
-
+        public bool IsCellPending(string cellNo,string bCYRCellPending)
+        {
+            bool returnValue = false;
+            if (!string.IsNullOrEmpty(bCYRCellPending))
+            {
+                var arrCellPending = bCYRCellPending.Split(',');
+                foreach(var pendingItem in arrCellPending)
+                {
+                    if (cellNo == pendingItem)
+                    {
+                        returnValue = true;
+                    }
+                }
+            }            
+            return returnValue;
+        }
     }
 }

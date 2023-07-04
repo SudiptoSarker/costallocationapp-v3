@@ -2490,13 +2490,13 @@ namespace CostAllocationApp.DAL
             {
                 where += $" ea.ApprovedTimeStampId={approvedTimestampid} and ";
             }
-            where += " 1=1";
+            where += " 1=1 and (ema.IsRowPending is null or ema.IsRowPending =0)";
 
             string query = $@"select ea.Id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
-                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg'
+                            ,ea.IsRowPending,ea.IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
+                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg',ema.IsRowPending 'PendingRowAfterApprove'
                             from ApprovedEmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -2504,6 +2504,7 @@ namespace CostAllocationApp.DAL
                             left join InCharges inc on ea.InChargeId = inc.Id 
                             left join Grades gd on ea.GradeId = gd.Id
                             left join Employees emp on ea.EmployeeId = emp.Id
+                            left join EmployeesAssignments ema on ea.AssignmentId = ema.Id
                             where {where}
                             order by emp.Id asc";
 

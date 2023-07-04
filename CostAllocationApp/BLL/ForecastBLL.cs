@@ -378,46 +378,48 @@ namespace CostAllocationApp.BLL
             {
                 foreach (var item in excelAssignmentDtos)
                 {
-                    //insert forecast assignment here
-                    EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-                    employeeAssignment.Id = item.Id;
-                    employeeAssignment.Remarks = item.Remarks;
-                    employeeAssignment.UpdatedBy = "";
-                    employeeAssignment.UpdatedDate = DateTime.Now;
-                    employeeAssignment.EmployeeId = item.EmployeeId.ToString();
-                    employeeAssignment.SectionId = Convert.ToInt32(item.SectionId);
-                    employeeAssignment.DepartmentId = Convert.ToInt32(item.DepartmentId);
-                    employeeAssignment.InchargeId = Convert.ToInt32(item.InchargeId);
-                    employeeAssignment.RoleId = Convert.ToInt32(item.RoleId);
-                    employeeAssignment.ExplanationId = item.ExplanationId.ToString();
-                    employeeAssignment.CompanyId = Convert.ToInt32(item.CompanyId);
-                    employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
-                    employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);                    
-                    employeeAssignment.EmployeeRootName = item.EmployeeRootName;
-                    employeeAssignment.EmployeeModifiedName = item.EmployeeModifiedName;
-                    employeeAssignment.CreatedBy = userName;
-                    employeeAssignment.IsActive = item.IsActive.ToString();
-                    employeeAssignment.IsDeleted = item.IsDeleted;
-                    employeeAssignment.Year = item.Year;
-                    employeeAssignment.BCYRCellPending = item.BCYRCellPending;
+                    if (!item.IsRowPending) {
+                        //insert forecast assignment here
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        employeeAssignment.Id = item.Id;
+                        employeeAssignment.Remarks = item.Remarks;
+                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedDate = DateTime.Now;
+                        employeeAssignment.EmployeeId = item.EmployeeId.ToString();
+                        employeeAssignment.SectionId = Convert.ToInt32(item.SectionId);
+                        employeeAssignment.DepartmentId = Convert.ToInt32(item.DepartmentId);
+                        employeeAssignment.InchargeId = Convert.ToInt32(item.InchargeId);
+                        employeeAssignment.RoleId = Convert.ToInt32(item.RoleId);
+                        employeeAssignment.ExplanationId = item.ExplanationId.ToString();
+                        employeeAssignment.CompanyId = Convert.ToInt32(item.CompanyId);
+                        employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
+                        employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
+                        employeeAssignment.EmployeeRootName = item.EmployeeRootName;
+                        employeeAssignment.EmployeeModifiedName = item.EmployeeModifiedName;
+                        employeeAssignment.CreatedBy = userName;
+                        employeeAssignment.IsActive = item.IsActive.ToString();
+                        employeeAssignment.IsDeleted = item.IsDeleted;
+                        employeeAssignment.Year = item.Year;
+                        employeeAssignment.BCYRCellPending = item.BCYRCellPending;
 
-                    int result = employeeAssignmentBLL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
+                        int result = employeeAssignmentBLL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
 
-                    if (result == 1)
-                    {
-                        int approvedEmployeeAssignmentLastId = employeeAssignmentBLL.GetApprovedAssignmentLastId();
-                        List<Forecast> forecasts = new List<Forecast>();
-                        if (employeeAssignment.Id == 24)
+                        if (result == 1)
                         {
-                            //test
-                        }
-                        forecasts = forecastDAL.GetApprovedForecastedDataByAssignmentId(employeeAssignment.Id, year);
+                            int approvedEmployeeAssignmentLastId = employeeAssignmentBLL.GetApprovedAssignmentLastId();
+                            List<Forecast> forecasts = new List<Forecast>();
+                            if (employeeAssignment.Id == 24)
+                            {
+                                //test
+                            }
+                            forecasts = forecastDAL.GetApprovedForecastedDataByAssignmentId(employeeAssignment.Id, year);
 
-                        foreach (var forecastItem in forecasts)
-                        {
-                            forecastItem.Year = year;
-                            forecastItem.EmployeeAssignmentId = approvedEmployeeAssignmentLastId;
-                            resultSave = forecastDAL.CreateApprovedForecast(forecastItem);
+                            foreach (var forecastItem in forecasts)
+                            {
+                                forecastItem.Year = year;
+                                forecastItem.EmployeeAssignmentId = approvedEmployeeAssignmentLastId;
+                                resultSave = forecastDAL.CreateApprovedForecast(forecastItem);
+                            }
                         }
                     }
                 }

@@ -935,7 +935,7 @@ namespace CostAllocationApp.Controllers.Api
 
                                     if (Convert.ToInt32(itemData[1]) == 2)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2",_assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -952,7 +952,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 3)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "3");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "3", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -969,7 +969,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 4)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "4");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "4", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -986,7 +986,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 5)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "5");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "5", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1003,7 +1003,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 6)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "6");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "6", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1020,7 +1020,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 7)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "7");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "7", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1037,7 +1037,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 8)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "8");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "8", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1054,7 +1054,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 9)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "9");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "9", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1071,7 +1071,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 10)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "10");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "10", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1113,7 +1113,7 @@ namespace CostAllocationApp.Controllers.Api
 
                                     if (Convert.ToInt32(itemData[1]) == 11)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "11");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "11", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 10);
@@ -1148,7 +1148,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 12)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending,"12");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending,"12", _assignmentHistory.BCYRCell);
 
                                         if (validForOriginalData) { 
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
@@ -1183,7 +1183,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 13)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "13");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "13", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 12);
@@ -1218,7 +1218,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 14)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "14");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "14", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 1);
@@ -1253,7 +1253,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 15)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "15");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "15", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 2);
@@ -1288,7 +1288,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 16)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "16");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "16", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 3);
@@ -1323,7 +1323,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 17)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "17");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "17", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 4);
@@ -1358,7 +1358,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 18)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "18");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "18", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 5);
@@ -1393,7 +1393,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 19)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "19");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "19", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 6);
@@ -1428,7 +1428,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 20)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "20");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "20", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 7);
@@ -1463,7 +1463,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 21)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "21");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "21", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 8);
@@ -1498,7 +1498,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 22)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "22");
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "22", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 9);

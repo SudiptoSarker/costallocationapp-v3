@@ -713,6 +713,8 @@ $(document).ready(function () {
 
 
     $('#employee_wise_save_button').on('click', () => {
+        let duplicateEmployeeId = '';
+        let duplicateEmployeeName = '';
 
         let flag = true;
         let flag1 = true;
@@ -725,7 +727,6 @@ $(document).ready(function () {
                 }
             });
             if (flag) {
-                debugger;
                 let employeeIds = [];
                 $.each(jss.getData(), (index, itemValue) => {
                     employeeIds.push(parseInt(itemValue[0]));
@@ -742,10 +743,12 @@ $(document).ready(function () {
                         }
                         
                     });
+                    // find duplicate departments...
                     let duplicateElements = find_duplicate_in_array(departmentIds);
                     if (duplicateElements.length > 0) {
                         
                         departmentIds = [];
+                        duplicateEmployeeId = uniqueEmployeeIds[i];
                         flag1 = false;
                         break;
                     }
@@ -787,47 +790,47 @@ $(document).ready(function () {
                             return false;
                         }
                         if (nov_sum != 100) {
-                            alert('Invalid Month (Nov) Value');
+                            alert('Invalid Month (Nov) Value ' + nov_sum);
                             return false;
                         }
                         if (dec_sum != 100) {
-                            alert('Invalid Month (Dec) Value');
+                            alert('Invalid Month (Dec) Value ' + dec_sum);
                             return false;
                         }
                         if (jan_sum != 100) {
-                            alert('Invalid Month (Jan) Value');
+                            alert('Invalid Month (Jan) Value ' + jan_sum);
                             return false;
                         }
                         if (feb_sum != 100) {
-                            alert('Invalid Month (Feb) Value');
+                            alert('Invalid Month (Feb) Value ' + feb_sum);
                             return false;
                         }
                         if (mar_sum != 100) {
-                            alert('Invalid Month (Mar) Value');
+                            alert('Invalid Month (Mar) Value ' + mar_sum);
                             return false;
                         }
                         if (apr_sum != 100) {
-                            alert('Invalid Month (Apr) Value');
+                            alert('Invalid Month (Apr) Value ' + apr_sum);
                             return false;
                         }
                         if (may_sum != 100) {
-                            alert('Invalid Month (May) Value');
+                            alert('Invalid Month (May) Value ' + may_sum);
                             return false;
                         }
                         if (jun_sum != 100) {
-                            alert('Invalid Month (Jun) Value');
+                            alert('Invalid Month (Jun) Value ' + jun_sum);
                             return false;
                         }
                         if (jul_sum != 100) {
-                            alert('Invalid Month (Jul) Value');
+                            alert('Invalid Month (Jul) Value ' + jul_sum);
                             return false;
                         }
                         if (aug_sum != 100) {
-                            alert('Invalid Month (Aug) Value');
+                            alert('Invalid Month (Aug) Value ' + aug_sum);
                             return false;
                         }
                         if (sep_sum != 100) {
-                            alert('Invalid Month (Sep) Value');
+                            alert('Invalid Month (Sep) Value ' + sep_sum);
                             return false;
                         }
 
@@ -887,7 +890,15 @@ $(document).ready(function () {
                     }
                 }
                 else {
-                    alert('duplicate departments found');
+                    var allArrayData = jss.getData();
+                    for (var i = 0; i < allArrayData.length; i++) {
+                        if (allArrayData[i][0].toString() == duplicateEmployeeId.toString()) {
+                            duplicateEmployeeName = allArrayData[i][1];
+                            break;
+                        }
+                        
+                    }
+                    alert('duplicate departments found for ' + duplicateEmployeeName);
                     return false;
                 }
             }
@@ -937,64 +948,63 @@ $(document).ready(function () {
                 aug_sum += parseFloat(data[i][12]);
                 sep_sum += parseFloat(data[i][13]);
             }
-            debugger;
             if (oct_sum != 100) {
                 alert('Invalid Department(Oct) Value ' + oct_sum);
                 dataToSend = [];
                 return false;
             }
             if (nov_sum != 100) {
-                alert('Invalid Department(Nov) Value');
+                alert('Invalid Department(Nov) Value ' + nov_sum);
                 dataToSend = [];
                 return false;
             }
             if (dec_sum != 100) {
-                alert('Invalid Department(Dec) Value');
+                alert('Invalid Department(Dec) Value ' + dec_sum);
                 dataToSend = [];
                 return false;
             }
             if (jan_sum != 100) {
-                alert('Invalid Department(Jan) Value');
+                alert('Invalid Department(Jan) Value ' + jan_sum);
                 dataToSend = [];
                 return false;
             }
             if (feb_sum != 100) {
-                alert('Invalid Department(Feb) Value');
+                alert('Invalid Department(Feb) Value ' + feb_sum);
                 dataToSend = [];
                 return false;
             }
             if (mar_sum != 100) {
-                alert('Invalid Department(Mar) Value');
+                alert('Invalid Department(Mar) Value ' + mar_sum);
                 dataToSend = [];
                 return false;
             }
             if (apr_sum != 100) {
-                alert('Invalid Department(Apr) Value');
+                alert('Invalid Department(Apr) Value ' + apr_sum);
                 dataToSend = [];
                 return false;
             }
             if (may_sum != 100) {
-                alert('Invalid Department(May) Value');
+                alert('Invalid Department(May) Value ' + may_sum);
                 dataToSend = [];
                 return false;
             }
             if (jun_sum != 100) {
-                alert('Invalid Department(Jun) Value');
+                alert('Invalid Department(Jun) Value ' + jun_sum);
                 dataToSend = [];
                 return false;
             }
             if (jul_sum != 100) {
-                alert('Invalid Department(Jul) Value');
+                alert('Invalid Department(Jul) Value ' + jul_sum);
                 dataToSend = [];
                 return false;
             }
             if (aug_sum != 100) {
-                alert('Invalid Department(Aug) Value');
+                alert('Invalid Department(Aug) Value ' + aug_sum);
                 dataToSend = [];
                 return false;
             }
             if (sep_sum != 100) {
-                alert('Invalid Department(Sep) Value');
+                alert('Invalid Department(Sep) Value ' + sep_sum);
                 dataToSend = [];
                 return false;
             }
@@ -1113,7 +1123,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 _retriveddata_1 = data;
-                console.log(data);
             }
         });
 
@@ -1167,6 +1176,7 @@ $(document).ready(function () {
     });
     
     $('#department_list_add_button').on('click', function () {
+        var duplicateDepartments = [];
         var departmentList = $('#department_list').val();
         var year = $('#assignment_year').val();
         if (loadFlag1==0) {
@@ -1185,13 +1195,13 @@ $(document).ready(function () {
         }
         console.log(_retriveddata_1);
         $.each(departmentList, function (index, itemValue) {
-            debugger;
             let pushFlag = true;
             var splittedString = itemValue.split('_');
 
             for (let i = 0; i < _retriveddata_1.length; i++) {
                 if (_retriveddata_1[i].DepartmentId.toString() == splittedString[0].toString()) {
                     pushFlag = false;
+                    duplicateDepartments.push(splittedString[1]);
                     break;
                 }
             }
@@ -1219,6 +1229,14 @@ $(document).ready(function () {
             }
 
         });
+        if (duplicateDepartments.length > 0) {
+            var duplicateMessege = '';
+            $.each(duplicateDepartments, function (duplicateIndex, duplicateValue) {
+                duplicateMessege += duplicateValue+'\n'; 
+            });
+            duplicateMessege += 'department\'s are already exists!';
+            alert(duplicateMessege);
+        }
         LoadJexcel1();
     });
 

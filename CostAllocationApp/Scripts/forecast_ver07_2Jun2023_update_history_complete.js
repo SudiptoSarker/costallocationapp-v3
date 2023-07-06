@@ -893,12 +893,9 @@ function ShowForecastResults(year) {
                         var octSum = 0;
                         $.each(jss.rows, (index, value) => {
                             if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText=='false') {
-                                //console.log(value);
                                 octSum += parseFloat(value.childNodes[12].innerText);
                             }
-
                         });
-
                         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                             octSum = 0;
                             alert('Input not valid');
@@ -1222,6 +1219,7 @@ function ShowForecastResults(year) {
             }
 
         },
+        
         oninsertrow: newRowInserted,
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {

@@ -981,7 +981,6 @@ function ShowForecastResults(year) {
                             if (value.childNodes[36].innerText == employeeId.toString() && value.childNodes[39].innerText == 'false') {
                                 janSum += parseFloat(value.childNodes[15].innerText);
                             }
-
                         });
                         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                             janSum = 0;

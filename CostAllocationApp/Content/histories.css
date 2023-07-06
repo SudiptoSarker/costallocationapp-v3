@@ -44,3 +44,15 @@
 .container {
     width:5000px;
 }
+
+#btn_export_change_history_data{
+    background-color: #009ef7;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    line-height: -1;
+    height: 32px;
+    white-space: nowrap !important;
+    padding-top: 4px;
+    margin-left: 831px;
+}

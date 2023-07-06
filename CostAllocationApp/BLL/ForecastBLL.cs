@@ -58,6 +58,19 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
         }
+        public List<Forecast> GetPreviousManMonth(string monthId_Points)
+        {
+            return forecastDAL.GetPreviousManMonth(monthId_Points);
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdatePreviousData(int assignmentId)
+        {
+            return forecastDAL.GetCellWiseUpdatePreviousData(assignmentId);
+        }
+        public AssignmentHistoryViewModal GetCellWiseUpdateOriginalData(int assignmentId,int timeStampId)
+        {
+            return forecastDAL.GetCellWiseUpdateOriginalData(assignmentId,timeStampId);
+        }
+
         public Forecast MatchForecastHistoryByAssignmentId(int assignmentId, DateTime date)
         {
             return forecastDAL.MatchForecastHistoryByAssignmentId(assignmentId, date);
@@ -182,9 +195,269 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateApproveTimeStamp(approveTimeStamp, year, createdBy, createdDate);
         }
-        public int CreateApprovetHistory(int approveTimeStampHistory,int year,string createdBy)
+        public int CreateApprovetHistory(int approveTimeStampId, int year, string createdBy, List<AssignmentHistory> _assignmentHistories_Add, List<AssignmentHistory> _assignmentHistorys_Delete, List<AssignmentHistory> _assignmentHistorys_CellWise)
         {
-            return forecastDAL.CreateApprovetHistory(approveTimeStampHistory, year, createdBy);
+            return forecastDAL.CreateApprovetHistory(approveTimeStampId, year, createdBy, _assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
+        }
+        public AssignmentHistory GetAddEmployeeApprovedData(int assignmentId)
+        {
+            return forecastDAL.GetAddEmployeeApprovedData(assignmentId);
+        }
+        public AssignmentHistory GetDeleteEmployeeApprovedData(int assignmentId)
+        {
+            return forecastDAL.GetDeleteEmployeeApprovedData(assignmentId);
+        }
+        public AssignmentHistory GetCellWiseEmployeeApprovedData(int assignmentId,int year,int cellNo)
+        {
+            return forecastDAL.GetCellWiseEmployeeApprovedData(assignmentId,year, cellNo);
+        }
+
+        public EmployeeAssignment GetAssignmentDetailsById(int assignmentId, int year)
+        {
+            return forecastDAL.GetAssignmentDetailsById(assignmentId, year);
+        }
+        public List<EmployeeAssignment> GetAllUnapprovalDataForCells(int year)
+        {
+            return forecastDAL.GetAllUnapprovalDataForCells(year);
+        }        
+
+        public string GetApproveCellData(int cellNo, string previousCellName, string originalCellName,string approvedCells)
+        {
+            if (approvedCells.IndexOf(',') > 0)
+            {
+                //approved cell: 2,4
+
+                var arrApprovedCells = approvedCells.Split(',');
+                var tempValue = "";
+                foreach (var approvedItems in arrApprovedCells)
+                {
+                    if (cellNo == Convert.ToInt32(approvedItems))
+                    {
+                        tempValue = originalCellName;
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(tempValue))
+                {
+                    if (cellNo == 10)
+                    {
+                        return Convert.ToInt32(tempValue).ToString("N0");
+                    }
+                    else
+                    {
+                        return tempValue;
+                    }
+                }
+                else
+                {
+                    var tempCellValue = "";
+                    if (cellNo == 10)
+                    {
+                        tempCellValue = previousCellName == originalCellName ? Convert.ToInt32(originalCellName).ToString("N0") : "(" + Convert.ToInt32(previousCellName).ToString("N0") + ") " + Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                        tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
+                    }
+                    
+                    return tempCellValue;
+                    //return "(" + previousCellName + ")" + originalCellName;
+                }
+            }
+            else
+            {
+                if (cellNo == Convert.ToInt32(approvedCells))
+                {
+                    if (cellNo == 10) {
+                        return Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        return originalCellName;
+                    }                    
+                }
+                else
+                {
+                    var tempCellValue = "";
+                    if (cellNo == 10)
+                    {
+                        tempCellValue = previousCellName == originalCellName ? Convert.ToInt32(originalCellName).ToString("N0") : "(" + Convert.ToInt32(previousCellName).ToString("N0") + ") " + Convert.ToInt32(originalCellName).ToString("N0");
+                    }
+                    else
+                    {
+                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
+                        tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
+                    }                        
+                    return tempCellValue;
+                    //return "(" + previousCellName + ")" + originalCellName;
+                }
+                
+            }
+        }
+        public string GetApproveForecastCellData(int cellNo, decimal previousCellName, decimal originalCellName, string approvedCells)
+        {
+            if (approvedCells.IndexOf(',') > 0)
+            {
+                //approved cell: 2,4
+
+                var arrApprovedCells = approvedCells.Split(',');
+                var tempValue = "";
+                foreach (var approvedItems in arrApprovedCells)
+                {
+                    if (cellNo == Convert.ToInt32(approvedItems))
+                    {
+                        tempValue = originalCellName.ToString("0.0");
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(tempValue))
+                {
+                    return tempValue;
+                }
+                else
+                {
+                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    var cellManMonths = "";
+                    return cellManMonths;
+                }
+            }
+            else
+            {
+                if (cellNo == Convert.ToInt32(approvedCells))
+                {
+                    return originalCellName.ToString("0.0");
+                }
+                else
+                {
+                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
+                    var cellManMonths = "";
+                    return cellManMonths;
+                }
+
+            }
+        }
+        public string GetHistoryTimeStampName(int timeStampId)
+        {
+            return forecastDAL.GetHistoryTimeStampName(timeStampId);
+        }
+        public string GetApproveHistoryTimeStampName(int timeStampId)
+        {
+            return forecastDAL.GetApproveHistoryTimeStampName(timeStampId);
+        }
+        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles()
+        {
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();            
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
+            return forecsatEmployeeAssignmentViewModels;
+            //List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+        }
+        public int UpdateEmployeeAssignmentApprovedCellsByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            return forecastDAL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(assignmentHistory);
+        }
+        public string GetApprovedCellsByAssignmentId(string employeeAssignmentId)
+        {
+            return forecastDAL.GetApprovedCellsByAssignmentId(employeeAssignmentId);
+        }
+        public int UpdateEmployeeAssignmentApprovedRowByAssignmentId(AssignmentHistory assignmentHistory)
+        {
+            return forecastDAL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(assignmentHistory); 
+        }
+        public int InsertApprovedForecastedDataByYear(int approvedTimestampId,int year,string userName)
+        {
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
+
+            excelAssignmentDtos = forecastDAL.GetApprovedForecastedDataByYear(year);
+
+            int resultSave = 0;
+            if (excelAssignmentDtos.Count > 0)
+            {
+                foreach (var item in excelAssignmentDtos)
+                {
+                    if (!item.IsRowPending) {
+                        //insert forecast assignment here
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        employeeAssignment.Id = item.Id;
+                        employeeAssignment.Remarks = item.Remarks;
+                        employeeAssignment.UpdatedBy = "";
+                        employeeAssignment.UpdatedDate = DateTime.Now;
+                        employeeAssignment.EmployeeId = item.EmployeeId.ToString();
+                        employeeAssignment.SectionId = Convert.ToInt32(item.SectionId);
+                        employeeAssignment.DepartmentId = Convert.ToInt32(item.DepartmentId);
+                        employeeAssignment.InchargeId = Convert.ToInt32(item.InchargeId);
+                        employeeAssignment.RoleId = Convert.ToInt32(item.RoleId);
+                        employeeAssignment.ExplanationId = item.ExplanationId.ToString();
+                        employeeAssignment.CompanyId = Convert.ToInt32(item.CompanyId);
+                        employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
+                        employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
+                        employeeAssignment.EmployeeRootName = item.EmployeeRootName;
+                        employeeAssignment.EmployeeModifiedName = item.EmployeeModifiedName;
+                        employeeAssignment.CreatedBy = userName;
+                        employeeAssignment.IsActive = item.IsActive.ToString();
+                        employeeAssignment.IsDeleted = item.IsDeleted;
+                        employeeAssignment.Year = item.Year;
+                        employeeAssignment.BCYRCellPending = item.BCYRCellPending;
+
+                        int result = employeeAssignmentBLL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
+
+                        if (result == 1)
+                        {
+                            int approvedEmployeeAssignmentLastId = employeeAssignmentBLL.GetApprovedAssignmentLastId();
+                            List<Forecast> forecasts = new List<Forecast>();
+                            if (employeeAssignment.Id == 24)
+                            {
+                                //test
+                            }
+                            forecasts = forecastDAL.GetApprovedForecastedDataByAssignmentId(employeeAssignment.Id, year);
+
+                            foreach (var forecastItem in forecasts)
+                            {
+                                forecastItem.Year = year;
+                                forecastItem.EmployeeAssignmentId = approvedEmployeeAssignmentLastId;
+                                resultSave = forecastDAL.CreateApprovedForecast(forecastItem);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resultSave;
+        }
+        public int UpdateApprovedData_AddRow(AssignmentHistory assignmentHistory,int approveTimeStampId, string assignmentYear)
+        {
+            return forecastDAL.UpdateApprovedData_AddRow(assignmentHistory, approveTimeStampId, assignmentYear);
+        }
+        public int UpdateApprovedData_DeleteRow(AssignmentHistory assignmentHistory,int approveTimeStampId, string assignmentYear)
+        {
+            return forecastDAL.UpdateApprovedData_DeleteRow(assignmentHistory, approveTimeStampId, assignmentYear);
+        }
+        public string GetPreviousApprovedCells(string employeeAssignmentId)
+        {
+            return forecastDAL.GetPreviousApprovedCells(employeeAssignmentId);
+        }
+        public int UpdateApprovedCells(int assingmentId,string cellNo,int approvedTimestampId,int year)
+        {
+            return forecastDAL.UpdateApprovedCells(assingmentId,cellNo,approvedTimestampId,year);
+        }
+        public int CleanPreviousApprovedDeletedRows(int year,int approvedTimestampsId)
+        {
+            return forecastDAL.CleanPreviousApprovedDeletedRows(year, approvedTimestampsId);
+        }
+        public string GetApprovedCellsByTimestampId(int assingmentId, int cellNo, int approvedTimestampId, string year)
+        {
+            return forecastDAL.GetApprovedCellsByTimestampId(assingmentId, cellNo, approvedTimestampId, year);
+        }
+        public int UpdateOriginalForecast(Forecast forecast)
+        {
+            return forecastDAL.UpdateOriginalForecast(forecast);
+        }
+        public int InsertOriginalForecast(Forecast forecast)
+        {
+            return forecastDAL.InsertOriginalForecast(forecast); 
         }
     }
 }

@@ -61,6 +61,10 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <HintPath>..\packages\ExcelPackage.1.0.0\lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -171,8 +175,10 @@
     <Compile Include="BLL\EmployeeBLL.cs" />
     <Compile Include="BLL\EmployeeAssignmentBLL.cs" />
     <Compile Include="BLL\ExplanationsBLL.cs" />
+    <Compile Include="BLL\ExportExcelFileBLL.cs" />
     <Compile Include="BLL\ForecastBLL.cs" />
     <Compile Include="BLL\InChargeBLL.cs" />
+    <Compile Include="BLL\QaProportionBLL.cs" />
     <Compile Include="BLL\RoleBLL.cs" />
     <Compile Include="BLL\SalaryBLL.cs" />
     <Compile Include="BLL\SectionBLL.cs" />
@@ -212,8 +218,10 @@
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\EmployeeAssignmentDAL.cs" />
     <Compile Include="DAL\ExplanationDAL.cs" />
+    <Compile Include="DAL\ExportExcelFileDAL.cs" />
     <Compile Include="DAL\ForecastDAL.cs" />
     <Compile Include="DAL\InChargeDAL.cs" />
+    <Compile Include="DAL\QaProportionDAL.cs" />
     <Compile Include="DAL\RoleDAL.cs" />
     <Compile Include="DAL\SalaryDAL.cs" />
     <Compile Include="DAL\SectionDAL.cs" />
@@ -227,6 +235,7 @@
     <Compile Include="Dtos\ForecastDto.cs" />
     <Compile Include="Dtos\ForecastHistoryDto.cs" />
     <Compile Include="Dtos\ForecastUpdateHistoryDto.cs" />
+    <Compile Include="Dtos\QaProportionDto.cs" />
     <Compile Include="Dtos\SendToForecaseApiDto.cs" />
     <Compile Include="Dtos\SukeyDto.cs" />
     <Compile Include="Dtos\SukeyQADto.cs" />
@@ -247,6 +256,7 @@
     <Compile Include="Models\Explanation.cs" />
     <Compile Include="Models\ForecastHisory.cs" />
     <Compile Include="Models\InCharge.cs" />
+    <Compile Include="Models\QaProportion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
@@ -262,11 +272,14 @@
     <Compile Include="ViewModels\ActualCostViewModel.cs" />
     <Compile Include="ViewModels\ApprovalHistoryViewModal.cs" />
     <Compile Include="ViewModels\AssignmentHistoryViewModal.cs" />
+    <Compile Include="ViewModels\DownloadApproveHistoryViewModal.cs" />
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
+    <Compile Include="ViewModels\ForecastDistributdViewModal.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastYear.cs" />
+    <Compile Include="ViewModels\QaProportionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\actualcost.css" />
@@ -312,6 +325,7 @@
     <Content Include="Content\nameregistration.css" />
     <Content Include="Content\nameregistration_ver02.css" />
     <Content Include="Content\prettify.min.css" />
+    <Content Include="Content\qa_proportion.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\roles.css" />
     <Content Include="Content\roles_ver02.css" />
@@ -748,6 +762,7 @@
     <Content Include="Scripts\nameregistration_ver02.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\prettify.min.js" />
+    <Content Include="Scripts\qa_proportion.js" />
     <Content Include="Scripts\registrations.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\roles.js" />
@@ -808,6 +823,7 @@
     <Content Include="Views\Forecasts\Apportionment.cshtml" />
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
     <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
+    <Content Include="Views\Forecasts\QaProportion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

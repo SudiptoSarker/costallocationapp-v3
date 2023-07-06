@@ -21,7 +21,10 @@ namespace CostAllocationApp.Models
         public string GradeId { get; set; }
         public string EmployeeAssignmentId { get; set; }
         public string MonthId_Points { get; set; }
-
+        public string ApprovedCells { get; set; }
         //public List<Forecast> Forecasts { get; set; }
+        public string Remarks { get; set; }
+        public string BCYRCell { get; set; }
+        public string BCYRCellPending { get; set; }
     }
 }

@@ -12,6 +12,10 @@ using CostAllocationApp.ViewModels;
 using CostAllocationApp.Models;
 using CostAllocationApp.DAL;
 using System.Data;
+using CostAllocationApp.Controllers.Api;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace CostAllocationApp.Controllers
 {
@@ -27,6 +31,10 @@ namespace CostAllocationApp.Controllers
         EmployeeBLL employeeBLL = new EmployeeBLL();
         Employee employee = new Employee();
         UserBLL userBLL = null;
+
+        ForecastBLL forecastBLL = new ForecastBLL();
+        ExportExcelFileBLL exportExcelFileBLL = new ExportExcelFileBLL();
+
         public ForecastsController()
         {
             userBLL = new UserBLL();
@@ -337,7 +345,7 @@ namespace CostAllocationApp.Controllers
                 }
             }
             //return View("CreateForecast", forecastViewModal);
-            return View("CreateForecast",new { forecastType = "imprt" });
+            return View("CreateForecast",new { forecastType = "imprt" });            
         }
 
         public void SendToApi(int assignmentId, string row, int year)
@@ -600,5 +608,72 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult DownloadHistoryData(int hid_approve_timestamp_id = 0,string hid_selected_year = "")
+        {
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+            if (!string.IsNullOrEmpty(hid_selected_year))
+            {
+                employeeAssignment.Year = hid_selected_year;
+                forecastAssignmentViewModels = employeeAssignmentBLL.GetAllOriginalDataForDownloadFiles(employeeAssignment, hid_approve_timestamp_id);
+            }                        
+            string timeStampName = forecastBLL.GetApproveHistoryTimeStampName(hid_approve_timestamp_id);
+  
+            if (!string.IsNullOrEmpty(timeStampName)) { 
+                if (forecastAssignmentViewModels.Count > 0)
+                {
+                    using (var package = new ExcelPackage())
+                    {
+                        //*****************Download: Original: Start***********************//                        
+                        var sheet = package.Workbook.Worksheets.Add("Download(original)");
+                        sheet = exportExcelFileBLL.ExportOriginalExcelSheet(sheet, forecastAssignmentViewModels);                        
+                        //*****************Download: Original: End***********************//
+
+                        //*****************Download: Each Person: Start***********************//                        
+                        var eachPersonSheet = package.Workbook.Worksheets.Add("Download(Each person)");
+                        eachPersonSheet = exportExcelFileBLL.ExportEachPersonExcelSheet(eachPersonSheet, forecastAssignmentViewModels);
+                        //*****************Download: Each Person: End***********************//
+
+                        //*****************Download: Dev Distribution: Start***********************//                        
+                        var devDistributionSheet = package.Workbook.Worksheets.Add("【開発】配置表(Dev Distribution)");
+                        devDistributionSheet = exportExcelFileBLL.ExportDevDistributionExcelSheet(devDistributionSheet, forecastAssignmentViewModels);
+                        //*****************Download: Dev Distribution: End***********************//
+
+                        //*****************Download: Planning Distribution: Start***********************//                        
+                        var planningDistributionSheet = package.Workbook.Worksheets.Add("【企画】配置表(Planning Distribution)");
+                        planningDistributionSheet = exportExcelFileBLL.ExportPlanningDistributionExcelSheet(planningDistributionSheet, forecastAssignmentViewModels);
+                        //*****************Download: Planning Distribution: End***********************//                        
+
+                        //*****************Download: Distributed: Start***********************//
+                        //var distributedWorksheet = package.Workbook.Worksheets.Add("Download(Distributed)");
+                        //distributedWorksheet = exportExcelFileBLL.ExportDistributedSheet(distributedWorksheet, forecastAssignmentViewModels, hid_selected_year);                       
+                        ////*****************Download: Distributed: End***********************//
+
+                        var excelData = package.GetAsByteArray();
+                        var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        var fileName = timeStampName + ".xlsx";
+                    
+                        return File(excelData, contentType, fileName);
+                    }
+                }
+                else
+                {
+                    return File("", "", ""); ;
+                }
+            }
+            else
+            {
+                return File("", "", ""); ;
+            }
+            //return Ok(forecastHistoryList);
+        }
+
+
+        public ActionResult QaProportion()
+        {
+            return View();
+        }
     }
 }

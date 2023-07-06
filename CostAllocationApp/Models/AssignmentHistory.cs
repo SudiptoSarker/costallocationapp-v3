@@ -24,5 +24,7 @@ namespace CostAllocationApp.Models
         public string ApprovedCells { get; set; }
         //public List<Forecast> Forecasts { get; set; }
         public string Remarks { get; set; }
+        public string BCYRCell { get; set; }
+        public string BCYRCellPending { get; set; }
     }
 }

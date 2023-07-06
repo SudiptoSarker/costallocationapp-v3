@@ -1803,5 +1803,18 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetMonthWiseOriginalForecastData(assignmentId,dbColumnName);
         }
+        public bool CheckForValidOriginalData(string pendingCellNumbers,string cellNumber)
+        {
+            bool isValidRequest = true;
+            var arrPendingCells = pendingCellNumbers.Split(',');
+            foreach(var cellItem in arrPendingCells)
+            {
+                if (cellItem == cellNumber)
+                {
+                    isValidRequest = false;
+                }
+            }
+            return isValidRequest;
+        }
     }
 }

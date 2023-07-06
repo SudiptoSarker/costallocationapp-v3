@@ -263,6 +263,8 @@ namespace CostAllocationApp.DAL
                             assignmentHistories.EmployeeAssignmentId = rdr["Id"] is DBNull ? "" : rdr["Id"].ToString();
                             assignmentHistories.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
                             assignmentHistories.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            assignmentHistories.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            assignmentHistories.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
 
                             if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
                             {

@@ -4162,8 +4162,8 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in apportionment.Apportionments)
                 {
-                    //var flag = actualCostBLL.CheckApportionment(item.DepartmentId, apportionment.Year);
-                    if (item.Id > 0)
+                    var flag = actualCostBLL.CheckApportionment(item.DepartmentId, apportionment.Year);
+                    if (flag)
                     {
                         item.UpdatedBy = session["userName"].ToString();
                         item.UpdatedDate = DateTime.Now;

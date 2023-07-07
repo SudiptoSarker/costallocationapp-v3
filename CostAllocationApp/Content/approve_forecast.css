@@ -243,5 +243,3 @@ body {
      $(this).css("background-color", "yellow"); //Here Change color to yellow.
     return false;
 }); */
-
-

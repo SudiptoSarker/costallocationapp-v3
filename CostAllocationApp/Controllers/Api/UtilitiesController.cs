@@ -4449,7 +4449,6 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
                         }                        
-                        
 
                         if (string.IsNullOrEmpty(approvedCellAssignmentId))
                         {

@@ -2551,6 +2551,57 @@ function SetCellWiseColor_ForUnApproved(cellName){
     jss.setStyle(cellName,"color", "red");
     $(jss.getCell(cellName)).addClass('readonly');    
 }
+function CheckForValidRequest(approveAssignmentId,selectedCells){
+    $.ajax({
+        url: `/api/utilities/IsValidForApprovalCell`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
+        success: function (data) {
+            if(data==1){
+                var approvedCells = $("#all_selected_cells").val();                               
+                var isApprovedCellColorChanged = false;
+
+                //store approved data!
+                if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
+                    strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
+                    $("#all_selected_cells").val(strApprovedCellsStore);
+                    isApprovedCellColorChanged = true;
+                }else{         
+                    var isValidForApprove = false;
+                    var arrCells = approvedCells.split(',');        
+                    $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                        var arrNestedCells = nestedValue.split('_');
+                        if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){
+                            isValidForApprove = false;
+                        }
+                        else{
+                            isValidForApprove = true;
+                            isApprovedCellColorChanged = true;
+                        }                                                            
+                    });  
+                    if(isValidForApprove){
+                        strApprovedCellsStore = approvedCells+","+approveAssignmentId +"_"+ selectedCells;;   
+                        $("#all_selected_cells").val(strApprovedCellsStore);
+                    }else{
+                        alert("There is no data to approved!")
+                    }                                           
+                } 
+                if(isApprovedCellColorChanged){
+                    var assignmentYear = $('#assignment_year_list').val();                            
+                    var cellNo = $("#selectCellNumber").val();                                                                
+                    SetCellWiseColor(cellNo);       
+                }
+            }
+            else{
+                alert("There is no data to approved!")
+            }
+        }
+    }); 
+}
+
 var selectionActive = function(instance, x1, y1, x2, y2, origin) {
 
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
@@ -2587,10 +2638,15 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         $("#selectCellNumber").val(cellName1);
 
         if(x2==45){
+            //row approval
+            //CheckForValidRequest(approveAssignmentId,selectedCells)
+
             $("#hid_IsRowSelected").val("yes");
             $("#hidIsRowDeleted").val(retrivedData.isActive);
             $("#hidSelectedRowNumber").val(sRows);
         }else{
+            //cells approval
+            CheckForValidRequest(approveAssignmentId,selectedCells)
             $("#hid_IsRowSelected").val("no");
             $("#hid_cellNo").val(x2);
             $("#hidSelectedRowNumber").val(sRows);

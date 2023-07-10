@@ -215,7 +215,7 @@ $(document).ready(function () {
     //});    
 
     $('#update_forecast_history').on('click', function () {
-
+        var storeMessage = [];
         var employeeCount = 0;
         var rowCount = 0;
         $.ajax({
@@ -229,6 +229,30 @@ $(document).ready(function () {
             }
         });
 
+        if (jssInsertedData.length > 0) {
+            for (var i = 0; i < jssInsertedData.length; i++) {
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
+                }
+            }
+        }
+
+        if (jssUpdatedData.length > 0) {
+            for (var i = 0; i < jssUpdatedData.length; i++) {
+                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssUpdatedData[i].employeeName);
+                }
+            }
+        }
+
+        if (storeMessage.length > 0) {
+            let displayMessage = '';
+            $.each(storeMessage, (index, value) => {
+                displayMessage += value + '\n';
+            });
+            alert(displayMessage);
+            return false;
+        }
 
         if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {
             $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -3298,6 +3322,7 @@ function UpdateForecast() {
         }
     });
 
+
     var updateMessage = "";
     var insertMessage = "";
     var promptValue = prompt("History Save As", '');
@@ -3313,31 +3338,34 @@ function UpdateForecast() {
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
         if (jssUpdatedData.length > 0) {
-            updateMessage = "Successfully data updated";
-            $.ajax({
-                url: `/api/utilities/UpdateForecastData`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
-                success: function (data) {
-                    var year = $("#assignment_year_list").val();
-                    ShowForecastResults(year);
+           
+                updateMessage = "Successfully data updated";
+                $.ajax({
+                    url: `/api/utilities/UpdateForecastData`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
+                    success: function (data) {
+                        var year = $("#assignment_year_list").val();
+                        ShowForecastResults(year);
 
-                    $("#timeStamp_ForUpdateData").val(data);
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    //$("#head_total").show();
-                    LoaderHide();
-                }
-            });
-            jssUpdatedData = [];
+                        $("#timeStamp_ForUpdateData").val(data);
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been updated by ', userName);
+                        });
+                        $("#jspreadsheet").show();
+                        //$("#head_total").show();
+                        LoaderHide();
+                    }
+                });
+                jssUpdatedData = [];
+            
+            
         }
         else {
             $("#jspreadsheet").show();
@@ -3355,45 +3383,48 @@ function UpdateForecast() {
                 jssInsertedData.splice(elementIndex, 1);
             }
 
-            insertMessage = "Successfully data inserted.";
+            
             var update_timeStampId = $("#timeStamp_ForUpdateData").val();
+            
+                insertMessage = "Successfully data inserted.";
+                $.ajax({
+                    url: `/api/utilities/ExcelAssignment/`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    //data: JSON.stringify(jssInsertedData),
+                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
+                    success: function (data) {
+                        var allJexcelData = jss.getData();
+                        for (let i = 0; i < data.length; i++) {
 
-            $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                //data: JSON.stringify(jssInsertedData),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                success: function (data) {
-                    var allJexcelData = jss.getData();
-                    for (let i = 0; i < data.length; i++) {
+                            $.each(allJexcelData, (index, dataValue) => {
+                                if (data[i].assignmentId == dataValue[0]) {
+                                    jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                                }
 
-                        $.each(allJexcelData, (index, dataValue) => {
-                            if (data[i].assignmentId == dataValue[0]) {
-                                jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                            }
-                            
+                            });
+                        }
+
+
+
+                        $("#timeStamp_ForUpdateData").val('');
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been inserted by ', userName);
                         });
+                        $("#jspreadsheet").show();
+                        //$("#head_total").show();
+                        LoaderHide();
                     }
+                });
+                jssInsertedData = [];
+                newRowCount = 1;
 
-                    
 
-                    $("#timeStamp_ForUpdateData").val('');
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    //$("#head_total").show();
-                    LoaderHide();
-                }
-            });
-            jssInsertedData = [];
-            newRowCount = 1;
         }
 
         if (deletedExistingRowIds.length > 0) {

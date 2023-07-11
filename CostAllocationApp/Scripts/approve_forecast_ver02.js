@@ -256,8 +256,12 @@ $(document).ready(function () {
         }else{
             var arrSelectedRowsWithRowNumber = selectedRowsWithRowNumber.split(",");
             $.each(arrSelectedRowsWithRowNumber, function (nextedIndex, nestedValue){
-                var arrNestedValue = nestedValue.split("_");     
-                SetRowColor_AfterApproved(parseInt(arrNestedValue[1])+1);           
+                var arrNestedValue = nestedValue.split("_");  
+                if(arrNestedValue[2] == "true")  {
+                    SetRowColor_AfterApproved(parseInt(arrNestedValue[1])+1);           
+                }else{
+                    SetRowColor_ForDeletedRow(parseInt(arrNestedValue[1])+1);           
+                }                
             });
         }                               
     });
@@ -2658,7 +2662,7 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                 if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
                     strApprovedRowsStore = approveAssignmentId;
                     $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-                    $("#all_selected_row_with_assignmentId_row_number").val(strApprovedRowsStore+"_"+rowNumber);
+                    $("#all_selected_row_with_assignmentId_row_number").val(strApprovedRowsStore+"_"+rowNumber+"_"+isActive);
                     isApprovedRowColorChanged = true;                    
                 }else{         
                     var isValidForApprove = false;
@@ -2715,7 +2719,7 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                         var arrNestedValue = nestedValue2.split('_');
                         if(arrNestedValue[0] != approveAssignmentId){                                   
                             if(selectedRowWithAssignmentIdAndRowNumber == ""){                                
-                                selectedRowWithAssignmentIdAndRowNumber = arrNestedValue[0]+"_"+arrNestedValue[1];
+                                selectedRowWithAssignmentIdAndRowNumber = arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
                             }else{                                
                                 var isRowAlreadyExists = false;
                                 var arrSelectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber.split(',');                                  
@@ -2727,7 +2731,7 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                                     }
                                 }); 
                                 if(!isRowAlreadyExists){
-                                    selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+arrNestedValue[0]+"_"+arrNestedValue[1];
+                                    selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
                                 }                                
                             }
                         }
@@ -2737,10 +2741,10 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                     if(isCurrentRowStored){
                         if(selectedRowsStore ==""){
                             selectedRowsStore = approveAssignmentId;
-                            selectedRowWithAssignmentIdAndRowNumber = approveAssignmentId +"_"+rowNumber;
+                            selectedRowWithAssignmentIdAndRowNumber = approveAssignmentId +"_"+rowNumber+"_"+isActive;
                         }else{
                             selectedRowsStore = selectedRowsStore +","+approveAssignmentId;  
-                            selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+approveAssignmentId +"_"+rowNumber;                          
+                            selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+approveAssignmentId +"_"+rowNumber+"_"+isActive;                          
                         }                        
                     }
 

@@ -247,153 +247,139 @@ $(document).ready(function () {
         }        
     });
 
-    //row and cell approve together and multi cell or row approve color at a time.
     $('#approve_forecast_data').on('click', function () {
-        //$("#all_selected_row_for_approve").val();
-        var selectedRowsWithRowNumber = $("#all_selected_row_with_assignmentId_row_number").val();
-        if (selectedRowsWithRowNumber == "" || selectedRowsWithRowNumber == null || selectedRowsWithRowNumber == undefined) {
+        var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+        var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+        console.log("sRows: "+sRows);
+        console.log("sCols: "+sCols);
+
+        var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
+        var isDeleted = $("#hidIsRowDeleted").val();
+        if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
+            $("#hidSelectedRow_AssignementId").val('');
             alert("There is no data to approve!");
         }else{
-            var arrSelectedRowsWithRowNumber = selectedRowsWithRowNumber.split(",");
-            $.each(arrSelectedRowsWithRowNumber, function (nextedIndex, nestedValue){
-                var arrNestedValue = nestedValue.split("_");     
-                SetRowColor_AfterApproved(parseInt(arrNestedValue[1])+1);           
-            });
-        }                               
-    });
+            // LoaderShow();
+            //return false;
 
-
-    // $('#approve_forecast_data').on('click', function () {
-    //     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
-    //     var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
-
-    //     var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
-    //     var isDeleted = $("#hidIsRowDeleted").val();
-    //     if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
-    //         $("#hidSelectedRow_AssignementId").val('');
-    //         alert("There is no data to approve!");
-    //     }else{
-    //         // LoaderShow();
-    //         //return false;
-
-    //         var data_Info = {
-    //             Id: approveAssignmentId
-    //         };
-    //         var cellPosition = $("#hid_SelectedCellPosition").val();
-    //         var selectedCells = $("#hid_cellNo").val();
-    //         var isRowSelected = $("#hid_IsRowSelected").val();
+            var data_Info = {
+                Id: approveAssignmentId
+            };
+            var cellPosition = $("#hid_SelectedCellPosition").val();
+            var selectedCells = $("#hid_cellNo").val();
+            var isRowSelected = $("#hid_IsRowSelected").val();
             
-    //         var strApprovedCellsStore = "";
-    //         var strApprovedRowsStore = "";
+            var strApprovedCellsStore = "";
+            var strApprovedRowsStore = "";
 
-    //         if(isRowSelected=="yes"){
-    //             //approve rows
-    //             $.ajax({
-    //                 //url: `/api/utilities/ApprovedForecastData`,
-    //                 url: `/api/utilities/IsValidForApprovalRow`,
-    //                 contentType: 'application/json',
-    //                 type: 'GET',
-    //                 async: true,
-    //                 dataType: 'json',
-    //                 data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-    //                 success: function (data) {
-    //                     if(data==1){
-    //                         var approvedRows = $("#all_selected_row_for_approve").val();                               
-    //                         var isApprovedRowColorChanged = false;
+            if(isRowSelected=="yes"){
+                //approve rows
+                $.ajax({
+                    //url: `/api/utilities/ApprovedForecastData`,
+                    url: `/api/utilities/IsValidForApprovalRow`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    dataType: 'json',
+                    data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
+                    success: function (data) {
+                        if(data==1){
+                            var approvedRows = $("#all_selected_row_for_approve").val();                               
+                            var isApprovedRowColorChanged = false;
 
-    //                         //store approved data!
-    //                         if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
-    //                             strApprovedRowsStore = approveAssignmentId;
-    //                             $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-    //                             isApprovedRowColorChanged = true;
-    //                         }else{         
-    //                             var isValidForApprove = false;
-    //                             var arrCells = approvedRows.split(',');        
-    //                             $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-    //                                 if(approveAssignmentId == nestedValue){
-    //                                     isValidForApprove = false;
-    //                                 }
-    //                                 else{
-    //                                     isValidForApprove = true;
-    //                                     isApprovedRowColorChanged = true;
-    //                                 }                                                            
-    //                             });  
-    //                             if(isValidForApprove){
-    //                                 strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
-    //                                 $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-    //                             }else{
-    //                                 alert("There is no data to approved!")
-    //                             }                                           
-    //                         } 
+                            //store approved data!
+                            if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
+                                strApprovedRowsStore = approveAssignmentId;
+                                $("#all_selected_row_for_approve").val(strApprovedRowsStore);
+                                isApprovedRowColorChanged = true;
+                            }else{         
+                                var isValidForApprove = false;
+                                var arrCells = approvedRows.split(',');        
+                                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                                    if(approveAssignmentId == nestedValue){
+                                        isValidForApprove = false;
+                                    }
+                                    else{
+                                        isValidForApprove = true;
+                                        isApprovedRowColorChanged = true;
+                                    }                                                            
+                                });  
+                                if(isValidForApprove){
+                                    strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
+                                    $("#all_selected_row_for_approve").val(strApprovedRowsStore);
+                                }else{
+                                    alert("There is no data to approved!")
+                                }                                           
+                            } 
 
-    //                         if(isApprovedRowColorChanged){
-    //                            var rowNumber = $("#hidSelectedRowNumber").val();
-    //                             if(isDeleted =='true'){
-    //                                 SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-    //                             }else{
-    //                                 SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-    //                             }
-    //                             $("#hidSelectedRow_AssignementId").val("");
-    //                             $("#hidIsRowDeleted").val("");                                                                          
-    //                         }                            
-    //                     }
-    //                     else{
-    //                         alert("There is no data to approved!")
-    //                     }
-    //                 }
-    //             });       
-    //         }else{                
-    //             $.ajax({
-    //                 url: `/api/utilities/IsValidForApprovalCell`,
-    //                 contentType: 'application/json',
-    //                 type: 'GET',
-    //                 async: true,
-    //                 dataType: 'json',
-    //                 data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-    //                 success: function (data) {
-    //                     if(data==1){
-    //                         var approvedCells = $("#all_selected_cells").val();                               
-    //                         var isApprovedCellColorChanged = false;
+                            if(isApprovedRowColorChanged){
+                               var rowNumber = $("#hidSelectedRowNumber").val();
+                                if(isDeleted =='true'){
+                                    SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                                }else{
+                                    SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                                }
+                                $("#hidSelectedRow_AssignementId").val("");
+                                $("#hidIsRowDeleted").val("");                                                                          
+                            }                            
+                        }
+                        else{
+                            alert("There is no data to approved!")
+                        }
+                    }
+                });       
+            }else{                
+                $.ajax({
+                    url: `/api/utilities/IsValidForApprovalCell`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: true,
+                    dataType: 'json',
+                    data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
+                    success: function (data) {
+                        if(data==1){
+                            var approvedCells = $("#all_selected_cells").val();                               
+                            var isApprovedCellColorChanged = false;
 
-    //                         //store approved data!
-    //                         if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
-    //                             strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
-    //                             $("#all_selected_cells").val(strApprovedCellsStore);
-    //                             isApprovedCellColorChanged = true;
-    //                         }else{         
-    //                             var isValidForApprove = false;
-    //                             var arrCells = approvedCells.split(',');        
-    //                             $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-    //                                 var arrNestedCells = nestedValue.split('_');
-    //                                 if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){
-    //                                     isValidForApprove = false;
-    //                                 }
-    //                                 else{
-    //                                     isValidForApprove = true;
-    //                                     isApprovedCellColorChanged = true;
-    //                                 }                                                            
-    //                             });  
-    //                             if(isValidForApprove){
-    //                                 strApprovedCellsStore = approvedCells+","+approveAssignmentId +"_"+ selectedCells;;   
-    //                                 $("#all_selected_cells").val(strApprovedCellsStore);
-    //                             }else{
-    //                                 alert("There is no data to approved!")
-    //                             }                                           
-    //                         } 
-    //                         if(isApprovedCellColorChanged){
-    //                             var assignmentYear = $('#assignment_year_list').val();                            
-    //                             var cellNo = $("#selectCellNumber").val();                                                                
-    //                             SetCellWiseColor(cellNo);       
-    //                         }
-    //                     }
-    //                     else{
-    //                         alert("There is no data to approved!")
-    //                     }
-    //                 }
-    //             });       
-    //         }            
-    //     }       
-    // });
+                            //store approved data!
+                            if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
+                                strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
+                                $("#all_selected_cells").val(strApprovedCellsStore);
+                                isApprovedCellColorChanged = true;
+                            }else{         
+                                var isValidForApprove = false;
+                                var arrCells = approvedCells.split(',');        
+                                $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                                    var arrNestedCells = nestedValue.split('_');
+                                    if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){
+                                        isValidForApprove = false;
+                                    }
+                                    else{
+                                        isValidForApprove = true;
+                                        isApprovedCellColorChanged = true;
+                                    }                                                            
+                                });  
+                                if(isValidForApprove){
+                                    strApprovedCellsStore = approvedCells+","+approveAssignmentId +"_"+ selectedCells;;   
+                                    $("#all_selected_cells").val(strApprovedCellsStore);
+                                }else{
+                                    alert("There is no data to approved!")
+                                }                                           
+                            } 
+                            if(isApprovedCellColorChanged){
+                                var assignmentYear = $('#assignment_year_list').val();                            
+                                var cellNo = $("#selectCellNumber").val();                                                                
+                                SetCellWiseColor(cellNo);       
+                            }
+                        }
+                        else{
+                            alert("There is no data to approved!")
+                        }
+                    }
+                });       
+            }            
+        }       
+    });
 
     $('#unapprove_forecast_data').on('click', function () {       
 
@@ -2615,179 +2601,58 @@ function CheckForValidCellRequest(approveAssignmentId,selectedCells){
         }
     }); 
 }
-function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDeletePending,rowNumber){    
-    $.ajax({        
+function CheckForValidRowRequest(approveAssignmentId,selectedCells){
+    $.ajax({
+        //url: `/api/utilities/ApprovedForecastData`,
         url: `/api/utilities/IsValidForApprovalRow`,
         contentType: 'application/json',
         type: 'GET',
-        async: false,
+        async: true,
         dataType: 'json',
-        data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isActive,
+        data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
         success: function (data) {
-            if (parseInt(data) >0) {                
-                $("#hidSelectedRow_AssignementId").val(approveAssignmentId);                
-                $("#pending_selected_row").val(isRowPending);
-                $("#pending_selected_deleted_row").val(isDeletePending);                                
-
-                $("#hid_IsRowSelected").val("yes");
-                $("#hidIsRowDeleted").val(isActive);
-                $("#hidSelectedRowNumber").val(rowNumber);
-
-                var approvedRows = $("#all_selected_row_for_approve").val();    
-                var approvedRowsWithAssignmentId = $("#all_selected_row_with_assignmentId_row_number").val();
-
+            if(data==1){
+                var approvedRows = $("#all_selected_row_for_approve").val();                               
                 var isApprovedRowColorChanged = false;
-                var isMultipleRowSelected = false;
-                
-                var isNewRowDisselect = false;
-                var isPendingRowDisselect = false;
-                var isInactiveDisselect = false;
-                var isDeletePendingDisselect = false;
 
                 //store approved data!
-                //1->new row
-                //2->pending row
-                //3->inactive
-                //4->delete pending
-                
-                //10,11,12
-                //again:
-                //clicked: 13
-                var isCurrentRowStored = true;
-
                 if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
                     strApprovedRowsStore = approveAssignmentId;
                     $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-                    $("#all_selected_row_with_assignmentId_row_number").val(strApprovedRowsStore+"_"+rowNumber);
-                    isApprovedRowColorChanged = true;                    
+                    isApprovedRowColorChanged = true;
                 }else{         
                     var isValidForApprove = false;
-                    var arrCells = approvedRows.split(',');    
-                    var selectedRowsStore = "";
-                    var selectedRowWithAssignmentIdAndRowNumber = "";
-
-                    $.each(arrCells, function (nextedIndex, nestedValue) { 
-                        if(nestedValue == approveAssignmentId){
-                            isCurrentRowStored = false;
-
-                            if(data==1){
-                                isNewRowDisselect = true;
-                            }else if(data==2){
-                                isPendingRowDisselect = true;
-                            }else if(data==3){
-                                isInactiveDisselect = true;
-                            }else if(data==4){
-                                isDeletePendingDisselect = true;
-                            }                
-                        }else{
-                            if(selectedRowsStore == ""){
-                                selectedRowsStore = nestedValue;
-                                //selectedRowWithAssignmentIdAndRowNumber = nestedValue+"_"+rowNumber;
-                            }else{
-                                //only assignment id with comma seperated value
-                                var isRowAlreadyExists = false;
-                                var arrSelectedRowsStore = selectedRowsStore.split(',');  
-                                $.each(arrSelectedRowsStore, function (tempIndex, selectedItem) {
-                                    if(selectedItem == nestedValue) {
-                                        isRowAlreadyExists = true;
-                                        //selectedRowsStore = selectedRowsStore+ ","+nestedValue;
-                                    }
-                                }); 
-                                if(!isRowAlreadyExists){
-                                    selectedRowsStore = selectedRowsStore+ ","+nestedValue;
-                                    //selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+nestedValue+"_"+rowNumber;
-                                }                                
-                            }
+                    var arrCells = approvedRows.split(',');        
+                    $.each(arrCells, function (nextedIndex, nestedValue) {                                            
+                        if(approveAssignmentId == nestedValue){
+                            isValidForApprove = false;
                         }
-
-                        // if(approveAssignmentId == nestedValue){
-                        //     isValidForApprove = false;
-                        // }
-                        // else{
-                        //     isValidForApprove = true;
-                        //     isApprovedRowColorChanged = true;
-                        // }                                              
+                        else{
+                            isValidForApprove = true;
+                            isApprovedRowColorChanged = true;
+                        }                                                            
                     });  
-                    
-                    //assignment id with row number: start                                        
-                    var arrApprovedRowsWithAssignmentId = approvedRowsWithAssignmentId.split(',');                        
-                    $.each(arrApprovedRowsWithAssignmentId, function (nextedIndex, nestedValue2) { 
-                        var arrNestedValue = nestedValue2.split('_');
-                        if(arrNestedValue[0] != approveAssignmentId){                                   
-                            if(selectedRowWithAssignmentIdAndRowNumber == ""){                                
-                                selectedRowWithAssignmentIdAndRowNumber = arrNestedValue[0]+"_"+arrNestedValue[1];
-                            }else{                                
-                                var isRowAlreadyExists = false;
-                                var arrSelectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber.split(',');                                  
-                                $.each(arrSelectedRowWithAssignmentIdAndRowNumber, function (tempIndex, selectedItem2) {
-                                    var arrSelectedItem2 = selectedItem2.split('_');
-                                    if(arrSelectedItem2[0] == arrNestedValue[0]) {
-                                        isRowAlreadyExists = true;
-                                        //selectedRowsStore = selectedRowsStore+ ","+nestedValue2;
-                                    }
-                                }); 
-                                if(!isRowAlreadyExists){
-                                    selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+arrNestedValue[0]+"_"+arrNestedValue[1];
-                                }                                
-                            }
-                        }
-                    }); 
-                    //assignment id with row number: end 
-
-                    if(isCurrentRowStored){
-                        if(selectedRowsStore ==""){
-                            selectedRowsStore = approveAssignmentId;
-                            selectedRowWithAssignmentIdAndRowNumber = approveAssignmentId +"_"+rowNumber;
-                        }else{
-                            selectedRowsStore = selectedRowsStore +","+approveAssignmentId;  
-                            selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+approveAssignmentId +"_"+rowNumber;                          
-                        }                        
-                    }
-
-                    $("#all_selected_row_for_approve").val(selectedRowsStore);
-                    $("#all_selected_row_with_assignmentId_row_number").val(selectedRowWithAssignmentIdAndRowNumber);
-
-                    // if(isValidForApprove){
-                    //     strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
-                    //     $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-                    // }
-                    // else{
-                    //     alert("There is no data to approved!")
-                    // }                                           
-                }
-
-                if(isCurrentRowStored){
-                    if(data==1){
-                        SetRowColor_OnlyLightYellow(parseInt(rowNumber)+1);
+                    if(isValidForApprove){
+                        strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
+                        $("#all_selected_row_for_approve").val(strApprovedRowsStore);
                     }else{
-                        SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
-                    }
-                    //SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
-                }else{
-                    if(isNewRowDisselect){
-                        SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
-                    }else if(isPendingRowDisselect){
-                        SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
-                    }else if(isInactiveDisselect){
-                        SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
-                    }else if(isDeletePendingDisselect){
-                        SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
-                    }
-                }
-                $("#hidSelectedRow_AssignementId").val("");
-                $("#hidIsRowDeleted").val("");       
+                        alert("There is no data to approved!")
+                    }                                           
+                } 
 
-                // if(isApprovedRowColorChanged){
-                //    var rowNumber = $("#hidSelectedRowNumber").val();
-                //     if(isActive =='true'){
-                //         SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
-                //     }else{
-                //         SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
-                //         //SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-                //     }
-                //     $("#hidSelectedRow_AssignementId").val("");
-                //     $("#hidIsRowDeleted").val("");                                                                          
-                // } 
+                if(isApprovedRowColorChanged){
+                   var rowNumber = $("#hidSelectedRowNumber").val();
+                    if(isDeleted =='true'){
+                        SetRowColor_AfterApproved(parseInt(rowNumber)+1);
+                    }else{
+                        SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
+                    }
+                    $("#hidSelectedRow_AssignementId").val("");
+                    $("#hidIsRowDeleted").val("");                                                                          
+                }                            
+            }
+            else{
+                alert("There is no data to approved!")
             }
         }
     }); 
@@ -2797,6 +2662,8 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
 
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
     var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+    console.log("sRows-ona: "+sRows);
+    console.log("sCols-ona: "+sCols);
        
     var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
     var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
@@ -2811,6 +2678,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);    
     //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
+    console.log("retrivedData: "+retrivedData);
 
     if(typeof retrivedData != "undefined"){
         
@@ -2818,20 +2686,20 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         //selected_rows_with_assignmentId
         if(x2==45){
             //row approval
-            var isValidRequestForRowApproval = CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
-            
-            //$("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
-            //$("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+            var isValidRequestForRowApproval = CheckForValidRowRequest(retrivedData.assignmentId,x2);
 
-            //$("#pending_selected_row").val(retrivedData.isRowPending);
-            //$("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
+            $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+            $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+
+            $("#pending_selected_row").val(retrivedData.isRowPending);
+            $("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
             
-            //$("#hid_SelectedCellPosition").val(x1);
-            //$("#selectCellNumber").val(cellName1);
+            $("#hid_SelectedCellPosition").val(x1);
+            $("#selectCellNumber").val(cellName1);
             
-            //$("#hid_IsRowSelected").val("yes");
-            //$("#hidIsRowDeleted").val(retrivedData.isActive);
-            //$("#hidSelectedRowNumber").val(sRows);
+            $("#hid_IsRowSelected").val("yes");
+            $("#hidIsRowDeleted").val(retrivedData.isActive);
+            $("#hidSelectedRowNumber").val(sRows);
         }else{
             //cells approval
             var isValidRequestForCellApproval = CheckForValidCellRequest(retrivedData.assignmentId,x2);
@@ -3600,9 +3468,9 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
 
-function SetRowColor_AfterUnApproved(insertedRowNumber){    
+function SetRowColor_AfterUnApproved(insertedRowNumber){
     $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("A"+insertedRowNumber,"background-color","yellow");
+    jss.setStyle("A"+insertedRowNumber,"background-color", "yellow");
     //jss.setStyle("A"+insertedRowNumber,"color", "red");
     $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
 
@@ -4611,372 +4479,4 @@ function SetRowColor_PendingCells(cellName){
     jss.setStyle(cellName,"background-color", "red");
     jss.setStyle(cellName,"color", "black");    
     $(jss.getCell(cellName)).addClass('readonly');    
-}
-
-function SetRowColor_MultiRowSelect(insertedRowNumber){
-    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("A"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("A"+insertedRowNumber,"color", "red");
-    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("B"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("B"+insertedRowNumber,"color", "red");
-    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
-
-
-    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("C"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("C"+insertedRowNumber,"color", "red");
-    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
-
-
-    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("D"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("D"+insertedRowNumber,"color", "red");
-    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("E"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("E"+insertedRowNumber,"color", "red");
-    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("F"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("F"+insertedRowNumber,"color", "red");
-    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("G"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("G"+insertedRowNumber,"color", "red");
-    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("H"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("H"+insertedRowNumber,"color", "red");
-    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("I"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("I"+insertedRowNumber,"color", "red");
-    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("J"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("J"+insertedRowNumber,"color", "red");
-    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("K"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("K"+insertedRowNumber,"color", "red");
-    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("L"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("L"+insertedRowNumber,"color", "red");
-    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("M"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("M"+insertedRowNumber,"color", "red");
-    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("N"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("N"+insertedRowNumber,"color", "red");
-    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("O"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("O"+insertedRowNumber,"color", "red");
-    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("P"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("P"+insertedRowNumber,"color", "red");
-    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Q"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("Q"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("R"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("R"+insertedRowNumber,"color", "red");
-    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("S"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("S"+insertedRowNumber,"color", "red");
-    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("T"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("T"+insertedRowNumber,"color", "red");
-    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("U"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("U"+insertedRowNumber,"color", "red");
-    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("V"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("V"+insertedRowNumber,"color", "red");
-    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("W"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("W"+insertedRowNumber,"color", "red");
-    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("X"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("X"+insertedRowNumber,"color", "red");
-    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Y"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("Y"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Z"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("Z"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AA"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AA"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AB"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AB"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AC"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AC"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AD"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AD"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AE"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AE"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
-    
-    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AF"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AF"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AG"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AG"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AH"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AH"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AI"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AI"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AJ"+insertedRowNumber,"background-color", "lightyellow");
-    jss.setStyle("AJ"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
-}
-
-function SetRowColor_OnlyLightYellow(insertedRowNumber){
-    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("A"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("A"+insertedRowNumber,"color", "red");
-    $(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("B"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("B"+insertedRowNumber,"color", "red");
-    $(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
-
-
-    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("C"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("C"+insertedRowNumber,"color", "red");
-    $(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
-
-
-    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("D"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("D"+insertedRowNumber,"color", "red");
-    $(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("E"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("E"+insertedRowNumber,"color", "red");
-    $(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("F"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("F"+insertedRowNumber,"color", "red");
-    $(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("G"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("G"+insertedRowNumber,"color", "red");
-    $(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("H"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("H"+insertedRowNumber,"color", "red");
-    $(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("I"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("I"+insertedRowNumber,"color", "red");
-    $(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("J"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("J"+insertedRowNumber,"color", "red");
-    $(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("K"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("K"+insertedRowNumber,"color", "red");
-    $(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("L"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("L"+insertedRowNumber,"color", "red");
-    $(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("M"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("M"+insertedRowNumber,"color", "red");
-    $(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("N"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("N"+insertedRowNumber,"color", "red");
-    $(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("O"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("O"+insertedRowNumber,"color", "red");
-    $(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("P"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("P"+insertedRowNumber,"color", "red");
-    $(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Q"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("Q"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("R"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("R"+insertedRowNumber,"color", "red");
-    $(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("S"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("S"+insertedRowNumber,"color", "red");
-    $(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("T"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("T"+insertedRowNumber,"color", "red");
-    $(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("U"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("U"+insertedRowNumber,"color", "red");
-    $(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("V"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("V"+insertedRowNumber,"color", "red");
-    $(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("W"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("W"+insertedRowNumber,"color", "red");
-    $(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("X"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("X"+insertedRowNumber,"color", "red");
-    $(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Y"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("Y"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("Z"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("Z"+insertedRowNumber,"color", "red");
-    $(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AA"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AA"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AB"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AB"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AC"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AC"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AD"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AD"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AE"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AE"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
-    
-    $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AF"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AF"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AG"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AG"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AH"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AH"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AI"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AI"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
-
-    $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
-    jss.setStyle("AJ"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AJ"+insertedRowNumber,"color", "red");
-    $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }

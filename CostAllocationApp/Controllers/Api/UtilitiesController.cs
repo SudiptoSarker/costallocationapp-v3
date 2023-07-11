@@ -1827,9 +1827,14 @@ namespace CostAllocationApp.Controllers.Api
             if (!isDeletedRow)
             {
                 //check for delete
-                if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
+                //if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
+                if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) && !_employeeAssignment.IsDeletePending)
                 {
-                    return Ok(1);
+                    return Ok(3);
+                }
+                else if (_employeeAssignment.IsDeletePending)
+                {
+                    return Ok(4);
                 }
                 else
                 {
@@ -1839,9 +1844,14 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 //check for add row data       
-                if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
+                //if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
+                if (_employeeAssignment.BCYR)
                 {
                     return Ok(1);
+                }
+                else if (_employeeAssignment.IsRowPending)
+                {
+                    return Ok(2);
                 }
                 else
                 {

@@ -1221,7 +1221,7 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CheckForUnApprovedCells(assignementId, selectedCells);
         }
-        public bool CheckForApprovedCells(string assignementId, string selectedCells)
+        public int CheckForApprovedCells(string assignementId, string selectedCells)
         {
             return employeeAssignmentDAL.CheckForApprovedCells(assignementId, selectedCells);
         }

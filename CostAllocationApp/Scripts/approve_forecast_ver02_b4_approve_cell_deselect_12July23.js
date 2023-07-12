@@ -295,19 +295,13 @@ $(document).ready(function () {
         $("#all_selected_cells_with_cellposition").val('');
         
         var previousSelectedCells = $("#approved_selected_cells").val();
-        var allSelectedCells = "";
         if(previousSelectedCells == "" || previousSelectedCells == null || previousSelectedCells == undefined){
-            if(approvedCells != "" || approvedCells != null || approvedCells != undefined){
-                allSelectedCells = approvedCells
-            }
+            $("#approved_selected_cells").val(approvedCells);
         }else{
-            if(approvedCells == "" || approvedCells == null || approvedCells == undefined){
-                allSelectedCells = previousSelectedCells;
-            }else{
-                allSelectedCells = previousSelectedCells +","+approvedCells;
-            }            
+            approvedCells = previousSelectedCells +","+approvedCells;
+            $("#approved_selected_cells").val(approvedCells);
         }
-        $("#approved_selected_cells").val(allSelectedCells);
+
         
         
         var approvedRows = $("#all_selected_row_for_approve").val();
@@ -468,13 +462,10 @@ $(document).ready(function () {
         setTimeout(function () {                                 
             ShowForecastResults(assignmentYear);
         }, 3000);
-        $("#approved_selected_cells").val(''); 
-        $("#all_selected_cells").val('');    
-        $("#all_selected_cells_with_cellposition").val('');    
 
-        $("#approved_selected_rows").val(''); 
-        $("#all_selected_row_for_approve").val('');    
-        $("#all_selected_row_with_assignmentId_row_number").val('');
+        // $("#approved_selected_cells").val(''); 
+        // $("#approved_selected_rows").val('');
+
 
         // var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
         // var isDeleted = $("#hidIsRowDeleted").val();
@@ -2644,36 +2635,6 @@ function SetCellWiseColor_ForUnApproved(cellName){
     jss.setStyle(cellName,"color", "red");
     $(jss.getCell(cellName)).addClass('readonly');    
 }
-
-function CheckForAlreadyApprovedCells(approveAssignmentId,selectedCells){
-
-    var previousApprovedCells = $("#approved_selected_cells").val(); 
-    var filteredPreviousApprovedCells = "";
-
-    if(previousApprovedCells =="" || typeof previousApprovedCells === 'undefined' || previousApprovedCells === null){
-        return false;
-    }else{
-        //isAlreadyApprovedCell
-        arrPreviousCells = previousApprovedCells.split(",");
-        var isCellExists = false;
-        $.each(arrPreviousCells, function (nextedIndex, nestedValue){
-            var arrNestedCells = nestedValue.split("_");
-            if(arrNestedCells[0] == approveAssignmentId && arrNestedCells[1] == selectedCells){
-                isCellExists = true;
-            }else{
-                if(filteredPreviousApprovedCells==""){
-                    filteredPreviousApprovedCells = arrNestedCells[0]+"_"+arrNestedCells[1];
-                }else{
-                    filteredPreviousApprovedCells = filteredPreviousApprovedCells +","+arrNestedCells[0]+"_"+arrNestedCells[1];
-                }
-            }        
-        })
-        $("#approved_selected_cells").val(filteredPreviousApprovedCells); 
-
-        return isCellExists;
-    }
-}
-
 function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPending,cellPosition,selectedCellNo,selectedRowNumber){
     $.ajax({
         url: `/api/utilities/IsValidForApprovalCell`,
@@ -2704,91 +2665,85 @@ function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPend
 
                 var isApprovedCellColorChanged = false;
                 var isCurrentCellsStore = true;
-                
-                var isAlreadyApprovedCell = CheckForAlreadyApprovedCells(approveAssignmentId,selectedCells);
 
-                if(!isAlreadyApprovedCell){
-                    //store approved data!
-                    if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
-                        strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
-                        $("#all_selected_cells").val(strApprovedCellsStore);
+                //store approved data!
+                if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
+                    strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
+                    $("#all_selected_cells").val(strApprovedCellsStore);
 
-                        strApprovedCellsWithSelectCellStore = approveAssignmentId +"_"+ selectedCells+"_"+selectedCellNo;
-                        $("#all_selected_cells_with_cellposition").val(strApprovedCellsWithSelectCellStore);
+                    strApprovedCellsWithSelectCellStore = approveAssignmentId +"_"+ selectedCells+"_"+selectedCellNo;
+                    $("#all_selected_cells_with_cellposition").val(strApprovedCellsWithSelectCellStore);
 
-                        isApprovedCellColorChanged = true;
-                    }else{         
-                        var selectedCellStore = "";
-                        var selectedCellStoreWithCellPosition = "";
-                        
-                        var isValidForApprove = false;
-                        var arrCells = approvedCells.split(',');        
-                        //store cells and cells for approval
-                        $.each(arrCells, function (nextedIndex, nestedValue) {     
-                            var arrNestedValue = nestedValue.split("_");
-                            //approveAssignmentId _ selectedCells _ selectedCellNo
-                            if(arrNestedValue[0] == approveAssignmentId && selectedCells == arrNestedValue[1]){
-                                isCurrentCellsStore = false;                                        
-                            }else{                            
-                                if(selectedCellStore == ""){
-                                    selectedCellStore = arrNestedValue[0]+"_"+arrNestedValue[1];
-                                }else{                                
-                                    var isCellAlreadyExists = false;
-                                    var arrSelectedCellStore = selectedCellStore.split(',');  
-                                    $.each(arrSelectedCellStore, function (tempIndex, selectedCellItem) {
-                                        arrSelectedCellItem = selectedCellItem.split("_");
-                                        if(arrSelectedCellItem[0] == arrNestedValue[0] && arrSelectedCellItem[1] == arrNestedValue[1]) {
-                                            isCellAlreadyExists = true;
-                                        }
-                                    }); 
-                                    if(!isCellAlreadyExists){                                    
-                                        selectedCellStore = selectedCellStore + ","+arrNestedValue[0]+"_"+arrNestedValue[1];                                    
-                                    }                                
-                                }
-                            }                                                                                                      
-                        });  
-                        
-                        //store cells and position for color
-                        var arrApprovedCellsWithPositions = approvedCellsWithPositions.split(',');
-                        $.each(arrApprovedCellsWithPositions, function (nextedIndex, nestedValue2) {     
-                            var arrNestedValue = nestedValue2.split("_");
-                            if(arrNestedValue[0] == approveAssignmentId && selectedCells == arrNestedValue[1]){
-                                //statement here
+                    isApprovedCellColorChanged = true;
+                }else{         
+                    var selectedCellStore = "";
+                    var selectedCellStoreWithCellPosition = "";
+                    
+                    var isValidForApprove = false;
+                    var arrCells = approvedCells.split(',');        
+                    //store cells and cells for approval
+                    $.each(arrCells, function (nextedIndex, nestedValue) {     
+                        var arrNestedValue = nestedValue.split("_");
+                        //approveAssignmentId _ selectedCells _ selectedCellNo
+                        if(arrNestedValue[0] == approveAssignmentId && selectedCells == arrNestedValue[1]){
+                            isCurrentCellsStore = false;                                        
+                        }else{                            
+                            if(selectedCellStore == ""){
+                                selectedCellStore = arrNestedValue[0]+"_"+arrNestedValue[1];
+                            }else{                                
+                                var isCellAlreadyExists = false;
+                                var arrSelectedCellStore = selectedCellStore.split(',');  
+                                $.each(arrSelectedCellStore, function (tempIndex, selectedCellItem) {
+                                    arrSelectedCellItem = selectedCellItem.split("_");
+                                    if(arrSelectedCellItem[0] == arrNestedValue[0] && arrSelectedCellItem[1] == arrNestedValue[1]) {
+                                        isCellAlreadyExists = true;
+                                    }
+                                }); 
+                                if(!isCellAlreadyExists){                                    
+                                    selectedCellStore = selectedCellStore + ","+arrNestedValue[0]+"_"+arrNestedValue[1];                                    
+                                }                                
                             }
-                            else{                                  
-                                if(selectedCellStoreWithCellPosition == ""){                                
-                                    selectedCellStoreWithCellPosition = arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
-                                }else{                                
-                                    var isCellAlreadyExists = false;
-                                    var arrSelectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition.split(',');                                  
-                                    $.each(arrSelectedCellStoreWithCellPosition, function (tempIndex, selectedItem2) {
-                                        var arrSelectedItem2 = selectedItem2.split('_');
-                                        if(arrSelectedItem2[0] == arrNestedValue[0] && arrSelectedItem2[1] == arrNestedValue[1]) {
-                                            isCellAlreadyExists = true;
-                                        }
-                                    }); 
-                                    if(!isCellAlreadyExists){
-                                        selectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition+","+arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
-                                    }                                
-                                }
-                            }                                                                                             
-                        });  
-
-                        if(isCurrentCellsStore){
-                            if(selectedCellStore ==""){
-                                selectedCellStore = approveAssignmentId+"_"+selectedCells;
-                                selectedCellStoreWithCellPosition = approveAssignmentId +"_"+selectedCells+"_"+selectedCellNo;
-                            }else{
-                                selectedCellStore = selectedCellStore +","+approveAssignmentId+"_"+selectedCells;;  
-                                selectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition+","+approveAssignmentId +"_"+selectedCells+"_"+selectedCellNo;                          
-                            }                        
+                        }                                                                                                      
+                    });  
+                    
+                    //store cells and position for color
+                    var arrApprovedCellsWithPositions = approvedCellsWithPositions.split(',');
+                    $.each(arrApprovedCellsWithPositions, function (nextedIndex, nestedValue2) {     
+                        var arrNestedValue = nestedValue2.split("_");
+                        if(arrNestedValue[0] == approveAssignmentId && selectedCells == arrNestedValue[1]){
+                            //statement here
                         }
-                        $("#all_selected_cells").val(selectedCellStore);
-                        $("#all_selected_cells_with_cellposition").val(selectedCellStoreWithCellPosition);                                        
-                    } 
-                }else{
-                    isCurrentCellsStore = false;
-                }
+                        else{                                  
+                            if(selectedCellStoreWithCellPosition == ""){                                
+                                selectedCellStoreWithCellPosition = arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
+                            }else{                                
+                                var isCellAlreadyExists = false;
+                                var arrSelectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition.split(',');                                  
+                                $.each(arrSelectedCellStoreWithCellPosition, function (tempIndex, selectedItem2) {
+                                    var arrSelectedItem2 = selectedItem2.split('_');
+                                    if(arrSelectedItem2[0] == arrNestedValue[0] && arrSelectedItem2[1] == arrNestedValue[1]) {
+                                        isCellAlreadyExists = true;
+                                    }
+                                }); 
+                                if(!isCellAlreadyExists){
+                                    selectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition+","+arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
+                                }                                
+                            }
+                        }                                                                                             
+                    });  
+
+                    if(isCurrentCellsStore){
+                        if(selectedCellStore ==""){
+                            selectedCellStore = approveAssignmentId+"_"+selectedCells;
+                            selectedCellStoreWithCellPosition = approveAssignmentId +"_"+selectedCells+"_"+selectedCellNo;
+                        }else{
+                            selectedCellStore = selectedCellStore +","+approveAssignmentId+"_"+selectedCells;;  
+                            selectedCellStoreWithCellPosition = selectedCellStoreWithCellPosition+","+approveAssignmentId +"_"+selectedCells+"_"+selectedCellNo;                          
+                        }                        
+                    }
+                    $("#all_selected_cells").val(selectedCellStore);
+                    $("#all_selected_cells_with_cellposition").val(selectedCellStoreWithCellPosition);                                        
+                } 
                 
                 if(isCurrentCellsStore){
                     SetColor_MultiCell(selectedCellNo);                     
@@ -2802,35 +2757,6 @@ function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPend
             }            
         }
     }); 
-}
-
-function CheckForAlreadyApprovedRows(approveAssignmentId){
-
-    var previousApprovedRows = $("#approved_selected_rows").val(); 
-    var filteredPreviousApprovedRows = "";
-
-    if(previousApprovedRows =="" || typeof previousApprovedRows === 'undefined' || previousApprovedRows === null){
-        return false;
-    }else{
-        //isAlreadyApprovedCell
-        arrPreviousRows = previousApprovedRows.split(",");
-        var isRowsExists = false;
-        $.each(arrPreviousRows, function (nextedIndex, nestedValue){
-            //var arrNestedRow = nestedValue.split("_");
-            if(nestedValue == approveAssignmentId){
-                isRowsExists = true;
-            }else{
-                if(filteredPreviousApprovedRows==""){
-                    filteredPreviousApprovedRows = nestedValue;
-                }else{
-                    filteredPreviousApprovedRows = filteredPreviousApprovedRows +","+nestedValue;
-                }
-            }        
-        })
-        $("#approved_selected_rows").val(filteredPreviousApprovedRows); 
-
-        return isRowsExists;
-    }
 }
 function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDeletePending,rowNumber){    
     $.ajax({        
@@ -2871,113 +2797,98 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                 //again:
                 //clicked: 13
                 var isCurrentRowStored = true;
-                
-                var isAlreadyApprovedRows = CheckForAlreadyApprovedRows(approveAssignmentId);
 
-                if(!isAlreadyApprovedRows){
-                    if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
-                        strApprovedRowsStore = approveAssignmentId;
-                        $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-                        $("#all_selected_row_with_assignmentId_row_number").val(strApprovedRowsStore+"_"+rowNumber+"_"+isActive);
-                        isApprovedRowColorChanged = true;                    
-                    }else{         
-                        var isValidForApprove = false;
-                        var arrCells = approvedRows.split(',');    
-                        var selectedRowsStore = "";
-                        var selectedRowWithAssignmentIdAndRowNumber = "";
+                if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
+                    strApprovedRowsStore = approveAssignmentId;
+                    $("#all_selected_row_for_approve").val(strApprovedRowsStore);
+                    $("#all_selected_row_with_assignmentId_row_number").val(strApprovedRowsStore+"_"+rowNumber+"_"+isActive);
+                    isApprovedRowColorChanged = true;                    
+                }else{         
+                    var isValidForApprove = false;
+                    var arrCells = approvedRows.split(',');    
+                    var selectedRowsStore = "";
+                    var selectedRowWithAssignmentIdAndRowNumber = "";
 
-                        $.each(arrCells, function (nextedIndex, nestedValue) { 
-                            if(nestedValue == approveAssignmentId){
-                                isCurrentRowStored = false;
+                    $.each(arrCells, function (nextedIndex, nestedValue) { 
+                        if(nestedValue == approveAssignmentId){
+                            isCurrentRowStored = false;
 
-                                if(data==1){
-                                    isNewRowDisselect = true;
-                                }else if(data==2){
-                                    isPendingRowDisselect = true;
-                                }else if(data==3){
-                                    isInactiveDisselect = true;
-                                }else if(data==4){
-                                    isDeletePendingDisselect = true;
-                                }                
+                            if(data==1){
+                                isNewRowDisselect = true;
+                            }else if(data==2){
+                                isPendingRowDisselect = true;
+                            }else if(data==3){
+                                isInactiveDisselect = true;
+                            }else if(data==4){
+                                isDeletePendingDisselect = true;
+                            }                
+                        }else{
+                            if(selectedRowsStore == ""){
+                                selectedRowsStore = nestedValue;
+                                //selectedRowWithAssignmentIdAndRowNumber = nestedValue+"_"+rowNumber;
                             }else{
-                                if(selectedRowsStore == ""){
-                                    selectedRowsStore = nestedValue;
-                                    //selectedRowWithAssignmentIdAndRowNumber = nestedValue+"_"+rowNumber;
-                                }else{
-                                    //only assignment id with comma seperated value
-                                    var isRowAlreadyExists = false;
-                                    var arrSelectedRowsStore = selectedRowsStore.split(',');  
-                                    $.each(arrSelectedRowsStore, function (tempIndex, selectedItem) {
-                                        if(selectedItem == nestedValue) {
-                                            isRowAlreadyExists = true;
-                                            //selectedRowsStore = selectedRowsStore+ ","+nestedValue;
-                                        }
-                                    }); 
-                                    if(!isRowAlreadyExists){
-                                        selectedRowsStore = selectedRowsStore+ ","+nestedValue;
-                                        //selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+nestedValue+"_"+rowNumber;
-                                    }                                
-                                }
+                                //only assignment id with comma seperated value
+                                var isRowAlreadyExists = false;
+                                var arrSelectedRowsStore = selectedRowsStore.split(',');  
+                                $.each(arrSelectedRowsStore, function (tempIndex, selectedItem) {
+                                    if(selectedItem == nestedValue) {
+                                        isRowAlreadyExists = true;
+                                        //selectedRowsStore = selectedRowsStore+ ","+nestedValue;
+                                    }
+                                }); 
+                                if(!isRowAlreadyExists){
+                                    selectedRowsStore = selectedRowsStore+ ","+nestedValue;
+                                    //selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+nestedValue+"_"+rowNumber;
+                                }                                
                             }
-
-                            // if(approveAssignmentId == nestedValue){
-                            //     isValidForApprove = false;
-                            // }
-                            // else{
-                            //     isValidForApprove = true;
-                            //     isApprovedRowColorChanged = true;
-                            // }                                              
-                        });  
-                        
-                        //assignment id with row number: start                                        
-                        var arrApprovedRowsWithAssignmentId = approvedRowsWithAssignmentId.split(',');                        
-                        $.each(arrApprovedRowsWithAssignmentId, function (nextedIndex, nestedValue2) { 
-                            var arrNestedValue = nestedValue2.split('_');
-                            if(arrNestedValue[0] != approveAssignmentId){                                   
-                                if(selectedRowWithAssignmentIdAndRowNumber == ""){                                
-                                    selectedRowWithAssignmentIdAndRowNumber = arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
-                                }else{                                
-                                    var isRowAlreadyExists = false;
-                                    var arrSelectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber.split(',');                                  
-                                    $.each(arrSelectedRowWithAssignmentIdAndRowNumber, function (tempIndex, selectedItem2) {
-                                        var arrSelectedItem2 = selectedItem2.split('_');
-                                        if(arrSelectedItem2[0] == arrNestedValue[0]) {
-                                            isRowAlreadyExists = true;
-                                            //selectedRowsStore = selectedRowsStore+ ","+nestedValue2;
-                                        }
-                                    }); 
-                                    if(!isRowAlreadyExists){
-                                        selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
-                                    }                                
-                                }
-                            }
-                        }); 
-                        //assignment id with row number: end 
-
-                        if(isCurrentRowStored){
-                            if(selectedRowsStore ==""){
-                                selectedRowsStore = approveAssignmentId;
-                                selectedRowWithAssignmentIdAndRowNumber = approveAssignmentId +"_"+rowNumber+"_"+isActive;
-                            }else{
-                                selectedRowsStore = selectedRowsStore +","+approveAssignmentId;  
-                                selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+approveAssignmentId +"_"+rowNumber+"_"+isActive;                          
-                            }                        
                         }
 
-                        $("#all_selected_row_for_approve").val(selectedRowsStore);
-                        $("#all_selected_row_with_assignmentId_row_number").val(selectedRowWithAssignmentIdAndRowNumber);                                                         
+                        // if(approveAssignmentId == nestedValue){
+                        //     isValidForApprove = false;
+                        // }
+                        // else{
+                        //     isValidForApprove = true;
+                        //     isApprovedRowColorChanged = true;
+                        // }                                              
+                    });  
+                    
+                    //assignment id with row number: start                                        
+                    var arrApprovedRowsWithAssignmentId = approvedRowsWithAssignmentId.split(',');                        
+                    $.each(arrApprovedRowsWithAssignmentId, function (nextedIndex, nestedValue2) { 
+                        var arrNestedValue = nestedValue2.split('_');
+                        if(arrNestedValue[0] != approveAssignmentId){                                   
+                            if(selectedRowWithAssignmentIdAndRowNumber == ""){                                
+                                selectedRowWithAssignmentIdAndRowNumber = arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
+                            }else{                                
+                                var isRowAlreadyExists = false;
+                                var arrSelectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber.split(',');                                  
+                                $.each(arrSelectedRowWithAssignmentIdAndRowNumber, function (tempIndex, selectedItem2) {
+                                    var arrSelectedItem2 = selectedItem2.split('_');
+                                    if(arrSelectedItem2[0] == arrNestedValue[0]) {
+                                        isRowAlreadyExists = true;
+                                        //selectedRowsStore = selectedRowsStore+ ","+nestedValue2;
+                                    }
+                                }); 
+                                if(!isRowAlreadyExists){
+                                    selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+arrNestedValue[0]+"_"+arrNestedValue[1]+"_"+arrNestedValue[2];
+                                }                                
+                            }
+                        }
+                    }); 
+                    //assignment id with row number: end 
+
+                    if(isCurrentRowStored){
+                        if(selectedRowsStore ==""){
+                            selectedRowsStore = approveAssignmentId;
+                            selectedRowWithAssignmentIdAndRowNumber = approveAssignmentId +"_"+rowNumber+"_"+isActive;
+                        }else{
+                            selectedRowsStore = selectedRowsStore +","+approveAssignmentId;  
+                            selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+approveAssignmentId +"_"+rowNumber+"_"+isActive;                          
+                        }                        
                     }
-                }else{
-                    if(data==1){
-                        isNewRowDisselect = true;
-                    }else if(data==2){
-                        isPendingRowDisselect = true;
-                    }else if(data==3){
-                        isInactiveDisselect = true;
-                    }else if(data==4){
-                        isDeletePendingDisselect = true;
-                    }   
-                    isCurrentRowStored = false;
+
+                    $("#all_selected_row_for_approve").val(selectedRowsStore);
+                    $("#all_selected_row_with_assignmentId_row_number").val(selectedRowWithAssignmentIdAndRowNumber);                                                         
                 }
 
                 if(isCurrentRowStored){
@@ -3024,14 +2935,44 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
 
-    if(typeof retrivedData != "undefined"){        
+    if(typeof retrivedData != "undefined"){
+        
+        //selected_cells_with_assignmentId
+        //selected_rows_with_assignmentId
         if(x2==45){
             //row approval
-            CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
+            var isValidRequestForRowApproval = CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
+            
+            //$("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+            //$("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+
+            //$("#pending_selected_row").val(retrivedData.isRowPending);
+            //$("#pending_selected_deleted_row").val(retrivedData.isDeletePending);
+            
+            //$("#hid_SelectedCellPosition").val(x1);
+            //$("#selectCellNumber").val(cellName1);
+            
+            //$("#hid_IsRowSelected").val("yes");
+            //$("#hidIsRowDeleted").val(retrivedData.isActive);
+            //$("#hidSelectedRowNumber").val(sRows);
         }else{
             //cells approval
-            CheckForValidCellRequest(retrivedData.assignmentId,x2,retrivedData.bCYRCellPending,x1,cellName1,sRows);
+            var isValidRequestForCellApproval = CheckForValidCellRequest(retrivedData.assignmentId,x2,retrivedData.bCYRCellPending,x1,cellName1,sRows);
+
+            // $("#hidSelectedRow_AssignementId").val(retrivedData.assignmentId);
+            // $("#pending_cells_selected_cells").val(retrivedData.bCYRCellPending);
+            
+            // $("#hid_SelectedCellPosition").val(x1);
+            // $("#selectCellNumber").val(cellName1);
+        
+            // $("#hid_IsRowSelected").val("no");
+            // $("#hid_cellNo").val(x2);
+            // $("#hidSelectedRowNumber").val(sRows);
         }
+        
+        // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
+        // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
+        // $('#log').append('The selection from ' + cellName1 + ' to ' + cellName2 + '');
     }
 }
 // var focus = function(instance) {

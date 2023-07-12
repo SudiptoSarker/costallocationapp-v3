@@ -2818,7 +2818,7 @@ function ShowForecastResults(year) {
         //     SetRowColor_ForDeletedRow(count)
         // }        
         if (value['38'] == false && value['39'] == false && value['44'] == false) {
-            //DisableRow(count);
+            DisableRow(count);
         }
         else if(value['43'] == true || value['44'] == true){
             SetRowColor_UnapprovedDeleteRow(count)

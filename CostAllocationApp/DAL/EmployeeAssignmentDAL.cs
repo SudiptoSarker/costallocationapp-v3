@@ -2339,9 +2339,12 @@ namespace CostAllocationApp.DAL
             }
             return isValidData;
         }
-        public bool CheckForApprovedCells(string assignementId, string selectedCells)
+        public int CheckForApprovedCells(string assignementId, string selectedCells)
         {
             EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            bool isBCYRCell = false;
+            bool isBCYRCellPending = false;
+
             string query = "select * from EmployeesAssignments where  id=" + assignementId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -2376,6 +2379,7 @@ namespace CostAllocationApp.DAL
                     if (itemCells == selectedCells)
                     {
                         isValidData = true;
+                        isBCYRCell = true;
                     }
                 }
             }
@@ -2387,10 +2391,19 @@ namespace CostAllocationApp.DAL
                     if (itemCells == selectedCells)
                     {
                         isValidData = true;
+                        isBCYRCellPending = true;
                     }
                 }
             }
-            return isValidData;
+            int resultData = 0;
+            if (isBCYRCell)
+            {
+                resultData = 1;
+            }else if (isBCYRCellPending)
+            {
+                resultData = 2;
+            }
+            return resultData;
         }
 
         public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)

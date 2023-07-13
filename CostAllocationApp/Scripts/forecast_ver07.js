@@ -218,7 +218,7 @@ $(document).ready(function () {
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
-        var _uniqueEmployeeIds;
+        var _uniqueEmployeeIds=[];
         var employeeCount = 0;
         var rowCount = 0;
         $.ajax({

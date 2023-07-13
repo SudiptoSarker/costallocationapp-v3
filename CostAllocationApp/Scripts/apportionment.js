@@ -160,6 +160,7 @@ $(document).ready(function () {
                             }
                         },
                     });
+                    jss.deleteColumn(14, 20);
                 }
             });
         }, 3000);

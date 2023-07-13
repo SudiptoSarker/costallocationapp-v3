@@ -216,6 +216,9 @@ $(document).ready(function () {
 
     $('#update_forecast_history').on('click', function () {
         var storeMessage = [];
+        var _duplicateFlag = false;
+        var _employeeIds = [];
+        var _uniqueEmployeeIds;
         var employeeCount = 0;
         var rowCount = 0;
         $.ajax({
@@ -252,6 +255,148 @@ $(document).ready(function () {
             });
             alert(displayMessage);
             return false;
+        }
+
+        
+        var allTableData = jss.getData();
+
+        for (var i = 0; i < jssInsertedData.length; i++) {
+            _employeeIds.push(jssInsertedData[i].employeeId);
+        }
+
+        for (var i = 0; i < jssUpdatedData.length; i++) {
+            _employeeIds.push(jssUpdatedData[i].employeeId);
+        }
+
+        if (_employeeIds.length > 0) {
+            _uniqueEmployeeIds = _employeeIds.filter((value, index, array) => {
+                return array.indexOf(value) === index;
+            });
+        }
+        if (_uniqueEmployeeIds.length > 0) {
+            var tempArray = [];
+            var tempArrayCopy=[];
+            for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
+                for (var j = 0; j < allTableData.length; j++) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
+                        tempArray.push(allTableData[j]);
+                    }
+                }
+            }
+            var singleRowDuplicationCount = 0;
+            for (var i = 0; i < tempArray.length; i++) {
+                
+                if (tempArrayCopy.length == 0) {
+                    tempArrayCopy.push(tempArray[i]);
+                }
+                else {
+                    let tempArrayCount = tempArrayCopy.length;
+                    for (var k = 0; k < tempArrayCount; k++) {
+                        singleRowDuplicationCount = 0;
+
+                        //section
+                        if (tempArray[i][3] == tempArrayCopy[k][3]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //department
+                        if (tempArray[i][4] == tempArrayCopy[k][4]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //in-charge
+                        if (tempArray[i][5] == tempArrayCopy[k][5]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //role
+                        if (tempArray[i][6] == tempArrayCopy[k][6]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //explanation
+                        if (tempArray[i][7] == tempArrayCopy[k][7]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //company
+                        if (tempArray[i][8]== tempArrayCopy[k][8]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //grade
+                        if (tempArray[i][9] == tempArrayCopy[k][9]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //unit price
+                        if (tempArray[i][10] == tempArrayCopy[k][10]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //oct point
+                        if (tempArray[i][11] == tempArrayCopy[k][11]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //nov point
+                        if (tempArray[i][12] == tempArrayCopy[k][12]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //dec point
+                        if (tempArray[i][13] == tempArrayCopy[k][13]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jan point
+                        if (tempArray[i][14] == tempArrayCopy[k][14]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //feb point
+                        if (tempArray[i][15] == tempArrayCopy[k][15]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //mar point
+                        if (tempArray[i][16] == tempArrayCopy[k][16]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //apr point
+                        if (tempArray[i][17] == tempArrayCopy[k][17]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //may point
+                        if (tempArray[i][18] == tempArrayCopy[k][18]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jun point
+                        if (tempArray[i][19] == tempArrayCopy[k][19]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jul point
+                        if (tempArray[i][20] == tempArrayCopy[k][20]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //aug point
+                        if (tempArray[i][21] == tempArrayCopy[k][21]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //sep point
+                        if (tempArray[i][22] == tempArrayCopy[k][22]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //employee id
+                        if (tempArray[i][35] == tempArrayCopy[k][35]) {
+                            singleRowDuplicationCount++;
+                        }
+
+                        if (singleRowDuplicationCount == 21) {
+                            alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            _duplicateFlag = true;
+                            break;
+                        }
+                        else {
+                            tempArrayCopy.push(tempArray[i]);
+                        }
+                    }
+                }
+                if (_duplicateFlag == true) {
+                    break;
+                }
+            }
+
+            if (_duplicateFlag == true) {
+                return false;
+            }
         }
 
         if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {

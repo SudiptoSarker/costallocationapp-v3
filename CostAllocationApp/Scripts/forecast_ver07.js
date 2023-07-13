@@ -283,7 +283,6 @@ $(document).ready(function () {
                     }
                 }
             }
-            debugger;
             var singleRowDuplicationCount = 0;
             for (var i = 0; i < tempArray.length; i++) {
                 
@@ -327,12 +326,60 @@ $(document).ready(function () {
                         if (tempArray[i][10] == tempArrayCopy[k][10]) {
                             singleRowDuplicationCount++;
                         }
+                        //oct point
+                        if (tempArray[i][11] == tempArrayCopy[k][11]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //nov point
+                        if (tempArray[i][12] == tempArrayCopy[k][12]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //dec point
+                        if (tempArray[i][13] == tempArrayCopy[k][13]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jan point
+                        if (tempArray[i][14] == tempArrayCopy[k][14]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //feb point
+                        if (tempArray[i][15] == tempArrayCopy[k][15]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //mar point
+                        if (tempArray[i][16] == tempArrayCopy[k][16]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //apr point
+                        if (tempArray[i][17] == tempArrayCopy[k][17]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //may point
+                        if (tempArray[i][18] == tempArrayCopy[k][18]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jun point
+                        if (tempArray[i][19] == tempArrayCopy[k][19]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //jul point
+                        if (tempArray[i][20] == tempArrayCopy[k][20]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //aug point
+                        if (tempArray[i][21] == tempArrayCopy[k][21]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //sep point
+                        if (tempArray[i][22] == tempArrayCopy[k][22]) {
+                            singleRowDuplicationCount++;
+                        }
                         //employee id
                         if (tempArray[i][35] == tempArrayCopy[k][35]) {
                             singleRowDuplicationCount++;
                         }
 
-                        if (singleRowDuplicationCount == 9) {
+                        if (singleRowDuplicationCount == 21) {
                             alert('duplicate row(s) found for ' + tempArray[i][1]);
                             _duplicateFlag = true;
                             break;

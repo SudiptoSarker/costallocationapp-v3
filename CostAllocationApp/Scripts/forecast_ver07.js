@@ -273,6 +273,7 @@ $(document).ready(function () {
                 return array.indexOf(value) === index;
             });
         }
+        
         if (_uniqueEmployeeIds.length > 0) {
             var tempArray = [];
             var tempArrayCopy=[];

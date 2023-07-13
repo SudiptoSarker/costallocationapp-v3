@@ -273,6 +273,7 @@ $(document).ready(function () {
                 return array.indexOf(value) === index;
             });
         }
+        
         if (_uniqueEmployeeIds.length > 0) {
             var tempArray = [];
             var tempArrayCopy=[];
@@ -2028,7 +2029,7 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
-    jss.deleteColumn(45, 18);
+    jss.deleteColumn(45, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');

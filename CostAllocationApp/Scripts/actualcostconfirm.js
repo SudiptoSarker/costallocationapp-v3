@@ -161,25 +161,27 @@ $(document).ready(function () {
                     var w = window.innerWidth;
                     var h = window.innerHeight;
                     console.log(h);
+
                     jss = $('#jspreadsheet').jspreadsheet({
                         data: _retriveddata,
-                        filters: true,
+                        filters: true,                        
                         tableOverflow: true,
                         freezeColumns: 3,
                         defaultColWidth: 50,
-                        tableWidth: w - 300 + "px",
-                        tableHeight: (h - 300) + "px",
+                        tableWidth: w-280+ "px",
+                        tableHeight: (h-150) + "px",
 
+                        
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "Id" },
-                            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-                            { title: "Remarks", type: "text", name: "Remarks", width: 60 },
-                            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
-                            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
-                            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
-                            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60 },
-                            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
-                            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
+                            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150,readOnly: true },
+                            { title: "Remarks", type: "text", name: "Remarks", width: 60,readOnly: true },
+                            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100,readOnly: true },
+                            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100,readOnly: true },
+                            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100,readOnly: true },
+                            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60,readOnly: true },
+                            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
+                            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },
                             //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
                             {
                                 title: `${queryStrings['month']}月単価(uc)`,
@@ -227,12 +229,13 @@ $(document).ready(function () {
                                 //readOnly: userRoleflag
                             }
                         ],
+                        minDimensions: [6, 10],
                         columnSorting: true,
                         contextMenu: function (obj, x, y, e) {
 
                         }
                     });
-                    //jss.deleteColumn(13, 20);
+                    jss.deleteColumn(14, 20);
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');

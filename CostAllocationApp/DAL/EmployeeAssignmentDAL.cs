@@ -2339,9 +2339,12 @@ namespace CostAllocationApp.DAL
             }
             return isValidData;
         }
-        public bool CheckForApprovedCells(string assignementId, string selectedCells)
+        public int CheckForApprovedCells(string assignementId, string selectedCells)
         {
             EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
+            bool isBCYRCell = false;
+            bool isBCYRCellPending = false;
+
             string query = "select * from EmployeesAssignments where  id=" + assignementId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -2376,6 +2379,7 @@ namespace CostAllocationApp.DAL
                     if (itemCells == selectedCells)
                     {
                         isValidData = true;
+                        isBCYRCell = true;
                     }
                 }
             }
@@ -2387,10 +2391,19 @@ namespace CostAllocationApp.DAL
                     if (itemCells == selectedCells)
                     {
                         isValidData = true;
+                        isBCYRCellPending = true;
                     }
                 }
             }
-            return isValidData;
+            int resultData = 0;
+            if (isBCYRCell)
+            {
+                resultData = 1;
+            }else if (isBCYRCellPending)
+            {
+                resultData = 2;
+            }
+            return resultData;
         }
 
         public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)
@@ -2915,51 +2928,41 @@ namespace CostAllocationApp.DAL
                             //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
                             forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            //forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                             forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
                             forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
 
-                            //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
-                            //    forecastEmployeeAssignmentViewModel.EmployeeNameWithCodeRemarks = forecastEmployeeAssignmentViewModel.EmployeeNameWithCodeRemarks + " " + forecastEmployeeAssignmentViewModel.SubCode;
-                            //}
-                            //else
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.SubCode = 0;
-                            //}
-
-                            //if (!string.IsNullOrEmpty(rdr["Remarks"].ToString()))
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"].ToString();
-                            //    forecastEmployeeAssignmentViewModel.EmployeeNameWithCodeRemarks = forecastEmployeeAssignmentViewModel.EmployeeNameWithCodeRemarks + " (" + forecastEmployeeAssignmentViewModel.Remarks + ")";
-                            //}
-                            //else
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.Remarks = "";
-                            //}
-
-                            //if (!string.IsNullOrEmpty(rdr["Remarks"].ToString()))
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"].ToString();
-                            //}
-                            //else
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.Remarks = "";
-                            //}
-                            //if (!string.IsNullOrEmpty(rdr["SubCode"].ToString()))
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
-                            //}
-                            //else
-                            //{
-                            //    forecastEmployeeAssignmentViewModel.SubCode = 0;
-                            //}
-
-                            //HttpContext.Current.Response.Write("employeeAssignmentViewModel.UnitPrice: " + employeeAssignmentViewModel.UnitPrice);
-                            //HttpContext.Current.Response.End();
-
+                            //check for if duplicate pending cells is there!
+                            string pendingCellWithoutDuplicateCells = "";
+                            if (!string.IsNullOrEmpty(forecastEmployeeAssignmentViewModel.BCYRCellPending))
+                            {
+                                var arrPendingCells = forecastEmployeeAssignmentViewModel.BCYRCellPending.Split(',');
+                                foreach(var pendingCellitem in arrPendingCells)
+                                {
+                                    if (string.IsNullOrEmpty(pendingCellWithoutDuplicateCells))
+                                    {
+                                        pendingCellWithoutDuplicateCells = pendingCellitem;
+                                    }
+                                    else
+                                    {
+                                        bool isDuplicatedCells = false;
+                                        var arrPendingCellWithoutDuplicateCells = pendingCellWithoutDuplicateCells.Split(',');
+                                        foreach (var duplicateItem in arrPendingCellWithoutDuplicateCells)
+                                        {
+                                            if (duplicateItem == pendingCellitem)
+                                            {
+                                                isDuplicatedCells = true;
+                                            }
+                                        }
+                                        if (!isDuplicatedCells)
+                                        {
+                                            pendingCellWithoutDuplicateCells = pendingCellWithoutDuplicateCells+","+pendingCellitem;
+                                        }
+                                    }
+                                }
+                                forecastEmployeeAssignmentViewModel.BCYRCellPending = pendingCellWithoutDuplicateCells;
+                            }
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
                     }

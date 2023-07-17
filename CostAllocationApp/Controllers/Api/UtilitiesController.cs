@@ -1698,8 +1698,9 @@ namespace CostAllocationApp.Controllers.Api
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
             bool isUpdateData = false;
 
-            bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
-            if (isValidForApproved) { 
+            //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
+            int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
+            if (resultData>0) { 
                 //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
                 _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
             
@@ -1805,15 +1806,9 @@ namespace CostAllocationApp.Controllers.Api
         {
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();            
 
-            bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
-            if (isValidForApproved)
-            {
-                return Ok(1);
-            }
-            else
-            {
-                return Ok(0);
-            }
+            //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
+            int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
+            return Ok(resultData);            
         }
 
         [HttpGet]
@@ -1827,9 +1822,14 @@ namespace CostAllocationApp.Controllers.Api
             if (!isDeletedRow)
             {
                 //check for delete
-                if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
+                //if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
+                if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) && !_employeeAssignment.IsDeletePending)
                 {
-                    return Ok(1);
+                    return Ok(3);
+                }
+                else if (_employeeAssignment.IsDeletePending)
+                {
+                    return Ok(4);
                 }
                 else
                 {
@@ -1839,9 +1839,14 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 //check for add row data       
-                if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
+                //if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
+                if (_employeeAssignment.BCYR)
                 {
                     return Ok(1);
+                }
+                else if (_employeeAssignment.IsRowPending)
+                {
+                    return Ok(2);
                 }
                 else
                 {
@@ -4449,7 +4454,6 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
                         }                        
-                        
 
                         if (string.IsNullOrEmpty(approvedCellAssignmentId))
                         {
@@ -4489,7 +4493,7 @@ namespace CostAllocationApp.Controllers.Api
                             {
                                 if (item != arrCellAndAssignmentId[1])
                                 {
-                                    if (string.IsNullOrEmpty(updatedApprovedCells))
+                                    if (string.IsNullOrEmpty(updatePendingCells))
                                     {
                                         updatePendingCells = item;
                                     }

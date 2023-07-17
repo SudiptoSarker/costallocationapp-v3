@@ -215,7 +215,10 @@ $(document).ready(function () {
     //});    
 
     $('#update_forecast_history').on('click', function () {
-
+        var storeMessage = [];
+        var _duplicateFlag = false;
+        var _employeeIds = [];
+        var _uniqueEmployeeIds=[];
         var employeeCount = 0;
         var rowCount = 0;
         $.ajax({
@@ -228,6 +231,615 @@ $(document).ready(function () {
                 employeeCount = data.length;
             }
         });
+
+        if (jssInsertedData.length > 0) {
+            for (var i = 0; i < jssInsertedData.length; i++) {
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
+                }
+            }
+        }
+
+        if (jssUpdatedData.length > 0) {
+            for (var i = 0; i < jssUpdatedData.length; i++) {
+                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssUpdatedData[i].employeeName);
+                }
+            }
+        }
+
+        if (storeMessage.length > 0) {
+            let displayMessage = '';
+            $.each(storeMessage, (index, value) => {
+                displayMessage += value + '\n';
+            });
+            alert(displayMessage);
+            return false;
+        }
+
+        
+        var allTableData = jss.getData();
+
+        for (var i = 0; i < jssInsertedData.length; i++) {
+            _employeeIds.push(jssInsertedData[i].employeeId);
+        }
+
+        for (var i = 0; i < jssUpdatedData.length; i++) {
+            _employeeIds.push(jssUpdatedData[i].employeeId);
+        }
+
+        if (_employeeIds.length > 0) {
+            _uniqueEmployeeIds = _employeeIds.filter((value, index, array) => {
+                return array.indexOf(value) === index;
+            });
+        }
+        
+        if (_uniqueEmployeeIds.length > 0) {
+            var tempArray = [];
+            var tempArrayCopy=[];
+            for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
+                for (var j = 0; j < allTableData.length; j++) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
+                        tempArray.push(allTableData[j]);
+                    }
+                }
+            }
+            var singleRowDuplicationCount = 0;
+            for (var i = 0; i < tempArray.length; i++) {
+                
+                if (tempArrayCopy.length == 0) {
+                    tempArrayCopy.push(tempArray[i]);
+                }
+                else {
+                    let tempArrayCount = tempArrayCopy.length;
+                    for (var k = 0; k < tempArrayCount; k++) {
+                        singleRowDuplicationCount = 0;
+
+                        //section
+                        if (tempArray[i][3] == tempArrayCopy[k][3]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //department
+                        if (tempArray[i][4] == tempArrayCopy[k][4]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //in-charge
+                        if (tempArray[i][5] == tempArrayCopy[k][5]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //role
+                        if (tempArray[i][6] == tempArrayCopy[k][6]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //explanation
+                        if (tempArray[i][7] == tempArrayCopy[k][7]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //company
+                        if (tempArray[i][8]== tempArrayCopy[k][8]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //grade
+                        if (tempArray[i][9] == tempArrayCopy[k][9]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //unit price
+                        if (tempArray[i][10] == tempArrayCopy[k][10]) {
+                            singleRowDuplicationCount++;
+                        }
+                        ////oct point
+                        //if (tempArray[i][11] == tempArrayCopy[k][11]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////nov point
+                        //if (tempArray[i][12] == tempArrayCopy[k][12]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////dec point
+                        //if (tempArray[i][13] == tempArrayCopy[k][13]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jan point
+                        //if (tempArray[i][14] == tempArrayCopy[k][14]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////feb point
+                        //if (tempArray[i][15] == tempArrayCopy[k][15]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////mar point
+                        //if (tempArray[i][16] == tempArrayCopy[k][16]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////apr point
+                        //if (tempArray[i][17] == tempArrayCopy[k][17]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////may point
+                        //if (tempArray[i][18] == tempArrayCopy[k][18]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jun point
+                        //if (tempArray[i][19] == tempArrayCopy[k][19]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jul point
+                        //if (tempArray[i][20] == tempArrayCopy[k][20]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////aug point
+                        //if (tempArray[i][21] == tempArrayCopy[k][21]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////sep point
+                        //if (tempArray[i][22] == tempArrayCopy[k][22]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        //employee id
+                        if (tempArray[i][35] == tempArrayCopy[k][35]) {
+                            singleRowDuplicationCount++;
+                        }
+
+                        if (singleRowDuplicationCount == 9) {
+                            alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            _duplicateFlag = true;
+                            break;
+                        }
+                        else {
+                            tempArrayCopy.push(tempArray[i]);
+                        }
+                    }
+                }
+                if (_duplicateFlag == true) {
+                    break;
+                }
+            }
+
+            if (_duplicateFlag == true) {
+                return false;
+            }
+        }
+
+        debugger;
+        if (jssInsertedData.length > 0) {
+            var insertedUniqueEmployeeData_unitPrice = [];
+            var insertedUniqueEmployeeData_role = [];
+            var insertedUniqueEmployeeData_both = [];
+
+            var lastColumnsData_unitPrice = [];
+            var lastColumnsData_role = [];
+            var lastColumnsData_both = [];
+
+            var _unitPriceFlag = false;
+            var _roleFlag = false;
+            var _bothFlag = false;
+
+            var _allData = jss.getData();
+
+            for (var i = 0; i < jssInsertedData.length; i++) {
+                // checking unit price....
+                if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {
+                    // unit price duplication check
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_unitPrice.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData.length > 0) {
+                                insertedUniqueEmployeeData_unitPrice = lastColumnsData_unitPrice.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_unitPrice.length > 0) {
+                                var newUnitPriceList = [];
+                                var newUnitPriceListCopy = [];
+                                
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_unitPrice.length; i++) {
+                                    newUnitPriceList = [];
+                                    newUnitPriceListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_unitPrice[i].split('_');
+                                    newUnitPriceList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_unitPrice[i] == _allData[k][45]) {
+                                            newUnitPriceList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newUnitPriceList.length; l++) {
+                                        if (newUnitPriceListCopy.length == 0) {
+                                            newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newUnitPriceListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //oct point
+                                                if (parseFloat(newUnitPriceList[l][11]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                //nov point
+                                                if (parseFloat(newUnitPriceList[l][12]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //dec point
+                                                if (parseFloat(newUnitPriceList[l][13]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jan point
+                                                if (parseFloat(newUnitPriceList[l][14]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //feb point
+                                                if (parseFloat(newUnitPriceList[l][15]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //mar point
+                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //apr point
+                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //may point
+                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jun point
+                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jul point
+                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //aug point
+                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //sep point
+                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_unitPriceFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_unitPriceFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                // checking role
+                if (jssInsertedData[i].rowType.toLowerCase().includes('role')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_role.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData_role.length > 0) {
+                                insertedUniqueEmployeeData_role = lastColumnsData_role.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_role.length > 0) {
+                                var newRoleList = [];
+                                var newRoleListCopy = [];
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_role.length; i++) {
+                                    newRoleList = [];
+                                    newRoleListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_role[i].split('_');
+                                    newRoleList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_role[i] == _allData[k][45]) {
+                                            newRoleList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newRoleList.length; l++) {
+                                        if (newRoleListCopy.length == 0) {
+                                            newRoleListCopy.push(newRoleList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newRoleListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //role column
+                                                if (newRoleList[l][6] == newRoleListCopy[m][6]) {
+                                                    rowCount++;
+                                                    _roleFlag = true;
+                                                    alert('duplicate (role) row(s) found for ' + newRoleList[l][1]);
+                                                    break;
+                                                }
+
+                                                newRoleListCopy.push(newRoleList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_roleFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_roleFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                // checking both
+                if (jssInsertedData[i].rowType.toLowerCase().includes('both')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_both.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData_both.length > 0) {
+                                insertedUniqueEmployeeData_both = lastColumnsData_both.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_both.length > 0) {
+                                var newBothList = [];
+                                var newBothListCopy = [];
+
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_both.length; i++) {
+                                    newBothList = [];
+                                    newBothListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_both[i].split('_');
+                                    newBothList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_both[i] == _allData[k][45]) {
+                                            newBothList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newBothList.length; l++) {
+                                        if (newBothListCopy.length == 0) {
+                                            newBothListCopy.push(newBothList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newBothListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //role column
+                                                if (newBothList[l][6] == newBothListCopy[m][6]) {
+                                                    rowCount++;
+                                                    _bothFlag = true;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    break;
+                                                }
+                                                if (newBothList[l][4] == newBothListCopy[m][4]) {
+                                                    //oct point
+                                                    if (parseFloat(newBothList[l][11]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][11]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //nov point
+                                                    if (parseFloat(newBothList[l][12]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][12]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //dec point
+                                                    if (parseFloat(newBothList[l][13]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][13]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //jan point
+                                                    if (parseFloat(newBothList[l][14]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][14]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //feb point
+                                                    if (parseFloat(newBothList[l][15]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][15]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //mar point
+                                                    if (parseFloat(newBothList[l][16]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][16]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //apr point
+                                                    if (parseFloat(newBothList[l][17]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][17]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //may point
+                                                    if (parseFloat(newBothList[l][18]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][18]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //jun point
+                                                    if (parseFloat(newBothList[l][19]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][19]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //jul point
+                                                    if (parseFloat(newBothList[l][20]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][20]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //aug point
+                                                    if (parseFloat(newBothList[l][21]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][21]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //sep point
+                                                    if (parseFloat(newBothList[l][22]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][22]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                                newBothListCopy.push(newBothList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_bothFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_bothFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
 
 
         if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {
@@ -642,7 +1254,7 @@ function ShowForecastResults(year) {
             {
                 title: "10月",
                 type: "number",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "OctTotal",
                 width: 60
@@ -650,77 +1262,77 @@ function ShowForecastResults(year) {
             {
                 title: "11月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "NovTotal"
             },
             {
                 title: "12月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "DecTotal"
             },
             {
                 title: "1月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "JanTotal"
             },
             {
                 title: "2月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "FebTotal"
             },
             {
                 title: "3月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "MarTotal"
             },
             {
                 title: "4月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "AprTotal"
             },
             {
                 title: "5月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "MayTotal"
             },
             {
                 title: "6月",
                 type: "decimal",
-                // readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "JunTotal"
             },
             {
                 title: "7月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "JulTotal"
             },
             {
                 title: "8月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "AugTotal"
             },
             {
                 title: "9月",
                 type: "decimal",
-                //readOnly: true,
+                readOnly: true,
                 mask: "#,##0",
                 name: "SepTotal"
             },
@@ -735,6 +1347,7 @@ function ShowForecastResults(year) {
 
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
+            { title: "RowType", type: 'hidden', name: "RowType" }
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -822,7 +1435,10 @@ function ShowForecastResults(year) {
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
+                    }else{
+                        
                     }
+
                     if (x == 3) {
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
@@ -1435,6 +2051,7 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1613,6 +2230,8 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1788,6 +2407,8 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1859,7 +2480,7 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
-    jss.deleteColumn(45, 18);
+    jss.deleteColumn(46, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1945,7 +2566,7 @@ function ShowForecastResults(year) {
     });
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
     // $("#head_total").css("width",w-300);
-
+    
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {
@@ -2696,10 +3317,11 @@ function ShowForecastResults(year) {
         //     SetRowColor_ForDeletedRow(count)
         // }        
         if (value['38'] == false && value['39'] == false && value['44'] == false) {
-            //DisableRow(count);
+            DisableRow(count);
         }
         else if(value['43'] == true || value['44'] == true){
-            SetRowColor_UnapprovedDeleteRow(count)
+            //SetRowColor_UnapprovedDeleteRow(count)
+            SetRowColor_UnaprovedNewAndDeletedRow(count)
         }
         // else if(value['44'] == true){
         //     //SetRowColor_UnapprovedDeleteRow(count)
@@ -2828,6 +3450,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     array[index].companyId = retrivedData.companyId;
     array[index].gradeId = retrivedData.gradeId;
     array[index].unitPrice = retrivedData.unitPrice;
+    array[index].rowType = retrivedData.rowType;
     if (x == 2) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
@@ -3203,7 +3826,8 @@ function retrivedObject(rowData) {
         bCYRApproved: rowData[39],
         bCYRCellApproved: rowData[40],
         isApproved: rowData[41],
-        bCYRCellPending: rowData[42]
+        bCYRCellPending: rowData[42],
+        rowType: rowData[45],
     };
 }
 
@@ -3298,6 +3922,7 @@ function UpdateForecast() {
         }
     });
 
+
     var updateMessage = "";
     var insertMessage = "";
     var promptValue = prompt("History Save As", '');
@@ -3313,31 +3938,34 @@ function UpdateForecast() {
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
         if (jssUpdatedData.length > 0) {
-            updateMessage = "Successfully data updated";
-            $.ajax({
-                url: `/api/utilities/UpdateForecastData`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
-                success: function (data) {
-                    var year = $("#assignment_year_list").val();
-                    ShowForecastResults(year);
+           
+                updateMessage = "Successfully data updated";
+                $.ajax({
+                    url: `/api/utilities/UpdateForecastData`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
+                    success: function (data) {
+                        var year = $("#assignment_year_list").val();
+                        ShowForecastResults(year);
 
-                    $("#timeStamp_ForUpdateData").val(data);
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    //$("#head_total").show();
-                    LoaderHide();
-                }
-            });
-            jssUpdatedData = [];
+                        $("#timeStamp_ForUpdateData").val(data);
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been updated by ', userName);
+                        });
+                        $("#jspreadsheet").show();
+                        //$("#head_total").show();
+                        LoaderHide();
+                    }
+                });
+                jssUpdatedData = [];
+            
+            
         }
         else {
             $("#jspreadsheet").show();
@@ -3355,45 +3983,48 @@ function UpdateForecast() {
                 jssInsertedData.splice(elementIndex, 1);
             }
 
-            insertMessage = "Successfully data inserted.";
+            
             var update_timeStampId = $("#timeStamp_ForUpdateData").val();
+            
+                insertMessage = "Successfully data inserted.";
+                $.ajax({
+                    url: `/api/utilities/ExcelAssignment/`,
+                    contentType: 'application/json',
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    //data: JSON.stringify(jssInsertedData),
+                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
+                    success: function (data) {
+                        var allJexcelData = jss.getData();
+                        for (let i = 0; i < data.length; i++) {
 
-            $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                //data: JSON.stringify(jssInsertedData),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                success: function (data) {
-                    var allJexcelData = jss.getData();
-                    for (let i = 0; i < data.length; i++) {
+                            $.each(allJexcelData, (index, dataValue) => {
+                                if (data[i].assignmentId == dataValue[0]) {
+                                    jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                                }
 
-                        $.each(allJexcelData, (index, dataValue) => {
-                            if (data[i].assignmentId == dataValue[0]) {
-                                jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                            }
-                            
+                            });
+                        }
+
+
+
+                        $("#timeStamp_ForUpdateData").val('');
+                        var chat = $.connection.chatHub;
+                        $.connection.hub.start();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            chat.server.send('data has been inserted by ', userName);
                         });
+                        $("#jspreadsheet").show();
+                        //$("#head_total").show();
+                        LoaderHide();
                     }
+                });
+                jssInsertedData = [];
+                newRowCount = 1;
 
-                    
 
-                    $("#timeStamp_ForUpdateData").val('');
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    //$("#head_total").show();
-                    LoaderHide();
-                }
-            });
-            jssInsertedData = [];
-            newRowCount = 1;
         }
 
         if (deletedExistingRowIds.length > 0) {
@@ -4253,4 +4884,188 @@ function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "red");
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
+}
+
+function SetRowColor_UnaprovedNewAndDeletedRow(insertedRowNumber){
+    $(jss.getCell("A" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("A"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("A"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("A" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("B" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("B"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("B"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("B" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("C" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("C"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("C"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("C" + (insertedRowNumber))).addClass('readonly');
+
+
+    $(jss.getCell("D" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("D"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("D"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("D" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("E" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("E"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("E"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("E" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("F" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("F"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("F"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("F" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("G" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("G"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("G"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("G" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("H" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("H"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("H"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("H" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("I" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("I"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("I"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("I" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("J" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("J"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("J"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("J" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("K" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("K"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("K"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("K" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("L" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("L"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("L"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("L" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("M" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("M"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("M"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("M" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("N" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("N"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("N"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("N" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("O" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("O"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("O"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("O" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("P" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("P"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("P"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("P" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("Q" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("Q"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("Q"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("R"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("R"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("R" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("S" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("S"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("S"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("S" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("T" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("T"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("T"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("T" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("U" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("U"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("U"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("U" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("V" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("V"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("V"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("V" + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell("W" + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle("W"+insertedRowNumber,"background-color", "red");
+    jss.setStyle("W"+insertedRowNumber,"color", "black");
+    //$(jss.getCell("W" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("X" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("X"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("X"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("X" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("Y" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("Y"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("Y"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("Y" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("Z" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("Z"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("Z"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("Z" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AA" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AA"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AA"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AA" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AB" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AB"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AB"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AB" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AC" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AC"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AC"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AC" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AD" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AD"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AD"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AD" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AE" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AE"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AE"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AE" + (insertedRowNumber))).addClass('readonly');
+    
+    // $(jss.getCell("AF" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AF"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AF"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AF" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AG" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AG"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AG"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AG" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AH" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AH"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AH"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AH" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AI" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AI"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AI"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AI" + (insertedRowNumber))).addClass('readonly');
+
+    // $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
+    // jss.setStyle("AJ"+insertedRowNumber,"background-color", "red");
+    // jss.setStyle("AJ"+insertedRowNumber,"color", "black");
+    // //$(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }

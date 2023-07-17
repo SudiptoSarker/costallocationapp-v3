@@ -3682,7 +3682,7 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     jss.setStyle("Q"+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle("A"+insertedRowNumber,"color", "red");
     $(jss.getCell("Q" + (insertedRowNumber))).addClass('readonly');
-
+    
     $(jss.getCell("R" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("R"+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle("A"+insertedRowNumber,"color", "red");

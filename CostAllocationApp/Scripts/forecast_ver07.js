@@ -693,11 +693,28 @@ $(document).ready(function () {
                                         }
                                         else {
                                             let tempArrayCount = newBothListCopy.length;
+                                            let getCellData = newBothList[l][45].split('_');
                                             for (var m = 0; m < tempArrayCount; m++) {
                                                 rowCount = 0;
-
+                                                debugger;
                                                 //role column
                                                 if (newBothList[l][6] == newBothListCopy[m][6]) {
+                                                    rowCount++;
+                                                    let _countNumber = 0;
+                                                    _bothFlag = true;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    for (var o = 0; o < _allData.length; o++) {
+                                                        if (_allData[o][1] == newBothList[l][1]) {
+                                                            break;
+                                                        }
+                                                        _countNumber++;
+                                                    }
+                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    break;
+                                                }
+                                                // check department and unitprice
+                                                if ((newBothList[l][4] == newBothListCopy[m][4]) && (newBothList[l][10] == newBothListCopy[m][10])) {
                                                     rowCount++;
                                                     _bothFlag = true;
                                                     alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);

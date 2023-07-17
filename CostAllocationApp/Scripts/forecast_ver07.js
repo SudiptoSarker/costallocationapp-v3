@@ -327,60 +327,60 @@ $(document).ready(function () {
                         if (tempArray[i][10] == tempArrayCopy[k][10]) {
                             singleRowDuplicationCount++;
                         }
-                        //oct point
-                        if (tempArray[i][11] == tempArrayCopy[k][11]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //nov point
-                        if (tempArray[i][12] == tempArrayCopy[k][12]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //dec point
-                        if (tempArray[i][13] == tempArrayCopy[k][13]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //jan point
-                        if (tempArray[i][14] == tempArrayCopy[k][14]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //feb point
-                        if (tempArray[i][15] == tempArrayCopy[k][15]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //mar point
-                        if (tempArray[i][16] == tempArrayCopy[k][16]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //apr point
-                        if (tempArray[i][17] == tempArrayCopy[k][17]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //may point
-                        if (tempArray[i][18] == tempArrayCopy[k][18]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //jun point
-                        if (tempArray[i][19] == tempArrayCopy[k][19]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //jul point
-                        if (tempArray[i][20] == tempArrayCopy[k][20]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //aug point
-                        if (tempArray[i][21] == tempArrayCopy[k][21]) {
-                            singleRowDuplicationCount++;
-                        }
-                        //sep point
-                        if (tempArray[i][22] == tempArrayCopy[k][22]) {
-                            singleRowDuplicationCount++;
-                        }
+                        ////oct point
+                        //if (tempArray[i][11] == tempArrayCopy[k][11]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////nov point
+                        //if (tempArray[i][12] == tempArrayCopy[k][12]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////dec point
+                        //if (tempArray[i][13] == tempArrayCopy[k][13]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jan point
+                        //if (tempArray[i][14] == tempArrayCopy[k][14]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////feb point
+                        //if (tempArray[i][15] == tempArrayCopy[k][15]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////mar point
+                        //if (tempArray[i][16] == tempArrayCopy[k][16]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////apr point
+                        //if (tempArray[i][17] == tempArrayCopy[k][17]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////may point
+                        //if (tempArray[i][18] == tempArrayCopy[k][18]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jun point
+                        //if (tempArray[i][19] == tempArrayCopy[k][19]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////jul point
+                        //if (tempArray[i][20] == tempArrayCopy[k][20]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////aug point
+                        //if (tempArray[i][21] == tempArrayCopy[k][21]) {
+                        //    singleRowDuplicationCount++;
+                        //}
+                        ////sep point
+                        //if (tempArray[i][22] == tempArrayCopy[k][22]) {
+                        //    singleRowDuplicationCount++;
+                        //}
                         //employee id
                         if (tempArray[i][35] == tempArrayCopy[k][35]) {
                             singleRowDuplicationCount++;
                         }
 
-                        if (singleRowDuplicationCount == 21) {
+                        if (singleRowDuplicationCount == 9) {
                             alert('duplicate row(s) found for ' + tempArray[i][1]);
                             _duplicateFlag = true;
                             break;
@@ -399,6 +399,448 @@ $(document).ready(function () {
                 return false;
             }
         }
+
+        debugger;
+        if (jssInsertedData.length > 0) {
+            var insertedUniqueEmployeeData_unitPrice = [];
+            var insertedUniqueEmployeeData_role = [];
+            var insertedUniqueEmployeeData_both = [];
+
+            var lastColumnsData_unitPrice = [];
+            var lastColumnsData_role = [];
+            var lastColumnsData_both = [];
+
+            var _unitPriceFlag = false;
+            var _roleFlag = false;
+            var _bothFlag = false;
+
+            var _allData = jss.getData();
+
+            for (var i = 0; i < jssInsertedData.length; i++) {
+                // checking unit price....
+                if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {
+                    // unit price duplication check
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_unitPrice.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData.length > 0) {
+                                insertedUniqueEmployeeData_unitPrice = lastColumnsData_unitPrice.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_unitPrice.length > 0) {
+                                var newUnitPriceList = [];
+                                var newUnitPriceListCopy = [];
+                                
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_unitPrice.length; i++) {
+                                    newUnitPriceList = [];
+                                    newUnitPriceListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_unitPrice[i].split('_');
+                                    newUnitPriceList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_unitPrice[i] == _allData[k][45]) {
+                                            newUnitPriceList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newUnitPriceList.length; l++) {
+                                        if (newUnitPriceListCopy.length == 0) {
+                                            newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newUnitPriceListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //oct point
+                                                if (parseFloat(newUnitPriceList[l][11]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                //nov point
+                                                if (parseFloat(newUnitPriceList[l][12]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //dec point
+                                                if (parseFloat(newUnitPriceList[l][13]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jan point
+                                                if (parseFloat(newUnitPriceList[l][14]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //feb point
+                                                if (parseFloat(newUnitPriceList[l][15]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //mar point
+                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //apr point
+                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //may point
+                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jun point
+                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jul point
+                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //aug point
+                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //sep point
+                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_unitPriceFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_unitPriceFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                // checking role
+                if (jssInsertedData[i].rowType.toLowerCase().includes('role')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_role.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData_role.length > 0) {
+                                insertedUniqueEmployeeData_role = lastColumnsData_role.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_role.length > 0) {
+                                var newRoleList = [];
+                                var newRoleListCopy = [];
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_role.length; i++) {
+                                    newRoleList = [];
+                                    newRoleListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_role[i].split('_');
+                                    newRoleList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_role[i] == _allData[k][45]) {
+                                            newRoleList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newRoleList.length; l++) {
+                                        if (newRoleListCopy.length == 0) {
+                                            newRoleListCopy.push(newRoleList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newRoleListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //role column
+                                                if (newRoleList[l][6] == newRoleListCopy[m][6]) {
+                                                    rowCount++;
+                                                    _roleFlag = true;
+                                                    alert('duplicate (role) row(s) found for ' + newRoleList[l][1]);
+                                                    break;
+                                                }
+
+                                                newRoleListCopy.push(newRoleList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_roleFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_roleFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                // checking both
+                if (jssInsertedData[i].rowType.toLowerCase().includes('both')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (var i = 0; i < jssInsertedData.length; i++) {
+                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
+                                    lastColumnsData_both.push(jssInsertedData[i].rowType);
+                                }
+                            }
+
+                            if (lastColumnsData_both.length > 0) {
+                                insertedUniqueEmployeeData_both = lastColumnsData_both.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_both.length > 0) {
+                                var newBothList = [];
+                                var newBothListCopy = [];
+
+                                var rowCount = 0;
+                                for (var i = 0; i < insertedUniqueEmployeeData_both.length; i++) {
+                                    newBothList = [];
+                                    newBothListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_both[i].split('_');
+                                    newBothList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (var k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_both[i] == _allData[k][45]) {
+                                            newBothList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (var l = 0; l < newBothList.length; l++) {
+                                        if (newBothListCopy.length == 0) {
+                                            newBothListCopy.push(newBothList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newBothListCopy.length;
+                                            for (var m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //role column
+                                                if (newBothList[l][6] == newBothListCopy[m][6]) {
+                                                    rowCount++;
+                                                    _bothFlag = true;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    break;
+                                                }
+                                                if (newBothList[l][4] == newBothListCopy[m][4]) {
+                                                    //oct point
+                                                    if (parseFloat(newBothList[l][11]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][11]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //nov point
+                                                    if (parseFloat(newBothList[l][12]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][12]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //dec point
+                                                    if (parseFloat(newBothList[l][13]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][13]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //jan point
+                                                    if (parseFloat(newBothList[l][14]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][14]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //feb point
+                                                    if (parseFloat(newBothList[l][15]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][15]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //mar point
+                                                    if (parseFloat(newBothList[l][16]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][16]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //apr point
+                                                    if (parseFloat(newBothList[l][17]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][17]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //may point
+                                                    if (parseFloat(newBothList[l][18]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][18]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //jun point
+                                                    if (parseFloat(newBothList[l][19]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][19]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    //jul point
+                                                    if (parseFloat(newBothList[l][20]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][20]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //aug point
+                                                    if (parseFloat(newBothList[l][21]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][21]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+                                                    //sep point
+                                                    if (parseFloat(newBothList[l][22]) > 0) {
+                                                        if (parseFloat(newBothListCopy[m][22]) > 0) {
+                                                            rowCount++;
+                                                            _bothFlag = true;
+                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            break;
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                                newBothListCopy.push(newBothList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_bothFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_bothFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+
 
         if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {
             $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -905,6 +1347,7 @@ function ShowForecastResults(year) {
 
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
+            { title: "RowType", type: 'hidden', name: "RowType" }
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1605,6 +2048,7 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1783,6 +2227,8 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -1958,6 +2404,8 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(38, nextRow, true, false);
+                    obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+
 
                     obj.setValueFromCoords(11, nextRow, '0.0', false);
                     obj.setValueFromCoords(12, nextRow, '0.0', false);
@@ -2029,7 +2477,7 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
-    jss.deleteColumn(45, 19);
+    jss.deleteColumn(46, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -2998,6 +3446,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     array[index].companyId = retrivedData.companyId;
     array[index].gradeId = retrivedData.gradeId;
     array[index].unitPrice = retrivedData.unitPrice;
+    array[index].rowType = retrivedData.rowType;
     if (x == 2) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
@@ -3373,7 +3822,8 @@ function retrivedObject(rowData) {
         bCYRApproved: rowData[39],
         bCYRCellApproved: rowData[40],
         isApproved: rowData[41],
-        bCYRCellPending: rowData[42]
+        bCYRCellPending: rowData[42],
+        rowType: rowData[45],
     };
 }
 

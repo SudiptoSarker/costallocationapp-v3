@@ -2118,7 +2118,7 @@ function ShowForecastResults(year) {
     });
     // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
     // $("#head_total").css("width",w-300);
-
+    
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {

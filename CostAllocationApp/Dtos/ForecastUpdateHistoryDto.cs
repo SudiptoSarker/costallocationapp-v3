@@ -24,6 +24,7 @@ namespace CostAllocationApp.Dtos
         //public int SubCode { get; set; }
         public bool BCYR { get; set; }
         public string BCYRCell { get; set; }
+        public bool IsDeletePending { get; set; }
 
         public decimal OctPoint { get; set; }
         public decimal NovPoint { get; set; }

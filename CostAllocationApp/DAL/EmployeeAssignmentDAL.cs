@@ -135,7 +135,7 @@ namespace CostAllocationApp.DAL
         public int UpdateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"update EmployeesAssignments set EmployeeId=@employeeId,  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks where Id=@id";
+            string query = $@"update EmployeesAssignments set EmployeeId=@employeeId,  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks,IsDeletePending=@isDeletePending,IsActive=@isActiveAssignment  where Id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -206,7 +206,9 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@updatedDate", employeeAssignment.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", employeeAssignment.Id);
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
-
+                cmd.Parameters.AddWithValue("@isDeletePending", employeeAssignment.IsDeletePending);
+                 cmd.Parameters.AddWithValue("@isActiveAssignment", employeeAssignment.IsActiveAssignment);
+                
                 try
                 {
                     result = cmd.ExecuteNonQuery();

@@ -1092,6 +1092,15 @@ namespace CostAllocationApp.Controllers.Api
                         }
 
                         //update assignment data
+                        string updateBYCRCCell = item.BCYRCell;
+                        if (!string.IsNullOrEmpty(updateBYCRCCell))
+                        {
+                            if (item.IsDeletePending)
+                            {
+                                employeeAssignment.IsDeletePending = false;                                
+                            }
+                        }
+                        employeeAssignment.IsActiveAssignment = true;
                         int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
                         //original forecasted data

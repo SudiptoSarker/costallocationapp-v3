@@ -1383,18 +1383,18 @@ function ShowForecastResults(year) {
                 mask: "#,##0",
                 name: "SepTotal"
             },
-            { title: "Employee Id", type: 'hidden', name: "EmployeeId" },//35
-            { title: "BCYR", type: 'hidden', name: "BCYR" },//36
-            { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },//37
-            { title: "IsActive", type: 'hidden', name: "IsActive" },//38
-            { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },//39
-            { title: "BCYRCellApproved", type: 'hidden', name: "BCYRCellApproved" },//40
-            { title: "IsApproved", type: 'hidden', name: "IsApproved" },//41
-            { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },//42
+            { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
+            { title: "BCYR", type: 'hidden', name: "BCYR" },
+            { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
+            { title: "IsActive", type: 'hidden', name: "IsActive" },
+            { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
+            { title: "BCYRCellApproved", type: 'hidden', name: "BCYRCellApproved" },
+            { title: "IsApproved", type: 'hidden', name: "IsApproved" },
+            { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
 
-            { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },//43
-            { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },//44
-            { title: "RowType", type: 'hidden', name: "RowType" }//45
+            { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
+            { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
+            { title: "RowType", type: 'hidden', name: "RowType" }
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1471,9 +1471,8 @@ function ShowForecastResults(year) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                 }
                 else {
-                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
                     
-                    var isUnapprovedRow =retrivedData.isRowPending;
                     var isUnapprovedDeletedRow = retrivedData.isDeletePending;                                                        
                     
                     if(isUnapprovedDeletedRow){
@@ -1497,7 +1496,8 @@ function ShowForecastResults(year) {
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
-                    }else{                         
+                    }
+                    else{                         
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
                             isCellAlreadyChanged = CheckIfAlreadyExists(2,retrivedData.assignmentId)
@@ -1520,7 +1520,8 @@ function ShowForecastResults(year) {
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
+                    }
+                    else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
                             isCellAlreadyChanged = CheckIfAlreadyExists(3,retrivedData.assignmentId)
@@ -4837,10 +4838,10 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle("AI"+rowNumber,"color", textColor);
     $(jss.getCell("AI" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AJ" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AJ"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AJ"+rowNumber,"color", textColor);
-    $(jss.getCell("AJ" + (rowNumber))).addClass('readonly');
+    // $(jss.getCell("AJ" + (rowNumber))).removeClass('readonly');
+    // jss.setStyle("AJ"+rowNumber,"background-color", backgroundColor);
+    // jss.setStyle("AJ"+rowNumber,"color", textColor);
+    // $(jss.getCell("AJ" + (rowNumber))).addClass('readonly');
 }
 
 /*

@@ -399,6 +399,8 @@ $(document).ready(function () {
                 return false;
             }
         }
+
+        
         if (jssInsertedData.length > 0) {
             var insertedUniqueEmployeeData_unitPrice = [];
             var insertedUniqueEmployeeData_role = [];
@@ -414,19 +416,19 @@ $(document).ready(function () {
 
             var _allData = jss.getData();
 
-            for (var i = 0; i < jssInsertedData.length; i++) {
+            for (let i = 0; i < jssInsertedData.length; i++) {
                 // checking unit price....
                 if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {
                     // unit price duplication check
                     {
                         if (jssInsertedData.length > 0) {
-                            for (var i = 0; i < jssInsertedData.length; i++) {
+                            for (let i = 0; i < jssInsertedData.length; i++) {
                                 if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
                                     lastColumnsData_unitPrice.push(jssInsertedData[i].rowType);
                                 }
                             }
 
-                            if (lastColumnsData.length > 0) {
+                            if (lastColumnsData_unitPrice.length > 0) {
                                 insertedUniqueEmployeeData_unitPrice = lastColumnsData_unitPrice.filter((value, index, array) => {
                                     return array.indexOf(value) === index;
                                 });
@@ -437,26 +439,26 @@ $(document).ready(function () {
                                 var newUnitPriceListCopy = [];
                                 
                                 var rowCount = 0;
-                                for (var i = 0; i < insertedUniqueEmployeeData_unitPrice.length; i++) {
+                                for (let i = 0; i < insertedUniqueEmployeeData_unitPrice.length; i++) {
                                     newUnitPriceList = [];
                                     newUnitPriceListCopy = [];
                                     var splittedString = insertedUniqueEmployeeData_unitPrice[i].split('_');
                                     newUnitPriceList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
-                                    for (var k = 0; k < _allData.length; k++) {
+                                    for (let k = 0; k < _allData.length; k++) {
                                         if (insertedUniqueEmployeeData_unitPrice[i] == _allData[k][45]) {
                                             newUnitPriceList.push(_allData[k]);
                                         }
                                     }
 
-                                    for (var l = 0; l < newUnitPriceList.length; l++) {
+                                    for (let l = 0; l < newUnitPriceList.length; l++) {
                                         if (newUnitPriceListCopy.length == 0) {
                                             newUnitPriceListCopy.push(newUnitPriceList[l]);
                                         }
                                         else {
                                             let tempArrayCount = newUnitPriceListCopy.length;
-                                            for (var m = 0; m < tempArrayCount; m++) {
+                                            for (let m = 0; m < tempArrayCount; m++) {
                                                 rowCount = 0;
 
                                                 //oct point
@@ -464,7 +466,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -474,7 +476,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -483,7 +485,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -492,7 +494,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -501,7 +503,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -510,7 +512,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -519,7 +521,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -528,7 +530,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -537,7 +539,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -546,7 +548,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -555,7 +557,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -564,7 +566,7 @@ $(document).ready(function () {
                                                     if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
-                                                        alert('duplicate row(s) found for ' + newUnitPriceList[l][1]);
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
                                                         break;
                                                     }
                                                 }
@@ -589,7 +591,7 @@ $(document).ready(function () {
                 if (jssInsertedData[i].rowType.toLowerCase().includes('role')) {
                     {
                         if (jssInsertedData.length > 0) {
-                            for (var i = 0; i < jssInsertedData.length; i++) {
+                            for (let i = 0; i < jssInsertedData.length; i++) {
                                 if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
                                     lastColumnsData_role.push(jssInsertedData[i].rowType);
                                 }
@@ -605,31 +607,46 @@ $(document).ready(function () {
                                 var newRoleList = [];
                                 var newRoleListCopy = [];
                                 var rowCount = 0;
-                                for (var i = 0; i < insertedUniqueEmployeeData_role.length; i++) {
+                                for (let i = 0; i < insertedUniqueEmployeeData_role.length; i++) {
                                     newRoleList = [];
                                     newRoleListCopy = [];
                                     var splittedString = insertedUniqueEmployeeData_role[i].split('_');
                                     newRoleList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
-                                    for (var k = 0; k < _allData.length; k++) {
+                                    for (let k = 0; k < _allData.length; k++) {
                                         if (insertedUniqueEmployeeData_role[i] == _allData[k][45]) {
                                             newRoleList.push(_allData[k]);
                                         }
                                     }
 
-                                    for (var l = 0; l < newRoleList.length; l++) {
+                                    for (let l = 0; l < newRoleList.length; l++) {
                                         if (newRoleListCopy.length == 0) {
                                             newRoleListCopy.push(newRoleList[l]);
                                         }
                                         else {
                                             let tempArrayCount = newRoleListCopy.length;
-                                            for (var m = 0; m < tempArrayCount; m++) {
-                                                rowCount = 0;
+                                            for (let m = 0; m < tempArrayCount; m++) {
+                                                let rowCountRole = 0;
 
                                                 //role column
+                                                if (newRoleList[l][3] == newRoleListCopy[m][3]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
+                                                if (newRoleList[l][4] == newRoleListCopy[m][4]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
+                                                if (newRoleList[l][5] == newRoleListCopy[m][5]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
                                                 if (newRoleList[l][6] == newRoleListCopy[m][6]) {
-                                                    rowCount++;
+                                                    rowCountRole++;
+                                                }
+
+                                                if (rowCountRole==4) {
                                                     _roleFlag = true;
                                                     alert('duplicate (role) row(s) found for ' + newRoleList[l][1]);
                                                     break;
@@ -655,7 +672,7 @@ $(document).ready(function () {
                 if (jssInsertedData[i].rowType.toLowerCase().includes('both')) {
                     {
                         if (jssInsertedData.length > 0) {
-                            for (var i = 0; i < jssInsertedData.length; i++) {
+                            for (let i = 0; i < jssInsertedData.length; i++) {
                                 if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
                                     lastColumnsData_both.push(jssInsertedData[i].rowType);
                                 }
@@ -672,30 +689,59 @@ $(document).ready(function () {
                                 var newBothListCopy = [];
 
                                 var rowCount = 0;
-                                for (var i = 0; i < insertedUniqueEmployeeData_both.length; i++) {
+                                for (let i = 0; i < insertedUniqueEmployeeData_both.length; i++) {
                                     newBothList = [];
                                     newBothListCopy = [];
                                     var splittedString = insertedUniqueEmployeeData_both[i].split('_');
                                     newBothList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
-                                    for (var k = 0; k < _allData.length; k++) {
+                                    for (let k = 0; k < _allData.length; k++) {
                                         if (insertedUniqueEmployeeData_both[i] == _allData[k][45]) {
                                             newBothList.push(_allData[k]);
                                         }
                                     }
 
-                                    for (var l = 0; l < newBothList.length; l++) {
+                                    for (let l = 0; l < newBothList.length; l++) {
                                         if (newBothListCopy.length == 0) {
                                             newBothListCopy.push(newBothList[l]);
                                         }
                                         else {
                                             let tempArrayCount = newBothListCopy.length;
-                                            for (var m = 0; m < tempArrayCount; m++) {
-                                                rowCount = 0;
-
+                                            for (let m = 0; m < tempArrayCount; m++) {
+                                                bothRowCount = 0;
+                                                //section column
+                                                if (newBothList[l][3] == newBothListCopy[m][3]) {
+                                                    bothRowCount++;
+                                                }
+                                                //department column
+                                                if (newBothList[l][4] == newBothListCopy[m][4]) {
+                                                    bothRowCount++;
+                                                }
+                                                //in-charge column
+                                                if (newBothList[l][5] == newBothListCopy[m][5]) {
+                                                    bothRowCount++;
+                                                }
                                                 //role column
                                                 if (newBothList[l][6] == newBothListCopy[m][6]) {
+                                                    bothRowCount++;
+                                                }
+                                                if (bothRowCount == 4) {
+                                                    _bothFlag = true;
+                                                    let _countNumber = 0;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    for (var o = 0; o < _allData.length; o++) {
+                                                        if (_allData[o][1] == newBothList[l][1]) {
+                                                            break;
+                                                        }
+                                                        _countNumber++;
+                                                    }
+                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    break;
+                                                }
+                                                // check department and unitprice
+                                                if ((newBothList[l][4] == newBothListCopy[m][4]) && (newBothList[l][10] == newBothListCopy[m][10])) {
                                                     rowCount++;
                                                     _bothFlag = true;
                                                     alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
@@ -707,7 +753,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][11]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -717,7 +763,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][12]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -726,7 +772,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][13]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -735,7 +781,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][14]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -744,7 +790,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][15]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -753,7 +799,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][16]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -762,7 +808,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][17]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -771,7 +817,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][18]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -781,7 +827,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][19]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -791,7 +837,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][20]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -800,7 +846,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][21]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -809,7 +855,7 @@ $(document).ready(function () {
                                                         if (parseFloat(newBothListCopy[m][22]) > 0) {
                                                             rowCount++;
                                                             _bothFlag = true;
-                                                            alert('duplicate row(s) found for ' + newBothList[l][1]);
+                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
                                                             break;
                                                         }
                                                     }
@@ -4136,13 +4182,15 @@ function InsertEmployee() {
                 if (result > 0) {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
                     // jss.setValueFromCoords(34, globalY, result, false);
+                    console.log("result: "+result);
+                    console.log("globalY: "+globalY);
+
                     jss.setValueFromCoords(35, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('Data Save Successfully!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
-                }
-
+                }                
                 //GetEmployeeList();
             },
             error: function (result) {

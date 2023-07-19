@@ -415,16 +415,18 @@ $(document).ready(function () {
             var _bothFlag = false;
 
             var _allData = jss.getData();
-
+            debugger;
             for (let i = 0; i < jssInsertedData.length; i++) {
                 // checking unit price....
                 if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {
-                    // unit price duplication check
                     {
                         if (jssInsertedData.length > 0) {
-                            for (let i = 0; i < jssInsertedData.length; i++) {
-                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
-                                    lastColumnsData_unitPrice.push(jssInsertedData[i].rowType);
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('unit')) {
+                                        lastColumnsData_unitPrice.push(jssInsertedData[a].rowType);
+                                    }
+                                    
                                 }
                             }
 
@@ -439,15 +441,15 @@ $(document).ready(function () {
                                 var newUnitPriceListCopy = [];
                                 
                                 var rowCount = 0;
-                                for (let i = 0; i < insertedUniqueEmployeeData_unitPrice.length; i++) {
+                                for (let b = 0; b < insertedUniqueEmployeeData_unitPrice.length; b++) {
                                     newUnitPriceList = [];
                                     newUnitPriceListCopy = [];
-                                    var splittedString = insertedUniqueEmployeeData_unitPrice[i].split('_');
+                                    var splittedString = insertedUniqueEmployeeData_unitPrice[b].split('_');
                                     newUnitPriceList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_unitPrice[i] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][45]) {
                                             newUnitPriceList.push(_allData[k]);
                                         }
                                     }
@@ -586,16 +588,20 @@ $(document).ready(function () {
                             }
                         }
                     }
+                    continue;
                 }
                 // checking role
                 if (jssInsertedData[i].rowType.toLowerCase().includes('role')) {
                     {
                         if (jssInsertedData.length > 0) {
-                            for (let i = 0; i < jssInsertedData.length; i++) {
-                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
-                                    lastColumnsData_role.push(jssInsertedData[i].rowType);
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('role')){
+                                        lastColumnsData_role.push(jssInsertedData[a].rowType);
+                                    }
+                                    
                                 }
-                            }
+                            } 
 
                             if (lastColumnsData_role.length > 0) {
                                 insertedUniqueEmployeeData_role = lastColumnsData_role.filter((value, index, array) => {
@@ -607,15 +613,15 @@ $(document).ready(function () {
                                 var newRoleList = [];
                                 var newRoleListCopy = [];
                                 var rowCount = 0;
-                                for (let i = 0; i < insertedUniqueEmployeeData_role.length; i++) {
+                                for (let b = 0; b < insertedUniqueEmployeeData_role.length; b++) {
                                     newRoleList = [];
                                     newRoleListCopy = [];
-                                    var splittedString = insertedUniqueEmployeeData_role[i].split('_');
+                                    var splittedString = insertedUniqueEmployeeData_role[b].split('_');
                                     newRoleList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_role[i] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][45]) {
                                             newRoleList.push(_allData[k]);
                                         }
                                     }
@@ -667,14 +673,18 @@ $(document).ready(function () {
                             }
                         }
                     }
+                    continue;
                 }
                 // checking both
                 if (jssInsertedData[i].rowType.toLowerCase().includes('both')) {
                     {
                         if (jssInsertedData.length > 0) {
-                            for (let i = 0; i < jssInsertedData.length; i++) {
-                                if (jssInsertedData[i].rowType != '' || jssInsertedData[i].rowType != undefined) {
-                                    lastColumnsData_both.push(jssInsertedData[i].rowType);
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('both')) {
+                                        lastColumnsData_both.push(jssInsertedData[a].rowType);
+                                    }
+                                    
                                 }
                             }
 
@@ -689,15 +699,15 @@ $(document).ready(function () {
                                 var newBothListCopy = [];
 
                                 var rowCount = 0;
-                                for (let i = 0; i < insertedUniqueEmployeeData_both.length; i++) {
+                                for (let b = 0; b < insertedUniqueEmployeeData_both.length; b++) {
                                     newBothList = [];
                                     newBothListCopy = [];
-                                    var splittedString = insertedUniqueEmployeeData_both[i].split('_');
+                                    var splittedString = insertedUniqueEmployeeData_both[b].split('_');
                                     newBothList.push(jss.getRowData(parseInt(splittedString[2])));
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_both[i] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][45]) {
                                             newBothList.push(_allData[k]);
                                         }
                                     }
@@ -740,128 +750,137 @@ $(document).ready(function () {
                                                     jss.setStyle(`B${_countNumber + 1}`, "color", "black");
                                                     break;
                                                 }
-                                                // check department and unitprice
-                                                if ((newBothList[l][4] == newBothListCopy[m][4]) && (newBothList[l][10] == newBothListCopy[m][10])) {
+                                                // check unitprice
+                                                if (newBothList[l][10] == newBothListCopy[m][10]) {
                                                     rowCount++;
                                                     _bothFlag = true;
+                                                    let _countNumber = 0;
                                                     alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    for (var o = 0; o < _allData.length; o++) {
+                                                        if (_allData[o][1] == newBothList[l][1]) {
+                                                            break;
+                                                        }
+                                                        _countNumber++;
+                                                    }
+                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
                                                     break;
                                                 }
-                                                if (newBothList[l][4] == newBothListCopy[m][4]) {
-                                                    //oct point
-                                                    if (parseFloat(newBothList[l][11]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][11]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
+                                                //if (newBothList[l][4] == newBothListCopy[m][4]) {
+                                                //    //oct point
+                                                //    if (parseFloat(newBothList[l][11]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][11]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
 
-                                                    //nov point
-                                                    if (parseFloat(newBothList[l][12]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][12]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //dec point
-                                                    if (parseFloat(newBothList[l][13]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][13]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //jan point
-                                                    if (parseFloat(newBothList[l][14]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][14]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //feb point
-                                                    if (parseFloat(newBothList[l][15]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][15]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //mar point
-                                                    if (parseFloat(newBothList[l][16]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][16]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //apr point
-                                                    if (parseFloat(newBothList[l][17]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][17]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //may point
-                                                    if (parseFloat(newBothList[l][18]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][18]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
+                                                //    //nov point
+                                                //    if (parseFloat(newBothList[l][12]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][12]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //dec point
+                                                //    if (parseFloat(newBothList[l][13]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][13]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //jan point
+                                                //    if (parseFloat(newBothList[l][14]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][14]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //feb point
+                                                //    if (parseFloat(newBothList[l][15]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][15]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //mar point
+                                                //    if (parseFloat(newBothList[l][16]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][16]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //apr point
+                                                //    if (parseFloat(newBothList[l][17]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][17]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //may point
+                                                //    if (parseFloat(newBothList[l][18]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][18]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
 
-                                                    //jun point
-                                                    if (parseFloat(newBothList[l][19]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][19]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
+                                                //    //jun point
+                                                //    if (parseFloat(newBothList[l][19]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][19]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
 
-                                                    //jul point
-                                                    if (parseFloat(newBothList[l][20]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][20]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //aug point
-                                                    if (parseFloat(newBothList[l][21]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][21]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
-                                                    //sep point
-                                                    if (parseFloat(newBothList[l][22]) > 0) {
-                                                        if (parseFloat(newBothListCopy[m][22]) > 0) {
-                                                            rowCount++;
-                                                            _bothFlag = true;
-                                                            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
-                                                            break;
-                                                        }
-                                                    }
+                                                //    //jul point
+                                                //    if (parseFloat(newBothList[l][20]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][20]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //aug point
+                                                //    if (parseFloat(newBothList[l][21]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][21]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
+                                                //    //sep point
+                                                //    if (parseFloat(newBothList[l][22]) > 0) {
+                                                //        if (parseFloat(newBothListCopy[m][22]) > 0) {
+                                                //            rowCount++;
+                                                //            _bothFlag = true;
+                                                //            alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                //            break;
+                                                //        }
+                                                //    }
 
 
-                                                }
+                                                //}
 
 
                                                 newBothListCopy.push(newBothList[l]);
@@ -879,6 +898,7 @@ $(document).ready(function () {
                             }
                         }
                     }
+                    continue;
                 }
             }
         }

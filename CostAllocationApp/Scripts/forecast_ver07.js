@@ -4126,8 +4126,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     array[index].year = retrivedData.year;
     array[index].bcyr= retrivedData.bcyr;   
     
-    console.log("arr len: "+array[index].bCYRCell.length);
-    console.log("retrivedData len: "+retrivedData.bCYRCell.length);
     if(array[index].bCYRCell.length <= retrivedData.bCYRCell.length){
         array[index].bCYRCell= retrivedData.bCYRCell;  
     }    

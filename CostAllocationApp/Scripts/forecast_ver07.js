@@ -4128,13 +4128,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     
     if(array[index].bCYRCell.length <= retrivedData.bCYRCell.length){
         array[index].bCYRCell= retrivedData.bCYRCell;  
-    }    
-    
-    if (x == 37) {
-        //array[index].bCYRCell= retrivedData.bCYRCell;        
-    }else{
-        //array[index].bCYRCell= retrivedData.bCYRCell;
-    }
+    }            
 }
 
 function retrivedObject(rowData) {

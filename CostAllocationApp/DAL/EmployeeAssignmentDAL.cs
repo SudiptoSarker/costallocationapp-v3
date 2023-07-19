@@ -2925,22 +2925,55 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+
+                            if(forecastEmployeeAssignmentViewModel.Id== 224)
+                            {
+                                var tepp = 1;
+                            }
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            //check for if duplicate pending cells is there!
+                            string bcyrCellWithoutDuplicateData = "";
+                            if (!string.IsNullOrEmpty(forecastEmployeeAssignmentViewModel.BCYRCell))
+                            {
+                                var arrBCYRCells = forecastEmployeeAssignmentViewModel.BCYRCell.Split(',');
+                                foreach (var bCYRCellsCellitem in arrBCYRCells)
+                                {
+                                    if (string.IsNullOrEmpty(bcyrCellWithoutDuplicateData))
+                                    {
+                                        bcyrCellWithoutDuplicateData = bCYRCellsCellitem;
+                                    }
+                                    else
+                                    {
+                                        bool isDuplicatedCells = false;
+                                        var arrPendingCellWithoutDuplicateCells = bcyrCellWithoutDuplicateData.Split(',');
+                                        foreach (var duplicateBCYRCellItem in arrPendingCellWithoutDuplicateCells)
+                                        {
+                                            if (duplicateBCYRCellItem == bCYRCellsCellitem)
+                                            {
+                                                isDuplicatedCells = true;
+                                            }
+                                        }
+                                        if (!isDuplicatedCells)
+                                        {
+                                            bcyrCellWithoutDuplicateData = bcyrCellWithoutDuplicateData + "," + bCYRCellsCellitem;
+                                        }
+                                    }
+                                }
+                                forecastEmployeeAssignmentViewModel.BCYRCell = bcyrCellWithoutDuplicateData;
+                            }
+
+
                             forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
-                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
                             forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            //forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
-                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
 
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                             //check for if duplicate pending cells is there!
                             string pendingCellWithoutDuplicateCells = "";
                             if (!string.IsNullOrEmpty(forecastEmployeeAssignmentViewModel.BCYRCellPending))
                             {
                                 var arrPendingCells = forecastEmployeeAssignmentViewModel.BCYRCellPending.Split(',');
-                                foreach(var pendingCellitem in arrPendingCells)
+                                foreach (var pendingCellitem in arrPendingCells)
                                 {
                                     if (string.IsNullOrEmpty(pendingCellWithoutDuplicateCells))
                                     {
@@ -2959,12 +2992,17 @@ namespace CostAllocationApp.DAL
                                         }
                                         if (!isDuplicatedCells)
                                         {
-                                            pendingCellWithoutDuplicateCells = pendingCellWithoutDuplicateCells+","+pendingCellitem;
+                                            pendingCellWithoutDuplicateCells = pendingCellWithoutDuplicateCells + "," + pendingCellitem;
                                         }
                                     }
                                 }
                                 forecastEmployeeAssignmentViewModel.BCYRCellPending = pendingCellWithoutDuplicateCells;
                             }
+
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                            
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
                     }

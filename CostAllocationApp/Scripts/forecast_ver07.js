@@ -1440,7 +1440,7 @@ function ShowForecastResults(year) {
         },
         //onafterchanges: function () {
         //},
-        onchange: function (instance, cell, x, y, value) {
+        onchange: function (instance, cell, x, y, value) {            
             var checkId = jss.getValueFromCoords(0, y);
             var employeeId = jss.getValueFromCoords(35, y);
 
@@ -4102,11 +4102,21 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
     }
-    
-    
+        
     array[index].year = retrivedData.year;
-    array[index].bcyr= retrivedData.bcyr;
-    array[index].bCYRCell= retrivedData.bCYRCell;
+    array[index].bcyr= retrivedData.bcyr;   
+    
+    console.log("arr len: "+array[index].bCYRCell.length);
+    console.log("retrivedData len: "+retrivedData.bCYRCell.length);
+    if(array[index].bCYRCell.length <= retrivedData.bCYRCell.length){
+        array[index].bCYRCell= retrivedData.bCYRCell;  
+    }    
+    
+    if (x == 37) {
+        //array[index].bCYRCell= retrivedData.bCYRCell;        
+    }else{
+        //array[index].bCYRCell= retrivedData.bCYRCell;
+    }
 }
 
 function retrivedObject(rowData) {

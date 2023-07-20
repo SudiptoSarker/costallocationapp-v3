@@ -22,7 +22,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CreateAssignment(employeeAssignment);
         }
-
+        public int CreateBudgets(EmployeeAssignment employeeAssignment)
+        {
+            return employeeAssignmentDAL.CreateBudgets(employeeAssignment);
+        }
         public int UpdateAssignment(EmployeeAssignment employeeAssignment)
         {
             return employeeAssignmentDAL.UpdateAssignment(employeeAssignment);

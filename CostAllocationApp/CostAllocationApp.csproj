@@ -825,6 +825,7 @@
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
     <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
     <Content Include="Views\Forecasts\QaProportion.cshtml" />
+    <Content Include="Views\Forecasts\CreateBudget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

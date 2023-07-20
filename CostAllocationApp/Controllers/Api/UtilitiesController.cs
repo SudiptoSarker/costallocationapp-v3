@@ -4393,26 +4393,29 @@ namespace CostAllocationApp.Controllers.Api
                 var arrApprovalRowIds = approvedRows.Split(',');
                 foreach (var approvedRowId in arrApprovalRowIds)
                 {
-                    EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(approvedRowId), Convert.ToInt32(assignmentYear));
-                    AssignmentHistory assignmentHistory_add = new AssignmentHistory();
-                    AssignmentHistory assignmentHistory_delete = new AssignmentHistory();
-
-                    //new row approved and deleted row approved: start
-                    if ((employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive)) || employeeAssignment.IsRowPending)
+                    if (!string.IsNullOrEmpty(approvedRowId))
                     {
-                        updateResults = employeeAssignmentBLL.UpdateApprovedRowByAssignmentId(Convert.ToInt32(approvedRowId));
-                        assignmentHistory_add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(approvedRowId));
-                        _assignmentHistories_Add.Add(assignmentHistory_add);
+                        EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(approvedRowId), Convert.ToInt32(assignmentYear));
+                        AssignmentHistory assignmentHistory_add = new AssignmentHistory();
+                        AssignmentHistory assignmentHistory_delete = new AssignmentHistory();
 
-                    }
-                    else if ((!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted) || employeeAssignment.IsDeletePending)
-                    {
-                        updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
-                        assignmentHistory_delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(approvedRowId));
-                        _assignmentHistorys_Delete.Add(assignmentHistory_delete);
+                        //new row approved and deleted row approved: start
+                        if ((employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive)) || employeeAssignment.IsRowPending)
+                        {
+                            updateResults = employeeAssignmentBLL.UpdateApprovedRowByAssignmentId(Convert.ToInt32(approvedRowId));
+                            assignmentHistory_add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(approvedRowId));
+                            _assignmentHistories_Add.Add(assignmentHistory_add);
 
+                        }
+                        else if ((!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted) || employeeAssignment.IsDeletePending)
+                        {
+                            updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
+                            assignmentHistory_delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(approvedRowId));
+                            _assignmentHistorys_Delete.Add(assignmentHistory_delete);
+
+                        }
+                        //new row approved and deleted row approved: end   
                     }
-                    //new row approved and deleted row approved: end                    
                 }                
             }
 

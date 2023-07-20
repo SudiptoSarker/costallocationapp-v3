@@ -1108,7 +1108,8 @@ namespace CostAllocationApp.DAL
         public int RemoveAssignment(int rowId)
         {
             int result = 0;
-            string query = $@"update EmployeesAssignments set isactive=0 where id=@id";
+            //string query = $@"update EmployeesAssignments set isactive=0 where id=@id";
+            string query = $@"update EmployeesAssignments set isactive=0,BCYRCell='',BCYRCellPending='',IsRowPending='',IsDeletePending='' where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

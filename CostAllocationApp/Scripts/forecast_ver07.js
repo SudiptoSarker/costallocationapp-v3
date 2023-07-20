@@ -414,8 +414,7 @@ $(document).ready(function () {
             var _roleFlag = false;
             var _bothFlag = false;
 
-            var _allData = jss.getData();
-            debugger;
+            var _allData = jss.getData();            
             for (let i = 0; i < jssInsertedData.length; i++) {
                 // checking unit price....
                 if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {

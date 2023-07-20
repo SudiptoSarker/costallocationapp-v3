@@ -4278,8 +4278,7 @@ function UpdateForecast() {
         var miliSeconds = dateObj.getMilliseconds();
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
-        if (jssUpdatedData.length > 0) {
-           
+        if (jssUpdatedData.length > 0) {           
                 updateMessage = "Successfully data updated";
                 $.ajax({
                     url: `/api/utilities/UpdateForecastData`,
@@ -4369,13 +4368,15 @@ function UpdateForecast() {
         }
 
         if (deletedExistingRowIds.length > 0) {
+            var year = $("#assignment_year_list").val();
             $.ajax({
                 url: `/api/utilities/ExcelDeleteAssignment/`,
                 contentType: 'application/json',
                 type: 'DELETE',
                 async: false,
                 dataType: 'json',
-                data: JSON.stringify(deletedExistingRowIds),
+                //data: JSON.stringify(deletedExistingRowIds),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
                 success: function (data) {
                     alert(data);
                 }

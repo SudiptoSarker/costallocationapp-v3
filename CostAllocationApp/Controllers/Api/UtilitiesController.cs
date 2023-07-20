@@ -1584,7 +1584,9 @@ namespace CostAllocationApp.Controllers.Api
                     //author: sudipto,31/5/23: history create
                     //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
                     bool isUpdate = true;
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+                    bool isDeleted = false;
+
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {
@@ -2456,11 +2458,13 @@ namespace CostAllocationApp.Controllers.Api
                     }
 
                     bool isUpdate = false;
+                    bool isDeleted = false;
+
                     if (!string.IsNullOrEmpty(tempTimeStampId))
                     {
                         foreach (var item in assignmentHistories)
                         {
-                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate);
+                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted);
                         }
                     }
                     else
@@ -2471,7 +2475,7 @@ namespace CostAllocationApp.Controllers.Api
                         //forecastHisory.Forecasts = forecastsPrevious;
                         forecastHisory.CreatedBy = session["userName"].ToString();
                         forecastHisory.CreatedDate = DateTime.Now;
-                        var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+                        var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate,isDeleted);
                     }                    
                 }
             }    
@@ -2481,13 +2485,56 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpDelete]
         [Route("api/utilities/ExcelDeleteAssignment/")]
-        public IHttpActionResult DeleteAssignment_Excel(int[] ids)
+        //public IHttpActionResult DeleteAssignment_Excel(int[] ids,string tempTimeStampId,string historyName,int year)
+        public IHttpActionResult DeleteAssignment_Excel(ForecastHistoryDto forecastHistoryDto)
         {
+            string tempTimeStampId = forecastHistoryDto.TimeStampId;
+            int[] ids = forecastHistoryDto.DeletedRowIds;
+            string historyName = forecastHistoryDto.HistoryName;
+            int year = forecastHistoryDto.Year;
+
+            var session = System.Web.HttpContext.Current.Session;
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+
             if (ids.Length > 0)
             {
                 foreach (var item in ids)
                 {
-                    employeeAssignmentBLL.RemoveAssignment(item);
+                    if (!string.IsNullOrEmpty(item.ToString()))
+                    {
+                        employeeAssignmentBLL.RemoveAssignment(item);
+
+                        //store delete information as a delete history
+
+                        //get deleted information 
+                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(item);
+
+                        _assignmentHistory.CreatedBy = session["userName"].ToString();
+                        _assignmentHistory.CreatedDate = DateTime.Now;
+                        assignmentHistories.Add(_assignmentHistory);
+                    }
+                }
+
+                //store the information as history
+                bool isUpdate = false;
+                bool isDeleted = true;
+
+                if (!string.IsNullOrEmpty(tempTimeStampId))
+                {
+                    foreach (var item in assignmentHistories)
+                    {
+                        forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted);
+                    }
+                }
+                else
+                {
+                    ForecastHisory forecastHisory = new ForecastHisory();
+                    forecastHisory.TimeStamp = historyName;
+                    forecastHisory.Year = year;
+                    forecastHisory.CreatedBy = session["userName"].ToString();
+                    forecastHisory.CreatedDate = DateTime.Now;
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
                 }
             }
 
@@ -2828,7 +2875,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetAssignmentHistoriesByTimeStampId(int timeStampId)
         {
             List<object> forecastHistoryList = new List<object>();
-            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+             List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
 
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
             if (distinctAssignmentId.Count > 0)
@@ -2852,6 +2899,7 @@ namespace CostAllocationApp.Controllers.Api
                     var unitPrice = _assignmentHistoryViewModal.UnitPrice;
                     var remarks = _assignmentHistoryViewModal.Remarks;
                     var isUpdate = _assignmentHistoryViewModal.IsUpdate;
+                    var isDeleted  =_assignmentHistoryViewModal.IsDeleted;
 
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
@@ -2884,6 +2932,19 @@ namespace CostAllocationApp.Controllers.Api
                     var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
                     var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+
+                    string operationType = "";
+                    if (!isUpdate)
+                    {
+                        if (isDeleted)
+                        {
+                            operationType = "Deleted";
+                        }
+                        else
+                        {
+                            operationType = "Inserted";
+                        }
+                    }
 
                     if (isUpdate)
                     {
@@ -2935,7 +2996,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "Inserted",
+                            OperationType = operationType,
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),

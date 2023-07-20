@@ -34,13 +34,13 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate)
+        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
         {
-            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate);
+            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
         }
-        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate)
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted)
         {
-            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate);
+            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate, isDeleted);
         }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {

@@ -418,7 +418,7 @@ namespace CostAllocationApp.Controllers
         public int EmployeeBudgetCreate(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0)
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
-            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+            EmployeeBudget employeeAssignment = new EmployeeBudget();
 
             employeeAssignmentDTO = new EmployeeAssignmentDTO();
             //employeeAssignment.EmployeeName = dt_.EmployeeName;
@@ -447,6 +447,10 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.Remarks = dt_.Remarks;
             employeeAssignment.Year = upload_year.ToString();
             employeeAssignment.EmployeeName = dt_.EmployeeName;
+
+            employeeAssignment.FirstHalfBudget = true;
+            employeeAssignment.SecondHalfBudget = false;
+            employeeAssignment.FinalizedBudget = false;
 
             //int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
@@ -761,269 +765,297 @@ namespace CostAllocationApp.Controllers
                     ViewBag.linkFlag = true;
                 }
             }
+            ViewBag.ValidationMessage = "";
             return View(forecastViewModal);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, int upload_year)
+        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year)
         {
-            ForecastViewModal forecastViewModal = new ForecastViewModal
+            bool isThisYearBudgetExists = false;
+            int selected_year = 0;
+            if (!string.IsNullOrEmpty(upload_year))
             {
-                _sections = sectionBLL.GetAllSections()
-            };
-            TempData["seccess"] = null;
-            Dictionary<int, int> check = new Dictionary<int, int>();
-            if (ModelState.IsValid)
+                selected_year = Convert.ToInt32(upload_year);
+                isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year);
+            }
+            else
             {
+                isThisYearBudgetExists = true;
+            }
 
-                if ((uploaded_file != null && uploaded_file.ContentLength > 0) && upload_year > 0)
+            if (!isThisYearBudgetExists)
+            {
+                ForecastViewModal forecastViewModal = new ForecastViewModal
                 {
-                    // ExcelDataReader works with the binary Excel file, so it needs a FileStream
-                    // to get started. This is how we avoid dependencies on ACE or Interop:
-                    Stream stream = uploaded_file.InputStream;
+                    _sections = sectionBLL.GetAllSections()
+                };
 
-                    IExcelDataReader reader = null;
+                TempData["seccess"] = null;
+                Dictionary<int, int> check = new Dictionary<int, int>();
+                if (ModelState.IsValid)
+                {
 
-
-                    //if (uploaded_file.FileName.EndsWith(".xls"))
-                    //{
-                    //    reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                    //}
-                    if (uploaded_file.FileName.EndsWith(".xlsx"))
+                    if ((uploaded_file != null && uploaded_file.ContentLength > 0) && selected_year > 0)
                     {
-                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("File", "This file format is not supported");
-                        ViewBag.ErrorCount = 1;
-                        return View("CreateForecast");
-                    }
-                    //int fieldcount = reader.FieldCount;
-                    //int rowcount = reader.RowCount;
-                    //DataTable dt = new DataTable();
-                    DataRow row;
-                    DataTable dt_ = new DataTable();
-                    try
-                    {
-                        int tempAssignmentId = 0;
-                        string tempRow = "";
-                        int tempYear = upload_year;
-                        dt_ = reader.AsDataSet().Tables[0];
-                        int rowcount = dt_.Rows.Count;
+                        // ExcelDataReader works with the binary Excel file, so it needs a FileStream
+                        // to get started. This is how we avoid dependencies on ACE or Interop:
+                        Stream stream = uploaded_file.InputStream;
 
-                        for (int i = 2; i < rowcount; i++)
+                        IExcelDataReader reader = null;
+
+
+                        //if (uploaded_file.FileName.EndsWith(".xls"))
+                        //{
+                        //    reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                        //}
+                        if (uploaded_file.FileName.EndsWith(".xlsx"))
                         {
-                            _uploadExcel = new UploadExcel();
+                            reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("File", "This file format is not supported");
+                            ViewBag.ErrorCount = 1;
+                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Failed to import!</span>";
+                            return View();
+                        }
+                        //int fieldcount = reader.FieldCount;
+                        //int rowcount = reader.RowCount;
+                        //DataTable dt = new DataTable();
+                        DataRow row;
+                        DataTable dt_ = new DataTable();
+                        try
+                        {
+                            int tempAssignmentId = 0;
+                            string tempRow = "";
+                            int tempYear = selected_year;
+                            dt_ = reader.AsDataSet().Tables[0];
+                            int rowcount = dt_.Rows.Count;
 
-                            if (i == 127)
+                            for (int i = 2; i < rowcount; i++)
                             {
+                                _uploadExcel = new UploadExcel();
 
-                            }
-
-                            //section 
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][0].ToString()))
-                            {
-                                _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
-                                _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
-                            }
-                            else
-                            {
-                                _uploadExcel.SectionId = 0;
-                            }
-
-                            //department 
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][1].ToString()))
-                            {
-                                _uploadExcel.DepartmentId = _uploadExcelBll.GetDepartmentIdByName(dt_.Rows[i][1].ToString().Trim(trimElements));
-                            }
-                            else
-                            {
-                                _uploadExcel.DepartmentId = 0;
-                            }
-
-                            //incharge
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][2].ToString()))
-                            {
-                                _uploadExcel.InchargeId = _uploadExcelBll.GetInchargeIdByName(dt_.Rows[i][2].ToString().Trim(trimElements));
-                            }
-                            else
-                            {
-                                _uploadExcel.InchargeId = 0;
-                            }
-                            //role
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][3].ToString()))
-                            {
-                                _uploadExcel.RoleId = _uploadExcelBll.GetRoleIdByName(dt_.Rows[i][3].ToString().Trim(trimElements));
-                            }
-                            else
-                            {
-                                _uploadExcel.RoleId = 0;
-                            }
-
-                            //explanation
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][4].ToString()))
-                            {
-                                _uploadExcel.ExplanationId = _uploadExcelBll.GetExplanationIdByName(dt_.Rows[i][4].ToString().Trim(trimElements));
-                            }
-
-                            //name
-                            if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                employee.IsActive = true;
-                                employee.CreatedBy = "";
-                                employee.CreatedDate = DateTime.Now;
-                                employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
-                                int result = employeeBLL.CheckForEmployeeName(employee.FullName);
-                                if (result > 0)
+                                if (i == 127)
                                 {
-                                    _uploadExcel.EmployeeId = result;
+
+                                }
+
+                                //section 
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][0].ToString()))
+                                {
+                                    _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
+                                    _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
                                 }
                                 else
                                 {
-                                    result = employeeBLL.CreateEmployee(employee);
+                                    _uploadExcel.SectionId = 0;
                                 }
 
-                                _uploadExcel.EmployeeId = result;
-                                _uploadExcel.EmployeeName = employee.FullName;
+                                //department 
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][1].ToString()))
+                                {
+                                    _uploadExcel.DepartmentId = _uploadExcelBll.GetDepartmentIdByName(dt_.Rows[i][1].ToString().Trim(trimElements));
+                                }
+                                else
+                                {
+                                    _uploadExcel.DepartmentId = 0;
+                                }
+
+                                //incharge
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][2].ToString()))
+                                {
+                                    _uploadExcel.InchargeId = _uploadExcelBll.GetInchargeIdByName(dt_.Rows[i][2].ToString().Trim(trimElements));
+                                }
+                                else
+                                {
+                                    _uploadExcel.InchargeId = 0;
+                                }
+                                //role
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][3].ToString()))
+                                {
+                                    _uploadExcel.RoleId = _uploadExcelBll.GetRoleIdByName(dt_.Rows[i][3].ToString().Trim(trimElements));
+                                }
+                                else
+                                {
+                                    _uploadExcel.RoleId = 0;
+                                }
+
+                                //explanation
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][4].ToString()))
+                                {
+                                    _uploadExcel.ExplanationId = _uploadExcelBll.GetExplanationIdByName(dt_.Rows[i][4].ToString().Trim(trimElements));
+                                }
+
+                                //name
+                                if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    employee.IsActive = true;
+                                    employee.CreatedBy = "";
+                                    employee.CreatedDate = DateTime.Now;
+                                    employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                    int result = employeeBLL.CheckForEmployeeName(employee.FullName);
+                                    if (result > 0)
+                                    {
+                                        _uploadExcel.EmployeeId = result;
+                                    }
+                                    else
+                                    {
+                                        result = employeeBLL.CreateEmployee(employee);
+                                    }
+
+                                    _uploadExcel.EmployeeId = result;
+                                    _uploadExcel.EmployeeName = employee.FullName;
+                                }
+
+                                //compnay
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][6].ToString()))
+                                {
+                                    _uploadExcel.CompanyId = _uploadExcelBll.GetCompanyIdByName(dt_.Rows[i][6].ToString().Trim(trimElements));
+                                }
+                                else
+                                {
+                                    _uploadExcel.CompanyId = 0;
+                                }
+
+                                //grade and unit price
+                                bool isGradeEmpty = false;
+                                bool isUnitPriceEmpty = false;
+                                if (string.IsNullOrEmpty(dt_.Rows[i][7].ToString()))
+                                {
+                                    isGradeEmpty = true;
+                                }
+                                if (string.IsNullOrEmpty(dt_.Rows[i][8].ToString()))
+                                {
+                                    isUnitPriceEmpty = true;
+                                }
+                                else if (Convert.ToInt32(dt_.Rows[i][8]) < 0)
+                                {
+                                    isUnitPriceEmpty = true;
+                                }
+
+                                if (!isGradeEmpty && !isUnitPriceEmpty)
+                                {
+                                    _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
+                                    _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
+                                }
+                                else if (!isGradeEmpty)
+                                {
+                                    _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
+                                    _uploadExcel.UnitPrice = _uploadExcelBll.GetUnitPriceByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
+                                }
+                                else if (!isUnitPriceEmpty)
+                                {
+                                    _uploadExcel.GradeId = 0;
+                                    _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
+                                }
+                                //remarks
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
+                                {
+                                    _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                }
+                                else
+                                {
+                                    _uploadExcel.Remarks = "";
+                                }
+
+                                var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
+
+                                if (assignmentViewModels.Count > 0)
+                                {
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, assignmentViewModels.Count);
+                                    tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
+                                }
+                                else
+                                {
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year);
+                                    tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
+                                }
+
+                                decimal octInput = 0;
+                                decimal.TryParse(dt_.Rows[i][9].ToString(), out octInput);
+
+                                decimal novInput = 0;
+                                decimal.TryParse(dt_.Rows[i][10].ToString(), out novInput);
+
+                                decimal decInput = 0;
+                                decimal.TryParse(dt_.Rows[i][11].ToString(), out decInput);
+
+                                decimal janInput = 0;
+                                decimal.TryParse(dt_.Rows[i][12].ToString(), out janInput);
+
+                                decimal febInput = 0;
+                                decimal.TryParse(dt_.Rows[i][13].ToString(), out febInput);
+
+                                decimal marInput = 0;
+                                decimal.TryParse(dt_.Rows[i][14].ToString(), out marInput);
+
+                                decimal aprInput = 0;
+                                decimal.TryParse(dt_.Rows[i][15].ToString(), out aprInput);
+
+                                decimal mayInput = 0;
+                                decimal.TryParse(dt_.Rows[i][16].ToString(), out mayInput);
+
+                                decimal junInput = 0;
+                                decimal.TryParse(dt_.Rows[i][17].ToString(), out junInput);
+
+                                decimal julInput = 0;
+                                decimal.TryParse(dt_.Rows[i][18].ToString(), out julInput);
+
+                                decimal augInput = 0;
+                                decimal.TryParse(dt_.Rows[i][19].ToString(), out augInput);
+
+                                decimal septInput = 0;
+                                decimal.TryParse(dt_.Rows[i][20].ToString(), out septInput);
+
+                                tempRow = $@"10_{octInput}_{octInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},11_{novInput}_{novInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},12_{decInput}_{decInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},1_{janInput}_{janInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},2_{febInput}_{febInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},3_{marInput}_{marInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},4_{aprInput}_{aprInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},5_{mayInput}_{mayInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},6_{junInput}_{junInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},7_{julInput}_{julInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},8_{augInput}_{augInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},9_{septInput}_{septInput * Convert.ToDecimal(_uploadExcel.UnitPrice)}";
+
+                                SendToApi(tempAssignmentId, tempRow, tempYear);
                             }
 
-                            //compnay
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][6].ToString()))
-                            {
-                                _uploadExcel.CompanyId = _uploadExcelBll.GetCompanyIdByName(dt_.Rows[i][6].ToString().Trim(trimElements));
-                            }
-                            else
-                            {
-                                _uploadExcel.CompanyId = 0;
-                            }
 
-                            //grade and unit price
-                            bool isGradeEmpty = false;
-                            bool isUnitPriceEmpty = false;
-                            if (string.IsNullOrEmpty(dt_.Rows[i][7].ToString()))
-                            {
-                                isGradeEmpty = true;
-                            }
-                            if (string.IsNullOrEmpty(dt_.Rows[i][8].ToString()))
-                            {
-                                isUnitPriceEmpty = true;
-                            }
-                            else if (Convert.ToInt32(dt_.Rows[i][8]) < 0)
-                            {
-                                isUnitPriceEmpty = true;
-                            }
-
-                            if (!isGradeEmpty && !isUnitPriceEmpty)
-                            {
-                                _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
-                                _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
-                            }
-                            else if (!isGradeEmpty)
-                            {
-                                _uploadExcel.GradeId = _uploadExcelBll.GetGradeIdByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
-                                _uploadExcel.UnitPrice = _uploadExcelBll.GetUnitPriceByGradeName(dt_.Rows[i][7].ToString().Trim(trimElements));
-                            }
-                            else if (!isUnitPriceEmpty)
-                            {
-                                _uploadExcel.GradeId = 0;
-                                _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
-                            }
-                            //remarks
-                            if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
-                            {
-                                _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
-                            }
-                            else
-                            {
-                                _uploadExcel.Remarks = "";
-                            }
-
-                            var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
-
-                            if (assignmentViewModels.Count > 0)
-                            {
-                                EmployeeBudgetCreate(_uploadExcel, i, upload_year, assignmentViewModels.Count);
-                                tempAssignmentId = employeeAssignmentBLL.GetLastId();
-                            }
-                            else
-                            {
-                                EmployeeBudgetCreate(_uploadExcel, i, upload_year);
-                                tempAssignmentId = employeeAssignmentBLL.GetLastId();
-                            }
-
-                            decimal octInput = 0;
-                            decimal.TryParse(dt_.Rows[i][9].ToString(), out octInput);
-
-                            decimal novInput = 0;
-                            decimal.TryParse(dt_.Rows[i][10].ToString(), out novInput);
-
-                            decimal decInput = 0;
-                            decimal.TryParse(dt_.Rows[i][11].ToString(), out decInput);
-
-                            decimal janInput = 0;
-                            decimal.TryParse(dt_.Rows[i][12].ToString(), out janInput);
-
-                            decimal febInput = 0;
-                            decimal.TryParse(dt_.Rows[i][13].ToString(), out febInput);
-
-                            decimal marInput = 0;
-                            decimal.TryParse(dt_.Rows[i][14].ToString(), out marInput);
-
-                            decimal aprInput = 0;
-                            decimal.TryParse(dt_.Rows[i][15].ToString(), out aprInput);
-
-                            decimal mayInput = 0;
-                            decimal.TryParse(dt_.Rows[i][16].ToString(), out mayInput);
-
-                            decimal junInput = 0;
-                            decimal.TryParse(dt_.Rows[i][17].ToString(), out junInput);
-
-                            decimal julInput = 0;
-                            decimal.TryParse(dt_.Rows[i][18].ToString(), out julInput);
-
-                            decimal augInput = 0;
-                            decimal.TryParse(dt_.Rows[i][19].ToString(), out augInput);
-
-                            decimal septInput = 0;
-                            decimal.TryParse(dt_.Rows[i][20].ToString(), out septInput);
-
-                            tempRow = $@"10_{octInput}_{octInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},11_{novInput}_{novInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},12_{decInput}_{decInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},1_{janInput}_{janInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},2_{febInput}_{febInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},3_{marInput}_{marInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},4_{aprInput}_{aprInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},5_{mayInput}_{mayInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},6_{junInput}_{junInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},7_{julInput}_{julInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},8_{augInput}_{augInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},9_{septInput}_{septInput * Convert.ToDecimal(_uploadExcel.UnitPrice)}";
-
-                            SendToApi(tempAssignmentId, tempRow, tempYear);
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("File", ex);
+                            ViewBag.ErrorCount = 1;
+                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Failed to import!</span>";
+                            return View();
                         }
 
-
+                        //DataSet result = new DataSet();
+                        //result.Tables.Add(dt);
+                        reader.Close();
+                        reader.Dispose();
+                        //DataTable tmp = result.Tables[0];
+                        //Session["tmpdata"] = tmp;  //store datatable into session
+                        TempData["seccess"] = "Data imported successfully";
+                        ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to " + selected_year + ".</span>";
+                        return View();
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        ModelState.AddModelError("File", ex);
                         ViewBag.ErrorCount = 1;
-                        return View("CreateForecast", forecastViewModal);
+                        ModelState.AddModelError("File", "invalid File or Year");
                     }
-
-                    //DataSet result = new DataSet();
-                    //result.Tables.Add(dt);
-                    reader.Close();
-                    reader.Dispose();
-                    //DataTable tmp = result.Tables[0];
-                    //Session["tmpdata"] = tmp;  //store datatable into session
-                    TempData["seccess"] = "Data imported successfully";
-                    return RedirectToAction("CreateForecast", new { forecastType = "imprt" });
-                }
-                else
-                {
-                    ViewBag.ErrorCount = 1;
-                    ModelState.AddModelError("File", "invalid File or Year");
                 }
             }
-            //return View("CreateForecast", forecastViewModal);
-            return View("CreateForecast", new { forecastType = "imprt" });
+
+            if (isThisYearBudgetExists)
+            {                
+                ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + selected_year + ".Please chooose another year to import data..</span>";
+            }
+            else
+            {
+                ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to " + selected_year + ".</span>";
+            }
+            return View();
         }
 
     }

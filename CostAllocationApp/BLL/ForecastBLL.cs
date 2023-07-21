@@ -22,13 +22,25 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateForecast(forecast);
         }
+        public int CreateBudgetForecast(Forecast forecast)
+        {
+            return forecastDAL.CreateBudgetForecast(forecast);
+        }
         public bool CheckAssignmentId(int assignmentId,int year,int month)
         {
             return forecastDAL.CheckAssignmentId(assignmentId, year, month);
         }
+        public bool CheckBudgetId(int assignmentId,int year,int month)
+        {
+            return forecastDAL.CheckBudgetId(assignmentId, year, month);
+        }
         public int UpdateForecast(Forecast forecast)
         {
             return forecastDAL.UpdateForecast(forecast);
+        }
+        public int UpdateBudgetForecast(Forecast forecast)
+        {
+            return forecastDAL.UpdateBudgetForecast(forecast);
         }
         public int CreateTimeStamp(ForecastHisory forecastHisory)
         {
@@ -97,7 +109,7 @@ namespace CostAllocationApp.BLL
                 foreach (var item in excelAssignmentDtos)
                 {
                     //insert forecast assignment here
-                    EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                    EmployeeBudget employeeAssignment = new EmployeeBudget();
                     employeeAssignment.Id = item.Id;
                     employeeAssignment.Remarks = item.Remarks;
                     employeeAssignment.UpdatedBy = "";
@@ -113,12 +125,14 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
                     employeeAssignment.Year = insertYear.ToString();
                     employeeAssignment.EmployeeName = item.EmployeeName;
-                    employeeAssignment.BCYRCell = "";
+                    employeeAssignment.FirstHalfBudget = true;
+                    employeeAssignment.SecondHalfBudget = false;
+                    employeeAssignment.FinalizedBudget = false;
 
-                    int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
+                    int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
                     if (result == 1)
                     {
-                        int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                        int employeeAssignmentLastId = employeeAssignmentBLL.GetBudgetLastId();
                         List<Forecast> forecasts = new List<Forecast>();
 
                         //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
@@ -133,12 +147,13 @@ namespace CostAllocationApp.BLL
                         //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
                         //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
                         //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        forecasts = forecastDAL.GetForecastDetails(employeeAssignment.Id,copyYear);
+                        //forecasts = forecastDAL.GetForecastDetails(employeeAssignment.Id,copyYear);
+                        forecasts = forecastDAL.GetBudgetForecastDetails(employeeAssignment.Id, copyYear);
                         foreach (var forecastItem in forecasts)
                         {
                             forecastItem.Year = insertYear;
                             forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
-                            resultSave = forecastDAL.CreateForecast(forecastItem);
+                            resultSave = forecastDAL.CreateBudgetForecast(forecastItem);
                         }
                     }
                 }

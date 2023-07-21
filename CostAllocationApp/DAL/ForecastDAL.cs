@@ -36,6 +36,33 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public int CreateBudgetForecast(Forecast forecast)
+        {
+            int result = 0;
+            string query = $@"insert into BudgetCosts(Year,MonthId,Points,Total,EmployeeBudgetId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@total,@employeeBudgetId,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@employeeBudgetId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", forecast.CreatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
 
         public int UpdateForecast(Forecast forecast)
         {
@@ -67,6 +94,37 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public int UpdateBudgetForecast(Forecast forecast)
+        {
+            int result = 0;
+            string query = $@"update costs set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeBudgetId=@employeeBudgetId and MonthId=@monthId";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+
+
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@employeeBudgetId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+
+                cmd.Parameters.AddWithValue("@updatedBy", forecast.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", DateTime.Now);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
         public int UpdateForecastWithAssignmentData(Forecast forecast)
         {
             int result = 0;
@@ -123,6 +181,32 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public bool CheckBudgetId(int assignmentId, int year, int month)
+        {
+            string query = "select * from BudgetCosts where EmployeeBudgetId=" + assignmentId + " and year = " + year + " and monthid=" + month;
+            bool result = false;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        result = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
 
         public int CreateTimeStamp(ForecastHisory forecastHisory)
         {
@@ -950,6 +1034,103 @@ namespace CostAllocationApp.DAL
                             else
                             {
                                 forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            }
+                            if (rdr["Year"] == DBNull.Value)
+                            {
+                                forecast.Year = 0;
+                            }
+                            else
+                            {
+                                forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            }
+                            if (rdr["MonthId"] == DBNull.Value)
+                            {
+                                forecast.Month = 0;
+                            }
+                            else
+                            {
+                                forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            }
+                            if (rdr["Points"] == DBNull.Value)
+                            {
+                                forecast.Points = 0;
+                            }
+                            else
+                            {
+                                forecast.Points = Convert.ToInt32(rdr["Points"]);
+                            }
+                            if (rdr["Total"] == DBNull.Value)
+                            {
+                                forecast.Total = 0;
+                            }
+                            else
+                            {
+                                forecast.Total = Convert.ToInt32(rdr["Total"]);
+                            }
+                            if (rdr["CreatedBy"] == DBNull.Value)
+                            {
+                                forecast.CreatedBy = null;
+                            }
+                            else
+                            {
+                                forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            }
+
+                            if (rdr["CreatedDate"] == DBNull.Value)
+                            {
+                                forecast.CreatedDate = DateTime.Now;
+                            }
+                            else
+                            {
+                                forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            }
+                            if (rdr["UpdatedDate"] == DBNull.Value)
+                            {
+                                forecast.UpdatedDate = DateTime.Now; ;
+                            }
+                            else
+                            {
+                                forecast.UpdatedDate = Convert.ToDateTime(rdr["UpdatedDate"]);
+                            }
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+        public List<Forecast> GetBudgetForecastDetails(int assignmentId, int copyYear)
+        {
+            string query = "select Id,Year,MonthId,Points,Total,EmployeeBudgetId,CreatedBy,CreatedDate,UpdatedDate from BudgetCosts Where EmployeeBudgetId = " + assignmentId + " and Year=" + copyYear;
+
+            List<Forecast> forecasts = new List<Forecast>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            if (rdr["EmployeeBudgetId"] == DBNull.Value)
+                            {
+                                forecast.EmployeeAssignmentId = 0;
+                            }
+                            else
+                            {
+                                forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeBudgetId"]);
                             }
                             if (rdr["Year"] == DBNull.Value)
                             {

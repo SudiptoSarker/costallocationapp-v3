@@ -22,7 +22,7 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CreateAssignment(employeeAssignment);
         }
-        public int CreateBudgets(EmployeeAssignment employeeAssignment)
+        public int CreateBudgets(EmployeeBudget employeeAssignment)
         {
             return employeeAssignmentDAL.CreateBudgets(employeeAssignment);
         }
@@ -809,6 +809,10 @@ namespace CostAllocationApp.BLL
         public int GetLastId()
         {
             return employeeAssignmentDAL.GetLastId();
+        }
+        public int GetBudgetLastId()
+        {
+            return employeeAssignmentDAL.GetBudgetLastId();
         }
         public void DeleteAssignment_Excel(int assignmentId)
         {
@@ -1825,6 +1829,10 @@ namespace CostAllocationApp.BLL
                 }
             }
             return isValidRequest;
+        }
+        public bool CheckForBudgetYearIsExists(int selected_year)
+        {
+            return employeeAssignmentDAL.CheckForBudgetYearIsExists(selected_year);
         }
     }
 }

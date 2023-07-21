@@ -192,11 +192,12 @@ $(function () {
 $(document).ready(function () {
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
-    if (year.toLowerCase() != "imprt") {
-        //var assignmentYear = $("#hidDefaultForecastYear").val();
-        //$('#assignment_year_list').val(assignmentYear);  
-        $("#jspreadsheet").hide();  
-    }
+    $("#jspreadsheet").hide();  
+    // if (year.toLowerCase() != "imprt") {
+    //     //var assignmentYear = $("#hidDefaultForecastYear").val();
+    //     //$('#assignment_year_list').val(assignmentYear);  
+    //     $("#jspreadsheet").hide();  
+    // }
     var count = 1;
 
 
@@ -4542,9 +4543,18 @@ function CheckDuplicateYear(){
     replicate the budget data from previous year budget.
 */
 function DuplicateForecast(){    
+    $("#validation_message").html("");
+
     var insertYear  = $('#duplciateYear').find(":selected").val();
     var copyYear = $('#replicate_from').find(":selected").val();
-
+    if (copyYear == null || copyYear == undefined || copyYear == "") {
+        alert("Please select dupcliate year!")
+        return false;
+    }
+    if (insertYear == null || insertYear == undefined || insertYear == "") {
+        alert("Please select insert year!")
+        return false;
+    }
     if(copyYear!="" && insertYear!=""){
         $("#replicate_from_previous_year").modal("hide");
         $("#loading").css("display", "block");
@@ -4555,14 +4565,27 @@ function DuplicateForecast(){
             async: true,
             dataType: 'json',
             data: "copyYear=" + copyYear+"&insertYear="+insertYear,
-            success: function (data) {               
+            success: function (data) {                       
+                if(parseInt(data)==5){
+                    $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + insertYear + ".Please chooose another year to import data..</span>");                        
+                }
+                else if(parseInt(data)==6){
+                    $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+copyYear+" has no data to copy!</span>");                        
+                }
+                else{
+                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+insertYear+".</span>");                        
+                    // if(parseInt(data)>0){
+                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+insertYear+".</span>");                        
+                    // }else{
+                    //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
+                    // }
+                }
                 LoaderHide();
-                window.location.reload();
-                alert("data has been replicated.")
+                //window.location.reload();                
             }
         });
     }else{
-        alert("please select From and To year!");
+        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
         return false;
     }
 }

@@ -108,10 +108,10 @@ namespace CostAllocationApp.DAL
             }
 
         }
-        public int CreateBudgets(EmployeeAssignment employeeAssignment)
+        public int CreateBudgets(EmployeeBudget employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeeeBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName);";
+            string query = $@"insert into EmployeeeBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName,FirstHalfBudget,SecondHalfBudget,FinalizedBudget) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName,@firstHalfBudget,@secondHalfBudget,@finalizedBudget);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -183,6 +183,11 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@isActive", 1);
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);                
                 cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
+                cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
+
+                cmd.Parameters.AddWithValue("@firstHalfBudget", employeeAssignment.FirstHalfBudget);
+                cmd.Parameters.AddWithValue("@secondHalfBudget", employeeAssignment.SecondHalfBudget);
+                cmd.Parameters.AddWithValue("@finalizedBudget", employeeAssignment.FinalizedBudget);
 
                 try
                 {
@@ -202,6 +207,28 @@ namespace CostAllocationApp.DAL
         {
             int result = 0;
             string query = $@"select max(Id) from EmployeesAssignments;";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int GetBudgetLastId()
+        {
+            int result = 0;
+            string query = $@"select max(Id) from EmployeeeBudgets;";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -3646,6 +3673,29 @@ namespace CostAllocationApp.DAL
             }
 
             return result;
+        }
+        public bool CheckForBudgetYearIsExists(int selected_year)
+        {
+            bool isValid = false;
+            string query = "select * from EmployeeeBudgets where Year="+ selected_year;            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        isValid = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }                
+            }
+            return isValid;
         }
     }
 }

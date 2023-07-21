@@ -2799,9 +2799,44 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
-        public IHttpActionResult DuplicateForecastYear(int copyYear, int insertYear)
+        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear)
         {
-            var result = forecastBLL.DuplicateForecastYear(copyYear, insertYear);
+            bool isThisYearBudgetExists = false;
+            int selected_year_for_insert = 0;
+            int copy_from_year = 0;
+            bool isDataExistsForSelectedYear = false;
+
+            if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear))
+            {
+                if (!string.IsNullOrEmpty(copyYear))
+                {
+                    isDataExistsForSelectedYear = employeeAssignmentBLL.CheckForBudgetYearIsExists(Convert.ToInt32(copyYear));
+                }
+                if (isDataExistsForSelectedYear)
+                {
+                    selected_year_for_insert = Convert.ToInt32(insertYear);
+                    isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year_for_insert);
+                }                
+            }
+            else
+            {
+                isThisYearBudgetExists = true;
+            }
+
+            var result = 0;
+            if (!isDataExistsForSelectedYear)
+            {
+                result = 6;
+
+            }else if (!isThisYearBudgetExists)
+            {
+                selected_year_for_insert = Convert.ToInt32(insertYear);
+                copy_from_year = Convert.ToInt32(copyYear);
+                result = forecastBLL.DuplicateForecastYear(copy_from_year, selected_year_for_insert);                
+            }else
+            {
+                result = 5;
+            }            
             return Ok(result);
         }
 

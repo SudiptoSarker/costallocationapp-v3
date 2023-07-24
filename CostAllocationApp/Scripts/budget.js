@@ -4332,8 +4332,6 @@ function UpdateBudget() {
                             });
                         }
 
-
-
                         $("#timeStamp_ForUpdateData").val('');
                         var chat = $.connection.chatHub;
                         $.connection.hub.start();
@@ -4348,8 +4346,6 @@ function UpdateBudget() {
                 });
                 jssInsertedData = [];
                 newRowCount = 1;
-
-
         }
 
         if (deletedExistingRowIds.length > 0) {

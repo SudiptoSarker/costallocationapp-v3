@@ -99,6 +99,11 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastYear();
         }
+        public List<ForecastYear> GetBudgetYear()
+        {
+            return forecastDAL.GetBudgetYear();
+        }
+
         public int DuplicateForecastYear(int copyYear,int insertYear)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();

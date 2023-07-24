@@ -1297,6 +1297,41 @@ namespace CostAllocationApp.DAL
             return forecasts;
         }
 
+        public List<ForecastDto> GetBudgetForecastById(int assignmentId, string year)
+        {
+            List<ForecastDto> forecasts = new List<ForecastDto>();
+            string query = "select * from BudgetCosts where EmployeeBudgetId=" + assignmentId + " and Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto forecast = new ForecastDto();
+                            forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);                            
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+
+
         public List<ForecastDto> GetApprovedForecastdData(int assignmentId, string year)
         {
             List<ForecastDto> forecasts = new List<ForecastDto>();
@@ -3132,6 +3167,241 @@ namespace CostAllocationApp.DAL
 
             return forecastEmployeeAssignments;
         }
+
+        public List<ForecastAssignmentViewModel> GetAllBudgetData(EmployeeBudgetAssignment employeeAssignment)
+        {
+
+            string where = "";
+           
+            if (!string.IsNullOrEmpty(employeeAssignment.SectionId))
+            {
+                string tempSectionIds = "";
+                if (employeeAssignment.SectionId.IndexOf(",") >= 0)
+                {
+                    string[] arrSectionIds = employeeAssignment.SectionId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrSectionIds.Length; i++)
+                    {
+                        if (tempSectionIds == "")
+                        {
+                            tempSectionIds = arrSectionIds[i];
+                        }
+                        else
+                        {
+                            tempSectionIds = tempSectionIds + "," + arrSectionIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempSectionIds = employeeAssignment.SectionId;
+                }
+                where += $" ea.SectionId In ({tempSectionIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.DepartmentId))
+            {
+                string tempDepartmentIds = "";
+                if (employeeAssignment.DepartmentId.IndexOf(",") >= 0)
+                {
+                    string[] arrDepartmentIds = employeeAssignment.DepartmentId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrDepartmentIds.Length; i++)
+                    {
+                        if (tempDepartmentIds == "")
+                        {
+                            tempDepartmentIds = arrDepartmentIds[i];
+                        }
+                        else
+                        {
+                            tempDepartmentIds = tempDepartmentIds + "," + arrDepartmentIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempDepartmentIds = employeeAssignment.DepartmentId;
+                }
+                where += $" ea.DepartmentId In ({tempDepartmentIds}) and ";
+            }
+
+            if (!string.IsNullOrEmpty(employeeAssignment.InchargeId))
+            {
+                string tempInchargeIdIds = "";
+                if (employeeAssignment.InchargeId.IndexOf(",") >= 0)
+                {
+                    string[] arrInchargeIds = employeeAssignment.InchargeId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrInchargeIds.Length; i++)
+                    {
+                        if (tempInchargeIdIds == "")
+                        {
+                            tempInchargeIdIds = arrInchargeIds[i];
+                        }
+                        else
+                        {
+                            tempInchargeIdIds = tempInchargeIdIds + "," + arrInchargeIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempInchargeIdIds = employeeAssignment.InchargeId;
+                }
+                where += $" ea.InChargeId In ({tempInchargeIdIds}) and ";
+            }
+
+            if (!string.IsNullOrEmpty(employeeAssignment.RoleId))
+            {
+                string tempRoleIds = "";
+                if (employeeAssignment.RoleId.IndexOf(",") >= 0)
+                {
+                    string[] arrRoleIdss = employeeAssignment.RoleId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrRoleIdss.Length; i++)
+                    {
+                        if (tempRoleIds == "")
+                        {
+                            tempRoleIds = arrRoleIdss[i];
+                        }
+                        else
+                        {
+                            tempRoleIds = tempRoleIds + "," + arrRoleIdss[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempRoleIds = employeeAssignment.RoleId;
+                }
+                where += $" ea.RoleId In ({tempRoleIds}) and ";
+            }
+
+            if (!String.IsNullOrEmpty(employeeAssignment.ExplanationId))
+            {
+                string tempExplanationIds = "";
+                if (employeeAssignment.ExplanationId.IndexOf(",") >= 0)
+                {
+                    string[] arrtempExplanationIds = employeeAssignment.ExplanationId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrtempExplanationIds.Length; i++)
+                    {
+                        if (tempExplanationIds == "")
+                        {
+                            tempExplanationIds = arrtempExplanationIds[i];
+                        }
+                        else
+                        {
+                            tempExplanationIds = tempExplanationIds + "," + arrtempExplanationIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempExplanationIds = employeeAssignment.ExplanationId;
+                }
+                where += $" ea.ExplanationId IN ({tempExplanationIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.CompanyId))
+            {
+                string tempCompanyIds = "";
+                if (employeeAssignment.CompanyId.IndexOf(",") >= 0)
+                {
+                    string[] arrCompanyIds = employeeAssignment.CompanyId.Split(new[] { "," }, StringSplitOptions.None);
+
+                    for (int i = 0; i < arrCompanyIds.Length; i++)
+                    {
+                        if (tempCompanyIds == "")
+                        {
+                            tempCompanyIds = arrCompanyIds[i];
+                        }
+                        else
+                        {
+                            tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
+                        }
+                    }
+                }
+                else
+                {
+                    tempCompanyIds = employeeAssignment.CompanyId;
+                }
+                where += $" ea.CompanyId In ({tempCompanyIds}) and ";
+            }
+            if (!string.IsNullOrEmpty(employeeAssignment.Year))
+            {
+                where += $" ea.Year={employeeAssignment.Year} and ";
+            }
+            if (employeeAssignment.FirstHalfBudget)
+            {
+                where += $" ea.FirstHalfBudget=1 and ";
+            }
+            if (employeeAssignment.SecondHalfBudget)
+            {
+                where += $" ea.SecondHalfBudget=1 and ";
+            }      
+
+            where += " 1=1 ";
+
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks,ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive
+                            from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            where {where}
+                            order by emp.Id asc";
+
+
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
+           
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();                           
+
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecastEmployeeAssignments;
+        }
+
 
         public int CreateApprovedAssignmentByTimestampId(EmployeeAssignment employeeAssignment,int approvedTimestampId)
         {

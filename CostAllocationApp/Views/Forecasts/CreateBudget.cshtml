@@ -6,6 +6,9 @@
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/budget.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    @* <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/> *@
+
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
@@ -37,9 +40,7 @@
             </div>
             
             <div class="import_year_wise_data" id="">
-                <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>
-                @* <select id="select_year_to_import"></select> *@
-                @* <br /> <br /> *@
+                <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>              
                 <table class="" id="">
                     <thead>
                         <tr>
@@ -70,7 +71,7 @@
             /***************************\
             Show Loader
             \***************************/
-            <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
+            <div id="year_data_table_header"><span id="nav1">Show and Edit budget data</span></div>
             <br>
             <div class="row">
                 <div class="col-md-12">
@@ -87,21 +88,23 @@
                     </div>
                 </div>
             </div>
+
             <div class="row" id="year_data_search">
                 <div class="col-3">
-                    <select id="assignment_year_list" class=""></select>
+                    <select id="budget_years" class=""></select>
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+                    <button type="submit" class="btn btn-light mb-2" id="search_budget">表示</button>
                 </div>
-
+                <div class="col-1"></div>
                 <div class="col-2">
-                </div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: gray;">キャンセル</button>
+                    <button type="button" class="btn btn-dark" id="cancele_all_changed_budget" style="display:none;line-height:1;background-color: gray;margin-left: 100px;">Cancel</button>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left:35px;">保存 (Save)</button>
+                    <button type="button" class="btn btn-dark" id="save_bedget" style="display:none;line-height:1;margin-left: 33px;">保存 (Save)</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="budget_finalize" style="display:none;line-height:1;margin-left: 1px;">決定 (Finalize)</button>
                 </div>
             </div>
             <br>
@@ -161,7 +164,11 @@
                         <div class="row">
                             <div class="col-6">
                                 <label>策定する年度を選択</label>
-                                <select id="select_import_year" class="form-control" name="upload_year">
+                                <input type="text" id="select_import_year" class="form-control" name="upload_year"/>
+
+
+
+                                @* <select id="select_import_year" class="form-control" name="upload_year">
                                     <option value="">select year</option>
                                     <option value="2023">2023</option>
                                     <option value="2024">2024</option>
@@ -169,7 +176,12 @@
                                     <option value="2026">2026</option>
                                     <option value="2027">2027</option>
                                     <option value="2028">2028</option>
-                                </select>
+                                </select> *@
+                                @* <style>
+                                    .ui-datepicker-calendar {
+                                        display: none;
+                                        }
+                                </style>                                *@
                             </div>
                             <div class="col-6">
                                 <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
@@ -207,13 +219,15 @@
                         <div class="col-6">
                             <label style="font-size: 17px !important;margin-right: 16px;">From Year</label>
                             <br>
-                            <select id="replicate_from" style="font-size: 15px !important;"></select>
+                            @* <select id="replicate_from" style="font-size: 15px !important;"></select> *@
+                            <input type="text" id="replicate_from" class="form-control" name="upload_year"/>
                         </div>
 
                         <div class="col-6">
                             <label style="font-size: 17px !important;margin-right: 43px;">To Year</label>
                             <br>
-                            <select id="duplciateYear" style="font-size: 15px !important;">
+                            <input type="text" id="duplciateYear" class="form-control" name="upload_year"/>
+                            @* <select id="duplciateYear" style="font-size: 15px !important;">
                                 <option value="">select year</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
@@ -221,7 +235,7 @@
                                 <option value="2026">2026</option>
                                 <option value="2027">2027</option>
                                 <option value="2028">2028</option>
-                            </select>
+                            </select> *@
                         </div>
                     </div>
                 </div>
@@ -330,10 +344,11 @@
 </div>
 
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/budget.js"></script>
     <script src="~/signalr/hubs"></script>
-
+    
     <script type="text/javascript">
 
         $.connection.hub.disconnected(function () {
@@ -448,6 +463,12 @@
         $(function () {
             clear();
             bs_input_file();
+        });
+
+        $("#select_import_year, #replicate_from,#duplciateYear").datepicker({
+            format: "yyyy",
+            viewMode: "years", 
+            minViewMode: "years"
         });
     </script>
 }

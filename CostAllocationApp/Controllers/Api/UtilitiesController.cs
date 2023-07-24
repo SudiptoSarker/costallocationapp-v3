@@ -345,6 +345,104 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
 
+        [Route("api/utilities/GetAllBudgetData")]
+        [HttpGet]
+        public IHttpActionResult GetAllBudgetData(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
+        {
+            EmployeeBudgetAssignment employeeAssignment = new EmployeeBudgetAssignment();
+
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                employeeAssignment.EmployeeName = employeeName.Trim();
+            }
+            else
+            {
+                employeeAssignment.EmployeeName = "";
+            }
+
+            if (!string.IsNullOrEmpty(sectionId))
+            {
+                employeeAssignment.SectionId = sectionId;
+            }
+            else
+            {
+                employeeAssignment.SectionId = "";
+            }
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                employeeAssignment.DepartmentId = departmentId;
+            }
+            else
+            {
+                employeeAssignment.DepartmentId = "";
+            }
+            if (!string.IsNullOrEmpty(inchargeId))
+            {
+                employeeAssignment.InchargeId = inchargeId;
+            }
+            else
+            {
+                employeeAssignment.InchargeId = "";
+            }
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                employeeAssignment.RoleId = roleId;
+            }
+            else
+            {
+                employeeAssignment.RoleId = "";
+            }
+
+            employeeAssignment.ExplanationId = explanationId;
+            if (!string.IsNullOrEmpty(companyId))
+            {
+                employeeAssignment.CompanyId = companyId;
+            }
+            else
+            {
+                employeeAssignment.CompanyId = "";
+            }
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                var arrYearWithBudgetType = year.Split('_');
+                employeeAssignment.Year = arrYearWithBudgetType[0];
+                string budgetType = arrYearWithBudgetType[1];
+                if (!string.IsNullOrEmpty(budgetType))
+                {
+                    if(Convert.ToInt32(budgetType) == 1)
+                    {
+                        employeeAssignment.FirstHalfBudget = true;
+                        employeeAssignment.SecondHalfBudget = false;
+                    }
+                    else if(Convert.ToInt32(budgetType) == 2)
+                    {
+                        employeeAssignment.FirstHalfBudget = false;
+                        employeeAssignment.SecondHalfBudget = true;
+                    }
+                }
+            }
+            else
+            {
+                employeeAssignment.Year = "";
+                employeeAssignment.FirstHalfBudget = false;
+                employeeAssignment.SecondHalfBudget = false;
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                employeeAssignment.IsActive = status;
+            }
+            else
+            {
+                employeeAssignment.IsActive = "";
+            }
+            
+            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllBudgetData(employeeAssignment);
+
+            return Ok(forecsatEmployeeAssignmentViewModels);
+        }
+
 
         [Route("api/utilities/CompareGrade/{unitPrice}")]
         [HttpGet]
@@ -1668,6 +1766,820 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
 
+        [HttpPost]
+        [Route("api/utilities/UpdateBudgetData/")]
+        public IHttpActionResult UpdateBudgetData(ForecastHistoryDto forecastHistoryDto)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            List<Forecast> forecasts = new List<Forecast>();
+            List<Forecast> forecastsPrevious = new List<Forecast>();
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
+            string message = "Something went wrong!!!";
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
+            {
+                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
+                {
+                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                    {
+                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        employeeAssignment.Id = Convert.ToInt32(item.AssignmentId);
+                        employeeAssignment.Remarks = item.Remarks;
+                        employeeAssignment.UpdatedBy = session["userName"].ToString();
+                        employeeAssignment.UpdatedDate = DateTime.Now;
+                        employeeAssignment.EmployeeId = item.EmployeeId;
+                        employeeAssignment.SectionId = item.SectionId;
+                        employeeAssignment.DepartmentId = item.DepartmentId;
+                        employeeAssignment.InchargeId = item.InchargeId;
+                        employeeAssignment.RoleId = item.RoleId;
+                        employeeAssignment.ExplanationId = item.ExplanationId;
+                        employeeAssignment.CompanyId = item.CompanyId;
+                        if (item.CompanyId != null)
+                        {
+                            if (item.CompanyId.Value != 3)
+                            {
+                                employeeAssignment.GradeId = null;
+                            }
+                            else
+                            {
+                                employeeAssignment.GradeId = item.GradeId;
+                            }
+                        }
+                        else
+                        {
+                            employeeAssignment.GradeId = null;
+                        }
+
+                        employeeAssignment.UnitPrice = item.UnitPrice;
+
+                        //AssignmentHistory
+                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
+
+                        _assignmentHistory.CreatedBy = session["userName"].ToString();
+                        _assignmentHistory.CreatedDate = DateTime.Now;
+
+                        //check if assignment exists in original
+                        //int  checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
+
+                        //if (checkResults > 0) {
+                        //    //update original data
+                        //    int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory);
+                        //}
+                        //else
+                        //{
+                        //    //insert original data
+                        //    int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory);
+                        //}
+
+                        if (forecastHistoryDto.CellInfo.Count > 0)
+                        {
+                            foreach (var cellItem in forecastHistoryDto.CellInfo)
+                            {
+                                var itemData = cellItem.Split('_');
+                                if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
+                                {
+                                    int checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
+
+                                    if (Convert.ToInt32(itemData[1]) == 2)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.Remarks, "Remarks");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.Remarks, "Remarks");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 3)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "3", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.SectionId, "SectionId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.SectionId, "SectionId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 4)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "4", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.DepartmentId, "DepartmentId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.DepartmentId, "DepartmentId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 5)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "5", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.InChargeId, "InChargeId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.InChargeId, "InChargeId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 6)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "6", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.RoleId, "RoleId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.RoleId, "RoleId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 7)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "7", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.ExplanationId, "ExplanationId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.ExplanationId, "ExplanationId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 8)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "8", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.CompanyId, "CompanyId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.CompanyId, "CompanyId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 9)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "9", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.GradeId, "GradeId");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.GradeId, "GradeId");
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 10)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "10", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            if (checkResults > 0)
+                                            {
+                                                //update original data
+                                                int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory, _assignmentHistory.UnitPrice, "UnitPrice");
+                                            }
+                                            else
+                                            {
+                                                //insert original data
+                                                int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.UnitPrice, "UnitPrice");
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                        //update assignment data
+                        string updateBYCRCCell = item.BCYRCell;
+                        if (!string.IsNullOrEmpty(updateBYCRCCell))
+                        {
+                            if (item.IsDeletePending)
+                            {
+                                employeeAssignment.IsDeletePending = false;
+                            }
+                        }
+                        employeeAssignment.IsActiveAssignment = true;
+                        int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+
+                        //original forecasted data
+                        forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId)));
+                        assignmentHistories.Add(_assignmentHistory);
+
+                        //update/insert the original forecasted data
+                        if (forecastHistoryDto.CellInfo.Count > 0)
+                        {
+                            List<Forecast> _objPreviousForecastedData = forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId));
+
+                            foreach (var cellItem in forecastHistoryDto.CellInfo)
+                            {
+                                var itemData = cellItem.Split('_');
+                                if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
+                                {
+                                    //check if forecast data already exists in original
+                                    int forecastResulttOrg = employeeAssignmentBLL.CheckForOriginalForecastDataIsExists(Convert.ToInt32(item.AssignmentId));
+
+                                    if (Convert.ToInt32(itemData[1]) == 11)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "11", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 10);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 10)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 10)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 12)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "12", _assignmentHistory.BCYRCell);
+
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 11)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 11)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 13)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "13", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 12);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 12)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 12)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 14)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "14", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 1);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 1)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 1)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 15)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "15", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 2);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 2)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 2)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 16)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "16", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 3);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 3)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 3)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 17)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "17", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 4);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 4)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 4)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 18)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "18", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 5);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 5)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 5)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 19)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "19", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 6);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 6)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 6)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 20)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "20", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 7);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 7)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 7)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 21)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "21", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 8);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 8)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 8)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (Convert.ToInt32(itemData[1]) == 22)
+                                    {
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "22", _assignmentHistory.BCYRCell);
+                                        if (validForOriginalData)
+                                        {
+                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 9);
+                                            if (_objPreviousForecastedData.Count > 0)
+                                            {
+                                                if (isMonthExists > 0)
+                                                {
+                                                    //update org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 9)
+                                                        {
+                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //insert org
+                                                    foreach (var forecastItem in _objPreviousForecastedData)
+                                                    {
+                                                        if (forecastItem.Month == 9)
+                                                        {
+                                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                                            forecastBLL.InsertOriginalForecast(forecastItem);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 12, item.DecPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 1, item.JanPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 2, item.FebPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 3, item.MarPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 4, item.AprPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 5, item.MayPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 6, item.JunPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 7, item.JulPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 8, item.AugPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 9, item.SepPoint));
+
+                        if (forecasts.Count > 0)
+                        {
+                            foreach (var forecast in forecasts)
+                            {
+                                forecastBLL.UpdateForecast(forecast);
+                            }
+                            forecasts = new List<Forecast>();
+                        }
+                    }
+
+                    foreach (var forecastPrevious in forecastsPrevious)
+                    {
+                        forecastPrevious.CreatedBy = session["userName"].ToString();
+                        forecastPrevious.CreatedDate = DateTime.Now;
+                    }
+
+                    ForecastHisory forecastHisory = new ForecastHisory();
+                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                    forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                    forecastHisory.Forecasts = forecastsPrevious;
+                    forecastHisory.CreatedBy = session["userName"].ToString();
+                    forecastHisory.CreatedDate = DateTime.Now;
+
+                    //author: sudipto,31/5/23: history create
+                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
+                    bool isUpdate = true;
+                    bool isDeleted = false;
+
+                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
+
+                    if (forecastHistoryDto.CellInfo.Count > 0)
+                    {
+                        foreach (var item in forecastHistoryDto.CellInfo)
+                        {
+                            var storePreviousCells = "";
+                            var itemData = item.Split('_');
+                            string result = employeeAssignmentBLL.GetBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]));
+                            if (String.IsNullOrEmpty(result))
+                            {
+                                //result += itemData[1];
+                                storePreviousCells += itemData[1];
+                            }
+                            else
+                            {
+                                var arrPreviousCells = result.Split(',');
+                                foreach (var previousItem in arrPreviousCells)
+                                {
+                                    if (string.IsNullOrEmpty(storePreviousCells))
+                                    {
+                                        storePreviousCells = previousItem;
+                                    }
+                                    else
+                                    {
+                                        if (storePreviousCells.IndexOf(',') > 0)
+                                        {
+                                            var arrCheckForCellExits = storePreviousCells.Split(',');
+                                            var isValidCellForUpdate = true;
+
+                                            foreach (var checkExitsItem in arrCheckForCellExits)
+                                            {
+                                                if (checkExitsItem == previousItem)
+                                                {
+                                                    isValidCellForUpdate = false;
+                                                }
+                                            }
+                                            if (isValidCellForUpdate)
+                                            {
+                                                storePreviousCells = storePreviousCells + "," + previousItem;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (storePreviousCells != previousItem)
+                                            {
+                                                storePreviousCells = storePreviousCells + "," + previousItem;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var arrCheckForAlreadyExitsCell = storePreviousCells.Split(',');
+                                var isValidForUpdateCell = true;
+
+                                foreach (var cellItem in arrCheckForAlreadyExitsCell)
+                                {
+                                    if (cellItem == itemData[1])
+                                    {
+                                        isValidForUpdateCell = false;
+                                    }
+                                }
+                                if (isValidForUpdateCell)
+                                {
+                                    //result += "," + itemData[1];
+                                    storePreviousCells += "," + itemData[1];
+                                }
+                            }
+                            employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells);
+                        }
+                    }
+
+
+                    if (resultTimeStamp > 0)
+                    {
+                        //message = "Data Saved Successfully!!!";
+                        message = resultTimeStamp.ToString();
+                    }
+                }
+            }
+
+            return Ok(message);
+        }
+
+
         [HttpGet]
         public IHttpActionResult ApprovedForecastData(string assignementId,bool isDeletedRow)
         {
@@ -2797,6 +3709,15 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetForecastYear();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetBudgetYear/")]
+        public IHttpActionResult GetBudgetYear()
+        {            
+            var result = forecastBLL.GetBudgetYear();
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
         public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear)

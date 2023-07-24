@@ -190,14 +190,9 @@ $(function () {
 
 
 $(document).ready(function () {
-    GetAllForecastYears();
+    GetAllBudgetYear();
     var year = $('#hidForecastYear').val();
-    $("#jspreadsheet").hide();  
-    // if (year.toLowerCase() != "imprt") {
-    //     //var assignmentYear = $("#hidDefaultForecastYear").val();
-    //     //$('#assignment_year_list').val(assignmentYear);  
-    //     $("#jspreadsheet").hide();  
-    // }
+    $("#jspreadsheet").hide();      
     var count = 1;
 
 
@@ -215,7 +210,601 @@ $(document).ready(function () {
     //    }, 3000); // Restart connection after 3 seconds.
     //});    
 
-    $('#update_forecast_history').on('click', function () {
+    $('#save_bedget').on('click', function () {
+        var storeMessage = [];
+        var _duplicateFlag = false;
+        var _employeeIds = [];
+        var _uniqueEmployeeIds=[];
+        var employeeCount = 0;
+        var rowCount = 0;
+        
+        //get user information
+        $.ajax({
+            url: `/api/utilities/GetUserLogs/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                employeeCount = data.length;
+            }
+        });
+
+        if (jssInsertedData.length > 0) {
+            for (var i = 0; i < jssInsertedData.length; i++) {
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
+                }
+            }
+        }
+
+        if (jssUpdatedData.length > 0) {
+            for (var i = 0; i < jssUpdatedData.length; i++) {
+                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssUpdatedData[i].employeeName);
+                }
+            }
+        }
+
+        if (storeMessage.length > 0) {
+            let displayMessage = '';
+            $.each(storeMessage, (index, value) => {
+                displayMessage += value + '\n';
+            });
+            alert(displayMessage);
+            return false;
+        }
+        
+        var allTableData = jss.getData();
+
+        for (var i = 0; i < jssInsertedData.length; i++) {
+            _employeeIds.push(jssInsertedData[i].employeeId);
+        }
+
+        for (var i = 0; i < jssUpdatedData.length; i++) {
+            _employeeIds.push(jssUpdatedData[i].employeeId);
+        }
+
+        if (_employeeIds.length > 0) {
+            _uniqueEmployeeIds = _employeeIds.filter((value, index, array) => {
+                return array.indexOf(value) === index;
+            });
+        }
+        
+        if (_uniqueEmployeeIds.length > 0) {
+            var tempArray = [];
+            var tempArrayCopy=[];
+            for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
+                for (var j = 0; j < allTableData.length; j++) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
+                        tempArray.push(allTableData[j]);
+                    }
+                }
+            }
+            var singleRowDuplicationCount = 0;
+            for (var i = 0; i < tempArray.length; i++) {
+                
+                if (tempArrayCopy.length == 0) {
+                    tempArrayCopy.push(tempArray[i]);
+                }
+                else {
+                    let tempArrayCount = tempArrayCopy.length;
+                    for (var k = 0; k < tempArrayCount; k++) {
+                        singleRowDuplicationCount = 0;
+
+                        //section
+                        if (tempArray[i][3] == tempArrayCopy[k][3]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //department
+                        if (tempArray[i][4] == tempArrayCopy[k][4]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //in-charge
+                        if (tempArray[i][5] == tempArrayCopy[k][5]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //role
+                        if (tempArray[i][6] == tempArrayCopy[k][6]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //explanation
+                        if (tempArray[i][7] == tempArrayCopy[k][7]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //company
+                        if (tempArray[i][8]== tempArrayCopy[k][8]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //grade
+                        if (tempArray[i][9] == tempArrayCopy[k][9]) {
+                            singleRowDuplicationCount++;
+                        }
+                        //unit price
+                        if (tempArray[i][10] == tempArrayCopy[k][10]) {
+                            singleRowDuplicationCount++;
+                        }                        
+                        //employee id
+                        if (tempArray[i][35] == tempArrayCopy[k][35]) {
+                            singleRowDuplicationCount++;
+                        }
+
+                        if (singleRowDuplicationCount == 9) {
+                            alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            _duplicateFlag = true;
+                            break;
+                        }
+                        else {
+                            tempArrayCopy.push(tempArray[i]);
+                        }
+                    }
+                }
+                if (_duplicateFlag == true) {
+                    break;
+                }
+            }
+
+            if (_duplicateFlag == true) {
+                return false;
+            }
+        }
+        
+        if (jssInsertedData.length > 0) {
+            var insertedUniqueEmployeeData_unitPrice = [];
+            var insertedUniqueEmployeeData_role = [];
+            var insertedUniqueEmployeeData_both = [];
+
+            var lastColumnsData_unitPrice = [];
+            var lastColumnsData_role = [];
+            var lastColumnsData_both = [];
+
+            var _unitPriceFlag = false;
+            var _roleFlag = false;
+            var _bothFlag = false;
+
+            var _allData = jss.getData();            
+                        
+            for (let i = 0; i < jssInsertedData.length; i++) {                
+                // checking unit price menu
+                if (jssInsertedData[i].rowType.toLowerCase().includes('unit')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('unit')) {
+                                        lastColumnsData_unitPrice.push(jssInsertedData[a].rowType);
+                                    }
+                                    
+                                }
+                            }
+
+                            if (lastColumnsData_unitPrice.length > 0) {
+                                insertedUniqueEmployeeData_unitPrice = lastColumnsData_unitPrice.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_unitPrice.length > 0) {
+                                var newUnitPriceList = [];
+                                var newUnitPriceListCopy = [];
+                                
+                                var rowCount = 0;
+                                for (let b = 0; b < insertedUniqueEmployeeData_unitPrice.length; b++) {
+                                    newUnitPriceList = [];
+                                    newUnitPriceListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_unitPrice[b].split('_');
+                                    newUnitPriceList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (let k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][45]) {
+                                            newUnitPriceList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (let l = 0; l < newUnitPriceList.length; l++) {
+                                        if (newUnitPriceListCopy.length == 0) {
+                                            newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newUnitPriceListCopy.length;
+                                            for (let m = 0; m < tempArrayCount; m++) {
+                                                rowCount = 0;
+
+                                                //oct point
+                                                if (parseFloat(newUnitPriceList[l][11]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                //nov point
+                                                if (parseFloat(newUnitPriceList[l][12]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //dec point
+                                                if (parseFloat(newUnitPriceList[l][13]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jan point
+                                                if (parseFloat(newUnitPriceList[l][14]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //feb point
+                                                if (parseFloat(newUnitPriceList[l][15]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //mar point
+                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //apr point
+                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //may point
+                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jun point
+                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //jul point
+                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //aug point
+                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+                                                //sep point
+                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
+                                                        rowCount++;
+                                                        _unitPriceFlag = true;
+                                                        alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
+                                                        break;
+                                                    }
+                                                }
+
+                                                newUnitPriceListCopy.push(newUnitPriceList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_unitPriceFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_unitPriceFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                // checking role menu
+                if (jssInsertedData[i].rowType.toLowerCase().includes('role')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('role')){
+                                        lastColumnsData_role.push(jssInsertedData[a].rowType);
+                                    }
+                                    
+                                }
+                            } 
+
+                            if (lastColumnsData_role.length > 0) {
+                                insertedUniqueEmployeeData_role = lastColumnsData_role.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_role.length > 0) {
+                                var newRoleList = [];
+                                var newRoleListCopy = [];
+                                var rowCount = 0;
+                                for (let b = 0; b < insertedUniqueEmployeeData_role.length; b++) {
+                                    newRoleList = [];
+                                    newRoleListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_role[b].split('_');
+                                    newRoleList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (let k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][45]) {
+                                            newRoleList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (let l = 0; l < newRoleList.length; l++) {
+                                        if (newRoleListCopy.length == 0) {
+                                            newRoleListCopy.push(newRoleList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newRoleListCopy.length;
+                                            for (let m = 0; m < tempArrayCount; m++) {
+                                                let rowCountRole = 0;
+
+                                                //role column
+                                                if (newRoleList[l][3] == newRoleListCopy[m][3]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
+                                                if (newRoleList[l][4] == newRoleListCopy[m][4]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
+                                                if (newRoleList[l][5] == newRoleListCopy[m][5]) {
+                                                    rowCountRole++;
+                                                }
+                                                //role column
+                                                if (newRoleList[l][6] == newRoleListCopy[m][6]) {
+                                                    rowCountRole++;
+                                                }
+
+                                                if (rowCountRole==4) {
+                                                    _roleFlag = true;
+                                                    alert('duplicate (role) row(s) found for ' + newRoleList[l][1]);
+                                                    break;
+                                                }
+
+                                                newRoleListCopy.push(newRoleList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_roleFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+                            if (_roleFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                // checking both menu
+                if (jssInsertedData[i].rowType.toLowerCase().includes('both')) {
+                    {
+                        if (jssInsertedData.length > 0) {
+                            for (let a = 0; a < jssInsertedData.length; a++) {
+                                if (jssInsertedData[a].rowType != '' || jssInsertedData[a].rowType != undefined) {
+                                    if (jssInsertedData[a].rowType.toLowerCase().includes('both')) {
+                                        lastColumnsData_both.push(jssInsertedData[a].rowType);
+                                    }
+                                    
+                                }
+                            }
+
+                            if (lastColumnsData_both.length > 0) {
+                                insertedUniqueEmployeeData_both = lastColumnsData_both.filter((value, index, array) => {
+                                    return array.indexOf(value) === index;
+                                });
+                            }
+
+                            if (insertedUniqueEmployeeData_both.length > 0) {
+                                var newBothList = [];
+                                var newBothListCopy = [];
+
+                                var rowCount = 0;
+                                for (let b = 0; b < insertedUniqueEmployeeData_both.length; b++) {
+                                    newBothList = [];
+                                    newBothListCopy = [];
+                                    var splittedString = insertedUniqueEmployeeData_both[b].split('_');
+                                    newBothList.push(jss.getRowData(parseInt(splittedString[2])));
+
+
+                                    for (let k = 0; k < _allData.length; k++) {
+                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][45]) {
+                                            newBothList.push(_allData[k]);
+                                        }
+                                    }
+
+                                    for (let l = 0; l < newBothList.length; l++) {
+                                        if (newBothListCopy.length == 0) {
+                                            newBothListCopy.push(newBothList[l]);
+                                        }
+                                        else {
+                                            let tempArrayCount = newBothListCopy.length;
+                                            for (let m = 0; m < tempArrayCount; m++) {
+                                                bothRowCount = 0;
+                                                //section column
+                                                if (newBothList[l][3] == newBothListCopy[m][3]) {
+                                                    bothRowCount++;
+                                                }
+                                                //department column
+                                                if (newBothList[l][4] == newBothListCopy[m][4]) {
+                                                    bothRowCount++;
+                                                }
+                                                //in-charge column
+                                                if (newBothList[l][5] == newBothListCopy[m][5]) {
+                                                    bothRowCount++;
+                                                }
+                                                //role column
+                                                if (newBothList[l][6] == newBothListCopy[m][6]) {
+                                                    bothRowCount++;
+                                                }
+                                                if (bothRowCount == 4) {
+                                                    _bothFlag = true;
+                                                    let _countNumber = 0;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    for (var o = 0; o < _allData.length; o++) {
+                                                        if (_allData[o][1] == newBothList[l][1]) {
+                                                            break;
+                                                        }
+                                                        _countNumber++;
+                                                    }
+                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    break;
+                                                }
+                                                // check unitprice
+                                                if (newBothList[l][10] == newBothListCopy[m][10]) {
+                                                    rowCount++;
+                                                    _bothFlag = true;
+                                                    let _countNumber = 0;
+                                                    alert('duplicate (unitprice/role) row(s) found for ' + newBothList[l][1]);
+                                                    for (var o = 0; o < _allData.length; o++) {
+                                                        if (_allData[o][1] == newBothList[l][1]) {
+                                                            break;
+                                                        }
+                                                        _countNumber++;
+                                                    }
+                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    break;
+                                                }                                                
+
+                                                newBothListCopy.push(newBothList[l]);
+                                            }
+                                        }
+                                    }
+                                    if (_bothFlag == true) {
+                                        break;
+                                    }
+
+                                }// main loop
+                            }
+
+                            if (_bothFlag == true) {
+                                return false;
+                            }
+                        }
+                    }
+                    continue;
+                }
+            }
+
+        }
+
+        if (jssInsertedData.length > 0 || jssUpdatedData.length > 0 || deletedExistingRowIds.length > 0) {
+            $("#save_modal_header").html("年度データー(Emp. Assignments)");
+            $("#back_button_show").css("display", "block");
+            $("#save_btn_modal").css("display", "block");
+            $("#close_save_modal").css("display", "none");
+        } else {
+            $("#update_forecast").modal("show");
+            $("#save_modal_header").html("There is nothing to save!");
+            $("#back_button_show").css("display", "none");
+            $("#save_btn_modal").css("display", "none");
+
+            $("#close_save_modal").css("display", "block");
+        }
+
+        if (jssUpdatedData.length > 0) {
+            $.ajax({
+                url: `/api/utilities/GetMatchedRowNumber/`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+                success: function (data) {
+                    rowCount = data;
+                    $.ajax({
+                        url: `/api/utilities/GetMatchedUserNames/`,
+                        contentType: 'application/json',
+                        type: 'POST',
+                        async: false,
+                        dataType: 'json',
+                        data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
+                        success: function (userNames) {
+                            $('#user_names').empty();
+                            $('#user_names').append(userNames);
+                        }
+                    });
+                    $('#row_count').empty();
+                    $('#row_count').append(data);
+                }
+            });
+        }
+
+
+        if (employeeCount == 1) {
+            $('#header_show').css('display', 'none');
+            $('#back_button_show').css('display', 'none');
+        }
+        else {
+            if (rowCount == 0) {
+                $('#header_show').css('display', 'none');
+                $('#back_button_show').css('display', 'none');
+            }
+            else {
+                $('#header_show').css('display', 'block');
+                $('#back_button_show').css('display', 'block');
+            }
+         
+        }
+        
+        
+        UpdateBudget();
+        //$('#update_forecast').modal('show');
+    });
+
+    //finalize the budget data.
+    $('#budget_finalize').on('click', function () {
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -988,11 +1577,9 @@ $(document).ready(function () {
             });
     });
     
-    $(document).on('click', '#assignment_year_data ', function () { 
-         
-        $('#changed_cell_with_assignmentid').val("");  
-        
-        var assignmentYear = $('#assignment_year_list').val();
+    //show budget data.
+    $(document).on('click', '#search_budget ', function () {           
+        var assignmentYear = $('#budget_years').val();        
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('Select valid year!!!');
             return false;
@@ -1000,19 +1587,13 @@ $(document).ready(function () {
         
         LoaderShowJexcel();
             
-        setTimeout(function () {            
-            // var assignmentYear = $('#assignment_year_list').val();
-            // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            //     alert('Select valid year!!!');
-            //     return false;
-            // }            
-            ShowForecastResults(assignmentYear);
+        setTimeout(function () {                                
+            ShowBedgetResults(assignmentYear);
         }, 3000);
-
-        
     });
-    $(document).on('click', '#cancel_forecast_history ', function () {    
-        var assignmentYear = $('#assignment_year_list').val();          
+
+    $(document).on('click', '#cancele_all_changed_budget ', function () {    
+        var assignmentYear = $('#budget_years').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
         }
@@ -1020,7 +1601,7 @@ $(document).ready(function () {
         deletedExistingRowIds = [];
         LoaderShowJexcel();            
         setTimeout(function () {                               
-            ShowForecastResults(assignmentYear);
+            ShowBedgetResults(assignmentYear);
         }, 3000);
         
     });
@@ -1031,10 +1612,7 @@ $(document).ready(function () {
 
 });
 
-function ShowForecastResults(year) {
-    //LoaderShow();
-
-    //$("#loading").css("display", "block");
+function ShowBedgetResults(year) {
     var employeeName = $('#name_search').val();
     employeeName = "";
     var sectionId = $('#section_multi_search').val();
@@ -1050,10 +1628,8 @@ function ShowForecastResults(year) {
     var explanationId = $('#explanation_multi_search').val();
     explanationId = "";
 
-    // var year = $('#hidForecastYear').val();
-
     if (year == '' || year == undefined) {
-        alert('select year');
+        alert('select budget year');
         return false;
     }
 
@@ -1081,7 +1657,7 @@ function ShowForecastResults(year) {
 
     var _retriveddata = [];
     $.ajax({
-        url: `/api/utilities/GetAllAssignmentData`,
+        url: `/api/utilities/GetAllBudgetData`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
@@ -2231,603 +2807,15 @@ function ShowForecastResults(year) {
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
             var items = [];
-            //var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-            //if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-            //    return items;
-            //}
-
-            items.push({
-                title: '要員を追加 (Add Emp)',
-                onclick: function () {
-                    obj.insertRow(1, parseInt(y));
-                    var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
-                    
-                    setTimeout(function () {
-                        SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                        jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
-
-                        $('#jexcel_add_employee_modal').modal('show');
-                        globalY = parseInt(y) + 1;
-                        GetEmployeeList();
-                    },1000);
-                    
-                    
-                }
-            });
-            items.push({
-                title: '要員のコピー（単価変更）(unit price)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
-                    }
-
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-                                
-                                if (isNaN(x[0])) {
-                                    allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
-                                }
-
-                            }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-                       
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-'+minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (x[0] == 'new-'+minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                                break;
-                            }
-                        }
-
-
-
-                    }
-                    else {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
-                                }
-
-                            }
-                        }
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-                        for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                                break;
-                            }
-                        }
-
-
-                    }
-                    
-                    
-                    
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                    allSameEmployeeId = [];
-
-
-                    obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-
-                    // color row....
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("J" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("K" + (nextRow + 1), "color", "red");
-
-                    // disable section....
-                    $(obj.getCell("D" + (nextRow + 1))).addClass('readonly');
-                    // disable department....
-                    $(obj.getCell("E" + (nextRow + 1))).addClass('readonly');
-                    // disable incharge....
-                    $(obj.getCell("F" + (nextRow + 1))).addClass('readonly');
-                    // disable role....
-                    $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
-                    // disable role....
-                    $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
-
-                    obj.setValueFromCoords(36, nextRow, false, false);
-                    obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    obj.setValueFromCoords(38, nextRow, true, false);
-                    obj.setValueFromCoords(45, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
-
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
-
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-                
-
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-                }
-               
-            });
-            items.push({
-                title: '要員のコピー（役割変更）(role)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
-                    }
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-
-                                if (isNaN(x[0])) {
-                                    allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
-                                }
-
-                            }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-
-
-                        for (let x of allData) {
-                            if (x[0] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        newEmployeeId = "new-" + newRowCount;
-
-                        var allSpecificObjectsCount = 0;
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
-                                }
-                            }
-                        }
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-
-                        for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                    allSameEmployeeId = [];
-
-                   
-
-                    obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-
-
-                    // color row....
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("D" + (nextRow + 1), "color", "red");
-
-
-                    jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("E" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("F" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("G" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("I" + (nextRow + 1), "color", "red");
-
-
-                    // disable grade and unit price....
-                    $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
-                    $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
-
-
-
-
-                    obj.setValueFromCoords(36, nextRow, false, false);
-                    obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                    obj.setValueFromCoords(38, nextRow, true, false);
-                    obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-
-
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
-
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-
-                }
-            });
-            items.push({
-                title: '要員のコピー（役割・単価変更）(role/unit)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
-                    }
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                    //if (Assignmentid.tostring().include) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-
-                                if (isNaN(x[0])) {
-                                    allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
-                                }
-
-                            }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (x[0] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                                break;
-                            }
-                        }
-                    } else {
-                        newEmployeeId = "new-" + newRowCount;
-
-                        var allSpecificObjectsCount = 0;
-                        for (let x of allData) {
-                            if (x[35] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
-                                }
-                            }
-                        }
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                                break;
-                            }
-                        }
-                    }
-
-                   
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                    allSameEmployeeId = [];
-
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("D" + (nextRow + 1), "color", "red");
-
-
-                    jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("E" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("F" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("G" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("I" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("J" + (nextRow + 1), "color", "red");
-
-                    jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("K" + (nextRow + 1), "color", "red");
-
-
-
-                    obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-
-
-
-                    obj.setValueFromCoords(36, nextRow, false, false);
-                    obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    obj.setValueFromCoords(38, nextRow, true, false);
-                    obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
-
-
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
-
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-                }
-            });
-            items.push({
-                title: '選択した要員の削除 (delete)',
-                onclick: function () {
-                    var value = obj.getSelectedRows();
-                    //var assignmentIds = [];
-                    if (value.length > 0) {
-                        for (let i = 0; i < value.length; i++) {
-                            if (value[i].childNodes[1].innerText != '' && value[i].childNodes[1].innerText.toString().includes('new') == false) {
-                                deletedExistingRowIds.push(value[i].childNodes[1].innerText);
-                                //DisableRow(parseInt(value[i].childNodes[0].innerText));
-                                SetColorCommonRow(parseInt(value[i].childNodes[0].innerText),"gray","black","deleted");
-                            }
-                            else {
-                                jss.deleteRow(y,1);
-                            }
-                        }
-                        //if (assignmentIds.length > 0) {
-                        //    $.ajax({
-                        //        url: `/api/utilities/ExcelDeleteAssignment/`,
-                        //        contentType: 'application/json',
-                        //        type: 'DELETE',
-                        //        async: false,
-                        //        dataType: 'json',
-                        //        data: JSON.stringify(assignmentIds),
-                        //        success: function (data) {
-                        //            alert(data);
-                        //        }
-                        //    });
-                        //}
-
-                    }
-                }
-            });
-
+                      
             return items;
         }
     });
 
-    $("#update_forecast_history").css("display", "block");
-    $("#cancel_forecast_history").css("display", "block");
-
+    $("#save_bedget").css("display", "block");
+    $("#cancele_all_changed_budget").css("display", "block");
+    $("#budget_finalize").css("display", "block");
+    
     jss.deleteColumn(46, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -4157,7 +4145,7 @@ function retrivedObject(rowData) {
         julPoint: parseFloat(rowData[20]),
         augPoint: parseFloat(rowData[21]),
         sepPoint: parseFloat(rowData[22]),
-        year: document.getElementById('assignment_year_list').value,
+        year: document.getElementById('budget_years').value,
         bcyr: rowData[36],
         bCYRCell: rowData[37],
         isActive: rowData[38],
@@ -4245,10 +4233,9 @@ function AddEmployee() {
     $('#jexcel_add_employee_modal').modal('hide');
 }
 
-function UpdateForecast() {
+function UpdateBudget() {
     $("#update_forecast").modal("hide");
-    $("#jspreadsheet").hide();
-    // $("#head_total").hide();
+    $("#jspreadsheet").hide();    
     LoaderShow();
 
     var userName = '';
@@ -4267,12 +4254,9 @@ function UpdateForecast() {
 
     var updateMessage = "";
     var insertMessage = "";
-    var promptValue = prompt("History Save As", '');
-    $("#timeStamp_ForUpdateData").val('');
-    if (promptValue == null || promptValue == undefined || promptValue == "") {
-        return false;
-    } else {
-        var dateObj = new Date();
+    var promptValue = "";
+    
+    var dateObj = new Date();
         var month = dateObj.getUTCMonth() + 1; //months from 1-12
         var day = dateObj.getDate();
         var year = dateObj.getUTCFullYear();
@@ -4282,15 +4266,15 @@ function UpdateForecast() {
         if (jssUpdatedData.length > 0) {           
                 updateMessage = "Successfully data updated";
                 $.ajax({
-                    url: `/api/utilities/UpdateForecastData`,
+                    url: `/api/utilities/UpdateBudgetData`,
                     contentType: 'application/json',
                     type: 'POST',
                     async: false,
                     dataType: 'json',
                     data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                     success: function (data) {
-                        var year = $("#assignment_year_list").val();
-                        ShowForecastResults(year);
+                        var year = $("#budget_years").val();
+                        ShowBedgetResults(year);
 
                         $("#timeStamp_ForUpdateData").val(data);
                         var chat = $.connection.chatHub;
@@ -4369,7 +4353,7 @@ function UpdateForecast() {
         }
 
         if (deletedExistingRowIds.length > 0) {
-            var year = $("#assignment_year_list").val();
+            var year = $("#budget_years").val();
             $.ajax({
                 url: `/api/utilities/ExcelDeleteAssignment/`,
                 contentType: 'application/json',
@@ -4395,7 +4379,6 @@ function UpdateForecast() {
             LoaderHide();
             deletedExistingRowIds = [];
         }
-    }
 
     if (updateMessage == "" && insertMessage == "") {
         $("#header_show").html("");
@@ -4495,21 +4478,18 @@ function ImportCSVFile() {
     author: sudipto.
     get all the forecasted year. and build the year dropdown.
 */
-function GetAllForecastYears() {
+function GetAllBudgetYear() {
     $.ajax({
-        url: `/api/utilities/GetForecatYear`,
+        url: `/api/utilities/GetBudgetYear`,
         contentType: 'application/json',
         type: 'GET',
         async: false,
         dataType: 'json',
         success: function (data) {
-            $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
-            $('#select_year_to_import').append(`<option value=''>select year</option>`);
-            $('#replicate_from').append(`<option value=''>select year</option>`);
+            $('#budget_years').append(`<option value=''>Select Budget Year</option>`);
             $.each(data, function (index, element) {
-                $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#replicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);
+                $('#budget_years').append(`<option value='${element.Year}_1'>${element.Year}年初期</option>`);
+                $('#budget_years').append(`<option value='${element.Year}_2'>${element.Year}年下半期</option>`);
             });
         }
     });
@@ -4530,10 +4510,10 @@ function CheckForecastYear(){
 function CheckDuplicateYear(){
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!=""){
-        $('#duplciateYear').val(parseInt(year)+1);
+        // $('#duplciateYear').val(parseInt(year)+1);
         $('#replicate_from').val(year);
     }else{
-        $('#duplciateYear').val('');
+        // $('#duplciateYear').val('');
         $('#replicate_from').val('');
     }
 }
@@ -4545,8 +4525,8 @@ function CheckDuplicateYear(){
 function DuplicateForecast(){    
     $("#validation_message").html("");
 
-    var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#replicate_from').find(":selected").val();
+    var insertYear  = $('#duplciateYear').val();
+    var copyYear = $('#replicate_from').val();
     if (copyYear == null || copyYear == undefined || copyYear == "") {
         alert("Please select dupcliate year!")
         return false;
@@ -4595,7 +4575,8 @@ function DuplicateForecast(){
     budget validation and submit the import file to server.
 */
 function validate(){
-    var selectedYear = $('#select_import_year').find(":selected").val();
+    // var selectedYear = $('#select_import_year').find(":selected").val();
+    var selectedYear = $('#select_import_year').val();
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
@@ -4894,7 +4875,6 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     after cell change, store that cell information into hidden field.
 */
 function CheckIfAlreadyExists(selectedCells,assignmentId){
-    var previousChangedCells = $("#changed_cell_with_assignmentid").val();
     var isCellExists = false;    
 
 	if (previousChangedCells != '' && previousChangedCells != null && previousChangedCells != undefined){
@@ -4910,7 +4890,6 @@ function CheckIfAlreadyExists(selectedCells,assignmentId){
 }
 
 function StoreChangeCellData(selectedCells,assignmentId){
-	var previousChangedCells = $("#changed_cell_with_assignmentid").val();
 	var changedCellStored = "";
     var isCellExists = false;    
 
@@ -4952,7 +4931,6 @@ function StoreChangeCellData(selectedCells,assignmentId){
     else{
         changedCellStored = assignmentId+"_"+selectedCells;     
     }	
-    $("#changed_cell_with_assignmentid").val(changedCellStored);
 }
 function SetColorForCells(strBackgroundColor,strTextColor,CellPosition){
 	jss.setStyle(CellPosition,"background-color", strBackgroundColor);

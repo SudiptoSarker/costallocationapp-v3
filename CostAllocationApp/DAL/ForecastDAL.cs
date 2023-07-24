@@ -888,6 +888,37 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public List<ForecastYear> GetBudgetYear()
+        {
+            List<ForecastYear> forecastYears = new List<ForecastYear>();
+            string query = "";
+            query = "select distinct Year from EmployeeeBudgets order by Year asc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastYear forecastYear = new ForecastYear();
+                            forecastYear.Year = Convert.ToInt32(rdr["Year"]);
+                            forecastYears.Add(forecastYear);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecastYears;
+            }
+        }
+
         public List<ExcelAssignmentDto> GetEmployeesForecastByYear(int year)
         {
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,

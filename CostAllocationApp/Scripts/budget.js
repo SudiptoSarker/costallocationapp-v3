@@ -2068,161 +2068,68 @@ function ShowBedgetResults(year) {
                 }
                 else {
                     var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
-                    
-                    var isUnapprovedDeletedRow = retrivedData.isDeletePending;                                                        
-                    
-                    if(isUnapprovedDeletedRow){
-                        var isCellAlreadyChanged = false;
-                        //isCellAlreadyChanged = CheckIfAlreadyExists(2,retrivedData.assignmentId)
-                        if(!isCellAlreadyChanged){                                
-                            SetColorForCells("white","black","B"+(parseInt(y)+1))                                
-                        }
-                    }
-
-                    if (x == 2) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                   
+                    if (x == 2) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
+                        }                        
                         cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                     }
-                    else{                         
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(2,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","C"+(parseInt(y)+1))                                
-                            }
-                        }
-                    }
-
-                    if (x == 3) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    
+                    if (x == 3) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }
-                    else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(3,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","D"+(parseInt(y)+1))                                
-                            }
-                        }
-                    }
+                    }                    
 
-                    if (x == 4) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 4) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(4,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","E"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
                     
-                    if (x == 5) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
+                    if (x == 5) {                        
+                        if (dataCheck.length == 0) {
+                            jssUpdatedData.push(retrivedData);
                         }
+                        else {
+                            updateArray(jssUpdatedData, retrivedData);
+                        }                        
+                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                    }
+
+                    if (x == 6) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(5,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","F"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 6) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 7) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(6,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","G"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 7) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
-                            updateArray(jssUpdatedData, retrivedData);
-                        }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(7,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","H"+(parseInt(y)+1))                                
-                            }
-                        }
-                    }
-
-                    if (x == 8) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 8) {                    
                         var rowNumber = parseInt(y) + 1;
                         if (parseInt(value) !== 3) {
                             var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -2243,119 +2150,57 @@ function ShowBedgetResults(year) {
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(8,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","I"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 9) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 9) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(9,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","J"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 10) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 10) {                        
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(10,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","K"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 11) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
-                        //let once = true;
+                    if (x == 11) {                        
                         var octSum = 0;
-                        //var dd = jss.getData();
-                        //if (once==true) {
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    octSum += parseFloat(parseFloat(dataValue[11]));
-                                }
+                        $.each(jss.getData(), (index, dataValue) => {
+                            if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                octSum += parseFloat(parseFloat(dataValue[11]));
+                            }
 
-                            });
+                        });
 
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-                                octSum = 0;
-                                alert('Input not valid');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                                //cell.childNodes[11].data = beforeChangedValue;
-                                //once = false;
+                        if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
+                            octSum = 0;
+                            alert('Input not valid');
+                            jss.setValueFromCoords(x, y, beforeChangedValue, false);
+                        }
+                        else {
 
+                            if (dataCheck.length == 0) {
+                                jssUpdatedData.push(retrivedData);
                             }
                             else {
-
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-                                    updateArray(jssUpdatedData, retrivedData);
-                                }
-
+                                updateArray(jssUpdatedData, retrivedData);
                             }
-                            $(cell).css('color', 'red');
-                            $(cell).css('background-color', 'yellow');
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        //}
-                        
 
-
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(11,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","L"+(parseInt(y)+1))                                
-                            }
                         }
-                    }
+                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                    }                    
 
-                    if (x == 12) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 12) {                        
                         var novSum = 0;
 
                         $.each(jss.getData(), (index, dataValue) => {
@@ -2380,23 +2225,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(12,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","M"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
                     if (x == 13) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
                         var decSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2419,23 +2251,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(13,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","N"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 14) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 14) {                        
                         var janSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2457,23 +2276,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(14,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","O"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 15) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 15) {                        
                         var febSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2496,23 +2302,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(15,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","P"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 16) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 16) {                    
                         var marSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2535,23 +2328,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(16,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","Q"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 17) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 17) {                        
                         var aprSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2574,23 +2354,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(17,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","R"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 18) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 18) {                        
                         var maySum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2612,23 +2379,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(18,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","S"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 19) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 19) {                        
                         var junSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2651,23 +2405,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(19,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","T"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 20) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 20) {                        
                         var julSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2689,23 +2430,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(20,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","U"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
-
-                    if (x == 21) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    
+                    if (x == 21) {                        
                         var augSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2728,23 +2456,10 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(21,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","V"+(parseInt(y)+1))                                
-                            }
-                        }
                     }
 
-                    if (x == 22) {
-                        if(isUnapprovedDeletedRow){
-                            StoreChangeCellData(x,retrivedData.assignmentId);
-                        }
+                    if (x == 22) {                        
                         var sepSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
@@ -2767,37 +2482,8 @@ function ShowBedgetResults(year) {
 
                             }
                         }
-                        $(cell).css('color', 'red');
-                        $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                    }else{ 
-                        if(isUnapprovedDeletedRow){
-                            var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(22,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","W"+(parseInt(y)+1))                                
-                            }
-                        }
-                    }
-                    
-                    if(isUnapprovedDeletedRow){
-                        var isCellAlreadyChanged = false;
-                        //isCellAlreadyChanged = CheckIfAlreadyExists(22,retrivedData.assignmentId)
-                        if(!isCellAlreadyChanged){                                
-                            SetColorForCostsCells("white","black","X"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","Y"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","Z"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","AA"+(parseInt(y)+1));    
-                            SetColorForCostsCells("white","black","AB"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AC"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AD"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AE"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AF"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AG"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AH"+(parseInt(y)+1));                                                            
-                            SetColorForCostsCells("white","black","AI"+(parseInt(y)+1));                                
-                        }
-                    }
+                    }                                        
                 }
 
             }
@@ -4233,7 +3919,7 @@ function AddEmployee() {
     $('#jexcel_add_employee_modal').modal('hide');
 }
 
-function UpdateBudget() {
+function UpdateBudget() {    
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();    
     LoaderShow();

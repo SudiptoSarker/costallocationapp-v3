@@ -1879,7 +1879,7 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
                                             if (_objPreviousForecastedData.Count > 0)
-                                            {
+                                            {                                                
                                                 if (isMonthExists > 0)
                                                 {
                                                     //update org
@@ -5926,5 +5926,23 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(departments);
         }
+        [HttpGet]
+        [Route("api/utilities/CheckBudgetWithYear/")]
+        public IHttpActionResult CheckBudgetWithYear(int BudgetYear)
+        {
+            List<Department> departments = new List<Department>();
+            //var deartmentList = departmentBLL.GetAllDepartments();
+
+            //foreach (var item in deartmentList)
+            //{
+            //    if (item.DepartmentName == "品証")
+            //    {
+            //        continue;
+            //    }
+            //    departments.Add(item);
+            //}
+
+            return Ok(departments);
+        }        
     }
 }

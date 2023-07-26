@@ -190,6 +190,25 @@ $(function () {
 
 
 $(document).ready(function () {
+    $('#select_import_year').on('change', function() {
+        var selectedBudgetYear = this.value;
+    
+        if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
+            //get budget initial and 2nd half data if exists
+            $.ajax({
+                url: `/api/utilities/CheckBudgetWithYear/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                data: "BudgetYear=" + selectedBudgetYear,
+                success: function (data) {
+                    //employeeCount = data.length;
+                }
+            });
+        }    
+    });
+
     GetAllBudgetYear();
     var year = $('#hidForecastYear').val();
     $("#jspreadsheet").hide();      
@@ -4624,3 +4643,6 @@ function SetColorForCostsCells(strBackgroundColor,strTextColor,CellPosition){
 	jss.setStyle(CellPosition,"color", strTextColor);
     $(jss.getCell(CellPosition)).addClass('readonly');
 }
+// $("#select_import_year").change(function(){
+//     alert("The text has been changed.");
+// });

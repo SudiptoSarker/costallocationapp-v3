@@ -153,7 +153,8 @@
 
 <!-----------------Modal: CSV Import----------------->
 <div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    @* <div class="modal-dialog modal-dialog-centered"> *@
+        <div class="modal-dialog modal-lg modal-dialog-centered">        
         <div class="modal-content">
             <div class="modal-body">
                 @using (Html.BeginForm("CreateBudget", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "", @id = "frm_import_year_data" }))
@@ -162,28 +163,19 @@
                         <h3>予算策定・編集 (CSV Import)</h3>
                         <ol class="company_count" style="text-align:left;"></ol>
                         <div class="row">
-                            <div class="col-6">
-                                <label>策定する年度を選択</label>
-                                <input type="text" id="select_import_year" class="form-control" name="upload_year"/>
-
-
-
-                                @* <select id="select_import_year" class="form-control" name="upload_year">
-                                    <option value="">select year</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                </select> *@
-                                @* <style>
-                                    .ui-datepicker-calendar {
-                                        display: none;
-                                        }
-                                </style>                                *@
+                            <div class="col-4">
+                                <label style="margin-right: 67px;">Select Budget Year</label>
+                                <input type="text" id="select_import_year" class="form-control" name="upload_year"/>                            
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
+                                <label style="margin-right: 11px;">Select Budget Type</label>
+                                <select id="select_budget_type" class="form-control" name="select_budget_type">
+                                    <option value="">select type</option>
+                                    <option value="1">Initial Budget</option>
+                                    <option value="2">2nd Hlaf Budget</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
                                 <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
                             </div>
                         </div>
@@ -194,11 +186,11 @@
                                 <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
                             </div>
                             <div class="col-6">
-                                @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
-                                <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
-                                @* <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button> *@
+                                <button type="submit" id="import_data_btn" class="btn btn-primary continue-btn">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    作成 (Create)
+                                </button>
                                 @Html.AntiForgeryToken()
-                                @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
                             </div>
                         </div>
                     </div>

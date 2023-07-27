@@ -2046,5 +2046,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetFinalizedBudgetData(selected_year, select_budget_type);
         }
+        public bool CheckYearIfFinalize(int year,int requestType)
+        {
+            return employeeAssignmentDAL.CheckYearIfFinalize(year, requestType);
+        }
     }
 }

@@ -194,7 +194,27 @@ $(document).ready(function () {
             var arrYear = select_year_type.split("_");
     
             $("#selected_budget_year").val(arrYear[0]);
-        }
+
+
+            $.ajax({
+                url: `/api/utilities/CheckYearIfFinalize/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                data: "select_year_type=" + arrYear[0]+"&budgetReqType="+arrYear[1],
+                success: function (data) {
+                    if(data){
+                        $("#save_bedget").prop("disabled",true);
+                        $("#budget_finalize").prop("disabled",true);
+                    }
+                    else{
+                        $("#save_bedget").prop("disabled",false);
+                        $("#budget_finalize").prop("disabled",false);
+                    }
+                }
+            });
+        }       
     });
  
     //import budget selction menu
@@ -908,7 +928,7 @@ $(document).ready(function () {
     $('#budget_finalize').on('click', function () {
         var selected_year_for_finalize_budget = $("#budget_years").val();
 
-        if (budgetType == null || budgetType == undefined || budgetType == "") {
+        if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
             alert("please select year!");
         }
         else{
@@ -919,22 +939,8 @@ $(document).ready(function () {
                 async: true,
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
-                success: function (data) {                       
-                    if(parseInt(data)==5){
-                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + toDate + ".Please chooose another year to import data..</span>");                        
-                    }
-                    else if(parseInt(data)==6){
-                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
-                    }
-                    else{
-                        $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
-                        // if(parseInt(data)>0){
-                        //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
-                        // }else{
-                        //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
-                        // }
-                    }
-                                    
+                success: function (data) {        
+                    alert("Operation Success")               ;                                    
                 }
             });
         }       

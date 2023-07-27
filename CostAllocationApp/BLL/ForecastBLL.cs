@@ -70,6 +70,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
         }
+        public List<Forecast> GetBudgetForecastsByAssignmentId(int assignmentId)
+        {
+            return forecastDAL.GetBudgetForecastsByAssignmentId(assignmentId);
+        }
         public List<Forecast> GetPreviousManMonth(string monthId_Points)
         {
             return forecastDAL.GetPreviousManMonth(monthId_Points);

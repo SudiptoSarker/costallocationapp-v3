@@ -5437,9 +5437,10 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/FinalizeBudgetAssignment/")]
         public IHttpActionResult FinalizeBudgetAssignment(string year)
         {
+            var session = System.Web.HttpContext.Current.Session;
             bool isValidRequestForFinalize = false;
             int isFinalized = 0;
-
+            int results = 0;
             if (!string.IsNullOrEmpty(year))
             {
                 isValidRequestForFinalize = true;
@@ -5453,33 +5454,61 @@ namespace CostAllocationApp.Controllers.Api
                     _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
                     if (_employeeAssignments.Count > 0)
                     {
-                        //= employeeAssignmentBLL.CreateAssignmentFromBudget(_employeeAssignment);
+                        foreach(var assignmentItem in _employeeAssignments)
+                        {
+                            EmployeeAssignment _assignmentData = new EmployeeAssignment();
+                            _assignmentData.Id = assignmentItem.Id;
+                            _assignmentData.EmployeeId = assignmentItem.EmployeeId;
+                            _assignmentData.SectionId = assignmentItem.SectionId;
+                            _assignmentData.SectionId = assignmentItem.SectionId;
+                            _assignmentData.DepartmentId = assignmentItem.DepartmentId;
+                            _assignmentData.DepartmentId = assignmentItem.DepartmentId;
+                            _assignmentData.InchargeId = assignmentItem.InchargeId;
+                            _assignmentData.RoleId = assignmentItem.RoleId;
+                            _assignmentData.ExplanationId = assignmentItem.ExplanationId;
+                            _assignmentData.CompanyId = assignmentItem.CompanyId;
+                            _assignmentData.GradeId = assignmentItem.GradeId;
+                            _assignmentData.GradeId = assignmentItem.GradeId;
+                            _assignmentData.UnitPrice = assignmentItem.UnitPrice;
+                            _assignmentData.CreatedBy = assignmentItem.CreatedBy;
+                            _assignmentData.CreatedDate = DateTime.Now;
+                            _assignmentData.Remarks = assignmentItem.Remarks;                            
+                            _assignmentData.SubCode = assignmentItem.SubCode;
+                            _assignmentData.Year = assignmentItem.Year;
+                            _assignmentData.BCYR = assignmentItem.BCYR;
+                            _assignmentData.BCYRCell = assignmentItem.BCYRCell;
+                            _assignmentData.EmployeeName = assignmentItem.EmployeeName;
+                            
+                            int assignmentCreateResults = employeeAssignmentBLL.CreateAssignment(_assignmentData);
+                            if (assignmentCreateResults == 1)
+                            {
+                                int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+
+                                List<Forecast> forecasts = new List<Forecast>();
+                                forecasts = forecastBLL.GetBudgetForecastsByAssignmentId(_assignmentData.Id);
+                                foreach (var forecastItem in forecasts)
+                                {
+                                    forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
+                                    forecastItem.CreatedBy = session["userName"].ToString();
+                                    results = forecastBLL.CreateForecast(forecastItem);
+                                }
+                            }
+                        }                        
                     }                     
 
                 }
-            }
-
-            //BudgetImport _budgetAssignment = new BudgetImport();
-
-            //bool isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(BudgetYear);
-            //_budgetAssignment.FirstHalfBudget = isInitialDataExists;
-            //bool isFirstHalfFinalize = false;
-            //if (isInitialDataExists)
-            //{
-            //    isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(BudgetYear);
-            //}
-            //_budgetAssignment.FirstHalfFinalize = isFirstHalfFinalize;
-
-            //bool isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(BudgetYear);
-            //_budgetAssignment.SecondHalfBudget = isSecondHalfBudgetExists;
-            //bool isSecondtHalfFinalize = false;
-            //if (isSecondHalfBudgetExists)
-            //{
-            //    isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(BudgetYear);
-            //}
-            //_budgetAssignment.SecondHalfFinalize = isSecondtHalfFinalize;
-
-            return Ok(_budgetAssignment);
+            }            
+            return Ok(results);
         }
+        [HttpGet]
+        [Route("api/utilities/CheckYearIfFinalize/")]
+        public IHttpActionResult CheckYearIfFinalize(int select_year_type, int budgetReqType)
+        {
+            bool isFinalizeBudgetYear = false;
+            isFinalizeBudgetYear = employeeAssignmentBLL.CheckYearIfFinalize(select_year_type, budgetReqType);            
+
+            return Ok(isFinalizeBudgetYear);
+        }
+
     }
 }

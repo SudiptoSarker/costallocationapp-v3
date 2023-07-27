@@ -23,7 +23,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@total", forecast.Total);
                 cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
                 cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
-                cmd.Parameters.AddWithValue("@createdDate", forecast.CreatedDate);
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -710,14 +710,16 @@ namespace CostAllocationApp.DAL
         public List<Forecast> GetPreviousManMonth(string pointsWithManMonths)
         {
             List<Forecast> forecasts = new List<Forecast>();
-            var arrPreviousManMonths = pointsWithManMonths.Split(',');
-            foreach (var manMonthItem in arrPreviousManMonths)
-            {
-                Forecast forecast = new Forecast();
-                var PreviousManMonthPointId = manMonthItem.Split('_');
-                forecast.Month = Convert.ToInt32(PreviousManMonthPointId[0]);
-                forecast.Points = Convert.ToDecimal(PreviousManMonthPointId[1]);
-                forecasts.Add(forecast);
+            if (!string.IsNullOrEmpty(pointsWithManMonths)) { 
+                var arrPreviousManMonths = pointsWithManMonths.Split(',');
+                foreach (var manMonthItem in arrPreviousManMonths)
+                {
+                    Forecast forecast = new Forecast();
+                    var PreviousManMonthPointId = manMonthItem.Split('_');
+                    forecast.Month = Convert.ToInt32(PreviousManMonthPointId[0]);
+                    forecast.Points = Convert.ToDecimal(PreviousManMonthPointId[1]);
+                    forecasts.Add(forecast);
+                }
             }
             return forecasts;
         }
@@ -744,6 +746,43 @@ namespace CostAllocationApp.DAL
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
                             forecast.Points = Convert.ToDecimal(rdr["Points"]);
                             forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
+                            forecast.UpdatedBy = rdr["UpdatedBy"].ToString();
+                            forecasts.Add(forecast);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecasts;
+            }
+        }
+
+        public List<Forecast> GetBudgetForecastsByAssignmentId(int assignmentId)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string query = "";
+            query = "SELECT * FROM BudgetCosts WHERE EmployeeBudgetId=" + assignmentId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeBudgetId"]);
                             forecast.UpdatedBy = rdr["UpdatedBy"].ToString();
                             forecasts.Add(forecast);
 

@@ -4152,7 +4152,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             EmployeeBudget _employeeBudget = new EmployeeBudget();
-                            
+                            _employeeBudget.Id = rdr["Id"] is DBNull ? 0 : Convert.ToInt32(rdr["Id"]);
                             _employeeBudget.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
                             _employeeBudget.SectionId = rdr["SectionId"] is DBNull ? 0 : Convert.ToInt32(rdr["SectionId"]);
                             _employeeBudget.InchargeId = rdr["InChargeId"] is DBNull ? 0 : Convert.ToInt32(rdr["InChargeId"]);
@@ -4185,6 +4185,38 @@ namespace CostAllocationApp.DAL
 
             return _employeeAssignments;
         }
+        public bool CheckYearIfFinalize(int year,int reqType)
+        {
+            bool results = false;
+            string strBudetTypeTxt = "";
+            if (reqType == 1)
+            {
+                strBudetTypeTxt = "where Year=2023 And FirstHalfBudget=1 And FinalizedBudget=1 ";
+            }
+            else
+            {
+                strBudetTypeTxt = "where Year=2023 And SecondHalfBudget=1 And FinalizedBudget=1 ";
+            }
+            string query = "select * from EmployeeeBudgets " + strBudetTypeTxt;
 
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return results;
+        }
     }
 }

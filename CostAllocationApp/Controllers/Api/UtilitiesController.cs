@@ -1772,9 +1772,8 @@ namespace CostAllocationApp.Controllers.Api
         {
             var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecasts = new List<Forecast>();
-            List<Forecast> forecastsPrevious = new List<Forecast>();
-            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
             string message = "Something went wrong!!!";
+
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
                 if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
@@ -1816,450 +1815,8 @@ namespace CostAllocationApp.Controllers.Api
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;                        
                         
-                        employeeAssignment.IsActiveAssignment = true;
-                        int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
-
-                        //original forecasted data
-                        forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId)));
-                        assignmentHistories.Add(_assignmentHistory);
-
-                        //update/insert the original forecasted data
-                        if (forecastHistoryDto.CellInfo.Count > 0)
-                        {
-                            List<Forecast> _objPreviousForecastedData = forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId));
-
-                            foreach (var cellItem in forecastHistoryDto.CellInfo)
-                            {
-                                var itemData = cellItem.Split('_');
-                                if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
-                                {
-                                    //check if forecast data already exists in original
-                                    int forecastResulttOrg = employeeAssignmentBLL.CheckForOriginalForecastDataIsExists(Convert.ToInt32(item.AssignmentId));
-
-                                    if (Convert.ToInt32(itemData[1]) == 11)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "11", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 10);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 10)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 10)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 12)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "12", _assignmentHistory.BCYRCell);
-
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {                                                
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 11)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 11)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 13)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "13", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 12);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 12)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 12)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 14)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "14", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 1);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 1)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 1)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 15)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "15", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 2);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 2)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 2)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 16)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "16", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 3);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 3)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 3)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 17)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "17", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 4);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 4)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 4)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 18)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "18", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 5);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 5)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 5)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 19)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "19", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 6);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 6)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 6)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 20)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "20", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 7);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 7)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 7)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 21)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "21", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 8);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 8)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 8)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (Convert.ToInt32(itemData[1]) == 22)
-                                    {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "22", _assignmentHistory.BCYRCell);
-                                        if (validForOriginalData)
-                                        {
-                                            int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 9);
-                                            if (_objPreviousForecastedData.Count > 0)
-                                            {
-                                                if (isMonthExists > 0)
-                                                {
-                                                    //update org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 9)
-                                                        {
-                                                            forecastBLL.UpdateOriginalForecast(forecastItem);
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    //insert org
-                                                    foreach (var forecastItem in _objPreviousForecastedData)
-                                                    {
-                                                        if (forecastItem.Month == 9)
-                                                        {
-                                                            forecastItem.CreatedBy = session["userName"].ToString();
-                                                            forecastBLL.InsertOriginalForecast(forecastItem);
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        employeeAssignment.IsActiveAssignment = true;                        
+                        int updateResult = employeeAssignmentBLL.UpdateBudgetAssignment(employeeAssignment);
 
 
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
@@ -2279,108 +1836,11 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             foreach (var forecast in forecasts)
                             {
-                                forecastBLL.UpdateForecast(forecast);
+                                forecastBLL.UpdateBudgetForecast(forecast);
                             }
                             forecasts = new List<Forecast>();
                         }
-                    }
-
-                    foreach (var forecastPrevious in forecastsPrevious)
-                    {
-                        forecastPrevious.CreatedBy = session["userName"].ToString();
-                        forecastPrevious.CreatedDate = DateTime.Now;
-                    }
-
-                    ForecastHisory forecastHisory = new ForecastHisory();
-                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                    forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                    forecastHisory.Forecasts = forecastsPrevious;
-                    forecastHisory.CreatedBy = session["userName"].ToString();
-                    forecastHisory.CreatedDate = DateTime.Now;
-
-                    //author: sudipto,31/5/23: history create
-                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
-                    bool isUpdate = true;
-                    bool isDeleted = false;
-
-                    var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-
-                    if (forecastHistoryDto.CellInfo.Count > 0)
-                    {
-                        foreach (var item in forecastHistoryDto.CellInfo)
-                        {
-                            var storePreviousCells = "";
-                            var itemData = item.Split('_');
-                            string result = employeeAssignmentBLL.GetBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]));
-                            if (String.IsNullOrEmpty(result))
-                            {
-                                //result += itemData[1];
-                                storePreviousCells += itemData[1];
-                            }
-                            else
-                            {
-                                var arrPreviousCells = result.Split(',');
-                                foreach (var previousItem in arrPreviousCells)
-                                {
-                                    if (string.IsNullOrEmpty(storePreviousCells))
-                                    {
-                                        storePreviousCells = previousItem;
-                                    }
-                                    else
-                                    {
-                                        if (storePreviousCells.IndexOf(',') > 0)
-                                        {
-                                            var arrCheckForCellExits = storePreviousCells.Split(',');
-                                            var isValidCellForUpdate = true;
-
-                                            foreach (var checkExitsItem in arrCheckForCellExits)
-                                            {
-                                                if (checkExitsItem == previousItem)
-                                                {
-                                                    isValidCellForUpdate = false;
-                                                }
-                                            }
-                                            if (isValidCellForUpdate)
-                                            {
-                                                storePreviousCells = storePreviousCells + "," + previousItem;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (storePreviousCells != previousItem)
-                                            {
-                                                storePreviousCells = storePreviousCells + "," + previousItem;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                var arrCheckForAlreadyExitsCell = storePreviousCells.Split(',');
-                                var isValidForUpdateCell = true;
-
-                                foreach (var cellItem in arrCheckForAlreadyExitsCell)
-                                {
-                                    if (cellItem == itemData[1])
-                                    {
-                                        isValidForUpdateCell = false;
-                                    }
-                                }
-                                if (isValidForUpdateCell)
-                                {
-                                    //result += "," + itemData[1];
-                                    storePreviousCells += "," + itemData[1];
-                                }
-                            }
-                            employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells);
-                        }
-                    }
-
-
-                    if (resultTimeStamp > 0)
-                    {
-                        //message = "Data Saved Successfully!!!";
-                        message = resultTimeStamp.ToString();
-                    }
+                    }                              
                 }
             }
 
@@ -3525,48 +2985,67 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetBudgetYear();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("api/utilities/GetBudgetFinalizeYear/")]
+        public IHttpActionResult GetBudgetFinalizeYear()
+        {
+            var result = forecastBLL.GetBudgetFinalizeYear();
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
-        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear)
+        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear,string budgetType)
         {
-            bool isThisYearBudgetExists = false;
-            int selected_year_for_insert = 0;
-            int copy_from_year = 0;
-            bool isDataExistsForSelectedYear = false;
+            int results = 0;
+            int fromDate = 0;
+            int toDate = 0;
 
-            if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear))
-            {
-                if (!string.IsNullOrEmpty(copyYear))
-                {
-                    isDataExistsForSelectedYear = employeeAssignmentBLL.CheckForBudgetYearIsExists(Convert.ToInt32(copyYear));
-                }
-                if (isDataExistsForSelectedYear)
-                {
-                    selected_year_for_insert = Convert.ToInt32(insertYear);
-                    isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year_for_insert);
-                }                
-            }
-            else
-            {
-                isThisYearBudgetExists = true;
+            if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear) && !string.IsNullOrEmpty(budgetType))
+            {                
+                fromDate = Convert.ToInt32(copyYear);
+                toDate = Convert.ToInt32(insertYear);                
+                results = forecastBLL.DuplicateBudget(fromDate, toDate, Convert.ToInt32(budgetType));
+
             }
 
-            var result = 0;
-            if (!isDataExistsForSelectedYear)
-            {
-                result = 6;
+            //    bool isThisYearBudgetExists = false;
+            //int selected_year_for_insert = 0;
+            //int copy_from_year = 0;
+            //bool isDataExistsForSelectedYear = false;
 
-            }else if (!isThisYearBudgetExists)
-            {
-                selected_year_for_insert = Convert.ToInt32(insertYear);
-                copy_from_year = Convert.ToInt32(copyYear);
-                result = forecastBLL.DuplicateForecastYear(copy_from_year, selected_year_for_insert);                
-            }else
-            {
-                result = 5;
-            }            
-            return Ok(result);
+            //if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear))
+            //{
+            //    if (!string.IsNullOrEmpty(copyYear))
+            //    {
+            //        isDataExistsForSelectedYear = employeeAssignmentBLL.CheckForBudgetYearIsExists(Convert.ToInt32(copyYear));
+            //    }
+            //    if (isDataExistsForSelectedYear)
+            //    {
+            //        selected_year_for_insert = Convert.ToInt32(insertYear);
+            //        isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year_for_insert);
+            //    }                
+            //}
+            //else
+            //{
+            //    isThisYearBudgetExists = true;
+            //}
+
+            //var result = 0;
+            //if (!isDataExistsForSelectedYear)
+            //{
+            //    result = 6;
+
+            //}else if (!isThisYearBudgetExists)
+            //{
+            //    selected_year_for_insert = Convert.ToInt32(insertYear);
+            //    copy_from_year = Convert.ToInt32(copyYear);
+            //    result = forecastBLL.DuplicateForecastYear(copy_from_year, selected_year_for_insert);                
+            //}else
+            //{
+            //    result = 5;
+            //}            
+            return Ok(results);
         }
 
         [HttpGet]
@@ -5926,23 +5405,81 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(departments);
         }
+
         [HttpGet]
         [Route("api/utilities/CheckBudgetWithYear/")]
         public IHttpActionResult CheckBudgetWithYear(int BudgetYear)
         {
-            List<Department> departments = new List<Department>();
-            //var deartmentList = departmentBLL.GetAllDepartments();
+            BudgetImport _budgetAssignment = new BudgetImport();
 
-            //foreach (var item in deartmentList)
+            bool isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(BudgetYear);
+            _budgetAssignment.FirstHalfBudget = isInitialDataExists;
+            bool isFirstHalfFinalize = false;
+            if (isInitialDataExists)
+            {
+                isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(BudgetYear);                
+            }
+            _budgetAssignment.FirstHalfFinalize = isFirstHalfFinalize;
+
+            bool isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(BudgetYear);
+            _budgetAssignment.SecondHalfBudget = isSecondHalfBudgetExists;
+            bool isSecondtHalfFinalize = false;
+            if (isSecondHalfBudgetExists)
+            {
+                isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(BudgetYear);                
+            }
+            _budgetAssignment.SecondHalfFinalize = isSecondtHalfFinalize;
+
+            return Ok(_budgetAssignment);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/FinalizeBudgetAssignment/")]
+        public IHttpActionResult FinalizeBudgetAssignment(string year)
+        {
+            bool isValidRequestForFinalize = false;
+            int isFinalized = 0;
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                isValidRequestForFinalize = true;
+            }
+            if (isValidRequestForFinalize) {
+                var arrYear = year.Split('_');
+                isFinalized = employeeAssignmentBLL.FinalizeBudgetAssignment(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
+                if (isFinalized > 0)
+                {
+                    List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
+                    _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
+                    if (_employeeAssignments.Count > 0)
+                    {
+                        //= employeeAssignmentBLL.CreateAssignmentFromBudget(_employeeAssignment);
+                    }                     
+
+                }
+            }
+
+            //BudgetImport _budgetAssignment = new BudgetImport();
+
+            //bool isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(BudgetYear);
+            //_budgetAssignment.FirstHalfBudget = isInitialDataExists;
+            //bool isFirstHalfFinalize = false;
+            //if (isInitialDataExists)
             //{
-            //    if (item.DepartmentName == "品証")
-            //    {
-            //        continue;
-            //    }
-            //    departments.Add(item);
+            //    isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(BudgetYear);
             //}
+            //_budgetAssignment.FirstHalfFinalize = isFirstHalfFinalize;
 
-            return Ok(departments);
-        }        
+            //bool isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(BudgetYear);
+            //_budgetAssignment.SecondHalfBudget = isSecondHalfBudgetExists;
+            //bool isSecondtHalfFinalize = false;
+            //if (isSecondHalfBudgetExists)
+            //{
+            //    isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(BudgetYear);
+            //}
+            //_budgetAssignment.SecondHalfFinalize = isSecondtHalfFinalize;
+
+            return Ok(_budgetAssignment);
+        }
     }
 }

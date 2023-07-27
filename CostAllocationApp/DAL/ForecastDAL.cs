@@ -97,7 +97,7 @@ namespace CostAllocationApp.DAL
         public int UpdateBudgetForecast(Forecast forecast)
         {
             int result = 0;
-            string query = $@"update costs set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeBudgetId=@employeeBudgetId and MonthId=@monthId";
+            string query = $@"update BudgetCosts set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeBudgetId=@employeeBudgetId and MonthId=@monthId";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -891,8 +891,46 @@ namespace CostAllocationApp.DAL
         public List<ForecastYear> GetBudgetYear()
         {
             List<ForecastYear> forecastYears = new List<ForecastYear>();
+            DepartmentDAL _departmentDAL = new DepartmentDAL();
+
             string query = "";
             query = "select distinct Year from EmployeeeBudgets order by Year asc";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastYear forecastYear = new ForecastYear();
+                            forecastYear.Year = Convert.ToInt32(rdr["Year"]);
+                            bool isInitialDataExists = _departmentDAL.CheckForBudgetInitialDataExists(forecastYear.Year);
+                            bool isSecondHalfBudgetExists = _departmentDAL.CheckForBudgetSecondHalfDataExists(forecastYear.Year);                            
+                            forecastYear.FirstHalfBudget = isInitialDataExists;                            
+                            forecastYear.SecondHalfBudget = isSecondHalfBudgetExists;
+                            //forecastYear.FinalizedBudget = rdr["FinalizedBudget"] is DBNull ? false : Convert.ToBoolean(rdr["FinalizedBudget"]);                            
+                            forecastYears.Add(forecastYear);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return forecastYears;
+            }
+        }
+
+        public List<ForecastYear> GetBudgetFinalizeYear()
+        {
+            List<ForecastYear> forecastYears = new List<ForecastYear>();
+            string query = "";
+            query = "SELECT DISTINCT Year FROM EmployeeeBudgets WHERE FinalizedBudget=1 ORDER BY Year ASC";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -918,6 +956,7 @@ namespace CostAllocationApp.DAL
                 return forecastYears;
             }
         }
+
 
         public List<ExcelAssignmentDto> GetEmployeesForecastByYear(int year)
         {
@@ -1039,6 +1078,127 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
+        public List<ExcelAssignmentDto> GetEmployeesBudgetByYear(int year)
+        {
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId
+                            from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            where ea.Year={year} and 1=1
+                            order by emp.Id asc";
+
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ExcelAssignmentDto excelAssignmentDto = new ExcelAssignmentDto();
+                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            if (rdr["EmployeeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeId = rdr["EmployeeId"].ToString();
+                            }
+                            if (rdr["SectionId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.SectionId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.SectionId = Convert.ToInt32(rdr["SectionId"]);
+                            }
+                            if (rdr["DepartmentId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.DepartmentId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                            }
+                            if (rdr["InchargeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.InchargeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.InchargeId = Convert.ToInt32(rdr["InchargeId"]);
+                            }
+                            if (rdr["RoleId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.RoleId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.RoleId = Convert.ToInt32(rdr["RoleId"]);
+                            }
+
+                            if (rdr["ExplanationId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.ExplanationId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.ExplanationId = Convert.ToInt32(rdr["ExplanationId"]);
+                            }
+                            if (rdr["CompanyId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.CompanyId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.CompanyId = Convert.ToInt32(rdr["CompanyId"]);
+                            }
+                            excelAssignmentDto.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]);
+
+                            if (rdr["GradeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.GradeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.GradeId = Convert.ToInt32(rdr["GradeId"]);
+                            }
+                            if (rdr["FullName"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeName = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeName = rdr["FullName"].ToString();
+                            }
+                            excelAssignmentDto.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            excelAssignmentDto.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+
+                            excelAssignmentDtos.Add(excelAssignmentDto);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return excelAssignmentDtos;
+        }
+
         public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
         {
             string query = "select Id,Year,MonthId,Points,Total,EmployeeAssignmentsId,CreatedBy,CreatedDate,UpdatedDate from Costs Where EmployeeAssignmentsId = " + assignmentId + " and Year=" + copyYear;

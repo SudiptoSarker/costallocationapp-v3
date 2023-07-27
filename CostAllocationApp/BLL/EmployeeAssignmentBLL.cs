@@ -30,7 +30,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateAssignment(employeeAssignment);
         }
-
+        public int UpdateBudgetAssignment(EmployeeAssignment employeeAssignment)
+        {
+            return employeeAssignmentDAL.UpdateBudgetAssignment(employeeAssignment);
+        }
         public List<EmployeeAssignmentViewModel> SearchAssignment(EmployeeAssignment employeeAssignment)
         {
             var employees = employeeAssignmentDAL.SearchAssignment(employeeAssignment);
@@ -2031,9 +2034,17 @@ namespace CostAllocationApp.BLL
             }
             return isValidRequest;
         }
-        public bool CheckForBudgetYearIsExists(int selected_year)
+        public bool CheckForBudgetYearIsExists(int selected_year,int select_budget_type)
         {
-            return employeeAssignmentDAL.CheckForBudgetYearIsExists(selected_year);
+            return employeeAssignmentDAL.CheckForBudgetYearIsExists(selected_year, select_budget_type);
+        }
+        public int FinalizeBudgetAssignment(int selected_year,int select_budget_type)
+        {
+            return employeeAssignmentDAL.FinalizeBudgetAssignment(selected_year, select_budget_type);
+        }
+        public List<EmployeeBudget> GetFinalizedBudgetData(int selected_year, int select_budget_type)
+        {
+            return employeeAssignmentDAL.GetFinalizedBudgetData(selected_year, select_budget_type);
         }
     }
 }

@@ -103,7 +103,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetBudgetYear();
         }
-
+        public List<ForecastYear> GetBudgetFinalizeYear()
+        {
+            return forecastDAL.GetBudgetFinalizeYear();
+        }
         public int DuplicateForecastYear(int copyYear,int insertYear)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
@@ -166,6 +169,79 @@ namespace CostAllocationApp.BLL
                
             return resultSave;
         }
+
+        public int DuplicateBudget(int copyYear, int insertYear,int budgetType)
+        {
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
+            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear);
+
+            int resultSave = 0;
+            if (excelAssignmentDtos.Count > 0)
+            {
+                foreach (var item in excelAssignmentDtos)
+                {
+                    //insert forecast assignment here
+                    EmployeeBudget employeeAssignment = new EmployeeBudget();
+                    employeeAssignment.Id = item.Id;
+                    employeeAssignment.Remarks = item.Remarks;
+                    employeeAssignment.UpdatedBy = "";
+                    employeeAssignment.UpdatedDate = DateTime.Now;
+                    employeeAssignment.EmployeeId = item.EmployeeId.ToString();
+                    employeeAssignment.SectionId = Convert.ToInt32(item.SectionId);
+                    employeeAssignment.DepartmentId = Convert.ToInt32(item.DepartmentId);
+                    employeeAssignment.InchargeId = Convert.ToInt32(item.InchargeId);
+                    employeeAssignment.RoleId = Convert.ToInt32(item.RoleId);
+                    employeeAssignment.ExplanationId = item.ExplanationId.ToString();
+                    employeeAssignment.CompanyId = Convert.ToInt32(item.CompanyId);
+                    employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
+                    employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
+                    employeeAssignment.Year = insertYear.ToString();
+                    employeeAssignment.EmployeeName = item.EmployeeName;
+                    if (!string.IsNullOrEmpty(budgetType.ToString()))
+                    {
+                        if (budgetType == 1)
+                        {
+                            employeeAssignment.FirstHalfBudget = true;
+                            employeeAssignment.SecondHalfBudget = false;
+                        }else if (budgetType == 2)
+                        {
+                            employeeAssignment.FirstHalfBudget = false;
+                            employeeAssignment.SecondHalfBudget = true;
+                        }
+                        else
+                        {
+                            employeeAssignment.FirstHalfBudget = false;
+                            employeeAssignment.SecondHalfBudget = false;
+                        }
+                    }
+                    else
+                    {
+                        employeeAssignment.FirstHalfBudget = false;
+                        employeeAssignment.SecondHalfBudget = false;
+                    }                 
+                    employeeAssignment.FinalizedBudget = false;
+
+                    int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
+
+                    if (result == 1)
+                    {
+                        int employeeAssignmentLastId = employeeAssignmentBLL.GetBudgetLastId();
+                        List<Forecast> forecasts = new List<Forecast>();
+                      
+                        forecasts = forecastDAL.GetBudgetForecastDetails(employeeAssignment.Id, copyYear);
+                        foreach (var forecastItem in forecasts)
+                        {
+                            forecastItem.Year = insertYear;
+                            forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
+                            resultSave = forecastDAL.CreateBudgetForecast(forecastItem);
+                        }
+                    }
+                }
+            }
+
+            return resultSave;
+        }
+
 
         public List<Forecast> GetHistoriesByTimeStampId(int timeStampId)
         {

@@ -415,7 +415,7 @@ namespace CostAllocationApp.Controllers
             return result;
         }
 
-        public int EmployeeBudgetCreate(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0)
+        public int EmployeeBudgetCreate(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0,string select_budget_type="")
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
             EmployeeBudget employeeAssignment = new EmployeeBudget();
@@ -448,8 +448,20 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.Year = upload_year.ToString();
             employeeAssignment.EmployeeName = dt_.EmployeeName;
 
-            employeeAssignment.FirstHalfBudget = true;
-            employeeAssignment.SecondHalfBudget = false;
+            if(Convert.ToInt32(select_budget_type) == 1)
+            {
+                employeeAssignment.FirstHalfBudget = true;
+                employeeAssignment.SecondHalfBudget = false;
+            }else if (Convert.ToInt32(select_budget_type) == 2)
+            {
+                employeeAssignment.FirstHalfBudget = false;
+                employeeAssignment.SecondHalfBudget = true;
+            }
+            else
+            {
+                employeeAssignment.FirstHalfBudget = false;
+                employeeAssignment.SecondHalfBudget = false;
+            }
             employeeAssignment.FinalizedBudget = false;
 
             //int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
@@ -771,14 +783,16 @@ namespace CostAllocationApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year)
+        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year,string select_budget_type)
         {
             bool isThisYearBudgetExists = false;
             int selected_year = 0;
+            int budgetRequestType = 0;
             if (!string.IsNullOrEmpty(upload_year))
             {
                 selected_year = Convert.ToInt32(upload_year);
-                isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year);
+                budgetRequestType = Convert.ToInt32(select_budget_type);
+                isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year, budgetRequestType);
             }
             else
             {
@@ -969,12 +983,12 @@ namespace CostAllocationApp.Controllers
 
                                 if (assignmentViewModels.Count > 0)
                                 {
-                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, assignmentViewModels.Count);
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, assignmentViewModels.Count, select_budget_type);                                                        
                                     tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
                                 }
                                 else
                                 {
-                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year);
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, 0,select_budget_type);
                                     tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
                                 }
 

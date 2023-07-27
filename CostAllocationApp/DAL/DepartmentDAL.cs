@@ -71,6 +71,115 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public bool CheckForBudgetInitialDataExists(int budgetYear)
+        {            
+            bool results = false;
+
+            string query = "";
+            query = "SELECT TOP 2 * FROM EmployeeeBudgets WHERE Year="+ budgetYear + " AND FirstHalfBudget=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+        public bool CheckForBudgetSecondHalfDataExists(int budgetYear)
+        {
+            bool results = false;
+
+            string query = "";
+            query = "SELECT TOP 2 * FROM EmployeeeBudgets WHERE Year=" + budgetYear + " AND SecondHalfBudget=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+        public bool CheckForBudgetInitialDataFinalizeExists(int budgetYear)
+        {
+            bool results = false;
+
+            string query = "";
+            query = "SELECT TOP 2 * FROM EmployeeeBudgets WHERE Year="+ budgetYear + " AND FirstHalfBudget=1 AND FinalizedBudget=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+        public bool CheckForBudgetSecondHalfDataFinalizeExists(int budgetYear)
+        {
+            bool results = false;
+
+            string query = "";
+            query = "SELECT TOP 2 * FROM EmployeeeBudgets WHERE Year="+ budgetYear + " AND SecondHalfBudget=1 AND FinalizedBudget=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+
         public List<Department> GetAllDepartmentsBySectionId(int sectionId)
         {
             List<Department> departments = new List<Department>();

@@ -169,10 +169,7 @@
                             </div>
                             <div class="col-3">
                                 <label style="margin-right: 11px;">Select Budget Type</label>
-                                <select id="select_budget_type" class="form-control" name="select_budget_type">
-                                    <option value="">select type</option>
-                                    <option value="1">Initial Budget</option>
-                                    <option value="2">2nd Hlaf Budget</option>
+                                <select id="select_budget_type" class="form-control" name="select_budget_type">                                    
                                 </select>
                             </div>
                             <div class="col-4">
@@ -201,35 +198,31 @@
 </div>
 <!-----------------Modal: Replciate from previous year----------------->
 <div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">      
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
                     <h3>策定する年度を選択 (Replicate Data)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
+                    
                     <div class="row">
-                        <div class="col-6">
-                            <label style="font-size: 17px !important;margin-right: 16px;">From Year</label>
-                            <br>
-                            @* <select id="replicate_from" style="font-size: 15px !important;"></select> *@
-                            <input type="text" id="replicate_from" class="form-control" name="upload_year"/>
+                        <div class="col-4">
+                            <label style="margin-right: 136px;">From Year</label>                            
+                            <select id="duplicate_from" class="form-control" name="duplicate_from">                                    
+                            </select>
+                            @* <input type="text" id="replicate_from" class="form-control" name="upload_year"/>  *@
                         </div>
-
-                        <div class="col-6">
-                            <label style="font-size: 17px !important;margin-right: 43px;">To Year</label>
-                            <br>
-                            <input type="text" id="duplciateYear" class="form-control" name="upload_year"/>
-                            @* <select id="duplciateYear" style="font-size: 15px !important;">
-                                <option value="">select year</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                            </select> *@
+                        <div class="col-4">    
+                            <label style="margin-right: 154px;">To Year</label>                                                                         
+                            <input type="text" id="duplciateYear" class="form-control" name="upload_year"/>                            
                         </div>
+                        <div class="col-3">
+                            <label style="margin-right: 11px;">Select Budget Type</label>
+                            <select id="select_duplicate_budget_type" class="form-control" name="select_duplicate_budget_type">                                    
+                            </select>
+                        </div>                        
                     </div>
+
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -237,7 +230,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year" onclick="DuplicateForecast();">作成 (Create)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year" onclick="DuplicateBudget();">作成 (Create)</a>
                         </div>
                     </div>
                 </div>
@@ -245,7 +238,7 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="selected_budget_year" value="" />
 
 <div class="search_p">
     <ul id="search_p_asc_desc">

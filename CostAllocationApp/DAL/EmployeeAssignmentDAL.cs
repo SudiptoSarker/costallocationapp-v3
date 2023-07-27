@@ -247,7 +247,7 @@ namespace CostAllocationApp.DAL
 
         }
 
-
+        //update forecast assignment data
         public int UpdateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
@@ -338,6 +338,98 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
+        //update budget assingment data
+        public int UpdateBudgetAssignment(EmployeeAssignment employeeAssignment)
+        {
+            int result = 0;
+            string query = $@"update EmployeeeBudgets set EmployeeId=@employeeId,  SectionId=@sectionId,DepartmentId=@departmentId,InChargeId=@inChargeId,RoleId=@roleId,ExplanationId=@explanationId,CompanyId=@companyId,UnitPrice=@unitPrice,GradeId=@gradeId,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, Remarks=@remarks,IsActive=@isActiveAssignment  where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@employeeId", employeeAssignment.EmployeeId);
+                if (employeeAssignment.SectionId == null)
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
+                }
+                if (employeeAssignment.DepartmentId == null)
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
+                }
+                if (employeeAssignment.InchargeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
+                }
+
+                if (employeeAssignment.RoleId == null)
+                {
+                    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                }
+
+                if (String.IsNullOrEmpty(employeeAssignment.ExplanationId))
+                {
+                    cmd.Parameters.AddWithValue("@explanationId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@explanationId", employeeAssignment.ExplanationId);
+                }
+
+                if (employeeAssignment.CompanyId == null)
+                {
+                    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                }
+
+                if (employeeAssignment.GradeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
+                }
+                cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);
+                cmd.Parameters.AddWithValue("@updatedBy", employeeAssignment.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", employeeAssignment.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", employeeAssignment.Id);
+                cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);
+                cmd.Parameters.AddWithValue("@isActiveAssignment", employeeAssignment.IsActiveAssignment);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
 
         public List<EmployeeAssignmentViewModel> SearchAssignment(EmployeeAssignment employeeAssignment)
         {
@@ -3944,10 +4036,35 @@ namespace CostAllocationApp.DAL
 
             return result;
         }
-        public bool CheckForBudgetYearIsExists(int selected_year)
+        public bool CheckForBudgetYearIsExists(int selected_year,int select_budget_type)
         {
             bool isValid = false;
-            string query = "select * from EmployeeeBudgets where Year="+ selected_year;            
+            string strWhere = "";
+            if (select_budget_type == 1)
+            {
+                strWhere = "WHERE FirstHalfBudget=" + 1;
+            }
+            if (select_budget_type == 2)
+            {
+                if (string.IsNullOrEmpty(strWhere))
+                {
+                    strWhere = "WHERE SecondHalfBudget=" + 1;
+                }
+                else
+                {
+                    strWhere = strWhere+" AND SecondHalfBudget=" + 1;
+                }                
+            }
+            if (string.IsNullOrEmpty(strWhere))
+            {
+
+            }
+            else
+            {
+                strWhere = strWhere + " AND Year=" + selected_year;
+            }
+            string query = "select * from EmployeeeBudgets " + strWhere;
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -3967,5 +4084,107 @@ namespace CostAllocationApp.DAL
             }
             return isValid;
         }
+        public int FinalizeBudgetAssignment(int selected_year, int select_budget_type)
+        {
+            int result = 0;
+            string strWhere = "";
+            if (select_budget_type == 1)
+            {
+                strWhere = "WHERE FirstHalfBudget=" + 1;
+            }else if(select_budget_type == 2)
+            {
+                strWhere = "WHERE SecondHalfBudget=" + 1;
+            }
+            
+            if (!string.IsNullOrEmpty(strWhere))
+            {
+                strWhere = strWhere + " AND Year=" + selected_year;
+            }
+            
+            string query = "UPDATE EmployeeeBudgets SET FinalizedBudget=1 " + strWhere;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }            
+        }
+        public List<EmployeeBudget> GetFinalizedBudgetData(int selected_year, int select_budget_type)
+        {
+            string strWhere = "";
+            if (select_budget_type == 1)
+            {
+                strWhere = "WHERE FirstHalfBudget=" + 1;
+            }
+            else if (select_budget_type == 2)
+            {
+                strWhere = "WHERE SecondHalfBudget=" + 1;
+            }
+
+            if (!string.IsNullOrEmpty(strWhere))
+            {
+                strWhere = strWhere + " AND Year=" + selected_year;
+            }
+            string query = "SELECT * FROM EmployeeeBudgets " + strWhere;            
+
+            List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeBudget _employeeBudget = new EmployeeBudget();
+                            
+                            _employeeBudget.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            _employeeBudget.SectionId = rdr["SectionId"] is DBNull ? 0 : Convert.ToInt32(rdr["SectionId"]);
+                            _employeeBudget.InchargeId = rdr["InChargeId"] is DBNull ? 0 : Convert.ToInt32(rdr["InChargeId"]);
+                            _employeeBudget.DepartmentId = rdr["DepartmentId"] is DBNull ? 0 : Convert.ToInt32(rdr["DepartmentId"]);
+                            _employeeBudget.RoleId = rdr["RoleId"] is DBNull ? 0 : Convert.ToInt32(rdr["RoleId"]);
+                            _employeeBudget.CompanyId = rdr["CompanyId"] is DBNull ? 0 : Convert.ToInt32(rdr["CompanyId"]);                                                        
+                            _employeeBudget.ExplanationId = String.IsNullOrEmpty(rdr["ExplanationId"].ToString()) ? null : rdr["ExplanationId"].ToString();
+                            _employeeBudget.UnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                            _employeeBudget.GradeId = rdr["GradeId"] is DBNull ? 0 : Convert.ToInt32(rdr["GradeId"]);
+                            _employeeBudget.SubCode = 0;                            
+                            _employeeBudget.BCYR = false;                            
+                            _employeeBudget.BCYRCell = "";
+
+                            _employeeBudget.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();                            
+                            _employeeBudget.CreatedDate = DateTime.Now;
+                            _employeeBudget.IsActive = "1";                            
+                            _employeeBudget.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();                            
+                            _employeeBudget.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+                            _employeeBudget.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+
+                            _employeeAssignments.Add(_employeeBudget);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return _employeeAssignments;
+        }
+
     }
 }

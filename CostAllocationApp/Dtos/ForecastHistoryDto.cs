@@ -11,5 +11,7 @@ namespace CostAllocationApp.Dtos
         public string HistoryName { get; set; }
         public List<string> CellInfo { get; set; }
         public string TimeStampId { get; set; }
+        public int[] DeletedRowIds { get; set; }
+        public int Year { get; set; }
     }
 }

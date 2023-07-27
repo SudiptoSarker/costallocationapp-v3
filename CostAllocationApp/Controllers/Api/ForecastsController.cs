@@ -18,6 +18,7 @@ namespace CostAllocationApp.Controllers.Api
         {
             forecastBLL = new ForecastBLL();
         }
+
         [HttpGet]
         public IHttpActionResult CreateForecast(string data,string year,string assignmentId)
         {
@@ -74,14 +75,17 @@ namespace CostAllocationApp.Controllers.Api
                 forecast.UpdatedBy = "";
                 forecast.UpdatedDate = DateTime.Now;
 
-                var result = forecastBLL.CheckAssignmentId(int.Parse(assignmentId),int.Parse(year), Convert.ToInt32(temp[0]));
+                //var result = forecastBLL.CheckAssignmentId(int.Parse(assignmentId),int.Parse(year), Convert.ToInt32(temp[0]));
+                var result = forecastBLL.CheckBudgetId(int.Parse(assignmentId), int.Parse(year), Convert.ToInt32(temp[0]));
                 if (result==true)
                 {
-                    int resultEdit = forecastBLL.UpdateForecast(forecast);
+                    int resultEdit = forecastBLL.UpdateBudgetForecast(forecast);
+                    //int resultEdit = forecastBLL.UpdateForecast(forecast);
                 }
                 else
                 {
-                    int resultSave = forecastBLL.CreateForecast(forecast);
+                    int resultSave = forecastBLL.CreateBudgetForecast(forecast);
+                    //int resultSave = forecastBLL.CreateForecast(forecast);
                 }
 
                 
@@ -142,11 +146,11 @@ namespace CostAllocationApp.Controllers.Api
                 var result = forecastBLL.CheckAssignmentId(int.Parse(assignmentId), int.Parse(year), Convert.ToInt32(temp[0]));
                 if (result == true)
                 {
-                    int resultEdit = forecastBLL.UpdateForecast(forecast);
+                    int resultEdit = forecastBLL.UpdateBudgetForecast(forecast);
                 }
                 else
                 {
-                    int resultSave = forecastBLL.CreateForecast(forecast);
+                    int resultSave = forecastBLL.CreateBudgetForecast(forecast);
                 }
 
 
@@ -154,14 +158,15 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(true);
 
         }
-        [HttpGet]
-        public IHttpActionResult GetForecatYear()
-        {
-            List<ForecastYear> forecastYears = new List<ForecastYear>();
 
-            forecastYears = forecastBLL.GetForecastYear();
-            return Ok(forecastYears);
-        }
+        //[HttpGet]
+        //public IHttpActionResult GetForecatYear()
+        //{
+        //    List<ForecastYear> forecastYears = new List<ForecastYear>();
+
+        //    forecastYears = forecastBLL.GetForecastYear();
+        //    return Ok(forecastYears);
+        //}
 
     }
 }

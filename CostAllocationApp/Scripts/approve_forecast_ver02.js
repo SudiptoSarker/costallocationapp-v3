@@ -5181,13 +5181,12 @@ function DeselectColor_PendingCells(cellName){
     $(jss.getCell(cellName)).addClass('readonly');    
 }
 
-
 /*
     author: sudipto.
-    date:17July23.
+    date:18July23.
     approve,not approved and deleted rows color code functions.
 */
-function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){  
+function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
     if(requestType != "deleted"){
         $(jss.getCell("A" + (rowNumber))).removeClass('readonly');
     }    
@@ -5199,7 +5198,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("B" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("B"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("B"+rowNumber,"color", textColor);    
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5208,7 +5207,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("C" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("C"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("C"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5218,7 +5217,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("D" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("D"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("D"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5227,7 +5226,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("E" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("E"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("E"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5236,7 +5235,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("F" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("F"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("F"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5245,7 +5244,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("G" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("G"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("G"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5254,7 +5253,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("H" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("H"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("H"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5263,7 +5262,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("I" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("I"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("I"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5272,7 +5271,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("J" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("J"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("J"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5281,7 +5280,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("K" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("K"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("K"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5290,7 +5289,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("L" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("L"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("L"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5299,7 +5298,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("M" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("M"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("M"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5308,7 +5307,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("N" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("N"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("N"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5317,7 +5316,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("O" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("O"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("O"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5326,7 +5325,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("P" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("P"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("P"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5335,7 +5334,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("Q" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("Q"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("Q"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5344,7 +5343,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("R" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("R"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("R"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5353,7 +5352,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("S" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("S"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("S"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5362,7 +5361,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("T" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("T"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("T"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5371,7 +5370,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("U" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("U"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("U"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5380,7 +5379,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("V" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("V"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("V"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -5389,17 +5388,14 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
 
     if(requestType != "deleted"){
         $(jss.getCell("W" + (rowNumber))).removeClass('readonly');
-    } 
+    }  
     jss.setStyle("W"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("W"+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
         $(jss.getCell("W" + (rowNumber))).addClass('readonly');
     }
 
-    /*
-        forecasted cost cells
-    */
-    $(jss.getCell("X" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("X" + (rowNumber))).removeClass('readonly');
     jss.setStyle("X"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("X"+rowNumber,"color", textColor);
     $(jss.getCell("X" + (rowNumber))).addClass('readonly');
@@ -5409,7 +5405,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle("Y"+rowNumber,"color", textColor);
     $(jss.getCell("Y" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("Z" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("Z" + (rowNumber))).removeClass('readonly');
     jss.setStyle("Z"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("Z"+rowNumber,"color", textColor);
     $(jss.getCell("Z" + (rowNumber))).addClass('readonly');
@@ -5419,12 +5415,12 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle("AA"+rowNumber,"color", textColor);
     $(jss.getCell("AA" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AB" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("AB" + (rowNumber))).removeClass('readonly');
     jss.setStyle("AB"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("AB"+rowNumber,"color", textColor);
     $(jss.getCell("AB" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AC" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("AC" + (rowNumber))).removeClass('readonly');
     jss.setStyle("AC"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("AC"+rowNumber,"color", textColor);
     $(jss.getCell("AC" + (rowNumber))).addClass('readonly');
@@ -5434,7 +5430,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle("AD"+rowNumber,"color", textColor);
     $(jss.getCell("AD" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AE" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("AE" + (rowNumber))).removeClass('readonly');
     jss.setStyle("AE"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("AE"+rowNumber,"color", textColor);
     $(jss.getCell("AE" + (rowNumber))).addClass('readonly');
@@ -5444,7 +5440,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle("AF"+rowNumber,"color", textColor);
     $(jss.getCell("AF" + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AG" + (rowNumber))).removeClass('readonly'); 
+    $(jss.getCell("AG" + (rowNumber))).removeClass('readonly');
     jss.setStyle("AG"+rowNumber,"background-color", backgroundColor);
     jss.setStyle("AG"+rowNumber,"color", textColor);
     $(jss.getCell("AG" + (rowNumber))).addClass('readonly');

@@ -13,10 +13,12 @@ namespace CostAllocationApp.BLL
     {
         EmployeeAssignmentDAL employeeAssignmentDAL = null;
         ExplanationsBLL explanationsBLL = null;
+        ActualCostDAL actualCostDAL = null;
         public EmployeeAssignmentBLL()
         {
             employeeAssignmentDAL = new EmployeeAssignmentDAL();
             explanationsBLL = new ExplanationsBLL();
+            actualCostDAL = new ActualCostDAL();
         }
         public int CreateAssignment(EmployeeAssignment employeeAssignment)
         {
@@ -111,6 +113,54 @@ namespace CostAllocationApp.BLL
                 item.EmployeeNameWithCodeRemarks += "$" + item.MarkedAsRed.ToString().ToLower();
             }
             return employees;
+        }
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
+        {
+            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByDepartments_Company(departmentId, companyIds, year);
+            if (forecastAssignments.Count > 0)
+            {
+                foreach (var forecastAssignment in forecastAssignments)
+                {
+                    forecastAssignment.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(forecastAssignment.Id, year.ToString());
+                    if (forecastAssignment.forecasts.Count > 0)
+                    {
+                            forecastAssignment.OctPoints = forecastAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
+                            forecastAssignment.NovPoints = forecastAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
+                            forecastAssignment.DecPoints = forecastAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
+                            forecastAssignment.JanPoints = forecastAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
+                            forecastAssignment.FebPoints = forecastAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
+                            forecastAssignment.MarPoints = forecastAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
+                            forecastAssignment.AprPoints = forecastAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
+                            forecastAssignment.MayPoints = forecastAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
+                            forecastAssignment.JunPoints = forecastAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
+                            forecastAssignment.JulPoints = forecastAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
+                            forecastAssignment.AugPoints = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
+                            forecastAssignment.SepPoints = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
+
+                            forecastAssignment.OctTotal = forecastAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Total;
+                            forecastAssignment.NovTotal = forecastAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Total;
+                            forecastAssignment.DecTotal = forecastAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Total;
+                            forecastAssignment.JanTotal = forecastAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Total;
+                            forecastAssignment.FebTotal = forecastAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Total;
+                            forecastAssignment.MarTotal = forecastAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Total;
+                            forecastAssignment.AprTotal = forecastAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Total;
+                            forecastAssignment.MayTotal = forecastAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Total;
+                            forecastAssignment.JunTotal = forecastAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Total;
+                            forecastAssignment.JulTotal = forecastAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Total;
+                            forecastAssignment.AugTotal = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Total;
+                            forecastAssignment.SepTotal = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Total;
+
+                    }
+                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year,forecastAssignment.Id);
+                    if (forecastAssignment.ActualCosts.Count == 0)
+                    {
+                        forecastAssignment.ActualCosts = new List<ActualCost>();
+                        forecastAssignment.ActualCosts.Add(new ActualCost { });
+                    }
+                    
+                }
+            }
+            return forecastAssignments;
         }
 
         //public List<ForecastAssignmentViewModel> GetEmployeesForecastBySearchFilter(EmployeeAssignment employeeAssignment)
@@ -2049,6 +2099,10 @@ namespace CostAllocationApp.BLL
         public bool CheckYearIfFinalize(int year,int requestType)
         {
             return employeeAssignmentDAL.CheckYearIfFinalize(year, requestType);
+        }
+        public void DeleteAssignment_PreviousFinalizeData(int year)
+        {
+            employeeAssignmentDAL.DeleteAssignment_PreviousFinalizeData(year);
         }
     }
 }

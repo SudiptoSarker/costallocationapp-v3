@@ -778,6 +778,7 @@ namespace CostAllocationApp.Controllers
                 }
             }
             ViewBag.ValidationMessage = "";
+
             return View(forecastViewModal);
         }
 

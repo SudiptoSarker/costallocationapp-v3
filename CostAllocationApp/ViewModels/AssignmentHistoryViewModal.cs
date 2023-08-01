@@ -19,6 +19,7 @@ namespace CostAllocationApp.ViewModels
         public string UnitPrice { get; set; }
         public string Remarks { get; set; }
         public bool IsUpdate { get; set; }
+        public bool IsDeleted { get; set; }
         public string MonthId_Points { get; set; }
         public string ApprovedCells { get; set; }
     }

@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Total";
+}
+
+@{
+    ViewBag.Title = "実績（Actual Cost）";
+}
+@section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/filter_multi_select.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/total.css" rel="stylesheet" type="text/css" />
+}
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+        <div id="actual_cost_table_header">Total</div>
+
+        <!-----------------Employee Assignment: Create Actual Cost----------------->
+        <div class="row" id="actual_cost_search">
+            <div class="col-3">
+                <select multiple name="companies" id="companies"></select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="total_btn">表示</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="total_table_container">
+                    <table id="total_table" class="table table-bordered">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/filter-multi-select-bundle.min.js"></script>
+    <script src="/Scripts/total.js"></script>
+}

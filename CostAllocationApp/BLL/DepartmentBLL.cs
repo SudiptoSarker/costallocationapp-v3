@@ -22,6 +22,22 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.GetAllDepartments();
         }
+        public bool CheckForBudgetInitialDataExists(int budgetYear)
+        {
+            return departmentDAL.CheckForBudgetInitialDataExists(budgetYear);
+        }
+        public bool CheckForBudgetSecondHalfDataExists(int budgetYear)
+        {
+            return departmentDAL.CheckForBudgetSecondHalfDataExists(budgetYear);
+        }
+        public bool CheckForBudgetInitialDataFinalizeExists(int budgetYear)
+        {
+            return departmentDAL.CheckForBudgetInitialDataFinalizeExists(budgetYear);
+        }
+        public bool CheckForBudgetSecondHalfDataFinalizeExists(int budgetYear)
+        {
+            return departmentDAL.CheckForBudgetSecondHalfDataFinalizeExists(budgetYear);
+        }
         public int RemoveDepartment(int departmentIds)
         {
             return departmentDAL.RemoveDepartment(departmentIds);

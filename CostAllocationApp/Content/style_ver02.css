@@ -2335,6 +2335,7 @@ table.dataTable thead > tr > td.sorting {
     font-weight: 600;
     padding: 10px 20px;
     text-align: center;
+	width: 363px;
 }
 #import_data_btn:hover,
 #import_data_btn:focus,

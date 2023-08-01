@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CostAllocationApp.Models
 {
-    public class EmployeeAssignment : Common
+    public class EmployeeBudget : Common
     {
         public int Id { get; set; }
         public string EmployeeName { get; set; }
@@ -31,19 +31,9 @@ namespace CostAllocationApp.Models
         public bool IsRowPending { get; set; }
         public bool IsDeletePending { get; set; }
         public bool IsActiveAssignment { get; set; }
-        //public int Id { get; set; }
-        //public string EmployeeName { get; set; }
-        //public string SectionId { get; set; }
-        //public string DepartmentId { get; set; }
-        //public string InchargeId { get; set; }
-        //public string RoleId { get; set; }
-        //public string ExplanationId { get; set; }
-        //public string CompanyId { get; set; }
-        //public decimal UnitPrice { get; set; }
-        //public int GradeId { get; set; }
-        //public string IsActive { get; set; }
-        //public string Remarks { get; set; }
-        //public int SubCode { get; set; }
+        public bool FirstHalfBudget { get; set; }
+        public bool SecondHalfBudget { get; set; }
+        public bool FinalizedBudget { get; set; }
 
         public string EmployeeRootName { get; set; }
         public string EmployeeModifiedName { get; set; }

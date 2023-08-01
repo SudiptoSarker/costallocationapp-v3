@@ -5450,6 +5450,8 @@ namespace CostAllocationApp.Controllers.Api
                 isFinalized = employeeAssignmentBLL.FinalizeBudgetAssignment(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
                 if (isFinalized > 0)
                 {
+                    employeeAssignmentBLL.DeleteAssignment_PreviousFinalizeData(Convert.ToInt32(arrYear[0]));
+
                     List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
                     _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
                     if (_employeeAssignments.Count > 0)

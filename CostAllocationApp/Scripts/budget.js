@@ -940,7 +940,9 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("Operation Success")               ;                                    
+                    alert("Operation Success");
+                    $("#save_bedget").prop("disabled",true);
+                    $("#budget_finalize").prop("disabled",true); 
                 }
             });
         }       
@@ -3333,6 +3335,7 @@ function UpdateBudget() {
             
         }
         else {
+            alert("There is no data to update.");
             $("#jspreadsheet").show();
             //$("#head_total").show();
             LoaderHide();

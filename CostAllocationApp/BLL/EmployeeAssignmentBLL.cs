@@ -2050,5 +2050,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CheckYearIfFinalize(year, requestType);
         }
+        public void DeleteAssignment_PreviousFinalizeData(int year)
+        {
+            employeeAssignmentDAL.DeleteAssignment_PreviousFinalizeData(year);
+        }
     }
 }

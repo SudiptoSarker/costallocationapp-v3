@@ -4191,11 +4191,11 @@ namespace CostAllocationApp.DAL
             string strBudetTypeTxt = "";
             if (reqType == 1)
             {
-                strBudetTypeTxt = "where Year=2023 And FirstHalfBudget=1 And FinalizedBudget=1 ";
+                strBudetTypeTxt = "where Year="+ year + " And FirstHalfBudget=1 And FinalizedBudget=1 ";
             }
             else
             {
-                strBudetTypeTxt = "where Year=2023 And SecondHalfBudget=1 And FinalizedBudget=1 ";
+                strBudetTypeTxt = "where Year="+ year + " And SecondHalfBudget=1 And FinalizedBudget=1 ";
             }
             string query = "select * from EmployeeeBudgets " + strBudetTypeTxt;
 
@@ -4218,5 +4218,31 @@ namespace CostAllocationApp.DAL
             }
             return results;
         }
+        public void DeleteAssignment_PreviousFinalizeData(int year)
+        {
+            string queryForAssignment = $@"DELETE FROM EmployeesAssignments WHERE Year=@year";
+            string queryForCost = $@"DELETE FROM Costs WHERE Year=@year";            
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmdForAssignment = new SqlCommand(queryForAssignment, sqlConnection);
+                SqlCommand cmdForCost = new SqlCommand(queryForCost, sqlConnection);
+
+                cmdForAssignment.Parameters.AddWithValue("@year", year);
+                cmdForCost.Parameters.AddWithValue("@year", year);
+                try
+                {
+                    cmdForAssignment.ExecuteNonQuery();
+                    cmdForCost.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+        }
+
     }
 }

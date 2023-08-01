@@ -220,73 +220,46 @@ $(document).ready(function () {
     //import budget selction menu
     $('#select_import_year').on('change', function() {
         var selectedBudgetYear = this.value;
+    
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
-            //check the selected year is valid for import the excel.
-            CheckIsValidYearForImport(selectedBudgetYear);
-            // if(isValidYear){
-            //     //get budget initial and 2nd half data if exists
-            //     CreateBudgetTypeWithYear(selectedBudgetYear);
-            // }else{
-            //     alert("selected year is not valid to import!");
-            // }
+            //get budget initial and 2nd half data if exists
+            $.ajax({
+                url: `/api/utilities/CheckBudgetWithYear/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                data: "BudgetYear=" + selectedBudgetYear,
+                success: function (data) {
+                    $('#select_budget_type').empty();
+                                                   
+                    $('#select_budget_type').append(`<option value="">select type</option>`);
+                    //create fist half budget dropdown                    
+                    if(data.FirstHalfFinalize){
+                        $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
+                    }else if(data.FirstHalfBudget){
+                        $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
+                    }else if(!data.FirstHalfBudget){
+                        $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
+                    }  
+
+                    //create second half budget dropdown
+                    if(data.SecondHalfFinalize){
+                        $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
+                    }else if(data.SecondHalfBudget){
+                        $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
+                    }else if(!data.SecondHalfBudget){
+                        if(data.FirstHalfFinalize){
+                            $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
+                        }else{
+                            $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
+                        }                        
+                    }  
+                }
+            });
         }    
     });
 
-    function CheckIsValidYearForImport(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckIsValidYearForImport/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "select_year_type=" + selectedBudgetYear,
-            success: function (data) {
-                if(data == true){
-                    CreateBudgetTypeWithYear(selectedBudgetYear);              
-                }else{
-                    $('#select_budget_type').empty();
-                    alert("selected year is not valid to import!");
-                }
-            }
-        });
-    }
-
-    function CreateBudgetTypeWithYear(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckBudgetWithYear/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "BudgetYear=" + selectedBudgetYear,
-            success: function (data) {
-                $('#select_budget_type').empty();
-                                               
-                $('#select_budget_type').append(`<option value="">select type</option>`);
-                //create fist half budget dropdown                    
-                if(data.FirstHalfFinalize){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
-                }else if(data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
-                }else if(!data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
-                }  
-
-                //create second half budget dropdown
-                if(data.SecondHalfFinalize){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
-                }else if(data.SecondHalfBudget){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
-                }else if(!data.SecondHalfBudget){
-                    if(data.FirstHalfBudget){
-                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }else{
-                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }                                               
-                }  
-            }
-        });
-    }
     //duplicate budget selction menu
     $('#duplciateYear').on('change', function() {
         var selectedBudgetYear = this.value;
@@ -318,8 +291,8 @@ $(document).ready(function () {
                         $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
                     }else if(data.SecondHalfBudget){
                         $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
-                    }else if(!data.SecondHalfBudget){                         
-                        if(data.FirstHalfBudget){
+                    }else if(!data.SecondHalfBudget){
+                        if(data.FirstHalfFinalize){
                             $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
                         }else{
                             $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
@@ -3657,7 +3630,7 @@ function DuplicateBudget(){
                     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
                 }
                 else{
-                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully replicated to "+toDate+".</span>");                        
+                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
                     // if(parseInt(data)>0){
                     //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
                     // }else{

@@ -265,7 +265,7 @@ namespace CostAllocationApp.Controllers
                             {
                                 _uploadExcel.Remarks = "";
                             }
-                            
+
                             var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
 
                             if (assignmentViewModels.Count > 0)
@@ -345,7 +345,7 @@ namespace CostAllocationApp.Controllers
                 }
             }
             //return View("CreateForecast", forecastViewModal);
-            return View("CreateForecast",new { forecastType = "imprt" });            
+            return View("CreateForecast", new { forecastType = "imprt" });
         }
 
         public void SendToApi(int assignmentId, string row, int year)
@@ -374,7 +374,7 @@ namespace CostAllocationApp.Controllers
         }
 
         //public int CreateAssignmentForExcelUpload(DataTable dt_, int i, int subCodeCount = 0)
-        public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0)
+        public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i, int upload_year = 0, int subCodeCount = 0)
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
@@ -415,7 +415,7 @@ namespace CostAllocationApp.Controllers
             return result;
         }
 
-        public int EmployeeBudgetCreate(UploadExcel dt_, int i,int upload_year=0, int subCodeCount = 0,string select_budget_type="")
+        public int EmployeeBudgetCreate(UploadExcel dt_, int i, int upload_year = 0, int subCodeCount = 0, string select_budget_type = "")
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
             EmployeeBudget employeeAssignment = new EmployeeBudget();
@@ -448,11 +448,12 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.Year = upload_year.ToString();
             employeeAssignment.EmployeeName = dt_.EmployeeName;
 
-            if(Convert.ToInt32(select_budget_type) == 1)
+            if (Convert.ToInt32(select_budget_type) == 1)
             {
                 employeeAssignment.FirstHalfBudget = true;
                 employeeAssignment.SecondHalfBudget = false;
-            }else if (Convert.ToInt32(select_budget_type) == 2)
+            }
+            else if (Convert.ToInt32(select_budget_type) == 2)
             {
                 employeeAssignment.FirstHalfBudget = false;
                 employeeAssignment.SecondHalfBudget = true;
@@ -622,7 +623,7 @@ namespace CostAllocationApp.Controllers
             {
                 _sections = sectionBLL.GetAllSections()
             };
-            ViewBag.ErrorCount = 0;            
+            ViewBag.ErrorCount = 0;
             {
                 User user = userBLL.GetUserByUserName(Session["userName"].ToString());
                 List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
@@ -667,7 +668,7 @@ namespace CostAllocationApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult DownloadHistoryData(int hid_approve_timestamp_id = 0,string hid_selected_year = "")
+        public ActionResult DownloadHistoryData(int hid_approve_timestamp_id = 0, string hid_selected_year = "")
         {
             EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
             List<ForecastAssignmentViewModel> forecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
@@ -676,17 +677,18 @@ namespace CostAllocationApp.Controllers
             {
                 employeeAssignment.Year = hid_selected_year;
                 forecastAssignmentViewModels = employeeAssignmentBLL.GetAllOriginalDataForDownloadFiles(employeeAssignment, hid_approve_timestamp_id);
-            }                        
+            }
             string timeStampName = forecastBLL.GetApproveHistoryTimeStampName(hid_approve_timestamp_id);
-  
-            if (!string.IsNullOrEmpty(timeStampName)) { 
+
+            if (!string.IsNullOrEmpty(timeStampName))
+            {
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     using (var package = new ExcelPackage())
                     {
                         //*****************Download: Original: Start***********************//                        
                         var sheet = package.Workbook.Worksheets.Add("Download(original)");
-                        sheet = exportExcelFileBLL.ExportOriginalExcelSheet(sheet, forecastAssignmentViewModels);                        
+                        sheet = exportExcelFileBLL.ExportOriginalExcelSheet(sheet, forecastAssignmentViewModels);
                         //*****************Download: Original: End***********************//
 
                         //*****************Download: Each Person: Start***********************//                        
@@ -712,7 +714,7 @@ namespace CostAllocationApp.Controllers
                         var excelData = package.GetAsByteArray();
                         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                         var fileName = timeStampName + ".xlsx";
-                    
+
                         return File(excelData, contentType, fileName);
                     }
                 }
@@ -778,13 +780,12 @@ namespace CostAllocationApp.Controllers
                 }
             }
             ViewBag.ValidationMessage = "";
-
             return View(forecastViewModal);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year,string select_budget_type)
+        public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year, string select_budget_type)
         {
             bool isThisYearBudgetExists = false;
             int selected_year = 0;
@@ -984,12 +985,12 @@ namespace CostAllocationApp.Controllers
 
                                 if (assignmentViewModels.Count > 0)
                                 {
-                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, assignmentViewModels.Count, select_budget_type);                                                        
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, assignmentViewModels.Count, select_budget_type);
                                     tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
                                 }
                                 else
                                 {
-                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, 0,select_budget_type);
+                                    EmployeeBudgetCreate(_uploadExcel, i, selected_year, 0, select_budget_type);
                                     tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
                                 }
 
@@ -1063,7 +1064,7 @@ namespace CostAllocationApp.Controllers
             }
 
             if (isThisYearBudgetExists)
-            {                
+            {
                 ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + selected_year + ".Please chooose another year to import data..</span>";
             }
             else
@@ -1071,6 +1072,53 @@ namespace CostAllocationApp.Controllers
                 ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to " + selected_year + ".</span>";
             }
             return View();
+        }
+        // GET: Forecasts
+        public ActionResult EditBudget()
+        {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
+            string requestType = Request.QueryString["forecastType"];
+
+            if (TempData["seccess"] != null)
+            {
+                ViewBag.Success = TempData["seccess"];
+            }
+            else
+            {
+                ViewBag.Success = null;
+
+            }
+            ForecastViewModal forecastViewModal = new ForecastViewModal
+            {
+                _sections = sectionBLL.GetAllSections()
+            };
+            ViewBag.ErrorCount = 0;
+            ViewBag.ImportViewOrForecastView = requestType;
+
+            {
+                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
+                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
+                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
+                if (link == null)
+                {
+                    ViewBag.linkFlag = false;
+                }
+                else
+                {
+                    ViewBag.linkFlag = true;
+                }
+            }
+            ViewBag.ValidationMessage = "";
+            return View(forecastViewModal);
         }
         public ActionResult Total()
         {

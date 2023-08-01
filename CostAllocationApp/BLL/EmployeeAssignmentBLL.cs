@@ -2104,5 +2104,9 @@ namespace CostAllocationApp.BLL
         {
             employeeAssignmentDAL.DeleteAssignment_PreviousFinalizeData(year);
         }
+        public bool CheckIsValidYearForImport(int year )
+        {
+            return employeeAssignmentDAL.CheckIsValidYearForImport(year);
+        }
     }
 }

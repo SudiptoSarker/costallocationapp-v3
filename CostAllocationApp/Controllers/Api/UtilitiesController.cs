@@ -5885,5 +5885,22 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(isFinalizeBudgetYear);
         }
 
+        [HttpGet]
+        [Route("api/utilities/CheckIsValidYearForImport/")]
+        public IHttpActionResult CheckIsValidYearForImport(int select_year_type)
+        {
+            bool isValidYearForImport = false;
+            if (select_year_type == 2023)
+            {
+                isValidYearForImport = true;
+            }
+            else
+            {
+                select_year_type = Convert.ToInt32(select_year_type) - 1;
+                isValidYearForImport = employeeAssignmentBLL.CheckIsValidYearForImport(select_year_type);
+            }            
+
+            return Ok(isValidYearForImport);
+        }
     }
 }

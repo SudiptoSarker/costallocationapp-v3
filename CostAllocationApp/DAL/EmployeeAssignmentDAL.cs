@@ -4347,6 +4347,30 @@ namespace CostAllocationApp.DAL
 
             }
         }
+        public bool CheckIsValidYearForImport(int year)
+        {
+            bool results = false;
 
+            string query = "SELECT * FROM EmployeeeBudgets WHERE Year="+ year + " AND SecondHalfBudget=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return results;
+        }
     }
 }

@@ -675,5 +675,10 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        public ActionResult Total()
+        {
+            return View();
+        }
     }
 }

@@ -302,6 +302,7 @@
     <Content Include="Content\employee_ver02.css" />
     <Content Include="Content\explanations.css" />
     <Content Include="Content\explanations_ver02.css" />
+    <Content Include="Content\filter_multi_select.css" />
     <Content Include="Content\fixedHeader.dataTables.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\forecast.css" />
@@ -339,6 +340,7 @@
     <Content Include="Content\sukey_qa.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\total.css" />
     <Content Include="Content\users.css" />
     <Content Include="Content\user_registration.css" />
     <Content Include="favicon.ico" />
@@ -710,6 +712,8 @@
     <Content Include="Scripts\employee_ver03.js" />
     <Content Include="Scripts\explanations.js" />
     <Content Include="Scripts\explanations_ver02.js" />
+    <Content Include="Scripts\filter-multi-select-bundle.min.js" />
+    <Content Include="Scripts\filter-multi-select.js" />
     <Content Include="Scripts\forecast.js" />
     <Content Include="Scripts\forecast_ver02.js" />
     <Content Include="Scripts\forecast_ver03.js" />
@@ -777,6 +781,7 @@
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\total.js" />
     <Content Include="Scripts\users.js" />
     <Content Include="Scripts\users_ver02.js" />
     <Content Include="Scripts\user_registration.js" />
@@ -825,6 +830,7 @@
     <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
     <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
     <Content Include="Views\Forecasts\QaProportion.cshtml" />
+    <Content Include="Views\Forecasts\Total.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

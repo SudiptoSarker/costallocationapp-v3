@@ -311,7 +311,7 @@ $(document).ready(function () {
         $(closestRow[0].cells[11]).html(dataForExpandedRow[0].JulCost[2]);
         $(closestRow[0].cells[12]).html(dataForExpandedRow[0].AugCost[2]);
         $(closestRow[0].cells[13]).html(dataForExpandedRow[0].SepCost[2]);
-        $(closestRow[0].cells[13]).html(dataForExpandedRow[0].RowTotal[2]);
+        $(closestRow[0].cells[14]).html(dataForExpandedRow[0].RowTotal[2]);
 
     });
 

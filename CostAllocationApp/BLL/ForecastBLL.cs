@@ -173,11 +173,25 @@ namespace CostAllocationApp.BLL
                
             return resultSave;
         }
-
+        
+        public int GetReplicateYearForecastType(int replicateYear)
+        {
+            bool isSecondHalfBudgetFinalize = forecastDAL.GetReplicateYearForecastType(replicateYear);
+            if (isSecondHalfBudgetFinalize)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }            
+        }
         public int DuplicateBudget(int copyYear, int insertYear,int budgetType)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
-            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear);
+            int replicateYearBudgetType = GetReplicateYearForecastType(copyYear);
+
+            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear, replicateYearBudgetType);
 
             int resultSave = 0;
             if (excelAssignmentDtos.Count > 0)

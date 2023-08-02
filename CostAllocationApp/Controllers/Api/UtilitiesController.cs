@@ -4596,10 +4596,22 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetTotal/")]
         public IHttpActionResult GetTotal(string companiIds)
         {
+            int year = 0;
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
+            if (forecastLeatestYear != actualCostLeatestYear)
+            {
+                return Ok(sukeyQADtos);
+            }
+            else
+            {
+                year = forecastLeatestYear;
+            }
             List<Department> departments = departmentBLL.GetAllDepartments();
             foreach (var department in departments)
             {
+                double rowTotal = 0;
                 SukeyQADto sukeyDto = new SukeyQADto();
                 sukeyDto.DepartmentId = department.Id.ToString();
                 sukeyDto.DepartmentName = department.DepartmentName;
@@ -4607,7 +4619,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     continue;
                 }
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id,companiIds,2023);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id,companiIds, year);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -4639,99 +4651,124 @@ namespace CostAllocationApp.Controllers.Api
                     if (_octActualCostTotal > 0)
                     {
                         sukeyDto.OctCost.Add(_octActualCostTotal);
+                        rowTotal += _octActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.OctCost.Add(_octTotal);
+                        rowTotal += _octTotal;
                     }
                     if (_novActualCostTotal > 0)
                     {
                         sukeyDto.NovCost.Add(_novActualCostTotal);
+                        rowTotal += _novActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.NovCost.Add(_novTotal);
+                        rowTotal += _novTotal;
                     }
                     if (_decActualCostTotal > 0)
                     {
                         sukeyDto.DecCost.Add(_decActualCostTotal);
+                        rowTotal += _decActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.DecCost.Add(_decTotal);
+                        rowTotal += _decTotal;
                     }
                     if (_janActualCostTotal > 0)
                     {
                         sukeyDto.JanCost.Add(_janActualCostTotal);
+                        rowTotal += _janActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.JanCost.Add(_janTotal);
+                        rowTotal += _janTotal;
                     }
                     if (_febActualCostTotal > 0)
                     {
                         sukeyDto.FebCost.Add(_febActualCostTotal);
+                        rowTotal += _febActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.FebCost.Add(_febTotal);
+                        rowTotal += _febTotal;
                     }
                     if (_marActualCostTotal > 0)
                     {
                         sukeyDto.MarCost.Add(_marActualCostTotal);
+                        rowTotal += _marActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.MarCost.Add(_marTotal);
+                        rowTotal += _marTotal;
                     }
                     if (_aprActualCostTotal > 0)
                     {
                         sukeyDto.AprCost.Add(_aprActualCostTotal);
+                        rowTotal += _aprActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.AprCost.Add(_aprTotal);
+                        rowTotal += _aprTotal;
                     }
                     if (_mayActualCostTotal > 0)
                     {
                         sukeyDto.MayCost.Add(_mayActualCostTotal);
+                        rowTotal += _mayActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.MayCost.Add(_mayTotal);
+                        rowTotal += _mayTotal;
                     }
                     if (_junActualCostTotal > 0)
                     {
                         sukeyDto.JunCost.Add(_junActualCostTotal);
+                        rowTotal += _junActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.JunCost.Add(_junTotal);
+                        rowTotal += _junTotal;
                     }
                     if (_julActualCostTotal > 0)
                     {
                         sukeyDto.JulCost.Add(_julActualCostTotal);
+                        rowTotal += _julActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.JulCost.Add(_julTotal);
+                        rowTotal += _julTotal;
                     }
                     if (_augActualCostTotal > 0)
                     {
                         sukeyDto.AugCost.Add(_augActualCostTotal);
+                        rowTotal += _augActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.AugCost.Add(_augTotal);
+                        rowTotal += _augTotal;
                     }
                     if (_sepActualCostTotal > 0)
                     {
                         sukeyDto.SepCost.Add(_sepActualCostTotal);
+                        rowTotal += _sepActualCostTotal;
                     }
                     else
                     {
                         sukeyDto.SepCost.Add(_sepTotal);
+                        rowTotal += _sepTotal;
                     }
+                    sukeyDto.RowTotal.Add(rowTotal);
                 }
                 
                
@@ -4743,12 +4780,27 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetTotalWithQA/")]
-        public IHttpActionResult GetTotalWithQA(string companiIds,int departmentId,int year)
+        public IHttpActionResult GetTotalWithQA(string companiIds,int departmentId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            int year = 0;
+            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
+            if (forecastLeatestYear!= actualCostLeatestYear)
+            {
+                return Ok(sukeyQADtos);
+            }
+            else
+            {
+                year = forecastLeatestYear;
+            }
+            
             List<Department> departments = departmentBLL.GetAllDepartments();
             foreach (var department in departments)
             {
+                double rowTotal = 0;
+                double rowTotalQa = 0;
+                double rowTotalDept = 0;
                 SukeyQADto sukeyDto = new SukeyQADto();
                 sukeyDto.DepartmentId = department.Id.ToString();
                 sukeyDto.DepartmentName = department.DepartmentName;
@@ -4792,7 +4844,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.OctCost.Add(_octActualCostTotal - tempQa);
                             sukeyDto.OctCost.Add(tempQa);
                             sukeyDto.OctCost.Add(_octActualCostTotal);
-                            
+
+                            rowTotalDept += _octActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _octActualCostTotal;
                         }
                         else
                         {
@@ -4800,6 +4855,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.OctCost.Add(_octTotal - tempQa);
                             sukeyDto.OctCost.Add(tempQa);
                             sukeyDto.OctCost.Add(_octTotal);
+
+                            rowTotalDept += _octTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _octTotal;
                         }
                         if (_novActualCostTotal > 0)
                         {
@@ -4807,6 +4866,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.NovCost.Add(_novActualCostTotal - tempQa);
                             sukeyDto.NovCost.Add(tempQa);
                             sukeyDto.NovCost.Add(_novActualCostTotal);
+
+                            rowTotalDept += _novActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _novActualCostTotal;
                         }
                         else
                         {
@@ -4814,6 +4877,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.NovCost.Add(_novTotal - tempQa);
                             sukeyDto.NovCost.Add(tempQa);
                             sukeyDto.NovCost.Add(_novTotal);
+
+                            rowTotalDept += _novTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _novTotal;
                         }
                         if (_decActualCostTotal > 0)
                         {
@@ -4821,6 +4888,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.DecCost.Add(_decActualCostTotal - tempQa);
                             sukeyDto.DecCost.Add(tempQa);
                             sukeyDto.DecCost.Add(_decActualCostTotal);
+
+                            rowTotalDept += _decActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _decActualCostTotal;
                         }
                         else
                         {
@@ -4828,6 +4899,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.DecCost.Add(_decTotal - tempQa);
                             sukeyDto.DecCost.Add(tempQa);
                             sukeyDto.DecCost.Add(_decTotal);
+
+                            rowTotalDept += _decTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _decTotal;
                         }
                         if (_janActualCostTotal > 0)
                         {
@@ -4835,6 +4910,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JanCost.Add(_janActualCostTotal - tempQa);
                             sukeyDto.JanCost.Add(tempQa);
                             sukeyDto.JanCost.Add(_janActualCostTotal);
+
+                            rowTotalDept += _janActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _janActualCostTotal;
                         }
                         else
                         {
@@ -4842,6 +4921,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JanCost.Add(_janTotal - tempQa);
                             sukeyDto.JanCost.Add(tempQa);
                             sukeyDto.JanCost.Add(_janTotal);
+
+                            rowTotalDept += _janTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _janTotal;
                         }
                         if (_febActualCostTotal > 0)
                         {
@@ -4849,6 +4932,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.FebCost.Add(_febActualCostTotal - tempQa);
                             sukeyDto.FebCost.Add(tempQa);
                             sukeyDto.FebCost.Add(_febActualCostTotal);
+
+                            rowTotalDept += _febActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _febActualCostTotal;
                         }
                         else
                         {
@@ -4856,6 +4943,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.FebCost.Add(_febTotal - tempQa);
                             sukeyDto.FebCost.Add(tempQa);
                             sukeyDto.FebCost.Add(_febTotal);
+
+                            rowTotalDept += _febTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _febTotal;
                         }
                         if (_marActualCostTotal > 0)
                         {
@@ -4863,6 +4954,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.MarCost.Add(_marActualCostTotal - tempQa);
                             sukeyDto.MarCost.Add(tempQa);
                             sukeyDto.MarCost.Add(_marActualCostTotal);
+
+                            rowTotalDept += _marActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _marActualCostTotal;
                         }
                         else
                         {
@@ -4870,6 +4965,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.MarCost.Add(_marTotal - tempQa);
                             sukeyDto.MarCost.Add(tempQa);
                             sukeyDto.MarCost.Add(_marTotal);
+
+                            rowTotalDept += _marTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _marTotal;
                         }
                         if (_aprActualCostTotal > 0)
                         {
@@ -4877,6 +4976,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.AprCost.Add(_aprActualCostTotal - tempQa);
                             sukeyDto.AprCost.Add(tempQa);
                             sukeyDto.AprCost.Add(_aprActualCostTotal);
+
+                            rowTotalDept += _aprActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _aprActualCostTotal;
                         }
                         else
                         {
@@ -4884,6 +4987,11 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.AprCost.Add(_aprTotal - tempQa);
                             sukeyDto.AprCost.Add(tempQa);
                             sukeyDto.AprCost.Add(_aprTotal);
+
+
+                            rowTotalDept += _aprTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _aprTotal;
                         }
                         if (_mayActualCostTotal > 0)
                         {
@@ -4891,6 +4999,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.MayCost.Add(_mayActualCostTotal - tempQa);
                             sukeyDto.MayCost.Add(tempQa);
                             sukeyDto.MayCost.Add(_mayActualCostTotal);
+
+                            rowTotalDept += _mayActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _mayActualCostTotal;
                         }
                         else
                         {
@@ -4898,6 +5010,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.MayCost.Add(_mayTotal - tempQa);
                             sukeyDto.MayCost.Add(tempQa);
                             sukeyDto.MayCost.Add(_mayTotal);
+
+                            rowTotalDept += _mayTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _mayTotal;
                         }
                         if (_junActualCostTotal > 0)
                         {
@@ -4905,6 +5021,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JunCost.Add(_junActualCostTotal - tempQa);
                             sukeyDto.JunCost.Add(tempQa);
                             sukeyDto.JunCost.Add(_junActualCostTotal);
+
+                            rowTotalDept += _junActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _junActualCostTotal;
                         }
                         else
                         {
@@ -4912,6 +5032,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JunCost.Add(_junTotal - tempQa);
                             sukeyDto.JunCost.Add(tempQa);
                             sukeyDto.JunCost.Add(_junTotal);
+
+                            rowTotalDept += _junTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _junTotal;
                         }
                         if (_julActualCostTotal > 0)
                         {
@@ -4919,6 +5043,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JulCost.Add(_julActualCostTotal - tempQa);
                             sukeyDto.JulCost.Add(tempQa);
                             sukeyDto.JulCost.Add(_julActualCostTotal);
+
+                            rowTotalDept += _julActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _julActualCostTotal;
                         }
                         else
                         {
@@ -4926,6 +5054,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.JulCost.Add(_julTotal - tempQa);
                             sukeyDto.JulCost.Add(tempQa);
                             sukeyDto.JulCost.Add(_julTotal);
+
+                            rowTotalDept += _julTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _julTotal;
                         }
                         if (_augActualCostTotal > 0)
                         {
@@ -4933,6 +5065,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.AugCost.Add(_augActualCostTotal - tempQa);
                             sukeyDto.AugCost.Add(tempQa);
                             sukeyDto.AugCost.Add(_augActualCostTotal);
+
+                            rowTotalDept += _augActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _augActualCostTotal;
                         }
                         else
                         {
@@ -4940,6 +5076,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.AugCost.Add(_augTotal - tempQa);
                             sukeyDto.AugCost.Add(tempQa);
                             sukeyDto.AugCost.Add(_augTotal);
+
+                            rowTotalDept += _augTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _augTotal;
                         }
                         if (_sepActualCostTotal > 0)
                         {
@@ -4947,6 +5087,10 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.SepCost.Add(_sepActualCostTotal - tempQa);
                             sukeyDto.SepCost.Add(tempQa);
                             sukeyDto.SepCost.Add(_sepActualCostTotal);
+
+                            rowTotalDept += _sepActualCostTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _sepActualCostTotal;
                         }
                         else
                         {
@@ -4954,7 +5098,15 @@ namespace CostAllocationApp.Controllers.Api
                             sukeyDto.SepCost.Add(_sepTotal - tempQa);
                             sukeyDto.SepCost.Add(tempQa);
                             sukeyDto.SepCost.Add(_sepTotal);
+
+                            rowTotalDept += _sepTotal - tempQa;
+                            rowTotalQa += tempQa;
+                            rowTotal += _sepTotal;
                         }
+
+                        sukeyDto.RowTotal.Add(rowTotalDept);
+                        sukeyDto.RowTotal.Add(rowTotalQa);
+                        sukeyDto.RowTotal.Add(rowTotal);
                     }
 
 

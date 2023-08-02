@@ -521,5 +521,67 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public int GetLeatestForcastYear()
+        {
+            int result = 0;
+
+            string query = $@"select distinct max(year) year from Costs";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            result = Convert.ToInt32(rdr["year"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+
+        public int GetLeatestActualCostYear()
+        {
+            int result = 0;
+
+            string query = $@"select distinct max(year) year from ActualCosts";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            result = Convert.ToInt32(rdr["year"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
     }
 }

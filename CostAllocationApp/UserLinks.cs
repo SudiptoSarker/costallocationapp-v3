@@ -20,7 +20,8 @@ namespace CostAllocationApp
             "Salaries/CreateSalary",
             "Employees/CreateNewEmployee",
             "Users/CreateUsers",
-            "Forecasts/CalculateActualCost"
+            "Forecasts/CalculateActualCost",
+            "Forecasts/CreateBudget"
         };
 
         public static List<string> editorLinks = new List<string>() {

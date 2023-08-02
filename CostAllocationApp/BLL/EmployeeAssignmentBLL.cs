@@ -131,18 +131,18 @@ namespace CostAllocationApp.BLL
                             forecastAssignment.AugPoints = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
                             forecastAssignment.SepPoints = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
 
-                            forecastAssignment.OctTotal = forecastAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Total;
-                            forecastAssignment.NovTotal = forecastAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Total;
-                            forecastAssignment.DecTotal = forecastAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Total;
-                            forecastAssignment.JanTotal = forecastAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Total;
-                            forecastAssignment.FebTotal = forecastAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Total;
-                            forecastAssignment.MarTotal = forecastAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Total;
-                            forecastAssignment.AprTotal = forecastAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Total;
-                            forecastAssignment.MayTotal = forecastAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Total;
-                            forecastAssignment.JunTotal = forecastAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Total;
-                            forecastAssignment.JulTotal = forecastAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Total;
-                            forecastAssignment.AugTotal = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Total;
-                            forecastAssignment.SepTotal = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Total;
+                            forecastAssignment.OctTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.OctPoints)).ToString();
+                            forecastAssignment.NovTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.NovPoints)).ToString();
+                            forecastAssignment.DecTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.DecPoints)).ToString();
+                            forecastAssignment.JanTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JanPoints)).ToString();
+                            forecastAssignment.FebTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.FebPoints)).ToString();
+                            forecastAssignment.MarTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MarPoints)).ToString();
+                            forecastAssignment.AprTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AprPoints)).ToString();
+                            forecastAssignment.MayTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MayPoints)).ToString();
+                            forecastAssignment.JunTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JunPoints)).ToString();
+                            forecastAssignment.JulTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JulPoints)).ToString();
+                            forecastAssignment.AugTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AugPoints)).ToString();
+                            forecastAssignment.SepTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.SepPoints)).ToString();
 
                     }
                     forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year,forecastAssignment.Id);

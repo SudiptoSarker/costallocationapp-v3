@@ -111,5 +111,13 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.GetActualCostsByYear_AssignmentId(year, assignmentId);
         }
+        public int GetLeatestForcastYear()
+        {
+            return actualCostDAL.GetLeatestForcastYear();
+        }
+        public int GetLeatestActualCostYear()
+        {
+            return actualCostDAL.GetLeatestActualCostYear();
+        }
     }
 }

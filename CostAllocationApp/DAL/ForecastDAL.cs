@@ -37,7 +37,8 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int UpdateForecast(Forecast forecast)
+        public int 
+            cast(Forecast forecast)
         {
             int result = 0;
             string query = $@"update costs set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeAssignmentsId=@employeeAssignmentsId and MonthId=@monthId";

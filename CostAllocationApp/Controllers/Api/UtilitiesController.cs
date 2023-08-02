@@ -4599,15 +4599,8 @@ namespace CostAllocationApp.Controllers.Api
             int year = 0;
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
-            int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
-            if (forecastLeatestYear != actualCostLeatestYear)
-            {
-                return Ok(sukeyQADtos);
-            }
-            else
-            {
-                year = forecastLeatestYear;
-            }
+            //int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
+            year = forecastLeatestYear;
             List<Department> departments = departmentBLL.GetAllDepartments();
             foreach (var department in departments)
             {
@@ -4785,15 +4778,8 @@ namespace CostAllocationApp.Controllers.Api
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             int year = 0;
             int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
-            int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
-            if (forecastLeatestYear!= actualCostLeatestYear)
-            {
-                return Ok(sukeyQADtos);
-            }
-            else
-            {
-                year = forecastLeatestYear;
-            }
+            //int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
+            year = forecastLeatestYear;
             
             List<Department> departments = departmentBLL.GetAllDepartments();
             foreach (var department in departments)

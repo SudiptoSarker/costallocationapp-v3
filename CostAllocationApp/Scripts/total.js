@@ -1,19 +1,26 @@
 ﻿var companyList = [];
 var totalList = [];
-$.getJSON('/api/Companies/')
-    .done(function (data) {
-        $('#companies').empty();
-        $.each(data, function (key, item) {
-            companyList.push(item);
-            $('#companies').append(`<option value="${item.Id}">${item.CompanyName}</option>`);
-        });
-    });
-
-
 
 $(document).ready(function () {
+    var companies;
 
-    var companies = $('#companies').filterMultiSelect();
+    $.ajax({
+        url: `/api/Companies/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#companies').empty();
+            $.each(data, function (key, item) {
+                companyList.push(item);
+                $('#companies').append(`<option value="${item.Id}">${item.CompanyName}</option>`);
+            });
+            companies = $('#companies').filterMultiSelect();
+        }
+    });
+
+    
 
     $('#total_btn').on('click',  ()=> {
         var companyValues = companies.getSelectedOptionsAsJson(includeDisabled = false);
@@ -40,7 +47,7 @@ $(document).ready(function () {
         });
 
         $('#total_table').empty();
-        $('#total_table').append(`<thead><tr><th>Field-1</th><th>Field-2</th><th>10</th><th>11</th><th>12</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>Row Total</th></tr></thead>`);
+        $('#total_table').append(`<thead><tr><th>開発区分</th><th>費用</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>計</th></tr></thead>`);
         $('#total_table').append('<tbody>');
         var othersDepartmentTotal = [];
         if (totalList.length > 0) {

@@ -2939,6 +2939,7 @@ namespace CostAllocationApp.DAL
 
             return forecastEmployeeAssignments;
         }
+
         public List<ForecastDistributdViewModal> GetQCAssignemntsPercentage(int assignmentId)
         {
             string query = $@"SELECt qp.Id,qp.DepartmentId,d.Name 'DepartmentName',qp.OctPercentage,qp.NovPercentage,qp.DecPercentage,qp.JanPercentage,qp.FebPercentage,qp.MarPercentage
@@ -4372,5 +4373,119 @@ namespace CostAllocationApp.DAL
             }
             return results;
         }
+
+        public List<ForecastAssignmentViewModel> GetBudgetDataByYearAndType(int budgetYear, int budgetType)
+        {
+            string where = "";
+
+            if (budgetType ==1)
+            {
+                where = " ea.Year=" + budgetYear + " AND ea.FirstHalfBudget=1 AND ea.FinalizedBudget =1";
+            }
+            else
+            {
+                where = " ea.Year=" + budgetYear + " AND ea.SecondHalfBudget=1 AND ea.FinalizedBudget =1";
+            }
+
+            string query = "";
+            query = query + "SELECT ea.Id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId ";
+            query = query + "    , sec.Name as SectionName, ea.Remarks,ea.ExplanationId ";
+            query = query + "    ,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName ";
+            query = query + "    ,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice ";
+            query = query + "    ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive,emp.FullName 'RootEmployeeName' ";
+            query = query + "FROM EmployeeeBudgets ea ";
+            query = query + "    LEFT JOIN Sections sec on ea.SectionId = sec.Id ";
+            query = query + "    LEFT JOIN Departments dep on ea.DepartmentId = dep.Id ";
+            query = query + "    LEFT JOIN Companies com on ea.CompanyId = com.Id ";
+            query = query + "    LEFT JOIN Roles rl on ea.RoleId = rl.Id ";
+            query = query + "    LEFT JOIN InCharges inc on ea.InChargeId = inc.Id ";
+            query = query + "    LEFT JOIN Grades gd on ea.GradeId = gd.Id ";
+            query = query + "    LEFT JOIN Employees emp on ea.EmployeeId = emp.Id ";
+            query = query + "WHERE "+ where;
+            //query = query + "ORDER BY emp.Id ASC";
+
+
+
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);                            
+                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();                            
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();                            
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();                            
+
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecastEmployeeAssignments;
+        }
+        public List<ForecastDto> GetBudgetForecastData(int budgetAssignmentId, string year)
+        {
+            List<ForecastDto> forecasts = new List<ForecastDto>();
+            string query = "select * from BudgetCosts where EmployeeBudgetId=" + budgetAssignmentId + " and Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto forecast = new ForecastDto();
+                            forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+                            
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+
+
     }
 }

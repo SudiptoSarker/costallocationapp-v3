@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>                
 
         <div class="row" id="year_data_search">
             <div class="col-3">
@@ -86,30 +86,18 @@
                 <div id="jspreadsheet"></div>
             </div>
             <div class="col-12">
-                <table id="head_total" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>10月</th>
-                            <th>11月</th>
-                            <th>12月</th>
-                            <th>1月</th>
-                            <th>2月</th>
-                            <th>3月</th>
-                            <th>4月</th>
-                            <th>5月</th>
-                            <th>6月</th>
-                            <th>7月</th>
-                            <th>8月</th>
-                            <th>9月</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <button type="button" class="btn btn-secondary" id="export_budget" style="line-height: 1;background-color: dimgray; display: none !important;">Export Budget(XlSX)</button> 
             </div>
         </div>                   
     }
 </div>
+
+<form action="/Forecasts/ExportBudgetByYear" method="post" id="frmExportBudget" style="display: none;">                    
+	<div class="form-group">
+        <input type="hidden" id="hid_budget_year" name="hid_budget_year" value="">	
+        <input type="hidden" id="hid_budget_type" name="hid_budget_type" value="">	
+	</div>
+</form>
 
 <input type="hidden" id="selected_budget_year" value="" />
 

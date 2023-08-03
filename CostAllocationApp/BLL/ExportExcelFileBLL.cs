@@ -2231,5 +2231,378 @@ namespace CostAllocationApp.BLL
             }            
             return returnValue;
         }
+        public ExcelWorksheet ExportBudgetExcelSheet(ExcelWorksheet sheet, List<ForecastAssignmentViewModel> forecastAssignmentViewModels)
+        {
+
+            sheet = ExportBudgetExcelSheetHeader(sheet);
+
+            int count = 2;
+            foreach (var item in forecastAssignmentViewModels)
+            {
+                if (item.EmployeeAssignmentIdOrg == 112)
+                {
+                    //test
+                }
+                var assignmentId = item.Id;
+                var employeeName = item.EmployeeName;
+                var rootEmployeeName = item.RootEmployeeName;
+                var employeeId = item.EmployeeId;
+                var sectionName = item.SectionName;
+                var departmentName = item.DepartmentName;
+                var inChargeName = item.InchargeName;
+                var roleName = item.RoleName;
+                var explanationName = item.ExplanationName;
+                var companyName = item.CompanyName;
+                var gradePoints = item.GradePoint;
+                var unitPrice = item.UnitPrice;
+                var remarks = item.Remarks;                
+
+                var octPOriginal = item.OctPoints;
+                var novPOriginal = item.NovPoints;
+                var decPOriginal = item.DecPoints;
+                var janPOriginal = item.JanPoints;
+                var febPOriginal = item.FebPoints;
+                var marPOriginal = item.MarPoints;
+                var aprPOriginal = item.AprPoints;
+                var mayPOriginal = item.MayPoints;
+                var junPOriginal = item.JunPoints;
+                var julPOriginal = item.JulPoints;
+                var augPOriginal = item.AugPoints;
+                var sepPOriginal = item.SepPoints;
+
+                var octTotal = Convert.ToDecimal(octPOriginal) * Convert.ToDecimal(unitPrice);//item.OctTotal;
+                var novTotal = Convert.ToDecimal(novPOriginal) * Convert.ToDecimal(unitPrice);//item.NovTotal;
+                var decTotal = Convert.ToDecimal(decPOriginal) * Convert.ToDecimal(unitPrice);//item.DecTotal;
+                var janTotal = Convert.ToDecimal(janPOriginal) * Convert.ToDecimal(unitPrice);//item.JanTotal;
+                var febTotal = Convert.ToDecimal(febPOriginal) * Convert.ToDecimal(unitPrice);//item.FebTotal;
+                var marTotal = Convert.ToDecimal(marPOriginal) * Convert.ToDecimal(unitPrice);//item.MarTotal;
+                var aprTotal = Convert.ToDecimal(aprPOriginal) * Convert.ToDecimal(unitPrice);//item.AprTotal;
+                var mayTotal = Convert.ToDecimal(mayPOriginal) * Convert.ToDecimal(unitPrice);//item.MayTotal;
+                var junTotal = Convert.ToDecimal(junPOriginal) * Convert.ToDecimal(unitPrice);//item.JunTotal;
+                var julTotal = Convert.ToDecimal(julPOriginal) * Convert.ToDecimal(unitPrice);//item.JulTotal;
+                var augTotal = Convert.ToDecimal(augPOriginal) * Convert.ToDecimal(unitPrice);//item.AugTotal;
+                var septTotal = Convert.ToDecimal(sepPOriginal) * Convert.ToDecimal(unitPrice);//item.SepTotal;
+
+                /********* Budget Assignment Data into excel sheet *********/
+                sheet.Cells["A" + count].Value = employeeName;
+                sheet.Cells["A" + count].AutoFitColumns();
+                
+                sheet.Cells["B" + count].Value = remarks;
+                sheet.Cells["B" + count].AutoFitColumns();
+                
+                sheet.Cells["C" + count].Value = sectionName;
+                sheet.Cells["C" + count].AutoFitColumns();
+                
+                sheet.Cells["D" + count].Value = departmentName;
+                sheet.Cells["D" + count].AutoFitColumns();
+                
+                sheet.Cells["E" + count].Value = inChargeName;
+                sheet.Cells["E" + count].AutoFitColumns();
+
+                sheet.Cells["F" + count].Value = roleName;
+                sheet.Cells["F" + count].AutoFitColumns();
+                
+                sheet.Cells["G" + count].Value = explanationName;
+                sheet.Cells["G" + count].AutoFitColumns();
+                
+                sheet.Cells["H" + count].Value = companyName;
+                sheet.Cells["H" + count].AutoFitColumns();
+                
+                sheet.Cells["I" + count].Value = gradePoints;
+                sheet.Cells["I" + count].AutoFitColumns();
+                
+                sheet.Cells["J" + count].Value = unitPrice;
+                sheet.Cells["J" + count].AutoFitColumns();
+
+                /********* Budget Forecast Data into excel sheet *********/
+                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginal).ToString("0.0");
+                sheet.Cells["K" + count].AutoFitColumns();
+                
+                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginal).ToString("0.0");
+                sheet.Cells["L" + count].AutoFitColumns();
+                
+                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginal).ToString("0.0");
+                sheet.Cells["M" + count].AutoFitColumns();
+                
+                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginal).ToString("0.0");
+                sheet.Cells["N" + count].AutoFitColumns();
+                
+                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginal).ToString("0.0");
+                sheet.Cells["O" + count].AutoFitColumns();
+                
+                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginal).ToString("0.0");
+                sheet.Cells["P" + count].AutoFitColumns();
+                
+                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginal).ToString("0.0");
+                sheet.Cells["Q" + count].AutoFitColumns();
+                
+                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginal).ToString("0.0");
+                sheet.Cells["R" + count].AutoFitColumns();
+                
+                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginal).ToString("0.0");
+                sheet.Cells["S" + count].AutoFitColumns();
+
+                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginal).ToString("0.0");
+                sheet.Cells["T" + count].AutoFitColumns();
+
+                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginal).ToString("0.0");
+                sheet.Cells["U" + count].AutoFitColumns();
+
+                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginal).ToString("0.0");
+                sheet.Cells["V" + count].AutoFitColumns();
+
+                /********* Budget Forecast costs into excel sheet *********/
+                sheet.Cells["W" + count].Value = octTotal;
+                sheet.Cells["W" + count].AutoFitColumns();
+
+                sheet.Cells["X" + count].Value = novTotal;
+                sheet.Cells["X" + count].AutoFitColumns();
+
+                sheet.Cells["Y" + count].Value = decTotal;
+                sheet.Cells["Y" + count].AutoFitColumns();
+
+                sheet.Cells["Z" + count].Value = janTotal;
+                sheet.Cells["Z" + count].AutoFitColumns();
+
+                sheet.Cells["AA" + count].Value = febTotal;
+                sheet.Cells["AA" + count].AutoFitColumns();
+
+                sheet.Cells["AB" + count].Value = marTotal;
+                sheet.Cells["AB" + count].AutoFitColumns();
+
+                sheet.Cells["AC" + count].Value = aprTotal;
+                sheet.Cells["AC" + count].AutoFitColumns();
+
+                sheet.Cells["AD" + count].Value = mayTotal;
+                sheet.Cells["AD" + count].AutoFitColumns();
+
+                sheet.Cells["AE" + count].Value = junTotal;
+                sheet.Cells["AE" + count].AutoFitColumns();
+
+                sheet.Cells["AF" + count].Value = julTotal;
+                sheet.Cells["AF" + count].AutoFitColumns();
+
+                sheet.Cells["AG" + count].Value = augTotal;
+                sheet.Cells["AG" + count].AutoFitColumns();
+
+                sheet.Cells["AH" + count].Value = septTotal;
+                sheet.Cells["AH" + count].AutoFitColumns();                
+
+                count++;
+            }
+            return sheet;
+        }
+        public ExcelWorksheet ExportBudgetExcelSheetHeader(ExcelWorksheet sheet)
+        {
+            /******** Budget Assignment Header ********/
+                sheet.Cells["A1"].Value = "要員(Employee)";
+            sheet.Cells["A1"].Style.Font.Bold = true;
+            sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["A1"].AutoFitColumns();
+
+            sheet.Cells["B1"].Value = "Remaks";
+            sheet.Cells["B1"].Style.Font.Bold = true;
+            sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["B1"].AutoFitColumns();
+
+            sheet.Cells["C1"].Value = "区分(Section)";
+            sheet.Cells["C1"].Style.Font.Bold = true;
+            sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["C1"].AutoFitColumns();
+
+            sheet.Cells["D1"].Value = "部署(Dept)";
+            sheet.Cells["D1"].Style.Font.Bold = true;
+            sheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["D1"].AutoFitColumns();
+
+            sheet.Cells["E1"].Value = "担当作業(In chg)";
+            sheet.Cells["E1"].Style.Font.Bold = true;
+            sheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["E1"].AutoFitColumns();
+
+            sheet.Cells["F1"].Value = "役割(Role)";
+            sheet.Cells["F1"].Style.Font.Bold = true; ;
+            sheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["F1"].AutoFitColumns();
+
+            sheet.Cells["G1"].Value = "説明(Expl)";
+            sheet.Cells["G1"].Style.Font.Bold = true;
+            sheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["G1"].AutoFitColumns();
+
+            sheet.Cells["H1"].Value = "会社(Com)	";
+            sheet.Cells["H1"].Style.Font.Bold = true;
+            sheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["H1"].AutoFitColumns();
+            
+            sheet.Cells["I1"].Value = "グレード(Grade)";
+            sheet.Cells["I1"].Style.Font.Bold = true;
+            sheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["I1"].AutoFitColumns();
+
+            sheet.Cells["J1"].Value = "単価(Unit Price)	";
+            sheet.Cells["J1"].Style.Font.Bold = true;
+            sheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["J1"].AutoFitColumns();
+
+            /******** Budget Man Month Header ********/
+            sheet.Cells["K1"].Value = "10月";
+            sheet.Cells["K1"].Style.Font.Bold = true;
+            sheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["K1"].AutoFitColumns();
+
+            sheet.Cells["L1"].Value = "11月";
+            sheet.Cells["L1"].Style.Font.Bold = true;
+            sheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["L1"].AutoFitColumns();
+
+            sheet.Cells["M1"].Value = "12月";
+            sheet.Cells["M1"].Style.Font.Bold = true;
+            sheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["M1"].AutoFitColumns();
+
+            sheet.Cells["N1"].Value = "1月";
+            sheet.Cells["N1"].Style.Font.Bold = true;
+            sheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["N1"].AutoFitColumns();
+
+            sheet.Cells["O1"].Value = "2月";
+            sheet.Cells["O1"].Style.Font.Bold = true;
+            sheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["O1"].AutoFitColumns();
+
+            sheet.Cells["P1"].Value = "3月";
+            sheet.Cells["P1"].Style.Font.Bold = true;
+            sheet.Cells["P1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["P1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["P1"].AutoFitColumns();
+
+            sheet.Cells["Q1"].Value = "4月";
+            sheet.Cells["Q1"].Style.Font.Bold = true;
+            sheet.Cells["Q1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Q1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["Q1"].AutoFitColumns();
+
+            sheet.Cells["R1"].Value = "5月";
+            sheet.Cells["R1"].Style.Font.Bold = true;
+            sheet.Cells["R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["R1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["R1"].AutoFitColumns();
+
+            sheet.Cells["S1"].Value = "6月";
+            sheet.Cells["S1"].Style.Font.Bold = true;
+            sheet.Cells["S1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["S1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["S1"].AutoFitColumns();
+
+            sheet.Cells["T1"].Value = "7月";
+            sheet.Cells["T1"].Style.Font.Bold = true;
+            sheet.Cells["T1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["T1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["T1"].AutoFitColumns();
+
+            sheet.Cells["U1"].Value = "8月";
+            sheet.Cells["U1"].Style.Font.Bold = true;
+            sheet.Cells["U1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["U1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["U1"].AutoFitColumns();
+
+            sheet.Cells["V1"].Value = "9月";
+            sheet.Cells["V1"].Style.Font.Bold = true;
+            sheet.Cells["V1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["V1"].AutoFitColumns();
+
+            /******** Budget Costs Header ********/
+            sheet.Cells["W1"].Value = "10月";
+            sheet.Cells["W1"].Style.Font.Bold = true;
+            sheet.Cells["W1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["W1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["W1"].AutoFitColumns();
+            
+            sheet.Cells["X1"].Value = "11月";
+            sheet.Cells["X1"].Style.Font.Bold = true;
+            sheet.Cells["X1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["X1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["X1"].AutoFitColumns();
+
+            sheet.Cells["Y1"].Value = "12月";
+            sheet.Cells["Y1"].Style.Font.Bold = true;
+            sheet.Cells["Y1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Y1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["Y1"].AutoFitColumns();
+
+            sheet.Cells["Z1"].Value = "1月";
+            sheet.Cells["Z1"].Style.Font.Bold = true;
+            sheet.Cells["Z1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Z1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["Z1"].AutoFitColumns();
+
+            sheet.Cells["AA1"].Value = "2月";
+            sheet.Cells["AA1"].Style.Font.Bold = true;
+            sheet.Cells["AA1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AA1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AA1"].AutoFitColumns();
+
+            sheet.Cells["AB1"].Value = "3月";
+            sheet.Cells["AB1"].Style.Font.Bold = true;
+            sheet.Cells["AB1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AB1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AB1"].AutoFitColumns();
+
+            sheet.Cells["AC1"].Value = "4月";
+            sheet.Cells["AC1"].Style.Font.Bold = true;
+            sheet.Cells["AC1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AC1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AC1"].AutoFitColumns();
+
+            sheet.Cells["AD1"].Value = "5月";
+            sheet.Cells["AD1"].Style.Font.Bold = true;
+            sheet.Cells["AD1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AD1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AD1"].AutoFitColumns();
+
+            sheet.Cells["AE1"].Value = "6月";
+            sheet.Cells["AE1"].Style.Font.Bold = true;
+            sheet.Cells["AE1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AE1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AE1"].AutoFitColumns();
+
+            sheet.Cells["AF1"].Value = "7月";
+            sheet.Cells["AF1"].Style.Font.Bold = true;
+            sheet.Cells["AF1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AF1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AF1"].AutoFitColumns();
+
+            sheet.Cells["AG1"].Value = "8月";
+            sheet.Cells["AG1"].Style.Font.Bold = true;
+            sheet.Cells["AG1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AG1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AG1"].AutoFitColumns();
+
+            sheet.Cells["AH1"].Value = "9月";
+            sheet.Cells["AH1"].Style.Font.Bold = true;
+            sheet.Cells["AH1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AH1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AH1"].AutoFitColumns();
+            return sheet;
+        }
+
     }
 }
+ 

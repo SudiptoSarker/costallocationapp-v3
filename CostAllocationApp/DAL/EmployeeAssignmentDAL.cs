@@ -4434,7 +4434,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();                            
                             forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
                             forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
-                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();                            
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
                             forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
                             forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);

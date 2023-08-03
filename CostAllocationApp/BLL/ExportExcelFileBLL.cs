@@ -2352,40 +2352,40 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["V" + count].AutoFitColumns();
 
                 /********* Budget Forecast costs into excel sheet *********/
-                sheet.Cells["W" + count].Value = octTotal;
+                sheet.Cells["W" + count].Value = octTotal.ToString("N0"); ;
                 sheet.Cells["W" + count].AutoFitColumns();
 
-                sheet.Cells["X" + count].Value = novTotal;
+                sheet.Cells["X" + count].Value = novTotal.ToString("N0"); ;
                 sheet.Cells["X" + count].AutoFitColumns();
 
-                sheet.Cells["Y" + count].Value = decTotal;
+                sheet.Cells["Y" + count].Value = decTotal.ToString("N0"); ;
                 sheet.Cells["Y" + count].AutoFitColumns();
 
-                sheet.Cells["Z" + count].Value = janTotal;
+                sheet.Cells["Z" + count].Value = janTotal.ToString("N0"); ;
                 sheet.Cells["Z" + count].AutoFitColumns();
 
-                sheet.Cells["AA" + count].Value = febTotal;
+                sheet.Cells["AA" + count].Value = febTotal.ToString("N0"); ;
                 sheet.Cells["AA" + count].AutoFitColumns();
 
-                sheet.Cells["AB" + count].Value = marTotal;
+                sheet.Cells["AB" + count].Value = marTotal.ToString("N0"); ;
                 sheet.Cells["AB" + count].AutoFitColumns();
 
-                sheet.Cells["AC" + count].Value = aprTotal;
+                sheet.Cells["AC" + count].Value = aprTotal.ToString("N0"); ;
                 sheet.Cells["AC" + count].AutoFitColumns();
 
-                sheet.Cells["AD" + count].Value = mayTotal;
+                sheet.Cells["AD" + count].Value = mayTotal.ToString("N0"); ;
                 sheet.Cells["AD" + count].AutoFitColumns();
 
-                sheet.Cells["AE" + count].Value = junTotal;
+                sheet.Cells["AE" + count].Value = junTotal.ToString("N0"); ;
                 sheet.Cells["AE" + count].AutoFitColumns();
 
-                sheet.Cells["AF" + count].Value = julTotal;
+                sheet.Cells["AF" + count].Value = julTotal.ToString("N0"); ;
                 sheet.Cells["AF" + count].AutoFitColumns();
 
-                sheet.Cells["AG" + count].Value = augTotal;
+                sheet.Cells["AG" + count].Value = augTotal.ToString("N0"); ;
                 sheet.Cells["AG" + count].AutoFitColumns();
 
-                sheet.Cells["AH" + count].Value = septTotal;
+                sheet.Cells["AH" + count].Value = septTotal.ToString("N0"); ;
                 sheet.Cells["AH" + count].AutoFitColumns();                
 
                 count++;

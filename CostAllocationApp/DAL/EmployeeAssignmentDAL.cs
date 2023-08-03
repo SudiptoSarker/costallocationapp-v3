@@ -4380,11 +4380,11 @@ namespace CostAllocationApp.DAL
 
             if (budgetType ==1)
             {
-                where = " ea.Year=" + budgetYear + " AND ea.FirstHalfBudget=1 AND ea.FinalizedBudget =1";
+                where = " ea.Year=" + budgetYear + " AND ea.FirstHalfBudget=1 ";
             }
             else
             {
-                where = " ea.Year=" + budgetYear + " AND ea.SecondHalfBudget=1 AND ea.FinalizedBudget =1";
+                where = " ea.Year=" + budgetYear + " AND ea.SecondHalfBudget=1";
             }
 
             string query = "";

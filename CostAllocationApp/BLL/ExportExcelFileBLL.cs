@@ -2352,8 +2352,8 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["V" + count].AutoFitColumns();
 
                 /********* Budget Forecast costs into excel sheet *********/
-                sheet.Cells["W" + count].Value = octTotal.ToString("N0"); ;
-                sheet.Cells["W" + count].AutoFitColumns();
+                sheet.Cells["W" + count].Value = octTotal.ToString("N0"); ;                
+                sheet.Cells["W" + count].AutoFitColumns();                
 
                 sheet.Cells["X" + count].Value = novTotal.ToString("N0"); ;
                 sheet.Cells["X" + count].AutoFitColumns();

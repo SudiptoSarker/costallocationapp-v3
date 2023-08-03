@@ -69,11 +69,10 @@
             }
         }
         else
-        {   /***************************\
-        Show Loader
-        \***************************/
-            <div id="year_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データーの編集</span></div>
-            <br>
+        {   
+            /***************************\
+            Show Loader
+            \***************************/            
             <div class="row">
                 <div class="col-md-12">
                     <div class="forecast">
@@ -89,27 +88,31 @@
                     </div>
                 </div>
             </div>
+
+            <br/>
+            <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
+            <br/>
+
             <div class="row" id="year_data_search">
                 <div class="col-3">
                     <select id="assignment_year_list" class="" ></select>
-                </div>
+                </div>                
                 <div class="col-2">
                     <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
                 </div>
 
+                <div class="col-1"></div>
+
                 <div class="col-2">
                 </div>
-                <div class="col-3">                    
-                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 123px;background-color: gray;">キャンセル</button>
+                <div class="col-2">                    
+                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="display:none;line-height:1;margin-left: 33px; display:none;line-height:1;background-color: gray;margin-left: 100px;">Cancel</button>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left:35px;">保存 (Save)</button>
+                    <button type="button" class="btn btn-dark" id="update_forecast_history" style="display:none;line-height:1;margin-left: 33px;">保存 (Save)</button>
                 </div>
             </div>
             <br>
-            
-            @*<select id="assignment_year_list"></select>
-            <br><br>*@
 
             /***************************\
             Employee Assignment: Create Forecast

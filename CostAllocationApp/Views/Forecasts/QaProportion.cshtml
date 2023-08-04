@@ -8,102 +8,105 @@
     <link href="/Content/qa_proportion.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
-        <div id="actual_cost_table_header"> QA Proportion</div>
-
-        <!-----------------Show Loader----------------->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
-                            <br>
-                            <strong>Please wait a moment...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <!-----------------Show Loader----------------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
+                        <br>
+                        <strong>Please wait a moment...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
         </div>
-        <div class="row" id="actual_cost_search">
-            <div class="col-3">
-                <select id="assignment_year" class=""></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="actual_cost">表示</button>
-            </div>
-        </div>
-        <br>
-        <div class="row" id="actual_cost_search">
-            <div class="col-3">
-                <select id="merged_employee_from_qc" class="" multiple="multiple"></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="add_button">Add</button>
-            </div>
-        </div>
-        <br />
-        <div class="row" id="actual_cost_list">
-            <div class="col-md-12">
-                <div id="hider"></div>
-                <div>Employee Wise QA Proportion</div>
-                <div id="jspreadsheet"></div>
-                <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">save</button>
-            </div>
-        </div>
-        <br /><br />
-        <div class="row" id="actual_cost_search">
-            <div class="col-3">
-                <select id="department_list" class="" multiple="multiple"></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="department_list_add_button">Add</button>
-            </div>
-        </div>
-        <br>
-        <div class="row" id="actual_cost_list1">
-            <div class="col-md-12">
-                <div>Department Wise QA Proportion</div>
-                <div id="jspreadsheet_1"></div>
-                <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">save</button>
-            </div>
-
-        </div>
-        @*<div class="row">
-            <div class="col-12">
-                <p>Employee wise QA cost</p>
-                <table id="qa_assignments">
-                    <thead>
-                        <tr>
-                            <th width="150px;">要員金額</th>
-                            <th>10月</th>
-                            <th>11月</th>
-                            <th>12月</th>
-                            <th>1月</th>
-                            <th>2月</th>
-                            <th>3月</th>
-                            <th>4月</th>
-                            <th>5月</th>
-                            <th>6月</th>
-                            <th>7月</th>
-                            <th>8月</th>
-                            <th>9月</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-        </div>*@
-        @*<div class="row">
-            <div class="col-md-12">
-
-            </div>
-
-        </div>*@
     </div>
+
+    <br/>
+    <div id="actual_cost_table_header"><span id="nav1">実績（Actual Cost) </span>><span id="nav2"> 実績</span></div>  
+
+    <div class="row" id="actual_cost_search">
+        <div class="col-3">
+            <select id="assignment_year" class=""></select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="actual_cost">表示</button>
+        </div>
+    </div>
+    <br>
+    
+    <div class="row" id="actual_cost_search">
+        <div class="col-3">
+            <select id="merged_employee_from_qc" class="" multiple="multiple"></select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="add_button">Add</button>
+        </div>
+    </div>
+    <br />
+    <div class="row" id="actual_cost_list">
+        <div class="col-md-12">
+            <div id="hider"></div>
+            <div>Employee Wise QA Proportion</div>
+            <div id="jspreadsheet"></div>
+            <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">save</button>
+        </div>
+    </div>
+    <br /><br />
+    <div class="row" id="actual_cost_search">
+        <div class="col-3">
+            <select id="department_list" class="" multiple="multiple"></select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="department_list_add_button">Add</button>
+        </div>
+    </div>
+    <br>
+    <div class="row" id="actual_cost_list1">
+        <div class="col-md-12">
+            <div>Department Wise QA Proportion</div>
+            <div id="jspreadsheet_1"></div>
+            <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">save</button>
+        </div>
+
+    </div>
+    @*<div class="row">
+        <div class="col-12">
+            <p>Employee wise QA cost</p>
+            <table id="qa_assignments">
+                <thead>
+                    <tr>
+                        <th width="150px;">要員金額</th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                        <th>4月</th>
+                        <th>5月</th>
+                        <th>6月</th>
+                        <th>7月</th>
+                        <th>8月</th>
+                        <th>9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>*@
+    @*<div class="row">
+        <div class="col-md-12">
+
+        </div>
+
+    </div>*@
+</div>
 
 
 

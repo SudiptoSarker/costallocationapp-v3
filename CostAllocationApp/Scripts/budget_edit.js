@@ -27,11 +27,13 @@ function LoaderHide() {
 function LoaderShowJexcel() {
     $("#loading").css("display", "block");
     $("#jspreadsheet").hide();  
+    $("#export_budget").hide(); 
     //$("#head_total").css("display", "none");
     
 }
 function LoaderHideJexcel(){
-    $("#jspreadsheet").show();  
+    $("#jspreadsheet").show(); 
+    //$("#export_budget").show(); 
     //$("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
@@ -320,7 +322,8 @@ $(document).ready(function () {
     GetAllFinalizeYear();
 
     var year = $('#hidForecastYear').val();
-    $("#jspreadsheet").hide();      
+    $("#jspreadsheet").hide();
+    $("#export_budget").hide();    
     var count = 1;
 
     $('#employee_list').select2(); 
@@ -978,6 +981,7 @@ $(document).ready(function () {
         setTimeout(function () {                                
             ShowBedgetResults(assignmentYear);
         }, 3000);
+        $("#export_budget").show(); 
     });
 
     $(document).on('click', '#cancele_all_changed_budget ', function () {    
@@ -3278,6 +3282,7 @@ function AddEmployee() {
 function UpdateBudget() {    
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();    
+    $("#export_budget").hide(); 
     LoaderShow();
 
     var userName = '';
@@ -3326,6 +3331,7 @@ function UpdateBudget() {
                             chat.server.send('data has been updated by ', userName);
                         });
                         $("#jspreadsheet").show();
+                        $("#export_budget").show();
                         //$("#head_total").show();
                         LoaderHide();
                     }
@@ -3337,6 +3343,7 @@ function UpdateBudget() {
         else {
             alert("There is no data to update.");
             $("#jspreadsheet").show();
+            $("#export_budget").show();
             //$("#head_total").show();
             LoaderHide();
             //alert('No data found!');
@@ -3383,6 +3390,7 @@ function UpdateBudget() {
                             chat.server.send('data has been inserted by ', userName);
                         });
                         $("#jspreadsheet").show();
+                        $("#export_budget").show();
                         //$("#head_total").show();
                         LoaderHide();
                     }
@@ -3414,6 +3422,7 @@ function UpdateBudget() {
                 chat.server.send('data has been deleted by ', userName);
             });
             $("#jspreadsheet").show();
+            $("#export_budget").show();
             //$("#head_total").show();
             LoaderHide();
             deletedExistingRowIds = [];
@@ -4022,3 +4031,20 @@ function SetColorForCostsCells(strBackgroundColor,strTextColor,CellPosition){
 // $("#select_import_year").change(function(){
 //     alert("The text has been changed.");
 // });
+
+//export button clicked for download budget data
+$('#export_budget').on('click', function () {    
+    ExportApprovalHistory();    
+});
+
+//submitting the export form to server side. 
+function ExportApprovalHistory(){
+    var budgetYearWithType = $('#budget_years').val();
+
+    var arrBudgetYear = budgetYearWithType.split("_");
+
+    $("#hid_budget_year").val(arrBudgetYear[0]);
+    $("#hid_budget_type").val(arrBudgetYear[1]);        
+
+    $('#frmExportBudget').submit();
+}

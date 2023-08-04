@@ -196,21 +196,23 @@ body {
     font-size: 0.875rem;
 }
 #assignment_year_data{
-    margin-left: -11px;
-    margin-top: -1px;
+    margin-left: -63px;
+    margin-top: -2px;
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
     font-size: 12px;
-    height: 30px;
+    height: 29px;
     border: 1px solid #ccc !important;
+    width: 64px;
+    line-height: 1;
 }
 #assignment_year_list{
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
     font-size: 12px;
-    width: 100%;
+    width: 70%;
     height: 30px;
     border: 1px solid #ccc !important;
     text-align: center;
@@ -225,7 +227,7 @@ body {
 #nav1,#nav2{
     font-size: 12px;
     font-family: "Yu Gothic";
-    white-space: nowrap !important;    
+    white-space: nowrap !important;  
 }
 #year_data_search, #year_data_list{
     margin-top: -13px;

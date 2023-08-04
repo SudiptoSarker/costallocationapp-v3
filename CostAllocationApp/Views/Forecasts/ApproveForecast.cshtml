@@ -15,9 +15,7 @@
     @{
         /***************************\
         Show Loader
-        \***************************/
-        <div id="approve_data_table_header"><span id="nav1">年度データー</span>><span id="nav2">年度データの承認</span></div>
-        <br>
+        \***************************/        
         <div class="row">
             <div class="col-md-12">
                 <div class="forecast">
@@ -34,27 +32,50 @@
             </div>
         </div>
 
-        <div class="container">
+        <br/>
+        <div id="approve_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 承認 (Approval)</span></div>      
+        <br/>
+
+        <div class="row" id="year_data_search">
+            <div class="col-3">
+                <select id="assignment_year_list" class=""></select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;margin-left:33px;background-color: red !important;,color:white;">取消(undo)</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:8px;background-color: Blue !important;">承認(Approve)</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:8px;background-color: green !important; ">保存 (Save)</button>
+            </div>
+        </div>
+        
+        @* <div class="container">
             <div class="row" id="year_data_search">
                 <div class="col-sm">
-                    <select id="assignment_year_list" class=""></select>
+                    
                 </div>
                 <div class="col-sm">
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+                    
                 </div>
                 <div class="col-sm">                    
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;margin-left:21px;background-color: red !important;,color:white;">取消(undo)</button>
+                    
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:-3px;background-color: Blue !important;">承認(Approve)</button>
+                    
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:-5px;background-color: green !important; ">保存 (Save)</button>
+                    
                 </div>
             </div>
-        </div>
+        </div> *@
 
         @* <div class="row" id="year_data_search">
             <div class="col-3">

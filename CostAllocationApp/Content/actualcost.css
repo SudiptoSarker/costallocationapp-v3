@@ -90,21 +90,23 @@ body {
 }
 
 #actual_cost{
-    margin-left: -11px;
-    margin-top: -1px;
+    margin-left: -63px;
+    margin-top: -2px;
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
     font-size: 12px;
-    height: 30px;
+    height: 29px;
     border: 1px solid #ccc !important;
+    width: 64px;
+    line-height: 1;
 }
 #assignment_year{
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
     font-size: 12px;
-    width: 100%;
+    width: 70%;
     height: 30px;
     border: 1px solid #ccc !important;
     text-align: center;
@@ -125,5 +127,5 @@ body {
     margin-top: -13px;
 }
 #actual_cost_search{
-    margin-top: 11px;
+    margin-top: 15px;
 }

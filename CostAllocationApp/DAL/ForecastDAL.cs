@@ -1117,8 +1117,18 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
-        public List<ExcelAssignmentDto> GetEmployeesBudgetByYear(int year)
+        public List<ExcelAssignmentDto> GetEmployeesBudgetByYear(int year,int budgetType)
         {
+            string strWhere = "";
+            if(Convert.ToInt32(budgetType) == 2)
+            {
+                strWhere = "AND ea.SecondHalfBudget=1 AND ea.FinalizedBudget=1";
+            }
+            else
+            {
+                strWhere = "AND ea.FirstHalfBudget=1 AND ea.FinalizedBudget=1";
+            }
+            strWhere = "ea.Year="+ year+ " " + strWhere;
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId
@@ -1129,7 +1139,7 @@ namespace CostAllocationApp.DAL
                             left join InCharges inc on ea.InChargeId = inc.Id 
                             left join Grades gd on ea.GradeId = gd.Id
                             left join Employees emp on ea.EmployeeId = emp.Id
-                            where ea.Year={year} and 1=1
+                            where {strWhere} and 1=1
                             order by emp.Id asc";
 
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
@@ -2849,5 +2859,31 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public bool GetReplicateYearForecastType(int year)
+        {
+            bool results = false;
+            string query = "";
+            query = "SELECT * FROM EmployeeeBudgets WHERE Year="+ year + " AND SecondHalfBudget=1 AND FinalizedBudget=1";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results= true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+
     }
 }

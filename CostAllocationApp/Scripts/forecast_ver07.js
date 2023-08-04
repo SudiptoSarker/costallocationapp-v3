@@ -4503,12 +4503,8 @@ function GetAllForecastYears() {
         dataType: 'json',
         success: function (data) {
             $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
-            $('#select_year_to_import').append(`<option value=''>select year</option>`);
-            $('#replicate_from').append(`<option value=''>select year</option>`);
             $.each(data, function (index, element) {
                 $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#replicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);
             });
         }
     });

@@ -1124,5 +1124,64 @@ namespace CostAllocationApp.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult ExportBudgetByYear(int hid_budget_year = 0, int hid_budget_type = 0)
+        {
+            /************* Export Budget: Start *************/
+            DepartmentBLL _departmentBll = new DepartmentBLL();
+
+            //get export data and create the xlsx
+            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+            if (!string.IsNullOrEmpty(hid_budget_year.ToString()))
+            {
+
+                forecastAssignmentViewModels = employeeAssignmentBLL.GetBudgetDataByYearAndType(hid_budget_year, hid_budget_type);
+            }
+
+            /************* Export Budget: End *************/
+
+            string budgetTypeName = "";
+            if (hid_budget_type == 1)
+            {
+                budgetTypeName = "Budget-"+hid_budget_year+"-年初期";
+            }
+            else
+            {
+
+                budgetTypeName = "Budget-" + hid_budget_year + "-年下半期";
+            }
+
+            if (!string.IsNullOrEmpty(budgetTypeName))
+            {
+                if (forecastAssignmentViewModels.Count > 0)
+                {
+                    using (var package = new ExcelPackage())
+                    {
+                        //*****************Download: Original: Start***********************//
+                        var sheet = package.Workbook.Worksheets.Add("Budget "+ hid_budget_year);
+                        sheet = exportExcelFileBLL.ExportBudgetExcelSheet(sheet, forecastAssignmentViewModels);
+                        //*****************Download: Original: End***********************//
+                        
+                        var excelData = package.GetAsByteArray();
+                        var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        var fileName = budgetTypeName + ".xlsx";
+
+                        return File(excelData, contentType, fileName);
+                    }
+                }
+                else
+                {
+                    return File("", "", ""); ;
+                }
+            }
+            else
+            {
+                return File("", "", ""); ;
+            }
+            //return Ok(forecastHistoryList);
+        }
+
     }
 }

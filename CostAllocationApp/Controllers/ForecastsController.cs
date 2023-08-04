@@ -1149,7 +1149,6 @@ namespace CostAllocationApp.Controllers
             }
             else
             {
-
                 budgetTypeName = "Budget-" + hid_budget_year + "-年下半期";
             }
 

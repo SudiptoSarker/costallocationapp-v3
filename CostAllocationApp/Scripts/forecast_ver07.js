@@ -4454,6 +4454,7 @@ function CompareUpdatedData() {
     }
 }
 
+
 /*
     author: sudipto.
     import data from excel file.
@@ -4509,7 +4510,6 @@ function GetAllForecastYears() {
         }
     });
 }
-
 
 function CheckForecastYear(){
     var year = $('#select_year_to_import').find(":selected").val();

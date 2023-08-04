@@ -4356,14 +4356,12 @@ function UpdateForecast() {
                         $.connection.hub.start().done(function () {
                             chat.server.send('data has been inserted by ', userName);
                         });
-                        $("#jspreadsheet").show();
-                        //$("#head_total").show();
+                        $("#jspreadsheet").show();                        
                         LoaderHide();
                     }
                 });
                 jssInsertedData = [];
                 newRowCount = 1;
-
 
         }
 
@@ -4374,8 +4372,7 @@ function UpdateForecast() {
                 contentType: 'application/json',
                 type: 'DELETE',
                 async: false,
-                dataType: 'json',
-                //data: JSON.stringify(deletedExistingRowIds),
+                dataType: 'json',                
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
                 success: function (data) {
                     alert(data);

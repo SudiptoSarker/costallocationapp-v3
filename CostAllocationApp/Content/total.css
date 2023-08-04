@@ -18,7 +18,7 @@
     height: 30px;
     border: 1px solid #ccc !important;
 }
-.expand, .closed {
+.expand, .inner-expand, .closed, .inner-closed {
     cursor: pointer;
     border: 1px solid black;
     font-size: 8px;

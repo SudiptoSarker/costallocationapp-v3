@@ -4277,7 +4277,7 @@ function UpdateForecast() {
         var year = dateObj.getUTCFullYear();
         var miliSeconds = dateObj.getMilliseconds();
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
-
+        
         if (jssUpdatedData.length > 0) {           
                 updateMessage = "Successfully data updated";
                 $.ajax({

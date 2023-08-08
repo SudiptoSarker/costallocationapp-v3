@@ -2529,9 +2529,7 @@ function ShowForecastResults(year) {
                     }
                     
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                    allSameEmployeeId = [];
-
-                   
+                    allSameEmployeeId = [];                   
 
                     obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);

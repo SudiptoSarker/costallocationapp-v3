@@ -3118,19 +3118,16 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetAssignmentHistoriesByTimeStampId(int timeStampId)
         {
             List<object> forecastHistoryList = new List<object>();
-             List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId,false);
 
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
             if (distinctAssignmentId.Count > 0)
             {
-                //<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${forecastType}</td><td>${element.Remarks}</td><td>${element.SectionName}</td><td>${element.DepartmentName}</td><td>${element.InChargeName}</td><td>${element.RoleName}</td><td><lable>${element.ExplanationName}</label></td><td>${element.CompanyName}</td><td>${element.GradePoints}</td><td>${element.UnitPrice}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`
                 foreach (var item in distinctAssignmentId)
                 {
-                    AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
-                    AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
-                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId);
-
-                    //var employeeName = employeeBLL.GetEmployeeNameByAssignmentId(item);
+                    //Get previous data for history
+                    AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();                    
+                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,false);                    
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
                     var sectionName = _assignmentHistoryViewModal.SectionName;
                     var departmentName = _assignmentHistoryViewModal.DepartmentName;
@@ -3159,22 +3156,37 @@ namespace CostAllocationApp.Controllers.Api
                     var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
 
-                    var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+                    //Get Edited data for history
+                    AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
+                    _objOriginalForecastedData = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,true);
+                    var employeeNameOrg = _objOriginalForecastedData.EmployeeName;
+                    var sectionNameOrg = _objOriginalForecastedData.SectionName;
+                    var departmentNameOrg = _objOriginalForecastedData.DepartmentName;
+                    var inChargeNameOrg = _objOriginalForecastedData.InChargeName;
+                    var roleNameOrg = _objOriginalForecastedData.RoleName;
+                    var explanationNameOrg = _objOriginalForecastedData.ExplanationName;
+                    var companyNameOrg = _objOriginalForecastedData.CompanyName;
+                    var gradePointsOrg = _objOriginalForecastedData.GradePoints;
+                    var unitPriceOrg = _objOriginalForecastedData.UnitPrice;
+                    var remarksOrg = _objOriginalForecastedData.Remarks;
+                    var isUpdateOrg = _objOriginalForecastedData.IsUpdate;
+                    var isDeletedOrg = _objOriginalForecastedData.IsDeleted;
 
-                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(item);
+                    List<Forecast> editedHistoryList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId,true);
+                    var tempListOrg = editedHistoryList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
-                    var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
-                    var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
-                    var decPOriginal = originalForecastData.Where(p => p.Month == 12).SingleOrDefault().Points;
-                    var janPOriginal = originalForecastData.Where(p => p.Month == 1).SingleOrDefault().Points;
-                    var febPOriginal = originalForecastData.Where(p => p.Month == 2).SingleOrDefault().Points;
-                    var marPOriginal = originalForecastData.Where(p => p.Month == 3).SingleOrDefault().Points;
-                    var aprPOriginal = originalForecastData.Where(p => p.Month == 4).SingleOrDefault().Points;
-                    var mayPOriginal = originalForecastData.Where(p => p.Month == 5).SingleOrDefault().Points;
-                    var junPOriginal = originalForecastData.Where(p => p.Month == 6).SingleOrDefault().Points;
-                    var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
-                    var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
-                    var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
+                    var octPOriginal = tempListOrg.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novPOriginal = tempListOrg.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decPOriginal = tempListOrg.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janPOriginal = tempListOrg.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febPOriginal = tempListOrg.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marPOriginal = tempListOrg.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprPOriginal = tempListOrg.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayPOriginal = tempListOrg.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junPOriginal = tempListOrg.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julPOriginal = tempListOrg.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augPOriginal = tempListOrg.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepPOriginal = tempListOrg.Where(p => p.Month == 9).SingleOrDefault().Points;                    
 
                     string operationType = "";
                     if (!isUpdate)
@@ -3194,18 +3206,16 @@ namespace CostAllocationApp.Controllers.Api
                         forecastHistoryList.Add(new
                         {
                             EmployeeName = employeeName,                            
-                            IsUpdate = isUpdate,
-                            //EmployeeName = employeeName == _objOriginalForecastedData.EmployeeName ? "" : "(" + employeeName + ") " + _objOriginalForecastedData.EmployeeName,
-                            SectionName = sectionName == _objOriginalForecastedData.SectionName ? "" : "(" + sectionName + ") " + _objOriginalForecastedData.SectionName,
-                            DepartmentName = departmentName == _objOriginalForecastedData.DepartmentName ? "" : "(" + departmentName + ") " + _objOriginalForecastedData.DepartmentName,
-                            InChargeName = inChargeName == _objOriginalForecastedData.InChargeName ? "" : "(" + inChargeName + ") " + _objOriginalForecastedData.InChargeName,
-                            RoleName = roleName == _objOriginalForecastedData.RoleName ? "" : "(" + roleName + ") " + _objOriginalForecastedData.RoleName,
-                            ExplanationName = explanationName == _objOriginalForecastedData.ExplanationName ? "" : "(" + explanationName + ") " + _objOriginalForecastedData.ExplanationName,
-                            CompanyName = companyName == _objOriginalForecastedData.CompanyName ? "" : "(" + companyName + ") " + _objOriginalForecastedData.CompanyName,
-                            GradePoints = gradePoints == _objOriginalForecastedData.GradePoints ? "" : "(" + gradePoints + ") " + _objOriginalForecastedData.GradePoints,
-                            //UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + unitPrice + ") " + _objOriginalForecastedData.UnitPrice,
-                            UnitPrice = unitPrice == _objOriginalForecastedData.UnitPrice ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(_objOriginalForecastedData.UnitPrice).ToString("N0"),
-                            Remarks = remarks == _objOriginalForecastedData.Remarks ? "" : "(" + remarks + ") " + _objOriginalForecastedData.Remarks,
+                            IsUpdate = isUpdate,                            
+                            SectionName = sectionName == sectionNameOrg ? "" : "(" + sectionName + ") " + sectionNameOrg,
+                            DepartmentName = departmentName == departmentNameOrg ? "" : "(" + departmentName + ") " + departmentNameOrg,
+                            InChargeName = inChargeName == inChargeNameOrg ? "" : "(" + inChargeName + ") " + inChargeNameOrg,
+                            RoleName = roleName == roleNameOrg ? "" : "(" + roleName + ") " + roleNameOrg,
+                            ExplanationName = explanationName == explanationNameOrg ? "" : "(" + explanationName + ") " + explanationNameOrg,
+                            CompanyName = companyName == companyNameOrg ? "" : "(" + companyName + ") " + companyNameOrg,
+                            GradePoints = gradePoints == gradePointsOrg ? "" : "(" + gradePoints + ") " + gradePointsOrg,                            
+                            UnitPrice = unitPrice == unitPriceOrg ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(unitPriceOrg).ToString("N0"),
+                            Remarks = remarks == remarksOrg ? "" : "(" + remarks + ") " + remarksOrg,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType= "Updated",
                             OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
@@ -3223,8 +3233,7 @@ namespace CostAllocationApp.Controllers.Api
                         });
                     }
                     else
-                    {
-                        //insert data udpate
+                    {                        
                         forecastHistoryList.Add(new
                         {
                             EmployeeName = employeeName,
@@ -3257,31 +3266,7 @@ namespace CostAllocationApp.Controllers.Api
                     
                 }
             }
-
-            //string strHistoryDetailsWithHtmlBody = "";
-            //foreach (var historyItem in forecastHistoryList)
-            //{
-            //    var isUpdate = historyItem.IsUpdate;
-            //}
-            //foreach (var forecastItem in forecastHistoryList)
-            //{
-            //    //if (forecastItem.)
-            //    //{
-            //    //    forecastType = "Updated";
-            //    //}
-            //    //else
-            //    //{
-            //    //    forecastItem = "Inserted";
-            //    //}
-            //    //if (string.IsNullOrEmpty(strHistoryDetailsWithHtmlBody))
-            //    //{
-            //    //    strHistoryDetailsWithHtmlBody = "<tr><td></td>>";
-            //    //}
-            //    //else
-            //    //{
-            //    //    strHistoryDetailsWithHtmlBody
-            //    //}                
-            //}
+            
             return Ok(forecastHistoryList);
         }
 

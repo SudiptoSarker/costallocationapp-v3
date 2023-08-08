@@ -276,6 +276,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted)
         {
             int result = 0;
@@ -566,11 +567,18 @@ namespace CostAllocationApp.DAL
                 return forecasts;
             }
         }
-        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId,bool isOriginal)
         {
             List<Forecast> forecasts = new List<Forecast>();
             string query = "";
-            query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId;            
+            if (isOriginal)
+            {
+                query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId + " AND IsOriginal=1";
+            }
+            else
+            {
+                query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId + " AND (IsOriginal IS NULL OR IsOriginal=0)";
+            }                        
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1537,7 +1545,7 @@ namespace CostAllocationApp.DAL
                 return years;
             }
         }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId)
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId,bool isOriginal)
         {
             AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
 
@@ -1554,7 +1562,14 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
             query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
             query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
-            query = query + "Where eh.EmployeeAssignmentId = "+ assignmentId + " and eh.TimeStampId="+ timeStampId;            
+            if (isOriginal)
+            {
+                query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId + " AND eh.IsOriginal=1";
+            }
+            else
+            {
+                query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId+ " AND (eh.IsOriginal IS NULL OR eh.IsOriginal=0) ";
+            }            
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1579,6 +1594,7 @@ namespace CostAllocationApp.DAL
                             assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
                             assignmentHistoryViewModal.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);
+                            assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
                         }
                     }
                 }

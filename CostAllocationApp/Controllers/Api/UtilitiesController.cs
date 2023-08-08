@@ -5947,6 +5947,7 @@ namespace CostAllocationApp.Controllers.Api
                 if (isFinalized > 0)
                 {
                     employeeAssignmentBLL.DeleteAssignment_PreviousFinalizeData(Convert.ToInt32(arrYear[0]));
+                    employeeAssignmentBLL.DeletePreviousFinalBudgetData(Convert.ToInt32(arrYear[0]));
 
                     List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
                     _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
@@ -5976,19 +5977,25 @@ namespace CostAllocationApp.Controllers.Api
                             _assignmentData.BCYR = assignmentItem.BCYR;
                             _assignmentData.BCYRCell = assignmentItem.BCYRCell;
                             _assignmentData.EmployeeName = assignmentItem.EmployeeName;
-                            
+
+                            int finalBudgetAssignments = employeeAssignmentBLL.CreateFinalBudgetAssignment(_assignmentData);
+
                             int assignmentCreateResults = employeeAssignmentBLL.CreateAssignment(_assignmentData);
                             if (assignmentCreateResults == 1)
                             {
                                 int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                                int finalAssignmentId = employeeAssignmentBLL.GetFinalBudgetLastId();
 
                                 List<Forecast> forecasts = new List<Forecast>();
                                 forecasts = forecastBLL.GetBudgetForecastsByAssignmentId(_assignmentData.Id);
                                 foreach (var forecastItem in forecasts)
                                 {
                                     forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
-                                    forecastItem.CreatedBy = session["userName"].ToString();
+                                    forecastItem.CreatedBy = session["userName"].ToString();                                    
                                     results = forecastBLL.CreateForecast(forecastItem);
+
+                                    forecastItem.EmployeeAssignmentId = finalAssignmentId;
+                                    results = forecastBLL.CreateFinalBudgetForecast(forecastItem);
                                 }
                             }
                         }                        

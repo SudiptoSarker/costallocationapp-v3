@@ -24,6 +24,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CreateAssignment(employeeAssignment);
         }
+        public int CreateFinalBudgetAssignment(EmployeeAssignment employeeAssignment)
+        {
+            return employeeAssignmentDAL.CreateFinalBudgetAssignment(employeeAssignment);
+        }
         public int CreateBudgets(EmployeeBudget employeeAssignment)
         {
             return employeeAssignmentDAL.CreateBudgets(employeeAssignment);
@@ -862,6 +866,10 @@ namespace CostAllocationApp.BLL
         public int GetLastId()
         {
             return employeeAssignmentDAL.GetLastId();
+        }
+        public int GetFinalBudgetLastId()
+        {
+            return employeeAssignmentDAL.GetFinalBudgetLastId();
         }
         public int GetBudgetLastId()
         {
@@ -2103,6 +2111,10 @@ namespace CostAllocationApp.BLL
         public void DeleteAssignment_PreviousFinalizeData(int year)
         {
             employeeAssignmentDAL.DeleteAssignment_PreviousFinalizeData(year);
+        }
+        public void DeletePreviousFinalBudgetData(int year)
+        {
+            employeeAssignmentDAL.DeletePreviousFinalBudgetData(year);
         }
         public bool CheckIsValidYearForImport(int year )
         {

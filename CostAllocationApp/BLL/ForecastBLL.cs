@@ -22,6 +22,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateForecast(forecast);
         }
+        public int CreateFinalBudgetForecast(Forecast forecast)
+        {
+            return forecastDAL.CreateFinalBudgetForecast(forecast);
+        }
         public int CreateBudgetForecast(Forecast forecast)
         {
             return forecastDAL.CreateBudgetForecast(forecast);

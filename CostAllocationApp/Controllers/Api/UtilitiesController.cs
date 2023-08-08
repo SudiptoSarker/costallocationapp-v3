@@ -1000,27 +1000,12 @@ namespace CostAllocationApp.Controllers.Api
                         }
 
                         employeeAssignment.UnitPrice = item.UnitPrice;
-
-                        //AssignmentHistory
-                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
+                        
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
                         
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;
-
-                        //check if assignment exists in original
-                        //int  checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
-
-                        //if (checkResults > 0) {
-                        //    //update original data
-                        //    int updateOriginalAssignmentDataResults = employeeAssignmentBLL.UpdateOriginalAssignment(_assignmentHistory);
-                        //}
-                        //else
-                        //{
-                        //    //insert original data
-                        //    int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory);
-                        //}
 
                         if (forecastHistoryDto.CellInfo.Count > 0)
                         {
@@ -2627,8 +2612,6 @@ namespace CostAllocationApp.Controllers.Api
                             }
                         }
 
-                        //AssignmentHistory
-                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory);
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(lastAssignmentId);
                         

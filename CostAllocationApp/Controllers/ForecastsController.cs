@@ -806,7 +806,7 @@ namespace CostAllocationApp.Controllers
                 ForecastViewModal forecastViewModal = new ForecastViewModal
                 {
                     _sections = sectionBLL.GetAllSections()
-                };
+                };                
 
                 TempData["seccess"] = null;
                 Dictionary<int, int> check = new Dictionary<int, int>();
@@ -1149,7 +1149,6 @@ namespace CostAllocationApp.Controllers
             }
             else
             {
-
                 budgetTypeName = "Budget-" + hid_budget_year + "-年下半期";
             }
 

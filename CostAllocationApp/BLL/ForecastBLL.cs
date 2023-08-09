@@ -22,6 +22,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateForecast(forecast);
         }
+        public int CreateFinalBudgetForecast(Forecast forecast)
+        {
+            return forecastDAL.CreateFinalBudgetForecast(forecast);
+        }
         public int CreateBudgetForecast(Forecast forecast)
         {
             return forecastDAL.CreateBudgetForecast(forecast);
@@ -265,9 +269,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
         }
-        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId,bool isOriginal)
         {
-            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId, isOriginal);
         }
         public List<Forecast> GetApprovalHistoriesByTimeStampId(int timeStampId)
         {
@@ -293,9 +297,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
         }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId)
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId,bool isOriginal)
         {
-            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId);
+            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId, isOriginal);
         }
         public ApprovalHistoryViewModal GetApprovalNamesForHistory(int assignmentId,int timeStampId)
         {

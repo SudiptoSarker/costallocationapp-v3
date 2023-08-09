@@ -2529,9 +2529,7 @@ function ShowForecastResults(year) {
                     }
                     
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                    allSameEmployeeId = [];
-
-                   
+                    allSameEmployeeId = [];                   
 
                     obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
@@ -4277,7 +4275,7 @@ function UpdateForecast() {
         var year = dateObj.getUTCFullYear();
         var miliSeconds = dateObj.getMilliseconds();
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
-
+        
         if (jssUpdatedData.length > 0) {           
                 updateMessage = "Successfully data updated";
                 $.ajax({
@@ -4356,14 +4354,12 @@ function UpdateForecast() {
                         $.connection.hub.start().done(function () {
                             chat.server.send('data has been inserted by ', userName);
                         });
-                        $("#jspreadsheet").show();
-                        //$("#head_total").show();
+                        $("#jspreadsheet").show();                        
                         LoaderHide();
                     }
                 });
                 jssInsertedData = [];
                 newRowCount = 1;
-
 
         }
 
@@ -4374,8 +4370,7 @@ function UpdateForecast() {
                 contentType: 'application/json',
                 type: 'DELETE',
                 async: false,
-                dataType: 'json',
-                //data: JSON.stringify(deletedExistingRowIds),
+                dataType: 'json',                
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
                 success: function (data) {
                     alert(data);
@@ -4454,6 +4449,7 @@ function CompareUpdatedData() {
     }
 }
 
+
 /*
     author: sudipto.
     import data from excel file.
@@ -4509,7 +4505,6 @@ function GetAllForecastYears() {
         }
     });
 }
-
 
 function CheckForecastYear(){
     var year = $('#select_year_to_import').find(":selected").val();

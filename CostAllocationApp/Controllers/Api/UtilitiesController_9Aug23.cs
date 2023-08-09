@@ -964,8 +964,6 @@ namespace CostAllocationApp.Controllers.Api
             List<Forecast> forecasts = new List<Forecast>();
             List<Forecast> forecastsPrevious = new List<Forecast>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
-            List<AssignmentHistory> assignmentHistoriesOriginal = new List<AssignmentHistory>();
-
             string message = "Something went wrong!!!";
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -1003,13 +1001,11 @@ namespace CostAllocationApp.Controllers.Api
 
                         employeeAssignment.UnitPrice = item.UnitPrice;
                         
-                        //previous data
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
                         
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;
-                        
 
                         if (forecastHistoryDto.CellInfo.Count > 0)
                         {
@@ -1653,16 +1649,6 @@ namespace CostAllocationApp.Controllers.Api
                             }
                             forecasts = new List<Forecast>();
                         }
-
-                        //updated data
-                        AssignmentHistory _assignmentHistoryOriginal = new AssignmentHistory();
-                        _assignmentHistoryOriginal = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
-
-                        _assignmentHistoryOriginal.CreatedBy = session["userName"].ToString();
-                        _assignmentHistoryOriginal.CreatedDate = DateTime.Now;
-                        assignmentHistoriesOriginal.Add(_assignmentHistoryOriginal);
-
-
                     }
 
                     foreach (var forecastPrevious in forecastsPrevious)
@@ -1670,7 +1656,7 @@ namespace CostAllocationApp.Controllers.Api
                         forecastPrevious.CreatedBy = session["userName"].ToString();
                         forecastPrevious.CreatedDate = DateTime.Now;
                     }
-
+                    
                     ForecastHisory forecastHisory = new ForecastHisory();
                     forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
                     forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
@@ -1684,23 +1670,6 @@ namespace CostAllocationApp.Controllers.Api
                     bool isDeleted = false;
 
                     var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-
-                    ////edited data history: start
-                    //AssignmentHistory _originalAssignmentHistory = new AssignmentHistory();
-                    //_originalAssignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
-
-                    //_originalAssignmentHistory.CreatedBy = session["userName"].ToString();
-                    //_originalAssignmentHistory.CreatedDate = DateTime.Now;
-                    if (assignmentHistoriesOriginal.Count > 0)
-                    {
-                        foreach (var item in assignmentHistoriesOriginal)
-                        {
-                            forecastBLL.CreateAssignmenttHistory(item, resultTimeStamp, isUpdate, isDeleted,true);
-                        }
-                    }
-
-                    ////edited data history: end
-
 
                     if (forecastHistoryDto.CellInfo.Count > 0)
                     {
@@ -2541,7 +2510,6 @@ namespace CostAllocationApp.Controllers.Api
         {
             List<object> returnedIdList = new List<object>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
-
             string tempTimeStampId = "";
             var session = System.Web.HttpContext.Current.Session;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
@@ -2659,7 +2627,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         foreach (var item in assignmentHistories)
                         {
-                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted,false);
+                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted);
                         }
                     }
                     else
@@ -2719,7 +2687,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     foreach (var item in assignmentHistories)
                     {
-                        forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted,false);
+                        forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted);
                     }
                 }
                 else
@@ -3186,7 +3154,23 @@ namespace CostAllocationApp.Controllers.Api
                     var remarksOrg = _objOriginalForecastedData.Remarks;
                     var isUpdateOrg = _objOriginalForecastedData.IsUpdate;
                     var isDeletedOrg = _objOriginalForecastedData.IsDeleted;
-                                   
+
+                    List<Forecast> editedHistoryList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId,true);
+                    var tempListOrg = editedHistoryList.Where(h => h.EmployeeAssignmentId == item).ToList();
+
+                    var octPOriginal = tempListOrg.Where(p => p.Month == 10).SingleOrDefault().Points;
+                    var novPOriginal = tempListOrg.Where(p => p.Month == 11).SingleOrDefault().Points;
+                    var decPOriginal = tempListOrg.Where(p => p.Month == 12).SingleOrDefault().Points;
+                    var janPOriginal = tempListOrg.Where(p => p.Month == 1).SingleOrDefault().Points;
+                    var febPOriginal = tempListOrg.Where(p => p.Month == 2).SingleOrDefault().Points;
+                    var marPOriginal = tempListOrg.Where(p => p.Month == 3).SingleOrDefault().Points;
+                    var aprPOriginal = tempListOrg.Where(p => p.Month == 4).SingleOrDefault().Points;
+                    var mayPOriginal = tempListOrg.Where(p => p.Month == 5).SingleOrDefault().Points;
+                    var junPOriginal = tempListOrg.Where(p => p.Month == 6).SingleOrDefault().Points;
+                    var julPOriginal = tempListOrg.Where(p => p.Month == 7).SingleOrDefault().Points;
+                    var augPOriginal = tempListOrg.Where(p => p.Month == 8).SingleOrDefault().Points;
+                    var sepPOriginal = tempListOrg.Where(p => p.Month == 9).SingleOrDefault().Points;                    
+
                     string operationType = "";
                     if (!isUpdate)
                     {
@@ -3202,22 +3186,6 @@ namespace CostAllocationApp.Controllers.Api
 
                     if (isUpdate)
                     {
-                        List<Forecast> editedHistoryList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId, true);
-                        var tempListOrg = editedHistoryList.Where(h => h.EmployeeAssignmentId == item).ToList();
-
-                        var octPOriginal = tempListOrg.Where(p => p.Month == 10).SingleOrDefault().Points;
-                        var novPOriginal = tempListOrg.Where(p => p.Month == 11).SingleOrDefault().Points;
-                        var decPOriginal = tempListOrg.Where(p => p.Month == 12).SingleOrDefault().Points;
-                        var janPOriginal = tempListOrg.Where(p => p.Month == 1).SingleOrDefault().Points;
-                        var febPOriginal = tempListOrg.Where(p => p.Month == 2).SingleOrDefault().Points;
-                        var marPOriginal = tempListOrg.Where(p => p.Month == 3).SingleOrDefault().Points;
-                        var aprPOriginal = tempListOrg.Where(p => p.Month == 4).SingleOrDefault().Points;
-                        var mayPOriginal = tempListOrg.Where(p => p.Month == 5).SingleOrDefault().Points;
-                        var junPOriginal = tempListOrg.Where(p => p.Month == 6).SingleOrDefault().Points;
-                        var julPOriginal = tempListOrg.Where(p => p.Month == 7).SingleOrDefault().Points;
-                        var augPOriginal = tempListOrg.Where(p => p.Month == 8).SingleOrDefault().Points;
-                        var sepPOriginal = tempListOrg.Where(p => p.Month == 9).SingleOrDefault().Points;
-
                         forecastHistoryList.Add(new
                         {
                             EmployeeName = employeeName,                            

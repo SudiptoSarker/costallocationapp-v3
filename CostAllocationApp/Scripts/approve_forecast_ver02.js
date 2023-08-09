@@ -3025,7 +3025,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
 
     if(typeof retrivedData != "undefined"){        
-        if(x2==34){
+        if(x2==45){
             //row approval
             CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
         }else{

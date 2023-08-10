@@ -4621,7 +4621,255 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
+        public List<EmployeeBudget> GetSecondHlafBudgetData(int selected_year, int select_budget_type)
+        {
+            string strWhere = "";
+            if (select_budget_type == 1)
+            {
+                strWhere = "WHERE FirstHalfBudget=" + 1;
+            }
+            else if (select_budget_type == 2)
+            {
+                strWhere = "WHERE SecondHalfBudget=" + 1;
+            }
 
+            if (!string.IsNullOrEmpty(strWhere))
+            {
+                strWhere = strWhere + " AND Year=" + selected_year;
+            }
+            string query = "SELECT * FROM EmployeeeBudgets " + strWhere;
 
+            List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeBudget _employeeBudget = new EmployeeBudget();
+                            _employeeBudget.Id = rdr["Id"] is DBNull ? 0 : Convert.ToInt32(rdr["Id"]);
+                            _employeeBudget.EmployeeId = rdr["EmployeeId"] is DBNull ? "" : rdr["EmployeeId"].ToString();
+                            _employeeBudget.SectionId = rdr["SectionId"] is DBNull ? 0 : Convert.ToInt32(rdr["SectionId"]);
+                            _employeeBudget.InchargeId = rdr["InChargeId"] is DBNull ? 0 : Convert.ToInt32(rdr["InChargeId"]);
+                            _employeeBudget.DepartmentId = rdr["DepartmentId"] is DBNull ? 0 : Convert.ToInt32(rdr["DepartmentId"]);
+                            _employeeBudget.RoleId = rdr["RoleId"] is DBNull ? 0 : Convert.ToInt32(rdr["RoleId"]);
+                            _employeeBudget.CompanyId = rdr["CompanyId"] is DBNull ? 0 : Convert.ToInt32(rdr["CompanyId"]);
+                            _employeeBudget.ExplanationId = String.IsNullOrEmpty(rdr["ExplanationId"].ToString()) ? null : rdr["ExplanationId"].ToString();
+                            _employeeBudget.UnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                            _employeeBudget.GradeId = rdr["GradeId"] is DBNull ? 0 : Convert.ToInt32(rdr["GradeId"]);
+                            _employeeBudget.SubCode = 0;
+                            _employeeBudget.BCYR = false;
+                            _employeeBudget.BCYRCell = "";
+
+                            _employeeBudget.CreatedBy = rdr["CreatedBy"] is DBNull ? "" : rdr["CreatedBy"].ToString();
+                            _employeeBudget.CreatedDate = DateTime.Now;
+                            _employeeBudget.IsActive = "1";
+                            _employeeBudget.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            _employeeBudget.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
+                            _employeeBudget.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+
+                            _employeeAssignments.Add(_employeeBudget);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return _employeeAssignments;
+        }
+        public int IsBudgetMatchWithAssignmentData(EmployeeBudget _employeeBudget)
+        {
+            string strWhere = "";
+            strWhere = "where Year = " + _employeeBudget.Year + " and EmployeeId = " + _employeeBudget.EmployeeId + " ";
+            if (_employeeBudget.SectionId == null || _employeeBudget.SectionId == 0)
+            {
+                strWhere = strWhere+ " and (SectionId=0 OR  SectionId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and SectionId= " + _employeeBudget.SectionId + " ";
+            }
+            if (_employeeBudget.DepartmentId == null || _employeeBudget.DepartmentId == 0)
+            {
+                strWhere = strWhere + " and (DepartmentId= 0 OR  DepartmentId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and DepartmentId= " + _employeeBudget.DepartmentId + " ";
+            }            
+            if (_employeeBudget.InchargeId == null || _employeeBudget.InchargeId == 0)
+            {
+                strWhere = strWhere + " and (InchargeId= 0 OR  InchargeId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and InchargeId= " + _employeeBudget.InchargeId + " ";
+            }
+            if (_employeeBudget.RoleId == null || _employeeBudget.RoleId == 0)
+            {
+                strWhere = strWhere + " and (RoleId= 0 OR  RoleId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and RoleId= " + _employeeBudget.RoleId + " ";
+            }
+            if (string.IsNullOrEmpty(_employeeBudget.ExplanationId))
+            {
+                strWhere = strWhere + " and (ExplanationId= 0 OR  ExplanationId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and ExplanationId= " + _employeeBudget.ExplanationId + " ";
+            }
+            if (_employeeBudget.CompanyId == null || _employeeBudget.CompanyId == 0)
+            {
+                strWhere = strWhere + " and (CompanyId= 0 OR  CompanyId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and CompanyId= " + _employeeBudget.CompanyId + " ";
+            }
+            if (_employeeBudget.UnitPrice == 0)
+            {
+                strWhere = strWhere + " and (UnitPrice= 0 OR  UnitPrice is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and UnitPrice= " + _employeeBudget.UnitPrice + " ";
+            }
+            if (_employeeBudget.GradeId == null || _employeeBudget.GradeId == 0)
+            {
+                strWhere = strWhere + " and (GradeId=0 OR  GradeId is null) ";
+            }
+            else
+            {
+                strWhere = strWhere + " and GradeId= " + _employeeBudget.GradeId + " ";
+            }
+            string query = "";
+            query = query + "select * ";
+            query = query + "from EmployeesAssignments ";
+            query = query + strWhere + " and IsActive= 1  ";            
+
+            int result = 0;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            result = rdr["Id"] is DBNull ? 0 : Convert.ToInt32(rdr["Id"]);
+                        }
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+        public List<ForecastDto> GettForecastDataForSecondHalfBudgetByAssignmentId(int assignmentId, int year)
+        {
+            List<ForecastDto> forecasts = new List<ForecastDto>();
+            string query = "select * from Costs where EmployeeAssignmentsId=" + assignmentId + " and Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto forecast = new ForecastDto();
+                            forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);                            
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+        public EmployeeAssignment GetAssignmentChangedAndPendingCellNo(int assignmentId, int year)
+        {
+            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+            string query = "SELECT Id,BCYRCell,BCYRCellPending FROM EmployeesAssignments WHERE Year="+ year + " AND Id=" + assignmentId + " ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return employeeAssignment;
+        }
+        public decimal GetForecastOriginalPointsForBudget(int assignmentId,int monthId,int year)
+        {
+            decimal returnPoint = 0;
+            string query = "SELECT Points FROM CostsOrg where EmployeeAssignmentsId = "+ assignmentId + " and MonthId = "+ monthId + " AND Year="+year+" ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            returnPoint = rdr["Points"] is DBNull ? 0 : Convert.ToDecimal(rdr["Points"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return returnPoint;
+        }
     }
 }

@@ -35,5 +35,7 @@ namespace CostAllocationApp.Dtos
         //public List<double> AugRowTotal { get; set; } = new List<double>();
         //public List<double> SepRowTotal { get; set; } = new List<double>();
         public List<double> RowTotal { get; set; } = new List<double>();
+        public List<double> FirstSlot { get; set; } = new List<double>();
+        public List<double> SecondSlot { get; set; } = new List<double>();
     }
 }

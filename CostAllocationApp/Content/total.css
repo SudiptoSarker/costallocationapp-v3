@@ -18,16 +18,108 @@
     height: 30px;
     border: 1px solid #ccc !important;
 }
-.expand, .closed {
+#total_btn {
+    border: 1px solid black;
+}
+
+/*style form total table*/
+#total_table {
+    font-size: 10px;
+    margin-top: 20px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+
+#total_table thead {
+    background-color: #B8DAFF;
+    text-align:center;
+}
+#total_table tr{
+    white-space:nowrap;
+}
+    #total_table
+    td:nth-of-type(3),
+    td:nth-of-type(4),
+    td:nth-of-type(5),
+    td:nth-of-type(6),
+    td:nth-of-type(7),
+    td:nth-of-type(8),
+    td:nth-of-type(9),
+    td:nth-of-type(10),
+    td:nth-of-type(11),
+    td:nth-of-type(12),
+    td:nth-of-type(13),
+    td:nth-of-type(14),
+    td:nth-of-type(15),
+    td:nth-of-type(16),
+    td:nth-of-type(17) {
+        min-width: 100px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+#total_table, tr, th, td {
+    border: 1px solid black !important;
+}
+#total_table tr{
+    line-height:0px !important;
+}
+#total_table td{
+    padding: 7px !important;
+}
+.expand, .inner-expand, .closed, .inner-closed {
     cursor: pointer;
     border: 1px solid black;
     font-size: 8px;
     padding: 1px;
 }
-#total_table{
-    font-size:12px;
-    margin-top:20px;
+
+/*style form total table budget*/
+
+#total_budget_table {
+    font-size: 10px;
+    margin-top: 20px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
 }
-#total_table tr{
-    line-height:15px !important;
+
+    #total_budget_table thead {
+        background-color: #B8DAFF;
+        text-align: center;
+    }
+
+    #total_budget_table tr {
+        white-space: nowrap;
+    }
+
+    #total_budget_table
+    td:nth-of-type(3),
+    td:nth-of-type(4),
+    td:nth-of-type(5),
+    td:nth-of-type(6),
+    td:nth-of-type(7),
+    td:nth-of-type(8),
+    td:nth-of-type(9),
+    td:nth-of-type(10),
+    td:nth-of-type(11),
+    td:nth-of-type(12),
+    td:nth-of-type(13),
+    td:nth-of-type(14),
+    td:nth-of-type(15),
+    td:nth-of-type(16),
+    td:nth-of-type(17) {
+        min-width: 100px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+#total_budget_table, tr, th, td {
+    border: 1px solid black !important;
 }
+
+    #total_budget_table tr {
+        line-height: 0px !important;
+    }
+
+    #total_budget_table td {
+        padding: 7px !important;
+    }

@@ -20,9 +20,11 @@
 }
 #total_btn {
     border: 1px solid black;
+    padding: 5px 20px 5px 20px;
+    font-size: 10px;
 }
 
-/*style form total table*/
+/*style for total table*/
 #total_table {
     font-size: 10px;
     margin-top: 20px;
@@ -73,7 +75,7 @@
     padding: 1px;
 }
 
-/*style form total table budget*/
+/*style for budget table*/
 
 #total_budget_table {
     font-size: 10px;
@@ -121,5 +123,57 @@
     }
 
     #total_budget_table td {
+        padding: 7px !important;
+    }
+
+
+/*style for difference table*/
+
+#difference_table {
+    font-size: 10px;
+    margin-top: 20px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+
+    #difference_table thead {
+        background-color: #B8DAFF;
+        text-align: center;
+    }
+
+    #difference_table tr {
+        white-space: nowrap;
+    }
+
+    #difference_table
+    td:nth-of-type(3),
+    td:nth-of-type(4),
+    td:nth-of-type(5),
+    td:nth-of-type(6),
+    td:nth-of-type(7),
+    td:nth-of-type(8),
+    td:nth-of-type(9),
+    td:nth-of-type(10),
+    td:nth-of-type(11),
+    td:nth-of-type(12),
+    td:nth-of-type(13),
+    td:nth-of-type(14),
+    td:nth-of-type(15),
+    td:nth-of-type(16),
+    td:nth-of-type(17) {
+        min-width: 100px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+#difference_table, tr, th, td {
+    border: 1px solid black !important;
+}
+
+    #difference_table tr {
+        line-height: 0px !important;
+    }
+
+    #difference_table td {
         padding: 7px !important;
     }

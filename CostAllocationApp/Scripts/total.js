@@ -4,6 +4,8 @@ var totalListForBudget = [];
 var latestFiscalYear = 0;
 var othersDepartmentTotal = [];
 var othersDepartmentTotalForBudget = [];
+var othersDepartmentTotalForDifference = [];
+var differenceTable = [];
 
 
 
@@ -39,6 +41,22 @@ var _otherRowTotalBudget = 0;
 var _otherFisrtHalfBudget = 0;
 var _otherSecondHalfBudget = 0;
 
+var _octOtherTotalDifference = 0;
+var _novOtherTotalDifference = 0;
+var _decOtherTotalDifference = 0;
+var _janOtherTotalDifference = 0;
+var _febOtherTotalDifference = 0;
+var _marOtherTotalDifference = 0;
+var _aprOtherTotalDifference = 0;
+var _mayOtherTotalDifference = 0;
+var _junOtherTotalDifference = 0;
+var _julOtherTotalDifference = 0;
+var _augOtherTotalDifference = 0;
+var _sepOtherTotalDifference = 0;
+var _otherRowTotalDifference = 0;
+var _otherFirstHalfDifference = 0;
+var _otherSecondHalfDifference = 0;
+
 var _octTotal = 0;
 var _novTotal = 0;
 var _decTotal = 0;
@@ -70,6 +88,22 @@ var _sepTotalBudget = 0;
 var _rowTotalBudget = 0;
 var _firstHalfBudget = 0;
 var _secondHalfBudget = 0;
+
+var _octTotalDifference = 0;
+var _novTotalDifference = 0;
+var _decTotalDifference = 0;
+var _janTotalDifference = 0;
+var _febTotalDifference = 0;
+var _marTotalDifference = 0;
+var _aprTotalDifference = 0;
+var _mayTotalDifference = 0;
+var _junTotalDifference = 0;
+var _julTotalDifference = 0;
+var _augTotalDifference = 0;
+var _sepTotalDifference = 0;
+var _rowTotalDifference = 0;
+var _firstHalfDifference = 0;
+var _secondHalfDifference = 0;
 
 
 
@@ -168,6 +202,7 @@ $(document).ready(function () {
 
 
                 for (var k = 0; k < totalList.length; k++) {
+                    differenceTable.push(totalList[k]);
                     _octTotal += parseFloat(totalList[k].OctCost);
                     _novTotal += parseFloat(totalList[k].NovCost);
                     _decTotal += parseFloat(totalList[k].DecCost);
@@ -389,7 +424,7 @@ $(document).ready(function () {
         // code for total budget table
         {
             $('#total_budget_table').empty();
-            $('#total_budget_table').append(`<thead><tr><th>開発区分</th><th>費用</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+            $('#total_budget_table').append(`<thead><tr><th>開発区分</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
             $('#total_budget_table').append('<tbody>');
             if (totalListForBudget.length > 0) {
 
@@ -411,6 +446,34 @@ $(document).ready(function () {
 
 
                 for (var a = 0; a < totalListForBudget.length; a++) {
+
+                    // calculate each department with 1st table data.
+                    { 
+                        var singleDepartment=null;
+                        for (var z = 0; z < differenceTable.length; z++) {
+                            if (differenceTable[z].DepartmentId == totalListForBudget[a].DepartmentId) {
+                                singleDepartment = differenceTable[z];
+                                singleDepartment.OctCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].OctCost);
+                                singleDepartment.NovCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].NovCost);
+                                singleDepartment.DecCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].DecCost);
+                                singleDepartment.JanCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].JanCost);
+                                singleDepartment.FebCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].FebCost);
+                                singleDepartment.MarCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].MarCost);
+                                singleDepartment.AprCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].AprCost);
+                                singleDepartment.MayCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].MayCost);
+                                singleDepartment.JunCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].JunCost);
+                                singleDepartment.JulCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].JulCost);
+                                singleDepartment.AugCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].AugCost);
+                                singleDepartment.SepCost = parseFloat(singleDepartment.OctCost) - parseFloat(totalListForBudget[a].SepCost);
+                                singleDepartment.RowTotal[0] = parseFloat(singleDepartment.RowTotal[0]) - parseFloat(totalListForBudget[a].RowTotal[0]);
+                                singleDepartment.FirstSlot[0] = parseFloat(singleDepartment.FirstSlot[0]) - parseFloat(totalListForBudget[a].FirstSlot[0]);
+                                singleDepartment.SecondSlot[0] = parseFloat(singleDepartment.SecondSlot[0]) - parseFloat(totalListForBudget[a].SecondSlot[0]);
+
+                            }
+                        }
+
+
+                    }
                     _octTotalBudget += parseFloat(totalListForBudget[a].OctCost);
                     _novTotalBudget += parseFloat(totalListForBudget[a].NovCost);
                     _decTotalBudget += parseFloat(totalListForBudget[a].DecCost);
@@ -432,7 +495,6 @@ $(document).ready(function () {
                         $('#total_budget_table').append(`
                                 <tr>
                                 <td>${totalListForBudget[a].DepartmentName}</th>
-                                <td>Total</th>
                                 <td class="text-right">${totalListForBudget[a].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -454,7 +516,6 @@ $(document).ready(function () {
                         $('#total_budget_table').append(`
                                 <tr>
                                 <td>${totalListForBudget[a].DepartmentName}</th>
-                                <td>Total</th>
                                 <td class="text-right">${totalListForBudget[a].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -477,7 +538,6 @@ $(document).ready(function () {
                         $('#total_budget_table').append(`
                                 <tr>
                                 <td>${totalListForBudget[a].DepartmentName}</th>
-                                <td>Total</th>
                                 <td class="text-right">${totalListForBudget[a].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -499,7 +559,6 @@ $(document).ready(function () {
                         $('#total_budget_table').append(`
                                 <tr>
                                 <td>${totalListForBudget[a].DepartmentName}</th>
-                                <td>Total</th>
                                 <td class="text-right">${totalListForBudget[a].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -521,7 +580,6 @@ $(document).ready(function () {
                         $('#total_budget_table').append(`
                                 <tr>
                                 <td>${totalListForBudget[a].DepartmentName}</th>
-                                <td>Total</th>
                                 <td class="text-right">${totalListForBudget[a].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${totalListForBudget[a].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -583,7 +641,6 @@ $(document).ready(function () {
                     $('#total_budget_table').append(`
                                 <tr>
                                 <td>その他 </th>
-                                <td>Total</td>
                                 <td class="text-right">${_octOtherTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${_novOtherTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${_decOtherTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -608,7 +665,7 @@ $(document).ready(function () {
 
             $('#total_budget_table').append(`
                                 <tr>
-                                <td colspan="2" class="text-center">Total</td>
+                                <td class="text-center">Total</td>
                                 <td class="text-right">${_octTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${_novTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 <td class="text-right">${_decTotalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -628,11 +685,247 @@ $(document).ready(function () {
 
             $('#total_budget_table').append('</tbody>');
         }
+        // code for difference table
+        {
+            $('#difference_table').empty();
+            $('#difference_table').append(`<thead><tr><th>開発区分</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+            $('#difference_table').append('<tbody>');
+            if (differenceTable.length > 0) {
+
+                _octTotalDifference = 0;
+                _novTotalDifference = 0;
+                _decTotalDifference = 0;
+                _janTotalDifference = 0;
+                _febTotalDifference = 0;
+                _marTotalDifference = 0;
+                _aprTotalDifference = 0;
+                _mayTotalDifference = 0;
+                _junTotalDifference = 0;
+                _julTotalDifference = 0;
+                _augTotalDifference = 0;
+                _sepTotalDifference = 0;
+                _rowTotalDifference = 0;
+                _firstHalfDifference = 0;
+                _secondHalfDifference = 0;
+
+
+                for (var d = 0; d < differenceTable.length; d++) {
+                    _octTotalDifference += parseFloat(differenceTable[d].OctCost);
+                    _novTotalDifference += parseFloat(differenceTable[d].NovCost);
+                    _decTotalDifference += parseFloat(differenceTable[d].DecCost);
+                    _janTotalDifference += parseFloat(differenceTable[d].JanCost);
+                    _febTotalDifference += parseFloat(differenceTable[d].FebCost);
+                    _marTotalDifference += parseFloat(differenceTable[d].MarCost);
+                    _aprTotalDifference += parseFloat(differenceTable[d].AprCost);
+                    _mayTotalDifference += parseFloat(differenceTable[d].MayCost);
+                    _junTotalDifference += parseFloat(differenceTable[d].JunCost);
+                    _julTotalDifference += parseFloat(differenceTable[d].JulCost);
+                    _augTotalDifference += parseFloat(differenceTable[d].AugCost);
+                    _sepTotalDifference += parseFloat(differenceTable[d].SepCost);
+                    _rowTotalDifference += parseFloat(differenceTable[d].RowTotal);
+                    _firstHalfDifference += parseFloat(differenceTable[d].FirstSlot);
+                    _secondHalfDifference += parseFloat(differenceTable[d].SecondSlot);
+
+
+                    if (differenceTable[d].DepartmentName == "導入") {
+                        $('#difference_table').append(`
+                                <tr>
+                                <td>${differenceTable[d].DepartmentName}</th>
+                                <td class="text-right">${differenceTable[d].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JanCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FebCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MarCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AprCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MayCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JunCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JulCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AugCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SepCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].RowTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FirstSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SecondSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+                    }
+                    else if (differenceTable[d].DepartmentName == "運用保守") {
+                        $('#difference_table').append(`
+                                <tr>
+                                <td>${differenceTable[d].DepartmentName}</th>
+                                <td class="text-right">${differenceTable[d].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JanCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FebCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MarCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AprCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MayCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JunCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JulCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AugCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SepCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].RowTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FirstSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SecondSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+
+                    }
+                    else if (differenceTable[d].DepartmentName == "New BLEND") {
+                        $('#difference_table').append(`
+                                <tr>
+                                <td>${differenceTable[d].DepartmentName}</th>
+                                <td class="text-right">${differenceTable[d].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JanCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FebCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MarCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AprCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MayCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JunCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JulCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AugCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SepCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].RowTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FirstSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SecondSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+                    }
+                    else if (differenceTable[d].DepartmentName == "移行") {
+                        $('#difference_table').append(`
+                                <tr>
+                                <td>${differenceTable[d].DepartmentName}</th>
+                                <td class="text-right">${differenceTable[d].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JanCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FebCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MarCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AprCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MayCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JunCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JulCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AugCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SepCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].RowTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FirstSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SecondSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+                    }
+                    else if (differenceTable[d].DepartmentName == "自治体") {
+                        $('#difference_table').append(`
+                                <tr>
+                                <td>${differenceTable[d].DepartmentName}</th>
+                                <td class="text-right">${differenceTable[d].OctCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].NovCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].DecCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JanCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FebCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MarCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AprCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].MayCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JunCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].JulCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].AugCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SepCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].RowTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].FirstSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${differenceTable[d].SecondSlot.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+                    }
+                    else {
+                        othersDepartmentTotalForDifference.push(differenceTable[d]);
+                    }
+                }
+                if (othersDepartmentTotalForDifference.length > 0) {
+
+                    _octOtherTotalDifference = 0;
+                    _novOtherTotalDifference = 0;
+                    _decOtherTotalDifference = 0;
+                    _janOtherTotalDifference = 0;
+                    _febOtherTotalDifference = 0;
+                    _marOtherTotalDifference = 0;
+                    _aprOtherTotalDifference = 0;
+                    _mayOtherTotalDifference = 0;
+                    _junOtherTotalDifference = 0;
+                    _julOtherTotalDifference = 0;
+                    _augOtherTotalDifference = 0;
+                    _sepOtherTotalDifference = 0;
+                    _otherRowTotalDifference = 0;
+                    _otherFirstHalfDifference = 0;
+                    _otherSecondHalfDifference = 0;
+
+
+                    for (var e = 0; e < othersDepartmentTotalForDifference.length; e++) {
+                        _octOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].OctCost);
+                        _novOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].NovCost);
+                        _decOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].DecCost);
+                        _janOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].JanCost);
+                        _febOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].FebCost);
+                        _marOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].MarCost);
+                        _otherFirstHalfDifference += _octOtherTotalDifference + _novOtherTotalDifference + _decOtherTotalDifference + _janOtherTotalDifference + _febOtherTotalDifference + _marOtherTotalDifference;
+                        _aprOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].AprCost);
+                        _mayOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].MayCost);
+                        _junOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].JunCost);
+                        _julOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].JulCost);
+                        _augOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].AugCost);
+                        _sepOtherTotalDifference += parseFloat(othersDepartmentTotalForDifference[e].SepCost);
+                        _otherSecondHalfDifference += _aprOtherTotalDifference + _mayOtherTotalDifference + _junOtherTotalDifference + _julOtherTotalDifference + _augOtherTotalDifference + _sepOtherTotalDifference;
+                        _otherRowTotalDifference += _otherFirstHalfDifference + _otherSecondHalfDifference;
+                    }
+
+                    $('#difference_table').append(`
+                                <tr>
+                                <td>その他 </th>
+                                <td class="text-right">${_octOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_novOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_decOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_janOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_febOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_marOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_aprOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_mayOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_junOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_julOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_augOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_sepOtherTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_otherRowTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_otherFirstHalfDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_otherSecondHalfDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+
+
+                }
+
+            }
+
+            $('#difference_table').append(`
+                                <tr>
+                                <td class="text-center">Total</td>
+                                <td class="text-right">${_octTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_novTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_decTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_janTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_febTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_marTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_aprTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_mayTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_junTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_julTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_augTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_sepTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_rowTotalDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_firstHalfDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${_secondHalfDifference.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+
+            $('#difference_table').append('</tbody>');
+        }
         
 
 
 
-
+        console.log(differenceTable);
 
     });
 

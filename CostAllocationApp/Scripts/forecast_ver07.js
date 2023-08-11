@@ -1318,6 +1318,13 @@ function ShowForecastResults(year) {
                 decimal: '.'
             },
             {
+                title: "Total Points",
+                type: "decimal",
+                name: "TotalPoints",
+                mask: '#.##,0',
+                decimal: '.'
+            },
+            {
                 title: "10月",
                 type: "number",
                 readOnly: true,
@@ -1338,7 +1345,7 @@ function ShowForecastResults(year) {
                 readOnly: true,
                 mask: "#,##0",
                 name: "DecTotal"
-            },
+            },            
             {
                 title: "1月",
                 type: "decimal",

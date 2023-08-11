@@ -5601,13 +5601,11 @@ namespace CostAllocationApp.Controllers.Api
             DateTime createdDate = DateTime.Now;
             int approveTimeStampId = 0;
 
-            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
-            //_assignmentHistories_Add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();            
 
-            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
-            //_assignmentHistorys_Delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();            
 
-            //row wise update: start          
+            //Add Employee And Delete Employee Approve: Start   
             if (!string.IsNullOrEmpty(approvedRows))
             {
                 var arrApprovalRowIds = approvedRows.Split(',');
@@ -5638,11 +5636,12 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }                
             }
+            //Add Employee And Delete Employee Approve: End
 
+            //Cell Wise Approve: Start
             string approvedCellAssignmentId = "";
             string approvedCellNo = "";
-            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
-            //_assignmentHistorys_CellWise = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();            
             
             //update cells: start            
             if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))

@@ -1320,7 +1320,7 @@ function ShowForecastResults(year) {
             {
                 title: "Total Points",
                 type: "decimal",
-                name: "TotalPoints",
+                name: "TotalManMonth",
                 mask: '#.##,0',
                 decimal: '.'
             },
@@ -2927,7 +2927,8 @@ function ShowForecastResults(year) {
         }
         else {
             var isApprovedCells = value['41'];
-            var columnInfo = value['37'];
+            //var columnInfo = value['37'];
+            var columnInfo = value['38'];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
                 
@@ -3354,7 +3355,8 @@ function ShowForecastResults(year) {
             });
 
             //approved cells color
-            var approvedCells = value['40'];
+            // var approvedCells = value['40'];
+            var approvedCells = value['41'];
             var arrApprovedCells = approvedCells.split(',');
             $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == 1) {
@@ -3507,7 +3509,8 @@ function ShowForecastResults(year) {
             });
             
             //pending cells color
-            var bCYRCellPending = value['42'];
+            // var bCYRCellPending = value['42'];
+            var bCYRCellPending = value['43'];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == 1) {

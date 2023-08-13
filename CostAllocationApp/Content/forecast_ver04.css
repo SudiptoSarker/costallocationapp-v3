@@ -138,8 +138,18 @@ body {
 .jexcel tbody tr td:nth-of-type(12) {
     text-align:right !important;
 }
+
+/*totla man month column*/
 .jexcel tbody tr td:nth-of-type(25) {
+    text-align:center !important;
+    background-color: #eab676;
+    color: black;
+}
+/*totla man month column*/
+.jexcel tbody tr td:nth-of-type(38) {
     text-align:right !important;
+    background-color: #eab676;
+    color: black;
 }
 .jexcel tbody tr td:nth-of-type(26) {
     text-align:right !important;

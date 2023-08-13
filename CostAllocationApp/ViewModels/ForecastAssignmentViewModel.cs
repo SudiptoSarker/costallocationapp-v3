@@ -83,6 +83,7 @@ namespace CostAllocationApp.ViewModels
         public string SepTotal { get; set; }
 
         public string TotalManMonth { get; set; }
+        public string TotalCost { get; set; }
         //public string OctTotalMM { get; set; }
         //public string NovTotalMM { get; set; }
         //public string DecTotalMM { get; set; }

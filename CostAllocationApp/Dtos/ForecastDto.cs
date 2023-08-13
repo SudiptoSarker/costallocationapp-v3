@@ -14,5 +14,6 @@ namespace CostAllocationApp.Dtos
         //public decimal Total { get; set; }
         public string Total { get; set; }
         public string TotalPoints { get; set; }
+        public string TotalCosts { get; set; }
     }
 }

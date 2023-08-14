@@ -5509,6 +5509,141 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [HttpGet]
+        [Route("api/utilities/GetHeadCount/")]
+        public IHttpActionResult GetHeadCount(string companiIds)
+        {
+            int year = 0;
+            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            year = forecastLeatestYear;
+            List<Department> departments = departmentBLL.GetAllDepartments();
+            List<HeadCountInner> _headCountList = new List<HeadCountInner>();
+            List<ForecastAssignmentViewModel> _allforecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+            foreach (var department in departments)
+            {
+                if (department.Id == 8)
+                {
+                    continue;
+                }
+
+
+                _headCountList.Add(new HeadCountInner{
+                    DepartmentId = department.Id,
+                    DepartmentName = department.DepartmentName,
+                    OctCount = 0,
+                    NovCount = 0,
+                    DecCount = 0,
+                    JanCount = 0,
+                    FebCount = 0,
+                    MarCount = 0,
+                    AprCount = 0,
+                    MayCount = 0,
+                    JunCount = 0,
+                    JulCount = 0,
+                    AugCount = 0,
+                    SepCount = 0,
+                });
+
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
+                if (forecastAssignmentViewModels.Count > 0)
+                {
+                    _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
+                }
+            }
+
+            if (_allforecastAssignmentViewModels.Count > 0)
+            {
+                var _uniqueItemList = _allforecastAssignmentViewModels.GroupBy(x => x.EmployeeId).Select(x => x.First()).ToList();
+                var _uniqueEmployeeIdList = _uniqueItemList.Select(x => x.EmployeeId).ToList();
+                foreach (var employeeId in _uniqueEmployeeIdList)
+                {
+                    var filteredByEmployeeId = _allforecastAssignmentViewModels.Where(x=>x.EmployeeId==employeeId).ToList();
+                    if (filteredByEmployeeId.Count==1)
+                    {
+                        foreach (var item in filteredByEmployeeId)
+                        {
+                            var getSingleDeptHeadCount = _headCountList.Where(h => h.DepartmentId == Convert.ToInt32(item.DepartmentId)).SingleOrDefault();
+                            if (Convert.ToDouble(item.OctPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.OctCount += 1;
+                            }
+                            if (Convert.ToDouble(item.NovPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.NovCount += 1;
+                            }
+                            if (Convert.ToDouble(item.DecPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.DecCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JanPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JanCount += 1;
+                            }
+                            if (Convert.ToDouble(item.FebPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.FebCount += 1;
+                            }
+                            if (Convert.ToDouble(item.MarPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MarCount += 1;
+                            }
+                            if (Convert.ToDouble(item.AprPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AprCount += 1;
+                            }
+                            if (Convert.ToDouble(item.MayPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MayCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JunPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JunCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JulPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JulCount += 1;
+                            }
+                            if (Convert.ToDouble(item.AugPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AugCount += 1;
+                            }
+                            if (Convert.ToDouble(item.SepPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.SepCount += 1;
+                            }
+
+                        }
+
+
+                    }
+                    else if(filteredByEmployeeId.Count > 1)
+                    {
+
+                    }
+                }
+
+            }
+            return Ok(_headCountList);
+        }
+
+        class HeadCountInner
+        {
+            public int DepartmentId { get; set; }
+            public string DepartmentName { get; set; }
+            public double OctCount { get; set; }
+            public double NovCount { get; set; }
+            public double DecCount { get; set; }
+            public double JanCount { get; set; }
+            public double FebCount { get; set; }
+            public double MarCount { get; set; }
+            public double AprCount { get; set; }
+            public double MayCount { get; set; }
+            public double JunCount { get; set; }
+            public double JulCount { get; set; }
+            public double AugCount { get; set; }
+            public double SepCount { get; set; }
+        }
+
+        [HttpGet]
         [Route("api/utilities/SearchForApprovalEmployee/")]
         public IHttpActionResult SearchForApprovalEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
         {            

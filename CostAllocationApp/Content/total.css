@@ -177,3 +177,8 @@
     #difference_table td {
         padding: 7px !important;
     }
+
+    /* make minus amounts show up in red */
+    #difference_table td[data-monetary-amount^="-"] {
+        color: red !important;
+    }

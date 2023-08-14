@@ -6,6 +6,7 @@ var othersDepartmentTotal = [];
 var othersDepartmentTotalForBudget = [];
 var othersDepartmentTotalForDifference = [];
 var differenceTable = [];
+var headCountList = [];
 
 
 // for regular
@@ -171,7 +172,17 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 totalListForBudget = data;
-                //console.log(totalList);
+            }
+        });
+
+        $.ajax({
+            url: `/api/utilities/GetHeadCount?companiIds=${companyArray.companies.join(',')}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                headCountList = data;
             }
         });
 
@@ -935,9 +946,32 @@ $(document).ready(function () {
 
             $('#difference_table').append('</tbody>');
         }
-        
 
+        // code for head count table
 
+        $('#headcount_table').empty();
+        $('#headcount_table').append(`<thead><tr><th>departments</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+        $('#headcount_table').append('<tbody>');
+        for (var f = 0; f < headCountList.length; f++) {
+            $('#headcount_table').append(`
+                                <tr>
+                                <td>${headCountList[f].DepartmentName}</th>
+                                <td class="text-right">${headCountList[f].OctCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].NovCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].DecCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].JanCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].FebCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].MarCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].AprCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].MayCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].JunCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].JulCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].AugCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                <td class="text-right">${headCountList[f].SepCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                </tr>`);
+        }
+
+        $('#headcount_table').append('</tbody>');
 
         console.log(differenceTable);
 

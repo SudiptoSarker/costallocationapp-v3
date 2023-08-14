@@ -3660,7 +3660,7 @@ function DuplicateBudget(){
         alert("Please select to budget type!")
         return false;
     }
-
+    
     if(fromDate!="" && toDate!=""){
         $("#replicate_from_previous_year").modal("hide");
         $("#loading").css("display", "block");

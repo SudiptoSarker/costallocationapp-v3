@@ -265,7 +265,7 @@ $(document).ready(function () {
                     //if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
                     if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
                         tempArray.push(allTableData[j]);
-                    }
+                    } 
                 }
             }
             var singleRowDuplicationCount = 0;
@@ -1280,6 +1280,8 @@ function ShowForecastResults(year) {
             var checkId = jss.getValueFromCoords(0, y);
             //var employeeId = jss.getValueFromCoords(35, y);
             var employeeId = jss.getValueFromCoords(37, y);
+            console.log("employeeId: "+employeeId);
+
             console.log("employeeId: "+employeeId);
 
             if (checkId == null || checkId == '' || checkId == undefined) {
@@ -3341,9 +3343,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            //jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
     }
     if (x == 7) {
@@ -3351,9 +3355,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
     }
     if (x == 11) {
@@ -3378,9 +3382,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37,y);
+            //var currentValue = jss.getValueFromCoords(37,y);
+            var currentValue = jss.getValueFromCoords(39,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            //jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
 
@@ -3407,9 +3413,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
 
@@ -3434,9 +3440,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3460,9 +3466,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3486,9 +3492,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3513,9 +3519,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3539,9 +3545,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3564,9 +3570,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3590,9 +3596,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3615,9 +3621,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3641,9 +3647,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3667,9 +3673,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }

@@ -4757,10 +4757,10 @@ namespace CostAllocationApp.Controllers.Api
                 SukeyQADto sukeyDto = new SukeyQADto();
                 sukeyDto.DepartmentId = department.Id.ToString();
                 sukeyDto.DepartmentName = department.DepartmentName;
-                if (department.Id==8)
-                {
-                    continue;
-                }
+                //if (department.Id==8)
+                //{
+                //    continue;
+                //}
                 var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
                 if (apportionmentByDepartment==null)
                 {
@@ -5615,6 +5615,527 @@ namespace CostAllocationApp.Controllers.Api
             }
             
             return Ok(sukeyQADtos);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetHeadCount/")]
+        public IHttpActionResult GetHeadCount(string companiIds)
+        {
+            int year = 0;
+            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            year = forecastLeatestYear;
+            List<Department> departments = departmentBLL.GetAllDepartments();
+            List<HeadCountInner> _headCountList = new List<HeadCountInner>();
+            List<ForecastAssignmentViewModel> _allforecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+            foreach (var department in departments)
+            {
+                if (department.Id == 8)
+                {
+                    continue;
+                }
+
+
+                _headCountList.Add(new HeadCountInner{
+                    DepartmentId = department.Id,
+                    DepartmentName = department.DepartmentName,
+                    OctCount = 0,
+                    NovCount = 0,
+                    DecCount = 0,
+                    JanCount = 0,
+                    FebCount = 0,
+                    MarCount = 0,
+                    AprCount = 0,
+                    MayCount = 0,
+                    JunCount = 0,
+                    JulCount = 0,
+                    AugCount = 0,
+                    SepCount = 0,
+                });
+
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
+                if (forecastAssignmentViewModels.Count > 0)
+                {
+                    _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
+                }
+            }
+
+            if (_allforecastAssignmentViewModels.Count > 0)
+            {
+                var _uniqueItemList = _allforecastAssignmentViewModels.GroupBy(x => x.EmployeeId).Select(x => x.First()).ToList();
+                var _uniqueEmployeeIdList = _uniqueItemList.Select(x => x.EmployeeId).ToList();
+                foreach (var employeeId in _uniqueEmployeeIdList)
+                {
+                    var filteredByEmployeeId = _allforecastAssignmentViewModels.Where(x=>x.EmployeeId==employeeId).ToList();
+                    if (filteredByEmployeeId.Count==1)
+                    {
+                        foreach (var item in filteredByEmployeeId)
+                        {
+                            var getSingleDeptHeadCount = _headCountList.Where(h => h.DepartmentId == Convert.ToInt32(item.DepartmentId)).SingleOrDefault();
+                            if (Convert.ToDouble(item.OctPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.OctCount += 1;
+                            }
+                            if (Convert.ToDouble(item.NovPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.NovCount += 1;
+                            }
+                            if (Convert.ToDouble(item.DecPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.DecCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JanPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JanCount += 1;
+                            }
+                            if (Convert.ToDouble(item.FebPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.FebCount += 1;
+                            }
+                            if (Convert.ToDouble(item.MarPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MarCount += 1;
+                            }
+                            if (Convert.ToDouble(item.AprPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AprCount += 1;
+                            }
+                            if (Convert.ToDouble(item.MayPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MayCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JunPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JunCount += 1;
+                            }
+                            if (Convert.ToDouble(item.JulPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JulCount += 1;
+                            }
+                            if (Convert.ToDouble(item.AugPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AugCount += 1;
+                            }
+                            if (Convert.ToDouble(item.SepPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.SepCount += 1;
+                            }
+
+                        }
+
+
+                    }
+                    else if(filteredByEmployeeId.Count > 1)
+                    {
+                        List<int> _octDeptId = new List<int>();
+                        List<int> _novDeptId = new List<int>();
+                        List<int> _decDeptId = new List<int>();
+                        List<int> _janDeptId = new List<int>();
+                        List<int> _febDeptId = new List<int>();
+                        List<int> _marDeptId = new List<int>();
+                        List<int> _aprDeptId = new List<int>();
+                        List<int> _mayDeptId = new List<int>();
+                        List<int> _junDeptId = new List<int>();
+                        List<int> _julDeptId = new List<int>();
+                        List<int> _augDeptId = new List<int>();
+                        List<int> _sepDeptId = new List<int>();
+                        bool octFlag = false, novFlag = false, decFlag = false, janFlag = false, febFlag = false, marFlag = false, aprFlag = false, mayFlag = false, junFlag = false, julFlag = false, augFlag = false, sepFlag = false;
+                        List<ForecastAssignmentViewModel> _tempArray = new List<ForecastAssignmentViewModel>();
+                        for (int i = 0; i < filteredByEmployeeId.Count; i++)
+                        {
+                            if (_tempArray.Count==0)
+                            {
+                                _tempArray.Add(filteredByEmployeeId[i]);
+                            }
+                            else
+                            {
+                                
+
+                                foreach (var tempItem in _tempArray)
+                                {
+                                    // for oct
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].OctPoints) > Convert.ToDouble(tempItem.OctPoints))
+                                        {
+                                            octFlag = false;
+                                            _octDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].OctPoints) < Convert.ToDouble(tempItem.OctPoints))
+                                        {
+                                            octFlag = false;
+                                            _octDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (octFlag==false)
+                                            {
+                                                octFlag = true;
+                                                _octDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for nov
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].NovPoints) > Convert.ToDouble(tempItem.NovPoints))
+                                        {
+                                            novFlag = false;
+                                            _novDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].NovPoints) < Convert.ToDouble(tempItem.NovPoints))
+                                        {
+                                            novFlag = false;
+                                            _novDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (novFlag == false)
+                                            {
+                                                novFlag = true;
+                                                _novDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for dec
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].DecPoints) > Convert.ToDouble(tempItem.DecPoints))
+                                        {
+                                            decFlag = false;
+                                            _decDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].DecPoints) < Convert.ToDouble(tempItem.DecPoints))
+                                        {
+                                            decFlag = false;
+                                            _decDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (decFlag == false)
+                                            {
+                                                decFlag = true;
+                                                _decDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for jan
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].JanPoints) > Convert.ToDouble(tempItem.JanPoints))
+                                        {
+                                            janFlag = false;
+                                            _janDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].JanPoints) < Convert.ToDouble(tempItem.JanPoints))
+                                        {
+                                            janFlag = false;
+                                            _janDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (janFlag == false)
+                                            {
+                                                janFlag = true;
+                                                _janDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for feb
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].FebPoints) > Convert.ToDouble(tempItem.FebPoints))
+                                        {
+                                            febFlag = false;
+                                            _febDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].FebPoints) < Convert.ToDouble(tempItem.FebPoints))
+                                        {
+                                            febFlag = false;
+                                            _febDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (febFlag == false)
+                                            {
+                                                febFlag = true;
+                                                _febDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+                                    // for mar
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].MarPoints) > Convert.ToDouble(tempItem.MarPoints))
+                                        {
+                                            marFlag = false;
+                                            _marDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].MarPoints) < Convert.ToDouble(tempItem.MarPoints))
+                                        {
+                                            marFlag = false;
+                                            _marDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (marFlag == false)
+                                            {
+                                                marFlag = true;
+                                                _marDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for apr
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].AprPoints) > Convert.ToDouble(tempItem.AprPoints))
+                                        {
+                                            aprFlag = false;
+                                            _aprDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].AprPoints) < Convert.ToDouble(tempItem.AprPoints))
+                                        {
+                                            aprFlag = false;
+                                            _aprDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (aprFlag == false)
+                                            {
+                                                aprFlag = true;
+                                                _aprDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for may
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].MayPoints) > Convert.ToDouble(tempItem.MayPoints))
+                                        {
+                                            mayFlag = false;
+                                            _mayDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].MayPoints) < Convert.ToDouble(tempItem.MayPoints))
+                                        {
+                                            mayFlag = false;
+                                            _mayDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (mayFlag == false)
+                                            {
+                                                mayFlag = true;
+                                                _mayDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for jun
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].JunPoints) > Convert.ToDouble(tempItem.JunPoints))
+                                        {
+                                            junFlag = false;
+                                            _junDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].JunPoints) < Convert.ToDouble(tempItem.JunPoints))
+                                        {
+                                            junFlag = false;
+                                            _junDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (junFlag == false)
+                                            {
+                                                junFlag = true;
+                                                _junDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+                                    // for jul
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].JulPoints) > Convert.ToDouble(tempItem.JulPoints))
+                                        {
+                                            julFlag = false;
+                                            _julDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].JulPoints) < Convert.ToDouble(tempItem.JulPoints))
+                                        {
+                                            julFlag = false;
+                                            _julDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (julFlag == false)
+                                            {
+                                                julFlag = true;
+                                                _julDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                    // for aug
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].AugPoints) > Convert.ToDouble(tempItem.AugPoints))
+                                        {
+                                            augFlag = false;
+                                            _augDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].AugPoints) < Convert.ToDouble(tempItem.AugPoints))
+                                        {
+                                            augFlag = false;
+                                            _augDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (augFlag == false)
+                                            {
+                                                augFlag = true;
+                                                _augDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+                                    // for sep
+                                    {
+                                        if (Convert.ToDouble(filteredByEmployeeId[i].SepPoints) > Convert.ToDouble(tempItem.SepPoints))
+                                        {
+                                            sepFlag = false;
+                                            _sepDeptId.Add(Convert.ToInt32(filteredByEmployeeId[i].DepartmentId));
+                                        }
+                                        else if (Convert.ToDouble(filteredByEmployeeId[i].SepPoints) < Convert.ToDouble(tempItem.SepPoints))
+                                        {
+                                            sepFlag = false;
+                                            _sepDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+                                        }
+                                        else
+                                        {
+                                            if (sepFlag == false)
+                                            {
+                                                sepFlag = true;
+                                                _sepDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
+
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                        if (_octDeptId.Count > 0)
+                        {
+                            var val = _octDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.OctCount++;
+                        }
+                        if (_novDeptId.Count > 0)
+                        {
+                            var val = _novDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.NovCount++;
+                        }
+                        if (_decDeptId.Count > 0)
+                        {
+                            var val = _decDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.DecCount++;
+                        }
+                        if (_janDeptId.Count > 0)
+                        {
+                            var val = _janDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JanCount++;
+                        }
+                        if (_febDeptId.Count > 0)
+                        {
+                            var val = _febDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.FebCount++;
+                        }
+                        if (_marDeptId.Count > 0)
+                        {
+                            var val = _marDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.MarCount++;
+                        }
+                        if (_aprDeptId.Count > 0)
+                        {
+                            var val = _aprDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.AprCount++;
+                        }
+                        if (_mayDeptId.Count > 0)
+                        {
+                            var val = _mayDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.MayCount++;
+                        }
+                        if (_junDeptId.Count > 0)
+                        {
+                            var val = _junDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JunCount++;
+                        }
+                        if (_julDeptId.Count > 0)
+                        {
+                            var val = _julDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JulCount++;
+                        }
+                        if (_augDeptId.Count > 0)
+                        {
+                            var val = _augDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.AugCount++;
+                        }
+                        if (_sepDeptId.Count > 0)
+                        {
+                            var val = _sepDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.SepCount++;
+                        }
+                    }
+                }
+
+            }
+            return Ok(_headCountList);
+        }
+
+        class HeadCountInner
+        {
+            public int DepartmentId { get; set; }
+            public string DepartmentName { get; set; }
+            public double OctCount { get; set; }
+            public double NovCount { get; set; }
+            public double DecCount { get; set; }
+            public double JanCount { get; set; }
+            public double FebCount { get; set; }
+            public double MarCount { get; set; }
+            public double AprCount { get; set; }
+            public double MayCount { get; set; }
+            public double JunCount { get; set; }
+            public double JulCount { get; set; }
+            public double AugCount { get; set; }
+            public double SepCount { get; set; }
         }
 
         [HttpGet]

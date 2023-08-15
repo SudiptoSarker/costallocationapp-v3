@@ -2409,5 +2409,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetForecastOriginalPointsForBudget(assignmentId, monthId, year);
         }
+        public ForecastTotalManMonthCostsViewModal GetTotalCalculationForManmonthAndCost(int year)
+        {
+            return employeeAssignmentDAL.GetTotalCalculationForManmonthAndCost(year);
+        }
     }
 }

@@ -74,6 +74,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
         }
+        public List<Forecast> GetForecastHitostyForApproval(int assignmentId)
+        {
+            return forecastDAL.GetForecastHitostyForApproval(assignmentId);
+        }
         public List<Forecast> GetBudgetForecastsByAssignmentId(int assignmentId)
         {
             return forecastDAL.GetBudgetForecastsByAssignmentId(assignmentId);
@@ -308,6 +312,10 @@ namespace CostAllocationApp.BLL
         public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
         {
             return forecastDAL.GetOriginalForecastedData(assignmentId);
+        }
+        public AssignmentHistoryViewModal GetOriginalForecastedDataForApproval(int assignmentId,int timeStampId)
+        {
+            return forecastDAL.GetOriginalForecastedDataForApproval(assignmentId, timeStampId);
         }
         public int CreateApproveTimeStamp(string approveTimeStamp, int year, string createdBy, DateTime createdDate)
         {

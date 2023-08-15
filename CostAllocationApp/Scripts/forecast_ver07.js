@@ -991,13 +991,31 @@ function ShowForecastResults(year) {
             });
         }
     });
+    var _retriveTotal = [];        
+    //get total man month
+    $.ajax({
+        url: `/api/utilities/GetTotalCalculationForManmonthAndCost`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "year=" + year,
+        success: function (data) {
+            _retriveTotal = data;
+            // $.each(data, (index, value) => {
+            //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
+            // });
+        }
+    });
+
+
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
     }
     var w = window.innerWidth;
     var h = window.innerHeight;
-    
+    var octTotalMM =5.5;
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         filters: true,
@@ -1005,7 +1023,220 @@ function ShowForecastResults(year) {
         freezeColumns: 3,
         defaultColWidth: 50,
         tableWidth: w-280+ "px",
-        tableHeight: (h-150) + "px",                
+        tableHeight: (h-150) + "px",           
+        nestedHeaders:[
+            [
+                {
+                    title: '',
+                    colspan: '10',
+                },
+                //month wise total points
+                {
+                    title: _retriveTotal.OctTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.NovTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.DecTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JanTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.FebTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.MarTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.AprTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.MayTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JunTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JulTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.AugTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.SepTotalMM,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.TotalManMonth,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                //month wise total cost
+                {
+                    title: _retriveTotal.OctTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.NovTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.DecTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JanTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.FebTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.MarTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.AprTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.MayTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JunTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.JulTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.AugTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+                {
+                    title: _retriveTotal.SepTotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+
+                {
+                    title: _retriveTotal.TotalCosts,
+                    type: "decimal",
+                    name: "OctPoints",
+                    mask: '#.##,0',
+                    decimal: '.'
+                },
+
+
+            ],
+            // [
+            //     {
+            //         title: '',
+            //         colspan: '10',
+            //     },
+            //     {
+            //         title: '2023 Man Month',
+            //         colspan: '12'
+            //     },
+            //     {
+            //         title: '',
+            //         colspan: '1'
+            //     },
+            //     {
+            //         title: '2023 Costs',
+            //         colspan: '+13'
+            //     },
+            // ],
+        ],
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -2635,67 +2866,67 @@ function ShowForecastResults(year) {
     $("#cancel_forecast_history").css("display", "block");
 
     jss.deleteColumn(48, 19);
-    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
-    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelFirstHeaderRow.css('top', '0px');
-    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
 
     //employee name column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {       
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3)').on('click', function () {       
         $('.search_p').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_p').fadeIn("slow");
     });
 
     //section column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5)').on('click', function () {               
         $('.search_section').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_section').fadeIn("slow");
     });
     
     //department column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6)').on('click', function () {               
         $('.search_department').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_department').fadeIn("slow");
     });    
     //incharge column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7)').on('click', function () {               
         $('.search_incharge').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_incharge').fadeIn("slow");
     });
     //role column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8)').on('click', function () {               
         $('.search_role').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_role').fadeIn("slow");
     });
     //explanation column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(9)').on('click', function () {               
         $('.search_explanation').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_explanation').fadeIn("slow");
     });
     //company column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(10)').on('click', function () {               
         $('.search_company').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_company').fadeIn("slow");
     });
     //grade column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(11)').on('click', function () {               
         $('.search_grade').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_grade').fadeIn("slow");
     });
         //unit price column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(12)').on('click', function () {               
         $('.search_unit_price').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_unit_price').fadeIn("slow");

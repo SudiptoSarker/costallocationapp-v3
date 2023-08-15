@@ -5512,23 +5512,28 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetHeadCount/")]
         public IHttpActionResult GetHeadCount(string companiIds)
         {
+            
             int year = 0;
             int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
             year = forecastLeatestYear;
             List<Department> departments = departmentBLL.GetAllDepartments();
+            List<SubCategory> subCategories = departmentBLL.GetAllSubCategories();
             List<HeadCountInner> _headCountList = new List<HeadCountInner>();
             List<ForecastAssignmentViewModel> _allforecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
             foreach (var department in departments)
             {
-                if (department.Id == 8)
-                {
-                    continue;
-                }
+                //if (department.Id == 8)
+                //{
+                //    continue;
+                //}
 
+                var subCategory = subCategories.Where(sc=>sc.Id==Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
 
                 _headCountList.Add(new HeadCountInner{
                     DepartmentId = department.Id,
                     DepartmentName = department.DepartmentName,
+                    CategoryName = subCategory.CategoryName,
+                    SubCategoryName= subCategory.SubCategoryName,
                     OctCount = 0,
                     NovCount = 0,
                     DecCount = 0,
@@ -6015,6 +6020,8 @@ namespace CostAllocationApp.Controllers.Api
         {
             public int DepartmentId { get; set; }
             public string DepartmentName { get; set; }
+            public string CategoryName { get; set; }
+            public string SubCategoryName { get; set; }
             public double OctCount { get; set; }
             public double NovCount { get; set; }
             public double DecCount { get; set; }

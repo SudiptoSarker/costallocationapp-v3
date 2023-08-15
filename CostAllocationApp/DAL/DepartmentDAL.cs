@@ -57,6 +57,7 @@ namespace CostAllocationApp.DAL
                             department.DepartmentName = rdr["Name"].ToString();
                             department.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             department.CreatedBy = rdr["CreatedBy"].ToString();
+                            department.SubCategoryId = rdr["SubCategoryId"].ToString();
 
                             departments.Add(department);
                         }
@@ -324,6 +325,74 @@ namespace CostAllocationApp.DAL
                 }
 
                 return department;
+            }
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            List<Category> categories = new List<Category>();
+            string query = "";
+            query = "SELECT * FROM Categories";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Category category = new Category();
+                            category.Id = Convert.ToInt32(rdr["Id"]);
+                            category.CategoryName = rdr["Name"].ToString();
+                            categories.Add(category);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return categories;
+            }
+        }
+
+        public List<SubCategory> GetAllSubCategories()
+        {
+            List<SubCategory> subCategories = new List<SubCategory>();
+            string query = "";
+            query = "SELECT * FROM SubCategories join Categories on SubCategories.CategoryId = Categories.Id";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            SubCategory subCategory = new SubCategory();
+                            subCategory.Id = Convert.ToInt32(rdr["Id"]);
+                            subCategory.SubCategoryName = rdr["SubCategoryName"].ToString();
+                            subCategory.CategoryId = rdr["CategoryId"].ToString();
+                            subCategory.CategoryName = rdr["CategoryName"].ToString();
+                            subCategories.Add(subCategory);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return subCategories;
             }
         }
     }

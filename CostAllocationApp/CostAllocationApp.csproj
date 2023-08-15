@@ -249,6 +249,7 @@
     <Compile Include="Models\Apportionment.cs" />
     <Compile Include="Models\AssignmentHistory.cs" />
     <Compile Include="Models\BudgetImport.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\SubCategory.cs" />
     <Compile Include="Models\Sukey.cs" />
     <Compile Include="Models\UploadExcel.cs" />
     <Compile Include="Models\User.cs" />

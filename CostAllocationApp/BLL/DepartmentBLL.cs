@@ -58,5 +58,14 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.GetDepartmentByDepartemntId(departmentId);
         }
+
+        public List<Category> GetAllCategories()
+        {
+            return departmentDAL.GetAllCategories();
+        }
+        public List<SubCategory> GetAllSubCategories()
+        {
+            return departmentDAL.GetAllSubCategories();
+        }
     }
 }

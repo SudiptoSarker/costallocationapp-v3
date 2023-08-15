@@ -68,7 +68,7 @@
 #total_table td{
     padding: 7px !important;
 }
-.expand, .inner-expand, .closed, .inner-closed {
+.expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {
     cursor: pointer;
     border: 1px solid black;
     font-size: 8px;

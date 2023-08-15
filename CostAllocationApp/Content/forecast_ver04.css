@@ -97,83 +97,6 @@ body {
     max-height:800px !important;
 } */
 
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
-    left: 0px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
-    left: 0px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
-    left: 150px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-
-
-.jexcel tbody tr td:nth-of-type(3) {
-    text-align: left !important;
-}
-.jexcel tbody tr td:nth-of-type(4) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(5) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(6) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(7) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(8) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(9) {
-    text-align:left !important;
-}
-.jexcel tbody tr td:nth-of-type(12) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(25) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(26) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(27) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(28) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(29) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(30) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(31) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(32) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(33) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(34) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(35) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(36) {
-    text-align:right !important;
-}
 /***************************\                           
 	Import and Replicate Data
 \***************************/
@@ -246,3 +169,181 @@ body {
      $(this).css("background-color", "yellow"); //Here Change color to yellow.
     return false;
 }); */
+
+
+/***************************\                           
+    Jexcel table design
+\***************************/
+
+
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
+    left: 0px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
+    left: 0px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
+    left: 150px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+
+
+.jexcel tbody tr td:nth-of-type(3) {
+    text-align: left !important;
+}
+.jexcel tbody tr td:nth-of-type(4) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(5) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(6) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(7) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(8) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(9) {
+    text-align:left !important;
+}
+.jexcel tbody tr td:nth-of-type(12) {
+    text-align:right !important;
+}
+
+/*totla man month column*/
+.jexcel tbody tr td:nth-of-type(25) {
+    text-align:center !important;
+    background-color: #eab676;
+    color: black;
+}
+/*totla man month column*/
+.jexcel tbody tr td:nth-of-type(38) {
+    text-align:right !important;
+    background-color: #eab676;
+    color: black;
+}
+.jexcel tbody tr td:nth-of-type(26) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(27) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(28) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(29) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(30) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(31) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(32) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(33) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(34) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(35) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(36) {
+    text-align:right !important;
+}
+
+/*first header color*/
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1) {    
+    background-color: #ccc;    
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
+    background-color: #ccc;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
+    background-color: #d99a23;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
+    background-color: #d99a23;
+}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
+    background-color: #d99a23;
+}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
+    background-color: #d99a23;
+}

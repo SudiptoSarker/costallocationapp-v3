@@ -3014,6 +3014,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/DuplicateForecastYear/")]
         public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear,string budgetType)
         {
+            var session = System.Web.HttpContext.Current.Session;
             int results = 0;
             int fromDate = 0;
             int toDate = 0;
@@ -3025,43 +3026,148 @@ namespace CostAllocationApp.Controllers.Api
                 results = forecastBLL.DuplicateBudget(fromDate, toDate, Convert.ToInt32(budgetType));
 
             }
+           
+            //2nd half budget: start
+            if (!string.IsNullOrEmpty(budgetType))
+            {
+                if (Convert.ToInt32(budgetType) == 2)
+                {
+                    List<EmployeeBudget> _employeeBudgets = new List<EmployeeBudget>();
+                    _employeeBudgets = employeeAssignmentBLL.GetSecondHlafBudgetData(Convert.ToInt32(insertYear), Convert.ToInt32(budgetType));
 
-            //    bool isThisYearBudgetExists = false;
-            //int selected_year_for_insert = 0;
-            //int copy_from_year = 0;
-            //bool isDataExistsForSelectedYear = false;
+                    int returnAssingmentId = 0;
+                    foreach (var budgetItem in _employeeBudgets)
+                    {
+                        returnAssingmentId = 0;
+                        budgetItem.Year = copyYear;
+                        returnAssingmentId = employeeAssignmentBLL.IsBudgetMatchWithAssignmentData(budgetItem);
 
-            //if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear))
-            //{
-            //    if (!string.IsNullOrEmpty(copyYear))
-            //    {
-            //        isDataExistsForSelectedYear = employeeAssignmentBLL.CheckForBudgetYearIsExists(Convert.ToInt32(copyYear));
-            //    }
-            //    if (isDataExistsForSelectedYear)
-            //    {
-            //        selected_year_for_insert = Convert.ToInt32(insertYear);
-            //        isThisYearBudgetExists = employeeAssignmentBLL.CheckForBudgetYearIsExists(selected_year_for_insert);
-            //    }                
-            //}
-            //else
-            //{
-            //    isThisYearBudgetExists = true;
-            //}
+                        List<ForecastDto> _forecastDto = new List<ForecastDto>();
+                        if (returnAssingmentId > 0)
+                        {
+                            _forecastDto = employeeAssignmentBLL.GettForecastDataForSecondHalfBudgetByAssignmentId(returnAssingmentId, Convert.ToInt32(copyYear));
+                        }
+                        if (_forecastDto.Count > 0)
+                        {
+                            foreach (var forecastItem in _forecastDto)
+                            {
+                                Forecast _forecast = new Forecast();
+                                _forecast.Points = forecastItem.Points;
+                                _forecast.Total = Convert.ToDecimal(forecastItem.Total);
+                                //_forecast.Year = forecastItem.Year;
+                                _forecast.Year = Convert.ToInt32(insertYear);
+                                _forecast.EmployeeAssignmentId = budgetItem.Id;
+                                _forecast.Month = forecastItem.Month;
+                                _forecast.UpdatedBy = session["userName"].ToString();
+                                if (forecastItem.Month == 10)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 11);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 10, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                                if (forecastItem.Month == 11)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 12);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 11, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                                if (forecastItem.Month == 12)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 13);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 12, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                                if (forecastItem.Month == 1)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 14);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 1, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                                if (forecastItem.Month == 2)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 15);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 2, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                                if (forecastItem.Month == 3)
+                                {
+                                    bool isOriginal = employeeAssignmentBLL.IsOriginalForecastData(returnAssingmentId, Convert.ToInt32(copyYear), 16);
+                                    if (isOriginal)
+                                    {
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                    else
+                                    {
+                                        _forecast.Points = employeeAssignmentBLL.GetForecastOriginalPointsForBudget(returnAssingmentId, 3, Convert.ToInt32(copyYear));
+                                        results = forecastBLL.UpdateBudgetForecast(_forecast);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Forecast _forecast = new Forecast();
+                            _forecast.Points = 0;
+                            _forecast.Total = 0;
+                            _forecast.Year = Convert.ToInt32(insertYear);
+                            _forecast.EmployeeAssignmentId = budgetItem.Id;
+                            _forecast.UpdatedBy = session["userName"].ToString();
 
-            //var result = 0;
-            //if (!isDataExistsForSelectedYear)
-            //{
-            //    result = 6;
+                            results = 0;
 
-            //}else if (!isThisYearBudgetExists)
-            //{
-            //    selected_year_for_insert = Convert.ToInt32(insertYear);
-            //    copy_from_year = Convert.ToInt32(copyYear);
-            //    result = forecastBLL.DuplicateForecastYear(copy_from_year, selected_year_for_insert);                
-            //}else
-            //{
-            //    result = 5;
-            //}            
+                            _forecast.Month = 10;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                            _forecast.Month = 11;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                            _forecast.Month = 12;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                            _forecast.Month = 1;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                            _forecast.Month = 2;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                            _forecast.Month = 3;
+                            results = forecastBLL.UpdateBudgetForecast(_forecast);
+                        }
+                    }
+                }
+            }
+
+
             return Ok(results);
         }
 
@@ -3319,6 +3425,7 @@ namespace CostAllocationApp.Controllers.Api
                     var isDeleteRow = _approvalHistoryViewModal.IsDeleteEmployee;
                     var isAddRow = _approvalHistoryViewModal.IsAddEmployee;
                     var isUpdateCells = _approvalHistoryViewModal.IsCellWiseUpdate;
+                    var approvedEmployeeAssignmentId = _approvalHistoryViewModal.Id;
 
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
@@ -3335,9 +3442,11 @@ namespace CostAllocationApp.Controllers.Api
                     var augP = tempList.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepP = tempList.Where(p => p.Month == 9).SingleOrDefault().Points;
 
-                    var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+                    //var originalForecastData = forecastBLL.GetForecastsByAssignmentId(item);
+                    var originalForecastData = forecastBLL.GetForecastHitostyForApproval(approvedEmployeeAssignmentId);
 
-                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(item);
+                    //_objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(approvedEmployeeAssignmentId);
+                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedDataForApproval(item,timeStampId);
 
                     var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
                     var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
@@ -6129,13 +6238,11 @@ namespace CostAllocationApp.Controllers.Api
             DateTime createdDate = DateTime.Now;
             int approveTimeStampId = 0;
 
-            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
-            //_assignmentHistories_Add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();            
 
-            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
-            //_assignmentHistorys_Delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();            
 
-            //row wise update: start          
+            //Add Employee And Delete Employee Approve: Start   
             if (!string.IsNullOrEmpty(approvedRows))
             {
                 var arrApprovalRowIds = approvedRows.Split(',');
@@ -6166,11 +6273,12 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }                
             }
+            //Add Employee And Delete Employee Approve: End
 
+            //Cell Wise Approve: Start
             string approvedCellAssignmentId = "";
             string approvedCellNo = "";
-            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
-            //_assignmentHistorys_CellWise = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(assignmentYear));
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();            
             
             //update cells: start            
             if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
@@ -6979,6 +7087,13 @@ namespace CostAllocationApp.Controllers.Api
             }            
 
             return Ok(isValidYearForImport);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetTotalCalculationForManmonthAndCost/")]
+        public IHttpActionResult GetTotalCalculationForManmonthAndCost(int year)
+        {
+            var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
+            return Ok(result);
         }
     }
 }

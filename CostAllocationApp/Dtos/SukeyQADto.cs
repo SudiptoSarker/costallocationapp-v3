@@ -21,5 +21,21 @@ namespace CostAllocationApp.Dtos
         public List<double> JulCost { get; set; } = new List<double>();
         public List<double> AugCost { get; set; } = new List<double>();
         public List<double> SepCost { get; set; } = new List<double>();
+
+        //public List<double> OctRowTotal { get; set; } = new List<double>();
+        //public List<double> NovRowTotal { get; set; } = new List<double>();
+        //public List<double> DecRowTotal { get; set; } = new List<double>();
+        //public List<double> JanRowTotal { get; set; } = new List<double>();
+        //public List<double> FebRowTotal { get; set; } = new List<double>();
+        //public List<double> MarRowTotal { get; set; } = new List<double>();
+        //public List<double> AprRowTotal { get; set; } = new List<double>();
+        //public List<double> MayRowTotal { get; set; } = new List<double>();
+        //public List<double> JunRowTotal { get; set; } = new List<double>();
+        //public List<double> JulRowTotal { get; set; } = new List<double>();
+        //public List<double> AugRowTotal { get; set; } = new List<double>();
+        //public List<double> SepRowTotal { get; set; } = new List<double>();
+        public List<double> RowTotal { get; set; } = new List<double>();
+        public List<double> FirstSlot { get; set; } = new List<double>();
+        public List<double> SecondSlot { get; set; } = new List<double>();
     }
 }

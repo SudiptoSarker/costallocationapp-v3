@@ -22,6 +22,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateForecast(forecast);
         }
+        public int CreateFinalBudgetForecast(Forecast forecast)
+        {
+            return forecastDAL.CreateFinalBudgetForecast(forecast);
+        }
         public int CreateBudgetForecast(Forecast forecast)
         {
             return forecastDAL.CreateBudgetForecast(forecast);
@@ -50,9 +54,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
         }
-        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted)
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted,bool isOriginal)
         {
-            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate, isDeleted);
+            return forecastDAL.CreateAssignmenttHistory(assignmentHistory, timeStampId, isUpdate, isDeleted, isOriginal);
         }
         public List<ForecastHisory> GetTimeStamps_Year(int year)
         {
@@ -173,11 +177,25 @@ namespace CostAllocationApp.BLL
                
             return resultSave;
         }
-
+        
+        public int GetReplicateYearForecastType(int replicateYear)
+        {
+            bool isSecondHalfBudgetFinalize = forecastDAL.GetReplicateYearForecastType(replicateYear);
+            if (isSecondHalfBudgetFinalize)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }            
+        }
         public int DuplicateBudget(int copyYear, int insertYear,int budgetType)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
-            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear);
+            int replicateYearBudgetType = GetReplicateYearForecastType(copyYear);
+
+            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear, replicateYearBudgetType);
 
             int resultSave = 0;
             if (excelAssignmentDtos.Count > 0)
@@ -251,9 +269,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetHistoriesByTimeStampId(timeStampId);
         }
-        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId,bool isOriginal)
         {
-            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId);
+            return forecastDAL.GetAssignmentHistoriesByTimeStampId(timeStampId, isOriginal);
         }
         public List<Forecast> GetApprovalHistoriesByTimeStampId(int timeStampId)
         {
@@ -278,10 +296,10 @@ namespace CostAllocationApp.BLL
         public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
-        }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId)
+        }        
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId, int timeStampId,bool isOriginal)
         {
-            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId);
+            return forecastDAL.GetAssignmentNamesForHistory(assignmentId, timeStampId, isOriginal);
         }
         public ApprovalHistoryViewModal GetApprovalNamesForHistory(int assignmentId,int timeStampId)
         {

@@ -36,6 +36,34 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public int CreateFinalBudgetForecast(Forecast forecast)
+        {
+            int result = 0;
+            string query = $@"insert into FinalBudgetCosts(Year,MonthId,Points,Total,EmployeeBudgetId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@total,@employeeBudgetId,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@employeeBudgetId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
         public int CreateBudgetForecast(Forecast forecast)
         {
             int result = 0;
@@ -64,8 +92,7 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int 
-            cast(Forecast forecast)
+        public int UpdateForecast(Forecast forecast)
         {
             int result = 0;
             string query = $@"update costs set Points = @points, Total= @total, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Year=@year and EmployeeAssignmentsId=@employeeAssignmentsId and MonthId=@monthId";
@@ -270,18 +297,19 @@ namespace CostAllocationApp.DAL
 
                     foreach (var item in assignmentHistories)
                     {
-                        CreateAssignmenttHistory(item, lastId, isUpdate, isDeleted);
+                        CreateAssignmenttHistory(item, lastId, isUpdate, isDeleted,false);
                     }
                     result = lastId;
                 }
                 return result;
             }
         }
-        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted)
+
+        public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted,bool isOriginal)
         {
             int result = 0;
 
-            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsUpdate,IsDeleted) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isUpdate,@isDeleted)";
+            string query = $@"insert into EmployeesAssignmentsWithCostsHistory(TimeStampId,Year,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,EmployeeAssignmentId,MonthId_Points,CreatedBy,CreatedDate,IsUpdate,IsDeleted,IsOriginal) values(@timeStampId,@year,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@employeeAssignmentId,@monthId_Points,@createdBy,@createdDate,@isUpdate,@isDeleted,@isOriginal)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -303,6 +331,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@createdDate", assignmentHistory.CreatedDate);
                 cmd.Parameters.AddWithValue("@isUpdate", isUpdate);
                 cmd.Parameters.AddWithValue("@isDeleted", isDeleted);
+                cmd.Parameters.AddWithValue("@isOriginal", isOriginal);
 
                 try
                 {
@@ -567,11 +596,18 @@ namespace CostAllocationApp.DAL
                 return forecasts;
             }
         }
-        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId)
+        public List<Forecast> GetAssignmentHistoriesByTimeStampId(int timeStampId,bool isOriginal)
         {
             List<Forecast> forecasts = new List<Forecast>();
             string query = "";
-            query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId;            
+            if (isOriginal)
+            {
+                query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId + " AND IsOriginal=1";
+            }
+            else
+            {
+                query = "SELECT * FROM EmployeesAssignmentsWithCostsHistory WHERE TimeStampId=" + timeStampId + " AND (IsOriginal IS NULL OR IsOriginal=0)";
+            }                        
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1118,8 +1154,18 @@ namespace CostAllocationApp.DAL
 
             return excelAssignmentDtos;
         }
-        public List<ExcelAssignmentDto> GetEmployeesBudgetByYear(int year)
+        public List<ExcelAssignmentDto> GetEmployeesBudgetByYear(int year,int budgetType)
         {
+            string strWhere = "";
+            if(Convert.ToInt32(budgetType) == 2)
+            {
+                strWhere = "AND ea.SecondHalfBudget=1 AND ea.FinalizedBudget=1";
+            }
+            else
+            {
+                strWhere = "AND ea.FirstHalfBudget=1 AND ea.FinalizedBudget=1";
+            }
+            strWhere = "ea.Year="+ year+ " " + strWhere;
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId
@@ -1130,7 +1176,7 @@ namespace CostAllocationApp.DAL
                             left join InCharges inc on ea.InChargeId = inc.Id 
                             left join Grades gd on ea.GradeId = gd.Id
                             left join Employees emp on ea.EmployeeId = emp.Id
-                            where ea.Year={year} and 1=1
+                            where {strWhere} and 1=1
                             order by emp.Id asc";
 
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
@@ -1528,7 +1574,7 @@ namespace CostAllocationApp.DAL
                 return years;
             }
         }
-        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId)
+        public AssignmentHistoryViewModal GetAssignmentNamesForHistory(int assignmentId,int timeStampId,bool isOriginal)
         {
             AssignmentHistoryViewModal assignmentHistoryViewModal = new AssignmentHistoryViewModal();
 
@@ -1545,7 +1591,14 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
             query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
             query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
-            query = query + "Where eh.EmployeeAssignmentId = "+ assignmentId + " and eh.TimeStampId="+ timeStampId;            
+            if (isOriginal)
+            {
+                query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId + " AND eh.IsOriginal=1";
+            }
+            else
+            {
+                query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId+ " AND (eh.IsOriginal IS NULL OR eh.IsOriginal=0) ";
+            }            
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -1570,6 +1623,7 @@ namespace CostAllocationApp.DAL
                             assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
                             assignmentHistoryViewModal.IsDeleted = rdr["IsDeleted"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeleted"]);
+                            assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
                         }
                     }
                 }
@@ -2850,5 +2904,31 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public bool GetReplicateYearForecastType(int year)
+        {
+            bool results = false;
+            string query = "";
+            query = "SELECT * FROM EmployeeeBudgets WHERE Year="+ year + " AND SecondHalfBudget=1 AND FinalizedBudget=1";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        results= true;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return results;
+            }
+        }
+
     }
 }

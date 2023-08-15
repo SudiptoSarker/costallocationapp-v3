@@ -378,3 +378,20 @@ CSS.g-6,
 #validation_message_failed{
     color: red;
 }
+#budget_edit_navigation_txt{
+  font-size: 12px;
+  font-family: "Yu Gothic";
+  white-space: nowrap !important;
+  display: block;
+  margin-top: -11px;
+}
+#budget_years{
+  transition: all 0.2s ease-in-out 0s;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 12px;
+  width: 70%;
+  height: 30px;
+  border: 1px solid #ccc !important;
+  text-align: center;
+}

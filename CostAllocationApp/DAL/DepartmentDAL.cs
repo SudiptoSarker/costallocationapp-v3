@@ -39,7 +39,10 @@ namespace CostAllocationApp.DAL
         {
             List<Department> departments = new List<Department>();
             string query = "";
-            query = "SELECT * FROM Departments WHERE isactive=1";
+            query = query + "SELECT d.Id 'DepartmentId',d.Name 'DepartmentName',s.Id 'SectionId',s.Name 'SectionName',d.CreatedDate,d.CreatedBy,d.SubCategoryId ";
+            query = query + "FROM Departments d ";
+            query = query + "   INNER JOIN Sections s ON d.SectionId = s.Id ";
+            query = query + "WHERE d.isactive=1";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -53,8 +56,10 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             Department department = new Department();
-                            department.Id = Convert.ToInt32(rdr["Id"]);
-                            department.DepartmentName = rdr["Name"].ToString();
+                            department.Id = Convert.ToInt32(rdr["DepartmentId"]);
+                            department.SectionId = Convert.ToInt32(rdr["SectionId"]);
+                            department.DepartmentName = rdr["DepartmentName"].ToString();
+                            department.SectionName = rdr["SectionName"].ToString();
                             department.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             department.CreatedBy = rdr["CreatedBy"].ToString();
                             department.SubCategoryId = rdr["SubCategoryId"].ToString();

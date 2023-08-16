@@ -1618,7 +1618,7 @@ namespace CostAllocationApp.DAL
 
             string query = "";
             query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
-            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.IsDeleted   ";
+            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.IsDeleted,eh.EmployeeId,e.FullName 'RootEmployeeName'   ";
             query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
@@ -1650,6 +1650,7 @@ namespace CostAllocationApp.DAL
                         {
                             assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);                            
                             assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.RootEmployeeName = rdr["RootEmployeeName"] is DBNull ? "" : rdr["RootEmployeeName"].ToString();
                             assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
                             assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();

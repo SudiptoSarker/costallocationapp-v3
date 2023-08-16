@@ -3252,6 +3252,11 @@ namespace CostAllocationApp.Controllers.Api
                     AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();                    
                     _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,false);                    
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
+                    var rootEmployeeName = _assignmentHistoryViewModal.RootEmployeeName;
+                    if (string.IsNullOrEmpty(employeeName))
+                    {
+                        employeeName = rootEmployeeName;
+                    }
                     var sectionName = _assignmentHistoryViewModal.SectionName;
                     var departmentName = _assignmentHistoryViewModal.DepartmentName;
                     var inChargeName = _assignmentHistoryViewModal.InChargeName;
@@ -3283,6 +3288,11 @@ namespace CostAllocationApp.Controllers.Api
                     AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
                     _objOriginalForecastedData = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,true);
                     var employeeNameOrg = _objOriginalForecastedData.EmployeeName;
+                    var rootEmployeeNameOrg = _objOriginalForecastedData.RootEmployeeName;
+                    if (string.IsNullOrEmpty(employeeNameOrg))
+                    {
+                        employeeNameOrg = rootEmployeeNameOrg;
+                    }
                     var sectionNameOrg = _objOriginalForecastedData.SectionName;
                     var departmentNameOrg = _objOriginalForecastedData.DepartmentName;
                     var inChargeNameOrg = _objOriginalForecastedData.InChargeName;

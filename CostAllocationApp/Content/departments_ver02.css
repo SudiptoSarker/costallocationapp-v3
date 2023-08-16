@@ -114,6 +114,7 @@ body {
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
+
 /***************************\                           
 	Department List Delete Button
 \***************************/ 
@@ -130,4 +131,7 @@ body {
 }
 #dept_delete_btn {
     padding-left: 382px;
+}
+#section_list{
+    border: none;
 }

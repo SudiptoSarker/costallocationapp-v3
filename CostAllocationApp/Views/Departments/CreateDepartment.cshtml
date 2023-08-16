@@ -21,6 +21,7 @@
                                     <tr></tr>
                                     <tr>
                                         <th>部署 (Dept Name)</th>
+                                        <th>区分 (Section)</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -31,6 +32,9 @@
                                             @* <div class="department_name_err" id="department_name_err">
                                                 Please provide a department name.
                                             </div> *@
+                                        </td>
+                                        <td id="dept_reg_frm_td">
+                                            <select id="section_list" class="" style=""></select>                                           
                                         </td>
                                         <td id="dept_reg_frm_td">
                                             <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
@@ -60,6 +64,7 @@
                                 <tr>
                                     <th class="dept_list_theader">Check</th>
                                     <th class="dept_list_theader">部署 (Dept Name)</th>
+                                    <th class="dept_list_theader">区分 (Section)</th>
                                 </tr>
                             </thead>
                             <tbody id="department_list_tbody"></tbody>

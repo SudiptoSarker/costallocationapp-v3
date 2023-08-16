@@ -333,9 +333,8 @@ $(document).ready(function () {
     //});    
 
     $('#save_bedget').on('click', function () {
-        // alert("testing");
-
-        // LoaderShow();
+        $("#jspreadsheet").hide();    
+        LoaderShow();
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -3286,7 +3285,7 @@ function UpdateBudget() {
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();    
     $("#export_budget").hide(); 
-    LoaderShow();
+    //LoaderShowJexcel();
 
     var userName = '';
 
@@ -3307,129 +3306,129 @@ function UpdateBudget() {
     var promptValue = "";
     
     var dateObj = new Date();
-        var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        var day = dateObj.getDate();
-        var year = dateObj.getUTCFullYear();
-        var miliSeconds = dateObj.getMilliseconds();
-        var timestamp = `${year}${month}${day}${miliSeconds}_`;
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getDate();
+    var year = dateObj.getUTCFullYear();
+    var miliSeconds = dateObj.getMilliseconds();
+    var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
-        if (jssUpdatedData.length > 0) {           
-                updateMessage = "Successfully data updated";
-                $.ajax({
-                    url: `/api/utilities/UpdateBudgetData`,
-                    contentType: 'application/json',
-                    type: 'POST',
-                    async: false,
-                    dataType: 'json',
-                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
-                    success: function (data) {
-                        var year = $("#budget_years").val();
-                        ShowBedgetResults(year);
-
-                        $("#timeStamp_ForUpdateData").val(data);
-                        var chat = $.connection.chatHub;
-                        $.connection.hub.start();
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send('data has been updated by ', userName);
-                        });
-                        $("#jspreadsheet").show();
-                        $("#export_budget").show();
-                        //$("#head_total").show();
-                        LoaderHide();
-                    }
-                });
-                jssUpdatedData = [];
-            
-            
-        }
-        else {
-            alert("There is no data to update.");
-            $("#jspreadsheet").show();
-            $("#export_budget").show();
-            //$("#head_total").show();
-            LoaderHide();
-            //alert('No data found!');
-            updateMessage = ""
-        }
-
-        if (jssInsertedData.length > 0) {
-            var elementIndex = jssInsertedData.findIndex(object => {
-                return object.employeeName.toLowerCase() == 'total';
-            });
-            if (elementIndex >= 0) {
-                jssInsertedData.splice(elementIndex, 1);
-            }
-
-            
-            var update_timeStampId = $("#timeStamp_ForUpdateData").val();
-            
-                insertMessage = "Successfully data inserted.";
-                $.ajax({
-                    url: `/api/utilities/ExcelAssignment/`,
-                    contentType: 'application/json',
-                    type: 'POST',
-                    async: false,
-                    dataType: 'json',
-                    //data: JSON.stringify(jssInsertedData),
-                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                    success: function (data) {
-                        var allJexcelData = jss.getData();
-                        for (let i = 0; i < data.length; i++) {
-
-                            $.each(allJexcelData, (index, dataValue) => {
-                                if (data[i].assignmentId == dataValue[0]) {
-                                    jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                                }
-
-                            });
-                        }
-
-                        $("#timeStamp_ForUpdateData").val('');
-                        var chat = $.connection.chatHub;
-                        $.connection.hub.start();
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send('data has been inserted by ', userName);
-                        });
-                        $("#jspreadsheet").show();
-                        $("#export_budget").show();
-                        //$("#head_total").show();
-                        LoaderHide();
-                    }
-                });
-                jssInsertedData = [];
-                newRowCount = 1;
-        }
-
-        if (deletedExistingRowIds.length > 0) {
-            var year = $("#budget_years").val();
+    if (jssUpdatedData.length > 0) {           
+            updateMessage = "Successfully data updated";
             $.ajax({
-                url: `/api/utilities/ExcelDeleteAssignment/`,
+                url: `/api/utilities/UpdateBudgetData`,
                 contentType: 'application/json',
-                type: 'DELETE',
+                type: 'POST',
                 async: false,
                 dataType: 'json',
-                //data: JSON.stringify(deletedExistingRowIds),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                 success: function (data) {
-                    alert(data);
+                    var year = $("#budget_years").val();
+                    ShowBedgetResults(year);
+
+                    $("#timeStamp_ForUpdateData").val(data);
+                    var chat = $.connection.chatHub;
+                    $.connection.hub.start();
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                        chat.server.send('data has been updated by ', userName);
+                    });
+                    $("#jspreadsheet").show();
+                    $("#export_budget").show();
+                    //$("#head_total").show();
+                    //LoaderHide();
                 }
             });
+            jssUpdatedData = [];
+        
+        
+    }
+    else {
+        alert("There is no data to update.");
+        $("#jspreadsheet").show();
+        $("#export_budget").show();
+        //$("#head_total").show();
+        //LoaderHide();
+        //alert('No data found!');
+        updateMessage = ""
+    }
 
-            $("#timeStamp_ForUpdateData").val('');
-            var chat = $.connection.chatHub;
-            $.connection.hub.start();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                chat.server.send('data has been deleted by ', userName);
-            });
-            $("#jspreadsheet").show();
-            $("#export_budget").show();
-            //$("#head_total").show();
-            LoaderHide();
-            deletedExistingRowIds = [];
+    if (jssInsertedData.length > 0) {
+        var elementIndex = jssInsertedData.findIndex(object => {
+            return object.employeeName.toLowerCase() == 'total';
+        });
+        if (elementIndex >= 0) {
+            jssInsertedData.splice(elementIndex, 1);
         }
+
+        
+        var update_timeStampId = $("#timeStamp_ForUpdateData").val();
+        
+            insertMessage = "Successfully data inserted.";
+            $.ajax({
+                url: `/api/utilities/ExcelAssignment/`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                //data: JSON.stringify(jssInsertedData),
+                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
+                success: function (data) {
+                    var allJexcelData = jss.getData();
+                    for (let i = 0; i < data.length; i++) {
+
+                        $.each(allJexcelData, (index, dataValue) => {
+                            if (data[i].assignmentId == dataValue[0]) {
+                                jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                            }
+
+                        });
+                    }
+
+                    $("#timeStamp_ForUpdateData").val('');
+                    var chat = $.connection.chatHub;
+                    $.connection.hub.start();
+                    // Start the connection.
+                    $.connection.hub.start().done(function () {
+                        chat.server.send('data has been inserted by ', userName);
+                    });
+                    $("#jspreadsheet").show();
+                    $("#export_budget").show();
+                    //$("#head_total").show();
+                    //LoaderHide();
+                }
+            });
+            jssInsertedData = [];
+            newRowCount = 1;
+    }
+
+    if (deletedExistingRowIds.length > 0) {
+        var year = $("#budget_years").val();
+        $.ajax({
+            url: `/api/utilities/ExcelDeleteAssignment/`,
+            contentType: 'application/json',
+            type: 'DELETE',
+            async: false,
+            dataType: 'json',
+            //data: JSON.stringify(deletedExistingRowIds),
+            data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
+            success: function (data) {
+                alert(data);
+            }
+        });
+
+        $("#timeStamp_ForUpdateData").val('');
+        var chat = $.connection.chatHub;
+        $.connection.hub.start();
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            chat.server.send('data has been deleted by ', userName);
+        });
+        $("#jspreadsheet").show();
+        $("#export_budget").show();
+        //$("#head_total").show();
+        //LoaderHide();
+        deletedExistingRowIds = [];
+    }
 
     if (updateMessage == "" && insertMessage == "") {
         $("#header_show").html("");
@@ -3464,6 +3463,7 @@ function UpdateBudget() {
 
         alert("Operation Success.");
     }
+
 }
 
 /*

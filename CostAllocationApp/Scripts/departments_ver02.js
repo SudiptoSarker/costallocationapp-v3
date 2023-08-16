@@ -25,7 +25,7 @@ $(document).ready(function () {
         Show department list on page load           
     \***************************/	 
     GetDepartments();
-    
+    GetSections();
 
     /***************************\                           
         Department Delete/Remove Confirm Button           
@@ -70,6 +70,7 @@ $(document).ready(function () {
 function InsertDepartment() {
     var apiurl = "/api/Departments/";
     let departmentName = $("#department_name").val().trim();
+    let sectionId = $("#section_list").val().trim();
 
     let isValidRequest = true;
 
@@ -82,10 +83,18 @@ function InsertDepartment() {
     } else {
         $(".department_name_err").hide();
     }
-       
+    
+    if (sectionId == "" || sectionId < 0) {
+        $("#section_ist_error").show();
+        isValidRequest = false;
+    } else {
+        $("#section_ist_error").hide();
+    }
+
     if (isValidRequest) {
         var data = {
-            DepartmentName: departmentName
+            DepartmentName: departmentName,
+            SectionId: sectionId
         };
 
         $.ajax({
@@ -117,7 +126,17 @@ function GetDepartments(){
     .done(function (data) {
         $('#department_list_tbody').empty();
         $.each(data, function (key, item) {
-            $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td></tr>`);
+            $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td><td>${item.SectionName}</td></tr>`);
+        });
+    });
+}
+function GetSections(){
+    $.getJSON('/api/sections/')
+    .done(function (data) {
+        $('#section_list').empty();
+        $('#section_list').append(`<option value='-1'>Select Section</option>`)
+        $.each(data, function (key, item) {
+            $('#section_list').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
         });
     });
 }

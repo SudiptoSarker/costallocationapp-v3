@@ -1,6 +1,7 @@
 ﻿var jss;
 
-$(document).ready(function () {
+$(document).ready(function () {    
+    $('#approve_history_tbl').hide(); 
     var totalwidth = 190 * $('.modal-body').length;
     $('.container').css('width', totalwidth);
 
@@ -21,6 +22,7 @@ $(document).ready(function () {
     });
 
     $('#history_data_btn').on('click', function () {        
+        $('#approve_history_tbl').show(); 
         //get the multi search values
         var year = $('#history_year').val();
         console.log(year);

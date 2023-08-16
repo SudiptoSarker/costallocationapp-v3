@@ -1,6 +1,7 @@
 ﻿var jss;
 
 $(document).ready(function () {
+    $('#change_history_tbl').hide();   
     var totalwidth = 190 * $('.modal-body').length;
     $('.container').css('width', totalwidth);
 
@@ -20,7 +21,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#history_data_btn').on('click', function () {        
+    $('#history_data_btn').on('click', function () {     
+        $('#change_history_tbl').show();   
         //get the multi search values
         var year = $('#history_year').val();
         console.log(year);
@@ -38,6 +40,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: { year: year },
                 success: function (data) {
+                    //$("#timestamp_list").css("display", "block");
                     let i = 1;
                     $('#timestamp_list tbody').empty();
                     $.each(data, function (index, element) {

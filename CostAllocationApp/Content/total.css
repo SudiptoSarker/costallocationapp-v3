@@ -38,6 +38,7 @@
 }
 #total_table tr{
     white-space:nowrap;
+    
 }
     #total_table
     td:nth-of-type(3),
@@ -56,8 +57,6 @@
     td:nth-of-type(16),
     td:nth-of-type(17) {
         min-width: 100px;
-        margin-top: auto;
-        margin-bottom: auto;
     }
 #total_table, tr, th, td {
     border: 1px solid black !important;
@@ -67,6 +66,7 @@
 }
 #total_table td{
     padding: 7px !important;
+    vertical-align:middle !important;
 }
 .expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {
     cursor: pointer;
@@ -110,8 +110,6 @@
     td:nth-of-type(16),
     td:nth-of-type(17) {
         min-width: 100px;
-        margin-top: auto;
-        margin-bottom: auto;
     }
 
 #total_budget_table, tr, th, td {
@@ -198,6 +196,7 @@
 }
     #headcount_table tr {
         white-space: nowrap;
+        
     }
 
 #headcount_table, tr, th, td {
@@ -210,6 +209,7 @@
 
     #headcount_table td {
         padding: 7px !important;
+        vertical-align: middle;
     }
 
     #headcount_table
@@ -226,6 +226,4 @@
     td:nth-of-type(12),
     td:nth-of-type(13) {
         min-width: 100px;
-        margin-top: auto;
-        margin-bottom: auto;
     }

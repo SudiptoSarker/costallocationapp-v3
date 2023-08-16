@@ -1015,12 +1015,17 @@ function ShowForecastResults(year) {
     }
     var w = window.innerWidth;
     var h = window.innerHeight;
-    var octTotalMM =5.5;
+    
+    var yearHeaderTitleForPoints = "";
+    var yearHeaderTitleForCosts = "";
+    yearHeaderTitleForPoints = "FY"+year+" 見通し";
+    yearHeaderTitleForCosts = "FY"+year+" コスト見通し";
+    
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         filters: true,
         tableOverflow: true,
-        freezeColumns: 3,
+        //freezeColumns: 3,
         defaultColWidth: 50,
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",           
@@ -1215,28 +1220,34 @@ function ShowForecastResults(year) {
                     mask: '#.##,0',
                     decimal: '.'
                 },
-
-
             ],
-            // [
-            //     {
-            //         title: '',
-            //         colspan: '10',
-            //     },
-            //     {
-            //         title: '2023 Man Month',
-            //         colspan: '12'
-            //     },
-            //     {
-            //         title: '',
-            //         colspan: '1'
-            //     },
-            //     {
-            //         title: '2023 Costs',
-            //         colspan: '+13'
-            //     },
-            // ],
-        ],
+            [
+                {
+                    title: '',
+                    colspan: '9',
+                },
+                {
+                    title: '',
+                    colspan: '1',
+                },
+                {
+                    title: yearHeaderTitleForPoints,
+                    colspan: '12',
+                },
+                
+                {
+                    title: '',
+                    colspan: '1',
+                },{
+                    title: yearHeaderTitleForCosts,
+                    colspan: '12',
+                },
+                {
+                    title: '',
+                    colspan: '1',
+                },
+            ],
+        ],        
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
@@ -2866,67 +2877,67 @@ function ShowForecastResults(year) {
     $("#cancel_forecast_history").css("display", "block");
 
     jss.deleteColumn(48, 19);
-    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3)');
+    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
-    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelFirstHeaderRow.css('top', '0px');
-    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(4) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
 
     //employee name column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3)').on('click', function () {       
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)').on('click', function () {       
         $('.search_p').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_p').fadeIn("slow");
     });
 
     //section column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)').on('click', function () {               
         $('.search_section').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_section').fadeIn("slow");
     });
     
     //department column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)').on('click', function () {               
         $('.search_department').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_department').fadeIn("slow");
     });    
     //incharge column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)').on('click', function () {               
         $('.search_incharge').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_incharge').fadeIn("slow");
     });
     //role column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)').on('click', function () {               
         $('.search_role').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_role').fadeIn("slow");
     });
     //explanation column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(9)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)').on('click', function () {               
         $('.search_explanation').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_explanation').fadeIn("slow");
     });
     //company column
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(10)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)').on('click', function () {               
         $('.search_company').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_company').fadeIn("slow");
     });
     //grade column sorting
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(11)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)').on('click', function () {               
         $('.search_grade').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_grade').fadeIn("slow");
     });
         //unit price column sorting
-    $('.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(12)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)').on('click', function () {               
         $('.search_unit_price').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_unit_price').fadeIn("slow");
@@ -3446,8 +3457,6 @@ function ShowForecastResults(year) {
         }        
         count++;
     });
-
-
 }
 
 //$('#search_p_text_box').on('keyup', function () {

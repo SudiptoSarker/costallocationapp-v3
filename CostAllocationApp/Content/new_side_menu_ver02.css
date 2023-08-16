@@ -163,6 +163,7 @@ nav li.has-child ul ul li a:active{
 	flex-wrap: wrap;
 }
 #header{
+	height: 100vh;
 	width:17%;
 	background:#f3f3f3;
 	margin-top: 33px;

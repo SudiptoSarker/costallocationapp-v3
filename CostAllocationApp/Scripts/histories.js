@@ -20,7 +20,7 @@ $(document).ready(function () {
             });
         }
     });
-
+ 
     $('#history_data_btn').on('click', function () {     
         $('#change_history_tbl').show();   
         //get the multi search values

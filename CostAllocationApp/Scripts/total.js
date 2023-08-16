@@ -139,6 +139,18 @@ $(document).ready(function () {
     
 
     $('#total_btn').on('click', () => {
+
+        totalList = [];
+        totalListForBudget = [];
+        latestFiscalYear = 0;
+        othersDepartmentTotal = [];
+        othersDepartmentTotalForBudget = [];
+        othersDepartmentTotalForDifference = [];
+        differenceTable = [];
+        headCountList = [];
+        uniqueCategoryList = [];
+
+
         var companyValues = companies.getSelectedOptionsAsJson(includeDisabled = false);
         var companyArray = JSON.parse(companyValues);
         var selectedCompanyArray = [];
@@ -201,7 +213,7 @@ $(document).ready(function () {
 
         // code for total table
         {
-            {
+                $('#total_table').before('<p class="font-weight-bold" style="margin-top:20px;"><u>Total:</u></p>');
                 $('#total_table').empty();
                 $('#total_table').append(`<thead><tr><th>開発区分</th><th>費用</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
                 $('#total_table').append('<tbody>');
@@ -446,11 +458,10 @@ $(document).ready(function () {
 
                 $('#total_table').append('</tbody>');
             }
-        }
 
         // code for total budget table
         {
-            {
+                $('#total_budget_table').before('<p class="font-weight-bold"><u>Initial Budget:</u></p>');
                 $('#total_budget_table').empty();
                 $('#total_budget_table').append(`<thead><tr><th>開発区分</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
                 $('#total_budget_table').append('<tbody>');
@@ -714,10 +725,9 @@ $(document).ready(function () {
 
                 $('#total_budget_table').append('</tbody>');
             }
-        }
         // code for difference table
-        {
-            {
+         {
+                $('#difference_table').before('<p class="font-weight-bold"><u>Difference:</u></p>');
                 $('#difference_table').empty();
                 $('#difference_table').append(`<thead><tr><th>開発区分</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
                 $('#difference_table').append('<tbody>');
@@ -953,7 +963,6 @@ $(document).ready(function () {
 
                 $('#difference_table').append('</tbody>');
             }
-        }
 
         // code for head count table
         {
@@ -974,9 +983,9 @@ $(document).ready(function () {
             var _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
             var _octCountTotal = 0, _novCountTotal = 0, _decCountTotal = 0, _janCountTotal = 0, _febCountTotal = 0, _marCountTotal = 0, _aprCountTotal = 0, _mayCountTotal = 0, _junCountTotal = 0, _julCountTotal = 0, _augCountTotal = 0, _sepCountTotal = 0;
 
-
+            $('#headcount_table').before('<p class="font-weight-bold"><u>Head Count:</u></p>');
             $('#headcount_table').empty();
-            $('#headcount_table').append(`<thead><tr><th>departments</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${latestFiscalYear}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+            $('#headcount_table').append(`<thead><tr><th>departments</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th></tr></thead>`);
             $('#headcount_table').append('<tbody>');
             for (var f = 0; f < uniqueCategoryList.length; f++) {
                 _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;

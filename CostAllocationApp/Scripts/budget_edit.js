@@ -16,12 +16,10 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
-function LoaderShow() {
-    $("#forecast_table_wrapper").css("display", "none");
+function LoaderShow() {    
     $("#loading").css("display", "block");
 }
-function LoaderHide() {
-    $("#forecast_table_wrapper").css("display", "block");
+function LoaderHide() {    
     $("#loading").css("display", "none");
 }
 function LoaderShowJexcel() {
@@ -335,6 +333,9 @@ $(document).ready(function () {
     //});    
 
     $('#save_bedget').on('click', function () {
+        // alert("testing");
+
+        // LoaderShow();
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -929,6 +930,9 @@ $(document).ready(function () {
 
     //finalize the budget data.
     $('#budget_finalize').on('click', function () {
+        $("#save_bedget").prop("disabled",true);
+        $("#budget_finalize").prop("disabled",true); 
+
         var selected_year_for_finalize_budget = $("#budget_years").val();
 
         if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
@@ -943,9 +947,8 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("Operation Success");
-                    $("#save_bedget").prop("disabled",true);
-                    $("#budget_finalize").prop("disabled",true); 
+                    alert("Operation Success");              
+                          
                 }
             });
         }       

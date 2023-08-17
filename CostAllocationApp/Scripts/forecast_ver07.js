@@ -1021,11 +1021,14 @@ function ShowForecastResults(year) {
     yearHeaderTitleForPoints = "FY"+year+" 見通し";
     yearHeaderTitleForCosts = "FY"+year+" コスト見通し";
     
+    var octSumFormula = "=SUM(L3:L13)";
+    var novSumFormula = "=SUM(M3:M13)";
+
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         filters: true,
         tableOverflow: true,
-        //freezeColumns: 3,
+        freezeColumns: 3,
         defaultColWidth: 50,
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",           
@@ -1037,16 +1040,16 @@ function ShowForecastResults(year) {
                 },
                 //month wise total points
                 {
-                    title: _retriveTotal.OctTotalMM,
+                    title: _retriveTotal.OctTotalMM,                    
                     type: "decimal",
-                    name: "OctPoints",
+                    name: "octSumFormula",
                     mask: '#.##,0',
                     decimal: '.'
                 },
                 {
-                    title: _retriveTotal.NovTotalMM,
+                    title: _retriveTotal.NovTotalMM,                    
                     type: "decimal",
-                    name: "OctPoints",
+                    name: "=SUM(M3:B3)",
                     mask: '#.##,0',
                     decimal: '.'
                 },
@@ -1474,7 +1477,7 @@ function ShowForecastResults(year) {
             { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-            { title: "RowType", type: 'hidden', name: "RowType" }
+            { title: "RowType", type: 'hidden', name: "RowType" },            
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1521,10 +1524,7 @@ function ShowForecastResults(year) {
         onchange: function (instance, cell, x, y, value) {            
             var checkId = jss.getValueFromCoords(0, y);
             //var employeeId = jss.getValueFromCoords(35, y);
-            var employeeId = jss.getValueFromCoords(37, y);
-            console.log("employeeId: "+employeeId);
-
-            console.log("employeeId: "+employeeId);
+            var employeeId = jss.getValueFromCoords(37, y);            
 
             if (checkId == null || checkId == '' || checkId == undefined) {
 
@@ -1789,6 +1789,9 @@ function ShowForecastResults(year) {
                     }
 
                     if (x == 11) {
+                        var octSum = "=SUM(L3:L13)";
+                        console.log("octSum: "+octSum);
+
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }

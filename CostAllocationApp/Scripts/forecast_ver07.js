@@ -2867,7 +2867,7 @@ function ShowForecastResults(year) {
                                 SetColorCommonRow(parseInt(value[i].childNodes[0].innerText),"gray","black","deleted");
                             }
                             else {                               
-                                alert(value[i].childNodes[2].innerText +" has not saved yet. You can not delete this employee!")                                                                
+                                alert(value[i].childNodes[2].innerText +" has not been saved yet. You can not delete this employee!")                                                                
                                 //jss.deleteRow(y,1);                                
                             }
                         }                       

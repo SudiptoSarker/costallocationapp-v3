@@ -2856,16 +2856,19 @@ function ShowForecastResults(year) {
                 title: '選択した要員の削除 (delete)',
                 onclick: function () {
                     var value = obj.getSelectedRows();
+                    console.log("y: "+y);
+                    console.log("value.length: "+value.length);
+
                     //var assignmentIds = [];
                     if (value.length > 0) {
-                        for (let i = 0; i < value.length; i++) {
+                        for (let i = 0; i < value.length; i++) {                            
                             if (value[i].childNodes[1].innerText != '' && value[i].childNodes[1].innerText.toString().includes('new') == false) {
-                                deletedExistingRowIds.push(value[i].childNodes[1].innerText);
-                                //DisableRow(parseInt(value[i].childNodes[0].innerText));
+                                deletedExistingRowIds.push(value[i].childNodes[1].innerText);                                
                                 SetColorCommonRow(parseInt(value[i].childNodes[0].innerText),"gray","black","deleted");
                             }
-                            else {
-                                jss.deleteRow(y,1);
+                            else {                               
+                                alert(value[i].childNodes[2].innerText +" has not saved yet. You can not delete this employee!")                                                                
+                                //jss.deleteRow(y,1);                                
                             }
                         }                       
                     }
@@ -4149,18 +4152,20 @@ function UpdateForecast() {
                     //data: JSON.stringify(jssInsertedData),
                     data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
                     success: function (data) {
-                        var allJexcelData = jss.getData();
-                        for (let i = 0; i < data.length; i++) {
+                        // var allJexcelData = jss.getData();
+                        // for (let i = 0; i < data.length; i++) {
 
-                            $.each(allJexcelData, (index, dataValue) => {
-                                if (data[i].assignmentId == dataValue[0]) {
-                                    jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                                }
+                        //     $.each(allJexcelData, (index, dataValue) => {
+                        //         if (data[i].assignmentId == dataValue[0]) {
+                        //             jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                        //         }
 
-                            });
-                        }
+                        //     });
+                        // }
 
-
+                        
+                        var year = $("#assignment_year_list").val();
+                        ShowForecastResults(year);
 
                         $("#timeStamp_ForUpdateData").val('');
                         var chat = $.connection.chatHub;
@@ -4190,6 +4195,8 @@ function UpdateForecast() {
                 success: function (data) {
                     //alert(data);
                     deleteMessage = "Successfully data deleted!";
+                    var year = $("#assignment_year_list").val();
+                    ShowForecastResults(year);
                 }
             });
 

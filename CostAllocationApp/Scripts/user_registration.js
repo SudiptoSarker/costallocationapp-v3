@@ -14,6 +14,7 @@ function ClearEntry(){
     $("#userEmail").val('');
     $("#userPass").val('');
 }
+
 //user create
 function UserRegistration() {
     let userName = $("#userName").val().trim();

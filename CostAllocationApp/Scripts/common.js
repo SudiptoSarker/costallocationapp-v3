@@ -19,6 +19,8 @@ function ToastMessageSuccess(response_data) {
         "newestOnTop": false,
         "progressBar": false,
         "positionClass": "toast-top-right",
+        //positionClass: 'toast-top-center'
+
         "preventDuplicates": false,
         "onclick": null,
         "showDuration": "3000",
@@ -31,7 +33,49 @@ function ToastMessageSuccess(response_data) {
         "hideMethod": "fadeOut"
     }
 }
-
+//success toast message
+function ToastMessageSuccess_Center(response_data) {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "500",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+    
+    toastr.success(response_data, '');
+}
+function ToastMessage_Warning(message){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
+      
+      toastr.warning(message, '');
+}
 //failed toast message
 function ToastMessageFailed(response_data){
     Command: toastr["warning"](response_data.responseText, "Warning")

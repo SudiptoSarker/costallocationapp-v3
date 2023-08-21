@@ -182,6 +182,7 @@
     <Compile Include="BLL\RoleBLL.cs" />
     <Compile Include="BLL\SalaryBLL.cs" />
     <Compile Include="BLL\SectionBLL.cs" />
+    <Compile Include="BLL\TotalBLL.cs" />
     <Compile Include="BLL\UploadExcelBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="BLL\UserRoleBLL.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="DAL\RoleDAL.cs" />
     <Compile Include="DAL\SalaryDAL.cs" />
     <Compile Include="DAL\SectionDAL.cs" />
+    <Compile Include="DAL\TotalDAL.cs" />
     <Compile Include="DAL\UploadExcelDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="DAL\UserRoleDAL.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="Models\Apportionment.cs" />
     <Compile Include="Models\AssignmentHistory.cs" />
     <Compile Include="Models\BudgetImport.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
@@ -263,6 +266,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\SubCategory.cs" />
     <Compile Include="Models\Sukey.cs" />
     <Compile Include="Models\UploadExcel.cs" />
     <Compile Include="Models\User.cs" />
@@ -279,6 +283,7 @@
     <Compile Include="ViewModels\EmployeeAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel1.cs" />
     <Compile Include="ViewModels\ForecastDistributdViewModal.cs" />
+    <Compile Include="ViewModels\ForecastTotalManMonthCostsViewModal.cs" />
     <Compile Include="ViewModels\ForecastViewModal.cs" />
     <Compile Include="ViewModels\ForecastAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ForecastYear.cs" />
@@ -690,6 +695,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Content\namelist.scss" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Shekhar Publish.pubxml" />
     <None Include="Properties\PublishProfiles\Sudipto Publish.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

@@ -29,7 +29,7 @@
     font-size: 12px;
     font-family: "Yu Gothic";
     white-space: nowrap !important;
-    display: block;
+    /* display: none !important; */
 }
 #filter_history_data{
     margin-top: 15px;

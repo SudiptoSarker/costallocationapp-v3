@@ -2855,27 +2855,15 @@ function ShowForecastResults(year) {
             items.push({
                 title: '選択した要員の削除 (delete)',                
                 onclick: function () {                    
-                    var value = obj.getSelectedRows();
-                    console.log("y: "+y);
-                    console.log("value.length: "+value.length);                   
-                    // console.log("row: "+parseInt(value[y].childNodes[0].innerText));
-                    // console.log("assignment Id: "+value[y].childNodes[1].innerText);
-                    // console.log("name: "+value[y].childNodes[2].innerText);
-                    
-                    //var assignmentIds = [];
-                    if (value.length > 0) {
-                        for (let i = 0; i < value.length; i++) {                            
-                            
-                            if (value[i].childNodes[1].innerText != '' && value[i].childNodes[1].innerText.toString().includes('new') == false) {
-                                deletedExistingRowIds.push(value[i].childNodes[1].innerText);                                
-                                SetColorCommonRow(parseInt(value[i].childNodes[0].innerText),"gray","black","deleted");
-                            }
-                            else {                               
-                                alert(value[i].childNodes[2].innerText +" has not been saved yet. You can not delete this employee!")                                                                
-                                //jss.deleteRow(y,1);                                
-                            }
-                        }                       
-                    }
+                    var value = obj.getSelectedRows();                    
+                    var assignementId = jss.getValueFromCoords(0, y);
+                    var name = jss.getValueFromCoords(1, y);                                       
+                    if(parseInt(assignementId) >0){
+                        deletedExistingRowIds.push(assignementId);                                
+                        SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
+                    }else{
+                        alert(name +" has not been saved yet. You can not delete this employee!")  
+                    }      
                 }
             });
 

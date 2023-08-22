@@ -26,6 +26,16 @@ namespace CostAllocationApp.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             DataTable dt = new DataTable();
 
             try
@@ -43,6 +53,16 @@ namespace CostAllocationApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(HttpPostedFileBase uploaded_file, int upload_year)
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             Dictionary<int, int> check = new Dictionary<int, int>();
             if (ModelState.IsValid)
             {

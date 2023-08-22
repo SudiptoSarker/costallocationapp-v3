@@ -77,11 +77,11 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    @*<script src="/Scripts/forecast_ver04.js"></script>*@
     <script src="~/Scripts/actualcost.js"></script>
     <script src="/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
+
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();
@@ -122,6 +122,7 @@
         });
 
         $(document).ready(function () {
+    
             setInterval(() => {
                 $.ajax({
                     url: `/api/utilities/GetUserLogs/`,
@@ -141,42 +142,10 @@
                     }
                 });
             }, 5000);
-            //$("table1").DataTable();
         });
-            //function bs_input_file() {
-            //    $(".input-file").before(
-            //        function () {
-            //            if (!$(this).prev().hasClass('input-ghost')) {
-            //                var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
-            //                element.attr("name", $(this).attr("name"));
-            //                element.change(function () {
-            //                    element.next(element).find('input').val((element.val()).split('\\').pop());
-            //                });
-            //                $(this).find("button.btn-choose").click(function () {
-            //                    element.click();
-            //                });
-            //                $(this).find("button.btn-reset").click(function () {
-            //                    element.val(null);
-            //                    $(this).parents(".input-file").find('input').val('');
-            //                });
-            //                $(this).find('input').css("cursor", "pointer");
-            //                $(this).find('input').mousedown(function () {
-            //                    $(this).parents('.input-file').prev().click();
-            //                    return false;
-            //                });
-            //                return element;
-            //            }
-            //        }
-            //    );
-            //}
 
-            //function clear() {
-            //    var input = $("#dataFile").val('');
-            //};
-            //$(function () {
-            //    clear();
-            //    bs_input_file();
-            //});
+
+
     </script>
 }
 

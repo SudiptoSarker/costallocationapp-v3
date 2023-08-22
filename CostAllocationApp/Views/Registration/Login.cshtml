@@ -113,63 +113,17 @@
                                 type: 'GET',
                                 async: false,
                                 dataType: 'json',
-                                data: { userName: loginUserName, token: data },
+                                data: { userName: loginUserName, token: data, lastPath:'/Dashboard/Index' },
                                 success: function () {
 
                                 }
                             });
+                          
                             window.location.href = "/Dashboard/Index";
                         }
-                        else if (data == 'invalid') {
+                        else{
                             $(".username-error").show();
                             $(".password-error").show();
-                        }
-                        else {
-                            $(".username-error").hide();
-                            $(".password-error").hide();
-                            var userAction = confirm("already logged in another device. Do you want to log out from that device?");
-                            if (userAction) {
-                                $.ajax({
-                                    url: `/Registration/RemoveOtherSessions?userName=${loginUserName}`,
-                                    contentType: 'application/json',
-                                    type: 'GET',
-                                    async: false,
-                                    //dataType: 'json',
-                                    success: function (data) {
-                                        $.ajax({
-                                            url: `/api/Users/`,
-                                            contentType: 'application/json',
-                                            type: 'POST',
-                                            async: false,
-                                            dataType: 'json',
-                                            data: JSON.stringify({ userName: loginUserName, password: loginPassword }),
-                                            success: function (data) {
-                                                if (data.length > 10) {
-                                                    var chat = $.connection.chatHub;
-                                                    // Start the connection.
-                                                    $.connection.hub.start().done(function () {
-                                                        chat.server.send(loginUserName, ' Logged In');
-                                                    });
-                                                    $(".username-error").hide();
-                                                    $(".password-error").hide();
-                                                    $.ajax({
-                                                        url: `/Registration/SetSession`,
-                                                        contentType: 'application/json',
-                                                        type: 'GET',
-                                                        async: false,
-                                                        dataType: 'json',
-                                                        data: { userName: loginUserName, token: data },
-                                                        success: function () {
-
-                                                        }
-                                                    });
-                                                    window.location.href = "/Dashboard/Index";
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-                            }
                         }
                        
                     }

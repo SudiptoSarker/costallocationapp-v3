@@ -24,8 +24,9 @@ namespace CostAllocationApp.Controllers
             }
             if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
             {
-                Session["token"] = null;
-                Session["userName"] = null;
+                //Session["token"] = null;
+                //Session["userName"] = null;
+                Session.Abandon();
                 return RedirectToAction("Login", "Registration");
             }
             {

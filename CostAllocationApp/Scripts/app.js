@@ -4,6 +4,7 @@ Template Name: SmartHR - Bootstrap Admin Template
 Version      : 3.6
 */
 
+
 $(document).ready(function() {
 	
 	// Variables declarations

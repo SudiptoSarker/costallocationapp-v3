@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CostAllocationApp.BLL;
 using CostAllocationApp.Models;
-using System;
+
 
 namespace CostAllocationApp.Controllers.Api
 {
@@ -30,7 +30,12 @@ namespace CostAllocationApp.Controllers.Api
                     var loggedInUsers = _userBLL.GetAllUserLogs().Where(u=>u.UserName== user.UserName).ToList();
                     if (loggedInUsers.Count>0)
                     {
-                        userToken = "invalid-1";
+                        foreach (var item in loggedInUsers)
+                        {
+                            _userBLL.RemoveUser(item.UserName);
+                        }
+                        userToken = DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                        _userBLL.CreateUserLog(user.UserName, userToken);
                     }
                     else
                     {

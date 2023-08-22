@@ -22,61 +22,142 @@
     <![endif]-->
 </head>
 <body>
-@* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
-@* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
-@* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
+    @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
+    @* <body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()"> *@
+    @* <body onbeforeunload="BClose()" onclick="clicked=true;">*@
     <!-- Main Wrapper -->
     <div id="container">
         @* <div class="main-wrapper"> *@
-            <!-- Header -->
-            @Html.Partial("_Header")
-            <!-- /Header -->
-
-            <!-- Sidebar -->
-            @Html.Partial("_Sidebar")
-            <!-- /Sidebar -->
-            <!-- Page Wrapper -->
-            <main id="main-area">   
-                <section id="area-1">
-                    @RenderBody()        
-                </section>                    
-            </main>
-            <!-- /Page Wrapper -->
+        <!-- Header -->
+        @Html.Partial("_Header")
+        <!-- /Header -->
+        <!-- Sidebar -->
+        @Html.Partial("_Sidebar")
+        <!-- /Sidebar -->
+        <!-- Page Wrapper -->
+        <main id="main-area">
+            <section id="area-1">
+                @RenderBody()
+            </section>
+        </main>
+        <!-- /Page Wrapper -->
         @* </div> *@
     </div>
     @* <footer id="footer">
-		<small>&copy; copyright.</small>	
-	</footer> *@
+            <small>&copy; copyright.</small>
+        </footer> *@
     <!-- /Main Wrapper -->
     <!-- jQuery -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/others")
     @Scripts.Render("~/bundles/custom")
+
+    <!-- session based timer auto logout -->
+    <script type="text/javascript">
+        var idleTime = 0;
+        var idleInterval;
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+                console.log("Browser tab is hidden")
+            } else {
+                console.log("Browser tab is visible")
+                idleTime = 0;
+                $.ajax({
+                    url: `/Registration/SetLastPath?lastPath=${window.location.pathname}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        $.ajax({
+                            url: `/Registration/GetLastPath`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            //dataType: 'json',
+                            success: function (data1) {
+
+                                console.log(data1);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            {
+                // Increment the idle time counter every minute.
+                idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+                // Zero the idle timer on mouse movement.
+                $(this).mousemove(function (e) {
+                    idleTime = 0;
+                });
+                $(this).keypress(function (e) {
+                    idleTime = 0;
+                });
+            }
+        });
+
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+            let last_path = '';
+            if (window.location.pathname.toString() !== '/') {
+                if (idleTime > 0) { // 1 minutes
+                    debugger;
+                    $.ajax({
+                        url: `/Registration/GetLastPath`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        //dataType: 'json',
+                        success: function (data) {
+                            last_path = data;
+                            console.log(data);
+                        }
+                    });
+                    if ((last_path == window.location.pathname)) {
+                        RemoveSession();
+                        clearInterval(idleInterval);
+                    }
+                    else {
+                        idleTime = 0;
+                    }
+
+                }
+            }
+
+        }
+    </script>
     @RenderSection("Scripts", false/*required*/)
     @{
         string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
         string url = System.IO.Path.GetFileName(fullPath);
-        if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url) ||  url.ToLower().Contains("userregistration"))
-        {            
+        if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url) || url.ToLower().Contains("userregistration"))
+        {
             <input type="hidden" id="sing_out" value="login">
 
-        }else{
+        }
+        else
+        {
             <input type="hidden" id="sing_out" value="logout">
-        }  
+        }
         <input type="hidden" id="IsLinkFormBtnReload" value="false">
-              
+
     }
-    <script type="text/javascript"> 
-        function SetLogOutRule(){
+    <script type="text/javascript">
+
+        function SetLogOutRule() {
             $("#IsLinkFormBtnReload").val(true);
         }
-        /***************************\                           
-        Log out from all device                 
+        /***************************\
+        Log out from all device
         \***************************/
         function RemoveSession() {
-            var user_name = $('#hidden_username').val();                
-            if (user_name != null || user_name != undefined || user_name!='') {
+            var user_name = $('#hidden_username').val();
+            if (user_name != null || user_name != undefined || user_name != '') {
                 $.ajax({
                     url: `/Registration/RemoveSession?userName=${user_name}`,
                     contentType: 'application/json',
@@ -97,8 +178,8 @@
         }
 
 
-        /***************************\                           
-        browser closed log out               
+        /***************************\
+        browser closed log out
         \***************************/
         function BrowserLogOut() {
             var user_name = $('#hidden_username').val();
@@ -120,37 +201,6 @@
         $('button').on('submit', function () { inFormOrLink = true; });
         $('a').on('click', function () { inFormOrLink = true; });
 
-        @* //check for Navigation Timing API support
-        if (window.performance) {
-            //console.info("window.performance works fine on this browser");
-        }
-        console.info(performance.navigation.type);
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            //console.info("This page is reloaded");
-            inFormOrLink = true;
-        }
-
-        var logOutType = $("#sing_out").val();
-        if (logOutType == "logout") {        
-            $(window).bind('beforeunload', function (eventObject) {            
-                //console.log("bind");
-                if (inFormOrLink != true) {
-                    //BrowserLogOut();
-                }
-            })
-        } *@
-
-        @* window.onbeforeunload = function (event) {
-            var message = 'Please click on Save button to leave this page';
-            if (typeof event == 'undefined') {
-                event = window.event;
-            }
-            if (event) {
-                event.returnValue = message;
-            }
-            return message;
-        }; *@
-        
     </script>
 </body>
 </html>

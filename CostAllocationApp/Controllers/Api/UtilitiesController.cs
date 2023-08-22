@@ -2288,7 +2288,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult UpdateUserName(User user)
         {
             var session = System.Web.HttpContext.Current.Session;
-
+            
             if (!String.IsNullOrEmpty(user.UserName))
             {
                 user.UpdatedBy = session["userName"].ToString();
@@ -2325,7 +2325,6 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-
         [HttpGet]
         [Route("api/utilities/EmployeeList/")]
         public IHttpActionResult GetEmployeeList()
@@ -2340,6 +2339,7 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
+
         [HttpGet]
         [Route("api/utilities/GetOnlyAdmin/")]
         public IHttpActionResult GetOnlyAdmin()

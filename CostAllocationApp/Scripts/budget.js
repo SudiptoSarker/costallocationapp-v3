@@ -3638,9 +3638,6 @@ function SelectImportBudgetYearAndType(){
         }
     });
 
-
-
-
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!="" && typeof year != "undefined"){
         $('#select_import_year').val(2023);

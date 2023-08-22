@@ -1894,10 +1894,8 @@ namespace CostAllocationApp.DAL
 
         public string GetBCYRCellByAssignmentId(int assignmentId)
         {
-
             string query = $@"select BCYRCell from EmployeesAssignments where Id={assignmentId}";
-
-            string result="";
+            string results = "";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -1910,8 +1908,8 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            
-                            result = rdr["BCYRCell"] is DBNull ? "": rdr["BCYRCell"].ToString();
+
+                            results = rdr["BCYRCell"] is DBNull ? "": rdr["BCYRCell"].ToString();                            
 
                         }
                     }
@@ -1922,7 +1920,38 @@ namespace CostAllocationApp.DAL
                 }
             }
 
-            return result;
+            return results;
+        }
+        public EmployeeAssignment GetBCYRCellAndPendingCellsByAssignmentId(int assignmentId)
+        {
+            string query = $@"select BCYRCell,BCYRCellPending from EmployeesAssignments where Id={assignmentId}";
+            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+
+                            _employeeAssignment.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            _employeeAssignment.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return _employeeAssignment;
         }
 
         public int UpdateBCYRCellByAssignmentId(int assignmentId, string cell)
@@ -1930,6 +1959,28 @@ namespace CostAllocationApp.DAL
 
             string query = $@"update EmployeesAssignments set BCYRCell ='{cell}' where Id={assignmentId}";
 
+            int result = 0;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return result;
+        }
+
+        public int UpdateBCYRCellBCYRPendingCellByAssignmentId(int assignmentId, string cell,string pendingCells)
+        {
+            string query = $@"update EmployeesAssignments set BCYRCell ='{cell}',BCYRCellPending ='{pendingCells}' where Id={assignmentId}";
             int result = 0;
 
             using (SqlConnection sqlConnection = this.GetConnection())

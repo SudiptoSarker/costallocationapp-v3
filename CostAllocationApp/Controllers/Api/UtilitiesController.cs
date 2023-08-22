@@ -1709,16 +1709,16 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var item in forecastHistoryDto.CellInfo)
                         {
                             var storePreviousCells = "";
-                            var itemData = item.Split('_');
-                            string result = employeeAssignmentBLL.GetBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]));
-                            if (String.IsNullOrEmpty(result))
+                            var itemData = item.Split('_');                            
+                            EmployeeAssignment _employeeAssignment = employeeAssignmentBLL.GetBCYRCellAndPendingCellsByAssignmentId(Convert.ToInt32(itemData[0]));
+                            if (String.IsNullOrEmpty(_employeeAssignment.BCYRCell))
                             {
                                 //result += itemData[1];
                                 storePreviousCells += itemData[1];
                             }
                             else
                             {
-                                var arrPreviousCells = result.Split(',');
+                                var arrPreviousCells = _employeeAssignment.BCYRCell.Split(',');
                                 foreach (var previousItem in arrPreviousCells)
                                 {
                                     if (string.IsNullOrEmpty(storePreviousCells))
@@ -1768,7 +1768,35 @@ namespace CostAllocationApp.Controllers.Api
                                     storePreviousCells += "," + itemData[1];
                                 }
                             }
-                            employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells);
+                            string bCYRCellPending = _employeeAssignment.BCYRCellPending;
+                            string storePendingCells = "";                            
+
+                            var arrPendingCells = bCYRCellPending.Split(',');
+                            foreach(var pendingItem in arrPendingCells)
+                            {
+                                bool isValidForPendingCellUpdate = true;
+                                var arrPreviousCells = storePreviousCells.Split(','); ;
+                                foreach(var previousCellItem in arrPreviousCells)
+                                {
+                                    if(pendingItem == previousCellItem)
+                                    {
+                                        isValidForPendingCellUpdate = false;
+                                    }
+                                }
+                                if (isValidForPendingCellUpdate)
+                                {
+                                    if (string.IsNullOrEmpty(storePendingCells))
+                                    {
+                                        storePendingCells = pendingItem;
+                                    }
+                                    else
+                                    {
+                                        storePendingCells = storePendingCells +","+pendingItem;
+                                    }
+                                }
+                            }
+                            //employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells);
+                            employeeAssignmentBLL.UpdateBCYRCellBCYRPendingCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells, storePendingCells);
                         }
                     }
                     

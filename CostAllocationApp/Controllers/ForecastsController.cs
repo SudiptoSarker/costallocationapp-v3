@@ -90,6 +90,17 @@ namespace CostAllocationApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(HttpPostedFileBase uploaded_file, int upload_year)
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
+
             ForecastViewModal forecastViewModal = new ForecastViewModal
             {
                 _sections = sectionBLL.GetAllSections()
@@ -580,21 +591,61 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult CalculateActualCost()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
 
         public ActionResult GetTotal()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
 
         public ActionResult Apportionment()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
 
         public ActionResult GetSukeyWithQA()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
         // GET: Approve Forecasts
@@ -670,6 +721,16 @@ namespace CostAllocationApp.Controllers
         [HttpPost]
         public ActionResult DownloadHistoryData(int hid_approve_timestamp_id = 0, string hid_selected_year = "")
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
             List<ForecastAssignmentViewModel> forecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
@@ -733,6 +794,16 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult QaProportion()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
         // GET: Forecasts
@@ -787,6 +858,16 @@ namespace CostAllocationApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year, string select_budget_type)
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             var session = System.Web.HttpContext.Current.Session;
             bool isThisYearBudgetExists = false;
             int selected_year = 0;
@@ -1256,12 +1337,32 @@ namespace CostAllocationApp.Controllers
         }
         public ActionResult Total()
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
 
         [HttpPost]
         public ActionResult ExportBudgetByYear(int hid_budget_year = 0, int hid_budget_type = 0)
         {
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             /************* Export Budget: Start *************/
             DepartmentBLL _departmentBll = new DepartmentBLL();
 

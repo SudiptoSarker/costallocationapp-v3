@@ -21,16 +21,27 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
-        public JsonResult SetSession(string userName,string token)
+        public JsonResult SetSession(string userName,string token,string lastPath)
         {
             Session["userName"] = userName;
             Session["token"] = token;
+            Session["last_path"] = lastPath;
             return Json("",JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetSession()
         {
             return Json(Session["userName"].ToString(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetLastPath()
+        {
+            return Json(Session["last_path"].ToString(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SetLastPath(string lastPath)
+        {
+            Session["last_path"] = lastPath;
+            return Json("", JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetUserRole()
         {
@@ -39,17 +50,16 @@ namespace CostAllocationApp.Controllers
             return Json(user.UserRoleId, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult RemoveOtherSessions(string userName)
-        {
-            int result = userBLL.RemoveUser(userName);
-            return Json("ok", JsonRequestBehavior.AllowGet);
-        }
+        //[HttpGet]
+        //public JsonResult RemoveOtherSessions(string userName)
+        //{
+        //    int result = userBLL.RemoveUser(userName);
+        //    return Json("ok", JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult RemoveSession(string userName)
         {
-            Session["userName"] = null;
-            Session["token"] = null;
+            Session.Abandon();
             int result = userBLL.RemoveUser(userName);
             return Json("ok", JsonRequestBehavior.AllowGet);
         }

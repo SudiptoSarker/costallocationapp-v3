@@ -789,6 +789,7 @@
     <Content Include="Scripts\users.js" />
     <Content Include="Scripts\users_ver02.js" />
     <Content Include="Scripts\user_registration.js" />
+    <Content Include="Scripts\worker.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

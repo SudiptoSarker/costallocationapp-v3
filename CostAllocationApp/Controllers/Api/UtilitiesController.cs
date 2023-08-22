@@ -3037,7 +3037,13 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetBudgetFinalizeYear();
             return Ok(result);
         }
-
+        [HttpGet]
+        [Route("api/utilities/GetImportYearAndBudgetType/")]
+        public IHttpActionResult GetImportYearAndBudgetType()
+        {
+            var result = forecastBLL.GetBudgetFinalizeYear();
+            return Ok(result);
+        }
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
         public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear,string budgetType)

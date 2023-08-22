@@ -3615,11 +3615,39 @@ function GetAllFinalizeYear() {
 }
 
 
-function CheckForecastYear(){
+function SelectImportBudgetYearAndType(){
+    $.ajax({
+        url: `/api/utilities/GetImportYearAndBudgetType`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            if(data==''){                                
+                $("#duplciateYear").prop('disabled', true);
+                $('#select_duplicate_budget_type').empty();                
+            }else{
+                $("#duplciateYear").prop('disabled', true);
+                $('#select_duplicate_budget_type').empty();  
+
+                $('#duplicate_from').append(`<option value=''>Select Budget Year</option>`);
+                $.each(data, function (index, element) {
+                    $('#duplicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);                
+                });
+            }            
+        }
+    });
+
+
+
+
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!="" && typeof year != "undefined"){
-        $('#select_import_year').val(parseInt(year)+1);
+        $('#select_import_year').val(2023);
     }
+    $('#select_import_year').val(2023);
+    $('#select_budget_type').val(2023);
+    
 }
 
 /*

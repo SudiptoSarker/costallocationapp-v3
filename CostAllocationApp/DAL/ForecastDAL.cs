@@ -1070,8 +1070,35 @@ namespace CostAllocationApp.DAL
                 return forecastYears;
             }
         }
+        public int GetLatestBudgetYear()
+        {
+            int latestBudgetYear = 0;
+            string query = "";
+            query = "SELECT MAX(eb.Year) 'Year' FROM EmployeeeBudgets eb ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            latestBudgetYear = Convert.ToInt32(rdr["Year"]);                            
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
 
+                }
 
+                return latestBudgetYear;
+            }
+        }
+        
         public List<ExcelAssignmentDto> GetEmployeesForecastByYear(int year)
         {
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,

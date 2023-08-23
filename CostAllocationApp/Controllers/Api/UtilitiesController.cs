@@ -3041,8 +3041,59 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetImportYearAndBudgetType/")]
         public IHttpActionResult GetImportYearAndBudgetType()
         {
-            var result = forecastBLL.GetBudgetFinalizeYear();
-            return Ok(result);
+            ForecastYear _forecastYear = new ForecastYear();
+
+            int latestYear = forecastBLL.GetLatestBudgetYear();
+            bool isInitialDataExists = false;
+            bool isFirstHalfFinalize = false;
+
+            bool isSecondHalfBudgetExists = false;
+            bool isSecondtHalfFinalize = false;
+            
+
+            if (latestYear > 0)
+            {
+                isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(latestYear);               
+                isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(latestYear);
+                
+                if (isInitialDataExists && isSecondHalfBudgetExists)
+                {
+                    latestYear = latestYear + 1;
+                    isInitialDataExists = false;
+                    isSecondHalfBudgetExists = false;
+                    isFirstHalfFinalize = false;
+                    isSecondtHalfFinalize = false;
+                }
+                else
+                {
+                    if (isInitialDataExists)
+                    {
+                        isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(latestYear);
+                    }
+                    if (isSecondHalfBudgetExists)
+                    {
+                        isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(latestYear);
+                    }
+                }
+
+                
+                _forecastYear.Year = latestYear;
+                _forecastYear.FirstHalfBudget = isInitialDataExists;
+                _forecastYear.FirstHalfFinalize = isFirstHalfFinalize;
+                _forecastYear.SecondHalfBudget = isSecondHalfBudgetExists;
+                _forecastYear.SecondHalfFinalze = isSecondtHalfFinalize;
+            }
+            else
+            {
+                _forecastYear.Year = 2023;
+                _forecastYear.FirstHalfBudget = false;
+                _forecastYear.FirstHalfFinalize = false;
+                _forecastYear.SecondHalfBudget = false;
+                _forecastYear.SecondHalfFinalze = false;
+            }
+            
+            
+            return Ok(_forecastYear);
         }
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]

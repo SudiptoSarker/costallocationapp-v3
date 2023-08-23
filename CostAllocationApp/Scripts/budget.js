@@ -358,6 +358,7 @@ $(document).ready(function () {
         if (selectedBudgetYear != '' && selectedBudgetYear != null && selectedBudgetYear != undefined) {
             $("#duplciateYear").prop('disabled', false);
             $('#select_duplicate_budget_type').empty();
+            SelectDuplicateBudgetYearAndType();            
         }        
         else{
             $("#duplciateYear").prop('disabled', true);
@@ -3623,30 +3624,77 @@ function SelectImportBudgetYearAndType(){
         async: false,
         dataType: 'json',
         success: function (data) {
-            if(data==''){                                
-                $("#duplciateYear").prop('disabled', true);
-                $('#select_duplicate_budget_type').empty();                
-            }else{
-                $("#duplciateYear").prop('disabled', true);
-                $('#select_duplicate_budget_type').empty();  
+            //auto select the year
+            $('#select_import_year').val(data.Year);
 
-                $('#duplicate_from').append(`<option value=''>Select Budget Year</option>`);
-                $.each(data, function (index, element) {
-                    $('#duplicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);                
-                });
-            }            
+            //auto select the budget type
+            $('#select_budget_type').empty();
+            $('#select_budget_type').append(`<option value="">select type</option>`);
+
+            //create fist half budget dropdown            
+            if(data.FirstHalfFinalize){
+                $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} Initial Budget Created</option>`);
+            }else if(data.FirstHalfBudget){
+                $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} Initial Budget Created But Not Finalize</option>`);
+            }else if(!data.FirstHalfBudget){
+                $('#select_budget_type').append(`<option value="1" selected >${data.Year} Initial Budget</option>`);
+            }  
+            
+            //create second half budget dropdown
+            if(data.SecondHalfFinalize){
+                $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 2nd Half Budget Created</option>`);
+            }else if(data.SecondHalfBudget){
+                $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 2nd Half Budget Created But Not Finalize</option>`);
+            }else if(!data.SecondHalfBudget){
+                if(data.FirstHalfBudget){
+                    $('#select_budget_type').append(`<option value="2" selected>${data.Year} 2nd Half Budget</option>`);
+                }else{
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 2nd Half Budget</option>`);
+                }                                               
+            }       
         }
     });
-
-    var year = $('#select_year_to_import').find(":selected").val();
-    if(year!="" && typeof year != "undefined"){
-        $('#select_import_year').val(2023);
-    }
-    $('#select_import_year').val(2023);
-    $('#select_budget_type').val(2023);
-    
 }
 
+function SelectDuplicateBudgetYearAndType(){
+    $.ajax({
+        url: `/api/utilities/GetImportYearAndBudgetType`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            //auto select the year
+            $('#duplciateYear').val(data.Year);
+
+            //auto select the budget type
+            $('#select_duplicate_budget_type').empty();
+            $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);
+
+            //create fist half budget dropdown            
+            if(data.FirstHalfFinalize){
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} Initial Budget Created</option>`);
+            }else if(data.FirstHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} Initial Budget Created But Not Finalize</option>`);
+            }else if(!data.FirstHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="1" selected >${data.Year} Initial Budget</option>`);
+            }  
+            
+            //create second half budget dropdown
+            if(data.SecondHalfFinalize){
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 2nd Half Budget Created</option>`);
+            }else if(data.SecondHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 2nd Half Budget Created But Not Finalize</option>`);
+            }else if(!data.SecondHalfBudget){
+                if(data.FirstHalfBudget){
+                    $('#select_duplicate_budget_type').append(`<option value="2" selected>${data.Year} 2nd Half Budget</option>`);
+                }else{
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 2nd Half Budget</option>`);
+                }                                               
+            }       
+        }
+    });
+}
 /*
     author: sudipto.
     validate replicate data. 

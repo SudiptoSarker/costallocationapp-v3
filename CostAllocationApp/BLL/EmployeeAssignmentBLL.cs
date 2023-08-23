@@ -2421,5 +2421,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetTotalCalculationForManmonthAndCost(year);
         }
+        public List<EmployeeAssignment> GetEmployeeNameForMenuChange(int year, int employeeId)
+        {
+            return employeeAssignmentDAL.GetEmployeeNameForMenuChange(year, employeeId);
+        }
     }
 }

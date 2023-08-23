@@ -7190,5 +7190,29 @@ namespace CostAllocationApp.Controllers.Api
             var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
             return Ok(result);
         }
+        [HttpGet]
+        [Route("api/utilities/GetEmployeeNameForMenuChange/")]
+        public IHttpActionResult GetEmployeeNameForMenuChange(string employeeAssignmentId,int employeeId,string menuType,int year)
+        {            
+            List< EmployeeAssignment > employeeAssignments = employeeAssignmentBLL.GetEmployeeNameForMenuChange(year, employeeId);
+
+            int employeeCount = 0;
+            employeeCount = employeeAssignments.Count;
+
+            string employeeName = "";
+            foreach(var assignmentItem in employeeAssignments)
+            {
+                employeeName = assignmentItem.EmployeeRootName;
+            }
+            if (!string.IsNullOrEmpty(menuType))
+            {
+                if(menuType.ToLower() == "unit")
+                {
+                    employeeName = employeeName + " ("+(employeeCount+1)+")";
+                }
+            }
+
+            return Ok(employeeName);
+        }
     }
 }

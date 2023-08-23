@@ -90,7 +90,7 @@
         $(document).ready(function () {
             {
                 // Increment the idle time counter every minute.
-                idleInterval = setInterval(timerIncrement, 7200000); // 2 hours
+                idleInterval = setInterval(timerIncrement, 60000); // 1 minutes
                 // Zero the idle timer on mouse movement.
                 $(this).mousemove(function (e) {
                     idleTime = 0;
@@ -105,7 +105,7 @@
             idleTime = idleTime + 1;
             let last_path = '';
             if (window.location.pathname.toString() !== '/') {
-                if (idleTime > 0) { // 1 minutes                    
+                if (idleTime > 120) { // 1 minutes                    
                     $.ajax({
                         url: `/Registration/GetLastPath`,
                         contentType: 'application/json',

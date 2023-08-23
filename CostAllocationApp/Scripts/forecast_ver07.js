@@ -16,6 +16,26 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
+function ClearnAllJexcelData(){
+    globalSearchObject = '';
+    globalPreviousValue = '0.0';
+    globalPreviousId = '';
+    jss;
+    globalX = 0;
+    globalY = 0;
+    newRowCount = 1;
+    beforeChangedValue = 0;
+    jssUpdatedData = [];
+    jssInsertedData = [];
+    allEmployeeName = [];
+    allEmployeeName1 = [];
+    cellwiseColorCode = [];
+    cellwiseColorCodeForInsert = [];
+    changeCount = 0;
+    newRowChangeEventFlag = false;
+    deletedExistingRowIds = [];
+}
+
 function LoaderShow() {
     $("#forecast_table_wrapper").css("display", "none");
     $("#loading").css("display", "block");
@@ -803,7 +823,11 @@ $(document).ready(function () {
     });
     
     $(document).on('click', '#assignment_year_data ', function () { 
-         
+        //jss.destroy();
+        //$('#jspreadsheet').empty();
+        //cellwiseColorCode = [];
+        ClearnAllJexcelData();
+
         $('#changed_cell_with_assignmentid').val("");  
         
         var assignmentYear = $('#assignment_year_list').val();
@@ -821,6 +845,9 @@ $(document).ready(function () {
         
     });
     $(document).on('click', '#cancel_forecast_history ', function () {    
+        //cellwiseColorCode = [];
+        ClearnAllJexcelData();
+
         var assignmentYear = $('#assignment_year_list').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
@@ -2405,16 +2432,33 @@ function ShowForecastResults(year) {
                         retrivedData.bcyr = false;
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
 
-                        for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                                break;
+                        // for (let x of allData) {
+                        //     if (x[0] == minAssignmentNumber) {
+                        //         newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                        //         break;
+                        //     }
+                        // }
+
+                        // console.log("retrivedData.assignmentId: "+retrivedData.assignmentId);
+                        // console.log("retrivedData.employeeId: "+retrivedData.employeeId);    
+                        // console.log("retrivedData.year: "+retrivedData.year);  
+                        
+                        $.ajax({
+                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            dataType: 'json',
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                            success: function (data) { 
+                                console.log("data: "+data);
+                                newCountedEmployeeName = data;
+                                console.log("newCountedEmployeeName: "+newCountedEmployeeName);
                             }
-                        }
-
-
+                        });                        
                     }                                        
-                    
+                    console.log("newCountedEmployeeName22: "+newCountedEmployeeName);
+
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
@@ -2450,11 +2494,7 @@ function ShowForecastResults(year) {
                     $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
                     // disable role....
                     $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
-
-                    // obj.setValueFromCoords(36, nextRow, false, false);
-                    // obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    // obj.setValueFromCoords(38, nextRow, true, false);
-                    // obj.setValueFromCoords(45, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
+                    
                     obj.setValueFromCoords(38, nextRow, false, false);
                     obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(40, nextRow, true, false);

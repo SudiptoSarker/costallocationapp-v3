@@ -2425,5 +2425,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetEmployeeNameForMenuChange(year, employeeId);
         }
+        public List<EmployeeAssignment> GetDeletedEmployeeCount(int year, int employeeId)
+        {
+            return employeeAssignmentDAL.GetDeletedEmployeeCount(year, employeeId);
+        }
     }
 }

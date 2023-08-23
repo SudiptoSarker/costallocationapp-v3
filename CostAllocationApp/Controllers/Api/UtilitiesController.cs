@@ -7195,6 +7195,8 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetEmployeeNameForMenuChange(string employeeAssignmentId,int employeeId,string menuType,int year)
         {            
             List< EmployeeAssignment > employeeAssignments = employeeAssignmentBLL.GetEmployeeNameForMenuChange(year, employeeId);
+            List<EmployeeAssignment> _employeeAssignmentCount = employeeAssignmentBLL.GetDeletedEmployeeCount(year, employeeId);
+            EmployeeAssignment singleEmployeeAssignment = new EmployeeAssignment();
 
             int employeeCount = 0;
             employeeCount = employeeAssignments.Count;
@@ -7204,6 +7206,9 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeName = assignmentItem.EmployeeRootName;
             }
+            singleEmployeeAssignment.EmployeeName = employeeName;
+            singleEmployeeAssignment.EmployeeCount = _employeeAssignmentCount.Count;
+
             if (!string.IsNullOrEmpty(menuType))
             {
                 if(menuType.ToLower() == "unit")
@@ -7212,7 +7217,9 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-            return Ok(employeeName);
+            var results = singleEmployeeAssignment;
+            //return Ok(employeeName);
+            return Ok(results);
         }
     }
 }

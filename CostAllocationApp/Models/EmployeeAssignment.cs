@@ -47,5 +47,6 @@ namespace CostAllocationApp.Models
 
         public string EmployeeRootName { get; set; }
         public string EmployeeModifiedName { get; set; }
+        public int EmployeeCount { get; set; }
     }
 }

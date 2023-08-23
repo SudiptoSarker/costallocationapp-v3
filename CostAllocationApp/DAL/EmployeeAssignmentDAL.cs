@@ -5301,6 +5301,46 @@ namespace CostAllocationApp.DAL
 
 
         }
+        public List<EmployeeAssignment> GetDeletedEmployeeCount(int year, int employeeId)
+        {
+            List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
 
+            string query = "";
+            query = query + "SELECT ea.Id,ea.EmployeeId,ea.EmployeeName,e.FullName 'RootName' ";
+            query = query + "FROM EmployeesAssignments ea ";
+            query = query + "   INNER JOIN Employees e ON ea.EmployeeId=e.Id ";
+            query = query + "WHERE ea.EmployeeId=" + employeeId + " AND ea.Year=" + year + " AND ea.IsDeleted=1";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                            employeeAssignment.Id = Convert.ToInt32(rdr["Id"]);
+                            employeeAssignment.EmployeeRootName = rdr["RootName"] is DBNull ? "" : rdr["RootName"].ToString();
+                            employeeAssignment.EmployeeModifiedName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+
+                            employeeAssignments.Add(employeeAssignment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return employeeAssignments;
+
+
+
+        }
     }
 }

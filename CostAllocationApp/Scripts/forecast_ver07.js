@@ -2353,12 +2353,16 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
+                    var activeEmployeeCount =0;
+                    var masterEmployeeName = "";
+                    var inactiveEmployeeCount = 0;
 
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
 
                     if (retrivedData.assignmentId.toString().includes('new')) {
+                        console.log("if");
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
@@ -2405,6 +2409,7 @@ function ShowForecastResults(year) {
 
                     }
                     else {
+                        console.log("else");
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
@@ -2432,17 +2437,12 @@ function ShowForecastResults(year) {
                         retrivedData.bcyr = false;
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
 
-                        // for (let x of allData) {
-                        //     if (x[0] == minAssignmentNumber) {
-                        //         newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                        //         break;
-                        //     }
-                        // }
+                        for (let x of allData) {                            
+                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                                activeEmployeeCount = activeEmployeeCount+1;
+                            }                          
+                        }
 
-                        // console.log("retrivedData.assignmentId: "+retrivedData.assignmentId);
-                        // console.log("retrivedData.employeeId: "+retrivedData.employeeId);    
-                        // console.log("retrivedData.year: "+retrivedData.year);  
-                        
                         $.ajax({
                             url: `/api/utilities/GetEmployeeNameForMenuChange`,
                             contentType: 'application/json',
@@ -2451,14 +2451,12 @@ function ShowForecastResults(year) {
                             dataType: 'json',
                             data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
                             success: function (data) { 
-                                console.log("data: "+data);
-                                newCountedEmployeeName = data;
-                                console.log("newCountedEmployeeName: "+newCountedEmployeeName);
+                                masterEmployeeName = data.EmployeeName;
+                                inactiveEmployeeCount = data.EmployeeCount;
                             }
                         });                        
-                    }                                        
-                    console.log("newCountedEmployeeName22: "+newCountedEmployeeName);
-
+                    }     
+                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")";
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
@@ -2531,6 +2529,7 @@ function ShowForecastResults(year) {
                 }
                
             });
+
             items.push({
                 title: '要員のコピー（役割変更）(role)',
                 onclick: function () {
@@ -2544,6 +2543,9 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
+                    var activeEmployeeCount =0;
+                    var masterEmployeeName = "";
+                    var inactiveEmployeeCount = 0;
 
                     obj.insertRow(1, parseInt(y));
 
@@ -2620,13 +2622,29 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
 
                         for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                                break;
-                            }
+                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                                activeEmployeeCount = activeEmployeeCount+1;
+                            }  
+                            // if (x[0] == minAssignmentNumber) {
+                            //     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                            //     break;
+                            // }
                         }
+
+                        $.ajax({
+                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            dataType: 'json',
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                            success: function (data) { 
+                                masterEmployeeName = data.EmployeeName;
+                                inactiveEmployeeCount = data.EmployeeCount;
+                            }
+                        });
                     }
-                    
+                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];                   
 
@@ -2725,7 +2743,10 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
-
+                    var activeEmployeeCount =0;
+                    var masterEmployeeName = "";
+                    var inactiveEmployeeCount = 0;
+                    
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
@@ -2801,14 +2822,25 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if (x[0] == minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                                break;
-                            }
+                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                                activeEmployeeCount = activeEmployeeCount+1;
+                            }  
                         }
+                        $.ajax({
+                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            dataType: 'json',
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                            success: function (data) { 
+                                masterEmployeeName = data.EmployeeName;
+                                inactiveEmployeeCount = data.EmployeeCount;
+                            }
+                        });
                     }
 
-                   
+                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 

@@ -105,7 +105,7 @@
             idleTime = idleTime + 1;
             let last_path = '';
             if (window.location.pathname.toString() !== '/') {
-                if (idleTime > 0) { // 1 minutes
+                if (idleTime > 5) { // 5 minutes
                     debugger;
                     $.ajax({
                         url: `/Registration/GetLastPath`,

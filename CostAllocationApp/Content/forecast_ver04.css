@@ -344,7 +344,8 @@ body {
     background-color: #d99a23;
 }.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
     background-color: #d99a23;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
     background-color: #d99a23;
 }
 

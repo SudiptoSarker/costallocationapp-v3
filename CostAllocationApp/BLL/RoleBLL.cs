@@ -37,5 +37,36 @@ namespace CostAllocationApp.BLL
         {
             return roleDAL.GetRoleByRoleId(roleId);
         }
+        public int RetrieveRoleIdByRoleName(string roleName, string userName)
+        {
+            Role objRole = new Role();
+            int roleId = 0;
+
+            if (!string.IsNullOrEmpty(roleName))
+            {
+                roleId = roleDAL.GetRoleIdByName(roleName);
+
+                if (roleId > 0)
+                {
+                    return roleId;
+                }
+                else
+                {
+                    objRole.CreatedBy = userName;
+                    objRole.CreatedDate = DateTime.Now;
+                    objRole.IsActive = true;
+                    objRole.RoleName = roleName;
+
+                    int result = roleDAL.CreateRole(objRole);
+                    roleId = roleDAL.GetRoleIdByName(roleName);
+                    return roleId;
+                }
+            }
+            else
+            {
+                return roleId;
+            }
+
+        }
     }
 }

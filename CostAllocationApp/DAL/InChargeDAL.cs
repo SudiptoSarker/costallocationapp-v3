@@ -172,5 +172,44 @@ namespace CostAllocationApp.DAL
                 return incharge;
             }
         }
+        public int GetInchargeIdByName(string inchargeName)
+        {
+            int inchargeId = 0;
+            string where = "";
+            string query = "";
+            if (!string.IsNullOrEmpty(inchargeName))
+            {
+                where += $" Name =N'{inchargeName}'";
+                where += " AND IsActive=1 ";
+
+                query = $@"select Id,Name FROM InCharges
+                            where {where}";
+
+                using (SqlConnection sqlConnection = this.GetConnection())
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    try
+                    {
+                        SqlDataReader rdr = cmd.ExecuteReader();
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                inchargeId = Convert.ToInt32(rdr["Id"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HttpContext.Current.Response.Write(ex);
+                        HttpContext.Current.Response.End();
+                    }
+                }
+
+            }
+
+            return inchargeId;
+        }
     }
 }

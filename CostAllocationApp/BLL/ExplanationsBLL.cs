@@ -38,5 +38,36 @@ namespace CostAllocationApp.BLL
         {
             return explanationDAL.GetExplanationByExplanationId(explanationId);
         }
+        public int RetrieveExplanationIdByExplanationName(string explanationName, string userName)
+        {
+            Explanation explanation = new Explanation();
+            int explanationId = 0;
+
+            if (!string.IsNullOrEmpty(explanationName))
+            {
+                explanationId = explanationDAL.GetExplanationIdByName(explanationName);
+
+                if (explanationId > 0)
+                {
+                    return explanationId;
+                }
+                else
+                {
+                    explanation.CreatedBy = userName;
+                    explanation.CreatedDate = DateTime.Now;
+                    explanation.IsActive = true;
+                    explanation.ExplanationName = explanationName;
+
+                    int result = explanationDAL.CreateExplanation(explanation);
+                    explanationId = explanationDAL.GetExplanationIdByName(explanationName);
+                    return explanationId;
+                }
+            }
+            else
+            {
+                return explanationId;
+            }
+
+        }
     }
 }

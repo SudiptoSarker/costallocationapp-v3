@@ -38,5 +38,36 @@ namespace CostAllocationApp.BLL
         {
             return inChargeDAL.GetInChargeByInChargeId(inChargeId);
         }
+        public int RetrieveInChargeIdByInchargeName(string inchargeName,string userName)
+        {
+            InCharge inCharge = new InCharge();            
+            int inchargeId = 0;
+
+            if (!string.IsNullOrEmpty(inchargeName))
+            {
+                inchargeId = inChargeDAL.GetInchargeIdByName(inchargeName);
+
+                if (inchargeId > 0)
+                {
+                    return inchargeId;
+                }
+                else
+                {
+                    inCharge.CreatedBy = userName;
+                    inCharge.CreatedDate = DateTime.Now;
+                    inCharge.IsActive = true;
+                    inCharge.InChargeName = inchargeName;
+
+                    int result = inChargeDAL.CreateInCharge(inCharge);
+                    inchargeId = inChargeDAL.GetInchargeIdByName(inchargeName);
+                    return inchargeId;
+                }
+            }
+            else
+            {
+                return inchargeId;
+            }
+
+        }
     }
 }

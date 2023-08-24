@@ -38,5 +38,36 @@ namespace CostAllocationApp.BLL
         {
             return companyDAL.GetCompanyByCompanyId(companyId);
         }
+        public int RetrieveCompanyIdByCompanyName(string companyName, string userName)
+        {
+            Company company = new Company();
+            int companyId = 0;
+
+            if (!string.IsNullOrEmpty(companyName))
+            {
+                companyId = companyDAL.GetCompanyIdByName(companyName);
+
+                if (companyId > 0)
+                {
+                    return companyId;
+                }
+                else
+                {
+                    company.CreatedBy = userName;
+                    company.CreatedDate = DateTime.Now;
+                    company.IsActive = true;
+                    company.CompanyName = companyName;
+
+                    int result = companyDAL.CreateCompany(company);
+                    companyId = companyDAL.GetCompanyIdByName(companyName);
+                    return companyId;
+                }
+            }
+            else
+            {
+                return companyId;
+            }
+
+        }
     }
 }

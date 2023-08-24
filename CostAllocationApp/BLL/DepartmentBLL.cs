@@ -49,7 +49,7 @@ namespace CostAllocationApp.BLL
         public bool CheckDepartment(Department department)
         {
             return departmentDAL.CheckDepartment(department);
-        }
+        }        
         public int GetDepartmentCountWithEmployeeAsignment(int departmentId)
         {
             return departmentDAL.GetDepartmentCountWithEmployeeAsignment(departmentId);
@@ -66,6 +66,39 @@ namespace CostAllocationApp.BLL
         public List<SubCategory> GetAllSubCategories()
         {
             return departmentDAL.GetAllSubCategories();
+        }
+
+        public int RetrieveDepartmentIdByDepartmentName(string departmentName,int sectionId,string userName)
+        {
+            Department department = new Department();
+
+            int depatmentId = 0;
+
+            if (!string.IsNullOrEmpty(departmentName))
+            {
+                depatmentId = departmentDAL.GetDepartmentIdByDepartmentName(departmentName);
+
+                if (depatmentId > 0)
+                {
+                    return depatmentId;
+                }
+                else
+                {
+                    department.CreatedBy = userName;
+                    department.CreatedDate = DateTime.Now;
+                    department.IsActive = true;
+                    department.DepartmentName = departmentName;
+                    department.SectionId = sectionId;
+
+                    int result = departmentDAL.CreateDepartment(department);
+                    depatmentId = departmentDAL.GetDepartmentIdByName(departmentName);
+                    return depatmentId;
+                }
+            }
+            else
+            {
+                return depatmentId;
+            }  
         }
     }
 }

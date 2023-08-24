@@ -400,5 +400,71 @@ namespace CostAllocationApp.DAL
                 return subCategories;
             }
         }
+        public int GetDepartmentIdByDepartmentName(string departmentName)
+        {
+            string query = "select * from Departments  where Name=N'" + departmentName+"' ";// + "' and SectionId=" + department.SectionId;
+            int departmentId = 0;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            departmentId = Convert.ToInt32(rdr["Id"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return departmentId;
+            }
+        }
+        public int GetDepartmentIdByName(string departmentName)
+        {
+            int departmentId = 0;
+            string where = "";
+            string query = "";
+            if (!string.IsNullOrEmpty(departmentName))
+            {
+                where += $" Name =N'{departmentName}'";
+                where += " AND IsActive=1 ";
+
+                query = $@"select Id,Name FROM Departments
+                            where {where}";
+
+                using (SqlConnection sqlConnection = this.GetConnection())
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    try
+                    {
+                        SqlDataReader rdr = cmd.ExecuteReader();
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                departmentId = Convert.ToInt32(rdr["Id"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HttpContext.Current.Response.Write(ex);
+                        HttpContext.Current.Response.End();
+                    }
+                }
+
+            }
+
+            return departmentId;
+        }
     }
 }

@@ -173,5 +173,44 @@ namespace CostAllocationApp.DAL
                 return role;
             }
         }
+        public int GetRoleIdByName(string role)
+        {
+            int roleId = 0;
+            string where = "";
+            string query = "";
+            if (!string.IsNullOrEmpty(role))
+            {
+                where += $" Name =N'{role}'";
+                where += " AND IsActive=1 ";
+
+                query = $@"select Id,Name FROM Roles
+                            where {where}";
+
+                using (SqlConnection sqlConnection = this.GetConnection())
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    try
+                    {
+                        SqlDataReader rdr = cmd.ExecuteReader();
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                roleId = Convert.ToInt32(rdr["Id"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HttpContext.Current.Response.Write(ex);
+                        HttpContext.Current.Response.End();
+                    }
+                }
+
+            }
+
+            return roleId;
+        }        
     }
 }

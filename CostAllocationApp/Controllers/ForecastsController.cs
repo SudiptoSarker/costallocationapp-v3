@@ -31,6 +31,11 @@ namespace CostAllocationApp.Controllers
         EmployeeBLL employeeBLL = new EmployeeBLL();
         Employee employee = new Employee();
         UserBLL userBLL = null;
+        DepartmentBLL departmentBLL = new DepartmentBLL();
+        InChargeBLL inChargeBLL = new InChargeBLL();
+        RoleBLL roleBLL = new RoleBLL();
+        ExplanationsBLL explanationsBLL = new ExplanationsBLL();
+        CompanyBLL companyBLL = new CompanyBLL();
 
         ForecastBLL forecastBLL = new ForecastBLL();
         ExportExcelFileBLL exportExcelFileBLL = new ExportExcelFileBLL();
@@ -928,6 +933,7 @@ namespace CostAllocationApp.Controllers
                             int tempYear = selected_year;
                             dt_ = reader.AsDataSet().Tables[0];
                             int rowcount = dt_.Rows.Count;
+                            string userName = session["userName"].ToString(); 
 
                             for (int i = 2; i < rowcount; i++)
                             {
@@ -936,8 +942,7 @@ namespace CostAllocationApp.Controllers
                                 //section 
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][0].ToString()))
                                 {
-                                    _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
-                                    _uploadExcel.SectionId = _uploadExcelBll.GetSectionIdByName(dt_.Rows[i][0].ToString().Trim(trimElements));
+                                    _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName(dt_.Rows[i][0].ToString().Trim(trimElements), userName) ;
                                 }
                                 else
                                 {
@@ -947,7 +952,8 @@ namespace CostAllocationApp.Controllers
                                 //department 
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][1].ToString()))
                                 {
-                                    _uploadExcel.DepartmentId = _uploadExcelBll.GetDepartmentIdByName(dt_.Rows[i][1].ToString().Trim(trimElements));
+                                    int sectionId = Convert.ToInt32(_uploadExcel.SectionId);
+                                    _uploadExcel.DepartmentId = departmentBLL.RetrieveDepartmentIdByDepartmentName(dt_.Rows[i][1].ToString(), sectionId, userName);
                                 }
                                 else
                                 {
@@ -957,16 +963,17 @@ namespace CostAllocationApp.Controllers
                                 //incharge
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][2].ToString()))
                                 {
-                                    _uploadExcel.InchargeId = _uploadExcelBll.GetInchargeIdByName(dt_.Rows[i][2].ToString().Trim(trimElements));
+                                    _uploadExcel.InchargeId = inChargeBLL.RetrieveInChargeIdByInchargeName(dt_.Rows[i][2].ToString().Trim(trimElements),userName);
                                 }
                                 else
                                 {
                                     _uploadExcel.InchargeId = 0;
                                 }
+
                                 //role
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][3].ToString()))
                                 {
-                                    _uploadExcel.RoleId = _uploadExcelBll.GetRoleIdByName(dt_.Rows[i][3].ToString().Trim(trimElements));
+                                    _uploadExcel.RoleId = roleBLL.RetrieveRoleIdByRoleName(dt_.Rows[i][3].ToString().Trim(trimElements),userName);
                                 }
                                 else
                                 {
@@ -976,38 +983,13 @@ namespace CostAllocationApp.Controllers
                                 //explanation
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][4].ToString()))
                                 {
-                                    _uploadExcel.ExplanationId = _uploadExcelBll.GetExplanationIdByName(dt_.Rows[i][4].ToString().Trim(trimElements));
-                                }
-
-                                //name
-                                if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    employee.IsActive = true;
-                                    employee.CreatedBy = "";
-                                    employee.CreatedDate = DateTime.Now;
-                                    employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
-                                    int result = employeeBLL.CheckForEmployeeName(employee.FullName);
-                                    if (result > 0)
-                                    {
-                                        _uploadExcel.EmployeeId = result;
-                                    }
-                                    else
-                                    {
-                                        result = employeeBLL.CreateEmployee(employee);
-                                    }
-
-                                    _uploadExcel.EmployeeId = result;
-                                    _uploadExcel.EmployeeName = employee.FullName;
+                                    _uploadExcel.ExplanationId = explanationsBLL.RetrieveExplanationIdByExplanationName(dt_.Rows[i][4].ToString(),userName);
                                 }
 
                                 //compnay
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][6].ToString()))
                                 {
-                                    _uploadExcel.CompanyId = _uploadExcelBll.GetCompanyIdByName(dt_.Rows[i][6].ToString().Trim(trimElements));
+                                    _uploadExcel.CompanyId = companyBLL.RetrieveCompanyIdByCompanyName(dt_.Rows[i][6].ToString().Trim(trimElements),userName);
                                 }
                                 else
                                 {
@@ -1045,6 +1027,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.GradeId = 0;
                                     _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
                                 }
+
                                 //remarks
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
                                 {
@@ -1054,6 +1037,33 @@ namespace CostAllocationApp.Controllers
                                 {
                                     _uploadExcel.Remarks = "";
                                 }
+
+                                //name
+                                if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    employee.IsActive = true;
+                                    employee.CreatedBy = "";
+                                    employee.CreatedDate = DateTime.Now;
+                                    employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                    int result = employeeBLL.CheckForEmployeeName(employee.FullName);
+                                    if (result > 0)
+                                    {
+                                        _uploadExcel.EmployeeId = result;
+                                    }
+                                    else
+                                    {
+                                        result = employeeBLL.CreateEmployee(employee);
+                                    }
+
+                                    _uploadExcel.EmployeeId = result;
+                                    _uploadExcel.EmployeeName = employee.FullName;
+                                }
+
+                                
 
                                 var assignmentViewModels = employeeAssignmentBLL.GetEmployeesByName(employee.FullName);
 

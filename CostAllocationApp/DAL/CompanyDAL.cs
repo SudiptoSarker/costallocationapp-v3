@@ -172,5 +172,44 @@ namespace CostAllocationApp.DAL
                 return company;
             }
         }
+        public int GetCompanyIdByName(string companyName)
+        {
+            int companyId = 0;
+            string where = "";
+            string query = "";
+            if (!string.IsNullOrEmpty(companyName))
+            {
+                where += $" Name =N'{companyName}'";
+                where += " AND IsActive=1 ";
+
+                query = $@"select Id,Name FROM Companies
+                            where {where}";
+
+                using (SqlConnection sqlConnection = this.GetConnection())
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    try
+                    {
+                        SqlDataReader rdr = cmd.ExecuteReader();
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                companyId = Convert.ToInt32(rdr["Id"]);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HttpContext.Current.Response.Write(ex);
+                        HttpContext.Current.Response.End();
+                    }
+                }
+
+            }
+
+            return companyId;
+        }
     }
 }

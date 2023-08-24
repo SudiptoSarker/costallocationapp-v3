@@ -42,5 +42,38 @@ namespace CostAllocationApp.BLL
         {
             return sectionDAL.GetSectionBySectionId(sectionId);
         }
+
+        public int RetrieveSectionIdBySectionName(string sectionName,string userName) {
+            Section section = new Section();
+            SectionBLL _sectionBll = new SectionBLL();
+            int sectionId = 0;
+
+            if (!string.IsNullOrEmpty(sectionName))
+            {
+                sectionId = sectionDAL.GetSectionIdByName(sectionName);
+               
+
+                if (sectionId > 0)
+                {
+                    return sectionId;
+                }
+                else
+                {
+                    section.CreatedBy = userName;
+                    section.CreatedDate = DateTime.Now;
+                    section.IsActive = true;
+                    section.SectionName = sectionName;
+
+                    int result = sectionDAL.CreateSection(section);
+                    sectionId = sectionDAL.GetSectionIdByName(sectionName);
+                    return sectionId;
+                }
+            }
+            else
+            {
+                return sectionId;
+            }
+                     
+        }
     }
 }

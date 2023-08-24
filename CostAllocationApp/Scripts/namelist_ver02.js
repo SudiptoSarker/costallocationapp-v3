@@ -1,5 +1,40 @@
 ﻿$(document).ready(function() {
-    var count=1;
+    var count = 1;
+
+    $(window).on("beforeunload", function () {
+        //alert("call");
+        console.log('fired');
+        var _keysCount = 0;
+        var currentHost = window.location.host;
+        _keys = Object.keys(localStorage);
+        for (var key = 0; key < _keys.length; key++) {
+            if (localStorage.getItem(_keys[key]) == currentHost) {
+                _keysCount++;
+            }
+        }
+        if (_keysCount == 1) {
+            var user_name = $('#hidden_username').val();
+            if (user_name != null || user_name != undefined || user_name != '') {
+                $.ajax({
+                    url: `/Registration/RemoveSession?userName=${user_name}`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                    }
+                });
+            }
+        }
+        if (_keysCount > 1) {
+            localStorage.removeItem(window.location.pathname);
+        }
+    });
+    var localStorageItem = localStorage.getItem(window.location.pathname);
+    if (localStorageItem == null || localStorageItem == '' || localStorageItem == undefined) {
+        localStorage.setItem(window.location.pathname, window.location.host);
+    }
+
     //$('#namelist thead tr:eq(1) th').each( function () {
     //    if(count == 1){
     //        var title = $(this).text();

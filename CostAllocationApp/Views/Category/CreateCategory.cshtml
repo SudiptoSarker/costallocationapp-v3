@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Section Registration";
+    ViewBag.Title = "Category Registration";
 }
 
 @section Styles {
-    <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/category.css" />
 }
 <div class="content container-fluid">
     <!-----------------Section Master: Section Registration Form----------------->
@@ -17,14 +17,14 @@
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
-                                    <th>区分 (Section)</th>
+                                    <th>カテゴリー (Category)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="section_reg_frm_td">
-                                        <input type="text" value="" placeholder="区分 (section name)" id="section-name">
+                                        <input type="text" value="" placeholder="カテゴリー (category name)" id="section-name">
                                         @* <div class="" id="section_name_err">
                                                 Please provide a department name.
                                             </div> *@
@@ -52,7 +52,7 @@
                     <table class="" id="section_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6">区分リスト(Secttion List)</th>
+                                <th colspan="6">カテゴリ一覧 (Category List)</th>
                             </tr>
                             <tr>
                                 <th class="section_list_theader">Check</th>
@@ -107,7 +107,7 @@
 </div>
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/sections_ver02.js"></script>
+    <script src="/Scripts/category.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
             $.connection.hub.disconnected(function () {

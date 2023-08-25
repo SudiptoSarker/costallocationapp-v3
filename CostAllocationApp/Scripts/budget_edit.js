@@ -16,6 +16,7 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
+//loader functions
 function LoaderShow() {    
     $("#loading").css("display", "block");
 }
@@ -26,16 +27,13 @@ function LoaderShowJexcel() {
     $("#loading").css("display", "block");
     $("#jspreadsheet").hide();  
     $("#export_budget").hide(); 
-    //$("#head_total").css("display", "none");
-    
 }
 function LoaderHideJexcel(){
     $("#jspreadsheet").show(); 
-    //$("#export_budget").show(); 
-    //$("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
 
+//shorting column functions
 function ColumnOrder(columnNumber, orderBy) {
     jss.orderBy(columnNumber, orderBy);
     if (orderBy == 0) {
@@ -188,6 +186,9 @@ $(function () {
 });
 
 $(document).ready(function () {
+
+    //checking the data is finalize or not.
+    //save and finalize button disable/enable
     $("#budget_years").change(function () {
         var select_year_type = this.value;
         if (select_year_type != '' && select_year_type != null && select_year_type != undefined){
@@ -324,14 +325,9 @@ $(document).ready(function () {
     $("#export_budget").hide();    
     var count = 1;
 
-    $('#employee_list').select2(); 
+    $('#employee_list').select2();       
 
-    //$.connection.chatHub.disconnected(function () {
-    //    setTimeout(function () {
-    //        $.connection.hub.start();
-    //    }, 3000); // Restart connection after 3 seconds.
-    //});    
-
+    //save budget edit data.
     $('#save_bedget').on('click', function () {
         $("#jspreadsheet").hide();    
         LoaderShow();
@@ -957,9 +953,7 @@ $(document).ready(function () {
 
 
     $(document).on('change', '#section_search', function () {
-
         var sectionId = $(this).val();
-
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
@@ -986,6 +980,7 @@ $(document).ready(function () {
         $("#export_budget").show(); 
     });
 
+    //refresh budget table data 
     $(document).on('click', '#cancele_all_changed_budget ', function () {    
         var assignmentYear = $('#budget_years').val();          
         if(assignmentYear==''){
@@ -1006,6 +1001,7 @@ $(document).ready(function () {
 
 });
 
+//show the budget results on jexcel table.
 function ShowBedgetResults(year) {
     var employeeName = $('#name_search').val();
     employeeName = "";
@@ -1434,9 +1430,9 @@ function ShowBedgetResults(year) {
             onchange: function (instance, cell, x, y, value) {            
                 var checkId = jss.getValueFromCoords(0, y);
                 var employeeId = jss.getValueFromCoords(35, y);
-
+                
                 if (checkId == null || checkId == '' || checkId == undefined) {
-
+                    //get data for new employee
                     var retrivedData = retrivedObject(jss.getRowData(y));
                     retrivedData.assignmentId = "new-" + newRowCount;
 
@@ -1457,6 +1453,7 @@ function ShowBedgetResults(year) {
                     jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
                 }
                 else {
+                    //get data for existing employee
                     var retrivedData = retrivedObject(jss.getRowData(y));
                     if (retrivedData.assignmentId.toString().includes('new')) {
                         updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
@@ -1899,7 +1896,8 @@ function ShowBedgetResults(year) {
     $("#save_bedget").css("display", "block");
     $("#cancele_all_changed_budget").css("display", "block");
     $("#budget_finalize").css("display", "block");
-    
+
+    //create a row for search in each column
     jss.deleteColumn(46, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -1969,6 +1967,7 @@ function ShowBedgetResults(year) {
 
     var allRows = jss.getData();
     var count = 1;
+    //get all data and set color
     $.each(allRows, function (index,value) {
         if (value['36'] == true && value['39'] == false) {            
             SetColorCommonRow(count,"yellow","red","newrow");
@@ -2744,43 +2743,13 @@ $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_inchar
    // $('#search_p_text_box').val('');
 });
 
-//var deleted = function (instance, x, y, value) {
-//    var assignmentIds = [];
-//    if (value.length > 0) {
-//        for (let i = 0; i < value.length; i++) {
-//            if (value[i][0].innerText != '' && value[i][0].innerText.toString().includes('new') == false) {
-//                assignmentIds.push(value[i][0].innerText);
-//            }
-
-//        }
-//        if (assignmentIds.length > 0) {
-//            $.ajax({
-//                url: `/api/utilities/ExcelDeleteAssignment/`,
-//                contentType: 'application/json',
-//                type: 'DELETE',
-//                async: false,
-//                dataType: 'json',
-//                data: JSON.stringify(assignmentIds),
-//                success: function (data) {
-//                    alert(data);
-//                }
-//            });
-//        }
-
-//    }
-
-//}
-
-
 var newRowInserted = function (instance, x, y, newRow) {
     var totalRow = jss.getData(false);
     jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
-    //var sectionCell = newRow[0][2];
-    //$(sectionCell).append();
 
 }
 
-
+//update the arry with the assignment data for cells 
 function updateArray(array, retrivedData) {
     var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
@@ -2808,6 +2777,7 @@ function updateArray(array, retrivedData) {
     array[index].year = retrivedData.year;
 }
 
+//update the array for add new employee 
 function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChangedValue) {
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
     array[index].assignmentId = retrivedData.assignmentId;
@@ -3167,6 +3137,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }            
 }
 
+//set value and get value from the objects
 function retrivedObject(rowData) {
     return {
         assignmentId: rowData[0],

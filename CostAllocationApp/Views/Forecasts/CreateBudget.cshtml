@@ -6,7 +6,7 @@
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/budget.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
     @* <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/> *@
 
 }
@@ -15,11 +15,7 @@
 
     @{
         /***************************\
-         Employee Assignment: Import Excel
-        \***************************/
-       
-        /***************************\
-            Show Loader
+            Budget Loader
         \***************************/
         <div class="row">
             <div class="col-md-12">
@@ -36,10 +32,12 @@
                 </div>
             </div>
         </div>
-        
-        <div id="budget_import_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 策定 (Create)</span></div>
 
-        <div class="import_year_wise_data" id="">            
+        /***************************\
+        Budget: Import Excel
+        \***************************/
+        <div id="budget_import_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 策定 (Create)</span></div>
+        <div class="import_year_wise_data" id="">
             <table class="" id="">
                 <thead>
                     <tr>
@@ -65,10 +63,8 @@
         <br />
         <br />
 
-
-        //forecast part
         /***************************\
-        Show Loader
+        Budget second Loader
         \***************************/
         <br>
         <div class="row">
@@ -86,14 +82,14 @@
                 </div>
             </div>
         </div>
-        <br>         
+        <br>
     }
 </div>
 
 <!-----------------Modal: CSV Import----------------->
 <div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
     @* <div class="modal-dialog modal-dialog-centered"> *@
-        <div class="modal-dialog modal-lg modal-dialog-centered">        
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 @using (Html.BeginForm("CreateBudget", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "", @id = "frm_import_year_data" }))
@@ -104,12 +100,11 @@
                         <div class="row">
                             <div class="col-4">
                                 <label style="margin-right: 67px;">Select Budget Year</label>
-                                <input type="text" id="select_import_year" class="form-control" name="upload_year"/>                            
+                                <input type="text" id="select_import_year" class="form-control" name="upload_year" />
                             </div>
                             <div class="col-3">
                                 <label style="margin-right: 11px;">Select Budget Type</label>
-                                <select id="select_budget_type" class="form-control" name="select_budget_type">                                    
-                                </select>
+                                <select id="select_budget_type" class="form-control" name="select_budget_type"></select>
                             </div>
                             <div class="col-4">
                                 <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
@@ -137,29 +132,27 @@
 </div>
 <!-----------------Modal: Replciate from previous year----------------->
 <div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
-    <div class="modal-dialog modal-lg modal-dialog-centered">      
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
                     <h3>策定する年度を選択 (Replicate Data)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
-                    
+
                     <div class="row">
                         <div class="col-4">
-                            <label style="margin-right: 136px;">From Year</label>                            
-                            <select id="duplicate_from" class="form-control" name="duplicate_from">                                    
-                            </select>
+                            <label style="margin-right: 136px;">From Year</label>
+                            <select id="duplicate_from" class="form-control" name="duplicate_from"></select>
                             @* <input type="text" id="replicate_from" class="form-control" name="upload_year"/>  *@
                         </div>
-                        <div class="col-4">    
-                            <label style="margin-right: 154px;">To Year</label>                                                                         
-                            <input type="text" id="duplciateYear" class="form-control" name="upload_year"/>                            
+                        <div class="col-4">
+                            <label style="margin-right: 154px;">To Year</label>
+                            <input type="text" id="duplciateYear" class="form-control" name="upload_year" />
                         </div>
                         <div class="col-3">
                             <label style="margin-right: 11px;">Select Budget Type</label>
-                            <select id="select_duplicate_budget_type" class="form-control" name="select_duplicate_budget_type">                                    
-                            </select>
-                        </div>                        
+                            <select id="select_duplicate_budget_type" class="form-control" name="select_duplicate_budget_type"></select>
+                        </div>
                     </div>
 
                 </div>
@@ -179,15 +172,14 @@
 </div>
 <input type="hidden" id="selected_budget_year" value="" />
 
+
+<!--shorting columns-->
 <div class="search_p">
     <ul id="search_p_asc_desc">
         <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
         <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
     </ul>
-    @*<input type="text" id="search_p_text_box" />
-        <ul id="search_p_search"></ul>*@
     <div class="search_p_footer">
-        @*<button type="button" onclick="GetEmployeeName()">Ok</button>*@
         <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
     </div>
 </div>
@@ -272,7 +264,7 @@
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/budget.js"></script>
     <script src="~/signalr/hubs"></script>
-    
+
     <script type="text/javascript">
 
         $.connection.hub.disconnected(function () {
@@ -284,10 +276,7 @@
         $.connection.hub.start();
 
         $(function () {
-            var chat = $.connection.chatHub;
-            //$.connection.hub.start();
-            //debugger;
-            //console.log(chat);
+            var chat = $.connection.chatHub;       
             chat.client.addNewMessageToPage = function (name, message) {
                 if (message != $('#user_name').text()) {
                     alert(name + message);
@@ -314,7 +303,7 @@
             };
         });
         $(document).ready(function () {
-           // $("table1").DataTable();
+            // $("table1").DataTable();
 
             $(window).on("beforeunload", function () {
                 //alert("call");
@@ -426,7 +415,7 @@
 
         $("#select_import_year, #replicate_from,#duplciateYear").datepicker({
             format: "yyyy",
-            viewMode: "years", 
+            viewMode: "years",
             minViewMode: "years"
         });
     </script>

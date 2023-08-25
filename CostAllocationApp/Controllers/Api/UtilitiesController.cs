@@ -7160,6 +7160,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/CheckYearIfFinalize/")]
         public IHttpActionResult CheckYearIfFinalize(int select_year_type, int budgetReqType)
         {
+            //check the year and budget type is finalize or not. if finalize then returns true.
             bool isFinalizeBudgetYear = false;
             isFinalizeBudgetYear = employeeAssignmentBLL.CheckYearIfFinalize(select_year_type, budgetReqType);            
 

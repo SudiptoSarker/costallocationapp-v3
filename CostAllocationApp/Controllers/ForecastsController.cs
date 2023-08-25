@@ -811,7 +811,8 @@ namespace CostAllocationApp.Controllers
             }
             return View();
         }
-        // GET: Forecasts
+
+        // GET: budget ui
         public ActionResult CreateBudget()
         {
             if (Session["token"] == null)
@@ -843,6 +844,7 @@ namespace CostAllocationApp.Controllers
             ViewBag.ImportViewOrForecastView = requestType;
 
             {
+                //user permission on page
                 User user = userBLL.GetUserByUserName(Session["userName"].ToString());
                 List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
                 var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
@@ -859,6 +861,7 @@ namespace CostAllocationApp.Controllers
             return View(forecastViewModal);
         }
 
+        //budget excel submit page
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year, string select_budget_type)
@@ -939,7 +942,7 @@ namespace CostAllocationApp.Controllers
                             {
                                 _uploadExcel = new UploadExcel();
                                
-                                //section 
+                                //section: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][0].ToString()))
                                 {
                                     _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName(dt_.Rows[i][0].ToString().Trim(trimElements), userName) ;
@@ -949,7 +952,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.SectionId = 0;
                                 }
 
-                                //department 
+                                //department : read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][1].ToString()))
                                 {
                                     int sectionId = Convert.ToInt32(_uploadExcel.SectionId);
@@ -960,7 +963,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.DepartmentId = 0;
                                 }
 
-                                //incharge
+                                //incharge: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][2].ToString()))
                                 {
                                     _uploadExcel.InchargeId = inChargeBLL.RetrieveInChargeIdByInchargeName(dt_.Rows[i][2].ToString().Trim(trimElements),userName);
@@ -970,7 +973,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.InchargeId = 0;
                                 }
 
-                                //role
+                                //role: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][3].ToString()))
                                 {
                                     _uploadExcel.RoleId = roleBLL.RetrieveRoleIdByRoleName(dt_.Rows[i][3].ToString().Trim(trimElements),userName);
@@ -980,13 +983,13 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.RoleId = 0;
                                 }
 
-                                //explanation
+                                //explanation: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][4].ToString()))
                                 {
                                     _uploadExcel.ExplanationId = explanationsBLL.RetrieveExplanationIdByExplanationName(dt_.Rows[i][4].ToString(),userName);
                                 }
 
-                                //compnay
+                                //compnay: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][6].ToString()))
                                 {
                                     _uploadExcel.CompanyId = companyBLL.RetrieveCompanyIdByCompanyName(dt_.Rows[i][6].ToString().Trim(trimElements),userName);
@@ -996,7 +999,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.CompanyId = 0;
                                 }
 
-                                //grade and unit price
+                                //grade and unit price: read/write
                                 bool isGradeEmpty = false;
                                 bool isUnitPriceEmpty = false;
                                 if (string.IsNullOrEmpty(dt_.Rows[i][7].ToString()))
@@ -1028,7 +1031,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.UnitPrice = Convert.ToInt32(dt_.Rows[i][8].ToString().Trim(trimElements));
                                 }
 
-                                //remarks
+                                //remarks: read/write
                                 if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
                                 {
                                     _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
@@ -1038,7 +1041,7 @@ namespace CostAllocationApp.Controllers
                                     _uploadExcel.Remarks = "";
                                 }
 
-                                //name
+                                //name: read/write
                                 if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
                                 {
                                     continue;
@@ -1077,10 +1080,8 @@ namespace CostAllocationApp.Controllers
                                     EmployeeBudgetCreate(_uploadExcel, i, selected_year, 0, select_budget_type);
                                     tempAssignmentId = employeeAssignmentBLL.GetBudgetLastId();
                                 }
-                                //get 2nd half budget 
-
-                                //compare the budget
-
+                                
+                                //get the man month from budget.
                                 decimal octInput = 0;
                                 decimal.TryParse(dt_.Rows[i][9].ToString(), out octInput);
 
@@ -1123,6 +1124,7 @@ namespace CostAllocationApp.Controllers
                             }
 
                             //2nd half budget: start
+                            //logic: approved man month from edit page data from oct. to april. will updated to the budget man month for 2nd half budget
                             if (!string.IsNullOrEmpty(select_budget_type))
                             {
                                 if(Convert.ToInt32(select_budget_type) == 2)

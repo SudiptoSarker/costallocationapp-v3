@@ -1,7 +1,6 @@
 ﻿/*-----------------
 	1. General
 -----------------------*/
-
 body {
     overflow-x: auto;
 }
@@ -97,6 +96,9 @@ body {
     max-height:800px !important;
 } */
 
+/***************************\
+    Table Header Design
+\***************************/
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
     left: 0px;
     z-index: 3 !important;
@@ -174,6 +176,7 @@ body {
 .jexcel tbody tr td:nth-of-type(36) {
     text-align:right !important;
 }
+
 /***************************\                           
 	Import and Replicate Data
 \***************************/

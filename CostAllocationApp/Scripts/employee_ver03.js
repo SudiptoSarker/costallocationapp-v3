@@ -74,11 +74,13 @@ function ShowNameList_Datatable(data){
     $('#employeeList_datatable').DataTable({
         destroy: true,
         data: data,
-        ordering: false,
+        //ordering: false,
+        ordering: true,
         orderCellsTop: false,
         pageLength: 100,
         searching: false,
-        bLengthChange: false,    
+        //searching: true,
+        // bLengthChange: false,    
         //dom: 'lifrtip',
         columns: [            
             {

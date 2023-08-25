@@ -301,6 +301,8 @@
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\budget.css" />
+    <Content Include="Content\budget_edit.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
     <Content Include="Content\companies_ver02.css" />
@@ -704,6 +706,8 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\budget.js" />
+    <Content Include="Scripts\budget_edit.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\common.js" />

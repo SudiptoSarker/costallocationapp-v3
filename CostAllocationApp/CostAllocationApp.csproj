@@ -198,6 +198,7 @@
     <Compile Include="Controllers\Api\SectionsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api\UtilitiesController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
@@ -837,6 +838,9 @@
     <Content Include="Views\Forecasts\QaProportion.cshtml" />
     <Content Include="Views\Forecasts\CreateBudget.cshtml" />
     <Content Include="Views\Forecasts\EditBudget.cshtml" />
+    <Content Include="Views\Category\CreateCategory.cshtml" />
+    <Content Include="Views\Category\CreateSubCategory.cshtml" />
+    <Content Include="Views\Category\DepartmentsWithSubCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

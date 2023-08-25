@@ -2415,7 +2415,6 @@ function ShowForecastResults(year) {
                             else {
 
                                 updateArray(jssUpdatedData, retrivedData);
-
                             }
                         }
                         $(cell).css('color', 'red');

@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "Department Registration";
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />
+}
+
+<div class="content container-fluid">
+    <!-----------------Department Master: Department Registration Form----------------->
+    @if (Convert.ToBoolean(ViewBag.linkFlag))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <table id="dept_reg_tbl">
+                            <thead style="border:none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>部署 (Dept Name)</th>
+                                    <th>区分 (Section)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="dept_reg_frm_td">
+                                        <input type="text" value="" placeholder="部署 氏名(dept name)" id="department_name">
+                                        @* <div class="department_name_err" id="department_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                    </td>
+                                    <td id="dept_reg_frm_td">
+                                        <select id="section_list" class="" style=""></select>
+                                    </td>
+                                    <td id="dept_reg_frm_td">
+                                        <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                        <a href="javascript:void(0);" class="" id="dept_reg_save_btn" onclick="InsertDepartment();">Save</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+    }
+
+
+    <!-----------------Department Master: Department list are showing on this part----------------->
+    <div id="department_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="dept_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">部署 リスト(Dept List)</th>
+                            </tr>
+                            <tr>
+                                <th class="dept_list_theader">Check</th>
+                                <th class="dept_list_theader">部署 (Dept Name)</th>
+                                <th class="dept_list_theader">区分 (Section)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="department_list_tbody"></tbody>
+                    </table>
+                    @if (Convert.ToBoolean(ViewBag.linkFlag))
+                    {
+                        <label id="dept_delete_btn">
+                            <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_department_modal" onClick="onDepartmentInactiveClick()">Delete</a>
+                        </label>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<input type="hidden" id="department_warning_text" />
+
+<!-----------------Modal: Delete department----------------->
+<div class="modal custom-modal fade" id="inactive_department_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Department</h3>
+                    <ol class="department_count" style="text-align:left;"></ol>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="department_inactive_confirm_btn">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/departments_ver02.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+
+        $.connection.hub.start();
+
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (name, message) {
+                if (message != $('#user_name').text()) {
+                    alert(name + message);
+                }
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+            $(window).on("beforeunload", function () {
+                //alert("call");
+                console.log('fired');
+                var _keysCount = 0;
+                var currentHost = window.location.host;
+                _keys = Object.keys(localStorage);
+                for (var key = 0; key < _keys.length; key++) {
+                    if (localStorage.getItem(_keys[key]) == currentHost) {
+                        _keysCount++;
+                    }
+                }
+                if (_keysCount == 1) {
+                    var user_name = $('#hidden_username').val();
+                    if (user_name != null || user_name != undefined || user_name != '') {
+                        $.ajax({
+                            url: `/Registration/RemoveSession?userName=${user_name}`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            //dataType: 'json',
+                            success: function (data) {
+                            }
+                        });
+                    }
+                }
+                if (_keysCount > 1) {
+                    localStorage.removeItem(window.location.pathname);
+                }
+            });
+            var localStorageItem = localStorage.getItem(window.location.pathname);
+            if (localStorageItem == null || localStorageItem == '' || localStorageItem == undefined) {
+                localStorage.setItem(window.location.pathname, window.location.host);
+            }
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+
+            $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName =  $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data, (index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+
+                    });
+
+                }
+            });
+
+        });
+    </script>
+}

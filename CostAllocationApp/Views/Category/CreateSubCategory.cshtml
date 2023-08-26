@@ -1,11 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "Department Registration";
+    ViewBag.Title = "サブカテゴリー (Sub-Category Registration)";
 }
 
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/sub_category.css" />
 }
 
 <div class="content container-fluid">
@@ -20,25 +20,25 @@
                             <thead style="border:none;">
                                 <tr></tr>
                                 <tr>
-                                    <th>部署 (Dept Name)</th>
-                                    <th>区分 (Section)</th>
+                                    <th>サブカテゴリー (Sub-Category)</th>
+                                    <th>カテゴリー (Category)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="dept_reg_frm_td">
-                                        <input type="text" value="" placeholder="部署 氏名(dept name)" id="department_name">
-                                        @* <div class="department_name_err" id="department_name_err">
+                                        <input type="text" value="" placeholder="サブカテゴリー (Sub-Category Name)" id="subCategory_name">
+                                        @* <div class="sub_category_name_err" id="sub_category_name_err">
                                                 Please provide a department name.
                                             </div> *@
                                     </td>
                                     <td id="dept_reg_frm_td">
-                                        <select id="section_list" class="" style=""></select>
+                                        <select id="category_list" class="" style=""></select>
                                     </td>
                                     <td id="dept_reg_frm_td">
                                         <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                        <a href="javascript:void(0);" class="" id="dept_reg_save_btn" onclick="InsertDepartment();">Save</a>
+                                        <a href="javascript:void(0);" class="" id="dept_reg_save_btn" onclick="InsertSubCategory();">Save</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -59,15 +59,15 @@
                     <table class="" id="dept_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6">部署 リスト(Dept List)</th>
+                                <th colspan="6">サブカテゴリリスト(Sub-Category List)</th>
                             </tr>
                             <tr>
                                 <th class="dept_list_theader">Check</th>
-                                <th class="dept_list_theader">部署 (Dept Name)</th>
-                                <th class="dept_list_theader">区分 (Section)</th>
+                                <th class="dept_list_theader">サブカテゴリー (Sub-Category)</th>
+                                <th class="dept_list_theader">カテゴリー (Category)</th>
                             </tr>
                         </thead>
-                        <tbody id="department_list_tbody"></tbody>
+                        <tbody id="subcategory_list_tbody"></tbody>
                     </table>
                     @if (Convert.ToBoolean(ViewBag.linkFlag))
                     {
@@ -91,7 +91,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Department</h3>
+                    <h3>Delete Sub-Category</h3>
                     <ol class="department_count" style="text-align:left;"></ol>
                     <p>Are you sure want to delete?</p>
                 </div>
@@ -112,7 +112,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/departments_ver02.js"></script>
+    <script src="/Scripts/sub_category.js"></script>
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">

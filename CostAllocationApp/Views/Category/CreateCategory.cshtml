@@ -25,13 +25,13 @@
                                 <tr>
                                     <td id="section_reg_frm_td">
                                         <input type="text" value="" placeholder="カテゴリー (category name)" id="section-name">
-                                        @* <div class="" id="section_name_err">
+                                        @* <div class="" id="category_name_err">
                                                 Please provide a department name.
                                             </div> *@
                                     </td>
                                     <td id="section_reg_frm_td">
                                         <a href="javascript:void(0);" class="" id="section_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                        <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertSection();">Save</a>
+                                        <a href="javascript:void(0);" class="" id="section_reg_save_btn" onclick="InsertCategory();">Save</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -56,15 +56,15 @@
                             </tr>
                             <tr>
                                 <th class="section_list_theader">Check</th>
-                                <th class="section_list_theader">区分 (Section)</th>
+                                <th class="section_list_theader">カテゴリー (Category)</th>
                             </tr>
                         </thead>
-                        <tbody id="section_list_tbody"></tbody>
+                        <tbody id="category_list_tbody"></tbody>
                     </table>
                     @if (Convert.ToBoolean(ViewBag.linkFlag))
                     {
                         <label id="section_delete_btn">
-                            <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">Delete</a>
+                            <a id="category_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_category">Delete</a>
                         </label>
                     }
 
@@ -77,18 +77,18 @@
 <br><br>
 <br><br>
 
-<input type="hidden" id="section_warning_text" />
+<input type="hidden" id="category_warning_text" />
 <input type="hidden" id="section_chk_ids" />
 
 <!-----------------Modal: Delete sections----------------->
-<div class="modal custom-modal fade" id="delete_section" role="dialog">
+<div class="modal custom-modal fade" id="delete_category" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Section</h3>
-                    <p id="section_warning" style="display:none;"></p>
-                    <ol class="section_count" style="text-align:left;"></ol>
+                    <h3>Delete Category</h3>
+                    <p id="category_warning" style="display:none;"></p>
+                    <ol class="category_count" style="text-align:left;"></ol>
                     <p>Are you sure want to delete?</p>
                 </div>
                 <div class="modal-btn delete-action">
@@ -97,7 +97,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">Delete</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="category_inactive_confirm_btn">Delete</a>
                         </div>
                     </div>
                 </div>

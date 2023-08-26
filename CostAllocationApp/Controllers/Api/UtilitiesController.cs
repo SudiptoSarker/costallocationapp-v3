@@ -31,7 +31,7 @@ namespace CostAllocationApp.Controllers.Api
         UserRoleBLL userRoleBLL = null;
         QaProportionBLL qaProportionBLL = null;
         TotalBLL totalBLL = null;
-        
+        CategoryBLL categoryBLL = null;
 
         public UtilitiesController()
         {
@@ -50,6 +50,7 @@ namespace CostAllocationApp.Controllers.Api
             userRoleBLL = new UserRoleBLL();
             qaProportionBLL = new QaProportionBLL();
             totalBLL = new TotalBLL();
+            categoryBLL = new CategoryBLL();
         }
 
 
@@ -574,7 +575,52 @@ namespace CostAllocationApp.Controllers.Api
             }
 
         }
+        [HttpGet]
+        public IHttpActionResult CategoryCount(string categoryIds)
+        {
+            List<string> countMessage = new List<string>();
+            if (!String.IsNullOrEmpty(categoryIds))
+            {
+                int tempCategoryId = 0;
+                String[] _ids = categoryIds.Split(',');
 
+                if (_ids.Length > 0)
+                {
+                    foreach (string item in _ids)
+                    {
+                        Int32.TryParse(item, out tempCategoryId);
+                        if (tempCategoryId > 0)
+                        {
+                            var section = categoryBLL.GetCategoryByCategoryId(tempCategoryId);
+                            if (section != null)
+                            {
+                                int result = sectionBLL.GetSectionCountWithEmployeeAsignment(tempCategoryId);
+                                if (result > 1)
+                                {
+                                    countMessage.Add(result + " projects assigned for " + section.CategoryName);
+                                }
+                                else
+                                {
+                                    countMessage.Add(result + " project assigned for " + section.CategoryName);
+                                }
+                            }
+                        }
+                    }
+                    return Ok(countMessage);
+                }
+                else
+                {
+                    return BadRequest("Invalid Data");
+                }
+
+
+            }
+            else
+            {
+                return BadRequest("Invalid Data");
+            }
+
+        }
         [HttpGet]
         public IHttpActionResult DepartmentCount(string departmentIds)
         {

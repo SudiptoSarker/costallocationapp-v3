@@ -175,6 +175,7 @@
     <Compile Include="BLL\CategoryBLL.cs" />
     <Compile Include="BLL\CompanyBLL.cs" />
     <Compile Include="BLL\DepartmentBLL.cs" />
+    <Compile Include="BLL\DepartmentWithSubCategoryBLL.cs" />
     <Compile Include="BLL\EmployeeBLL.cs" />
     <Compile Include="BLL\EmployeeAssignmentBLL.cs" />
     <Compile Include="BLL\ExplanationsBLL.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Controllers\Api\CategoryController.cs" />
     <Compile Include="Controllers\Api\CompaniesController.cs" />
     <Compile Include="Controllers\Api\DepartmentsController.cs" />
+    <Compile Include="Controllers\Api\DepartmentWithSubCategoryController.cs" />
     <Compile Include="Controllers\Api\EmployeesController.cs" />
     <Compile Include="Controllers\Api\ExplanationsController.cs" />
     <Compile Include="Controllers\Api\ForecastsController.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="DAL\CompanyDAL.cs" />
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DepartmentDAL.cs" />
+    <Compile Include="DAL\DepartmentWithSubCategoryDAL.cs" />
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\EmployeeAssignmentDAL.cs" />
     <Compile Include="DAL\ExplanationDAL.cs" />
@@ -261,6 +264,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DepartmentWithSubCategory.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
     <Compile Include="Models\EmployeeBudget.cs" />
     <Compile Include="Models\EmployeeBudgetAssignment.cs" />

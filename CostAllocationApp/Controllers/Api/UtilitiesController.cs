@@ -98,7 +98,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 return BadRequest("Something Went Wrong!!!");
-            }            
+            }
         }
 
         [HttpGet]
@@ -180,8 +180,8 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [HttpGet]
-        public IHttpActionResult SearchForecastEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year,string timeStampId)        
-        {            
+        public IHttpActionResult SearchForecastEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
+        {
             EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
 
             if (!string.IsNullOrEmpty(employeeName))
@@ -191,7 +191,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 employeeAssignment.EmployeeName = "";
-            }            
+            }
 
             if (!string.IsNullOrEmpty(sectionId))
             {
@@ -224,7 +224,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 employeeAssignment.RoleId = "";
-            }            
+            }
 
             employeeAssignment.ExplanationId = explanationId;
             if (!string.IsNullOrEmpty(companyId))
@@ -257,7 +257,7 @@ namespace CostAllocationApp.Controllers.Api
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
-            
+
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
@@ -413,12 +413,12 @@ namespace CostAllocationApp.Controllers.Api
                 string budgetType = arrYearWithBudgetType[1];
                 if (!string.IsNullOrEmpty(budgetType))
                 {
-                    if(Convert.ToInt32(budgetType) == 1)
+                    if (Convert.ToInt32(budgetType) == 1)
                     {
                         employeeAssignment.FirstHalfBudget = true;
                         employeeAssignment.SecondHalfBudget = false;
                     }
-                    else if(Convert.ToInt32(budgetType) == 2)
+                    else if (Convert.ToInt32(budgetType) == 2)
                     {
                         employeeAssignment.FirstHalfBudget = false;
                         employeeAssignment.SecondHalfBudget = true;
@@ -440,7 +440,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.IsActive = "";
             }
-            
+
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllBudgetData(employeeAssignment);
 
             return Ok(forecsatEmployeeAssignmentViewModels);
@@ -964,9 +964,9 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.CompanyId = item.CompanyId;
                         employeeAssignment.GradeId = item.GradeId;
                         employeeAssignment.UnitPrice = item.UnitPrice;
-                        int updateResult =  employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+                        int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
 
-                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId),item.Year,10,item.OctPoint));
+                        forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 12, item.DecPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 1, item.JanPoint));
@@ -998,7 +998,7 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }
             }
-           
+
 
 
             return Ok(message);
@@ -1050,27 +1050,27 @@ namespace CostAllocationApp.Controllers.Api
                         }
 
                         employeeAssignment.UnitPrice = item.UnitPrice;
-                        
+
                         //previous data
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
-                        
+
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;
-                        
+
 
                         if (forecastHistoryDto.CellInfo.Count > 0)
                         {
                             foreach (var cellItem in forecastHistoryDto.CellInfo)
-                            {                                
+                            {
                                 var itemData = cellItem.Split('_');
-                                if(Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
+                                if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
                                 {
                                     int checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
 
                                     if (Convert.ToInt32(itemData[1]) == 2)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2",_assignmentHistory.BCYRCell);
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
                                         {
                                             if (checkResults > 0)
@@ -1083,7 +1083,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.Remarks, "Remarks");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 3)
                                     {
@@ -1100,7 +1100,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.SectionId, "SectionId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 4)
                                     {
@@ -1117,7 +1117,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.DepartmentId, "DepartmentId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 5)
                                     {
@@ -1134,7 +1134,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.InChargeId, "InChargeId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 6)
                                     {
@@ -1151,7 +1151,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.RoleId, "RoleId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 7)
                                     {
@@ -1168,7 +1168,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.ExplanationId, "ExplanationId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 8)
                                     {
@@ -1185,7 +1185,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.CompanyId, "CompanyId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 9)
                                     {
@@ -1202,7 +1202,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.GradeId, "GradeId");
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 10)
                                     {
@@ -1219,9 +1219,9 @@ namespace CostAllocationApp.Controllers.Api
                                                 //insert original data
                                                 int intsertOriginalData = employeeAssignmentBLL.InsertOriginalAssignment(_assignmentHistory, _assignmentHistory.UnitPrice, "UnitPrice");
                                             }
-                                        }                                        
+                                        }
                                     }
-                                   
+
                                 }
                             }
                         }
@@ -1232,7 +1232,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             if (item.IsDeletePending)
                             {
-                                employeeAssignment.IsDeletePending = false;                                
+                                employeeAssignment.IsDeletePending = false;
                             }
                         }
                         employeeAssignment.IsActiveAssignment = true;
@@ -1241,7 +1241,7 @@ namespace CostAllocationApp.Controllers.Api
                         //original forecasted data
                         forecastsPrevious.AddRange(forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId)));
                         assignmentHistories.Add(_assignmentHistory);
-                        
+
                         //update/insert the original forecasted data
                         if (forecastHistoryDto.CellInfo.Count > 0)
                         {
@@ -1288,13 +1288,14 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 12)
                                     {
-                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending,"12", _assignmentHistory.BCYRCell);
+                                        bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "12", _assignmentHistory.BCYRCell);
 
-                                        if (validForOriginalData) { 
+                                        if (validForOriginalData)
+                                        {
                                             int isMonthExists = employeeAssignmentBLL.CheckMonthIdExistsForOrgForecast(Convert.ToInt32(item.AssignmentId), 11);
                                             if (_objPreviousForecastedData.Count > 0)
                                             {
@@ -1358,7 +1359,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 14)
                                     {
@@ -1393,7 +1394,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 15)
                                     {
@@ -1428,7 +1429,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 16)
                                     {
@@ -1463,7 +1464,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 17)
                                     {
@@ -1498,7 +1499,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 18)
                                     {
@@ -1533,7 +1534,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 19)
                                     {
@@ -1568,7 +1569,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 20)
                                     {
@@ -1603,7 +1604,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 21)
                                     {
@@ -1638,7 +1639,7 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                     if (Convert.ToInt32(itemData[1]) == 22)
                                     {
@@ -1673,12 +1674,12 @@ namespace CostAllocationApp.Controllers.Api
                                                     }
                                                 }
                                             }
-                                        }                                        
+                                        }
                                     }
                                 }
                             }
                         }
-                                               
+
 
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 11, item.NovPoint));
@@ -1693,7 +1694,7 @@ namespace CostAllocationApp.Controllers.Api
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 8, item.AugPoint));
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 9, item.SepPoint));
 
-                        if (forecasts.Count>0)
+                        if (forecasts.Count > 0)
                         {
                             foreach (var forecast in forecasts)
                             {
@@ -1743,7 +1744,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         foreach (var item in assignmentHistoriesOriginal)
                         {
-                            forecastBLL.CreateAssignmenttHistory(item, resultTimeStamp, isUpdate, isDeleted,true);
+                            forecastBLL.CreateAssignmenttHistory(item, resultTimeStamp, isUpdate, isDeleted, true);
                         }
                     }
 
@@ -1755,7 +1756,7 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var item in forecastHistoryDto.CellInfo)
                         {
                             var storePreviousCells = "";
-                            var itemData = item.Split('_');                            
+                            var itemData = item.Split('_');
                             EmployeeAssignment _employeeAssignment = employeeAssignmentBLL.GetBCYRCellAndPendingCellsByAssignmentId(Convert.ToInt32(itemData[0]));
                             if (String.IsNullOrEmpty(_employeeAssignment.BCYRCell))
                             {
@@ -1778,11 +1779,11 @@ namespace CostAllocationApp.Controllers.Api
                                             var arrCheckForCellExits = storePreviousCells.Split(',');
                                             var isValidCellForUpdate = true;
 
-                                            foreach(var checkExitsItem in arrCheckForCellExits)
+                                            foreach (var checkExitsItem in arrCheckForCellExits)
                                             {
-                                                if(checkExitsItem == previousItem)
+                                                if (checkExitsItem == previousItem)
                                                 {
-                                                    isValidCellForUpdate = false;                                                    
+                                                    isValidCellForUpdate = false;
                                                 }
                                             }
                                             if (isValidCellForUpdate)
@@ -1792,7 +1793,8 @@ namespace CostAllocationApp.Controllers.Api
                                         }
                                         else
                                         {
-                                            if(storePreviousCells != previousItem) {
+                                            if (storePreviousCells != previousItem)
+                                            {
                                                 storePreviousCells = storePreviousCells + "," + previousItem;
                                             }
                                         }
@@ -1802,29 +1804,30 @@ namespace CostAllocationApp.Controllers.Api
                                 var arrCheckForAlreadyExitsCell = storePreviousCells.Split(',');
                                 var isValidForUpdateCell = true;
 
-                                foreach(var cellItem in arrCheckForAlreadyExitsCell)
-                                {                                   
-                                    if(cellItem == itemData[1])
+                                foreach (var cellItem in arrCheckForAlreadyExitsCell)
+                                {
+                                    if (cellItem == itemData[1])
                                     {
                                         isValidForUpdateCell = false;
                                     }
                                 }
-                                if (isValidForUpdateCell) { 
+                                if (isValidForUpdateCell)
+                                {
                                     //result += "," + itemData[1];
                                     storePreviousCells += "," + itemData[1];
                                 }
                             }
                             string bCYRCellPending = _employeeAssignment.BCYRCellPending;
-                            string storePendingCells = "";                            
+                            string storePendingCells = "";
 
                             var arrPendingCells = bCYRCellPending.Split(',');
-                            foreach(var pendingItem in arrPendingCells)
+                            foreach (var pendingItem in arrPendingCells)
                             {
                                 bool isValidForPendingCellUpdate = true;
                                 var arrPreviousCells = storePreviousCells.Split(','); ;
-                                foreach(var previousCellItem in arrPreviousCells)
+                                foreach (var previousCellItem in arrPreviousCells)
                                 {
-                                    if(pendingItem == previousCellItem)
+                                    if (pendingItem == previousCellItem)
                                     {
                                         isValidForPendingCellUpdate = false;
                                     }
@@ -1837,7 +1840,7 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                     else
                                     {
-                                        storePendingCells = storePendingCells +","+pendingItem;
+                                        storePendingCells = storePendingCells + "," + pendingItem;
                                     }
                                 }
                             }
@@ -1845,7 +1848,7 @@ namespace CostAllocationApp.Controllers.Api
                             employeeAssignmentBLL.UpdateBCYRCellBCYRPendingCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells, storePendingCells);
                         }
                     }
-                    
+
 
                     if (resultTimeStamp > 0)
                     {
@@ -1902,12 +1905,12 @@ namespace CostAllocationApp.Controllers.Api
                         }
 
                         employeeAssignment.UnitPrice = item.UnitPrice;
-                        
+
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
-                        _assignmentHistory.CreatedDate = DateTime.Now;                        
-                        
-                        employeeAssignment.IsActiveAssignment = true;                        
+                        _assignmentHistory.CreatedDate = DateTime.Now;
+
+                        employeeAssignment.IsActiveAssignment = true;
                         int updateResult = employeeAssignmentBLL.UpdateBudgetAssignment(employeeAssignment);
 
 
@@ -1932,7 +1935,7 @@ namespace CostAllocationApp.Controllers.Api
                             }
                             forecasts = new List<Forecast>();
                         }
-                    }                              
+                    }
                 }
             }
 
@@ -1941,7 +1944,7 @@ namespace CostAllocationApp.Controllers.Api
 
 
         [HttpGet]
-        public IHttpActionResult ApprovedForecastData(string assignementId,bool isDeletedRow)
+        public IHttpActionResult ApprovedForecastData(string assignementId, bool isDeletedRow)
         {
             int results;
             if (!isDeletedRow)
@@ -1951,7 +1954,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 results = employeeAssignmentBLL.ApproveAssignement(assignementId);
-            }            
+            }
             return Ok(results);
         }
 
@@ -1961,8 +1964,9 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult UnApprovedForecastData(string assignementId, bool isDeletedRow)
         {
             int results = 0;
-            bool isValidForUnapprovedRow = employeeAssignmentBLL.CheckForUnApprovedRow(assignementId,isDeletedRow);
-            if (isValidForUnapprovedRow) { 
+            bool isValidForUnapprovedRow = employeeAssignmentBLL.CheckForUnApprovedRow(assignementId, isDeletedRow);
+            if (isValidForUnapprovedRow)
+            {
                 if (!isDeletedRow)
                 {
                     results = employeeAssignmentBLL.UnApproveDeletedRow(assignementId);
@@ -1983,10 +1987,11 @@ namespace CostAllocationApp.Controllers.Api
 
             //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
-            if (resultData>0) { 
+            if (resultData > 0)
+            {
                 //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
                 _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
-            
+
                 if (string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
                 {
                     _employeeAssignment.BCYRCellApproved = "";
@@ -2000,10 +2005,11 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         isUpdateData = true;
                         _employeeAssignment.BCYRCellApproved = _employeeAssignment.BCYRCellApproved + "," + selectedCells;
-                    }                
+                    }
                 }
 
-                if (isUpdateData) { 
+                if (isUpdateData)
+                {
                     string storeBYCRCells = "";
                     //commented out because: cell will not update while approve but only when saved.
                     //if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
@@ -2087,11 +2093,11 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/IsValidForApprovalCell/")]
         public IHttpActionResult IsValidForApprovalCell(string assignementId, string selectedCells)
         {
-            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();            
+            EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
 
             //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
-            return Ok(resultData);            
+            return Ok(resultData);
         }
 
         [HttpGet]
@@ -2135,7 +2141,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     return Ok(0);
                 }
-            }           
+            }
         }
 
         //un-approve cell wise data
@@ -2147,7 +2153,7 @@ namespace CostAllocationApp.Controllers.Api
             bool isUpdateData = false;
 
             //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
-            bool isValidForUnapproved = employeeAssignmentBLL.CheckForUnApprovedCells(assignementId,selectedCells);
+            bool isValidForUnapproved = employeeAssignmentBLL.CheckForUnApprovedCells(assignementId, selectedCells);
             if (isValidForUnapproved)
             {
 
@@ -2236,7 +2242,7 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        public Forecast ExtraxctToForecast(int assignmentId,int year, int monthId,decimal point)
+        public Forecast ExtraxctToForecast(int assignmentId, int year, int monthId, decimal point)
         {
             var session = System.Web.HttpContext.Current.Session;
 
@@ -2281,7 +2287,7 @@ namespace CostAllocationApp.Controllers.Api
                         return BadRequest("Something Went Wrong");
                     }
                 }
-                
+
             }
             else
             {
@@ -2321,7 +2327,7 @@ namespace CostAllocationApp.Controllers.Api
                         return BadRequest("Something Went Wrong");
                     }
                 }
-                
+
             }
             else
             {
@@ -2334,7 +2340,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult UpdateUserName(User user)
         {
             var session = System.Web.HttpContext.Current.Session;
-            
+
             if (!String.IsNullOrEmpty(user.UserName))
             {
                 user.UpdatedBy = session["userName"].ToString();
@@ -2343,11 +2349,11 @@ namespace CostAllocationApp.Controllers.Api
                 if (result > 0)
                 {
                     var removedFlag = userBLL.RemoveUserPermissions(user.Id);
-                    if (user.UserRoleId=="1")
+                    if (user.UserRoleId == "1")
                     {
                         foreach (var item in UserLinks.adminLinks)
                         {
-                            userBLL.CreateUserPermissions(item,user.Id);
+                            userBLL.CreateUserPermissions(item, user.Id);
                         }
                     }
                     if (user.UserRoleId == "2")
@@ -2376,7 +2382,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetEmployeeList()
         {
             List<Employee> employees = employeeBLL.GetAllEmployees();
-            if (employees.Count>0)
+            if (employees.Count > 0)
             {
                 return Ok(employees);
             }
@@ -2394,11 +2400,11 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
             List<User> users = userBLL.GetAllUsers();
-            if (users.Count>0)
+            if (users.Count > 0)
             {
                 foreach (var item in users)
                 {
-                    if (item.Id==user.Id)
+                    if (item.Id == user.Id)
                     {
                         item.Password = "***";
                         filteredUser = item;
@@ -2430,11 +2436,11 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/UpdateUserStatus/")]
-        public IHttpActionResult UpdateUserStatus(string changeUserName,string changeUserRole, string changeUserStatus)
+        public IHttpActionResult UpdateUserStatus(string changeUserName, string changeUserRole, string changeUserStatus)
         {
             string userRoleId = "";
             bool isActive = false;
-            if(string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "1")
+            if (string.IsNullOrEmpty(changeUserRole) && changeUserStatus == "1")
             {
                 userRoleId = "3";
                 isActive = true;
@@ -2459,7 +2465,8 @@ namespace CostAllocationApp.Controllers.Api
                 if (changeUserRole.ToLower() == "admin")
                 {
                     userRoleId = "1";
-                }else if(changeUserRole.ToLower() == "editor")
+                }
+                else if (changeUserRole.ToLower() == "editor")
                 {
                     userRoleId = "2";
                 }
@@ -2492,7 +2499,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     userRoleId = "0";
                 }
-                isActive = false;                
+                isActive = false;
             }
             var session = System.Web.HttpContext.Current.Session;
             string updatedBy = session["userName"].ToString();
@@ -2521,7 +2528,7 @@ namespace CostAllocationApp.Controllers.Api
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
             List<User> filteredUsers = new List<User>();
             List<User> users = userBLL.GetAllUsers();
-            if (user.UserRoleId=="1")
+            if (user.UserRoleId == "1")
             {
                 if (users.Count > 0)
                 {
@@ -2547,12 +2554,12 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     foreach (var item in users)
                     {
-                        if (item.Id==user.Id)
+                        if (item.Id == user.Id)
                         {
                             item.Password = "***";
                             filteredUsers.Add(item);
                         }
-                        
+
                     }
                     return Ok(filteredUsers);
                 }
@@ -2561,7 +2568,7 @@ namespace CostAllocationApp.Controllers.Api
                     return NotFound();
                 }
             }
-           
+
         }
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]
@@ -2634,7 +2641,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             continue;
                         }
-                        
+
                         employeeAssignment.EmployeeId = item.EmployeeId;
                         employeeAssignment.SectionId = item.SectionId;
                         employeeAssignment.DepartmentId = item.DepartmentId;
@@ -2664,7 +2671,7 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.CreatedBy = session["userName"].ToString();
                         employeeAssignment.CreatedDate = DateTime.Now;
                         employeeAssignment.Remarks = item.Remarks;
-                        
+
                         //check for bcyr value
                         employeeAssignment.BCYR = item.BCYR;
                         employeeAssignment.BCYRCell = "";
@@ -2675,7 +2682,8 @@ namespace CostAllocationApp.Controllers.Api
                         if (result == 1)
                         {
                             int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
-                            returnedIdList.Add(new {
+                            returnedIdList.Add(new
+                            {
                                 assignmentId = item.AssignmentId,
                                 returnedId = employeeAssignmentLastId
                             });
@@ -2700,7 +2708,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         int lastAssignmentId = employeeAssignmentBLL.GetLastId();
                         if (!item.BCYR)
-                        {                            
+                        {
                             var getDataBySplit = item.BCYRCell.Split(',');
 
                             foreach (var splittedData in getDataBySplit)
@@ -2722,7 +2730,7 @@ namespace CostAllocationApp.Controllers.Api
 
                         AssignmentHistory _assignmentHistory = new AssignmentHistory();
                         _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(lastAssignmentId);
-                        
+
                         _assignmentHistory.CreatedBy = session["userName"].ToString();
                         _assignmentHistory.CreatedDate = DateTime.Now;
                         assignmentHistories.Add(_assignmentHistory);
@@ -2735,7 +2743,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         foreach (var item in assignmentHistories)
                         {
-                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted,false);
+                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted, false);
                         }
                     }
                     else
@@ -2746,10 +2754,10 @@ namespace CostAllocationApp.Controllers.Api
                         //forecastHisory.Forecasts = forecastsPrevious;
                         forecastHisory.CreatedBy = session["userName"].ToString();
                         forecastHisory.CreatedDate = DateTime.Now;
-                        var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate,isDeleted);
-                    }                    
+                        var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
+                    }
                 }
-            }    
+            }
             return Ok(returnedIdList);
         }
 
@@ -2795,7 +2803,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     foreach (var item in assignmentHistories)
                     {
-                        forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted,false);
+                        forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted, false);
                     }
                 }
                 else
@@ -2826,27 +2834,27 @@ namespace CostAllocationApp.Controllers.Api
             User user = userBLL.GetUserLog(session["userName"].ToString());
 
             int matchedCount = 0;
-            if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count>0)
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId),user.LoginTime);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
                     //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay,result.CreatedDate.TimeOfDay);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     //if (compareDate>=0)
                     //{
-                        if (compareDate >= 0)
+                    if (compareDate >= 0)
+                    {
+                        if (user.UserName == result.CreatedBy)
                         {
-                            if (user.UserName==result.CreatedBy)
-                            {
                             continue;
-                            }
-                            matchedCount++;
                         }
+                        matchedCount++;
+                    }
                     //}
-                    
+
                 }
-                
+
             }
             return Ok(matchedCount);
         }
@@ -2867,8 +2875,8 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
                     //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay, result.CreatedDate.TimeOfDay);
-                    var compareDate = DateTime.Compare(result.CreatedDate,user.LoginTime);
-                    if (compareDate>=0)
+                    var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
+                    if (compareDate >= 0)
                     {
                         if (user.UserName == result.CreatedBy)
                         {
@@ -2879,8 +2887,8 @@ namespace CostAllocationApp.Controllers.Api
                             userNameList.Add(result.CreatedBy);
                         }
                     }
-                    
-                        
+
+
                 }
 
             }
@@ -2892,7 +2900,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 userNames = userNames.TrimEnd(',');
             }
-            
+
             return Ok(userNames);
         }
 
@@ -2909,17 +2917,17 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
-                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId),user.LoginTime);
+                    var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     if (compareDate >= 0)
                     {
-                        if (user.UserName==result.CreatedBy)
+                        if (user.UserName == result.CreatedBy)
                         {
                             continue;
                         }
                         // latest assignment history
                         var resultList = forecastBLL.GetMatchedForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId));
-                    
+
                         var singleForecastList = forecastBLL.GetForecastsByAssignmentId(Convert.ToInt32(item.AssignmentId));
 
 
@@ -3052,8 +3060,8 @@ namespace CostAllocationApp.Controllers.Api
                             AugPoints = _augP,
                             SepPoints = _sepP,
                         });
-                       
-                       
+
+
                     }
                 }
 
@@ -3072,7 +3080,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpGet]
         [Route("api/utilities/GetBudgetYear/")]
         public IHttpActionResult GetBudgetYear()
-        {            
+        {
             var result = forecastBLL.GetBudgetYear();
             return Ok(result);
         }
@@ -3095,13 +3103,13 @@ namespace CostAllocationApp.Controllers.Api
 
             bool isSecondHalfBudgetExists = false;
             bool isSecondtHalfFinalize = false;
-            
+
 
             if (latestYear > 0)
             {
-                isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(latestYear);               
+                isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(latestYear);
                 isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(latestYear);
-                
+
                 if (isInitialDataExists && isSecondHalfBudgetExists)
                 {
                     latestYear = latestYear + 1;
@@ -3122,7 +3130,7 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }
 
-                
+
                 _forecastYear.Year = latestYear;
                 _forecastYear.FirstHalfBudget = isInitialDataExists;
                 _forecastYear.FirstHalfFinalize = isFirstHalfFinalize;
@@ -3137,13 +3145,13 @@ namespace CostAllocationApp.Controllers.Api
                 _forecastYear.SecondHalfBudget = false;
                 _forecastYear.SecondHalfFinalze = false;
             }
-            
-            
+
+
             return Ok(_forecastYear);
         }
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
-        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear,string budgetType)
+        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear, string budgetType)
         {
             var session = System.Web.HttpContext.Current.Session;
             int results = 0;
@@ -3151,13 +3159,13 @@ namespace CostAllocationApp.Controllers.Api
             int toDate = 0;
 
             if (!string.IsNullOrEmpty(copyYear) && !string.IsNullOrEmpty(insertYear) && !string.IsNullOrEmpty(budgetType))
-            {                
+            {
                 fromDate = Convert.ToInt32(copyYear);
-                toDate = Convert.ToInt32(insertYear);                
+                toDate = Convert.ToInt32(insertYear);
                 results = forecastBLL.DuplicateBudget(fromDate, toDate, Convert.ToInt32(budgetType));
 
             }
-           
+
             //2nd half budget: start
             if (!string.IsNullOrEmpty(budgetType))
             {
@@ -3307,9 +3315,9 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetHistoriesByTimeStampId(int timeStampId)
         {
             List<object> forecastHistoryList = new List<object>();
-            List<Forecast> historyList =  forecastBLL.GetHistoriesByTimeStampId(timeStampId);
+            List<Forecast> historyList = forecastBLL.GetHistoriesByTimeStampId(timeStampId);
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
-            if (distinctAssignmentId.Count>0)
+            if (distinctAssignmentId.Count > 0)
             {
                 foreach (var item in distinctAssignmentId)
                 {
@@ -3347,8 +3355,8 @@ namespace CostAllocationApp.Controllers.Api
                     forecastHistoryList.Add(new
                     {
                         EmployeeName = employeeName,
-                        CreatedBy= historyList[0].CreatedBy,
-                        OctPoints = octP == octPOriginal ? "": "("+ octP.ToString("0.0") + ") "+ octPOriginal.ToString("0.0"),
+                        CreatedBy = historyList[0].CreatedBy,
+                        OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
                         NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
                         DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
                         JanPoints = janP == janPOriginal ? "" : "(" + janP.ToString("0.0") + ") " + janPOriginal.ToString("0.0"),
@@ -3372,7 +3380,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult GetAssignmentHistoriesByTimeStampId(int timeStampId)
         {
             List<object> forecastHistoryList = new List<object>();
-            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId,false);
+            List<Forecast> historyList = forecastBLL.GetAssignmentHistoriesByTimeStampId(timeStampId, false);
 
             List<int> distinctAssignmentId = historyList.Select(h => h.EmployeeAssignmentId).Distinct().ToList();
             if (distinctAssignmentId.Count > 0)
@@ -3380,8 +3388,8 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in distinctAssignmentId)
                 {
                     //Get previous data for history
-                    AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();                    
-                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,false);                    
+                    AssignmentHistoryViewModal _assignmentHistoryViewModal = new AssignmentHistoryViewModal();
+                    _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId, false);
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
                     var rootEmployeeName = _assignmentHistoryViewModal.RootEmployeeName;
                     if (string.IsNullOrEmpty(employeeName))
@@ -3398,7 +3406,7 @@ namespace CostAllocationApp.Controllers.Api
                     var unitPrice = _assignmentHistoryViewModal.UnitPrice;
                     var remarks = _assignmentHistoryViewModal.Remarks;
                     var isUpdate = _assignmentHistoryViewModal.IsUpdate;
-                    var isDeleted  =_assignmentHistoryViewModal.IsDeleted;
+                    var isDeleted = _assignmentHistoryViewModal.IsDeleted;
 
                     var tempList = historyList.Where(h => h.EmployeeAssignmentId == item).ToList();
 
@@ -3417,7 +3425,7 @@ namespace CostAllocationApp.Controllers.Api
 
                     //Get Edited data for history
                     AssignmentHistoryViewModal _objOriginalForecastedData = new AssignmentHistoryViewModal();
-                    _objOriginalForecastedData = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId,true);
+                    _objOriginalForecastedData = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId, true);
                     var employeeNameOrg = _objOriginalForecastedData.EmployeeName;
                     var rootEmployeeNameOrg = _objOriginalForecastedData.RootEmployeeName;
                     if (string.IsNullOrEmpty(employeeNameOrg))
@@ -3435,7 +3443,7 @@ namespace CostAllocationApp.Controllers.Api
                     var remarksOrg = _objOriginalForecastedData.Remarks;
                     var isUpdateOrg = _objOriginalForecastedData.IsUpdate;
                     var isDeletedOrg = _objOriginalForecastedData.IsDeleted;
-                                   
+
                     string operationType = "";
                     if (!isUpdate)
                     {
@@ -3469,19 +3477,19 @@ namespace CostAllocationApp.Controllers.Api
 
                         forecastHistoryList.Add(new
                         {
-                            EmployeeName = employeeName,                            
-                            IsUpdate = isUpdate,                            
+                            EmployeeName = employeeName,
+                            IsUpdate = isUpdate,
                             SectionName = sectionName == sectionNameOrg ? "" : "(" + sectionName + ") " + sectionNameOrg,
                             DepartmentName = departmentName == departmentNameOrg ? "" : "(" + departmentName + ") " + departmentNameOrg,
                             InChargeName = inChargeName == inChargeNameOrg ? "" : "(" + inChargeName + ") " + inChargeNameOrg,
                             RoleName = roleName == roleNameOrg ? "" : "(" + roleName + ") " + roleNameOrg,
                             ExplanationName = explanationName == explanationNameOrg ? "" : "(" + explanationName + ") " + explanationNameOrg,
                             CompanyName = companyName == companyNameOrg ? "" : "(" + companyName + ") " + companyNameOrg,
-                            GradePoints = gradePoints == gradePointsOrg ? "" : "(" + gradePoints + ") " + gradePointsOrg,                            
+                            GradePoints = gradePoints == gradePointsOrg ? "" : "(" + gradePoints + ") " + gradePointsOrg,
                             UnitPrice = unitPrice == unitPriceOrg ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(unitPriceOrg).ToString("N0"),
                             Remarks = remarks == remarksOrg ? "" : "(" + remarks + ") " + remarksOrg,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType= "Updated",
+                            OperationType = "Updated",
                             OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
                             NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
                             DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
@@ -3497,17 +3505,17 @@ namespace CostAllocationApp.Controllers.Api
                         });
                     }
                     else
-                    {                        
+                    {
                         forecastHistoryList.Add(new
                         {
                             EmployeeName = employeeName,
                             IsUpdate = isUpdate,
-                            SectionName = sectionName == ""? "" : sectionName,                                                         
+                            SectionName = sectionName == "" ? "" : sectionName,
                             DepartmentName = departmentName == "" ? "" : departmentName,
                             InChargeName = inChargeName == "" ? "" : inChargeName,
                             RoleName = roleName == "" ? "" : roleName,
                             ExplanationName = explanationName == "" ? "" : explanationName,
-                            CompanyName = companyName == "" ? "" : companyName,                             
+                            CompanyName = companyName == "" ? "" : companyName,
                             GradePoints = gradePoints == "0" ? "" : gradePoints,
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
@@ -3527,10 +3535,10 @@ namespace CostAllocationApp.Controllers.Api
                             SepPoints = sepP == 0 ? "" : sepP.ToString("0.0"),
                         });
                     }
-                    
+
                 }
             }
-            
+
             return Ok(forecastHistoryList);
         }
 
@@ -3587,7 +3595,7 @@ namespace CostAllocationApp.Controllers.Api
                     var originalForecastData = forecastBLL.GetForecastHitostyForApproval(approvedEmployeeAssignmentId);
 
                     //_objOriginalForecastedData = forecastBLL.GetOriginalForecastedData(approvedEmployeeAssignmentId);
-                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedDataForApproval(item,timeStampId);
+                    _objOriginalForecastedData = forecastBLL.GetOriginalForecastedDataForApproval(item, timeStampId);
 
                     var octPOriginal = originalForecastData.Where(p => p.Month == 10).SingleOrDefault().Points;
                     var novPOriginal = originalForecastData.Where(p => p.Month == 11).SingleOrDefault().Points;
@@ -3601,7 +3609,7 @@ namespace CostAllocationApp.Controllers.Api
                     var julPOriginal = originalForecastData.Where(p => p.Month == 7).SingleOrDefault().Points;
                     var augPOriginal = originalForecastData.Where(p => p.Month == 8).SingleOrDefault().Points;
                     var sepPOriginal = originalForecastData.Where(p => p.Month == 9).SingleOrDefault().Points;
-                  
+
                     if (isAddRow)
                     {
                         forecastHistoryList.Add(new
@@ -3618,7 +3626,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType="Add Employee",
+                            OperationType = "Add Employee",
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
@@ -3667,13 +3675,13 @@ namespace CostAllocationApp.Controllers.Api
                     else if (isUpdateCells)
                     {
                         var cellWisePreviousData = forecastBLL.GetCellWiseUpdatePreviousData(item);
-                        var cellWiseOriginalData = forecastBLL.GetCellWiseUpdateOriginalData(item,timeStampId);
+                        var cellWiseOriginalData = forecastBLL.GetCellWiseUpdateOriginalData(item, timeStampId);
 
                         //var employeeName_Cells = _approvalHistoryViewModal.EmployeeName;
                         var employeeName_Cells = cellWiseOriginalData.EmployeeName;
 
                         var approvedCells = cellWiseOriginalData.ApprovedCells;
-                        
+
                         var remarks_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3684,7 +3692,7 @@ namespace CostAllocationApp.Controllers.Api
                             //remarks_Cells = "("+cellWisePreviousData.Remarks+")"+""+cellWiseOriginalData.Remarks;
                             remarks_Cells = cellWisePreviousData.Remarks == cellWiseOriginalData.Remarks ? "" : "(" + cellWisePreviousData.Remarks + ") " + cellWiseOriginalData.Remarks;
                         }
-                        
+
                         var sectionName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3695,7 +3703,7 @@ namespace CostAllocationApp.Controllers.Api
                             //sectionName_Cells = "(" + cellWisePreviousData.SectionName + ")" + "" + cellWiseOriginalData.SectionName;                            
                             sectionName_Cells = cellWisePreviousData.SectionName == cellWiseOriginalData.SectionName ? "" : "(" + cellWisePreviousData.SectionName + ") " + cellWiseOriginalData.SectionName;
                         }
-                        
+
                         var departmentName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3706,7 +3714,7 @@ namespace CostAllocationApp.Controllers.Api
                             //departmentName_Cells = "(" + cellWisePreviousData.DepartmentName + ")" + "" + cellWiseOriginalData.DepartmentName;
                             departmentName_Cells = cellWisePreviousData.DepartmentName == cellWiseOriginalData.DepartmentName ? "" : "(" + cellWisePreviousData.DepartmentName + ") " + cellWiseOriginalData.DepartmentName;
                         }
-                        
+
                         var inChargeName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3717,7 +3725,7 @@ namespace CostAllocationApp.Controllers.Api
                             //inChargeName_Cells = "(" + cellWisePreviousData.InChargeName + ")" + "" + cellWiseOriginalData.InChargeName;
                             inChargeName_Cells = cellWisePreviousData.InChargeName == cellWiseOriginalData.InChargeName ? "" : "(" + cellWisePreviousData.InChargeName + ") " + cellWiseOriginalData.InChargeName;
                         }
-                        
+
                         var roleName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3728,7 +3736,7 @@ namespace CostAllocationApp.Controllers.Api
                             //roleName_Cells = "(" + cellWisePreviousData.RoleName + ")" + "" + cellWiseOriginalData.RoleName;
                             roleName_Cells = cellWisePreviousData.RoleName == cellWiseOriginalData.RoleName ? "" : "(" + cellWisePreviousData.RoleName + ") " + cellWiseOriginalData.RoleName;
                         }
-                        
+
                         var explanationName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3739,7 +3747,7 @@ namespace CostAllocationApp.Controllers.Api
                             //explanationName_Cells = "(" + cellWisePreviousData.ExplanationName + ")" + "" + cellWiseOriginalData.ExplanationName;
                             explanationName_Cells = cellWisePreviousData.ExplanationName == cellWiseOriginalData.ExplanationName ? "" : "(" + cellWisePreviousData.ExplanationName + ") " + cellWiseOriginalData.ExplanationName;
                         }
-                        
+
                         var companyName_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3750,7 +3758,7 @@ namespace CostAllocationApp.Controllers.Api
                             //companyName_Cells = "(" + cellWisePreviousData.CompanyName + ")" + "" + cellWiseOriginalData.CompanyName;
                             companyName_Cells = cellWisePreviousData.CompanyName == cellWiseOriginalData.CompanyName ? "" : "(" + cellWisePreviousData.CompanyName + ") " + cellWiseOriginalData.CompanyName;
                         }
-                        
+
                         var gradePoints_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3761,7 +3769,7 @@ namespace CostAllocationApp.Controllers.Api
                             //gradePoints_Cells = "(" + cellWisePreviousData.GradePoints + ")" + "" + cellWiseOriginalData.GradePoints;
                             gradePoints_Cells = cellWisePreviousData.GradePoints == cellWiseOriginalData.GradePoints ? "" : "(" + cellWisePreviousData.GradePoints + ") " + cellWiseOriginalData.GradePoints;
                         }
-                        
+
                         var unitPrice_Cells = "";
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
@@ -3771,11 +3779,11 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             //unitPrice_Cells = "(" + cellWisePreviousData.UnitPrice + ")" + "" + cellWiseOriginalData.UnitPrice;
                             unitPrice_Cells = cellWisePreviousData.UnitPrice == cellWiseOriginalData.UnitPrice ? "" : "(" + cellWisePreviousData.UnitPrice + ") " + cellWiseOriginalData.UnitPrice;
-                        }                        
+                        }
 
                         var _previousManMonthForecast = forecastBLL.GetPreviousManMonth(cellWisePreviousData.MonthId_Points);
                         var _originalManMonthForecast = forecastBLL.GetPreviousManMonth(cellWiseOriginalData.MonthId_Points);
-                        
+
                         var oct_Cell = "";
                         var octPrevious = _previousManMonthForecast.Where(p => p.Month == 10).SingleOrDefault().Points;
                         var octOrg = _originalManMonthForecast.Where(p => p.Month == 10).SingleOrDefault().Points;
@@ -3785,9 +3793,9 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            oct_Cell = octPrevious == octOrg ? "" : "(" + octPrevious.ToString("0.0") + ") " + octOrg.ToString("0.0");                            
+                            oct_Cell = octPrevious == octOrg ? "" : "(" + octPrevious.ToString("0.0") + ") " + octOrg.ToString("0.0");
                         }
-                        
+
                         var nov_Cell = "";
                         var novPrevious = _previousManMonthForecast.Where(p => p.Month == 11).SingleOrDefault().Points;
                         var novOrg = _originalManMonthForecast.Where(p => p.Month == 11).SingleOrDefault().Points;
@@ -3799,7 +3807,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             nov_Cell = novPrevious == novOrg ? "" : "(" + novPrevious.ToString("0.0") + ") " + novOrg.ToString("0.0");
                         }
-                        
+
                         var dec_Cell = "";
                         var decPrevious = _previousManMonthForecast.Where(p => p.Month == 12).SingleOrDefault().Points;
                         var decOrg = _originalManMonthForecast.Where(p => p.Month == 12).SingleOrDefault().Points;
@@ -3811,7 +3819,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             dec_Cell = decPrevious == decOrg ? "" : "(" + decPrevious.ToString("0.0") + ") " + decOrg.ToString("0.0");
                         }
-                        
+
                         var jan_Cell = "";
                         var janPrevious = _previousManMonthForecast.Where(p => p.Month == 1).SingleOrDefault().Points;
                         var janOrg = _originalManMonthForecast.Where(p => p.Month == 1).SingleOrDefault().Points;
@@ -3823,7 +3831,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             jan_Cell = janPrevious == janOrg ? "" : "(" + janPrevious.ToString("0.0") + ") " + janOrg.ToString("0.0");
                         }
-                        
+
                         var feb_Cell = "";
                         var febPrevious = _previousManMonthForecast.Where(p => p.Month == 2).SingleOrDefault().Points;
                         var febOrg = _originalManMonthForecast.Where(p => p.Month == 2).SingleOrDefault().Points;
@@ -3835,7 +3843,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             feb_Cell = febPrevious == febOrg ? "" : "(" + febPrevious.ToString("0.0") + ") " + febOrg.ToString("0.0");
                         }
-                        
+
                         var mar_Cell = "";
                         var marPrevious = _previousManMonthForecast.Where(p => p.Month == 3).SingleOrDefault().Points;
                         var marOrg = _originalManMonthForecast.Where(p => p.Month == 3).SingleOrDefault().Points;
@@ -3847,7 +3855,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             mar_Cell = marPrevious == marOrg ? "" : "(" + marPrevious.ToString("0.0") + ") " + marOrg.ToString("0.0");
                         }
-                        
+
                         var apr_Cell = "";
                         var aprPrevious = _previousManMonthForecast.Where(p => p.Month == 4).SingleOrDefault().Points;
                         var aprOrg = _originalManMonthForecast.Where(p => p.Month == 4).SingleOrDefault().Points;
@@ -3859,7 +3867,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             apr_Cell = aprPrevious == aprOrg ? "" : "(" + aprPrevious.ToString("0.0") + ") " + aprOrg.ToString("0.0");
                         }
-                        
+
                         var may_Cell = "";
                         var mayPrevious = _previousManMonthForecast.Where(p => p.Month == 5).SingleOrDefault().Points;
                         var mayOrg = _originalManMonthForecast.Where(p => p.Month == 5).SingleOrDefault().Points;
@@ -3871,7 +3879,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             may_Cell = mayPrevious == mayOrg ? "" : "(" + mayPrevious.ToString("0.0") + ") " + mayOrg.ToString("0.0");
                         }
-                        
+
                         var jun_Cell = "";
                         var junPrevious = _previousManMonthForecast.Where(p => p.Month == 6).SingleOrDefault().Points;
                         var junOrg = _originalManMonthForecast.Where(p => p.Month == 6).SingleOrDefault().Points;
@@ -3883,7 +3891,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             jun_Cell = junPrevious == junOrg ? "" : "(" + junPrevious.ToString("0.0") + ") " + junOrg.ToString("0.0");
                         }
-                        
+
                         var jul_Cell = "";
                         var julPrevious = _previousManMonthForecast.Where(p => p.Month == 7).SingleOrDefault().Points;
                         var julOrg = _originalManMonthForecast.Where(p => p.Month == 7).SingleOrDefault().Points;
@@ -3895,7 +3903,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             jul_Cell = julPrevious == julOrg ? "" : "(" + julPrevious.ToString("0.0") + ") " + julOrg.ToString("0.0");
                         }
-                        
+
                         var aug_Cell = "";
                         var augPrevious = _previousManMonthForecast.Where(p => p.Month == 8).SingleOrDefault().Points;
                         var augOrg = _originalManMonthForecast.Where(p => p.Month == 8).SingleOrDefault().Points;
@@ -3907,7 +3915,7 @@ namespace CostAllocationApp.Controllers.Api
                         {
                             aug_Cell = augPrevious == augOrg ? "" : "(" + augPrevious.ToString("0.0") + ") " + augOrg.ToString("0.0");
                         }
-                        
+
                         var sep_Cell = "";
                         var sepPrevious = _previousManMonthForecast.Where(p => p.Month == 9).SingleOrDefault().Points;
                         var sepOrg = _originalManMonthForecast.Where(p => p.Month == 9).SingleOrDefault().Points;
@@ -3926,7 +3934,7 @@ namespace CostAllocationApp.Controllers.Api
                         forecastHistoryList.Add(new
                         {
                             EmployeeName = employeeName_Cells,
-                            Remarks = remarks_Cells,                                                        
+                            Remarks = remarks_Cells,
                             SectionName = sectionName_Cells,
                             DepartmentName = departmentName_Cells,
                             InChargeName = inChargeName_Cells,
@@ -3934,7 +3942,7 @@ namespace CostAllocationApp.Controllers.Api
                             ExplanationName = explanationName_Cells,
                             CompanyName = companyName_Cells,
                             GradePoints = gradePoints_Cells,
-                            UnitPrice = unitPrice_Cells,                            
+                            UnitPrice = unitPrice_Cells,
                             CreatedBy = historyList[0].CreatedBy,
                             OperationType = "Cell Update",
                             IsUpdate = isUpdate,
@@ -4027,7 +4035,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 foreach (var item in employeeAssignments)
                 {
-                    var actualCost = actualCosts.Where(ac=>ac.AssignmentId==item.Id).SingleOrDefault();
+                    var actualCost = actualCosts.Where(ac => ac.AssignmentId == item.Id).SingleOrDefault();
                     if (actualCost == null)
                     {
                         actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
@@ -4070,19 +4078,19 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetActualCostConfirmData/")]
-        public IHttpActionResult GetActualCostConfirmData(int year,int monthId)
+        public IHttpActionResult GetActualCostConfirmData(int year, int monthId)
         {
             List<ActualCostViewModel> actualCostViewModels = new List<ActualCostViewModel>();
 
             //List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetAssignmentsByYear(year);
 
-            List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year,monthId);
+            List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year, monthId);
             foreach (var item in employeeAssignments)
             {
-                var actualCostList = actualCostBLL.GetActualCostsByYear_AssignmentId(year,item.Id);
-                if (actualCostList.Count>0)
+                var actualCostList = actualCostBLL.GetActualCostsByYear_AssignmentId(year, item.Id);
+                if (actualCostList.Count > 0)
                 {
-                    if (monthId==10)
+                    if (monthId == 10)
                     {
                         item.ManMonth = Convert.ToDecimal(actualCostList[0].OctPoint);
                         item.ActualCostAmount = Convert.ToDecimal(actualCostList[0].OctCost);
@@ -4201,19 +4209,19 @@ namespace CostAllocationApp.Controllers.Api
             string costColumnName = "";
             string pointColumnName = "";
             var session = System.Web.HttpContext.Current.Session;
-            if (actualCostDto.ActualCosts.Count>0)
+            if (actualCostDto.ActualCosts.Count > 0)
             {
                 foreach (var item in actualCostDto.ActualCosts)
                 {
-                    if (item.AssignmentId==0)
+                    if (item.AssignmentId == 0)
                     {
                         continue;
                     }
-                    
+
                     var flag = actualCostBLL.CheckAssignmentId(item.AssignmentId, actualCostDto.Year);
                     if (flag)
                     {
-                        if (actualCostDto.Month==10)
+                        if (actualCostDto.Month == 10)
                         {
                             costColumnName = "OctCost";
                             pointColumnName = "OctPoint";
@@ -4275,7 +4283,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         item.UpdatedBy = session["userName"].ToString();
                         item.UpdatedDate = DateTime.Now;
-                        actualCostBLL.UpdateActualCost(actualCostDto.Year, item.AssignmentId, costColumnName, pointColumnName,item.ActualCostAmount,item.ManHour, item.UpdatedBy,item.UpdatedDate);
+                        actualCostBLL.UpdateActualCost(actualCostDto.Year, item.AssignmentId, costColumnName, pointColumnName, item.ActualCostAmount, item.ManHour, item.UpdatedBy, item.UpdatedDate);
                     }
                     else
                     {
@@ -4484,7 +4492,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return NotFound();
             }
-            
+
         }
 
 
@@ -4501,7 +4509,7 @@ namespace CostAllocationApp.Controllers.Api
             actualCostViewModel.CompanyId = employeeAssignment.CompanyId;
             actualCostViewModel.Remarks = employeeAssignment.Remarks;
 
-            if (actualCost!=null)
+            if (actualCost != null)
             {
                 actualCostViewModel.OctCost = actualCost.OctCost == 0 ? "" : actualCost.OctCost.ToString();
                 actualCostViewModel.NovCost = actualCost.NovCost == 0 ? "" : actualCost.NovCost.ToString();
@@ -4568,7 +4576,7 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     if (!distinctDepartmentIds.Contains(item.DepartmentId))
                     {
-                        if (item.DepartmentId=="8")
+                        if (item.DepartmentId == "8")
                         {
                             continue;
                         }
@@ -4728,7 +4736,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult CreateApportionment(ApportionmentDto apportionment)
         {
             var session = System.Web.HttpContext.Current.Session;
-            if (apportionment.Apportionments.Count>0)
+            if (apportionment.Apportionments.Count > 0)
             {
                 foreach (var item in apportionment.Apportionments)
                 {
@@ -4754,7 +4762,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetSukeyWithQA/")]
-        public IHttpActionResult GetSukeyWithQA(int year=2023)
+        public IHttpActionResult GetSukeyWithQA(int year = 2023)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
 
@@ -4764,12 +4772,12 @@ namespace CostAllocationApp.Controllers.Api
 
             var singleHinsho = sukeys.Where(s => s.DepartmentId == "8").FirstOrDefault();
 
-            var apportionmentList =  actualCostBLL.GetAllApportionmentData(year);
-            if (apportionmentList.Count>0)
+            var apportionmentList = actualCostBLL.GetAllApportionmentData(year);
+            if (apportionmentList.Count > 0)
             {
                 foreach (var item in sukeys)
                 {
-                    if (item.DepartmentId=="8")
+                    if (item.DepartmentId == "8")
                     {
                         continue;
                     }
@@ -4839,7 +4847,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-            
+
 
             return Ok(sukeyQADtos);
         }
@@ -4903,13 +4911,13 @@ namespace CostAllocationApp.Controllers.Api
                 //    continue;
                 //}
                 var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
-                if (apportionmentByDepartment==null)
+                if (apportionmentByDepartment == null)
                 {
                     apportionmentByDepartment = new Apportionment();
                 }
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id,companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -4941,68 +4949,68 @@ namespace CostAllocationApp.Controllers.Api
                     var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
                     if (_octActualCostTotal > 0)
                     {
-                        sukeyDto.OctCost.Add(_octActualCostTotal+ _octCalculation);
-                        rowTotal += _octActualCostTotal+ _octCalculation;
+                        sukeyDto.OctCost.Add(_octActualCostTotal + _octCalculation);
+                        rowTotal += _octActualCostTotal + _octCalculation;
                     }
                     else
                     {
-                        sukeyDto.OctCost.Add(_octTotal+ _octCalculation);
-                        rowTotal += _octTotal+ _octCalculation;
+                        sukeyDto.OctCost.Add(_octTotal + _octCalculation);
+                        rowTotal += _octTotal + _octCalculation;
                     }
                     var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
                     if (_novActualCostTotal > 0)
                     {
-                        sukeyDto.NovCost.Add(_novActualCostTotal+ _novCalculation);
-                        rowTotal += _novActualCostTotal+ _novCalculation;
+                        sukeyDto.NovCost.Add(_novActualCostTotal + _novCalculation);
+                        rowTotal += _novActualCostTotal + _novCalculation;
                     }
                     else
                     {
-                        sukeyDto.NovCost.Add(_novTotal+ _novCalculation);
-                        rowTotal += _novTotal+ _novCalculation;
+                        sukeyDto.NovCost.Add(_novTotal + _novCalculation);
+                        rowTotal += _novTotal + _novCalculation;
                     }
                     var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
                     if (_decActualCostTotal > 0)
                     {
-                        sukeyDto.DecCost.Add(_decActualCostTotal+ _decCalculation);
-                        rowTotal += _decActualCostTotal+ _decCalculation;
+                        sukeyDto.DecCost.Add(_decActualCostTotal + _decCalculation);
+                        rowTotal += _decActualCostTotal + _decCalculation;
                     }
                     else
                     {
-                        sukeyDto.DecCost.Add(_decTotal+ _decCalculation);
-                        rowTotal += _decTotal+ _decCalculation;
+                        sukeyDto.DecCost.Add(_decTotal + _decCalculation);
+                        rowTotal += _decTotal + _decCalculation;
                     }
                     var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
                     if (_janActualCostTotal > 0)
                     {
-                        sukeyDto.JanCost.Add(_janActualCostTotal+ _janCalculation);
-                        rowTotal += _janActualCostTotal+ _janCalculation;
+                        sukeyDto.JanCost.Add(_janActualCostTotal + _janCalculation);
+                        rowTotal += _janActualCostTotal + _janCalculation;
                     }
                     else
                     {
-                        sukeyDto.JanCost.Add(_janTotal+ _janCalculation);
-                        rowTotal += _janTotal+ _janCalculation;
+                        sukeyDto.JanCost.Add(_janTotal + _janCalculation);
+                        rowTotal += _janTotal + _janCalculation;
                     }
                     var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
                     if (_febActualCostTotal > 0)
                     {
-                        sukeyDto.FebCost.Add(_febActualCostTotal+ _febCalculation);
-                        rowTotal += _febActualCostTotal+ _febCalculation;
+                        sukeyDto.FebCost.Add(_febActualCostTotal + _febCalculation);
+                        rowTotal += _febActualCostTotal + _febCalculation;
                     }
                     else
                     {
-                        sukeyDto.FebCost.Add(_febTotal+ _febCalculation);
-                        rowTotal += _febTotal+ _febCalculation;
+                        sukeyDto.FebCost.Add(_febTotal + _febCalculation);
+                        rowTotal += _febTotal + _febCalculation;
                     }
                     var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
                     if (_marActualCostTotal > 0)
                     {
-                        sukeyDto.MarCost.Add(_marActualCostTotal+ _marCalculation);
-                        rowTotal += _marActualCostTotal+ _marCalculation;
+                        sukeyDto.MarCost.Add(_marActualCostTotal + _marCalculation);
+                        rowTotal += _marActualCostTotal + _marCalculation;
                     }
                     else
                     {
-                        sukeyDto.MarCost.Add(_marTotal+ _marCalculation);
-                        rowTotal += _marTotal+ _marCalculation;
+                        sukeyDto.MarCost.Add(_marTotal + _marCalculation);
+                        rowTotal += _marTotal + _marCalculation;
                     }
                     sukeyDto.FirstSlot.Add(rowTotal);
                     firstSlot = rowTotal;
@@ -5010,72 +5018,72 @@ namespace CostAllocationApp.Controllers.Api
                     var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
                     if (_aprActualCostTotal > 0)
                     {
-                        sukeyDto.AprCost.Add(_aprActualCostTotal+ _aprCalculation);
-                        rowTotal += _aprActualCostTotal+ _aprCalculation;
+                        sukeyDto.AprCost.Add(_aprActualCostTotal + _aprCalculation);
+                        rowTotal += _aprActualCostTotal + _aprCalculation;
                     }
                     else
                     {
-                        sukeyDto.AprCost.Add(_aprTotal+ _aprCalculation);
-                        rowTotal += _aprTotal+ _aprCalculation;
+                        sukeyDto.AprCost.Add(_aprTotal + _aprCalculation);
+                        rowTotal += _aprTotal + _aprCalculation;
                     }
                     var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
                     if (_mayActualCostTotal > 0)
                     {
-                        sukeyDto.MayCost.Add(_mayActualCostTotal+ _mayCalculation);
-                        rowTotal += _mayActualCostTotal+ _mayCalculation;
+                        sukeyDto.MayCost.Add(_mayActualCostTotal + _mayCalculation);
+                        rowTotal += _mayActualCostTotal + _mayCalculation;
                     }
                     else
                     {
-                        sukeyDto.MayCost.Add(_mayTotal+ _mayCalculation);
-                        rowTotal += _mayTotal+ _mayCalculation;
+                        sukeyDto.MayCost.Add(_mayTotal + _mayCalculation);
+                        rowTotal += _mayTotal + _mayCalculation;
                     }
                     var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
                     if (_junActualCostTotal > 0)
                     {
-                        sukeyDto.JunCost.Add(_junActualCostTotal+ _junCalculation);
-                        rowTotal += _junActualCostTotal+ _junCalculation;
+                        sukeyDto.JunCost.Add(_junActualCostTotal + _junCalculation);
+                        rowTotal += _junActualCostTotal + _junCalculation;
                     }
                     else
                     {
-                        sukeyDto.JunCost.Add(_junTotal+ _junCalculation);
-                        rowTotal += _junTotal+ _junCalculation;
+                        sukeyDto.JunCost.Add(_junTotal + _junCalculation);
+                        rowTotal += _junTotal + _junCalculation;
                     }
                     var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
                     if (_julActualCostTotal > 0)
                     {
-                        sukeyDto.JulCost.Add(_julActualCostTotal+ _julCalculation);
-                        rowTotal += _julActualCostTotal+ _julCalculation;
+                        sukeyDto.JulCost.Add(_julActualCostTotal + _julCalculation);
+                        rowTotal += _julActualCostTotal + _julCalculation;
                     }
                     else
                     {
-                        sukeyDto.JulCost.Add(_julTotal+ _julCalculation);
-                        rowTotal += _julTotal+ _julCalculation;
+                        sukeyDto.JulCost.Add(_julTotal + _julCalculation);
+                        rowTotal += _julTotal + _julCalculation;
                     }
                     var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
                     if (_augActualCostTotal > 0)
                     {
-                        sukeyDto.AugCost.Add(_augActualCostTotal+ _augCalculation);
-                        rowTotal += _augActualCostTotal+ _augCalculation;
+                        sukeyDto.AugCost.Add(_augActualCostTotal + _augCalculation);
+                        rowTotal += _augActualCostTotal + _augCalculation;
                     }
                     else
                     {
-                        sukeyDto.AugCost.Add(_augTotal+ _augCalculation);
-                        rowTotal += _augTotal+ _augCalculation;
+                        sukeyDto.AugCost.Add(_augTotal + _augCalculation);
+                        rowTotal += _augTotal + _augCalculation;
                     }
                     var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
                     if (_sepActualCostTotal > 0)
                     {
-                        sukeyDto.SepCost.Add(_sepActualCostTotal+ _sepCalculation);
-                        rowTotal += _sepActualCostTotal+ _sepCalculation;
+                        sukeyDto.SepCost.Add(_sepActualCostTotal + _sepCalculation);
+                        rowTotal += _sepActualCostTotal + _sepCalculation;
                     }
                     else
                     {
-                        sukeyDto.SepCost.Add(_sepTotal+ _sepCalculation);
-                        rowTotal += _sepTotal+ _sepCalculation;
+                        sukeyDto.SepCost.Add(_sepTotal + _sepCalculation);
+                        rowTotal += _sepTotal + _sepCalculation;
                     }
                     sukeyDto.RowTotal.Add(rowTotal);
-                    sukeyDto.SecondSlot.Add(rowTotal-firstSlot);
-                    
+                    sukeyDto.SecondSlot.Add(rowTotal - firstSlot);
+
                 }
                 else
                 {
@@ -5095,9 +5103,9 @@ namespace CostAllocationApp.Controllers.Api
                     sukeyDto.FirstSlot.Add(0);
                     sukeyDto.SecondSlot.Add(0);
                 }
-                
-               
-                
+
+
+
                 sukeyQADtos.Add(sukeyDto);
             }
             return Ok(sukeyQADtos);
@@ -5105,7 +5113,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetTotalWithQA/")]
-        public IHttpActionResult GetTotalWithQA(string companiIds,int departmentId)
+        public IHttpActionResult GetTotalWithQA(string companiIds, int departmentId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             int year = 0;
@@ -5154,7 +5162,7 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyDto.DepartmentName = department.DepartmentName;
                 if (department.Id == departmentId)
                 {
-                    var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap=>ap.DepartmentId==departmentId).SingleOrDefault();
+                    var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == departmentId).SingleOrDefault();
                     if (apportionmentByDepartment == null)
                     {
                         apportionmentByDepartment = new Apportionment();
@@ -5212,132 +5220,132 @@ namespace CostAllocationApp.Controllers.Api
                             //var tempQa = _octActualCostTotal * (apportionmentByDepartment.OctPercentage / 100);
                             sukeyDto.OctCost.Add(_octActualCostTotal);
                             sukeyDto.OctCost.Add(_octHinsho);
-                            sukeyDto.OctCost.Add(_octActualCostTotal+ _octHinsho);
+                            sukeyDto.OctCost.Add(_octActualCostTotal + _octHinsho);
 
                             rowTotalDept += _octActualCostTotal;
                             rowTotalQa += _octHinsho;
-                            rowTotal += _octActualCostTotal+ _octHinsho;
+                            rowTotal += _octActualCostTotal + _octHinsho;
                         }
                         else
                         {
                             //var tempQa = _octTotal * (apportionmentByDepartment.OctPercentage / 100);
                             sukeyDto.OctCost.Add(_octTotal);
                             sukeyDto.OctCost.Add(_octHinsho);
-                            sukeyDto.OctCost.Add(_octTotal+ _octHinsho);
+                            sukeyDto.OctCost.Add(_octTotal + _octHinsho);
 
                             rowTotalDept += _octTotal;
                             rowTotalQa += _octHinsho;
-                            rowTotal += _octTotal+ _octHinsho;
+                            rowTotal += _octTotal + _octHinsho;
                         }
                         if (_novActualCostTotal > 0)
                         {
                             //var tempQa = _novActualCostTotal * (apportionmentByDepartment.NovPercentage / 100);
                             sukeyDto.NovCost.Add(_novActualCostTotal);
                             sukeyDto.NovCost.Add(_novHinsho);
-                            sukeyDto.NovCost.Add(_novActualCostTotal+ _novHinsho);
+                            sukeyDto.NovCost.Add(_novActualCostTotal + _novHinsho);
 
                             rowTotalDept += _novActualCostTotal;
                             rowTotalQa += _novHinsho;
-                            rowTotal += _novActualCostTotal+ _novHinsho;
+                            rowTotal += _novActualCostTotal + _novHinsho;
                         }
                         else
                         {
                             //var tempQa = _novTotal * (apportionmentByDepartment.NovPercentage / 100);
                             sukeyDto.NovCost.Add(_novTotal);
                             sukeyDto.NovCost.Add(_novHinsho);
-                            sukeyDto.NovCost.Add(_novTotal+ _novHinsho);
+                            sukeyDto.NovCost.Add(_novTotal + _novHinsho);
 
                             rowTotalDept += _novTotal;
                             rowTotalQa += _novHinsho;
-                            rowTotal += _novTotal+ _novHinsho;
+                            rowTotal += _novTotal + _novHinsho;
                         }
                         if (_decActualCostTotal > 0)
                         {
                             //var tempQa = _decActualCostTotal * (apportionmentByDepartment.DecPercentage / 100);
                             sukeyDto.DecCost.Add(_decActualCostTotal);
                             sukeyDto.DecCost.Add(_decHinsho);
-                            sukeyDto.DecCost.Add(_decActualCostTotal+ _decHinsho);
+                            sukeyDto.DecCost.Add(_decActualCostTotal + _decHinsho);
 
                             rowTotalDept += _decActualCostTotal;
                             rowTotalQa += _decHinsho;
-                            rowTotal += _decActualCostTotal+ _decHinsho;
+                            rowTotal += _decActualCostTotal + _decHinsho;
                         }
                         else
                         {
                             //var tempQa = _decTotal * (apportionmentByDepartment.DecPercentage / 100);
                             sukeyDto.DecCost.Add(_decTotal);
                             sukeyDto.DecCost.Add(_decHinsho);
-                            sukeyDto.DecCost.Add(_decTotal+ _decHinsho);
+                            sukeyDto.DecCost.Add(_decTotal + _decHinsho);
 
                             rowTotalDept += _decTotal;
                             rowTotalQa += _decHinsho;
-                            rowTotal += _decTotal+ _decHinsho;
+                            rowTotal += _decTotal + _decHinsho;
                         }
                         if (_janActualCostTotal > 0)
                         {
                             //var tempQa = _janActualCostTotal * (apportionmentByDepartment.JanPercentage / 100);
                             sukeyDto.JanCost.Add(_janActualCostTotal);
                             sukeyDto.JanCost.Add(_janHinsho);
-                            sukeyDto.JanCost.Add(_janActualCostTotal+ _janHinsho);
+                            sukeyDto.JanCost.Add(_janActualCostTotal + _janHinsho);
 
                             rowTotalDept += _janActualCostTotal;
                             rowTotalQa += _janHinsho;
-                            rowTotal += _janActualCostTotal+ _janHinsho;
+                            rowTotal += _janActualCostTotal + _janHinsho;
                         }
                         else
                         {
                             //var tempQa = _janTotal * (apportionmentByDepartment.JanPercentage / 100);
                             sukeyDto.JanCost.Add(_janTotal);
                             sukeyDto.JanCost.Add(_janHinsho);
-                            sukeyDto.JanCost.Add(_janTotal+ _janHinsho);
+                            sukeyDto.JanCost.Add(_janTotal + _janHinsho);
 
                             rowTotalDept += _janTotal;
                             rowTotalQa += _janHinsho;
-                            rowTotal += _janTotal+ _janHinsho;
+                            rowTotal += _janTotal + _janHinsho;
                         }
                         if (_febActualCostTotal > 0)
                         {
                             //var tempQa = _febActualCostTotal * (apportionmentByDepartment.FebPercentage / 100);
                             sukeyDto.FebCost.Add(_febActualCostTotal);
                             sukeyDto.FebCost.Add(_febHinsho);
-                            sukeyDto.FebCost.Add(_febActualCostTotal+ _febHinsho);
+                            sukeyDto.FebCost.Add(_febActualCostTotal + _febHinsho);
 
                             rowTotalDept += _febActualCostTotal;
                             rowTotalQa += _febHinsho;
-                            rowTotal += _febActualCostTotal+ _febHinsho;
+                            rowTotal += _febActualCostTotal + _febHinsho;
                         }
                         else
                         {
                             //var tempQa = _febTotal * (apportionmentByDepartment.FebPercentage / 100);
                             sukeyDto.FebCost.Add(_febTotal);
                             sukeyDto.FebCost.Add(_febHinsho);
-                            sukeyDto.FebCost.Add(_febTotal+ _febHinsho);
+                            sukeyDto.FebCost.Add(_febTotal + _febHinsho);
 
                             rowTotalDept += _febTotal;
                             rowTotalQa += _febHinsho;
-                            rowTotal += _febTotal+ _febHinsho;
+                            rowTotal += _febTotal + _febHinsho;
                         }
                         if (_marActualCostTotal > 0)
                         {
                             //var tempQa = _marActualCostTotal * (apportionmentByDepartment.MarPercentage / 100);
                             sukeyDto.MarCost.Add(_marActualCostTotal);
                             sukeyDto.MarCost.Add(_marHinsho);
-                            sukeyDto.MarCost.Add(_marActualCostTotal+ _marHinsho);
+                            sukeyDto.MarCost.Add(_marActualCostTotal + _marHinsho);
 
                             rowTotalDept += _marActualCostTotal;
                             rowTotalQa += _marHinsho;
-                            rowTotal += _marActualCostTotal+ _marHinsho;
+                            rowTotal += _marActualCostTotal + _marHinsho;
                         }
                         else
                         {
                             //var tempQa = _marTotal * (apportionmentByDepartment.MarPercentage / 100);
                             sukeyDto.MarCost.Add(_marTotal);
                             sukeyDto.MarCost.Add(_marHinsho);
-                            sukeyDto.MarCost.Add(_marTotal+ _marHinsho);
+                            sukeyDto.MarCost.Add(_marTotal + _marHinsho);
 
                             rowTotalDept += _marTotal;
                             rowTotalQa += _marHinsho;
-                            rowTotal += _marTotal+ _marHinsho;
+                            rowTotal += _marTotal + _marHinsho;
                         }
 
                         deptFirstSlot = rowTotalDept;
@@ -5350,133 +5358,133 @@ namespace CostAllocationApp.Controllers.Api
                             //var tempQa = _aprActualCostTotal * (apportionmentByDepartment.AprPercentage / 100);
                             sukeyDto.AprCost.Add(_aprActualCostTotal);
                             sukeyDto.AprCost.Add(_aprHinsho);
-                            sukeyDto.AprCost.Add(_aprActualCostTotal+ _aprHinsho);
+                            sukeyDto.AprCost.Add(_aprActualCostTotal + _aprHinsho);
 
                             rowTotalDept += _aprActualCostTotal;
                             rowTotalQa += _aprHinsho;
-                            rowTotal += _aprActualCostTotal+ _aprHinsho;
+                            rowTotal += _aprActualCostTotal + _aprHinsho;
                         }
                         else
                         {
                             //var tempQa = _aprTotal * (apportionmentByDepartment.AprPercentage / 100);
                             sukeyDto.AprCost.Add(_aprTotal);
                             sukeyDto.AprCost.Add(_aprHinsho);
-                            sukeyDto.AprCost.Add(_aprTotal+ _aprHinsho);
+                            sukeyDto.AprCost.Add(_aprTotal + _aprHinsho);
 
 
                             rowTotalDept += _aprTotal;
                             rowTotalQa += _aprHinsho;
-                            rowTotal += _aprTotal+ _aprHinsho;
+                            rowTotal += _aprTotal + _aprHinsho;
                         }
                         if (_mayActualCostTotal > 0)
                         {
                             //var tempQa = _mayActualCostTotal * (apportionmentByDepartment.MayPercentage / 100);
                             sukeyDto.MayCost.Add(_mayActualCostTotal);
                             sukeyDto.MayCost.Add(_mayHinsho);
-                            sukeyDto.MayCost.Add(_mayActualCostTotal+ _mayHinsho);
+                            sukeyDto.MayCost.Add(_mayActualCostTotal + _mayHinsho);
 
                             rowTotalDept += _mayActualCostTotal;
                             rowTotalQa += _mayHinsho;
-                            rowTotal += _mayActualCostTotal+ _mayHinsho;
+                            rowTotal += _mayActualCostTotal + _mayHinsho;
                         }
                         else
                         {
                             //var tempQa = _mayTotal * (apportionmentByDepartment.MayPercentage / 100);
                             sukeyDto.MayCost.Add(_mayTotal);
                             sukeyDto.MayCost.Add(_mayHinsho);
-                            sukeyDto.MayCost.Add(_mayTotal+ _mayHinsho);
+                            sukeyDto.MayCost.Add(_mayTotal + _mayHinsho);
 
                             rowTotalDept += _mayTotal;
                             rowTotalQa += _mayHinsho;
-                            rowTotal += _mayTotal+ _mayHinsho;
+                            rowTotal += _mayTotal + _mayHinsho;
                         }
                         if (_junActualCostTotal > 0)
                         {
                             //var tempQa = _junActualCostTotal * (apportionmentByDepartment.JunPercentage / 100);
                             sukeyDto.JunCost.Add(_junActualCostTotal);
                             sukeyDto.JunCost.Add(_junHinsho);
-                            sukeyDto.JunCost.Add(_junActualCostTotal+ _junHinsho);
+                            sukeyDto.JunCost.Add(_junActualCostTotal + _junHinsho);
 
                             rowTotalDept += _junActualCostTotal;
                             rowTotalQa += _junHinsho;
-                            rowTotal += _junActualCostTotal+ _junHinsho;
+                            rowTotal += _junActualCostTotal + _junHinsho;
                         }
                         else
                         {
                             //var tempQa = _junTotal * (apportionmentByDepartment.JunPercentage / 100);
                             sukeyDto.JunCost.Add(_junTotal);
                             sukeyDto.JunCost.Add(_junHinsho);
-                            sukeyDto.JunCost.Add(_junTotal+ _junHinsho);
+                            sukeyDto.JunCost.Add(_junTotal + _junHinsho);
 
                             rowTotalDept += _junTotal;
                             rowTotalQa += _junHinsho;
-                            rowTotal += _junTotal+ _junHinsho;
+                            rowTotal += _junTotal + _junHinsho;
                         }
                         if (_julActualCostTotal > 0)
                         {
                             //var tempQa = _julActualCostTotal * (apportionmentByDepartment.JulPercentage / 100);
                             sukeyDto.JulCost.Add(_julActualCostTotal);
                             sukeyDto.JulCost.Add(_julHinsho);
-                            sukeyDto.JulCost.Add(_julActualCostTotal+ _julHinsho);
+                            sukeyDto.JulCost.Add(_julActualCostTotal + _julHinsho);
 
                             rowTotalDept += _julActualCostTotal;
                             rowTotalQa += _julHinsho;
-                            rowTotal += _julActualCostTotal+ _julHinsho;
+                            rowTotal += _julActualCostTotal + _julHinsho;
                         }
                         else
                         {
                             //var tempQa = _julTotal * (apportionmentByDepartment.JulPercentage / 100);
                             sukeyDto.JulCost.Add(_julTotal);
                             sukeyDto.JulCost.Add(_julHinsho);
-                            sukeyDto.JulCost.Add(_julTotal+ _julHinsho);
+                            sukeyDto.JulCost.Add(_julTotal + _julHinsho);
 
                             rowTotalDept += _julTotal;
                             rowTotalQa += _julHinsho;
-                            rowTotal += _julTotal+ _julHinsho;
+                            rowTotal += _julTotal + _julHinsho;
                         }
                         if (_augActualCostTotal > 0)
                         {
                             //var tempQa = _augActualCostTotal * (apportionmentByDepartment.AugPercentage / 100);
                             sukeyDto.AugCost.Add(_augActualCostTotal);
                             sukeyDto.AugCost.Add(_augHinsho);
-                            sukeyDto.AugCost.Add(_augActualCostTotal+ _augHinsho);
+                            sukeyDto.AugCost.Add(_augActualCostTotal + _augHinsho);
 
                             rowTotalDept += _augActualCostTotal;
                             rowTotalQa += _augHinsho;
-                            rowTotal += _augActualCostTotal+ _augHinsho;
+                            rowTotal += _augActualCostTotal + _augHinsho;
                         }
                         else
                         {
                             //var tempQa = _augTotal * (apportionmentByDepartment.AugPercentage / 100);
                             sukeyDto.AugCost.Add(_augTotal);
                             sukeyDto.AugCost.Add(_augHinsho);
-                            sukeyDto.AugCost.Add(_augTotal+ _augHinsho);
+                            sukeyDto.AugCost.Add(_augTotal + _augHinsho);
 
                             rowTotalDept += _augTotal;
                             rowTotalQa += _augHinsho;
-                            rowTotal += _augTotal+ _augHinsho;
+                            rowTotal += _augTotal + _augHinsho;
                         }
                         if (_sepActualCostTotal > 0)
                         {
                             //var tempQa = _sepActualCostTotal * (apportionmentByDepartment.SepPercentage / 100);
                             sukeyDto.SepCost.Add(_sepActualCostTotal);
                             sukeyDto.SepCost.Add(_sepHinsho);
-                            sukeyDto.SepCost.Add(_sepActualCostTotal+ _sepHinsho);
+                            sukeyDto.SepCost.Add(_sepActualCostTotal + _sepHinsho);
 
                             rowTotalDept += _sepActualCostTotal;
                             rowTotalQa += _sepHinsho;
-                            rowTotal += _sepActualCostTotal+ _sepHinsho;
+                            rowTotal += _sepActualCostTotal + _sepHinsho;
                         }
                         else
                         {
                             //var tempQa = _sepTotal * (apportionmentByDepartment.SepPercentage / 100);
                             sukeyDto.SepCost.Add(_sepTotal);
                             sukeyDto.SepCost.Add(_sepHinsho);
-                            sukeyDto.SepCost.Add(_sepTotal+ _sepHinsho);
+                            sukeyDto.SepCost.Add(_sepTotal + _sepHinsho);
 
                             rowTotalDept += _sepTotal;
                             rowTotalQa += _sepHinsho;
-                            rowTotal += _sepTotal+ _sepHinsho;
+                            rowTotal += _sepTotal + _sepHinsho;
                         }
 
                         sukeyDto.RowTotal.Add(rowTotalDept);
@@ -5487,9 +5495,9 @@ namespace CostAllocationApp.Controllers.Api
                         sukeyDto.FirstSlot.Add(qaFirstSlot);
                         sukeyDto.FirstSlot.Add(totalFirstSlot);
 
-                        sukeyDto.SecondSlot.Add(rowTotalDept-deptFirstSlot);
-                        sukeyDto.SecondSlot.Add(rowTotalQa-qaFirstSlot);
-                        sukeyDto.SecondSlot.Add(rowTotal-totalFirstSlot);
+                        sukeyDto.SecondSlot.Add(rowTotalDept - deptFirstSlot);
+                        sukeyDto.SecondSlot.Add(rowTotalQa - qaFirstSlot);
+                        sukeyDto.SecondSlot.Add(rowTotal - totalFirstSlot);
                     }
                     else
                     {
@@ -5586,8 +5594,8 @@ namespace CostAllocationApp.Controllers.Api
             year = forecastLeatestYear;
             List<Department> departments = departmentBLL.GetAllDepartments();
 
-            
-            
+
+
 
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(8, companiIds, year);
             if (hinsoData.Count > 0)
@@ -5605,7 +5613,7 @@ namespace CostAllocationApp.Controllers.Api
                 _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
                 _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
             }
-            
+
             foreach (var department in departments)
             {
                 double rowTotal = 0;
@@ -5754,7 +5762,7 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
 
             }
-            
+
             return Ok(sukeyQADtos);
         }
 
@@ -5762,7 +5770,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetHeadCount/")]
         public IHttpActionResult GetHeadCount(string companiIds)
         {
-            
+
             int year = 0;
             int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
             year = forecastLeatestYear;
@@ -5777,13 +5785,14 @@ namespace CostAllocationApp.Controllers.Api
                 //    continue;
                 //}
 
-                var subCategory = subCategories.Where(sc=>sc.Id==Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
+                var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
 
-                _headCountList.Add(new HeadCountInner{
+                _headCountList.Add(new HeadCountInner
+                {
                     DepartmentId = department.Id,
                     DepartmentName = department.DepartmentName,
                     CategoryName = subCategory.CategoryName,
-                    SubCategoryName= subCategory.SubCategoryName,
+                    SubCategoryName = subCategory.SubCategoryName,
                     OctCount = 0,
                     NovCount = 0,
                     DecCount = 0,
@@ -5811,8 +5820,8 @@ namespace CostAllocationApp.Controllers.Api
                 var _uniqueEmployeeIdList = _uniqueItemList.Select(x => x.EmployeeId).ToList();
                 foreach (var employeeId in _uniqueEmployeeIdList)
                 {
-                    var filteredByEmployeeId = _allforecastAssignmentViewModels.Where(x=>x.EmployeeId==employeeId).ToList();
-                    if (filteredByEmployeeId.Count==1)
+                    var filteredByEmployeeId = _allforecastAssignmentViewModels.Where(x => x.EmployeeId == employeeId).ToList();
+                    if (filteredByEmployeeId.Count == 1)
                     {
                         foreach (var item in filteredByEmployeeId)
                         {
@@ -5870,7 +5879,7 @@ namespace CostAllocationApp.Controllers.Api
 
 
                     }
-                    else if(filteredByEmployeeId.Count > 1)
+                    else if (filteredByEmployeeId.Count > 1)
                     {
                         List<int> _octDeptId = new List<int>();
                         List<int> _novDeptId = new List<int>();
@@ -5888,13 +5897,13 @@ namespace CostAllocationApp.Controllers.Api
                         List<ForecastAssignmentViewModel> _tempArray = new List<ForecastAssignmentViewModel>();
                         for (int i = 0; i < filteredByEmployeeId.Count; i++)
                         {
-                            if (_tempArray.Count==0)
+                            if (_tempArray.Count == 0)
                             {
                                 _tempArray.Add(filteredByEmployeeId[i]);
                             }
                             else
                             {
-                                
+
 
                                 foreach (var tempItem in _tempArray)
                                 {
@@ -5912,7 +5921,7 @@ namespace CostAllocationApp.Controllers.Api
                                         }
                                         else
                                         {
-                                            if (octFlag==false)
+                                            if (octFlag == false)
                                             {
                                                 octFlag = true;
                                                 _octDeptId.Add(Convert.ToInt32(tempItem.DepartmentId));
@@ -6289,7 +6298,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpGet]
         [Route("api/utilities/SearchForApprovalEmployee/")]
         public IHttpActionResult SearchForApprovalEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
-        {            
+        {
             EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();
 
             if (!string.IsNullOrEmpty(employeeName))
@@ -6331,7 +6340,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 employeeAssignment.RoleId = "";
-            }            
+            }
             employeeAssignment.ExplanationId = explanationId;
             if (!string.IsNullOrEmpty(companyId))
             {
@@ -6368,7 +6377,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/UpdateApprovedData/")]
-        public IHttpActionResult UpdateApprovedData(string assignmentYear,string historyName,string approvalCellsWithAssignmentId,string approvedRows)
+        public IHttpActionResult UpdateApprovedData(string assignmentYear, string historyName, string approvalCellsWithAssignmentId, string approvedRows)
         {
             int results = 0;
             int updateResults = 0;
@@ -6379,9 +6388,9 @@ namespace CostAllocationApp.Controllers.Api
             DateTime createdDate = DateTime.Now;
             int approveTimeStampId = 0;
 
-            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();            
+            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
 
-            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();            
+            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
 
             //Add Employee And Delete Employee Approve: Start   
             if (!string.IsNullOrEmpty(approvedRows))
@@ -6412,20 +6421,20 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         //new row approved and deleted row approved: end   
                     }
-                }                
+                }
             }
             //Add Employee And Delete Employee Approve: End
 
             //Cell Wise Approve: Start
             string approvedCellAssignmentId = "";
             string approvedCellNo = "";
-            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();            
-            
+            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
+
             //update cells: start            
             if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
             {
                 var arrCellWithAssignmentids = approvalCellsWithAssignmentId.Split(',');
-                foreach(var cellAndAssignmentIdItem in arrCellWithAssignmentids)
+                foreach (var cellAndAssignmentIdItem in arrCellWithAssignmentids)
                 {
                     var arrCellAndAssignmentId = cellAndAssignmentIdItem.Split('_');
                     if (!string.IsNullOrEmpty(arrCellAndAssignmentId[0].ToString()))
@@ -6462,7 +6471,7 @@ namespace CostAllocationApp.Controllers.Api
                         else
                         {
                             _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
-                        }                        
+                        }
 
                         if (string.IsNullOrEmpty(approvedCellAssignmentId))
                         {
@@ -6480,9 +6489,9 @@ namespace CostAllocationApp.Controllers.Api
                         if (!string.IsNullOrEmpty((employeeAssignment.BCYRCell)))
                         {
                             var arrPendingCells = employeeAssignment.BCYRCell.Split(',');
-                            foreach(var item in arrPendingCells)
+                            foreach (var item in arrPendingCells)
                             {
-                                if(item != arrCellAndAssignmentId[1])
+                                if (item != arrCellAndAssignmentId[1])
                                 {
                                     if (string.IsNullOrEmpty(updatedApprovedCells))
                                     {
@@ -6491,9 +6500,9 @@ namespace CostAllocationApp.Controllers.Api
                                     else
                                     {
                                         updatedApprovedCells = updatedApprovedCells + "," + item;
-                                    }                                    
+                                    }
                                 }
-                            }                            
+                            }
                         }
                         if (!string.IsNullOrEmpty((employeeAssignment.BCYRCellPending)))
                         {
@@ -6521,8 +6530,8 @@ namespace CostAllocationApp.Controllers.Api
                             results = 1;
                         }
                     }
-                }                
-            }        
+                }
+            }
             //update cells: end
 
             //cells and row/delete pending data update
@@ -6566,15 +6575,15 @@ namespace CostAllocationApp.Controllers.Api
 
             }
 
-            if (_assignmentHistories_Add.Count>0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
+            if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
             {
                 approveTimeStampId = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
-                if(approveTimeStampId > 0)
+                if (approveTimeStampId > 0)
                 {
-                    int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStampId, Convert.ToInt32(assignmentYear), createdBy,_assignmentHistories_Add,_assignmentHistorys_Delete,_assignmentHistorys_CellWise);
+                    int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStampId, Convert.ToInt32(assignmentYear), createdBy, _assignmentHistories_Add, _assignmentHistorys_Delete, _assignmentHistorys_CellWise);
                 }
                 //store approved row for download excel
-                if(_assignmentHistories_Add.Count > 0)
+                if (_assignmentHistories_Add.Count > 0)
                 {
                     foreach (var addRowItem in _assignmentHistories_Add)
                     {
@@ -6592,8 +6601,8 @@ namespace CostAllocationApp.Controllers.Api
                         var storeApprovedCells = "";
                         if (!string.IsNullOrEmpty(cellWiseEmployeeItem.ApprovedCells))
                         {
-                            var arrApprovedCells = cellWiseEmployeeItem.ApprovedCells.Split(',');                           
-                            foreach(var approvedCellItem in arrApprovedCells)
+                            var arrApprovedCells = cellWiseEmployeeItem.ApprovedCells.Split(',');
+                            foreach (var approvedCellItem in arrApprovedCells)
                             {
                                 if (string.IsNullOrEmpty(storeApprovedCells))
                                 {
@@ -6602,11 +6611,11 @@ namespace CostAllocationApp.Controllers.Api
                                 else
                                 {
                                     var arrCheckIfTheCellsAlreadyExists = storeApprovedCells.Split(',');
-                                    foreach(var indexItem in arrCheckIfTheCellsAlreadyExists)
+                                    foreach (var indexItem in arrCheckIfTheCellsAlreadyExists)
                                     {
-                                        if(indexItem != approvedCellItem)
+                                        if (indexItem != approvedCellItem)
                                         {
-                                            storeApprovedCells = storeApprovedCells+","+approvedCellItem;
+                                            storeApprovedCells = storeApprovedCells + "," + approvedCellItem;
                                         }
                                     }
                                 }
@@ -6615,14 +6624,14 @@ namespace CostAllocationApp.Controllers.Api
                         cellWiseEmployeeItem.ApprovedCells = storeApprovedCells;
                         int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(cellWiseEmployeeItem);
                     }
-                }                
+                }
             }
             //approve history: end
             var insertResults = 0;
             var cleanResults = 0;
             if (approveTimeStampId > 0)
             {
-                insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId,Convert.ToInt32(assignmentYear), session["userName"].ToString());
+                insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId, Convert.ToInt32(assignmentYear), session["userName"].ToString());
                 if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
                 {
                     //approved row
@@ -6630,10 +6639,10 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         foreach (var addRowItem in _assignmentHistories_Add)
                         {
-                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_AddRow(addRowItem,approveTimeStampId,assignmentYear);
+                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_AddRow(addRowItem, approveTimeStampId, assignmentYear);
                         }
                     }
-                    
+
                     //approved delete
                     if (_assignmentHistorys_Delete.Count > 0)
                     {
@@ -6650,7 +6659,8 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var cellWithIdItem in arrApprovalCellsWithAssignmentId)
                         {
                             var arrCellWithId = cellWithIdItem.Split('_');
-                            if (!string.IsNullOrEmpty(arrCellWithId[0].ToString())) {
+                            if (!string.IsNullOrEmpty(arrCellWithId[0].ToString()))
+                            {
                                 //get just updated cell if has
                                 //update approved cell
                                 var assignmentId = Convert.ToInt32(arrCellWithId[0]);
@@ -6663,19 +6673,19 @@ namespace CostAllocationApp.Controllers.Api
                                     tempApprovedCells = tempApprovedCells + "," + justUpdatedApprovedCells;
                                 }
 
-                                int tempResults = forecastBLL.UpdateApprovedCells(assignmentId, tempApprovedCells, approveTimeStampId,Convert.ToInt32(assignmentYear));
+                                int tempResults = forecastBLL.UpdateApprovedCells(assignmentId, tempApprovedCells, approveTimeStampId, Convert.ToInt32(assignmentYear));
                             }
                         }
                     }
-                    
-                    cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear),approveTimeStampId);
+
+                    cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear), approveTimeStampId);
                 }
             }
 
-            if (results > 0 || updateResults > 0 || cleanResults>0)
+            if (results > 0 || updateResults > 0 || cleanResults > 0)
             {
                 results = 1;
-            } 
+            }
             else
             {
                 results = 0;
@@ -7069,7 +7079,7 @@ namespace CostAllocationApp.Controllers.Api
                         qaProportion.CreatedDate = DateTime.Now;
                         qaProportionBLL.CreateQaProportion(qaProportion);
                     }
-                    
+
                 }
                 return Ok("Operation Completed!");
             }
@@ -7077,7 +7087,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return Ok("No data to update!");
             }
-            
+
         }
 
         [HttpGet]
@@ -7089,7 +7099,7 @@ namespace CostAllocationApp.Controllers.Api
 
             foreach (var item in deartmentList)
             {
-                if (item.DepartmentName== "品証")
+                if (item.DepartmentName == "品証")
                 {
                     continue;
                 }
@@ -7110,7 +7120,7 @@ namespace CostAllocationApp.Controllers.Api
             bool isFirstHalfFinalize = false;
             if (isInitialDataExists)
             {
-                isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(BudgetYear);                
+                isFirstHalfFinalize = departmentBLL.CheckForBudgetInitialDataFinalizeExists(BudgetYear);
             }
             _budgetAssignment.FirstHalfFinalize = isFirstHalfFinalize;
 
@@ -7119,7 +7129,7 @@ namespace CostAllocationApp.Controllers.Api
             bool isSecondtHalfFinalize = false;
             if (isSecondHalfBudgetExists)
             {
-                isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(BudgetYear);                
+                isSecondtHalfFinalize = departmentBLL.CheckForBudgetSecondHalfDataFinalizeExists(BudgetYear);
             }
             _budgetAssignment.SecondHalfFinalize = isSecondtHalfFinalize;
 
@@ -7138,7 +7148,8 @@ namespace CostAllocationApp.Controllers.Api
             {
                 isValidRequestForFinalize = true;
             }
-            if (isValidRequestForFinalize) {
+            if (isValidRequestForFinalize)
+            {
                 var arrYear = year.Split('_');
                 isFinalized = employeeAssignmentBLL.FinalizeBudgetAssignment(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
                 if (isFinalized > 0)
@@ -7150,7 +7161,7 @@ namespace CostAllocationApp.Controllers.Api
                     _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
                     if (_employeeAssignments.Count > 0)
                     {
-                        foreach(var assignmentItem in _employeeAssignments)
+                        foreach (var assignmentItem in _employeeAssignments)
                         {
                             EmployeeAssignment _assignmentData = new EmployeeAssignment();
                             _assignmentData.Id = assignmentItem.Id;
@@ -7168,7 +7179,7 @@ namespace CostAllocationApp.Controllers.Api
                             _assignmentData.UnitPrice = assignmentItem.UnitPrice;
                             _assignmentData.CreatedBy = assignmentItem.CreatedBy;
                             _assignmentData.CreatedDate = DateTime.Now;
-                            _assignmentData.Remarks = assignmentItem.Remarks;                            
+                            _assignmentData.Remarks = assignmentItem.Remarks;
                             _assignmentData.SubCode = assignmentItem.SubCode;
                             _assignmentData.Year = assignmentItem.Year;
                             _assignmentData.BCYR = assignmentItem.BCYR;
@@ -7188,18 +7199,18 @@ namespace CostAllocationApp.Controllers.Api
                                 foreach (var forecastItem in forecasts)
                                 {
                                     forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
-                                    forecastItem.CreatedBy = session["userName"].ToString();                                    
+                                    forecastItem.CreatedBy = session["userName"].ToString();
                                     results = forecastBLL.CreateForecast(forecastItem);
 
                                     forecastItem.EmployeeAssignmentId = finalAssignmentId;
                                     results = forecastBLL.CreateFinalBudgetForecast(forecastItem);
                                 }
                             }
-                        }                        
-                    }                     
+                        }
+                    }
 
                 }
-            }            
+            }
             return Ok(results);
         }
         [HttpGet]
@@ -7208,7 +7219,7 @@ namespace CostAllocationApp.Controllers.Api
         {
             //check the year and budget type is finalize or not. if finalize then returns true.
             bool isFinalizeBudgetYear = false;
-            isFinalizeBudgetYear = employeeAssignmentBLL.CheckYearIfFinalize(select_year_type, budgetReqType);            
+            isFinalizeBudgetYear = employeeAssignmentBLL.CheckYearIfFinalize(select_year_type, budgetReqType);
 
             return Ok(isFinalizeBudgetYear);
         }
@@ -7226,7 +7237,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 select_year_type = Convert.ToInt32(select_year_type) - 1;
                 isValidYearForImport = employeeAssignmentBLL.CheckIsValidYearForImport(select_year_type);
-            }            
+            }
 
             return Ok(isValidYearForImport);
         }
@@ -7239,9 +7250,9 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/GetEmployeeNameForMenuChange/")]
-        public IHttpActionResult GetEmployeeNameForMenuChange(string employeeAssignmentId,int employeeId,string menuType,int year)
-        {            
-            List< EmployeeAssignment > employeeAssignments = employeeAssignmentBLL.GetEmployeeNameForMenuChange(year, employeeId);
+        public IHttpActionResult GetEmployeeNameForMenuChange(string employeeAssignmentId, int employeeId, string menuType, int year)
+        {
+            List<EmployeeAssignment> employeeAssignments = employeeAssignmentBLL.GetEmployeeNameForMenuChange(year, employeeId);
             List<EmployeeAssignment> _employeeAssignmentCount = employeeAssignmentBLL.GetDeletedEmployeeCount(year, employeeId);
             EmployeeAssignment singleEmployeeAssignment = new EmployeeAssignment();
 
@@ -7249,7 +7260,7 @@ namespace CostAllocationApp.Controllers.Api
             employeeCount = employeeAssignments.Count;
 
             string employeeName = "";
-            foreach(var assignmentItem in employeeAssignments)
+            foreach (var assignmentItem in employeeAssignments)
             {
                 employeeName = assignmentItem.EmployeeRootName;
             }
@@ -7258,15 +7269,79 @@ namespace CostAllocationApp.Controllers.Api
 
             if (!string.IsNullOrEmpty(menuType))
             {
-                if(menuType.ToLower() == "unit")
+                if (menuType.ToLower() == "unit")
                 {
-                    employeeName = employeeName + " ("+(employeeCount+1)+")";
+                    employeeName = employeeName + " (" + (employeeCount + 1) + ")";
                 }
             }
 
             var results = singleEmployeeAssignment;
             //return Ok(employeeName);
             return Ok(results);
+        }
+
+        [Route("api/utilities/GetSubCategoryByCategoryId/{id}")]
+        [HttpGet]
+        [ActionName("GetSubCategoryByCategoryId")]
+        public IHttpActionResult GetSubCategoryByCategoryId(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                DepartmentWithSubCategoryBLL departmentWithSubCategoryBLL = new DepartmentWithSubCategoryBLL();
+
+                int tempValue = 0;
+                if (int.TryParse(id, out tempValue))
+                {
+                    if (tempValue > 0)
+                    {
+                        List<SubCategory> subCategories = departmentWithSubCategoryBLL.GetSubCategoryByCategoryId(Convert.ToInt32(id));
+                        return Ok(subCategories);
+                    }
+                    else
+                    {
+                        return BadRequest("Something Went Wrong!!!");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong!!!");
+                }
+            }
+            else
+            {
+                return BadRequest("Category Id is empty!!!");
+            }
+        }
+        [HttpGet]
+        [Route("api/utilities/GetAllUnAssignedDepartments/")]
+        public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)       
+        {
+            if (!string.IsNullOrEmpty(sub_categoryId))
+            {
+                DepartmentWithSubCategoryBLL departmentWithSubCategoryBLL = new DepartmentWithSubCategoryBLL();
+
+                int tempValue = 0;
+                if (int.TryParse(sub_categoryId, out tempValue))
+                {
+                    if (tempValue > 0)
+                    {
+                        List<Department> departments = departmentWithSubCategoryBLL.GetAllUnassignedDepartments();
+                        return Ok(departments);
+                    }
+                    else
+                    {
+                        return BadRequest("Something Went Wrong!!!");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong!!!");
+                }
+            }
+            else
+            {
+                return BadRequest("sub-category Id is empty!!!");
+            }
         }
     }
 }

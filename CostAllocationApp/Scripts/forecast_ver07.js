@@ -207,12 +207,7 @@ $(function () {
 
 
 
-$(document).ready(function () {
-    //107.05
-    //(Math.ceil(number*20 - 0.5)/20).toFixed(2)
-    //var tempNum =107.05;
-    //alert((Math.round(tempNum / 0.5) * 0.5).toFixed(1));
-
+$(document).ready(function () {    
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") { 
@@ -1830,7 +1825,6 @@ function ShowForecastResults(year) {
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         var octSum = 0;
-                        var tempOctSum = 0.0;
                         $.each(jss.getData(), (index, dataValue) => {  
                             if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
                                 var octPointPerRow = 0.0;
@@ -1891,7 +1885,10 @@ function ShowForecastResults(year) {
 
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[12] != "" && dataValue[12] != null && dataValue[12] != undefined) {
-                                novPointsSum = parseFloat(novPointsSum)+parseFloat(dataValue[12]);   
+                                var novPointPerRow = 0.0;
+                                novPointPerRow = parseFloat(dataValue[12]).toFixed(1);
+                                novPointsSum += parseFloat(novPointPerRow);   
+
                                 novCostSum = parseFloat(novCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[12]);   
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -1942,7 +1939,10 @@ function ShowForecastResults(year) {
                         var decSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[13] != "" && dataValue[13] != null && dataValue[13] != undefined){
-                                decPointsSum = parseFloat(decPointsSum)+parseFloat(dataValue[13]);
+                                var decPointPerRow = 0.0;
+                                decPointPerRow = parseFloat(dataValue[13]).toFixed(1);
+                                decPointsSum += parseFloat(decPointPerRow); 
+                                
                                 decCostSum = parseFloat(decCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[13]);   
                             }                            
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -1994,7 +1994,10 @@ function ShowForecastResults(year) {
                         var janSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[14] != "" && dataValue[14] != null && dataValue[14] != undefined){
-                                janPointsSum = parseFloat(janPointsSum)+parseFloat(dataValue[14]); 
+                                var janPointPerRow = 0.0;
+                                janPointPerRow = parseFloat(dataValue[14]).toFixed(1);
+                                janPointsSum += parseFloat(janPointPerRow); 
+
                                 janCostSum = parseFloat(janCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[14]);   
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2044,7 +2047,10 @@ function ShowForecastResults(year) {
                         var febSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[15] != "" && dataValue[15] != null && dataValue[15] != undefined){
-                                febPointsSum = parseFloat(febPointsSum)+parseFloat(dataValue[15]); 
+                                var febPointPerRow = 0.0;
+                                febPointPerRow = parseFloat(dataValue[15]).toFixed(1);
+                                febPointsSum += parseFloat(febPointPerRow); 
+                                
                                 febCostSum = parseFloat(febCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[15]);   
                             }
                             
@@ -2096,7 +2102,10 @@ function ShowForecastResults(year) {
                         var marSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[16] != "" && dataValue[16] != null && dataValue[16] != undefined){
-                                marPointsSum = parseFloat(marPointsSum)+parseFloat(dataValue[16]); 
+                                var marPointPerRow = 0.0;
+                                marPointPerRow = parseFloat(dataValue[16]).toFixed(1);
+                                marPointsSum += parseFloat(marPointPerRow); 
+                                
                                 marCostSum = parseFloat(marCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[16]);   
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2147,7 +2156,10 @@ function ShowForecastResults(year) {
                         var aprSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[17] != "" && dataValue[17] != null && dataValue[17] != undefined){
-                                aprPointsSum = parseFloat(aprPointsSum)+parseFloat(dataValue[17]); 
+                                var aprPointPerRow = 0.0;
+                                aprPointPerRow = parseFloat(dataValue[17]).toFixed(1);
+                                aprPointsSum += parseFloat(aprPointPerRow); 
+                                
                                 aprCostSum = parseFloat(aprCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[17]);
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2198,7 +2210,10 @@ function ShowForecastResults(year) {
                         var maySum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[18] != "" && dataValue[18] != null && dataValue[18] != undefined){
-                                mayPointsSum = parseFloat(mayPointsSum)+parseFloat(dataValue[18]); 
+                                var mayPointPerRow = 0.0;
+                                mayPointPerRow = parseFloat(dataValue[18]).toFixed(1);
+                                mayPointsSum += parseFloat(mayPointPerRow); 
+
                                 mayCostSum = parseFloat(mayCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[18]); 
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2248,7 +2263,10 @@ function ShowForecastResults(year) {
                         var junSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[19] != "" && dataValue[19] != null && dataValue[19] != undefined){
-                                junPointsSum = parseFloat(junPointsSum)+parseFloat(dataValue[19]); 
+                                var junPointPerRow = 0.0;
+                                junPointPerRow = parseFloat(dataValue[19]).toFixed(1);
+                                junPointsSum += parseFloat(junPointPerRow); 
+
                                 junCostSum = parseFloat(junCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[19]); 
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2299,7 +2317,10 @@ function ShowForecastResults(year) {
                         var julSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[20] != "" && dataValue[20] != null && dataValue[20] != undefined){
-                                julPointsSum = parseFloat(julPointsSum)+parseFloat(dataValue[20]); 
+                                var julPointPerRow = 0.0;
+                                julPointPerRow = parseFloat(dataValue[20]).toFixed(1);
+                                julPointsSum += parseFloat(julPointPerRow); 
+
                                 julCostSum = parseFloat(julCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[20]); 
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2349,7 +2370,10 @@ function ShowForecastResults(year) {
                         var augSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[21] != "" && dataValue[21] != null && dataValue[21] != undefined){
-                                augPointsSum = parseFloat(augPointsSum)+parseFloat(dataValue[21]);
+                                var augPointPerRow = 0.0;
+                                augPointPerRow = parseFloat(dataValue[21]).toFixed(1);
+                                augPointsSum += parseFloat(augPointPerRow); 
+
                                 augCostSum = parseFloat(augCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[21]); 
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
@@ -2400,7 +2424,10 @@ function ShowForecastResults(year) {
                         var sepSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
                             if (dataValue[22] != "" && dataValue[22] != null && dataValue[22] != undefined){
-                                sepPointsSum = parseFloat(sepPointsSum)+parseFloat(dataValue[22]); 
+                                var sepPointPerRow = 0.0;
+                                sepPointPerRow = parseFloat(dataValue[22]).toFixed(1);
+                                sepPointsSum += parseFloat(sepPointPerRow); 
+
                                 sepCostSum = parseFloat(sepCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[22]); 
                             }
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {

@@ -1032,15 +1032,15 @@ namespace CostAllocationApp.Controllers
                                 }
 
                                 //remarks: read/write
-                                if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
-                                {
-                                    _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
-                                }
-                                else
-                                {
-                                    _uploadExcel.Remarks = "";
-                                }
-
+                                //if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
+                                //{
+                                //    _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                //}
+                                //else
+                                //{
+                                //    _uploadExcel.Remarks = "";
+                                //}
+                                _uploadExcel.Remarks = "";
                                 //name: read/write
                                 if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
                                 {

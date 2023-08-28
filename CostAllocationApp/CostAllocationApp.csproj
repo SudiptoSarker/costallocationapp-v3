@@ -705,6 +705,8 @@
     <Content Include="Scripts\actualcostconfirm.js" />
     <Content Include="Scripts\addname.js" />
     <Content Include="Scripts\apportionment.js" />
+    <Content Include="Scripts\approve_forecast_ver02.js" />
+    <Content Include="Scripts\approve_histories.js" />
     <Content Include="Scripts\bootstrap-3.3.2.min.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -720,6 +722,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\budget.js" />
     <Content Include="Scripts\budget_edit.js" />
+    <Content Include="Scripts\category.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\common.js" />
@@ -740,7 +743,6 @@
     <Content Include="Scripts\forecast_ver02.js" />
     <Content Include="Scripts\forecast_ver03.js" />
     <Content Include="Scripts\forecast_ver03.min.js" />
-    <Content Include="Scripts\forecast_ver04 -29_Mar_2023.js" />
     <Content Include="Scripts\forecast_ver04.js" />
     <Content Include="Scripts\forecast_ver04_.js" />
     <Content Include="Scripts\forecast_ver05.js" />
@@ -840,7 +842,6 @@
     <Content Include="Views\Employees\NameRegistration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
-    <Content Include="Views\Forecasts\CreateForecast - 29_Mar_2023.cshtml" />
     <Content Include="Views\Forecasts\GetHistories.cshtml" />
     <Content Include="Views\Forecasts\ActualCosts.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
@@ -857,6 +858,8 @@
     <Content Include="Views\Category\CreateCategory.cshtml" />
     <Content Include="Views\Category\CreateSubCategory.cshtml" />
     <Content Include="Views\Category\DepartmentsWithSubCategory.cshtml" />
+    <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
+    <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

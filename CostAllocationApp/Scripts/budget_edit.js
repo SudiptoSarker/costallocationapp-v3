@@ -1898,7 +1898,7 @@ function ShowBedgetResults(year) {
     $("#budget_finalize").css("display", "block");
 
     //create a row for search in each column
-    jss.deleteColumn(46, 19);
+    jss.deleteColumn(46, 21);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');

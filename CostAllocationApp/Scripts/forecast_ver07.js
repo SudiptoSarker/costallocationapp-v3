@@ -208,6 +208,11 @@ $(function () {
 
 
 $(document).ready(function () {
+    //107.05
+    //(Math.ceil(number*20 - 0.5)/20).toFixed(2)
+    //var tempNum =107.05;
+    //alert((Math.round(tempNum / 0.5) * 0.5).toFixed(1));
+
     GetAllForecastYears();
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") { 
@@ -1073,7 +1078,7 @@ function ShowForecastResults(year) {
                     type: "decimal",
                     name: "octSumFormula",
                     mask: '#.##,0',
-                    decimal: '.'
+                    decimal: '.'                                       
                 },
                 {
                     title: _retriveTotal.NovTotalMM,                    
@@ -1825,19 +1830,23 @@ function ShowForecastResults(year) {
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         var octSum = 0;
+                        var tempOctSum = 0.0;
                         $.each(jss.getData(), (index, dataValue) => {  
                             if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
-                                octPointsSum = parseFloat(octPointsSum)+parseFloat(dataValue[11]);                                 
+                                var octPointPerRow = 0.0;
+                                octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
+                                octPointsSum += parseFloat(octPointPerRow);                            
                                 octCostSum = parseFloat(octCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[11]);     
                             }
 
                             if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                 octSum += parseFloat(parseFloat(dataValue[11]));
                             }
-                        });
+                        });       
 
                         var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
                         element[0].cells[2].innerText= parseFloat(octPointsSum).toFixed(1);
+
                         octCostSum = new Intl.NumberFormat().format(octCostSum)
                         element[0].cells[15].innerText= octCostSum;                        
 
@@ -1856,10 +1865,11 @@ function ShowForecastResults(year) {
                             }
 
                         }
+                        console.log("octSum 2: "+octSum );
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);     
-                                           
+                        console.log("octSum3 : "+octSum );                    
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -3818,9 +3828,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             //if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
             if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 octSum += parseFloat(dataValue[11]);
+                console.log("octSum 10: "+octSum );
             }
 
         });
+        console.log("octSum11 : "+octSum );
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
             alert('Input not valid');

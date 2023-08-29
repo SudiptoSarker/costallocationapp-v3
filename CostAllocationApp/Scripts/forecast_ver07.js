@@ -1056,11 +1056,16 @@ function ShowForecastResults(year) {
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         filters: true,
+        allowComments:true,
         tableOverflow: true,
         freezeColumns: 3,
         defaultColWidth: 50,
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",           
+        minDimensions: [6, 10],
+        columnSorting: true,
+        oninsertrow: newRowInserted,
+
         nestedHeaders:[
             [
                 {
@@ -1507,11 +1512,10 @@ function ShowForecastResults(year) {
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
             { title: "RowType", type: 'hidden', name: "RowType" },            
-        ],
-        minDimensions: [6, 10],
-        columnSorting: true,
+        ],        
+        
         onbeforechange: function (instance, cell, x, y, value) {
-
+            console.log("onbeforechange");
             //alert(value);
             if (x == 11) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
@@ -1577,6 +1581,8 @@ function ShowForecastResults(year) {
                 jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
             }
             else {
+                console.log("changed");
+
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
@@ -1816,6 +1822,7 @@ function ShowForecastResults(year) {
                             }
                         }
                     }
+                    
 
                     if (x == 11) {
                         var octPointsSum = 0;
@@ -1827,6 +1834,8 @@ function ShowForecastResults(year) {
                         var octSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {  
                             if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
+                                octPointsSum += parseFloat(parseFloat(dataValue[11]));
+                                
                                 var octPointPerRow = 0.0;
                                 octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
                                 octPointsSum += parseFloat(octPointPerRow);                            
@@ -1859,11 +1868,9 @@ function ShowForecastResults(year) {
                             }
 
                         }
-                        console.log("octSum 2: "+octSum );
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);     
-                        console.log("octSum3 : "+octSum );                    
+                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);  
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -2489,8 +2496,7 @@ function ShowForecastResults(year) {
 
             }
 
-        },
-        oninsertrow: newRowInserted,
+        },        
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
             var items = [];
@@ -2540,8 +2546,7 @@ function ShowForecastResults(year) {
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
 
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        console.log("if");
+                    if (retrivedData.assignmentId.toString().includes('new')) {                        
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
@@ -2588,7 +2593,6 @@ function ShowForecastResults(year) {
 
                     }
                     else {
-                        console.log("else");
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
@@ -3125,12 +3129,24 @@ function ShowForecastResults(year) {
     $("#update_forecast_history").css("display", "block");
     $("#cancel_forecast_history").css("display", "block");
 
+    //delete unwanted column from jexcel table
     jss.deleteColumn(48, 19);
+
+    //get the header for shorting the column wise 
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
+
+    //year title header postion freezed/fixed 
+    var yearTitleHeader = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    yearTitleHeader.css('position', 'sticky');
+    yearTitleHeader.css('top', '0px');
+
+    //title header postion freezed/fixed 
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelFirstHeaderRow.css('top', '0px');
+
+    //search header postion freezed/fixed
     var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(4) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
@@ -3855,11 +3871,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             //if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
             if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 octSum += parseFloat(dataValue[11]);
-                console.log("octSum 10: "+octSum );
             }
 
         });
-        console.log("octSum11 : "+octSum );
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
             alert('Input not valid');
@@ -4264,8 +4278,6 @@ function InsertEmployee() {
                 if (result > 0) {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
                     // jss.setValueFromCoords(34, globalY, result, false);
-                    console.log("result: "+result);
-                    console.log("globalY: "+globalY);
 
                     jss.setValueFromCoords(37, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");

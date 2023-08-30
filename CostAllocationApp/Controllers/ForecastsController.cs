@@ -1041,6 +1041,7 @@ namespace CostAllocationApp.Controllers
                                 //    _uploadExcel.Remarks = "";
                                 //}
                                 _uploadExcel.Remarks = "";
+                                
                                 //name: read/write
                                 if (string.IsNullOrEmpty(dt_.Rows[i][5].ToString().Trim(trimElements)))
                                 {
@@ -1051,19 +1052,53 @@ namespace CostAllocationApp.Controllers
                                     employee.IsActive = true;
                                     employee.CreatedBy = "";
                                     employee.CreatedDate = DateTime.Now;
-                                    employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
-                                    int result = employeeBLL.CheckForEmployeeName(employee.FullName);
-                                    if (result > 0)
+                                    //employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
+                                    employee.FullName = employeeBLL.GetFullNameFromCSV(dt_.Rows[i][5].ToString().Trim(trimElements));
+                                    if (string.IsNullOrEmpty(employee.FullName))
                                     {
-                                        _uploadExcel.EmployeeId = result;
+                                        continue;
                                     }
                                     else
                                     {
-                                        result = employeeBLL.CreateEmployee(employee);
-                                    }
+                                        int result = employeeBLL.CheckForEmployeeName(employee.FullName);
+                                        if (result > 0)
+                                        {
+                                            _uploadExcel.EmployeeId = result;
+                                        }
+                                        else
+                                        {
+                                            result = employeeBLL.CreateEmployee(employee);
+                                        }
 
-                                    _uploadExcel.EmployeeId = result;
-                                    _uploadExcel.EmployeeName = employee.FullName;
+                                        _uploadExcel.EmployeeId = result;
+
+                                        //duplicate employee count
+                                        string duplicateCount = "0";
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
+                                        {
+                                            duplicateCount = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                        }
+
+                                        //role change for employee
+                                        string roleChange = "0";
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][22].ToString()))
+                                        {
+                                            roleChange = dt_.Rows[i][22].ToString().Trim(trimElements);
+                                        }
+
+                                        //unit price change for employee
+                                        string unitPriceChange = "0";
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][23].ToString()))
+                                        {
+                                            unitPriceChange = dt_.Rows[i][23].ToString().Trim(trimElements);
+                                        }
+
+                                        //get duplicate name for employee assignment
+
+                                        string employeeFullName = employeeBLL.GetEmployeeNameWithNamingConvension(employee.FullName, duplicateCount, roleChange, unitPriceChange);
+                                        _uploadExcel.EmployeeName = employeeFullName;
+                                        //_uploadExcel.EmployeeName = employee.FullName;
+                                    }                                    
                                 }
 
                                 

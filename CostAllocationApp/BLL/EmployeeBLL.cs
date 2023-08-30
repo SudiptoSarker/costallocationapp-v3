@@ -59,5 +59,42 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.GetEmployeeNameByAssignmentId(assignmentId);
         }
+        public string  GetFullNameFromCSV(string csvCellValue)
+        {
+            string employeeName = "";
+
+            if (!string.IsNullOrEmpty(csvCellValue))
+            {
+                var arrEmployeeeName = csvCellValue.Split('.');
+                if (!string.IsNullOrEmpty(arrEmployeeeName[0]))
+                {
+                    employeeName = arrEmployeeeName[0].ToString();
+                }
+            }            
+            return employeeName;
+        }
+        public string GetEmployeeNameWithNamingConvension(string employeeName,string duplicateCount,string roleChange,string unitPriceChange)
+        {
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                if(Convert.ToInt32(duplicateCount)==1 || Convert.ToInt32(duplicateCount) == 0)
+                {
+                    return employeeName;
+                }
+                else if (Convert.ToInt32(roleChange) == 1 && Convert.ToInt32(unitPriceChange) == 1)
+                {
+                    return employeeName + " (" + duplicateCount + ")**";
+                }
+                else if (Convert.ToInt32(roleChange) == 1)
+                {
+                    return employeeName + " (" + duplicateCount + ")*";
+                }
+                else if (Convert.ToInt32(unitPriceChange) == 1)
+                {
+                    return employeeName + " (" + duplicateCount + ")";
+                }
+            }
+            return employeeName;
+        }
     }
 }

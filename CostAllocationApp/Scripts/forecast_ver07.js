@@ -4313,14 +4313,6 @@ function AddEmployee() {
     var employeeName = $('#employee_list').find("option:selected").text();
 
     //show the duplicate name: rule can be for: role/unit/both
-    // newRowChangeEventFlag = true;
-    
-    // let nextRow = parseInt(y) + 1;
-    // var allSameEmployeeId = [];
-    
-    // var newEmployeeId = "";
-    // var activeEmployeeCount =0;
-
     var employeeNameForAddEmployee = '';
     var allTableData = jss.getData();    
     var activeEmployeeCountForAddEmployee =0;
@@ -4334,10 +4326,8 @@ function AddEmployee() {
 			activeEmployeeCountForAddEmployee = activeEmployeeCountForAddEmployee+1;
 		}                          
 	}
-
     var tempEmployeeAssignmentId=0;
     var year = $("#assignment_year_list").val();
-
 	$.ajax({
 		url: `/api/utilities/GetEmployeeNameForMenuChange`,
 		contentType: 'application/json',
@@ -4349,12 +4339,11 @@ function AddEmployee() {
 			masterEmployeeNameForAddEmployee = data.EmployeeName;
 			inactiveEmployeeCountForAddEmployee = data.EmployeeCount;
 		}
-	});                        
-     
+	});                             
     employeeNameForAddEmployee =   masterEmployeeNameForAddEmployee +" ("+(parseInt(activeEmployeeCountForAddEmployee)+parseInt(inactiveEmployeeCountForAddEmployee)+1)+")";
 
-    //jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(1, globalY, employeeNameForAddEmployee, false);
+    jss.setValueFromCoords(1, globalY, employeeName, false);
+    //jss.setValueFromCoords(1, globalY, employeeNameForAddEmployee, false);
     //jss.setValueFromCoords(35, globalY, employeeId, false);
     jss.setValueFromCoords(37, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');

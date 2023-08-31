@@ -1890,622 +1890,622 @@ function ShowBedgetResults(year) {
                 //    return items;
                 //}
     
-                items.push({
-                    title: '要員を追加 (Add Emp)',
-                    onclick: function () {
-                        obj.insertRow(1, parseInt(y));
-                        var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
+                // items.push({
+                //     title: '要員を追加 (Add Emp)',
+                //     onclick: function () {
+                //         obj.insertRow(1, parseInt(y));
+                //         var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                         
-                        setTimeout(function () {
-                            SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                            //jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
-                            jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
+                //         setTimeout(function () {
+                //             SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
+                //             //jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
+                //             jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
     
-                            $('#jexcel_add_employee_modal').modal('show');
-                            globalY = parseInt(y) + 1;
-                            GetEmployeeList();
-                        },1000);
+                //             $('#jexcel_add_employee_modal').modal('show');
+                //             globalY = parseInt(y) + 1;
+                //             GetEmployeeList();
+                //         },1000);
                         
                         
-                    }
-                });
-                items.push({
-                    title: '要員のコピー（単価変更）(unit price)',
-                    onclick: function () {
-                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                            return false;
-                        }
+                //     }
+                // });
+                // items.push({
+                //     title: '要員のコピー（単価変更）(unit price)',
+                //     onclick: function () {
+                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                //             return false;
+                //         }
     
-                        newRowChangeEventFlag = true;
-                        var allData = jss.getData();
-                        let nextRow = parseInt(y) + 1;
-                        var allSameEmployeeId = [];
-                        var newCountedEmployeeName = '';
-                        var newEmployeeId = "";
-                        var activeEmployeeCount =0;
-                        var masterEmployeeName = "";
-                        var inactiveEmployeeCount = 0;
+                //         newRowChangeEventFlag = true;
+                //         var allData = jss.getData();
+                //         let nextRow = parseInt(y) + 1;
+                //         var allSameEmployeeId = [];
+                //         var newCountedEmployeeName = '';
+                //         var newEmployeeId = "";
+                //         var activeEmployeeCount =0;
+                //         var masterEmployeeName = "";
+                //         var inactiveEmployeeCount = 0;
     
-                        obj.insertRow(1, parseInt(y));
+                //         obj.insertRow(1, parseInt(y));
     
-                        var retrivedData = retrivedObject(jss.getRowData(y));
+                //         var retrivedData = retrivedObject(jss.getRowData(y));
     
-                        if (retrivedData.assignmentId.toString().includes('new')) {                        
-                            newEmployeeId = "new-" + newRowCount;
-                            var allSpecificObjectsCount = 0;
+                //         if (retrivedData.assignmentId.toString().includes('new')) {                        
+                //             newEmployeeId = "new-" + newRowCount;
+                //             var allSpecificObjectsCount = 0;
     
-                            for (let x of allData) {
-                                //if (x[35] == retrivedData.employeeId) {
-                                if (x[37] == retrivedData.employeeId) {
-                                    if (isNaN(x[0])) {
-                                        allSpecificObjectsCount++;
-                                        allSameEmployeeId.push(x[0]);
-                                    }
+                //             for (let x of allData) {
+                //                 //if (x[35] == retrivedData.employeeId) {
+                //                 if (x[37] == retrivedData.employeeId) {
+                //                     if (isNaN(x[0])) {
+                //                         allSpecificObjectsCount++;
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
     
-                                }
-                            }
-                            var allSameEmployeeIdSplitted = [];
-                            for (var i = 0; i < allSameEmployeeId.length; i++) {
-                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                            }
+                //                 }
+                //             }
+                //             var allSameEmployeeIdSplitted = [];
+                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
+                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                //             }
                            
     
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
     
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == 'new-'+minAssignmentNumber) {
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == 'new-'+minAssignmentNumber) {
     
-                                    retrivedData = retrivedObject(jss.getRowData(x));
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
     
-                                    break;
-                                }
-                            }
+                //                     break;
+                //                 }
+                //             }
     
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-    
-    
-                            for (let x of allData) {
-                                if (x[0] == 'new-'+minAssignmentNumber) {
-                                    newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                                    break;
-                                }
-                            }
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
     
     
+                //             for (let x of allData) {
+                //                 if (x[0] == 'new-'+minAssignmentNumber) {
+                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                //                     break;
+                //                 }
+                //             }
     
-                        }
-                        else {
-                            newEmployeeId = "new-" + newRowCount;
-                            var allSpecificObjectsCount = 0;
     
-                            for (let x of allData) {
-                                if (x[37] == retrivedData.employeeId) {
-                                    allSpecificObjectsCount++;
-                                    if (!isNaN(x[0])) {
-                                        allSameEmployeeId.push(x[0]);
-                                    }
     
-                                }
-                            }
+                //         }
+                //         else {
+                //             newEmployeeId = "new-" + newRowCount;
+                //             var allSpecificObjectsCount = 0;
     
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                //             for (let x of allData) {
+                //                 if (x[37] == retrivedData.employeeId) {
+                //                     allSpecificObjectsCount++;
+                //                     if (!isNaN(x[0])) {
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
     
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == minAssignmentNumber) {
+                //                 }
+                //             }
     
-                                    retrivedData = retrivedObject(jss.getRowData(x));
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
     
-                                    break;
-                                }
-                            }
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == minAssignmentNumber) {
     
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
     
-                            for (let x of allData) {                            
-                                if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                                    activeEmployeeCount = activeEmployeeCount+1;
-                                }                          
-                            }
+                //                     break;
+                //                 }
+                //             }
     
-                            $.ajax({
-                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                                contentType: 'application/json',
-                                type: 'GET',
-                                async: false,
-                                dataType: 'json',
-                                data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                                success: function (data) { 
-                                    masterEmployeeName = data.EmployeeName;
-                                    inactiveEmployeeCount = data.EmployeeCount;
-                                }
-                            });                        
-                        }     
-                        newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")";
-                        obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                        allSameEmployeeId = [];
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
     
-                        // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                        obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                        obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                        obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                        obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                        obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                        obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                        obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                        obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+                //             for (let x of allData) {                            
+                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                //                     activeEmployeeCount = activeEmployeeCount+1;
+                //                 }                          
+                //             }
     
-                        // color row....
-                        jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("B" + (nextRow + 1), "color", "red");
+                //             $.ajax({
+                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                //                 contentType: 'application/json',
+                //                 type: 'GET',
+                //                 async: false,
+                //                 dataType: 'json',
+                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                //                 success: function (data) { 
+                //                     masterEmployeeName = data.EmployeeName;
+                //                     inactiveEmployeeCount = data.EmployeeCount;
+                //                 }
+                //             });                        
+                //         }     
+                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")";
+                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                //         allSameEmployeeId = [];
     
-                        jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("J" + (nextRow + 1), "color", "red");
+                //         // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
+                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
+                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
+                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
+                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
+                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
+                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
+                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
+                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
     
-                        jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("K" + (nextRow + 1), "color", "red");
+                //         // color row....
+                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
     
-                        // disable section....
-                        $(obj.getCell("D" + (nextRow + 1))).addClass('readonly');
-                        // disable department....
-                        $(obj.getCell("E" + (nextRow + 1))).addClass('readonly');
-                        // disable incharge....
-                        $(obj.getCell("F" + (nextRow + 1))).addClass('readonly');
-                        // disable role....
-                        $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
-                        // disable role....
-                        $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
+                //         jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("J" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("K" + (nextRow + 1), "color", "red");
+    
+                //         // disable section....
+                //         $(obj.getCell("D" + (nextRow + 1))).addClass('readonly');
+                //         // disable department....
+                //         $(obj.getCell("E" + (nextRow + 1))).addClass('readonly');
+                //         // disable incharge....
+                //         $(obj.getCell("F" + (nextRow + 1))).addClass('readonly');
+                //         // disable role....
+                //         $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
+                //         // disable role....
+                //         $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
                         
-                        obj.setValueFromCoords(38, nextRow, false, false);
-                        obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                        obj.setValueFromCoords(40, nextRow, true, false);
-                        obj.setValueFromCoords(47, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
+                //         obj.setValueFromCoords(38, nextRow, false, false);
+                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
+                //         obj.setValueFromCoords(40, nextRow, true, false);
+                //         obj.setValueFromCoords(47, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
     
-                        obj.setValueFromCoords(11, nextRow, '0.0', false);
-                        obj.setValueFromCoords(12, nextRow, '0.0', false);
-                        obj.setValueFromCoords(13, nextRow, '0.0', false);
-                        obj.setValueFromCoords(14, nextRow, '0.0', false);
-                        obj.setValueFromCoords(15, nextRow, '0.0', false);
-                        obj.setValueFromCoords(16, nextRow, '0.0', false);
-                        obj.setValueFromCoords(17, nextRow, '0.0', false);
-                        obj.setValueFromCoords(18, nextRow, '0.0', false);
-                        obj.setValueFromCoords(19, nextRow, '0.0', false);
-                        obj.setValueFromCoords(20, nextRow, '0.0', false);
-                        obj.setValueFromCoords(21, nextRow, '0.0', false);
-                        obj.setValueFromCoords(22, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
     
-                        jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                        jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                        jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                        jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                        jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                        jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                        jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                        jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                        jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                        jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                        jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                        jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
                     
-                        newRowCount++;
-                        newRowChangeEventFlag = false;
-                    }
+                //         newRowCount++;
+                //         newRowChangeEventFlag = false;
+                //     }
                    
-                });
+                // });
     
-                items.push({
-                    title: '要員のコピー（役割変更）(role)',
-                    onclick: function () {
-                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                            return false;
-                        }
-                        newRowChangeEventFlag = true;
-                        var allData = jss.getData();
-                        let nextRow = parseInt(y) + 1;
-                        var allSameEmployeeId = [];
-                        var newCountedEmployeeName = '';
-                        var newEmployeeId = "";
-                        var activeEmployeeCount =0;
-                        var masterEmployeeName = "";
-                        var inactiveEmployeeCount = 0;
+                // items.push({
+                //     title: '要員のコピー（役割変更）(role)',
+                //     onclick: function () {
+                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                //             return false;
+                //         }
+                //         newRowChangeEventFlag = true;
+                //         var allData = jss.getData();
+                //         let nextRow = parseInt(y) + 1;
+                //         var allSameEmployeeId = [];
+                //         var newCountedEmployeeName = '';
+                //         var newEmployeeId = "";
+                //         var activeEmployeeCount =0;
+                //         var masterEmployeeName = "";
+                //         var inactiveEmployeeCount = 0;
     
-                        obj.insertRow(1, parseInt(y));
+                //         obj.insertRow(1, parseInt(y));
     
-                        var retrivedData = retrivedObject(jss.getRowData(y));
-                        if (retrivedData.assignmentId.toString().includes('new')) {
-                            newEmployeeId = "new-" + newRowCount;
-                            var allSpecificObjectsCount = 0;
+                //         var retrivedData = retrivedObject(jss.getRowData(y));
+                //         if (retrivedData.assignmentId.toString().includes('new')) {
+                //             newEmployeeId = "new-" + newRowCount;
+                //             var allSpecificObjectsCount = 0;
     
-                            for (let x of allData) {
-                                if (x[37] == retrivedData.employeeId) {
+                //             for (let x of allData) {
+                //                 if (x[37] == retrivedData.employeeId) {
     
-                                    if (isNaN(x[0])) {
-                                        allSpecificObjectsCount++;
-                                        allSameEmployeeId.push(x[0]);
-                                    }
+                //                     if (isNaN(x[0])) {
+                //                         allSpecificObjectsCount++;
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
     
-                                }
-                            }
-                            var allSameEmployeeIdSplitted = [];
-                            for (var i = 0; i < allSameEmployeeId.length; i++) {
-                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                            }
-    
-    
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-    
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == 'new-' + minAssignmentNumber) {
-    
-                                    retrivedData = retrivedObject(jss.getRowData(x));
-    
-                                    break;
-                                }
-                            }
-    
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+                //                 }
+                //             }
+                //             var allSameEmployeeIdSplitted = [];
+                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
+                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                //             }
     
     
-                            for (let x of allData) {
-                                if (x[0] == 'new-' + minAssignmentNumber) {
-                                    newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                                    break;
-                                }
-                            }
-                        }
-                        else {
-                            newEmployeeId = "new-" + newRowCount;
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
     
-                            var allSpecificObjectsCount = 0;
-                            for (let x of allData) {
-                                if (x[37] == retrivedData.employeeId) {
-                                    allSpecificObjectsCount++;
-                                    if (!isNaN(x[0])) {
-                                        allSameEmployeeId.push(x[0]);
-                                    }
-                                }
-                            }
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == 'new-' + minAssignmentNumber) {
     
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
+    
+                //                     break;
+                //                 }
+                //             }
+    
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
     
     
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == minAssignmentNumber) {
+                //             for (let x of allData) {
+                //                 if (x[0] == 'new-' + minAssignmentNumber) {
+                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                //                     break;
+                //                 }
+                //             }
+                //         }
+                //         else {
+                //             newEmployeeId = "new-" + newRowCount;
     
-                                    retrivedData = retrivedObject(jss.getRowData(x));
+                //             var allSpecificObjectsCount = 0;
+                //             for (let x of allData) {
+                //                 if (x[37] == retrivedData.employeeId) {
+                //                     allSpecificObjectsCount++;
+                //                     if (!isNaN(x[0])) {
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
+                //                 }
+                //             }
     
-                                    break;
-                                }
-                            }
-    
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-    
-                            for (let x of allData) {
-                                if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                                    activeEmployeeCount = activeEmployeeCount+1;
-                                }  
-                                // if (x[0] == minAssignmentNumber) {
-                                //     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                                //     break;
-                                // }
-                            }
-    
-                            $.ajax({
-                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                                contentType: 'application/json',
-                                type: 'GET',
-                                async: false,
-                                dataType: 'json',
-                                data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                                success: function (data) { 
-                                    masterEmployeeName = data.EmployeeName;
-                                    inactiveEmployeeCount = data.EmployeeCount;
-                                }
-                            });
-                        }
-                        newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
-                        obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                        allSameEmployeeId = [];                   
-    
-                        //obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                        obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                        obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                        obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                        obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                        obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                        obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                        obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                        obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
     
     
-                        // color row....
-                        jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("B" + (nextRow + 1), "color", "red");
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == minAssignmentNumber) {
     
-                        jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("D" + (nextRow + 1), "color", "red");
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
+    
+                //                     break;
+                //                 }
+                //             }
+    
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+    
+                //             for (let x of allData) {
+                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                //                     activeEmployeeCount = activeEmployeeCount+1;
+                //                 }  
+                //                 // if (x[0] == minAssignmentNumber) {
+                //                 //     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                //                 //     break;
+                //                 // }
+                //             }
+    
+                //             $.ajax({
+                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                //                 contentType: 'application/json',
+                //                 type: 'GET',
+                //                 async: false,
+                //                 dataType: 'json',
+                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                //                 success: function (data) { 
+                //                     masterEmployeeName = data.EmployeeName;
+                //                     inactiveEmployeeCount = data.EmployeeCount;
+                //                 }
+                //             });
+                //         }
+                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
+                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                //         allSameEmployeeId = [];                   
+    
+                //         //obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
+                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
+                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
+                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
+                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
+                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
+                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
+                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
+                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
     
     
-                        jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("E" + (nextRow + 1), "color", "red");
+                //         // color row....
+                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
     
-                        jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("F" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("G" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("I" + (nextRow + 1), "color", "red");
+                //         jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("D" + (nextRow + 1), "color", "red");
     
     
-                        // disable grade and unit price....
-                        $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
-                        $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
+                //         jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("E" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("F" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("G" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("I" + (nextRow + 1), "color", "red");
+    
+    
+                //         // disable grade and unit price....
+                //         $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
+                //         $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
     
     
     
     
-                        //obj.setValueFromCoords(36, nextRow, false, false);
-                        obj.setValueFromCoords(38, nextRow, false, false);
-                        //obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                        obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                        //obj.setValueFromCoords(38, nextRow, true, false);
-                        obj.setValueFromCoords(40, nextRow, true, false);
-                        //obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-                        obj.setValueFromCoords(47, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+                //         //obj.setValueFromCoords(36, nextRow, false, false);
+                //         obj.setValueFromCoords(38, nextRow, false, false);
+                //         //obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                //         //obj.setValueFromCoords(38, nextRow, true, false);
+                //         obj.setValueFromCoords(40, nextRow, true, false);
+                //         //obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+                //         obj.setValueFromCoords(47, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
     
     
-                        obj.setValueFromCoords(11, nextRow, '0.0', false);
-                        obj.setValueFromCoords(12, nextRow, '0.0', false);
-                        obj.setValueFromCoords(13, nextRow, '0.0', false);
-                        obj.setValueFromCoords(14, nextRow, '0.0', false);
-                        obj.setValueFromCoords(15, nextRow, '0.0', false);
-                        obj.setValueFromCoords(16, nextRow, '0.0', false);
-                        obj.setValueFromCoords(17, nextRow, '0.0', false);
-                        obj.setValueFromCoords(18, nextRow, '0.0', false);
-                        obj.setValueFromCoords(19, nextRow, '0.0', false);
-                        obj.setValueFromCoords(20, nextRow, '0.0', false);
-                        obj.setValueFromCoords(21, nextRow, '0.0', false);
-                        obj.setValueFromCoords(22, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
     
-                        jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                        jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                        jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                        jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                        jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                        jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                        jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                        jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                        jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                        jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                        jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                        jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
     
-                        newRowCount++;
-                        newRowChangeEventFlag = false;
+                //         newRowCount++;
+                //         newRowChangeEventFlag = false;
     
-                    }
-                });
-                items.push({
-                    title: '要員のコピー（役割・単価変更）(role/unit)',
-                    onclick: function () {
-                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                            return false;
-                        }
-                        newRowChangeEventFlag = true;
-                        var allData = jss.getData();
-                        let nextRow = parseInt(y) + 1;
-                        var allSameEmployeeId = [];
-                        var newCountedEmployeeName = '';
-                        var newEmployeeId = "";
-                        var activeEmployeeCount =0;
-                        var masterEmployeeName = "";
-                        var inactiveEmployeeCount = 0;
+                //     }
+                // });
+                // items.push({
+                //     title: '要員のコピー（役割・単価変更）(role/unit)',
+                //     onclick: function () {
+                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                //             return false;
+                //         }
+                //         newRowChangeEventFlag = true;
+                //         var allData = jss.getData();
+                //         let nextRow = parseInt(y) + 1;
+                //         var allSameEmployeeId = [];
+                //         var newCountedEmployeeName = '';
+                //         var newEmployeeId = "";
+                //         var activeEmployeeCount =0;
+                //         var masterEmployeeName = "";
+                //         var inactiveEmployeeCount = 0;
                         
-                        obj.insertRow(1, parseInt(y));
+                //         obj.insertRow(1, parseInt(y));
     
-                        var retrivedData = retrivedObject(jss.getRowData(y));
+                //         var retrivedData = retrivedObject(jss.getRowData(y));
     
-                        if (retrivedData.assignmentId.toString().includes('new')) {
-                        //if (Assignmentid.tostring().include) {
-                            newEmployeeId = "new-" + newRowCount;
-                            var allSpecificObjectsCount = 0;
+                //         if (retrivedData.assignmentId.toString().includes('new')) {
+                //         //if (Assignmentid.tostring().include) {
+                //             newEmployeeId = "new-" + newRowCount;
+                //             var allSpecificObjectsCount = 0;
     
-                            for (let x of allData) {
-                                if (x[37] == retrivedData.employeeId) {
+                //             for (let x of allData) {
+                //                 if (x[37] == retrivedData.employeeId) {
     
-                                    if (isNaN(x[0])) {
-                                        allSpecificObjectsCount++;
-                                        allSameEmployeeId.push(x[0]);
-                                    }
+                //                     if (isNaN(x[0])) {
+                //                         allSpecificObjectsCount++;
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
     
-                                }
-                            }
-                            var allSameEmployeeIdSplitted = [];
-                            for (var i = 0; i < allSameEmployeeId.length; i++) {
-                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                            }
-    
-    
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-    
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == 'new-' + minAssignmentNumber) {
-    
-                                    retrivedData = retrivedObject(jss.getRowData(x));
-    
-                                    break;
-                                }
-                            }
-    
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+                //                 }
+                //             }
+                //             var allSameEmployeeIdSplitted = [];
+                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
+                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                //             }
     
     
-                            for (let x of allData) {
-                                if (x[0] == 'new-' + minAssignmentNumber) {
-                                    newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                                    break;
-                                }
-                            }
-                        } else {
-                            newEmployeeId = "new-" + newRowCount;
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
     
-                            var allSpecificObjectsCount = 0;
-                            for (let x of allData) {
-                                if (x[37] == retrivedData.employeeId) {
-                                    allSpecificObjectsCount++;
-                                    if (!isNaN(x[0])) {
-                                        allSameEmployeeId.push(x[0]);
-                                    }
-                                }
-                            }
-                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == 'new-' + minAssignmentNumber) {
     
-                            for (let x = 0; x < allData.length; x++) {
-                                if (allData[x][0] == minAssignmentNumber) {
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
     
-                                    retrivedData = retrivedObject(jss.getRowData(x));
+                //                     break;
+                //                 }
+                //             }
     
-                                    break;
-                                }
-                            }
-    
-                            retrivedData.bcyr = false;
-                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
     
     
-                            for (let x of allData) {
-                                if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                                    activeEmployeeCount = activeEmployeeCount+1;
-                                }  
-                            }
-                            $.ajax({
-                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                                contentType: 'application/json',
-                                type: 'GET',
-                                async: false,
-                                dataType: 'json',
-                                data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                                success: function (data) { 
-                                    masterEmployeeName = data.EmployeeName;
-                                    inactiveEmployeeCount = data.EmployeeCount;
-                                }
-                            });
-                        }
+                //             for (let x of allData) {
+                //                 if (x[0] == 'new-' + minAssignmentNumber) {
+                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
+                //                     break;
+                //                 }
+                //             }
+                //         } else {
+                //             newEmployeeId = "new-" + newRowCount;
     
-                        newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
-                        obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                        allSameEmployeeId = [];
+                //             var allSpecificObjectsCount = 0;
+                //             for (let x of allData) {
+                //                 if (x[37] == retrivedData.employeeId) {
+                //                     allSpecificObjectsCount++;
+                //                     if (!isNaN(x[0])) {
+                //                         allSameEmployeeId.push(x[0]);
+                //                     }
+                //                 }
+                //             }
+                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
     
-                        jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("B" + (nextRow + 1), "color", "red");
+                //             for (let x = 0; x < allData.length; x++) {
+                //                 if (allData[x][0] == minAssignmentNumber) {
     
-                        jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("D" + (nextRow + 1), "color", "red");
+                //                     retrivedData = retrivedObject(jss.getRowData(x));
     
+                //                     break;
+                //                 }
+                //             }
     
-                        jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("E" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("F" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("G" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("I" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("J" + (nextRow + 1), "color", "red");
-    
-                        jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                        jss.setStyle("K" + (nextRow + 1), "color", "red");
+                //             retrivedData.bcyr = false;
+                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
     
     
+                //             for (let x of allData) {
+                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                //                     activeEmployeeCount = activeEmployeeCount+1;
+                //                 }  
+                //             }
+                //             $.ajax({
+                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                //                 contentType: 'application/json',
+                //                 type: 'GET',
+                //                 async: false,
+                //                 dataType: 'json',
+                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
+                //                 success: function (data) { 
+                //                     masterEmployeeName = data.EmployeeName;
+                //                     inactiveEmployeeCount = data.EmployeeCount;
+                //                 }
+                //             });
+                //         }
     
-                        // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                        obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                        obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                        obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                        obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                        obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                        obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                        obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                        obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
+                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                //         allSameEmployeeId = [];
+    
+                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("D" + (nextRow + 1), "color", "red");
+    
+    
+                //         jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("E" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("F" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("G" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("I" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("J" + (nextRow + 1), "color", "red");
+    
+                //         jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
+                //         jss.setStyle("K" + (nextRow + 1), "color", "red");
     
     
     
-                        // obj.setValueFromCoords(36, nextRow, false, false);
-                        // obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                        // obj.setValueFromCoords(38, nextRow, true, false);
-                        // obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
-                        obj.setValueFromCoords(38, nextRow, false, false);
-                        obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                        obj.setValueFromCoords(40, nextRow, true, false);
-                        obj.setValueFromCoords(47, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+                //         // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
+                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
+                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
+                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
+                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
+                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
+                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
+                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
+                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
+                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
     
-                        obj.setValueFromCoords(11, nextRow, '0.0', false);
-                        obj.setValueFromCoords(12, nextRow, '0.0', false);
-                        obj.setValueFromCoords(13, nextRow, '0.0', false);
-                        obj.setValueFromCoords(14, nextRow, '0.0', false);
-                        obj.setValueFromCoords(15, nextRow, '0.0', false);
-                        obj.setValueFromCoords(16, nextRow, '0.0', false);
-                        obj.setValueFromCoords(17, nextRow, '0.0', false);
-                        obj.setValueFromCoords(18, nextRow, '0.0', false);
-                        obj.setValueFromCoords(19, nextRow, '0.0', false);
-                        obj.setValueFromCoords(20, nextRow, '0.0', false);
-                        obj.setValueFromCoords(21, nextRow, '0.0', false);
-                        obj.setValueFromCoords(22, nextRow, '0.0', false);
     
-                        jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                        jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                        jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                        jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                        jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                        jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                        jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                        jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                        jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                        jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                        jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                        jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
     
-                        newRowCount++;
-                        newRowChangeEventFlag = false;
-                    }
-                });
-                items.push({
-                    title: '選択した要員の削除 (delete)',                
-                    onclick: function () {                    
-                        var value = obj.getSelectedRows();                    
-                        var assignementId = jss.getValueFromCoords(0, y);
-                        var name = jss.getValueFromCoords(1, y);                                       
-                        if(parseInt(assignementId) >0){
-                            deletedExistingRowIds.push(assignementId);                                
-                            SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
-                        }else{
-                            alert(name +" has not been saved yet. You can not delete this employee!")  
-                        }      
-                    }
-                });
+                //         // obj.setValueFromCoords(36, nextRow, false, false);
+                //         // obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
+                //         // obj.setValueFromCoords(38, nextRow, true, false);
+                //         // obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+                //         obj.setValueFromCoords(38, nextRow, false, false);
+                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
+                //         obj.setValueFromCoords(40, nextRow, true, false);
+                //         obj.setValueFromCoords(47, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+    
+                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
+                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
+    
+                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
+                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+    
+                //         newRowCount++;
+                //         newRowChangeEventFlag = false;
+                //     }
+                // });
+                // items.push({
+                //     title: '選択した要員の削除 (delete)',                
+                //     onclick: function () {                    
+                //         var value = obj.getSelectedRows();                    
+                //         var assignementId = jss.getValueFromCoords(0, y);
+                //         var name = jss.getValueFromCoords(1, y);                                       
+                //         if(parseInt(assignementId) >0){
+                //             deletedExistingRowIds.push(assignementId);                                
+                //             SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
+                //         }else{
+                //             alert(name +" has not been saved yet. You can not delete this employee!")  
+                //         }      
+                //     }
+                // });
     
                 return items;
             }

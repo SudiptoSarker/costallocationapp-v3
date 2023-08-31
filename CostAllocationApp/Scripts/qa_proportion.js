@@ -713,6 +713,7 @@ $(document).ready(function () {
 
 
     $('#employee_wise_save_button').on('click', () => {
+       
         let duplicateEmployeeId = '';
         let duplicateEmployeeName = '';
 
@@ -784,8 +785,8 @@ $(document).ready(function () {
                             }
 
                         }); // end of each...
-
-                        if (oct_sum != 100) {
+                        
+                        if (oct_sum !=100) {
                             alert('Invalid Month (Oct) Value ' + oct_sum);
                             return false;
                         }
@@ -948,62 +949,62 @@ $(document).ready(function () {
                 aug_sum += parseFloat(data[i][12]);
                 sep_sum += parseFloat(data[i][13]);
             }
-            if (oct_sum != 100) {
+            if (oct_sum < 0 || oct_sum > 100) {
                 alert('Invalid Department(Oct) Value ' + oct_sum);
                 dataToSend = [];
                 return false;
             }
-            if (nov_sum != 100) {
+            if (nov_sum < 0 || nov_sum> 100) {
                 alert('Invalid Department(Nov) Value ' + nov_sum);
                 dataToSend = [];
                 return false;
             }
-            if (dec_sum != 100) {
+            if (dec_sum < 0 || dec_sum> 100) {
                 alert('Invalid Department(Dec) Value ' + dec_sum);
                 dataToSend = [];
                 return false;
             }
-            if (jan_sum != 100) {
+            if (jan_sum < 0 || jan_sum> 100) {
                 alert('Invalid Department(Jan) Value ' + jan_sum);
                 dataToSend = [];
                 return false;
             }
-            if (feb_sum != 100) {
+            if (feb_sum < 0 || feb_sum> 100) {
                 alert('Invalid Department(Feb) Value ' + feb_sum);
                 dataToSend = [];
                 return false;
             }
-            if (mar_sum != 100) {
+            if (mar_sum < 0 || feb_sum> 100) {
                 alert('Invalid Department(Mar) Value ' + mar_sum);
                 dataToSend = [];
                 return false;
             }
-            if (apr_sum != 100) {
+            if (apr_sum < 0 || apr_sum> 100) {
                 alert('Invalid Department(Apr) Value ' + apr_sum);
                 dataToSend = [];
                 return false;
             }
-            if (may_sum != 100) {
+            if (may_sum < 0 || may_sum> 100) {
                 alert('Invalid Department(May) Value ' + may_sum);
                 dataToSend = [];
                 return false;
             }
-            if (jun_sum != 100) {
+            if (jun_sum < 0 || jun_sum> 100) {
                 alert('Invalid Department(Jun) Value ' + jun_sum);
                 dataToSend = [];
                 return false;
             }
-            if (jul_sum != 100) {
+            if (jul_sum < 0 || jul_sum > 100) {
                 alert('Invalid Department(Jul) Value ' + jul_sum);
                 dataToSend = [];
                 return false;
             }
-            if (aug_sum != 100) {
+            if (aug_sum < 0 || aug_sum> 100) {
                 alert('Invalid Department(Aug) Value ' + aug_sum);
                 dataToSend = [];
                 return false;
             }
-            if (sep_sum != 100) {
+            if (sep_sum < 0 || sep_sum> 100) {
                 alert('Invalid Department(Sep) Value ' + sep_sum);
                 dataToSend = [];
                 return false;

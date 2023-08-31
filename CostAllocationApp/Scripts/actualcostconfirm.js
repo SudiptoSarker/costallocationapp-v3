@@ -197,7 +197,7 @@ $(document).ready(function () {
                                 title: `${queryStrings['month']}月工数(mm)`,
                                 type: "decimal",
                                 name: "ForecastedPoints",
-                                mask: "#,##0",
+                                //mask: "#,##0",
                                 //decimal: '.',
                                 width: 100,
                                 readOnly: true

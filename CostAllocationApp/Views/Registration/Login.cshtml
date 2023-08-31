@@ -115,6 +115,13 @@
                                 dataType: 'json',
                                 data: { userName: loginUserName, token: data, lastPath:'/Dashboard/Index' },
                                 success: function () {
+                                    var currentHost = window.location.host;
+                                    _keys = Object.keys(localStorage);
+                                    for (var key = 0; key < _keys.length; key++) {
+                                        if (localStorage.getItem(_keys[key]) == currentHost) {
+                                            localStorage.removeItem(_keys[key]);
+                                        }
+                                    }
 
                                 }
                             });

@@ -20,7 +20,9 @@ function onSectionInactiveClick() {
     });  
 }
 
+
 $(document).ready(function () {
+
     /***************************\                           
         Show section list on page load           
     \***************************/	

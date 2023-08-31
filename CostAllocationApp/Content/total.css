@@ -66,7 +66,6 @@
 }
 #total_table td{
     padding: 7px !important;
-    vertical-align:middle !important;
 }
 .expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {
     cursor: pointer;

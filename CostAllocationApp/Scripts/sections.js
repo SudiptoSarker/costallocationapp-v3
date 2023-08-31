@@ -25,6 +25,7 @@ $(document).ready(function () {
     //show sections on page load
     GetSectionList();
 
+
     //inactive section
     $('#section_inactive_confirm_btn').on('click', function (event) {
         event.preventDefault();

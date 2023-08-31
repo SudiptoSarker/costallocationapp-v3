@@ -4033,6 +4033,7 @@ namespace CostAllocationApp.Controllers.Api
             List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year,monthId);
             foreach (var item in employeeAssignments)
             {
+                item.ForecastedTotal = item.ForecastedPoints * Convert.ToDecimal(item.UnitPrice);
                 var actualCostList = actualCostBLL.GetActualCostsByYear_AssignmentId(year,item.Id);
                 if (actualCostList.Count>0)
                 {

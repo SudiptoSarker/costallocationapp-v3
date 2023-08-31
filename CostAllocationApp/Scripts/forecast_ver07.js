@@ -2510,7 +2510,8 @@ function ShowForecastResults(year) {
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
                     setTimeout(function () {
-                        SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
+                        //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
+                        SetColorCommonRow(parseInt(y)+2,"yellow","red","newrow");  
                         //jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
                         jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
 

@@ -1834,8 +1834,6 @@ function ShowForecastResults(year) {
                         var octSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {  
                             if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
-                                octPointsSum += parseFloat(parseFloat(dataValue[11]));
-                                
                                 var octPointPerRow = 0.0;
                                 octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
                                 octPointsSum += parseFloat(octPointPerRow);                            

@@ -4087,6 +4087,7 @@ namespace CostAllocationApp.Controllers.Api
             List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year, monthId);
             foreach (var item in employeeAssignments)
             {
+                item.ForecastedTotal = item.ForecastedPoints * Convert.ToDecimal(item.UnitPrice);
                 var actualCostList = actualCostBLL.GetActualCostsByYear_AssignmentId(year, item.Id);
                 if (actualCostList.Count > 0)
                 {
@@ -4154,51 +4155,6 @@ namespace CostAllocationApp.Controllers.Api
                 }
 
             }
-
-            //List<ActualCost> actualCosts = actualCostBLL.GetActualCostsByYear(year);
-
-            //if (actualCosts.Count > 0)
-            //{
-            //    foreach (var item in employeeAssignments)
-            //    {
-            //        var actualCost = actualCosts.Where(ac => ac.AssignmentId == item.Id).SingleOrDefault();
-            //        if (actualCost == null)
-            //        {
-            //            actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
-            //        }
-            //        else
-            //        {
-            //            actualCostViewModels.Add(MergeAssignmentWithActualCost(item, actualCost));
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var item in employeeAssignments)
-            //    {
-            //        actualCostViewModels.Add(MergeAssignmentWithActualCost(item, null));
-
-            //    }
-            //}
-
-            //var totalCount = actualCostViewModels.Count;
-
-            //actualCostViewModels.Add(new ActualCostViewModel
-            //{
-            //    AssignmentId = 0,
-            //    OctCost = $@"=SUM(J{1}:J{totalCount})",
-            //    NovCost = $@"=SUM(K{1}:K{totalCount})",
-            //    DecCost = $@"=SUM(L{1}:L{totalCount})",
-            //    JanCost = $@"=SUM(M{1}:M{totalCount})",
-            //    FebCost = $@"=SUM(N{1}:N{totalCount})",
-            //    MarCost = $@"=SUM(O{1}:O{totalCount})",
-            //    AprCost = $@"=SUM(P{1}:P{totalCount})",
-            //    MayCost = $@"=SUM(Q{1}:Q{totalCount})",
-            //    JunCost = $@"=SUM(R{1}:R{totalCount})",
-            //    JulCost = $@"=SUM(S{1}:S{totalCount})",
-            //    AugCost = $@"=SUM(T{1}:T{totalCount})",
-            //    SepCost = $@"=SUM(U{1}:U{totalCount})",
-            //});
             return Ok(employeeAssignments);
         }
 

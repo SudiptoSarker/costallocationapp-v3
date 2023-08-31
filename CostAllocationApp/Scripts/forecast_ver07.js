@@ -1834,8 +1834,6 @@ function ShowForecastResults(year) {
                         var octSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {  
                             if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
-                                octPointsSum += parseFloat(parseFloat(dataValue[11]));
-                                
                                 var octPointPerRow = 0.0;
                                 octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
                                 octPointsSum += parseFloat(octPointPerRow);                            
@@ -4311,7 +4309,39 @@ function GetEmployeeList() {
 function AddEmployee() {
     var employeeId = $('#employee_list').val();
     var employeeName = $('#employee_list').find("option:selected").text();
+
+    //show the duplicate name: rule can be for: role/unit/both
+    var employeeNameForAddEmployee = '';
+    var allTableData = jss.getData();    
+    var activeEmployeeCountForAddEmployee =0;
+    var masterEmployeeNameForAddEmployee = "";
+    var inactiveEmployeeCountForAddEmployee = 0;
+
+    for (let x of allTableData) {            
+        console.log("x: "+x);                
+        console.log("retrivedData.employeeId: "+employeeId);                
+		if(parseInt(x[37]) == parseInt(employeeId)){
+			activeEmployeeCountForAddEmployee = activeEmployeeCountForAddEmployee+1;
+		}                          
+	}
+    var tempEmployeeAssignmentId=0;
+    var year = $("#assignment_year_list").val();
+	$.ajax({
+		url: `/api/utilities/GetEmployeeNameForMenuChange`,
+		contentType: 'application/json',
+		type: 'GET',
+		async: false,
+		dataType: 'json',
+		data: "employeeAssignmentId=" + tempEmployeeAssignmentId+"&employeeId="+employeeId+"&menuType=unit"+"&year="+year,
+		success: function (data) { 
+			masterEmployeeNameForAddEmployee = data.EmployeeName;
+			inactiveEmployeeCountForAddEmployee = data.EmployeeCount;
+		}
+	});                             
+    employeeNameForAddEmployee =   masterEmployeeNameForAddEmployee +" ("+(parseInt(activeEmployeeCountForAddEmployee)+parseInt(inactiveEmployeeCountForAddEmployee)+1)+")";
+
     jss.setValueFromCoords(1, globalY, employeeName, false);
+    //jss.setValueFromCoords(1, globalY, employeeNameForAddEmployee, false);
     //jss.setValueFromCoords(35, globalY, employeeId, false);
     jss.setValueFromCoords(37, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');

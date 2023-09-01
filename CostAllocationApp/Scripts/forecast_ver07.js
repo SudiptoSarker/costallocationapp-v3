@@ -1745,17 +1745,22 @@ function ShowForecastResults(year) {
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         var rowNumber = parseInt(y) + 1;
+                        var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                        console.log(element);
                         if (parseInt(value) !== 3) {
-                            var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                             element[0].cells[10].innerText = '';
                             $(jss.getCell("J" + rowNumber)).addClass('readonly');
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
+                            $(jss.getCell("K" + rowNumber)).removeClass('readonly');
+                            jss.setValueFromCoords(10, parseInt(y), 0, false);
                         }
                         else {
                             $(jss.getCell("J" + rowNumber)).removeClass('readonly');
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
+                            jss.setValueFromCoords(10, parseInt(y), 0, false);
+                            $(jss.getCell("K" + rowNumber)).addClass('readonly');
                         }
 
                         if (dataCheck.length == 0) {
@@ -1785,8 +1790,28 @@ function ShowForecastResults(year) {
                             jssUpdatedData.push(retrivedData);
                         }
                         else {
+
+                            var rowNumber = parseInt(y) + 1;
+                            var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                            console.log(element);
+                            $.ajax({
+                                url: '/api/Salaries?salaryGrade=' + value,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                success: function (salary) {
+                                    $(jss.getCell("K" + rowNumber)).removeClass('readonly');
+                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, false);
+                                    $(jss.getCell("K" + rowNumber)).addClass('readonly');
+                                    retrivedData.unitPrice = salary.SalaryLowPoint;
+                                }
+                            });
+
                             updateArray(jssUpdatedData, retrivedData);
                         }
+                       
+
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
                         cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);

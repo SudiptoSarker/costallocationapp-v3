@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using CostAllocationApp.Models;
 using CostAllocationApp.BLL;
-
+using System.Linq;
 
 namespace CostAllocationApp.Controllers.Api
 {
@@ -59,6 +59,23 @@ namespace CostAllocationApp.Controllers.Api
         {
             List<Salary> salaries = salaryBLL.GetAllSalaryPoints();
             return Ok(salaries);
+        }
+
+        // get specific salary
+        [HttpGet]
+        public IHttpActionResult Salary(string salaryGrade)
+        {
+            Salary salary = null;
+            List<Salary> salaries = salaryBLL.GetAllSalaryPoints();
+            if (salaries.Count > 0)
+            {
+                salary = salaries.Where(s => s.SalaryGrade == salaryGrade).SingleOrDefault();
+                if (salary==null)
+                {
+                    salary = new Salary();
+                }
+            }
+            return Ok(salary);
         }
 
         // remove salaries

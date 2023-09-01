@@ -1061,7 +1061,7 @@ function ForecastDataSave() {
         });
     });
 
-    ToastMessageSuccess("Data Saved Successfully");  
+    ToastMessageSuccess("データが保存されました");  
 }
 
 var expanded = false;

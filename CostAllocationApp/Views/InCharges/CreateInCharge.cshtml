@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "In-Charge Registration";
+    ViewBag.Title = "新規担当の登録 (In-Charge Registration)";
 }
 
 @section Styles {
@@ -21,7 +21,7 @@
                                     <tr></tr>
                                     <tr>
                                         <th>担当 (In-Charge Name)</th>
-                                        <th>Actions</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,7 @@
                                     <th colspan="6">担当 氏名(In-Charge List)</th>
                                 </tr>
                                 <tr>
-                                    <th class="incharge_list_theader">Check</th>
+                                    <th class="incharge_list_theader">複数選択</th>
                                     <th class="incharge_list_theader">担当 (In-Charge Name)</th>
                                 </tr>
                             </thead>
@@ -67,7 +67,7 @@
                         @if (Convert.ToBoolean(ViewBag.linkFlag))
                         {
                             <label id="incharge_delete_btn">
-                                <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">Delete</a>
+                                <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">削除</a>
                             </label>
                         }
 
@@ -87,17 +87,17 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete In-Charge</h3>
+                    <h3>登録した担当の削除 (Delete In-Charge)</h3>
                     <ol class="incharge_count" style="text-align:left;"></ol>
-                    <p>Are you sure want to delete?</p>
+                    <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="incharge_inactive_confirm_btn">Delete</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="incharge_inactive_confirm_btn">削除</a>
                         </div>
                     </div>
                 </div>

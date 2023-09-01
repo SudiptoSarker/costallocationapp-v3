@@ -1016,7 +1016,7 @@ function onSave() {
     });
 
     if (saveFlag) {
-        Command: toastr["success"]('Data Saved Successfully', "Success")
+        Command: toastr["success"]('データが保存されました', "Success")
         toastr.options = {
             "closeButton": false,
             "debug": false,

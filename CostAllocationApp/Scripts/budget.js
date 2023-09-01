@@ -2635,7 +2635,7 @@ function InsertEmployee() {
 
                     jss.setValueFromCoords(35, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('Data Save Successfully!');
+                    ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }                

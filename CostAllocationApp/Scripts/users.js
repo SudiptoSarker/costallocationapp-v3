@@ -112,7 +112,7 @@ function CreateUserName() {
         success: function (result) {
             if (result > 0) {
                 $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess('Data Save Successfully!');
+                ToastMessageSuccess('データが保存されました!');
 
                 $('#userName').val('');
                 GetUserList();
@@ -170,7 +170,7 @@ function UpdateUserName() {
         success: function (result) {
             if (result > 0) {
                 $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess('Data Save Successfully!');
+                ToastMessageSuccess('データが保存されました!');
                 $('#modal_update_user').modal('hide');
                 $('#userName').val('');
                 GetUserList();

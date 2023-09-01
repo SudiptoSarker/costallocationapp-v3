@@ -1010,7 +1010,7 @@ function onSave(e) {
 
     setTimeout(() => {
         LoadForecastData();
-        ToastMessageSuccess("Data Saved Successfully");
+        ToastMessageSuccess("データが保存されました");
     }
         , 5000);
     //LoadForecastData();
@@ -1093,7 +1093,7 @@ function ForecastDataSave() {
         });
     });
 
-    //ToastMessageSuccess("Data Saved Successfully");
+    //ToastMessageSuccess("データが保存されました");
 }
 
 var expanded = false;
@@ -3188,7 +3188,7 @@ function InsertEmployee() {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
                     jss.setValueFromCoords(34, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('Data Save Successfully!');
+                    ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }

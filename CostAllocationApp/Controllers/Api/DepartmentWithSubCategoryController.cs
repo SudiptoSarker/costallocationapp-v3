@@ -48,7 +48,7 @@ namespace CostAllocationApp.Controllers.Api
                     int result = departmentWithSubCategoryBLL.CreateDepartmentWithSubCategory(departmentWithSubCategory);
                     if (result > 0)
                     {
-                        return Ok("Data Saved Successfully!");
+                        return Ok("データが保存されました!");
                     }
                     else
                     {

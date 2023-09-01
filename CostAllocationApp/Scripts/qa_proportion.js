@@ -125,7 +125,7 @@ function LoadJexcel() {
             columns: [
                 { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
 
-                { title: "Employee Name", type: 'text', name: "EmployeeName", width: 100 },
+                { title: "要員名(Emp)", type: 'text', name: "EmployeeName", width: 100 },
 
                 { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
 
@@ -638,7 +638,7 @@ function LoadJexcel1() {
                 tableHeight: (window.innerHeight - 300) + "px",
                 columns: [
                     { title: "Department Id", type: 'hidden', name: "DepartmentId" },
-                    { title: "Department Name", type: 'text', name: "DepartmentName" },
+                    { title: "部門名 (Dept.)", type: 'text', name: "DepartmentName" },
 
                     { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
 
@@ -1042,7 +1042,7 @@ $(document).ready(function () {
                     Year: year,
                 }),
                 success: function (data) {
-                    alert("Operation Success.");
+                    alert("保存されました.");
                 }
             });
         }
@@ -1241,8 +1241,8 @@ $(document).ready(function () {
         LoadJexcel1();
     });
 
-    $('#merged_employee_from_qc').select2({ placeholder: "Select Employee", });
-    $('#department_list').select2({ placeholder: "Select Department", });
+    $('#merged_employee_from_qc').select2({ placeholder: "要員の選択", });
+    $('#department_list').select2({ placeholder: "部署を選択 (Select Department)", });
 
     $("#hider").hide();
     $(".search_p").hide();

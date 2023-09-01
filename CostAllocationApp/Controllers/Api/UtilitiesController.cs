@@ -551,11 +551,14 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + section.SectionName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + section.SectionName);
+                                    ///countMessage.Add(result + " projects assigned for " + section.SectionName);
+                                    countMessage.Add(result + " のプロジェクトが " + section.SectionName + " にアサインされています");
+
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + section.SectionName);
+                                    //countMessage.Add(result + " project assigned for " + section.SectionName);
+                                    countMessage.Add(result + " のプロジェクトが " + section.SectionName + " にアサインされています");
                                 }
                             }
                         }
@@ -597,11 +600,13 @@ namespace CostAllocationApp.Controllers.Api
                                 int result = sectionBLL.GetSectionCountWithEmployeeAsignment(tempCategoryId);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + section.CategoryName);
+                                    //countMessage.Add(result + " projects assigned for " + section.CategoryName);
+                                    countMessage.Add(result + " のプロジェクトが " + section.CategoryName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + section.CategoryName);
+                                    //countMessage.Add(result + " project assigned for " + section.CategoryName);
+                                    countMessage.Add(result + " のプロジェクトが " + section.CategoryName + " にアサインされています");
                                 }
                             }
                         }
@@ -644,11 +649,13 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + department.DepartmentName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + department.DepartmentName);
+                                    //countMessage.Add(result + " projects assigned for " + department.DepartmentName);
+                                    countMessage.Add(result + " のプロジェクトが " + department.DepartmentName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + department.DepartmentName);
+                                    //countMessage.Add(result + " project assigned for " + department.DepartmentName);
+                                    countMessage.Add(result + " のプロジェクトが " + department.DepartmentName + " にアサインされています");
                                 }
                             }
                         }
@@ -692,11 +699,13 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + company.CompanyName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + company.CompanyName);
+                                    //countMessage.Add(result + " projects assigned for " + company.CompanyName);
+                                    countMessage.Add(result + " のプロジェクトが " + company.CompanyName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + company.CompanyName);
+                                    //countMessage.Add(result + " project assigned for " + company.CompanyName);
+                                    countMessage.Add(result + " のプロジェクトが " + company.CompanyName + " にアサインされています");
                                 }
                             }
                         }
@@ -740,11 +749,13 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + inCharge.InChargeName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + inCharge.InChargeName);
+                                    //countMessage.Add(result + " projects assigned for " + inCharge.InChargeName);
+                                    countMessage.Add(result + " のプロジェクトが " + inCharge.InChargeName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + inCharge.InChargeName);
+                                    //countMessage.Add(result + " project assigned for " + inCharge.InChargeName);
+                                    countMessage.Add(result + " のプロジェクトが " + inCharge.InChargeName + " にアサインされています");
                                 }
                             }
                         }
@@ -788,12 +799,13 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + role.RoleName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + role.RoleName);
+                                    //countMessage.Add(result + " projects assigned for " + role.RoleName);
+                                    countMessage.Add(result + " のプロジェクトが " + role.RoleName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + role.RoleName);
-
+                                    //countMessage.Add(result + " project assigned for " + role.RoleName);
+                                    countMessage.Add(result + " のプロジェクトが " + role.RoleName + " にアサインされています");
                                 }
                             }
                         }
@@ -837,11 +849,13 @@ namespace CostAllocationApp.Controllers.Api
                                 countMessage.Add(result + " rows counted for " + explanation.ExplanationName);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + explanation.ExplanationName);
+                                    //countMessage.Add(result + " projects assigned for " + explanation.ExplanationName);
+                                    countMessage.Add(result + " のプロジェクトが " + explanation.ExplanationName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + explanation.ExplanationName);
+                                    //countMessage.Add(result + " project assigned for " + explanation.ExplanationName);
+                                    countMessage.Add(result + " のプロジェクトが " + explanation.ExplanationName + " にアサインされています");
                                 }
                             }
                         }
@@ -885,11 +899,13 @@ namespace CostAllocationApp.Controllers.Api
                                 //countMessage.Add(result + " rows counted for " + salary.SalaryGrade);
                                 if (result > 1)
                                 {
-                                    countMessage.Add(result + " projects assigned for " + salary.SalaryGrade);
+                                    //countMessage.Add(result + " projects assigned for " + salary.SalaryGrade);
+                                    countMessage.Add(result + " のプロジェクトが " + salary.SalaryGrade + " にアサインされています");
                                 }
                                 else
                                 {
-                                    countMessage.Add(result + " project assigned for " + salary.SalaryGrade);
+                                    //countMessage.Add(result + " project assigned for " + salary.SalaryGrade);
+                                    countMessage.Add(result + " のプロジェクトが " + salary.SalaryGrade + " にアサインされています");
                                 }
                             }
                         }
@@ -994,7 +1010,7 @@ namespace CostAllocationApp.Controllers.Api
 
                     if (result > 0)
                     {
-                        message = "Data Saved Successfully!!!";
+                        message = "データが保存されました!";
                     }
                 }
             }
@@ -1852,7 +1868,6 @@ namespace CostAllocationApp.Controllers.Api
 
                     if (resultTimeStamp > 0)
                     {
-                        //message = "Data Saved Successfully!!!";
                         message = resultTimeStamp.ToString();
                     }
                 }
@@ -3449,11 +3464,11 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         if (isDeleted)
                         {
-                            operationType = "Deleted";
+                            operationType = "削除(Deleted)";
                         }
                         else
                         {
-                            operationType = "Inserted";
+                            operationType = "追加 (Inserted)";
                         }
                     }
 
@@ -3489,7 +3504,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == unitPriceOrg ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(unitPriceOrg).ToString("N0"),
                             Remarks = remarks == remarksOrg ? "" : "(" + remarks + ") " + remarksOrg,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "Updated",
+                            OperationType = "更新 (Updated)",
                             OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
                             NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
                             DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
@@ -3626,7 +3641,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "Add Employee",
+                            OperationType = "追加 (Add Employee)",
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
@@ -3657,7 +3672,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "Delete Employee",
+                            OperationType = "削除 (Delete Employee)",
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
@@ -3944,7 +3959,7 @@ namespace CostAllocationApp.Controllers.Api
                             GradePoints = gradePoints_Cells,
                             UnitPrice = unitPrice_Cells,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "Cell Update",
+                            OperationType = "更新 (Cell Update)",
                             IsUpdate = isUpdate,
                             OctPoints = oct_Cell,
                             NovPoints = nov_Cell,

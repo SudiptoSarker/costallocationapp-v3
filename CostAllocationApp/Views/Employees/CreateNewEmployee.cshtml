@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Create New Employee";
+    ViewBag.Title = "新規要員追加 (Create New Employee)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -20,7 +20,7 @@
                                 <tr></tr>
                                 <tr>
                                     <th>要員 氏名 (Name)</th>
-                                    <th>Actions</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,7 +53,7 @@
                 <th colspan="6">氏名リスト (Employeee List)</th>
             </tr>
             <tr>
-                <th class="employee_list_theader">ID</th>
+                <th class="employee_list_theader">ＩＤ</th>
                 <th class="employee_list_theader">氏名 (Name)</th>
             </tr>
             <tr>
@@ -92,8 +92,8 @@
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">Update</a>
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">キャンセル</a>
+                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">更新</a>
                         </div>
                     </div>
 
@@ -110,15 +110,15 @@
             <div class="modal-body">
                 <div class="form-header">
                     <h3>Inactive 要員(Employee)</h3>
-                    <p>Are you sure want to inactive?</p>
+                    <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">Delete</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">削除</a>
                         </div>
                     </div>
                 </div>

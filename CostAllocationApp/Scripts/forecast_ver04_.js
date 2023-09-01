@@ -1005,7 +1005,7 @@ function onSave(e) {
 
     setTimeout(() => {
         LoadForecastData();
-        ToastMessageSuccess("Data Saved Successfully");
+        ToastMessageSuccess("データが保存されました");
     }
         , 5000);
     //LoadForecastData();
@@ -1088,7 +1088,7 @@ function ForecastDataSave() {
         });
     });
 
-    //ToastMessageSuccess("Data Saved Successfully");
+    //ToastMessageSuccess("データが保存されました");
 }
 
 var expanded = false;

@@ -211,7 +211,7 @@ $(document).ready(function () {
         var approvedRows = $("#approved_selected_rows").val();
         
         if ((approvedCells != null && approvedCells != undefined && approvedCells != "") || (approvedRows != null && approvedRows != undefined && approvedRows != "")){
-            var approvePromptValue = prompt("Approve History Save As", '');
+            var approvePromptValue = prompt("承認履歴ファイル保存名", '');
             //$("#timeStamp_ForUpdateData").val('');
             if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
                 return false;
@@ -246,7 +246,7 @@ $(document).ready(function () {
                 });  
             }       
         }else{
-            alert("There is no data to approve!");
+            alert("承認するデータがありません");
         }        
     });
 
@@ -266,7 +266,7 @@ $(document).ready(function () {
         }
 
         if(!isRowApprovalRequest && !isCellApprovalRequest) {
-            alert("There is no data to approve!");
+            alert("承認するデータがありません");
         }else{
             if(isRowApprovalRequest){
 
@@ -334,7 +334,7 @@ $(document).ready(function () {
     //     var isDeleted = $("#hidIsRowDeleted").val();
     //     if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
     //         $("#hidSelectedRow_AssignementId").val('');
-    //         alert("There is no data to approve!");
+    //         alert("承認するデータがありません");
     //     }else{
     //         // LoaderShow();
     //         //return false;
@@ -480,7 +480,7 @@ $(document).ready(function () {
         // var isDeleted = $("#hidIsRowDeleted").val();
         // if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
         //     $("#hidSelectedRow_AssignementId").val('');
-        //     alert("There is no data to approve!");
+        //     alert("承認するデータがありません");
         // }else{
         //     // LoaderShow();
         //     //return false;
@@ -3200,7 +3200,7 @@ function InsertEmployee() {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
                     jss.setValueFromCoords(34, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('Data Save Successfully!');
+                    ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }

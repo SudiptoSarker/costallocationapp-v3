@@ -11,15 +11,15 @@ $(document).ready(function () {
     function CostManagement() {
         var data = google.visualization.arrayToDataTable([
             ['Task', 'Number of Modules'],
-            ['Section', 5],
-            ['Department', 10],
-            ['Companies', 20],
+            ['区分', 5],
+            ['部署', 10],
+            ['会社', 20],
             ['Fiscal year calculated', 6],
-            ['Grades', 18]
+            ['グレード', 18]
         ]);
 
         // Optional; add a title and set the width and height of the chart
-        var options = { 'title': 'Cost Management System', 'width': 550, 'height': 400 };
+        var options = { 'title': '経費管理システム', 'width': 550, 'height': 400 };
 
         // Display the chart inside the <div> element with id="piechart"
         var chart = new google.visualization.PieChart(document.getElementById('cost_management'));
@@ -29,15 +29,15 @@ $(document).ready(function () {
     function Employees() {
         var data = google.visualization.arrayToDataTable([
             ['Task', 'Employees'],
-            ['Employess', 100],
+            ['要員', 100],
             ['Employee assign to Section', 85],
             ['Employee assign to Department', 90],
             ['Employees with company', 95],
-            ['Employees Grade', 50]
+            ['要員のグレード', 50]
         ]);
 
         // Optional; add a title and set the width and height of the chart
-        var options = { 'title': 'Employees', 'width': 550, 'height': 400 };
+        var options = { 'title': '要員', 'width': 550, 'height': 400 };
 
         // Display the chart inside the <div> element with id="piechart"
         var chart = new google.visualization.PieChart(document.getElementById('employees'));
@@ -48,11 +48,11 @@ $(document).ready(function () {
             ['Task', 'Grades'],
             ['Number Of Grades', 55],
             ['Number of MW companies', 10],
-            ['Other Companies', 45]
+            ['他社', 45]
         ]);
 
         // Optional; add a title and set the width and height of the chart
-        var options = { 'title': 'Grade System', 'width': 550, 'height': 400 };
+        var options = { 'title': 'グレードシステム', 'width': 550, 'height': 400 };
 
         // Display the chart inside the <div> element with id="piechart"
         var chart = new google.visualization.PieChart(document.getElementById('grade_system'));

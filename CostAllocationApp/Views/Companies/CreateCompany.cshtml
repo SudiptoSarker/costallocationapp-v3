@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Company Registration";
+    ViewBag.Title = "会社登録 (Company Registration)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -20,7 +20,7 @@
                                     <tr></tr>
                                     <tr>
                                         <th>会社名 (Company Name)</th>
-                                        <th>Actions</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,7 +57,7 @@
                                     <th colspan="6">会社名 リスト(Company List)</th>
                                 </tr>
                                 <tr>
-                                    <th class="company_list_theader">Check</th>
+                                    <th class="company_list_theader">複数選択</th>
                                     <th class="company_list_theader">会社名 (Company Name)</th>
                                 </tr>
                             </thead>
@@ -66,7 +66,7 @@
                         @if (Convert.ToBoolean(ViewBag.linkFlag))
                         {
                             <label id="company_delete_btn">
-                                <a id="company_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_company_modal" onClick="onCompanyInactiveClick()">Delete</a>
+                                <a id="company_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_company_modal" onClick="onCompanyInactiveClick()">削除</a>
                             </label>
                         }
 
@@ -86,17 +86,17 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Company</h3>
+                    <h3>会社削除 (Delete Company)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
-                    <p>Are you sure want to delete?</p>
+                    <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">Delete</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">削除</a>
                         </div>
                     </div>
                 </div>

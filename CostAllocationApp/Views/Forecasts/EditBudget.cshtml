@@ -21,7 +21,7 @@
                         <center>
                             <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader image">
                             <br>
-                            <strong>Please wait a moment...</strong>
+                            <strong>しばらくお待ちください...</strong>
                             <br>
                             <br>
                         </center>
@@ -43,10 +43,10 @@
             </div>
             <div class="col-1"></div>
             <div class="col-2">
-                <button type="button" class="btn btn-dark" id="cancele_all_changed_budget" style="display:none;line-height:1;background-color: gray;margin-left: 100px;">Cancel</button>
+                <button type="button" class="btn btn-dark" id="cancele_all_changed_budget" style="display:none;line-height:1;background-color: gray;margin-left: 29px;">キャンセル</button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-dark" id="save_bedget" style="display:none;line-height:1;margin-left: 33px;">保存 (Save)</button>
+                <button type="button" class="btn btn-dark" id="save_bedget" style="display:none;line-height:1;margin-left: 19px;">保存 (Save)</button>
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-dark" id="budget_finalize" style="display:none;line-height:1;margin-left: 1px;">決定 (Finalize)</button>
@@ -67,7 +67,7 @@
                 <div id="jspreadsheet"></div>
             </div>
             <div class="col-12">
-                <button type="button" class="btn btn-secondary" id="export_budget" style="line-height: 1;background-color: dimgray; display: none !important;">Export Budget(XLSX)</button> 
+                <button type="button" class="btn btn-secondary" id="export_budget" style="line-height: 1;background-color: dimgray; display: none !important;">予算データのエクスポート</button> 
             </div>
         </div>                   
     }
@@ -84,8 +84,8 @@
 
 <div class="search_p">
     <ul id="search_p_asc_desc">
-        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">Ascending</span></li>
-        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">Descending</span></li>
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">昇順</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">降順</span></li>
     </ul>
     @*<input type="text" id="search_p_text_box" />
         <ul id="search_p_search"></ul>*@
@@ -97,8 +97,8 @@
 
 <div class="search_section">
     <ul id="search_section_asc_desc">
-        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">Ascending</span></li>
-        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">Descending</span></li>
+        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">昇順</span></li>
+        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
@@ -107,8 +107,8 @@
 
 <div class="search_department">
     <ul id="search_department_asc_desc">
-        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">Ascending</span></li>
-        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">Descending</span></li>
+        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">昇順</span></li>
+        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
@@ -116,8 +116,8 @@
 </div>
 <div class="search_incharge">
     <ul id="search_incharge_asc_desc">
-        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">Ascending</span></li>
-        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">Descending</span></li>
+        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">昇順</span></li>
+        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
@@ -125,8 +125,8 @@
 </div>
 <div class="search_role">
     <ul id="search_role_asc_desc">
-        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">Ascending</span></li>
-        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">Descending</span></li>
+        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">昇順</span></li>
+        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_role">Close</button>
@@ -135,8 +135,8 @@
 
 <div class="search_explanation">
     <ul id="search_explanation_asc_desc">
-        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">Ascending</span></li>
-        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">Descending</span></li>
+        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">昇順</span></li>
+        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_explanation">Close</button>
@@ -144,8 +144,8 @@
 </div>
 <div class="search_company">
     <ul id="search_company_asc_desc">
-        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">Ascending</span></li>
-        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">Descending</span></li>
+        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">昇順</span></li>
+        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
@@ -153,8 +153,8 @@
 </div>
 <div class="search_grade">
     <ul id="search_grade_asc_desc">
-        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">Ascending</span></li>
-        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">Descending</span></li>
+        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">昇順</span></li>
+        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
@@ -162,8 +162,8 @@
 </div>
 <div class="search_unit_price">
     <ul id="search_unit_price_asc_desc">
-        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">Ascending</span></li>
-        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">Descending</span></li>
+        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">昇順</span></li>
+        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>

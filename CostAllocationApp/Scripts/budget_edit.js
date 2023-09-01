@@ -1019,7 +1019,7 @@ function ShowBedgetResults(year) {
     explanationId = "";
 
     if (year == '' || year == undefined) {
-        alert('select budget year');
+        alert('s予算年度を選択');
         return false;
     }
 
@@ -1173,7 +1173,7 @@ function ShowBedgetResults(year) {
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
                 { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-                { title: "Remarks", type: "text", name: "Remarks", width: 60 },
+                { title: "注記(Remarks)", type: "text", name: "Remarks", width: 60 },
                 { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
                 { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
                 { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
@@ -3838,7 +3838,7 @@ function InsertEmployee() {
 
                     jss.setValueFromCoords(35, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('Data Save Successfully!');
+                    ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }                
@@ -4129,7 +4129,7 @@ function GetAllBudgetYear() {
         async: false,
         dataType: 'json',
         success: function (data) {
-            $('#budget_years').append(`<option value=''>Select Budget Year</option>`);
+            $('#budget_years').append(`<option value=''>予算年度を選択</option>`);
             $.each(data, function (index, element) {
                 $('#budget_years').append(`<option value='${element.Year}_1'>${element.Year}年初期</option>`);
                 if(element.SecondHalfBudget){
@@ -4160,7 +4160,7 @@ function GetAllFinalizeYear() {
                 $("#duplciateYear").prop('disabled', true);
                 $('#select_duplicate_budget_type').empty();  
 
-                $('#duplicate_from').append(`<option value=''>Select Budget Year</option>`);
+                $('#duplicate_from').append(`<option value=''>予算年度を選択</option>`);
                 $.each(data, function (index, element) {
                     $('#duplicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);                
                 });

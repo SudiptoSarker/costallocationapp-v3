@@ -35,7 +35,7 @@ namespace CostAllocationApp.Controllers.Api
                 int result = explanationsBLL.CreateExplanation(explanation);
                 if (result > 0)
                 {
-                    return Ok("Data Saved Successfully!");
+                    return Ok("データが保存されました!");
                 }
                 else
                 {

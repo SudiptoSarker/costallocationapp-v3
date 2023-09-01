@@ -338,7 +338,8 @@ $(document).ready(function () {
                         }
 
                         if (singleRowDuplicationCount == 9) {
-                            alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            //alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            alert(tempArray[i][1]+" が重複しています");
                             _duplicateFlag = true;
                             break;
                         }
@@ -1853,7 +1854,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                             octSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);                                
                         }
                         else {
@@ -1908,7 +1909,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                             novSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -1963,7 +1964,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                             decSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2016,7 +2017,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                             janSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2071,7 +2072,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                             febSum = 1;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2125,7 +2126,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                             marSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2179,7 +2180,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                             aprSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2232,7 +2233,7 @@ function ShowForecastResults(year) {
                         element[0].cells[22].innerText= mayCostSum;
 
                         if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2286,7 +2287,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                             junSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2339,7 +2340,7 @@ function ShowForecastResults(year) {
                         element[0].cells[24].innerText= julCostSum;  
 
                         if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2393,7 +2394,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                             augSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -2447,7 +2448,7 @@ function ShowForecastResults(year) {
 
                         if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                             sepSum = 0;
-                            alert('Input not valid');
+                            alert('入力値が不正です');
                             jss.setValueFromCoords(x, y, beforeChangedValue, false);
                         }
                         else {
@@ -3116,7 +3117,7 @@ function ShowForecastResults(year) {
                         deletedExistingRowIds.push(assignementId);                                
                         SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
                     }else{
-                        alert(name +" has not been saved yet. You can not delete this employee!")  
+                        alert(name +" は保存されていないため、削除できません")  
                     }      
                 }
             });
@@ -3875,7 +3876,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
         }
@@ -3907,7 +3908,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
             novSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3934,7 +3935,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
             decSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3960,7 +3961,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
             janSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3986,7 +3987,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
             febSum = 1;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4013,7 +4014,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
             marSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4039,7 +4040,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
             aprSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4064,7 +4065,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4090,7 +4091,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
             junSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4115,7 +4116,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4141,7 +4142,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
             augSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4155,7 +4156,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             currentValue += ',new-x_' + x;
             jss.setValueFromCoords(39, y, currentValue, false);
         }
-
     }
     if (x == 22) {
         var sepSum = 0;
@@ -4167,7 +4167,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
             sepSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -4280,7 +4280,7 @@ function InsertEmployee() {
 
                     jss.setValueFromCoords(37, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('Data Save Successfully!');
+                    ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }                
@@ -4372,7 +4372,7 @@ function UpdateForecast() {
     var insertMessage = "";
     var deleteMessage = "";
 
-    var promptValue = prompt("History Save As", '');
+    var promptValue = prompt("履歴ファイル保存名", '');
     $("#timeStamp_ForUpdateData").val('');
     if (promptValue == null || promptValue == undefined || promptValue == "") {
         return false;
@@ -4509,7 +4509,7 @@ function UpdateForecast() {
     }
     else{   
         //toastr.clear();
-        ToastMessageSuccess_Center('Operation Success.');
+        ToastMessageSuccess_Center('保存されました.');
     }    
 }
 

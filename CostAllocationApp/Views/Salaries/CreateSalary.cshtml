@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Salary Unit Price Registration";
+    ViewBag.Title = "給与登録 (Salary Unit Price Registration)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -8,16 +8,16 @@
 }
     <div class="content container-fluid">
         <!--Salaries List-->
-        <h4 style="text-align:left;">List</h4>
+        <h4 style="text-align:left;">リスト (List)</h4>
         <div class="row">
             <div class="col-md-12">
                 <div class="">
                     <table class="" id="salary_table">
                         <thead>
                             <tr>
-                                <th>Check</th>
-                                <th>Salary Unit Price</th>
-                                <th>Grade</th>
+                                <th>複数選択</th>
+                                <th>給与登録</th>
+                                <th>グレード (Grade)</th>
                             </tr>
                         </thead>
                         <tbody id="salary_list_tbody"></tbody>
@@ -25,7 +25,7 @@
                     @if (Convert.ToBoolean(ViewBag.linkFlag))
                     {
                         <label id="salary_delete_btn">
-                            <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();" data-target="#inactive_salary_modal">Delete</a>
+                            <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();" data-target="#inactive_salary_modal">削除</a>
                         </label>
                     }
 
@@ -44,12 +44,12 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="lowUnitPrice" style="padding-top: 37px;">Unit Price <span class="text-danger">*</span></label>
+                                        <label for="lowUnitPrice" style="padding-top: 37px;">給与 (Unit Price) <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="lowUnitPrice">From</label>
+                                        <label for="lowUnitPrice">下限 (From)</label>
                                         <input class="form-control" id="lowUnitPrice" type="text" placeholder="">
 
                                         <div class="salary_error_msg" id="lowPrice">
@@ -60,7 +60,7 @@
                                 <label style="padding-top:40px;">～</label>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label for="highPrice">To</label>
+                                        <label for="highPrice">上限 (To)</label>
                                         <input class="form-control" id="hightUnitPrice" type="text" placeholder="">
                                         <div class="salary_error_msg" id="highPrice">
                                             Please provide a unit price.
@@ -86,8 +86,8 @@
                         </div>
                         <div class="row">
                             <div class="cutom_button_group_salary">
-                                <a href="javascript:void(0);" id="salary_cancel">Cancel</a>
-                                <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">Registration</a>
+                                <a href="javascript:void(0);" id="salary_cancel">キャンセル</a>
+                                <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">登録 (Registration)</a>
                             </div>
                         </div>
                     </form>
@@ -104,17 +104,17 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Salary</h3>
+                    <h3>選択したグレードを削除 (Delete Salary)</h3>
                     <ol class="salary_count" style="text-align:left;"></ol>
-                    <p>Are you sure want to delete?</p>
+                    <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="salary_inactive_confirm_btn">Delete</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="salary_inactive_confirm_btn">削除</a>
                         </div>
                     </div>
                 </div>

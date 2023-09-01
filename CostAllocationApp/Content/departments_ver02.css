@@ -119,7 +119,7 @@ body {
 	Department List Delete Button
 \***************************/ 
 #department_inactive_btn {
-    width: 83%;
+    width: 117%;
     font-size: 10px;
     font-family: Yu Gothic;
     background: indianred;
@@ -128,6 +128,7 @@ body {
     padding: 5px;
     margin: 5px;
     display: inline-block;
+    margin-left: -10px !important;
 }
 #dept_delete_btn {
     padding-left: 382px;

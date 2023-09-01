@@ -42,7 +42,7 @@ namespace CostAllocationApp.Controllers.Api
                     int result = salaryBLL.CreateSalary(salary);
                     if (result > 0)
                     {
-                        return Ok("Data Saved Successfully!");
+                        return Ok("データが保存されました!");
                     }
                     else
                     {

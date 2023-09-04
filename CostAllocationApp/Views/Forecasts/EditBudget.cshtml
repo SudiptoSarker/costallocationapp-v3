@@ -170,6 +170,49 @@
     </div>
 </div>
 
+
+<!-----------------Modal: Add Employee----------------->
+<div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>追加 名前 (Add)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="employee_name">要員 氏名 (Name)</label>
+                        <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)">
+                        <div class="employee_err">
+                            Please provide 要員 氏名 (Name).
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="custom_button_group_employee">
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Add</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <label for="employee_list" style="display:block;width:100%;">名前一覧から選択</label>
+                    <select id="employee_list" style=""></select>
+
+                    <div class="custom_button_group_employee">
+                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
+                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts{    
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/budget_edit.js"></script>

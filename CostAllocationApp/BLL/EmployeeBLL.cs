@@ -26,6 +26,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.GetAllEmployees();
         }
+        public List<Employee> GetEmployeeListForBudgetEdit(int year,int budgetType)
+        {
+            return employeeDAL.GetEmployeeListForBudgetEdit(year, budgetType);
+        }
         //public int RemoveEmployee(int employeeIds)
         //{
         //    return employeeDAL.RemoveEmployee(employeeIds);

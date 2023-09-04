@@ -2406,7 +2406,35 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
+        [HttpGet]
+        [Route("api/utilities/EmployeeListBudgetEditFiltered/{budget_year}")]
+        public IHttpActionResult GetEmployeeListForBudgetEdit(string budget_year)
+        {
+            if (!string.IsNullOrEmpty(budget_year))
+            {
+                var arrBudgetYear = budget_year.Split('_');
+                if (!string.IsNullOrEmpty(arrBudgetYear[0].ToString())) {
+                    List<Employee> _objEmployees = employeeBLL.GetEmployeeListForBudgetEdit(Convert.ToInt32(arrBudgetYear[0]), Convert.ToInt32(arrBudgetYear[1]));
 
+                    if (_objEmployees.Count > 0)
+                    {
+                        return Ok(_objEmployees);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }                        
+        }
         [HttpGet]
         [Route("api/utilities/GetOnlyAdmin/")]
         public IHttpActionResult GetOnlyAdmin()
@@ -2776,7 +2804,124 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(returnedIdList);
         }
 
+        [HttpPost]
+        [Route("api/utilities/ExcelAssignmentBudget/")]
+        //public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
+        public IHttpActionResult CreateAssignment_Excel_Budget(EmployeeBudgetDto forecastHistoryDto)
+        {
+            List<object> returnedIdList = new List<object>();
+            List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
 
+            string tempTimeStampId = "";
+            var session = System.Web.HttpContext.Current.Session;
+            if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
+            {
+                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
+                {
+                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
+                    {
+                        EmployeeBudget employeeAssignment = new EmployeeBudget();                        
+
+                        if (item.EmployeeId == "" || item.EmployeeId == null)
+                        {
+                            continue;
+                        }
+
+                        employeeAssignment.EmployeeId = item.EmployeeId;
+                        employeeAssignment.SectionId = item.SectionId;
+                        employeeAssignment.DepartmentId = item.DepartmentId;
+                        employeeAssignment.InchargeId = item.InchargeId;
+                        employeeAssignment.RoleId = item.RoleId;
+                        employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
+                        employeeAssignment.CompanyId = item.CompanyId;
+                        if (item.CompanyId != null)
+                        {
+                            if (item.CompanyId.Value != 3)
+                            {
+                                employeeAssignment.GradeId = null;
+                            }
+                            else
+                            {
+                                employeeAssignment.GradeId = item.GradeId;
+                            }
+                        }
+                        else
+                        {
+                            employeeAssignment.GradeId = null;
+                        }
+
+                        employeeAssignment.UnitPrice = item.UnitPrice;
+                        employeeAssignment.Year = item.Year.ToString();
+                        employeeAssignment.IsActive = true.ToString();
+                        employeeAssignment.CreatedBy = session["userName"].ToString();
+                        employeeAssignment.CreatedDate = DateTime.Now;
+                        employeeAssignment.Remarks = item.Remarks;                        
+                        employeeAssignment.BCYR = false;
+                        employeeAssignment.BCYRCell = "";
+                        employeeAssignment.EmployeeName = item.EmployeeName;
+
+                        if (!string.IsNullOrEmpty(forecastHistoryDto.YearWithBudgetType))
+                        {
+                            var arrYearWithBudget = forecastHistoryDto.YearWithBudgetType.Split('_');
+                            if (Convert.ToInt32(arrYearWithBudget[1]) == 1)
+                            {
+                                employeeAssignment.FirstHalfBudget = true;
+                                employeeAssignment.SecondHalfBudget = false;
+                            }
+                            else if (Convert.ToInt32(arrYearWithBudget[1]) == 2)
+                            {
+                                employeeAssignment.FirstHalfBudget = false;
+                                employeeAssignment.SecondHalfBudget = true;
+                            }
+                            else
+                            {
+                                employeeAssignment.FirstHalfBudget = false;
+                                employeeAssignment.SecondHalfBudget = false;
+                            }
+                            employeeAssignment.FinalizedBudget = false;
+                        }                        
+                        
+                        int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
+                        //checked:done
+                        
+                        EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();                        
+                        employeeAssignmentDTO = new EmployeeAssignmentDTO();                                                                    
+                       
+
+                        //checking:start
+                        if (result == 1)
+                        {
+                            int employeeAssignmentLastId = employeeAssignmentBLL.GetBudgetLastId();
+                            returnedIdList.Add(new
+                            {
+                                assignmentId = item.AssignmentId,
+                                returnedId = employeeAssignmentLastId
+                            });
+                            List<Forecast> forecasts = new List<Forecast>();
+
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                            foreach (var forecastItem in forecasts)
+                            {
+                                int resultSave = forecastBLL.CreateForecastBudget(forecastItem);
+                            }
+                        }                        
+                    }                    
+                }
+            }
+            return Ok(returnedIdList);
+        }
+        
         [HttpDelete]
         [Route("api/utilities/ExcelDeleteAssignment/")]
         //public IHttpActionResult DeleteAssignment_Excel(int[] ids,string tempTimeStampId,string historyName,int year)
@@ -7313,6 +7458,21 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return BadRequest("sub-category Id is empty!!!");
             }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/DeleteBudgetAssignment/")]
+        public IHttpActionResult DeleteBudgetAssignment(string assignementId)
+        {
+            if (!string.IsNullOrEmpty(assignementId))
+            {
+                employeeAssignmentBLL.RemoveBudgetAssignment(assignementId);
+                return Ok("1");
+            }
+            else
+            {
+                return Ok("0");
+            }        
         }
     }
 }

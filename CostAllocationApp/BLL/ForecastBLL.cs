@@ -590,5 +590,9 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.InsertOriginalForecast(forecast); 
         }
+        public int CreateForecastBudget(Forecast forecast)
+        {
+            return forecastDAL.CreateForecastBudget(forecast);
+        }
     }
 }

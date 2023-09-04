@@ -7379,6 +7379,7 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(isValidYearForImport);
         }
+
         [HttpGet]
         [Route("api/utilities/GetTotalCalculationForManmonthAndCost/")]
         public IHttpActionResult GetTotalCalculationForManmonthAndCost(int year)

@@ -1180,6 +1180,24 @@ function ShowBedgetResults(year) {
             });
         }
     });
+    var _retriveTotal = [];        
+    //get total man month
+    $.ajax({
+        url: `/api/utilities/GetTotalCalculationForManmonthAndCost`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "year=" + year,
+        success: function (data) {
+            _retriveTotal = data;
+            // $.each(data, (index, value) => {
+            //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
+            // });
+        }
+    });
+
+    
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
@@ -1191,13 +1209,235 @@ function ShowBedgetResults(year) {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
+            allowComments:true,
             tableOverflow: true,
             freezeColumns: 3,
             defaultColWidth: 50,
-            // tableWidth: w - 500 + "px",
-            // tableHeight: (h - 300) + "px",
             tableWidth: w-280+ "px",
-            tableHeight: (h-150) + "px",
+            tableHeight: (h-150) + "px",           
+            minDimensions: [6, 10],
+            columnSorting: true,
+            oninsertrow: newRowInserted,            
+
+            nestedHeaders:[
+                [
+                    {
+                        title: '',
+                        colspan: '10',
+                    },
+                    //month wise total points
+                    {
+                        title: _retriveTotal.OctTotalMM,                    
+                        type: "decimal",
+                        name: "octSumFormula",
+                        mask: '#.##,0',
+                        decimal: '.'                                       
+                    },
+                    {
+                        title: _retriveTotal.NovTotalMM,                    
+                        type: "decimal",
+                        name: "=SUM(M3:B3)",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.DecTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JanTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.FebTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MarTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AprTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MayTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JunTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JulTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AugTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.SepTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.TotalManMonth,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    //month wise total cost
+                    {
+                        title: _retriveTotal.OctTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.NovTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.DecTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JanTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.FebTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MarTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AprTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MayTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JunTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JulTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AugTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.SepTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+
+                    {
+                        title: _retriveTotal.TotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                ],
+                [
+                    {
+                        title: '',
+                        colspan: '9',
+                    },
+                    {
+                        title: '',
+                        colspan: '1',
+                    },
+                    {
+                        title: yearHeaderTitleForPoints,
+                        colspan: '12',
+                    },
+                    
+                    {
+                        title: '',
+                        colspan: '1',
+                    },{
+                        title: yearHeaderTitleForCosts,
+                        colspan: '12',
+                    },
+                    {
+                        title: '',
+                        colspan: '1',
+                    },
+                ],
+            ],
             
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
@@ -1908,8 +2148,7 @@ function ShowBedgetResults(year) {
                     }
                 }
             },
-            oninsertrow: newRowInserted,
-            //ondeleterow: deleted,
+
             contextMenu: function (obj, x, y, e) {
                 var items = [];
                 var retrivedDataForCheck = retrivedObject(jss.getRowData(y));

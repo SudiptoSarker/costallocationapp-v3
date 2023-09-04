@@ -218,6 +218,7 @@ $(document).ready(function () {
     $('#employee_list').select2();
 
     $('#update_forecast_history').on('click', function () {
+        //debugger;
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -244,9 +245,59 @@ $(document).ready(function () {
         }
 
         if (jssUpdatedData.length > 0) {
-            for (var i = 0; i < jssUpdatedData.length; i++) {
-                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
-                    storeMessage.push('invalid input for ' + jssUpdatedData[i].employeeName);
+            
+            var tempUpdateData = [];
+            const _distinctAssignmentIds = [...new Set(jssUpdatedData.map((item) => item.assignmentId))];
+            var _allData = jss.getData();
+            for (var i = 0; i < _distinctAssignmentIds.length; i++) {
+                 for (var j = 0; j < _allData.length; j++) {
+                     if (parseInt(_distinctAssignmentIds[i]) == parseInt(_allData[j][0])) {
+                         tempUpdateData.push({
+                             assignmentId: _allData[j][0],
+                             employeeName: _allData[j][1],
+                             remarks: _allData[j][2],
+                             sectionId: _allData[j][3],
+                             departmentId: _allData[j][4],
+                             inchargeId: _allData[j][5],
+                             roleId: _allData[j][6],
+                             explanationId: _allData[j][7],
+                             companyId: _allData[j][8],
+                             gradeId: _allData[j][9],
+                             unitPrice: _allData[j][10],
+                             octPoint: _allData[j][11],
+                             novPoint: _allData[j][12],
+                             decPoint: _allData[j][13],
+                             janPoint: _allData[j][14],
+                             febPoint: _allData[j][15],
+                             marPoint: _allData[j][16],
+                             aprPoint: _allData[j][17],
+                             mayPoint: _allData[j][18],
+                             junPoint: _allData[j][19],
+                             julPoint: _allData[j][20],
+                             augPoint: _allData[j][21],
+                             sepPoint: _allData[j][22],
+                             bCYRApproved: _allData[j][41],
+                             bCYRCell: _allData[j][39],
+                             bCYRCellApproved: _allData[j][42],
+                             bCYRCellPending: _allData[j][44],
+                             bcyr: _allData[j][38],
+                             employeeId: _allData[j][37],
+                             isActive: _allData[j][40],
+                             isApproved: _allData[j][43],
+                             isDeletePending: _allData[j][46],
+                             isRowPending: _allData[j][45],
+                             rowType: _allData[j][47],
+                             year: $('#assignment_year_list').val(),
+                         });
+                     }
+                 }
+            }
+
+            jssUpdatedData = tempUpdateData;
+
+            for (var k = 0; k < jssUpdatedData.length; k++) {
+                if (jssUpdatedData[k].sectionId == '' || jssUpdatedData[k].departmentId == '' || jssUpdatedData[k].companyId == '' || (jssUpdatedData[k].unitPrice == 0 || isNaN(jssUpdatedData[k].unitPrice))) {
+                    storeMessage.push('invalid input for ' + jssUpdatedData[k].employeeName);
                 }
             }
         }
@@ -1583,13 +1634,17 @@ function ShowForecastResults(year) {
             }
             else {
                 console.log("changed");
-
+                //debugger;
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                 }
                 else {
-                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
+                    var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                    console.log(jssUpdatedData);
+                    if (retrivedData.companyId != 3) {
+                        retrivedData.gradeId = '';
+                    }
                     
                     var isUnapprovedDeletedRow = retrivedData.isDeletePending;                                                        
                     
@@ -1740,8 +1795,9 @@ function ShowForecastResults(year) {
                             }
                         }
                     }
-
+                    // for company
                     if (x == 8) {
+                        debugger;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1754,18 +1810,20 @@ function ShowForecastResults(year) {
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
                             $(jss.getCell("K" + rowNumber)).removeClass('readonly');
-                            jss.setValueFromCoords(10, parseInt(y), 0, false);
+                            jss.setValueFromCoords(10, parseInt(y), 0, true);
+                            
                         }
                         else {
                             $(jss.getCell("J" + rowNumber)).removeClass('readonly');
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
-                            jss.setValueFromCoords(10, parseInt(y), 0, false);
                             $(jss.getCell("K" + rowNumber)).addClass('readonly');
+                            jss.setValueFromCoords(10, parseInt(y), 0, true);
                         }
 
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
+                            console.log('clouser');
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
@@ -1782,34 +1840,36 @@ function ShowForecastResults(year) {
                             }
                         }
                     }
-
+                    // for grade
                     if (x == 9) {
+                        debugger;
+                        var rowNumber = parseInt(y) + 1;
+                        var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
-                        }
-                        else {
 
-                            var rowNumber = parseInt(y) + 1;
-                            var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
-                            console.log(element);
+                        var cellValue = jss.getValueFromCoords(8, y);
+                        if (parseInt(cellValue)==3) {
                             $.ajax({
-                                url: '/api/Salaries?salaryGrade=' + value,
+                                url: '/api/Salaries?salaryGradeId=' + value,
                                 contentType: 'application/json',
                                 type: 'GET',
                                 async: false,
                                 dataType: 'json',
                                 success: function (salary) {
                                     $(jss.getCell("K" + rowNumber)).removeClass('readonly');
-                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, false);
-                                    $(jss.getCell("K" + rowNumber)).addClass('readonly');
-                                    retrivedData.unitPrice = salary.SalaryLowPoint;
+                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, true);
+                                    //retrivedData.unitPrice = salary.SalaryLowPoint;
                                 }
                             });
+                        }
 
-                            updateArray(jssUpdatedData, retrivedData);
+                        if (dataCheck.length == 0) {
+                           jssUpdatedData.push(retrivedData);
+                        }
+                        else {
+                           updateArray(jssUpdatedData, retrivedData);
                         }
                        
 
@@ -1825,8 +1885,9 @@ function ShowForecastResults(year) {
                             }
                         }
                     }
-
+                    // for unit price
                     if (x == 10) {
+                        debugger;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }

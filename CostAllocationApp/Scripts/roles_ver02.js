@@ -57,7 +57,7 @@ $(document).ready(function () {
 
         let id = GetCheckedIds("role_list_tbody");
         if (id == "") {
-            alert("Please check first to delete.");
+            alert("ファイルが削除されたことを確認してください");
             return false;
         }
     });

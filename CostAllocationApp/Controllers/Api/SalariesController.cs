@@ -34,7 +34,7 @@ namespace CostAllocationApp.Controllers.Api
                 // checking existing salary
                 if (salaryBLL.CheckGrade(salary))
                 {
-                    return BadRequest("Data Already Exists!!!");
+                    return BadRequest("同一データが登録済みです!!!");
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (result == ids.Length)
                 {
-                    return Ok("Data Removed Successfully!");
+                    return Ok("正常に削除がされました!");
                 }
                 else
                 {

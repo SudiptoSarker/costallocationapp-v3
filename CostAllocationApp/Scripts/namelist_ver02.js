@@ -141,7 +141,7 @@
                     let counter = 1;
                     let nameWithCodeAndRemarks = "";                    
                 } else {
-                    $('#employee_list_search_results').append("<tr><td colspan='8' style='text-align:center;font-size:20px;'>No Data found!</td></tr>");
+                    $('#employee_list_search_results').append("<tr><td colspan='8' style='text-align:center;font-size:20px;'>追加、修正していないデータがありません!</td></tr>");
 
                 }
                 LoaderHide();
@@ -233,7 +233,7 @@ function loadSingleAssignmentData(id) {
             $.getJSON(`/api/departments`)
                 .done(function(data) {
                     $('#department_edit').empty();
-                    $('#department_edit').append(`<option value=''>Select Department</option>`);
+                    $('#department_edit').append(`<option value=''>部署を選択</option>`);
                     $.each(data, function(key, item) {
                         if (item.Id == assignmentData.DepartmentId) {
                             $('#department_edit').append(`<option value='${item.Id}' selected>${item.DepartmentName}</option>`);
@@ -736,7 +736,7 @@ function changeVal(rowId, element) {
         dataType: 'json',
         success: function(data) {
             $('#department_row_' + rowId).empty();
-            $('#department_row_' + rowId).append(`<option value=''>Select Department</option>`);
+            $('#department_row_' + rowId).append(`<option value=''>部署を選択</option>`);
             $.each(data, function(key, item) {
                 $('#department_row_' + rowId).append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             });
@@ -820,7 +820,7 @@ function changeVal(rowId, element) {
         dataType: 'json',
         success: function(data) {
             $('#department_row_' + rowId).empty();
-            $('#department_row_' + rowId).append(`<option value=''>Select Department</option>`);
+            $('#department_row_' + rowId).append(`<option value=''>部署を選択</option>`);
             $.each(data, function(key, item) {
                 $('#department_row_' + rowId).append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             });

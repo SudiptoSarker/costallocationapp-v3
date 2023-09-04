@@ -41,7 +41,7 @@ $(document).ready(function () {
     $('#explanations_inactive_btn').on('click', function (event) {
         let id = GetCheckedIds("explanations_list_tbody");        
         if (id == "") {
-            alert("Please check first to delete.");
+            alert("ファイルが削除されたことを確認してください");
             return false;
         }
     });

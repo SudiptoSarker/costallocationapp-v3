@@ -58,7 +58,7 @@ $(document).ready(function () {
 
         let id = GetCheckedIds("department_list_tbody");        
         if (id == "") {
-            alert("Please check first to delete.");
+            alert("ファイルが削除されたことを確認してください");
             return false;
         }
     });

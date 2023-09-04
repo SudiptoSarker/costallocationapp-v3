@@ -244,7 +244,7 @@
                             </td>
                             <td>
                                 <select id="department_edit" class=" col-12">
-                                    <option value="">Select Department</option>
+                                    <option value="">部署を選択</option>
                                     <option value="" selected>Department-1</option>
                                     <option value="">Department-2</option>
                                     <option value="">Department-3</option>
@@ -347,7 +347,7 @@
                     $.getJSON(`/api/departments`)
                         .done(function (data) {
                             $('#department_edit').empty();
-                            $('#department_edit').append(`<option value=''>Select Department</option>`);
+                            $('#department_edit').append(`<option value=''>部署を選択</option>`);
                             $.each(data, function (key, item) {
                                 if (item.Id == assignmentData.DepartmentId) {
                                     $('#department_edit').append(`<option value='${item.Id}' selected>${item.DepartmentName}</option>`);
@@ -697,7 +697,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#department_row_' + rowId).empty();
-                    $('#department_row_' + rowId).append(`<option value=''>Select Department</option>`);
+                    $('#department_row_' + rowId).append(`<option value=''>部署を選択</option>`);
                     $.each(data, function (key, item) {
                         $('#department_row_' + rowId).append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                     });
@@ -1023,7 +1023,7 @@
                 $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
                     .done(function (data) {
                         $('#department_edit').empty();
-                        $('#department_edit').append(`<option value=''>Select Department</option>`);
+                        $('#department_edit').append(`<option value=''>部署を選択</option>`);
                         $.each(data, function (key, item) {
                             $('#department_edit').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                         });
@@ -1039,7 +1039,7 @@
                 $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
                     .done(function (data) {
                         $('#department_new').empty();
-                        $('#department_new').append(`<option value=''>Select Department</option>`);
+                        $('#department_new').append(`<option value=''>部署を選択</option>`);
                         $.each(data, function (key, item) {
                             $('#department_new').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                         });
@@ -1054,7 +1054,7 @@
                 $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
                     .done(function (data) {
                         $('#department_search').empty();
-                        $('#department_search').append(`<option value=''>Select Department</option>`);
+                        $('#department_search').append(`<option value=''>部署を選択</option>`);
                         $.each(data, function (key, item) {
                             $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                         });

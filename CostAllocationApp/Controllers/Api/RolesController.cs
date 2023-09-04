@@ -31,7 +31,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (roleBLL.CheckRole(role.RoleName))
                 {
-                    return BadRequest("Role Already Exists!!!");
+                    return BadRequest("役割は登録済みです!!!");
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (result == ids.Length)
                 {
-                    return Ok("Data Removed Successfully!");
+                    return Ok("正常に削除がされました!");
                 }
                 else
                 {

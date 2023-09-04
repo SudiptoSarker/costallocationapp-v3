@@ -31,7 +31,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (inChargeBLL.CheckInCharge(inCharge.InChargeName))
                 {
-                    return BadRequest("In-Charge Already Exists!!!");
+                    return BadRequest("担当は登録済みです!!!");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (result == ids.Length)
                 {
-                    return Ok("Data Removed Successfully!");
+                    return Ok("正常に削除がされました!");
                 }
                 else
                 {

@@ -353,7 +353,7 @@ $(document).ready(function () {
         var selected_year_for_finalize_budget = $("#budget_years").val();
 
         if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
-            alert("please select year!");
+            alert("please 年度を選択してください!");
         }
         else{
             $.ajax({
@@ -364,7 +364,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("Operation Success");
+                    alert("保存されました");
                     $("#save_bedget").prop("disabled",true);
                     $("#budget_finalize").prop("disabled",true); 
                 }
@@ -378,7 +378,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -389,7 +389,7 @@ $(document).ready(function () {
     $(document).on('click', '#search_budget ', function () {           
         var assignmentYear = $('#budget_years').val();        
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }     
         
@@ -439,7 +439,7 @@ function ShowBedgetResults(year) {
     explanationId = "";
 
     if (year == '' || year == undefined) {
-        alert('select budget year');
+        alert('予算年度を選択');
         return false;
     }
 
@@ -995,7 +995,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1023,7 +1023,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1049,7 +1049,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1074,7 +1074,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1100,7 +1100,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1126,7 +1126,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1152,7 +1152,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1177,7 +1177,7 @@ function ShowBedgetResults(year) {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1203,7 +1203,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1228,7 +1228,7 @@ function ShowBedgetResults(year) {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1254,7 +1254,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1280,7 +1280,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2240,7 +2240,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
         }
@@ -2269,7 +2269,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
             novSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2296,7 +2296,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
             decSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2322,7 +2322,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
             janSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2348,7 +2348,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
             febSum = 1;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2375,7 +2375,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
             marSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2401,7 +2401,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
             aprSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2426,7 +2426,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2452,7 +2452,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
             junSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2477,7 +2477,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2503,7 +2503,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
             augSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2529,7 +2529,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
             sepSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2600,7 +2600,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -2735,7 +2735,7 @@ function UpdateBudget() {
             $("#jspreadsheet").show();
             //$("#head_total").show();
             LoaderHide();
-            //alert('No data found!');
+            //alert('追加、修正していないデータがありません!');
             updateMessage = ""
         }
 
@@ -2818,7 +2818,7 @@ function UpdateBudget() {
     if (updateMessage == "" && insertMessage == "") {
         $("#header_show").html("");
         $("#update_forecast").modal("show");
-        $("#save_modal_header").html("There is nothing to save!");
+        $("#save_modal_header").html("変更されていないので、保存できません");
         $("#back_button_show").css("display", "none");
         $("#save_btn_modal").css("display", "none");
 
@@ -2830,7 +2830,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (updateMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -2838,7 +2838,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -2846,7 +2846,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
 }
 
@@ -2918,7 +2918,7 @@ function GetAllBudgetYear() {
         async: false,
         dataType: 'json',
         success: function (data) {
-            $('#budget_years').append(`<option value=''>Select Budget Year</option>`);
+            $('#budget_years').append(`<option value=''>予算年度を選択</option>`);
             $.each(data, function (index, element) {
                 $('#budget_years').append(`<option value='${element.Year}_1'>${element.Year}年初期</option>`);
                 if(element.SecondHalfBudget){
@@ -2950,7 +2950,7 @@ function GetAllFinalizeYear() {
                 $("#duplciateYear").prop('disabled', true);
                 $('#select_duplicate_budget_type').empty();  
 
-                $('#duplicate_from').append(`<option value=''>Select Budget Year</option>`);
+                $('#duplicate_from').append(`<option value=''>予算年度を選択</option>`);
                 $.each(data, function (index, element) {
                     $('#duplicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);                
                 });
@@ -3100,7 +3100,7 @@ function DuplicateBudget(){
                 else{
                     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully replicated to "+toDate+".</span>");                        
                     // if(parseInt(data)>0){
-                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
+                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                     // }else{
                     //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
                     // }
@@ -3125,7 +3125,7 @@ function validate(){
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");

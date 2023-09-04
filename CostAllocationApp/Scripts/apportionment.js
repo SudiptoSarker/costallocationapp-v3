@@ -32,7 +32,7 @@ $(document).ready(function () {
         var year = $('#assignment_year').val();
         var _retriveddata = [];
         if (year == null || year == '' || year == undefined) {
-            alert('Select Year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }
 
@@ -204,12 +204,12 @@ $(document).ready(function () {
                     Year: year,
                 }),
                 success: function (data) {
-                    alert("Operation Success.");
+                    alert("保存されました.");
                 }
             });
         }
         else {
-            alert('No Data Found!');
+            alert('追加、修正していないデータがありません!');
         }
     });
 

@@ -41,7 +41,7 @@ $(document).ready(function () {
         var year = queryStrings['year'];
 
         if (year == null || year == '' || year == undefined) {
-            alert('Select Year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }
         LoaderShow();
@@ -298,14 +298,14 @@ $(document).ready(function () {
                     Month: queryStrings['month'],
                 }),
                 success: function (data) {
-                    alert("Operation Success.");
+                    alert("保存されました.");
                     channel.postMessage('done');
                     window.close();
                 }
             });
         }
         else {
-            alert('No Data Found!');
+            alert('追加、修正していないデータがありません!');
         }
     });
 

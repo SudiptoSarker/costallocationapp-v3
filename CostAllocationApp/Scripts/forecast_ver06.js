@@ -1902,7 +1902,7 @@ $(document).ready(function () {
         // var year = $('#hidForecastYear').val();
 
         if (year == '' || year == undefined) {
-            alert('select year');
+            alert('年度を選択してください');
             return false;
         }
 
@@ -2418,7 +2418,7 @@ $(document).ready(function () {
 
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                                 
                             }
@@ -2446,7 +2446,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2471,7 +2471,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2496,7 +2496,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2521,7 +2521,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2546,7 +2546,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2571,7 +2571,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2595,7 +2595,7 @@ $(document).ready(function () {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2620,7 +2620,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2644,7 +2644,7 @@ $(document).ready(function () {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2669,7 +2669,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -2694,7 +2694,7 @@ $(document).ready(function () {
                             });
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -3010,7 +3010,7 @@ $(document).ready(function () {
     //     var year = dateObj.getUTCFullYear();
 
     //     var timestamp = `${year}${month}${day}_`;
-    //     var promptValue = prompt("History Save As", timestamp);
+    //     var promptValue = prompt("履歴ファイル保存名", timestamp);
     //     if (promptValue == null || promptValue == undefined || promptValue == "") {
     //         return false;
     //     }
@@ -3093,7 +3093,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -3111,7 +3111,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -3260,7 +3260,7 @@ function UpdateForecast(){
     var year = dateObj.getUTCFullYear();
 
     var timestamp = `${year}${month}${day}_`;
-    //var promptValue = prompt("History Save As", timestamp);
+    //var promptValue = prompt("履歴ファイル保存名", timestamp);
     
     var promptValue = "nothing";
     if (promptValue == null || promptValue == undefined || promptValue == "") {
@@ -3380,7 +3380,7 @@ function GetAllForecastYears() {
         dataType: 'json',
         //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
-            $('#assignment_year_list').append(`<option value=''>select year</option>`);
+            $('#assignment_year_list').append(`<option value=''>年度を選択してください</option>`);
             var count =1;
             $.each(data, function (index, element) {
                 if(count==1){
@@ -3425,14 +3425,14 @@ function DuplicateForecast(){
             dataType: 'json',
             data: "copyYear=" + copyYear+"&insertYear="+insertYear,
             success: function (data) {
-                // $('#assignment_year_list').append(`<option value=''>select year</option>`);
+                // $('#assignment_year_list').append(`<option value=''>年度を選択してください</option>`);
                 // $.each(data, function (index, element) {
                 //     $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
                 // });
             }
         });
     }else{
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }
 }

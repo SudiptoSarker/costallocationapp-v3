@@ -2429,5 +2429,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetDeletedEmployeeCount(year, employeeId);
         }
+        public int RemoveBudgetAssignment(string budgetAssignmentId)
+        {
+            return employeeAssignmentDAL.RemoveBudgetAssignment(budgetAssignmentId);
+        }
     }
 }

@@ -4296,6 +4296,7 @@ function InsertEmployee() {
 //Get employee list
 function GetEmployeeList() {
     $('#employee_list').empty();
+    //$.getJSON('/api/utilities/EmployeeListNotAssignedEmployee/')
     $.getJSON('/api/utilities/EmployeeList/')
         .done(function (data) {
             $.each(data, function (key, item) {

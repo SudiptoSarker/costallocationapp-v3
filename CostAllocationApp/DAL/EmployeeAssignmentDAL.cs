@@ -3698,7 +3698,7 @@ namespace CostAllocationApp.DAL
                 where += $" ea.SecondHalfBudget=1 and ";
             }      
 
-            where += " 1=1 ";
+            where += " ea.IsActive=1 and 1=1 ";
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks,ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
@@ -5338,8 +5338,28 @@ namespace CostAllocationApp.DAL
             }
 
             return employeeAssignments;
+        }
 
+        public int RemoveBudgetAssignment(string budgetAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeeeBudgets set IsActive=0 where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", budgetAssignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
 
         }
     }

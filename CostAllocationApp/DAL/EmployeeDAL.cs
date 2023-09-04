@@ -123,6 +123,47 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public List<Employee> GetEmployeeListForBudgetEdit(int budgetYear,int budgetType)
+        {
+            List<Employee> employees = new List<Employee>();
+            string query = "";
+            if (budgetType == 1)
+            {
+                query = "EXEC SP_GetEmployeeListForFirstHalfBudget @year = "+ budgetYear + " ,@budgetType = "+ budgetType+" ";
+            }
+            else
+            {
+                query = "EXEC SP_GetEmployeeListForSecondHalfBudget @year = " + budgetYear + " ,@budgetType = " + budgetType + " ";
+            }                        
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Employee employee = new Employee();
+                            employee.Id = Convert.ToInt32(rdr["EmployeeId"]);
+                            employee.FullName = rdr["EmployeeName"].ToString();
+
+                            employees.Add(employee);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return employees;
+            }
+        }
+
         public List<Employee> EmployeeListByNameFilter(string employeeName)
         {
             List<Employee> employees = new List<Employee>();

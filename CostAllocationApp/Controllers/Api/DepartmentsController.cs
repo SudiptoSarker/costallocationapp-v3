@@ -38,7 +38,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (departmentBLL.CheckDepartment(department))
                 {
-                    return BadRequest("Department Already Exists!!!");
+                    return BadRequest("部門は登録済みです!!!");
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (result == ids.Length)
                 {
-                    return Ok("Data Removed Successfully!");
+                    return Ok("正常に削除がされました!");
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                return BadRequest("Select Department Id!");
+                return BadRequest("部署を選択 Id!");
             }
 
         }

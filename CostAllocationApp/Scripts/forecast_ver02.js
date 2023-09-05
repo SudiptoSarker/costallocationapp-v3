@@ -1790,7 +1790,7 @@ var expanded = false;
 
                 if (year == '' || year == undefined) {
 
-                    alert('select year');
+                    alert('年度を選択してください');
                     return false;
                 }
                 LoaderShow();
@@ -2380,7 +2380,7 @@ var expanded = false;
                 $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
                     .done(function (data) {
                         $('#department_search').empty();
-                        $('#department_search').append(`<option value=''>Select Department</option>`);
+                        $('#department_search').append(`<option value=''>部署を選択</option>`);
                         $.each(data, function (key, item) {
                             $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                         });

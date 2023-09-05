@@ -38,7 +38,7 @@ namespace CostAllocationApp.Controllers.Api
             //    var checkResult = employeeAssignmentBLL.CheckEmployeeName(employeeAssignmentDTO.EmployeeName.Trim());
             //    if (checkResult && employeeAssignmentDTO.SubCode == 1)
             //    {
-            //        return BadRequest("Employee Already Exists");
+            //        return BadRequest("要員は登録済みです");
             //    }
             //    else
             //    {
@@ -519,7 +519,7 @@ namespace CostAllocationApp.Controllers.Api
             int result =  employeeAssignmentBLL.RemoveAssignment(id);
             if (result>0)
             {
-                return Ok("Data Removed Successfully");
+                return Ok("正常に削除がされました");
             }
             else
             {

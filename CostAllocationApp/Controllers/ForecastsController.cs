@@ -1314,7 +1314,7 @@ namespace CostAllocationApp.Controllers
                         //DataTable tmp = result.Tables[0];
                         //Session["tmpdata"] = tmp;  //store datatable into session
                         TempData["seccess"] = "Data imported successfully";
-                        ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to " + selected_year + ".</span>";
+                        ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました " + selected_year + ".</span>";
                         return View();
                     }
                     else
@@ -1331,7 +1331,7 @@ namespace CostAllocationApp.Controllers
             }
             else
             {
-                ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to " + selected_year + ".</span>";
+                ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました " + selected_year + ".</span>";
             }
             return View();
         }

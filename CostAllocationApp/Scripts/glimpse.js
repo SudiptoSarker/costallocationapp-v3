@@ -958,7 +958,7 @@ glimpse.render.engine.util.table = (function($) {
     var provider = {
             build: function(data) { 
                 if (data == null || data === '')
-                    data = 'No data found for this plugin.';
+                    data = '追加、修正していないデータがありません for this plugin.';
                 return '<div class="glimpse-panel-message">' + data + '</div>';
             }
         };

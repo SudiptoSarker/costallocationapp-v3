@@ -451,7 +451,7 @@ $(document).ready(function () {
 
     $.getJSON('/api/Departments/')
     .done(function(data) {
-        $('#userDepartment').append(`<option value=''>Select Department</option>`);
+        $('#userDepartment').append(`<option value=''>部署を選択</option>`);
         $.each(data, function(key, item) {                    
             $('#userDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
         });

@@ -210,7 +210,9 @@ $(document).ready(function () {
 
     //checking the data is finalize or not.
     //save and finalize button disable/enable
-    $("#budget_years").change(function () {
+    $("#budget_years").change(function () {        
+        $("#is_finalize_budget").val('');
+
         var select_year_type = this.value;
         if (select_year_type != '' && select_year_type != null && select_year_type != undefined){
             var arrYear = select_year_type.split("_");
@@ -227,10 +229,12 @@ $(document).ready(function () {
                 data: "select_year_type=" + arrYear[0]+"&budgetReqType="+arrYear[1],
                 success: function (data) {
                     if(data){
+                        $("#is_finalize_budget").val(1);
                         $("#save_bedget").prop("disabled",true);
                         $("#budget_finalize").prop("disabled",true);
                     }
                     else{
+                        $("#is_finalize_budget").val(0);
                         $("#save_bedget").prop("disabled",false);
                         $("#budget_finalize").prop("disabled",false);
                     }
@@ -887,7 +891,7 @@ $(document).ready(function () {
             $("#close_save_modal").css("display", "none");
         } else {
             $("#update_forecast").modal("show");
-            $("#save_modal_header").html("There is nothing to save!");
+            $("#save_modal_header").html("変更されていないので、保存できません");
             $("#back_button_show").css("display", "none");
             $("#save_btn_modal").css("display", "none");
 
@@ -952,7 +956,7 @@ $(document).ready(function () {
         var selected_year_for_finalize_budget = $("#budget_years").val();
 
         if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
-            alert("please select year!");
+            alert("please 年度を選択してください!");
         }
         else{
             $.ajax({
@@ -963,7 +967,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("Operation Success");              
+                    alert("保存されました");              
                           
                 }
             });
@@ -978,7 +982,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -991,7 +995,7 @@ $(document).ready(function () {
 
         var assignmentYear = $('#budget_years').val();        
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }     
         
@@ -1176,6 +1180,24 @@ function ShowBedgetResults(year) {
             });
         }
     });
+    var _retriveTotal = [];        
+    //get total man month
+    // $.ajax({
+    //     url: `/api/utilities/GetTotalManMonthAndCostForBudgetEdit`,
+    //     contentType: 'application/json',
+    //     type: 'GET',
+    //     async: false,
+    //     dataType: 'json',
+    //     data: "year=" + year,
+    //     success: function (data) {
+    //         _retriveTotal = data;
+    //         // $.each(data, (index, value) => {
+    //         //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
+    //         // });
+    //     }
+    // });
+
+    
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
@@ -1187,13 +1209,235 @@ function ShowBedgetResults(year) {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
+            allowComments:true,
             tableOverflow: true,
             freezeColumns: 3,
             defaultColWidth: 50,
-            // tableWidth: w - 500 + "px",
-            // tableHeight: (h - 300) + "px",
             tableWidth: w-280+ "px",
-            tableHeight: (h-150) + "px",
+            tableHeight: (h-150) + "px",           
+            minDimensions: [6, 10],
+            columnSorting: true,
+            oninsertrow: newRowInserted,            
+
+            // nestedHeaders:[
+            //     [
+            //         {
+            //             title: '',
+            //             colspan: '10',
+            //         },
+            //         //month wise total points
+            //         {
+            //             title: _retriveTotal.OctTotalMM,                    
+            //             type: "decimal",
+            //             name: "octSumFormula",
+            //             mask: '#.##,0',
+            //             decimal: '.'                                       
+            //         },
+            //         {
+            //             title: _retriveTotal.NovTotalMM,                    
+            //             type: "decimal",
+            //             name: "=SUM(M3:B3)",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.DecTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JanTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.FebTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.MarTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.AprTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.MayTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JunTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JulTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.AugTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.SepTotalMM,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.TotalManMonth,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         //month wise total cost
+            //         {
+            //             title: _retriveTotal.OctTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.NovTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.DecTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JanTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.FebTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.MarTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.AprTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.MayTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JunTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.JulTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.AugTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //         {
+            //             title: _retriveTotal.SepTotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+
+            //         {
+            //             title: _retriveTotal.TotalCosts,
+            //             type: "decimal",
+            //             name: "OctPoints",
+            //             mask: '#.##,0',
+            //             decimal: '.'
+            //         },
+            //     ],
+            //     [
+            //         {
+            //             title: '',
+            //             colspan: '9',
+            //         },
+            //         {
+            //             title: '',
+            //             colspan: '1',
+            //         },
+            //         {
+            //             title: yearHeaderTitleForPoints,
+            //             colspan: '12',
+            //         },
+                    
+            //         {
+            //             title: '',
+            //             colspan: '1',
+            //         },{
+            //             title: yearHeaderTitleForCosts,
+            //             colspan: '12',
+            //         },
+            //         {
+            //             title: '',
+            //             colspan: '1',
+            //         },
+            //     ],
+            // ],
             
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
@@ -1601,7 +1845,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1629,7 +1873,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1655,7 +1899,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1680,7 +1924,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1706,7 +1950,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1732,7 +1976,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1758,7 +2002,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1783,7 +2027,7 @@ function ShowBedgetResults(year) {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1809,7 +2053,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1834,7 +2078,7 @@ function ShowBedgetResults(year) {
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1860,7 +2104,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1886,7 +2130,7 @@ function ShowBedgetResults(year) {
                             });
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1904,67 +2148,73 @@ function ShowBedgetResults(year) {
                     }
                 }
             },
-            oninsertrow: newRowInserted,
-            //ondeleterow: deleted,
+
             contextMenu: function (obj, x, y, e) {
                 var items = [];
                 var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
                 if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
                    return items;
                 }
+                
+                var is_finalize = $("#is_finalize_budget").val();
+                if(is_finalize==1){
+                    return items;
+                }else{
+                    items.push({
+                        title: '要員を追加 (Add Emp)',
+                        onclick: function () {
+                            obj.insertRow(1, parseInt(y));
+                            var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
+                            
+                            setTimeout(function () {
+                                //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
+                                jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
+        
+                                $('#jexcel_add_employee_modal').modal('show');
+                                globalY = parseInt(y) + 1;
+                                GetEmployeeList();
+                            },1000);
+                            
+                            
+                        }
+                    });   
     
-                items.push({
-                    title: '要員を追加 (Add Emp)',
-                    onclick: function () {
-                        obj.insertRow(1, parseInt(y));
-                        var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
-                        
-                        setTimeout(function () {
-                            //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                            jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
+                    items.push({
+                        title: '選択した要員の削除 (delete)',                
+                        onclick: function () {     
+                            var assignmentIds = [];
+                                           
+                            var value = obj.getSelectedRows();                    
+                            var assignementId = jss.getValueFromCoords(0, y);
+                            assignmentIds.push(assignementId);
+                            var name = jss.getValueFromCoords(1, y);   
+                            
+                            if (parseInt(assignementId) > 0) {                       
+                               $.ajax({
+                                    url: `/api/utilities/DeleteBudgetAssignment`,
+                                    contentType: 'application/json',
+                                    type: 'GET',
+                                    async: true,
+                                    dataType: 'json',
+                                    data: "assignementId=" + assignementId,
+                                    success: function (data) {   
+                                        if(data==1){                      
+                                            jss.deleteRow(parseInt(y),1);                                    
+                                            alert("Operation Completed!");
     
-                            $('#jexcel_add_employee_modal').modal('show');
-                            globalY = parseInt(y) + 1;
-                            GetEmployeeList();
-                        },1000);
-                        
-                        
-                    }
-                });   
+                                        }else{
+                                            alert("Operation Failed!");
+                                        }
+                                    }
+                                });
+                            }else{
+                                alert(name +" has not been saved yet. You can not delete this employee!")  
+                            }                         
+                        }
+                    });
+                }
 
-                // items.push({
-                //     title: '選択した要員の削除 (delete)',                
-                //     onclick: function () {     
-                //         var assignmentIds = [];
-                                       
-                //         var value = obj.getSelectedRows();                    
-                //         var assignementId = jss.getValueFromCoords(0, y);
-                //         assignmentIds.push(assignementId);
-                //         var name = jss.getValueFromCoords(1, y);   
-                        
-                //         if (parseInt(assignementId) > 0) {                       
-                //            $.ajax({
-                //                 url: `/api/utilities/DeleteBudgetAssignment`,
-                //                 contentType: 'application/json',
-                //                 type: 'GET',
-                //                 async: true,
-                //                 dataType: 'json',
-                //                 data: "assignementId=" + assignementId,
-                //                 success: function (data) {   
-                //                     if(data==1){                      
-                //                         jss.deleteRow(parseInt(y),1);                                    
-                //                         alert("Operation Completed!");
-
-                //                     }else{
-                //                         alert("Operation Failed!");
-                //                     }
-                //                 }
-                //             });
-                //         }else{
-                //             alert(name +" has not been saved yet. You can not delete this employee!")  
-                //         }                         
-                //     }
-                // });
+                
     
                 return items;
             }
@@ -2903,7 +3153,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
         }
@@ -2932,7 +3182,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
             novSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2959,7 +3209,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
             decSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -2985,7 +3235,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
             janSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3011,7 +3261,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
             febSum = 1;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3038,7 +3288,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
             marSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3064,7 +3314,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
             aprSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3089,7 +3339,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3115,7 +3365,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
             junSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3140,7 +3390,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3166,7 +3416,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
             augSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3192,7 +3442,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         });
         if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
             sepSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3262,7 +3512,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -3486,7 +3736,7 @@ function UpdateBudget() {
     if (updateMessage == "" && insertMessage == "") {
         $("#header_show").html("");
         $("#update_forecast").modal("show");
-        $("#save_modal_header").html("There is nothing to save!");
+        $("#save_modal_header").html("変更されていないので、保存できません");
         $("#back_button_show").css("display", "none");
         $("#save_btn_modal").css("display", "none");
 
@@ -3498,7 +3748,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (updateMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -3506,7 +3756,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -3514,7 +3764,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
 
 }
@@ -3695,9 +3945,9 @@ function DuplicateBudget(){
                     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
                 }
                 else{
-                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
+                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                     // if(parseInt(data)>0){
-                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
+                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                     // }else{
                     //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
                     // }
@@ -3722,7 +3972,7 @@ function validate(){
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");

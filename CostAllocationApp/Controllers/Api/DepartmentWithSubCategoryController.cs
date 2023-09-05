@@ -88,7 +88,7 @@ namespace CostAllocationApp.Controllers.Api
 
         //        if (result == ids.Length)
         //        {
-        //            return Ok("Data Removed Successfully!");
+        //            return Ok("正常に削除がされました!");
         //        }
         //        else
         //        {

@@ -63,7 +63,7 @@ $(document).ready(function () {
 $('#section_inactive_btn').on('click', function (event) {
     let id = GetCheckedIds("section_list_tbody");
     if (id == "") {
-        alert("Please check first to delete.");
+        alert("ファイルが削除されたことを確認してください");
         return false;
     }
 });

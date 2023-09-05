@@ -799,8 +799,8 @@ $(document).ready(function () {
             UpdateForecast();
         }else{
             // toastr.clear();
-            // ToastMessage_Warning("There is nothing to save!");
-            alert("There is nothing to save!");
+            // ToastMessage_Warning("変更されていないので、保存できません");
+            alert("変更されていないので、保存できません");
             return false;
         }        
         //$('#update_forecast').modal('show');
@@ -816,7 +816,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -833,7 +833,7 @@ $(document).ready(function () {
         
         var assignmentYear = $('#assignment_year_list').val();
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }     
         
@@ -887,7 +887,7 @@ function ShowForecastResults(year) {
     // var year = $('#hidForecastYear').val();
 
     if (year == '' || year == undefined) {
-        alert('select year');
+        alert('年度を選択してください');
         return false;
     }
 
@@ -4272,7 +4272,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -4320,9 +4320,10 @@ function InsertEmployee() {
 
 //Get employee list
 function GetEmployeeList() {
+    var assignment_year = $("#assignment_year_list").val();
+
     $('#employee_list').empty();
-    //$.getJSON('/api/utilities/EmployeeListNotAssignedEmployee/')
-    $.getJSON('/api/utilities/EmployeeList/')
+    $.getJSON(`/api/utilities/EmployeeListForEmployeeAssignment/${assignment_year}`)
         .done(function (data) {
             $.each(data, function (key, item) {
                 $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
@@ -4441,7 +4442,7 @@ function UpdateForecast() {
             $("#jspreadsheet").show();
             //$("#head_total").show();
             LoaderHide();
-            //alert('No data found!');
+            //alert('追加、修正していないデータがありません!');
             updateMessage = ""
         }
 
@@ -4529,9 +4530,9 @@ function UpdateForecast() {
     }
 
     if (updateMessage == "" && insertMessage == "" && deleteMessage == "") {       
-        alert("There is nothing to save!");
+        alert("変更されていないので、保存できません");
         // toastr.clear(); 
-        // ToastMessage_Warning("There is nothing to save!");
+        // ToastMessage_Warning("変更されていないので、保存できません");
     }
     else{   
         //toastr.clear();
@@ -4680,7 +4681,7 @@ function validate(){
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");

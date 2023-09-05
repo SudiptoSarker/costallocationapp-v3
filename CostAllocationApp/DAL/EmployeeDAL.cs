@@ -163,7 +163,39 @@ namespace CostAllocationApp.DAL
                 return employees;
             }
         }
+        public List<Employee> GetEmployeeListEmployeeAssignments(int assignmentYear)
+        {
+            List<Employee> employees = new List<Employee>();
+            string query = "";
+            query = "EXEC SP_GetEmployeeListForYearlyEdit @year = "+ assignmentYear + " ";
 
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Employee employee = new Employee();
+                            employee.Id = Convert.ToInt32(rdr["EmployeeId"]);
+                            employee.FullName = rdr["EmployeeName"].ToString();
+
+                            employees.Add(employee);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return employees;
+            }
+        }
         public List<Employee> EmployeeListByNameFilter(string employeeName)
         {
             List<Employee> employees = new List<Employee>();

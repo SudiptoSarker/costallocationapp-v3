@@ -26,7 +26,7 @@ $.fn.filterMultiSelect = function (args) {
     args = $.extend({}, $.fn.filterMultiSelect.args, args);
     // factory defaults
     if (typeof args.placeholderText === 'undefined')
-        args.placeholderText = 'nothing selected';
+        args.placeholderText = 'リストから集計する会社を選択してください (Nothing selected)';
     if (typeof args.filterText === 'undefined')
         args.filterText = 'Filter';
     if (typeof args.selectAllText === 'undefined')

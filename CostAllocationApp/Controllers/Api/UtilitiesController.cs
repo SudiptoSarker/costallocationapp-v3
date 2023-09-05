@@ -1268,7 +1268,7 @@ namespace CostAllocationApp.Controllers.Api
                                 var itemData = cellItem.Split('_');
                                 if (Convert.ToInt32(itemData[0]) == employeeAssignment.Id)
                                 {
-                                    //check if forecast data already exists in original
+                                    //check if forecast 同一データが登録済みです in original
                                     int forecastResulttOrg = employeeAssignmentBLL.CheckForOriginalForecastDataIsExists(Convert.ToInt32(item.AssignmentId));
 
                                     if (Convert.ToInt32(itemData[1]) == 11)
@@ -2285,7 +2285,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 if (employeeBLL.CheckEmployeeDuplication(employee.FullName))
                 {
-                    return BadRequest("Employee Already Exists!!!");
+                    return BadRequest("要員は登録済みです!!!");
                 }
                 else
                 {
@@ -2434,6 +2434,28 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return NotFound();
             }                        
+        }
+        [HttpGet]
+        [Route("api/utilities/EmployeeListForEmployeeAssignment/{assignment_year}")]
+        public IHttpActionResult GetEmployeeListEmployeeAssignments(string assignment_year)
+        {
+            if (!string.IsNullOrEmpty(assignment_year))
+            {
+                List<Employee> _objEmployees = employeeBLL.GetEmployeeListEmployeeAssignments(Convert.ToInt32(assignment_year));
+
+                if (_objEmployees.Count > 0)
+                {
+                    return Ok(_objEmployees);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
         }
         [HttpGet]
         [Route("api/utilities/GetOnlyAdmin/")]
@@ -6835,7 +6857,7 @@ namespace CostAllocationApp.Controllers.Api
         //            sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
         //            sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
 
-        //            sheet.Cells["C1"].Value = "Operation Type";
+        //            sheet.Cells["C1"].Value = "操作内容 (Type)";
         //            sheet.Cells["C1"].Style.Font.Bold = true;
         //            sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
         //            sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.SkyBlue);
@@ -7357,9 +7379,17 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(isValidYearForImport);
         }
+
         [HttpGet]
         [Route("api/utilities/GetTotalCalculationForManmonthAndCost/")]
         public IHttpActionResult GetTotalCalculationForManmonthAndCost(int year)
+        {
+            var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetTotalManMonthAndCostForBudgetEdit/")]
+        public IHttpActionResult GetTotalManMonthAndCostForBudgetEdit(int year)
         {
             var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
             return Ok(result);

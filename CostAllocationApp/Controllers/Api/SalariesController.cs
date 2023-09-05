@@ -63,13 +63,13 @@ namespace CostAllocationApp.Controllers.Api
 
         // get specific salary
         [HttpGet]
-        public IHttpActionResult Salary(string salaryGrade)
+        public IHttpActionResult Salary(int salaryGradeId)
         {
             Salary salary = null;
             List<Salary> salaries = salaryBLL.GetAllSalaryPoints();
             if (salaries.Count > 0)
             {
-                salary = salaries.Where(s => s.SalaryGrade == salaryGrade).SingleOrDefault();
+                salary = salaries.Where(s => s.Id == salaryGradeId).SingleOrDefault();
                 if (salary==null)
                 {
                     salary = new Salary();

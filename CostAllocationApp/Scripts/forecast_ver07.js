@@ -218,7 +218,6 @@ $(document).ready(function () {
     $('#employee_list').select2();
 
     $('#update_forecast_history').on('click', function () {
-        //debugger;
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -333,7 +332,6 @@ $(document).ready(function () {
             var tempArrayCopy=[];
             for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
                 for (var j = 0; j < allTableData.length; j++) {
-                    //if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
                     if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
                         tempArray.push(allTableData[j]);
                     } 
@@ -383,13 +381,11 @@ $(document).ready(function () {
                             singleRowDuplicationCount++;
                         }
                         //employee id
-                        //if (tempArray[i][35] == tempArrayCopy[k][35]) {
                         if (tempArray[i][37] == tempArrayCopy[k][37]) {
                             singleRowDuplicationCount++;
                         }
 
                         if (singleRowDuplicationCount == 9) {
-                            //alert('duplicate row(s) found for ' + tempArray[i][1]);
                             alert(tempArray[i][1]+" が重複しています");
                             _duplicateFlag = true;
                             break;
@@ -848,13 +844,10 @@ $(document).ready(function () {
         }
         if(isUpdateInsertDelete){
             UpdateForecast();
-        }else{
-            // toastr.clear();
-            // ToastMessage_Warning("変更されていないので、保存できません");
+        }else{            
             alert("変更されていないので、保存できません");
             return false;
         }        
-        //$('#update_forecast').modal('show');
     });
 
 
@@ -875,9 +868,6 @@ $(document).ready(function () {
     });
     
     $(document).on('click', '#assignment_year_data ', function () { 
-        //jss.destroy();
-        //$('#jspreadsheet').empty();
-        //cellwiseColorCode = [];
         ClearnAllJexcelData();
 
         $('#changed_cell_with_assignmentid').val("");  
@@ -897,7 +887,6 @@ $(document).ready(function () {
         
     });
     $(document).on('click', '#cancel_forecast_history ', function () {    
-        //cellwiseColorCode = [];
         ClearnAllJexcelData();
 
         var assignmentYear = $('#assignment_year_list').val();          
@@ -934,8 +923,6 @@ function ShowForecastResults(year) {
     departmentId = "";
     var explanationId = $('#explanation_multi_search').val();
     explanationId = "";
-
-    // var year = $('#hidForecastYear').val();
 
     if (year == '' || year == undefined) {
         alert('年度を選択してください');
@@ -1080,10 +1067,7 @@ function ShowForecastResults(year) {
         dataType: 'json',
         data: "year=" + year,
         success: function (data) {
-            _retriveTotal = data;
-            // $.each(data, (index, value) => {
-            //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-            // });
+            _retriveTotal = data;           
         }
     });
 
@@ -1358,7 +1342,6 @@ function ShowForecastResults(year) {
                     let row = parseInt(r);
                     let column = parseInt(c) - 1;
                     
-                    //var value1 = instance.jexcel.getValueFromCoords(column, row);
                     var element = $(`.jexcel > tbody > tr:nth-of-type(${row+1})`);
                     var companyName = element[0].cells[9].innerText;
                     console.log('company filter:' + companyName);
@@ -1611,7 +1594,6 @@ function ShowForecastResults(year) {
         },
         onchange: function (instance, cell, x, y, value) {            
             var checkId = jss.getValueFromCoords(0, y);
-            //var employeeId = jss.getValueFromCoords(35, y);
             var employeeId = jss.getValueFromCoords(37, y);            
 
             if (checkId == null || checkId == '' || checkId == undefined) {
@@ -1637,7 +1619,6 @@ function ShowForecastResults(year) {
             }
             else {
                 console.log("changed");
-                //debugger;
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
@@ -1653,7 +1634,6 @@ function ShowForecastResults(year) {
                     
                     if(isUnapprovedDeletedRow){
                         var isCellAlreadyChanged = false;
-                        //isCellAlreadyChanged = CheckIfAlreadyExists(2,retrivedData.assignmentId)
                         if(!isCellAlreadyChanged){                                
                             SetColorForCells("white","black","B"+(parseInt(y)+1))                                
                         }
@@ -2564,7 +2544,6 @@ function ShowForecastResults(year) {
                     
                     if(isUnapprovedDeletedRow){
                         var isCellAlreadyChanged = false;
-                        //isCellAlreadyChanged = CheckIfAlreadyExists(22,retrivedData.assignmentId)
                         if(!isCellAlreadyChanged){                                
                             SetColorForCostsCells("white","black","X"+(parseInt(y)+1));                               
                             SetColorForCostsCells("white","black","Y"+(parseInt(y)+1));                               
@@ -2587,12 +2566,7 @@ function ShowForecastResults(year) {
         },        
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
-            var items = [];
-            //var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-            //if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-            //    return items;
-            //}
-
+            var items = [];           
             items.push({
                 title: '要員を追加 (Add Emp)',
                 onclick: function () {
@@ -2600,9 +2574,7 @@ function ShowForecastResults(year) {
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
                     setTimeout(function () {
-                        //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
                         SetColorCommonRow(parseInt(y)+2,"yellow","red","newrow");  
-                        //jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
                         jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
 
                         $('#jexcel_add_employee_modal').modal('show');
@@ -2640,7 +2612,6 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            //if (x[35] == retrivedData.employeeId) {
                             if (x[37] == retrivedData.employeeId) {
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
@@ -2732,7 +2703,6 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];
 
-                    // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                     obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
@@ -2897,10 +2867,6 @@ function ShowForecastResults(year) {
                             if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
                                 activeEmployeeCount = activeEmployeeCount+1;
                             }  
-                            // if (x[0] == minAssignmentNumber) {
-                            //     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                            //     break;
-                            // }
                         }
 
                         $.ajax({
@@ -2920,7 +2886,6 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
                     allSameEmployeeId = [];                   
 
-                    //obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                     obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
@@ -2958,16 +2923,9 @@ function ShowForecastResults(year) {
                     $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
                     $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
 
-
-
-
-                    //obj.setValueFromCoords(36, nextRow, false, false);
                     obj.setValueFromCoords(38, nextRow, false, false);
-                    //obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
                     obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                    //obj.setValueFromCoords(38, nextRow, true, false);
                     obj.setValueFromCoords(40, nextRow, true, false);
-                    //obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
                     obj.setValueFromCoords(47, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
 
 
@@ -3024,7 +2982,6 @@ function ShowForecastResults(year) {
                     var retrivedData = retrivedObject(jss.getRowData(y));
 
                     if (retrivedData.assignmentId.toString().includes('new')) {
-                    //if (Assignmentid.tostring().include) {
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
@@ -3141,9 +3098,6 @@ function ShowForecastResults(year) {
                     jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
                     jss.setStyle("K" + (nextRow + 1), "color", "red");
 
-
-
-                    // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                     obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
@@ -3155,12 +3109,6 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
                     obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
 
-
-
-                    // obj.setValueFromCoords(36, nextRow, false, false);
-                    // obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    // obj.setValueFromCoords(38, nextRow, true, false);
-                    // obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
                     obj.setValueFromCoords(38, nextRow, false, false);
                     obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
                     obj.setValueFromCoords(40, nextRow, true, false);
@@ -3300,16 +3248,11 @@ function ShowForecastResults(year) {
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {
-        // if (value['36'] == true && value['39'] == false) {            
         if (value['38'] == true && value['41'] == false) {            
             SetColorCommonRow(count,"yellow","red","newrow");
         }
         else {
-            //var isApprovedCells = value['41'];
-            var isApprovedCells = value['43'];
-            
-            //var columnInfo = value['37'];
-            //var columnInfo = value['38'];
+            var isApprovedCells = value['43'];            
             var columnInfo = value['39'];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
@@ -3490,9 +3433,6 @@ function ShowForecastResults(year) {
                 }
             });
 
-            //approved cells color
-            // var approvedCells = value['40'];
-            //var approvedCells = value['41'];
             var approvedCells = value['42'];
             var arrApprovedCells = approvedCells.split(',');
             $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
@@ -3646,8 +3586,6 @@ function ShowForecastResults(year) {
             });
             
             //pending cells color
-            // var bCYRCellPending = value['42'];
-            //var bCYRCellPending = value['43'];
             var bCYRCellPending = value['44'];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
@@ -3800,32 +3738,15 @@ function ShowForecastResults(year) {
                 }
             });
         }       
-        //if (value['38'] == false && value['39'] == false && value['44'] == false) {
         if (value['40'] == false && value['41'] == false && value['46'] == false) {
-            //DisableRow(count);
             SetColorCommonRow(count,"gray","black","deleted");
         }
-        //else if(value['43'] == true || value['44'] == true){
         else if(value['45'] == true || value['46'] == true){
             SetColorCommonRow(count,"red","black","editable");
         }        
         count++;
     });
 }
-
-//$('#search_p_text_box').on('keyup', function () {
-//    var name = $(this).val();
-//    if (allEmployeeName1.length > 0) {
-//        var data = allEmployeeName1.filter(employeeName => employeeName.toLowerCase().includes(name.toLowerCase()));
-
-//        data.sort();
-
-//        $('#search_p_search').empty();
-//        $.each(data, function (index, value) {
-//            $('#search_p_search').append(`<li><input type='checkbox' name='employeename' value='${value}'> ${value}</li>`);
-//        });
-//    }
-//});
 
 $("#hider").hide();
 $(".search_p").hide();
@@ -3850,43 +3771,11 @@ $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_inchar
     $('.search_company').fadeOut("slow");
     $('.search_grade').fadeOut("slow");
     $('.search_unit_price').fadeOut("slow");
-   // $('#search_p_text_box').val('');
 });
-
-//var deleted = function (instance, x, y, value) {
-//    var assignmentIds = [];
-//    if (value.length > 0) {
-//        for (let i = 0; i < value.length; i++) {
-//            if (value[i][0].innerText != '' && value[i][0].innerText.toString().includes('new') == false) {
-//                assignmentIds.push(value[i][0].innerText);
-//            }
-
-//        }
-//        if (assignmentIds.length > 0) {
-//            $.ajax({
-//                url: `/api/utilities/ExcelDeleteAssignment/`,
-//                contentType: 'application/json',
-//                type: 'DELETE',
-//                async: false,
-//                dataType: 'json',
-//                data: JSON.stringify(assignmentIds),
-//                success: function (data) {
-//                    alert(data);
-//                }
-//            });
-//        }
-
-//    }
-
-//}
-
 
 var newRowInserted = function (instance, x, y, newRow) {
     var totalRow = jss.getData(false);
-    jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
-    //var sectionCell = newRow[0][2];
-    //$(sectionCell).append();
-
+    jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');    
 }
 
 
@@ -3937,10 +3826,8 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            //var currentValue = jss.getValueFromCoords(37, y);
             var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            //jss.setValueFromCoords(37, y, currentValue, false);
             jss.setValueFromCoords(39, y, currentValue, false);
         }
     }
@@ -3957,7 +3844,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 11) {
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            //if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
             if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 octSum += parseFloat(dataValue[11]);
             }
@@ -3976,10 +3862,8 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            //var currentValue = jss.getValueFromCoords(37,y);
             var currentValue = jss.getValueFromCoords(39,y);
             currentValue += ',new-x_'+x;
-            //jss.setValueFromCoords(37, y, currentValue, false);
             jss.setValueFromCoords(39, y, currentValue, false);
         }
 
@@ -3989,7 +3873,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 12) {
         var novSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            //if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
             if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 novSum += parseFloat(dataValue[12]);
             }
@@ -4308,17 +4191,6 @@ function retrivedObject(rowData) {
         augPoint: parseFloat(rowData[21]),
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('assignment_year_list').value,
-        // bcyr: rowData[36],
-        // bCYRCell: rowData[37],
-        // isActive: rowData[38],
-        // bCYRApproved: rowData[39],
-        // bCYRCellApproved: rowData[40],
-        // isApproved: rowData[41],
-        // bCYRCellPending: rowData[42],
-        // isRowPending: rowData[43],
-        // isDeletePending: rowData[44],
-        // rowType: rowData[45],
-
         bcyr: rowData[38],
         bCYRCell: rowData[39],
         isActive: rowData[40],
@@ -4335,14 +4207,8 @@ function retrivedObject(rowData) {
 function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
-            //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>部署を選択</option>`);
-            //$.each(data, function (key, item) {
-            //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-            //});
         });
 }
-
 
 //employee insert
 function InsertEmployee() {
@@ -4365,15 +4231,12 @@ function InsertEmployee() {
             success: function (result) {
                 if (result > 0) {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
-                    // jss.setValueFromCoords(34, globalY, result, false);
-
                     jss.setValueFromCoords(37, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }                
-                //GetEmployeeList();
             },
             error: function (result) {
                 alert(result.responseJSON.Message);
@@ -4433,8 +4296,6 @@ function AddEmployee() {
     employeeNameForAddEmployee =   masterEmployeeNameForAddEmployee +" ("+(parseInt(activeEmployeeCountForAddEmployee)+parseInt(inactiveEmployeeCountForAddEmployee)+1)+")";
 
     jss.setValueFromCoords(1, globalY, employeeName, false);
-    //jss.setValueFromCoords(1, globalY, employeeNameForAddEmployee, false);
-    //jss.setValueFromCoords(35, globalY, employeeId, false);
     jss.setValueFromCoords(37, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
@@ -4442,7 +4303,6 @@ function AddEmployee() {
 function UpdateForecast() {
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();
-    // $("#head_total").hide();
     LoaderShow();
 
     var userName = '';
@@ -4504,9 +4364,7 @@ function UpdateForecast() {
         }
         else {
             $("#jspreadsheet").show();
-            //$("#head_total").show();
             LoaderHide();
-            //alert('追加、修正していないデータがありません!');
             updateMessage = ""
         }
 
@@ -4528,21 +4386,8 @@ function UpdateForecast() {
                     type: 'POST',
                     async: false,
                     dataType: 'json',
-                    //data: JSON.stringify(jssInsertedData),
                     data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                    success: function (data) {
-                        // var allJexcelData = jss.getData();
-                        // for (let i = 0; i < data.length; i++) {
-
-                        //     $.each(allJexcelData, (index, dataValue) => {
-                        //         if (data[i].assignmentId == dataValue[0]) {
-                        //             jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                        //         }
-
-                        //     });
-                        // }
-
-                        
+                    success: function (data) {                                              
                         var year = $("#assignment_year_list").val();
                         ShowForecastResults(year);
 
@@ -4572,7 +4417,6 @@ function UpdateForecast() {
                 dataType: 'json',                
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
                 success: function (data) {
-                    //alert(data);
                     deleteMessage = "Successfully data deleted!";
                     var year = $("#assignment_year_list").val();
                     ShowForecastResults(year);
@@ -4594,12 +4438,9 @@ function UpdateForecast() {
     }
 
     if (updateMessage == "" && insertMessage == "" && deleteMessage == "") {       
-        alert("変更されていないので、保存できません");
-        // toastr.clear(); 
-        // ToastMessage_Warning("変更されていないので、保存できません");
+        alert("変更されていないので、保存できません");       
     }
     else{   
-        //toastr.clear();
         ToastMessageSuccess_Center('保存されました.');
     }    
 }

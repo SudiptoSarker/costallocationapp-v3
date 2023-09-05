@@ -542,7 +542,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][47]) {
+                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][45]) {
                                             newUnitPriceList.push(_allData[k]);
                                         }
                                     }
@@ -715,7 +715,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][47]) {
+                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][45]) {
                                             newRoleList.push(_allData[k]);
                                         }
                                     }
@@ -802,7 +802,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][47]) {
+                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][45]) {
                                             newBothList.push(_allData[k]);
                                         }
                                     }
@@ -841,8 +841,8 @@ $(document).ready(function () {
                                                         }
                                                         _countNumber++;
                                                     }
-                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
-                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    //jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    //jss.setStyle(`B${_countNumber + 1}`, "color", "black");
                                                     break;
                                                 }
                                                 // check unitprice
@@ -857,8 +857,8 @@ $(document).ready(function () {
                                                         }
                                                         _countNumber++;
                                                     }
-                                                    jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
-                                                    jss.setStyle(`B${_countNumber + 1}`, "color", "black");
+                                                    //jss.setStyle(`B${_countNumber + 1}`, "background-color", "red");
+                                                    //jss.setStyle(`B${_countNumber + 1}`, "color", "black");
                                                     break;
                                                 }                                                
 
@@ -945,7 +945,6 @@ $(document).ready(function () {
         
         
         UpdateBudget();
-        //$('#update_forecast').modal('show');
     });
 
     //finalize the budget data.
@@ -1190,10 +1189,7 @@ function ShowBedgetResults(year) {
         dataType: 'json',
         data: "yearWithType=" + year,
         success: function (data) {
-            _retriveTotal = data;
-            // $.each(data, (index, value) => {
-            //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-            // });
+            _retriveTotal = data;         
         }
     });
 
@@ -1820,13 +1816,9 @@ function ShowBedgetResults(year) {
                                 var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                                 element[0].cells[10].innerText = '';
                                 $(jss.getCell("J" + rowNumber)).addClass('readonly');
-                                // $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                // $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
                             }
                             else {
-                                $(jss.getCell("J" + rowNumber)).removeClass('readonly');
-                                // $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                // $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
+                                $(jss.getCell("J" + rowNumber)).removeClass('readonly');                                
                             }
 
                             if (dataCheck.length == 0) {
@@ -2191,8 +2183,7 @@ function ShowBedgetResults(year) {
                             var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                             
                             setTimeout(function () {
-                                //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                                jss.setValueFromCoords(40, (insertedRowNumber - 1), true, false);
+                                jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
         
                                 $('#jexcel_add_employee_modal').modal('show');
                                 globalY = parseInt(y) + 1;
@@ -2252,7 +2243,7 @@ function ShowBedgetResults(year) {
     $("#budget_finalize").css("display", "block");
 
     //create a row for search in each column
-    jss.deleteColumn(46, 21);
+    jss.deleteColumn(48, 19);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
@@ -2317,744 +2308,7 @@ function ShowBedgetResults(year) {
         $('.search_unit_price').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_unit_price').fadeIn("slow");
-    });
-
-    var allRows = jss.getData();
-    var count = 1;
-    //get all data and set color
-    $.each(allRows, function (index,value) {
-        if (value['40'] == true && value['41'] == false) {            
-            SetColorCommonRow(count,"yellow","red","newrow");
-        }
-        else {
-            var isApprovedCells = value['43'];
-            var columnInfo = value['41'];
-            var infoArray = columnInfo.split(',');
-            $.each(infoArray, function (nextedIndex, nestedValue) {        
-                
-                if (parseInt(nestedValue) == 1) {
-                    jss.setStyle("B" + count, "background-color", "yellow");
-                    jss.setStyle("B" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("B" + count, "background-color", "red");
-                    //     jss.setStyle("B" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("B" + count, "background-color", "yellow");
-                    //     jss.setStyle("B" + count, "color", "red");
-                    // }                    
-                }
-                
-                if (parseInt(nestedValue) == 2) {
-                    jss.setStyle("C" + count, "background-color", "yellow");
-                    jss.setStyle("C" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("C" + count, "background-color", "red");
-                    //     jss.setStyle("C" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("C" + count, "background-color", "yellow");
-                    //     jss.setStyle("C" + count, "color", "red");
-                    // }  
-                }
-                
-                if (parseInt(nestedValue) == 3) {
-                    jss.setStyle("D" + count, "background-color", "yellow");
-                    jss.setStyle("D" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("D" + count, "background-color", "red");
-                    //     jss.setStyle("D" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("D" + count, "background-color", "yellow");
-                    //     jss.setStyle("D" + count, "color", "red");
-                    // }                      
-                }
-                
-                if (parseInt(nestedValue) == 4) {
-                    jss.setStyle("E" + count, "background-color", "yellow");
-                    jss.setStyle("E" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("E" + count, "background-color", "red");
-                    //     jss.setStyle("E" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("E" + count, "background-color", "yellow");
-                    //     jss.setStyle("E" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 5) {
-                    jss.setStyle("F" + count, "background-color", "yellow");
-                    jss.setStyle("F" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("F" + count, "background-color", "red");
-                    //     jss.setStyle("F" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("F" + count, "background-color", "yellow");
-                    //     jss.setStyle("F" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 6) {
-                    jss.setStyle("G" + count, "background-color", "yellow");
-                    jss.setStyle("G" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("G" + count, "background-color", "red");
-                    //     jss.setStyle("G" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("G" + count, "background-color", "yellow");
-                    //     jss.setStyle("G" + count, "color", "red");
-                    // }                   
-                }
-                
-                if (parseInt(nestedValue) == 7) {
-                    jss.setStyle("H" + count, "background-color", "yellow");
-                    jss.setStyle("H" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("H" + count, "background-color", "red");
-                    //     jss.setStyle("H" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("H" + count, "background-color", "yellow");
-                    //     jss.setStyle("H" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 8) {
-                    jss.setStyle("I" + count, "background-color", "yellow");
-                    jss.setStyle("I" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("I" + count, "background-color", "red");
-                    //     jss.setStyle("I" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("I" + count, "background-color", "yellow");
-                    //     jss.setStyle("I" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 9) {
-                    jss.setStyle("J" + count, "background-color", "yellow");
-                    jss.setStyle("J" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("J" + count, "background-color", "red");
-                    //     jss.setStyle("J" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("J" + count, "background-color", "yellow");
-                    //     jss.setStyle("J" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 10) {
-                    jss.setStyle("K" + count, "background-color", "yellow");
-                    jss.setStyle("K" + count, "color", "red");
-
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("K" + count, "background-color", "red");
-                    //     jss.setStyle("K" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("K" + count, "background-color", "yellow");
-                    //     jss.setStyle("K" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 11) {
-                    jss.setStyle("L" + count, "background-color", "yellow");
-                    jss.setStyle("L" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("L" + count, "background-color", "red");
-                    //     jss.setStyle("L" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("L" + count, "background-color", "yellow");
-                    //     jss.setStyle("L" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 12) {
-                    jss.setStyle("M" + count, "background-color", "yellow");
-                    jss.setStyle("M" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("M" + count, "background-color", "red");
-                    //     jss.setStyle("M" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("M" + count, "background-color", "yellow");
-                    //     jss.setStyle("M" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 13) {
-                    jss.setStyle("N" + count, "background-color", "yellow");
-                    jss.setStyle("N" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("N" + count, "background-color", "red");
-                    //     jss.setStyle("N" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("N" + count, "background-color", "yellow");
-                    //     jss.setStyle("N" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 14) {
-                    jss.setStyle("O" + count, "background-color", "yellow");
-                    jss.setStyle("O" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("O" + count, "background-color", "red");
-                    //     jss.setStyle("O" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("O" + count, "background-color", "yellow");
-                    //     jss.setStyle("O" + count, "color", "red");
-                    // }
-                }  
-                          
-                if (parseInt(nestedValue) == 15) {
-                    jss.setStyle("P" + count, "background-color", "yellow");
-                    jss.setStyle("P" + count, "color", "red"); 
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("P" + count, "background-color", "red");
-                    //     jss.setStyle("P" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("P" + count, "background-color", "yellow");
-                    //     jss.setStyle("P" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "yellow");
-                    jss.setStyle("Q" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Q" + count, "background-color", "red");
-                    //     jss.setStyle("Q" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Q" + count, "background-color", "yellow");
-                    //     jss.setStyle("Q" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 17) {
-                    jss.setStyle("R" + count, "background-color", "yellow");
-                    jss.setStyle("R" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("R" + count, "background-color", "red");
-                    //     jss.setStyle("R" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("R" + count, "background-color", "yellow");
-                    //     jss.setStyle("R" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 18) {
-                    jss.setStyle("S" + count, "background-color", "yellow");
-                    jss.setStyle("S" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("S" + count, "background-color", "red");
-                    //     jss.setStyle("S" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("S" + count, "background-color", "yellow");
-                    //     jss.setStyle("S" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 19) {
-                    jss.setStyle("T" + count, "background-color", "yellow");
-                    jss.setStyle("T" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("T" + count, "background-color", "red");
-                    //     jss.setStyle("T" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("T" + count, "background-color", "yellow");
-                    //     jss.setStyle("T" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 20) {
-                    jss.setStyle("U" + count, "background-color", "yellow");
-                    jss.setStyle("U" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("U" + count, "background-color", "red");
-                    //     jss.setStyle("U" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("U" + count, "background-color", "yellow");
-                    //     jss.setStyle("U" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 21) {
-                    jss.setStyle("V" + count, "background-color", "yellow");
-                    jss.setStyle("V" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("V" + count, "background-color", "red");
-                    //     jss.setStyle("V" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("V" + count, "background-color", "yellow");
-                    //     jss.setStyle("V" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 22) {
-                    jss.setStyle("W" + count, "background-color", "yellow");
-                    jss.setStyle("W" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("W" + count, "background-color", "red");
-                    //     jss.setStyle("W" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("W" + count, "background-color", "yellow");
-                    //     jss.setStyle("W" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 23) {
-                    jss.setStyle("X" + count, "background-color", "yellow");
-                    jss.setStyle("X" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("X" + count, "background-color", "red");
-                    //     jss.setStyle("X" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("X" + count, "background-color", "yellow");
-                    //     jss.setStyle("X" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "yellow");
-                    jss.setStyle("Y" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Y" + count, "background-color", "red");
-                    //     jss.setStyle("Y" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Y" + count, "background-color", "yellow");
-                    //     jss.setStyle("Y" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "yellow");
-                    jss.setStyle("Z" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Z" + count, "background-color", "red");
-                    //     jss.setStyle("Z" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Z" + count, "background-color", "yellow");
-                    //     jss.setStyle("Z" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "yellow");
-                    jss.setStyle("AA" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AA" + count, "background-color", "red");
-                    //     jss.setStyle("AA" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AA" + count, "background-color", "yellow");
-                    //     jss.setStyle("AA" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "yellow");
-                    jss.setStyle("AB" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AB" + count, "background-color", "red");
-                    //     jss.setStyle("AB" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AB" + count, "background-color", "yellow");
-                    //     jss.setStyle("AB" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "yellow");
-                    jss.setStyle("AC" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AC" + count, "background-color", "red");
-                    //     jss.setStyle("AC" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AC" + count, "background-color", "yellow");
-                    //     jss.setStyle("AC" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "yellow");
-                    jss.setStyle("AD" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AD" + count, "background-color", "red");
-                    //     jss.setStyle("AD" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AD" + count, "background-color", "yellow");
-                    //     jss.setStyle("AD" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "yellow");
-                    jss.setStyle("AE" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AE" + count, "background-color", "red");
-                    //     jss.setStyle("AE" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AE" + count, "background-color", "yellow");
-                    //     jss.setStyle("AE" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "yellow");
-                    jss.setStyle("AF" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AF" + count, "background-color", "red");
-                    //     jss.setStyle("AF" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AF" + count, "background-color", "yellow");
-                    //     jss.setStyle("AF" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "yellow");
-                    jss.setStyle("AG" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AG" + count, "background-color", "red");
-                    //     jss.setStyle("AG" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AG" + count, "background-color", "yellow");
-                    //     jss.setStyle("AG" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "yellow");
-                    jss.setStyle("AH" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AH" + count, "background-color", "red");
-                    //     jss.setStyle("AH" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AH" + count, "background-color", "yellow");
-                    //     jss.setStyle("AH" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "yellow");
-                    jss.setStyle("AI" + count, "color", "red");                              
-                }
-                
-                if (parseInt(nestedValue) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "yellow");
-                    jss.setStyle("AJ" + count, "color", "red");                    
-                }
-            });
-
-            //approved cells color
-            var approvedCells = value['44'];
-            var arrApprovedCells = approvedCells.split(',');
-            $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "LightBlue");
-                    jss.setStyle("B" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "LightBlue");
-                    jss.setStyle("C" + count, "color", "red");
-                }
-
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "LightBlue");
-                    jss.setStyle("D" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "LightBlue");
-                    jss.setStyle("E" + count, "color", "red");
-                }
- 
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "LightBlue");
-                    jss.setStyle("F" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "LightBlue");
-                    jss.setStyle("G" + count, "color", "red");
-                }
-
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "LightBlue");
-                    jss.setStyle("H" + count, "color", "red");
-                }
-             
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "LightBlue");
-                    jss.setStyle("I" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "LightBlue");
-                    jss.setStyle("J" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "LightBlue");
-                    jss.setStyle("K" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "LightBlue");
-                    jss.setStyle("L" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "LightBlue");
-                    jss.setStyle("M" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "LightBlue");
-                    jss.setStyle("N" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "LightBlue");
-                    jss.setStyle("O" + count, "color", "red");
-                }
-             
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "LightBlue");
-                    jss.setStyle("P" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "LightBlue");
-                    jss.setStyle("Q" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "LightBlue");
-                    jss.setStyle("R" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "LightBlue");
-                    jss.setStyle("S" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "LightBlue");
-                    jss.setStyle("T" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "LightBlue");
-                    jss.setStyle("U" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "LightBlue");
-                    jss.setStyle("V" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "LightBlue");
-                    jss.setStyle("W" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "LightBlue");
-                    jss.setStyle("X" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "LightBlue");
-                    jss.setStyle("Y" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "LightBlue");
-                    jss.setStyle("Z" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "LightBlue");
-                    jss.setStyle("AA" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "LightBlue");
-                    jss.setStyle("AB" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "LightBlue");
-                    jss.setStyle("AC" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "LightBlue");
-                    jss.setStyle("AD" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "LightBlue");
-                    jss.setStyle("AE" + count, "color", "red");
-                }
-                
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "LightBlue");
-                    jss.setStyle("AF" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "LightBlue");
-                    jss.setStyle("AG" + count, "color", "red");
-                }
-              
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "LightBlue");
-                    jss.setStyle("AH" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "LightBlue");
-                    jss.setStyle("AI" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "LightBlue");
-                    jss.setStyle("AJ" + count, "color", "red");
-                }
-            });
-            
-            //pending cells color
-            var bCYRCellPending = value['44'];
-            var arrBCYRCellPending = bCYRCellPending.split(',');
-            $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "red");
-                    jss.setStyle("B" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "red");
-                    jss.setStyle("C" + count, "color", "black");
-                }
-
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "red");
-                    jss.setStyle("D" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "red");
-                    jss.setStyle("E" + count, "color", "black");
-                }
- 
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "red");
-                    jss.setStyle("F" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "red");
-                    jss.setStyle("G" + count, "color", "black");
-                }
-
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "red");
-                    jss.setStyle("H" + count, "color", "black");
-                }
-             
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "red");
-                    jss.setStyle("I" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "red");
-                    jss.setStyle("J" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "red");
-                    jss.setStyle("K" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "red");
-                    jss.setStyle("L" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "red");
-                    jss.setStyle("M" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "red");
-                    jss.setStyle("N" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "red");
-                    jss.setStyle("O" + count, "color", "black");
-                }
-             
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "red");
-                    jss.setStyle("P" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "red");
-                    jss.setStyle("Q" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "red");
-                    jss.setStyle("R" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "red");
-                    jss.setStyle("S" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "red");
-                    jss.setStyle("T" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "red");
-                    jss.setStyle("U" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "red");
-                    jss.setStyle("V" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "red");
-                    jss.setStyle("W" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "red");
-                    jss.setStyle("X" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "red");
-                    jss.setStyle("Y" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "red");
-                    jss.setStyle("Z" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "red");
-                    jss.setStyle("AA" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "red");
-                    jss.setStyle("AB" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "red");
-                    jss.setStyle("AC" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "red");
-                    jss.setStyle("AD" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "red");
-                    jss.setStyle("AE" + count, "color", "black");
-                }
-                
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "red");
-                    jss.setStyle("AF" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "red");
-                    jss.setStyle("AG" + count, "color", "black");
-                }
-              
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "red");
-                    jss.setStyle("AH" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "red");
-                    jss.setStyle("AI" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "red");
-                    jss.setStyle("AJ" + count, "color", "black");
-                }
-            });
-        }       
-        if (value['40'] == false && value['41'] == false && value['46'] == false) {
-            //DisableRow(count);
-            SetColorCommonRow(count,"gray","black","deleted");
-        }
-        else if(value['45'] == true || value['46'] == true){
-            SetColorCommonRow(count,"red","black","editable");
-        }        
-        count++;
-    });
+    });   
 }
 
 $("#hider").hide();
@@ -3080,12 +2334,11 @@ $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_inchar
     $('.search_company').fadeOut("slow");
     $('.search_grade').fadeOut("slow");
     $('.search_unit_price').fadeOut("slow");
-   // $('#search_p_text_box').val('');
 });
 
 var newRowInserted = function (instance, x, y, newRow) {
     var totalRow = jss.getData(false);
-    jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
+    //jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');
 
 }
 
@@ -3136,21 +2389,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 2) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
     }
     if (x == 7) {
         array[index].explanationId = retrivedData.explanationId;
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
     }
     if (x == 11) {
@@ -3172,11 +2421,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41,y);
+            var currentValue = jss.getValueFromCoords(39,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
 
@@ -3200,11 +2447,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
 
@@ -3227,11 +2472,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3253,11 +2496,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3279,11 +2520,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            //$(cell).css('color', 'red');
-            //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3305,12 +2544,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].marPoint = retrivedData.marPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3331,12 +2568,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].aprPoint = retrivedData.aprPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3356,12 +2591,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].mayPoint = retrivedData.mayPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3382,12 +2615,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].junPoint = retrivedData.junPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3407,12 +2638,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].julPoint = retrivedData.julPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3433,12 +2662,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].augPoint = retrivedData.augPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3459,12 +2686,10 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
             array[index].sepPoint = retrivedData.sepPoint;
         }
         
-        if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+        if (!newRowChangeEventFlag) {            
+            var currentValue = jss.getValueFromCoords(39, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(39, y, currentValue, false);
         }
 
     }
@@ -3506,8 +2731,8 @@ function retrivedObject(rowData) {
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('selected_budget_year').value,
 
-        bcyr: rowData[40],
-        bCYRCell: rowData[41],
+        bcyr: rowData[38],
+        bCYRCell: rowData[39],
         isActive: rowData[40],
         bCYRApproved: rowData[41],
         bCYRCellApproved: rowData[42],
@@ -3521,12 +2746,7 @@ function retrivedObject(rowData) {
 
 function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
-        .done(function (data) {
-            //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>部署を選択</option>`);
-            //$.each(data, function (key, item) {
-            //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-            //});
+        .done(function (data) {       
         });
 }
 
@@ -3552,7 +2772,6 @@ function InsertEmployee() {
             success: function (result) {
                 if (result > 0) {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
-                    // jss.setValueFromCoords(34, globalY, result, false);
                     console.log("result: "+result);
                     console.log("globalY: "+globalY);
 
@@ -3562,7 +2781,6 @@ function InsertEmployee() {
                     $('#employee_name').val('');
                     $('#jexcel_add_employee_modal').modal('hide');
                 }                
-                //GetEmployeeList();
             },
             error: function (result) {
                 alert(result.responseJSON.Message);
@@ -3598,8 +2816,6 @@ function UpdateBudget() {
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();    
     $("#export_budget").hide(); 
-    //LoaderShowJexcel();
-
     var userName = '';
 
     $.ajax({
@@ -3647,8 +2863,6 @@ function UpdateBudget() {
                     });
                     $("#jspreadsheet").show();
                     $("#export_budget").show();
-                    //$("#head_total").show();
-                    //LoaderHide();
                 }
             });
             jssUpdatedData = [];
@@ -3680,33 +2894,20 @@ function UpdateBudget() {
             type: 'POST',
             async: false,
             dataType: 'json',
-            //data: JSON.stringify(jssInsertedData),
             data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, YearWithBudgetType: add_employee_budget_year }),
-            success: function (data) {
-                // var allJexcelData = jss.getData();
-                // for (let i = 0; i < data.length; i++) {
+            success: function (data) {                               
+                var year = $("#budget_years").val();
+                ShowBedgetResults(year);
 
-                //     $.each(allJexcelData, (index, dataValue) => {
-                //         if (data[i].assignmentId == dataValue[0]) {
-                //             jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                //         }
-
-                //     });
-                // }
-
-                
-                var year = $("#assignment_year_list").val();
-                ShowForecastResults(year);
-
-                $("#timeStamp_ForUpdateData").val('');
+                $("#timeStamp_ForUpdateData").val(data);
                 var chat = $.connection.chatHub;
                 $.connection.hub.start();
                 // Start the connection.
                 $.connection.hub.start().done(function () {
-                    chat.server.send('data has been inserted by ', userName);
+                    chat.server.send('data has been updated by ', userName);
                 });
-                $("#jspreadsheet").show();                        
-                LoaderHide();
+                $("#jspreadsheet").show();
+                $("#export_budget").show();               
             }
         });
         jssInsertedData = [];
@@ -3724,10 +2925,18 @@ function UpdateBudget() {
             dataType: 'json',                
             data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
             success: function (data) {
-                //alert(data);
-                deleteMessage = "Successfully data deleted!";
-                var year = $("#assignment_year_list").val();
-                ShowForecastResults(year);
+                var year = $("#budget_years").val();
+                ShowBedgetResults(year);
+
+                $("#timeStamp_ForUpdateData").val(data);
+                var chat = $.connection.chatHub;
+                $.connection.hub.start();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    chat.server.send('data has been updated by ', userName);
+                });
+                $("#jspreadsheet").show();
+                $("#export_budget").show();    
             }
         });
 
@@ -3739,7 +2948,6 @@ function UpdateBudget() {
             chat.server.send('data has been deleted by ', userName);
         });
         $("#jspreadsheet").show();
-        //$("#head_total").show();
         LoaderHide();
         deletedExistingRowIds = [];
     }
@@ -3906,10 +3114,8 @@ function CheckForecastYear(){
 function CheckDuplicateYear(){
     var year = $('#select_year_to_import').find(":selected").val();
     if(year!=""){
-        // $('#duplciateYear').val(parseInt(year)+1);
         $('#replicate_from').val(year);
     }else{
-        // $('#duplciateYear').val('');
         $('#replicate_from').val('');
     }
 }
@@ -3956,15 +3162,9 @@ function DuplicateBudget(){
                     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
                 }
                 else{
-                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
-                    // if(parseInt(data)>0){
-                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
-                    // }else{
-                    //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
-                    // }
+                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                                           
                 }
                 LoaderHide();
-                //window.location.reload();                
             }
         });
     }else{
@@ -3978,7 +3178,6 @@ function DuplicateBudget(){
     budget validation and submit the import file to server.
 */
 function validate(){
-    // var selectedYear = $('#select_import_year').find(":selected").val();
     var selectedYear = $('#select_import_year').val();
     var import_file = $('#import_file_excel').val();
    
@@ -3992,286 +3191,6 @@ function validate(){
 }
 
 $('#frm_import_year_data').submit(validate);
-
-/*
-    author: sudipto.
-    date:17July23.
-    approve,not approved and deleted rows color code functions.
-*/
-function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
-    if(requestType != "deleted"){
-        $(jss.getCell("A" + (rowNumber))).removeClass('readonly');
-    }    
-    jss.setStyle("A"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("A"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("A" + (rowNumber))).addClass('readonly');
-    }    
-
-    if(requestType != "deleted"){
-        $(jss.getCell("B" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("B"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("B"+rowNumber,"color", textColor);    
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("B" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("C" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("C"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("C"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("C" + (rowNumber))).addClass('readonly');
-    }
-
-
-    if(requestType != "deleted"){
-        $(jss.getCell("D" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("D"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("D"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("D" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("E" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("E"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("E"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("E" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("F" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("F"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("F"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("F" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("G" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("G"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("G"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("G" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("H" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("H"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("H"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("H" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("I" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("I"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("I"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("I" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("J" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("J"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("J"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("J" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("K" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("K"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("K"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("K" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("L" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("L"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("L"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("L" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("M" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("M"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("M"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("M" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("N" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("N"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("N"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("N" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("O" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("O"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("O"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("O" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("P" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("P"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("P"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("P" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("Q" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("Q"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Q"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("Q" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("R" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("R"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("R"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("R" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("S" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("S"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("S"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("S" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("T" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("T"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("T"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("T" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("U" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("U"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("U"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("U" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("V" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("V"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("V"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("V" + (rowNumber))).addClass('readonly');
-    }
-
-    if(requestType != "deleted"){
-        $(jss.getCell("W" + (rowNumber))).removeClass('readonly');
-    }  
-    jss.setStyle("W"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("W"+rowNumber,"color", textColor);
-    if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("W" + (rowNumber))).addClass('readonly');
-    }
-
-    $(jss.getCell("X" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("X"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("X"+rowNumber,"color", textColor);
-    $(jss.getCell("X" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("Y" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("Y"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Y"+rowNumber,"color", textColor);
-    $(jss.getCell("Y" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("Z" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("Z"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Z"+rowNumber,"color", textColor);
-    $(jss.getCell("Z" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AA" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AA"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AA"+rowNumber,"color", textColor);
-    $(jss.getCell("AA" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AB" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AB"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AB"+rowNumber,"color", textColor);
-    $(jss.getCell("AB" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AC" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AC"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AC"+rowNumber,"color", textColor);
-    $(jss.getCell("AC" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AD" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AD"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AD"+rowNumber,"color", textColor);
-    $(jss.getCell("AD" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AE" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AE"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AE"+rowNumber,"color", textColor);
-    $(jss.getCell("AE" + (rowNumber))).addClass('readonly');
-    
-    $(jss.getCell("AF" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AF"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AF"+rowNumber,"color", textColor);
-    $(jss.getCell("AF" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AG" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AG"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AG"+rowNumber,"color", textColor);
-    $(jss.getCell("AG" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AH" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AH"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AH"+rowNumber,"color", textColor);
-    $(jss.getCell("AH" + (rowNumber))).addClass('readonly');
-
-    $(jss.getCell("AI" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AI"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AI"+rowNumber,"color", textColor);
-    $(jss.getCell("AI" + (rowNumber))).addClass('readonly');
-
-    // $(jss.getCell("AJ" + (rowNumber))).removeClass('readonly');
-    // jss.setStyle("AJ"+rowNumber,"background-color", backgroundColor);
-    // jss.setStyle("AJ"+rowNumber,"color", textColor);
-    // $(jss.getCell("AJ" + (rowNumber))).addClass('readonly');
-}
 
 /*
     author: sudipto
@@ -4335,19 +3254,7 @@ function StoreChangeCellData(selectedCells,assignmentId){
         changedCellStored = assignmentId+"_"+selectedCells;     
     }	
 }
-function SetColorForCells(strBackgroundColor,strTextColor,CellPosition){
-	jss.setStyle(CellPosition,"background-color", strBackgroundColor);
-	jss.setStyle(CellPosition,"color", strTextColor);
-}
-function SetColorForCostsCells(strBackgroundColor,strTextColor,CellPosition){
-	$(jss.getCell(CellPosition)).removeClass('readonly');
-    jss.setStyle(CellPosition,"background-color", strBackgroundColor);
-	jss.setStyle(CellPosition,"color", strTextColor);
-    $(jss.getCell(CellPosition)).addClass('readonly');
-}
-// $("#select_import_year").change(function(){
-//     alert("The text has been changed.");
-// });
+
 
 //export button clicked for download budget data
 $('#export_budget').on('click', function () {    

@@ -7388,6 +7388,13 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(result);
         }
         [HttpGet]
+        [Route("api/utilities/GetTotalManMonthAndCostForBudgetEdit/")]
+        public IHttpActionResult GetTotalManMonthAndCostForBudgetEdit(int year)
+        {
+            var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("api/utilities/GetEmployeeNameForMenuChange/")]
         public IHttpActionResult GetEmployeeNameForMenuChange(string employeeAssignmentId, int employeeId, string menuType, int year)
         {

@@ -7389,10 +7389,28 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/GetTotalManMonthAndCostForBudgetEdit/")]
-        public IHttpActionResult GetTotalManMonthAndCostForBudgetEdit(int year)
+        public IHttpActionResult GetTotalManMonthAndCostForBudgetEdit(string yearWithType)
         {
-            var result = employeeAssignmentBLL.GetTotalCalculationForManmonthAndCost(year);
-            return Ok(result);
+            if (!string.IsNullOrEmpty(yearWithType))
+            {
+                var arrYearBudgetType = yearWithType.Split('_');
+                if (!string.IsNullOrEmpty(arrYearBudgetType[0]))
+                {
+                    int year = Convert.ToInt32(arrYearBudgetType[0]);
+                    int budgetType = Convert.ToInt32(arrYearBudgetType[1]);
+                    var result = employeeAssignmentBLL.GetTotalManMonthAndCostForBudgetEdit(year,budgetType);
+                    return Ok(result);
+                }
+                else
+                {
+                    return Ok("Budget Type is empty!");
+                }
+            }
+            else
+            {
+                return Ok("Year is empty!");
+            }            
+            
         }
         [HttpGet]
         [Route("api/utilities/GetEmployeeNameForMenuChange/")]

@@ -421,7 +421,7 @@ $(document).ready(function () {
             var tempArrayCopy=[];
             for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
                 for (var j = 0; j < allTableData.length; j++) {
-                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
                         tempArray.push(allTableData[j]);
                     }
                 }
@@ -470,7 +470,7 @@ $(document).ready(function () {
                             singleRowDuplicationCount++;
                         }                        
                         //employee id
-                        if (tempArray[i][37] == tempArrayCopy[k][37]) {
+                        if (tempArray[i][35] == tempArrayCopy[k][35]) {
                             singleRowDuplicationCount++;
                         }
 
@@ -1674,7 +1674,7 @@ function ShowBedgetResults(year) {
 
                 { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
                 { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-                { title: "RowType", type: 'hidden', name: "RowType" }                
+                { title: "RowType", type: 'hidden', name: "RowType" }
             ],
             minDimensions: [6, 10],
             columnSorting: true,
@@ -1722,7 +1722,7 @@ function ShowBedgetResults(year) {
             //},
             onchange: function (instance, cell, x, y, value) {            
                 var checkId = jss.getValueFromCoords(0, y);
-                var employeeId = jss.getValueFromCoords(37, y);
+                var employeeId = jss.getValueFromCoords(35, y);
                 
                 if (checkId == null || checkId == '' || checkId == undefined) {
                     //get data for new employee
@@ -1861,7 +1861,7 @@ function ShowBedgetResults(year) {
                         if (x == 11) {                        
                             var octSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     octSum += parseFloat(parseFloat(dataValue[11]));
                                 }
 
@@ -1889,7 +1889,7 @@ function ShowBedgetResults(year) {
                             var novSum = 0;
 
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     novSum += parseFloat(dataValue[12]);
                                 }
 
@@ -1916,7 +1916,7 @@ function ShowBedgetResults(year) {
                         if (x == 13) {
                             var decSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     decSum += parseFloat(dataValue[13]);
                                 }
 
@@ -1942,7 +1942,7 @@ function ShowBedgetResults(year) {
                         if (x == 14) {                        
                             var janSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     janSum += parseFloat(dataValue[14]);
                                 }
                             });
@@ -1967,7 +1967,7 @@ function ShowBedgetResults(year) {
                         if (x == 15) {                        
                             var febSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     febSum += parseFloat(dataValue[15]);
                                 }
 
@@ -1993,7 +1993,7 @@ function ShowBedgetResults(year) {
                         if (x == 16) {                    
                             var marSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     marSum += parseFloat(dataValue[16]);
                                 }
 
@@ -2019,7 +2019,7 @@ function ShowBedgetResults(year) {
                         if (x == 17) {                        
                             var aprSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     aprSum += parseFloat(dataValue[17]);
                                 }
 
@@ -2045,7 +2045,7 @@ function ShowBedgetResults(year) {
                         if (x == 18) {                        
                             var maySum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     maySum += parseFloat(dataValue[18]);
                                 }
 
@@ -2070,7 +2070,7 @@ function ShowBedgetResults(year) {
                         if (x == 19) {                        
                             var junSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     junSum += parseFloat(dataValue[19]);
                                 }
 
@@ -2096,7 +2096,7 @@ function ShowBedgetResults(year) {
                         if (x == 20) {                        
                             var julSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     julSum += parseFloat(dataValue[20]);
                                 }
 
@@ -2121,7 +2121,7 @@ function ShowBedgetResults(year) {
                         if (x == 21) {                        
                             var augSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     augSum += parseFloat(dataValue[21]);
                                 }
 
@@ -2147,7 +2147,7 @@ function ShowBedgetResults(year) {
                         if (x == 22) {                        
                             var sepSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
+                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
                                     sepSum += parseFloat(dataValue[22]);
                                 }
 
@@ -2192,7 +2192,7 @@ function ShowBedgetResults(year) {
                             
                             setTimeout(function () {
                                 //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                                jss.setValueFromCoords(40, (insertedRowNumber - 1), true, false);
+                                jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
         
                                 $('#jexcel_add_employee_modal').modal('show');
                                 globalY = parseInt(y) + 1;
@@ -2323,12 +2323,12 @@ function ShowBedgetResults(year) {
     var count = 1;
     //get all data and set color
     $.each(allRows, function (index,value) {
-        if (value['40'] == true && value['41'] == false) {            
+        if (value['36'] == true && value['39'] == false) {            
             SetColorCommonRow(count,"yellow","red","newrow");
         }
         else {
             var isApprovedCells = value['43'];
-            var columnInfo = value['41'];
+            var columnInfo = value['39'];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
                 
@@ -2731,12 +2731,26 @@ function ShowBedgetResults(year) {
                
                 if (parseInt(nestedValue) == 34) {
                     jss.setStyle("AI" + count, "background-color", "yellow");
-                    jss.setStyle("AI" + count, "color", "red");                              
+                    jss.setStyle("AI" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AI" + count, "background-color", "red");
+                    //     jss.setStyle("AI" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AI" + count, "background-color", "yellow");
+                    //     jss.setStyle("AI" + count, "color", "red");
+                    // }                    
                 }
                 
                 if (parseInt(nestedValue) == 35) {
                     jss.setStyle("AJ" + count, "background-color", "yellow");
-                    jss.setStyle("AJ" + count, "color", "red");                    
+                    jss.setStyle("AJ" + count, "color", "red");
+                    // if(isApprovedCells == true){
+                    //     jss.setStyle("AJ" + count, "background-color", "red");
+                    //     jss.setStyle("AJ" + count, "color", "black");
+                    // }else{
+                    //     jss.setStyle("AJ" + count, "background-color", "yellow");
+                    //     jss.setStyle("AJ" + count, "color", "red");
+                    // }
                 }
             });
 
@@ -3046,7 +3060,7 @@ function ShowBedgetResults(year) {
                 }
             });
         }       
-        if (value['40'] == false && value['41'] == false && value['46'] == false) {
+        if (value['38'] == false && value['39'] == false && value['46'] == false) {
             //DisableRow(count);
             SetColorCommonRow(count,"gray","black","deleted");
         }
@@ -3138,9 +3152,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
     }
     if (x == 7) {
@@ -3148,15 +3162,15 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
     }
     if (x == 11) {
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 octSum += parseFloat(dataValue[11]);
             }
 
@@ -3174,9 +3188,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41,y);
+            var currentValue = jss.getValueFromCoords(37,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
 
@@ -3185,7 +3199,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 12) {
         var novSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 novSum += parseFloat(dataValue[12]);
             }
 
@@ -3202,9 +3216,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
 
@@ -3212,7 +3226,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 13) {
         var decSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 decSum += parseFloat(dataValue[13]);
             }
 
@@ -3229,16 +3243,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 14) {
         var janSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 janSum += parseFloat(dataValue[14]);
             }
 
@@ -3255,16 +3269,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 15) {
         var febSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 febSum += parseFloat(dataValue[15]);
             }
 
@@ -3281,9 +3295,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             //$(cell).css('color', 'red');
             //$(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -3291,7 +3305,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 16) {
         var marSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 marSum += parseFloat(dataValue[16]);
             }
 
@@ -3308,16 +3322,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 17) {
         var aprSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 aprSum += parseFloat(dataValue[17]);
             }
 
@@ -3334,16 +3348,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 18) {
         var maySum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 maySum += parseFloat(dataValue[18]);
             }
 
@@ -3359,16 +3373,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 19) {
         var junSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 junSum += parseFloat(dataValue[19]);
             }
 
@@ -3385,16 +3399,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 20) {
         var julSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 julSum += parseFloat(dataValue[20]);
             }
 
@@ -3410,16 +3424,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 21) {
         var augSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 augSum += parseFloat(dataValue[21]);
             }
 
@@ -3436,16 +3450,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
     if (x == 22) {
         var sepSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
+            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
                 sepSum += parseFloat(dataValue[22]);
             }
 
@@ -3462,9 +3476,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(41, y);
+            var currentValue = jss.getValueFromCoords(37, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(41, y, currentValue, false);
+            jss.setValueFromCoords(37, y, currentValue, false);
         }
 
     }
@@ -3483,7 +3497,7 @@ function retrivedObject(rowData) {
         assignmentId: rowData[0],
         employeeName: rowData[1],
         remarks: rowData[2],
-        employeeId: rowData[37],
+        employeeId: rowData[35],
         sectionId: rowData[3],
         departmentId: rowData[4],
         inchargeId: rowData[5],
@@ -3505,11 +3519,11 @@ function retrivedObject(rowData) {
         augPoint: parseFloat(rowData[21]),
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('selected_budget_year').value,
-
-        bcyr: rowData[40],
-        bCYRCell: rowData[41],
-        isActive: rowData[40],
-        bCYRApproved: rowData[41],
+        bcyr: rowData[36],
+        bCYRCell: rowData[37],
+        isActive: rowData[38],
+        bCYRApproved: rowData[39],
+        
         bCYRCellApproved: rowData[42],
         isApproved: rowData[43],
         bCYRCellPending: rowData[44],
@@ -3556,7 +3570,7 @@ function InsertEmployee() {
                     console.log("result: "+result);
                     console.log("globalY: "+globalY);
 
-                    jss.setValueFromCoords(37, globalY, result, false);
+                    jss.setValueFromCoords(35, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
@@ -3590,7 +3604,7 @@ function AddEmployee() {
     var employeeId = $('#employee_list').val();
     var employeeName = $('#employee_list').find("option:selected").text();
     jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(37, globalY, employeeId, false);
+    jss.setValueFromCoords(35, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
 

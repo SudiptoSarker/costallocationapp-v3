@@ -1866,57 +1866,86 @@ namespace CostAllocationApp.BLL
                         item.forecasts.Add(new ForecastDto { Month = 8, Points = 0, Total = "" });
                         item.forecasts.Add(new ForecastDto { Month = 9, Points = 0, Total = "" });
 
-                    }
+                    }                    
                     int innerCount = 1;
                     foreach (var forecast in item.forecasts)
                     {
+                        string manmonthSum = "";
+                        manmonthSum = $"=L{count}+M{count}+N{count}+O{count}+P{count}+Q{count}+R{count}+S{count}+T{count}+U{count}+V{count}+W{count}";
+                        string costTotal = $"=Y{count}+Z{count}+AA{count}+AB{count}+AC{count}+AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}";
                         if (innerCount == 1)
                         {
+                            //l-w
                             forecast.Total = $"=K{count}*L{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
+
                         }
                         if (innerCount == 2)
                         {
                             forecast.Total = $"=K{count}*M{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 3)
                         {
                             forecast.Total = $"=K{count}*N{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 4)
                         {
                             forecast.Total = $"=K{count}*O{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 5)
                         {
                             forecast.Total = $"=K{count}*P{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 6)
                         {
                             forecast.Total = $"=K{count}*Q{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 7)
                         {
                             forecast.Total = $"=K{count}*R{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 8)
                         {
                             forecast.Total = $"=K{count}*S{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 9)
                         {
                             forecast.Total = $"=K{count}*T{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 10)
                         {
                             forecast.Total = $"=K{count}*U{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 11)
                         {
                             forecast.Total = $"=K{count}*V{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 12)
                         {
                             forecast.Total = $"=K{count}*W{count}";
+                            forecast.TotalPoints = manmonthSum;
+                            forecast.TotalCosts = costTotal;
                         }
                         innerCount++;
                     }
@@ -1957,6 +1986,9 @@ namespace CostAllocationApp.BLL
                         item.AugTotal = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().Total;
                         item.SepTotal = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().Total;
 
+                        item.TotalManMonth = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().TotalPoints;
+                        item.TotalCost = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().TotalCosts;
+
                         item.forecasts = null;
                     }
                     else
@@ -1986,6 +2018,8 @@ namespace CostAllocationApp.BLL
                         item.JulTotal = "";
                         item.AugTotal = "";
                         item.SepTotal = "";
+                        item.TotalManMonth = "";
+                        item.TotalCost = "";
 
                         item.forecasts = null;
                     }
@@ -2432,6 +2466,10 @@ namespace CostAllocationApp.BLL
         public int RemoveBudgetAssignment(string budgetAssignmentId)
         {
             return employeeAssignmentDAL.RemoveBudgetAssignment(budgetAssignmentId);
+        }
+        public ForecastTotalManMonthCostsViewModal GetTotalManMonthAndCostForBudgetEdit(int year,int budgetType)
+        {
+            return employeeAssignmentDAL.GetTotalManMonthAndCostForBudgetEdit(year, budgetType);
         }
     }
 }

@@ -1358,8 +1358,11 @@ function ShowForecastResults(year) {
                     let row = parseInt(r);
                     let column = parseInt(c) - 1;
                     
-                    var value1 = instance.jexcel.getValueFromCoords(column, row);
-                    if (parseInt(value1) != 3) {
+                    //var value1 = instance.jexcel.getValueFromCoords(column, row);
+                    var element = $(`.jexcel > tbody > tr:nth-of-type(${row+1})`);
+                    var companyName = element[0].cells[9].innerText;
+                    console.log('company filter:' + companyName);
+                    if (companyName.toLowerCase() !== "mw") {
                         return [];
                     }
                     else {
@@ -1804,21 +1807,21 @@ function ShowForecastResults(year) {
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         console.log(element);
-                        if (parseInt(value) !== 3) {
+                        var companyName = element[0].cells[9].innerText;
+                        console.log('copany ' + companyName);
+                        if (companyName.toLowerCase() !== 'mw') {
                             element[0].cells[10].innerText = '';
                             $(jss.getCell("J" + rowNumber)).addClass('readonly');
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
-                            $(jss.getCell("K" + rowNumber)).removeClass('readonly');
-                            jss.setValueFromCoords(10, parseInt(y), 0, true);
+                            jss.setValueFromCoords(10, parseInt(y), 0, false);
                             
                         }
                         else {
                             $(jss.getCell("J" + rowNumber)).removeClass('readonly');
                             $(jss.getCell("J" + rowNumber)).css('color', 'black');
                             $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
-                            $(jss.getCell("K" + rowNumber)).addClass('readonly');
-                            jss.setValueFromCoords(10, parseInt(y), 0, true);
+                            jss.setValueFromCoords(10, parseInt(y), 0, false);
                         }
 
                         if (dataCheck.length == 0) {
@@ -1845,12 +1848,14 @@ function ShowForecastResults(year) {
                         debugger;
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                        var companyName = element[0].cells[9].innerText;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
 
+
                         var cellValue = jss.getValueFromCoords(8, y);
-                        if (parseInt(cellValue)==3) {
+                        if (companyName.toLowerCase() == 'mw') {
                             $.ajax({
                                 url: '/api/Salaries?salaryGradeId=' + value,
                                 contentType: 'application/json',
@@ -1858,9 +1863,7 @@ function ShowForecastResults(year) {
                                 async: false,
                                 dataType: 'json',
                                 success: function (salary) {
-                                    $(jss.getCell("K" + rowNumber)).removeClass('readonly');
-                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, true);
-                                    //retrivedData.unitPrice = salary.SalaryLowPoint;
+                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, false);
                                 }
                             });
                         }

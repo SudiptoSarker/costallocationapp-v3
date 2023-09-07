@@ -3520,7 +3520,7 @@ namespace CostAllocationApp.DAL
                 }
                 catch (Exception ex)
                 {
-
+                    
                 }
             }
 

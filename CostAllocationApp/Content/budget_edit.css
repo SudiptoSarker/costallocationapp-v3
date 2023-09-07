@@ -379,39 +379,6 @@ CSS.g-6,
   background-color: #eab676;
   color: black;
 }
-.jexcel tbody tr td:nth-of-type(26) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(27) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(28) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(29) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(30) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(31) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(32) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(33) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(34) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(35) {
-  text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(36) {
-  text-align:right !important;
-}
 
 /*first header color*/
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1) {    
@@ -546,6 +513,52 @@ CSS.g-6,
 }
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
   background-color: #fce5cd;   
+}
+
+/*cost cells: oct-sep*/
+.jexcel tbody tr td:nth-of-type(26) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(27) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(28) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(29) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(30) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(31) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(32) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(33) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(34) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(35) {
+  text-align:right !important;
+  white-space: nowrap !important;
+}
+.jexcel tbody tr td:nth-of-type(36) {
+  text-align:right !important;
+  white-space: nowrap !important;
 }
 /* 
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {

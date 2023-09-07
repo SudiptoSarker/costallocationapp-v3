@@ -1216,7 +1216,7 @@ function ShowBedgetResults(year) {
             allowComments:true,
             tableOverflow: true,
             freezeColumns: 3,
-            defaultColWidth: 50,
+            //defaultColWidth: 100,
             tableWidth: w-280+ "px",
             tableHeight: (h-150) + "px",           
             minDimensions: [6, 10],
@@ -1325,14 +1325,15 @@ function ShowBedgetResults(year) {
                     {
                         title: _retriveTotal.OctTotalCosts,
                         type: "decimal",
-                        name: "OctPoints",
+                        name: "",
                         mask: '#.##,0',
-                        decimal: '.'
+                        decimal: '.',
+                        //width:700
                     },
                     {
                         title: _retriveTotal.NovTotalCosts,
                         type: "decimal",
-                        name: "OctPoints",
+                        name: "",
                         mask: '#.##,0',
                         decimal: '.'
                     },

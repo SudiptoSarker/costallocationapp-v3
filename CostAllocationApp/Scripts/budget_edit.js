@@ -1852,12 +1852,27 @@ function ShowBedgetResults(year) {
 
                         if (x == 11) {                        
                             var octSum = 0;
+                            var octPointsSum = 0;
+                            var octCostSum = 0;
+
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
+                                    var octPointPerRow = 0.0;
+                                    octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
+                                    octPointsSum += parseFloat(octPointPerRow);                            
+                                    octCostSum = parseFloat(octCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[11]);     
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     octSum += parseFloat(parseFloat(dataValue[11]));
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[2].innerText= parseFloat(octPointsSum).toFixed(1);
+
+                            octCostSum = new Intl.NumberFormat().format(octCostSum)
+                            element[0].cells[15].innerText= octCostSum; 
 
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
@@ -1877,15 +1892,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }                    
 
-                        if (x == 12) {                        
+                        if (x == 12) {  
+                            var novPointsSum = 0;
+                            var novCostSum = 0;
+
                             var novSum = 0;
 
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[12] != "" && dataValue[12] != null && dataValue[12] != undefined) {
+                                    var novPointPerRow = 0.0;
+                                    novPointPerRow = parseFloat(dataValue[12]).toFixed(1);
+                                    novPointsSum += parseFloat(novPointPerRow);   
+    
+                                    novCostSum = parseFloat(novCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[12]);   
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     novSum += parseFloat(dataValue[12]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[3].innerText= novPointsSum.toFixed(1);
+                            novCostSum = new Intl.NumberFormat().format(novCostSum)
+                            element[0].cells[16].innerText= novCostSum;
 
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
@@ -1906,13 +1936,29 @@ function ShowBedgetResults(year) {
                         }
 
                         if (x == 13) {
+                            var decPointsSum = 0;
+                            var decCostSum = 0;
+
                             var decSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[13] != "" && dataValue[13] != null && dataValue[13] != undefined){
+                                    var decPointPerRow = 0.0;
+                                    decPointPerRow = parseFloat(dataValue[13]).toFixed(1);
+                                    decPointsSum += parseFloat(decPointPerRow); 
+                                    
+                                    decCostSum = parseFloat(decCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[13]);   
+                                } 
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     decSum += parseFloat(dataValue[13]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[4].innerText= decPointsSum.toFixed(1);
+                            decCostSum = new Intl.NumberFormat().format(decCostSum)
+                            element[0].cells[17].innerText= decCostSum;  
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
                                 alert('入力値が不正です');
@@ -1931,13 +1977,29 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 14) {                        
+                        if (x == 14) {        
+                            var janPointsSum = 0;
+                            var janCostSum = 0;                
+
                             var janSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[14] != "" && dataValue[14] != null && dataValue[14] != undefined){
+                                    var janPointPerRow = 0.0;
+                                    janPointPerRow = parseFloat(dataValue[14]).toFixed(1);
+                                    janPointsSum += parseFloat(janPointPerRow); 
+    
+                                    janCostSum = parseFloat(janCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[14]);   
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     janSum += parseFloat(dataValue[14]);
                                 }
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[5].innerText= janPointsSum.toFixed(1);
+                            janCostSum = new Intl.NumberFormat().format(janCostSum)
+                            element[0].cells[18].innerText= janCostSum;
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
                                 alert('入力値が不正です');
@@ -1956,14 +2018,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 15) {                        
+                        if (x == 15) {
+                            var febPointsSum = 0;
+                            var febCostSum = 0;
+
                             var febSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[15] != "" && dataValue[15] != null && dataValue[15] != undefined){
+                                    var febPointPerRow = 0.0;
+                                    febPointPerRow = parseFloat(dataValue[15]).toFixed(1);
+                                    febPointsSum += parseFloat(febPointPerRow); 
+                                    
+                                    febCostSum = parseFloat(febCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[15]);   
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     febSum += parseFloat(dataValue[15]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[6].innerText= febPointsSum.toFixed(1);
+                            febCostSum = new Intl.NumberFormat().format(febCostSum)
+                            element[0].cells[19].innerText= febCostSum; 
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
                                 alert('入力値が不正です');
@@ -1982,14 +2060,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 16) {                    
+                        if (x == 16) {  
+                            var marPointsSum = 0;
+                            var marCostSum = 0;
+
                             var marSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[16] != "" && dataValue[16] != null && dataValue[16] != undefined){
+                                    var marPointPerRow = 0.0;
+                                    marPointPerRow = parseFloat(dataValue[16]).toFixed(1);
+                                    marPointsSum += parseFloat(marPointPerRow); 
+                                    
+                                    marCostSum = parseFloat(marCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[16]);   
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     marSum += parseFloat(dataValue[16]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[7].innerText= marPointsSum.toFixed(1);
+                            marCostSum = new Intl.NumberFormat().format(marCostSum)
+                            element[0].cells[20].innerText= marCostSum; 
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
                                 alert('入力値が不正です');
@@ -2008,14 +2102,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 17) {                        
+                        if (x == 17) {  
+                            var aprPointsSum = 0;
+                            var aprCostSum = 0;
+
                             var aprSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[17] != "" && dataValue[17] != null && dataValue[17] != undefined){
+                                    var aprPointPerRow = 0.0;
+                                    aprPointPerRow = parseFloat(dataValue[17]).toFixed(1);
+                                    aprPointsSum += parseFloat(aprPointPerRow); 
+                                    
+                                    aprCostSum = parseFloat(aprCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[17]);
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     aprSum += parseFloat(dataValue[17]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[8].innerText= aprPointsSum.toFixed(1);
+                            aprCostSum = new Intl.NumberFormat().format(aprCostSum)
+                            element[0].cells[21].innerText= aprCostSum;
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
                                 alert('入力値が不正です');
@@ -2034,14 +2144,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 18) {                        
+                        if (x == 18) {   
+                            var mayPointsSum = 0;
+                            var mayCostSum = 0;
+
                             var maySum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[18] != "" && dataValue[18] != null && dataValue[18] != undefined){
+                                    var mayPointPerRow = 0.0;
+                                    mayPointPerRow = parseFloat(dataValue[18]).toFixed(1);
+                                    mayPointsSum += parseFloat(mayPointPerRow); 
+    
+                                    mayCostSum = parseFloat(mayCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[18]); 
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     maySum += parseFloat(dataValue[18]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[9].innerText= mayPointsSum.toFixed(1);
+                            mayCostSum = new Intl.NumberFormat().format(mayCostSum)
+                            element[0].cells[22].innerText= mayCostSum;
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
                                 alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
@@ -2059,14 +2185,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 19) {                        
+                        if (x == 19) {      
+                            var junPointsSum = 0;
+                            var junCostSum = 0;
+
                             var junSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[19] != "" && dataValue[19] != null && dataValue[19] != undefined){
+                                    var junPointPerRow = 0.0;
+                                    junPointPerRow = parseFloat(dataValue[19]).toFixed(1);
+                                    junPointsSum += parseFloat(junPointPerRow); 
+    
+                                    junCostSum = parseFloat(junCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[19]); 
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     junSum += parseFloat(dataValue[19]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[10].innerText= junPointsSum.toFixed(1);
+                            junCostSum = new Intl.NumberFormat().format(junCostSum)
+                            element[0].cells[23].innerText= junCostSum;     
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
                                 alert('入力値が不正です');
@@ -2085,14 +2227,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 20) {                        
+                        if (x == 20) {    
+                            var julPointsSum = 0;
+                            var julCostSum = 0;                    
+
                             var julSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[20] != "" && dataValue[20] != null && dataValue[20] != undefined){
+                                    var julPointPerRow = 0.0;
+                                    julPointPerRow = parseFloat(dataValue[20]).toFixed(1);
+                                    julPointsSum += parseFloat(julPointPerRow); 
+    
+                                    julCostSum = parseFloat(julCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[20]); 
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     julSum += parseFloat(dataValue[20]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[11].innerText= julPointsSum.toFixed(1);
+                            julCostSum = new Intl.NumberFormat().format(julCostSum)
+                            element[0].cells[24].innerText= julCostSum;  
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
                                 alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
@@ -2110,14 +2268,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
                         
-                        if (x == 21) {                        
+                        if (x == 21) {  
+                            var augPointsSum = 0;
+                            var augCostSum = 0;                      
+
                             var augSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[21] != "" && dataValue[21] != null && dataValue[21] != undefined){
+                                    var augPointPerRow = 0.0;
+                                    augPointPerRow = parseFloat(dataValue[21]).toFixed(1);
+                                    augPointsSum += parseFloat(augPointPerRow); 
+    
+                                    augCostSum = parseFloat(augCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[21]); 
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     augSum += parseFloat(dataValue[21]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[12].innerText= augPointsSum.toFixed(1);
+                            augCostSum = new Intl.NumberFormat().format(augCostSum)
+                            element[0].cells[25].innerText= augCostSum;
+                            
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
                                 alert('入力値が不正です');
@@ -2136,14 +2310,30 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 22) {                        
+                        if (x == 22) {    
+                            var sepPointsSum = 0;
+                            var sepCostSum = 0;                    
+
                             var sepSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
+                                if (dataValue[22] != "" && dataValue[22] != null && dataValue[22] != undefined){
+                                    var sepPointPerRow = 0.0;
+                                    sepPointPerRow = parseFloat(dataValue[22]).toFixed(1);
+                                    sepPointsSum += parseFloat(sepPointPerRow); 
+    
+                                    sepCostSum = parseFloat(sepCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[22]); 
+                                }
+
                                 if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     sepSum += parseFloat(dataValue[22]);
                                 }
 
                             });
+                            var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
+                            element[0].cells[13].innerText= sepPointsSum.toFixed(1);
+                            sepCostSum = new Intl.NumberFormat().format(sepCostSum)
+                            element[0].cells[26].innerText= sepCostSum;   
+                            
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
                                 alert('入力値が不正です');

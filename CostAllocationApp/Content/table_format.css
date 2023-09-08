@@ -7,7 +7,7 @@ body {
 	dynamic table Registration Form
 \***************************/
 #dynamic_table_create {
-    width: 800px;
+    width: 100%;
     border-collapse: collapse;
     font-size: 10px;
     border: 1px solid;
@@ -19,15 +19,26 @@ body {
     color: white;
     text-align: center;
 }
-#dynamic_table_create_td {
+
+#dynamic_table_create_td{
     height: 25px;
     border: none;
     border: 1px solid #f5e7e7 !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
+    line-height: 0.5;
 }
-.dynamic_table_create_input {
+#table_name,#table_title,#table_position{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+/* .dynamic_table_create_input {
     width: 100% !important;
     height: 100% !important;
     border: none !important;
@@ -35,7 +46,8 @@ body {
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
-}
+} */
+
 #dynamic_table_create_cancel_btn {
     background-color: #3c4b5d;
     color: white;
@@ -45,6 +57,7 @@ body {
     display: inline-block;
     margin-bottom: 20px;
     margin-left:10px;
+    height: 16px;
 }
 #dynamic_table_create_save_btn {
     background-color: #3c4b5d;
@@ -55,6 +68,7 @@ body {
     display: inline-block;
     margin-bottom: 20px;
     margin-left: 10px;
+    height: 16px;
 }
 #table_name_err, #table_title_err {
     display: none;
@@ -141,3 +155,24 @@ body {
     padding-left: 382px;
 }
 
+/**********total cost-create table: table name input field*************/
+
+/**********total cost-create table: cancel and save button*************/
+#section_reg_cancel_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#section_reg_save_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}

@@ -7545,7 +7545,7 @@ namespace CostAllocationApp.Controllers.Api
                 var result = totalBLL.CreateDynamicTable(dynamicTable);
                 if (result > 0)
                 {
-                    return Ok("Data inserted successfully.");
+                    return Ok("保存されました.");
                 }
                 else
                 {

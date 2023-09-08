@@ -1,0 +1,143 @@
+﻿/*-----------------Dynamic Table Format-----------------------*/
+body {
+    overflow-x: auto;
+}
+
+/***************************\                           
+	dynamic table Registration Form
+\***************************/
+#dynamic_table_create {
+    width: 800px;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#dynamic_table_create thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#dynamic_table_create_td {
+    height: 25px;
+    border: none;
+    border: 1px solid #f5e7e7 !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+.dynamic_table_create_input {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#dynamic_table_create_cancel_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left:10px;
+}
+#dynamic_table_create_save_btn {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+#table_name_err, #table_title_err {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+/***************************\                           
+	dynamic table List Show
+\***************************/
+#dynamic_table_list {
+    margin-left: 17px
+}
+#dynamic_list_tbl{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+    #dynamic_list_tbl td, th {
+        border: 1px solid;
+        padding: 0px !important;
+        text-align: center;
+    }
+
+#dynamic_list_tbl td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#dynamic_list_tbl td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#dynamic_list_tbl {
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+
+    #dynamic_list_tbl thead tr:nth-of-type(1) {
+        background-color: #3c4b5d;
+        color: white;
+        text-align: center;
+    }
+
+    #dynamic_list_tbl thead th:nth-of-type(2) {
+        width: 200px
+    }
+
+    #dynamic_list_tbl thead th:nth-of-type(3) {
+        width: 100px
+    }
+
+    #dynamic_list_tbl thead th:nth-of-type(1) {
+        /* width: 45px; */
+        width: 10%;
+    }
+/*.section_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
+}*/
+/***************************\                           
+	Section List Delete Button
+\***************************/ 
+#section_inactive_btn {
+    width: 117%;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: indianred;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+    margin-left: -10px !important;
+}
+#section_delete_btn {
+    padding-left: 382px;
+}
+

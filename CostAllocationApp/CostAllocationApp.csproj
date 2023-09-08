@@ -266,6 +266,7 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DepartmentWithSubCategory.cs" />
+    <Compile Include="Models\DynamicTable.cs" />
     <Compile Include="Models\EmployeeAssignmentForecast.cs" />
     <Compile Include="Models\EmployeeBudget.cs" />
     <Compile Include="Models\EmployeeBudgetAssignment.cs" />
@@ -319,6 +320,7 @@
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
     <Content Include="Content\companies_ver02.css" />
+    <Content Include="Content\table_format.css" />
     <Content Include="Content\employee.css" />
     <Content Include="Content\Custom.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
@@ -803,6 +805,7 @@
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sukey.js" />
     <Content Include="Scripts\sukey_qa.js" />
+    <Content Include="Scripts\table_format.js" />
     <Content Include="Scripts\task.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -861,6 +864,7 @@
     <Content Include="Views\Category\DepartmentsWithSubCategory.cshtml" />
     <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
     <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
+    <Content Include="Views\Forecasts\TableFormat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

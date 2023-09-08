@@ -131,5 +131,69 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
+
+        public int CreateDynamicTable(DynamicTable dynamicTable)
+        {
+            int result = 0;
+            string query = $@"insert into DynamicTables(TableName,TableTitle,TablePosition,CreatedBy,CreatedDate,IsActive) values(@tableName,@tableTitle,@tablePosition,@createdBy,@createdDate,@isActive)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@tableName", dynamicTable.TableName);
+                cmd.Parameters.AddWithValue("@tableTitle", dynamicTable.TableTitle);
+                cmd.Parameters.AddWithValue("@tablePosition", dynamicTable.TablePosition);
+                cmd.Parameters.AddWithValue("@createdBy", dynamicTable.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", dynamicTable.CreatedDate);
+                cmd.Parameters.AddWithValue("@isActive", dynamicTable.IsActive);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public List<DynamicTable> GetAllDynamicTables()
+        {
+            List<DynamicTable> dynamicTables = new List<DynamicTable>();
+            string query = "";
+            query = "SELECT * FROM DynamicTables WHERE IsActive=1 ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            DynamicTable dynamicTable = new DynamicTable();
+                            dynamicTable.Id = Convert.ToInt32(rdr["Id"]);
+                            dynamicTable.TableName = rdr["TableName"].ToString();
+                            dynamicTable.TableTitle = rdr["TableTitle"].ToString();
+                            dynamicTable.TablePosition = Convert.ToInt32(rdr["TablePosition"]);
+                            dynamicTable.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            dynamicTable.CreatedBy = rdr["CreatedBy"].ToString();
+
+                            dynamicTables.Add(dynamicTable);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return dynamicTables;
+            }
+        }
     }
 }

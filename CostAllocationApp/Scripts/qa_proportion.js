@@ -60,7 +60,7 @@ function LoadJexcel() {
         alert('年度を選択してください!!!');
         return false;
     }
-    //LoaderShow();
+    
     setTimeout(function () {
         $.ajax({
             url: '/Registration/GetUserRole',
@@ -78,10 +78,7 @@ function LoadJexcel() {
             }
         });
         // 1st jexcel
-
         {
-        //LoaderHide();
-
         if (jss != undefined) {
             jss.destroy();
             $('#jspreadsheet').empty();
@@ -226,30 +223,7 @@ function LoadJexcel() {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
             },
-            onchange: (instance, cell, x, y, value) => {
-                //if (x == 2) {
-                //    debugger;
-                //    var deptCount = 0;
-                //    var employeeId = jss.getValueFromCoords(0,y);
-                //    $.each(jss.getData(), (index, itemValue) => {
-                //        //if (itemValue[2] != null || itemValue[2] != '' || itemValue[2] != undefined) {
-                //            if (employeeId != null && (itemValue[0].toString() == employeeId.toString())) {
-                //                if (itemValue[2].toString() == value.toString()) {
-                //                    deptCount++;
-                //                }
-                //            }
-                //        //}
-                //    });
-
-                //    if (deptCount > 1) {
-                //        alert('Duplicate Department');
-                //        var rowNumber = parseInt(y) + 1;
-                //        var element = $(`#jspreadsheet .jexcel > tbody > tr:nth-of-type(${rowNumber})`);
-                //        element[0].cells[3].innerText = '';
-                //        console.log(element[0]);
-                //        return false;
-                //    }
-                //}
+            onchange: (instance, cell, x, y, value) => {               
                 if (x == 3) {
                     var octSum = 0;
                     var employeeId = jss.getValueFromCoords(0, y);
@@ -266,16 +240,6 @@ function LoadJexcel() {
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
                 }
                 if (x == 4) {
                     var novSum = 0;
@@ -293,16 +257,6 @@ function LoadJexcel() {
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
                 }
                 if (x == 5) {
                     var decSum = 0;
@@ -320,16 +274,6 @@ function LoadJexcel() {
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
                 }
                 if (x == 6) {
                     var janSum = 0;
@@ -346,17 +290,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                  
                 }
                 if (x == 7) {
                     var febSum = 0;
@@ -373,17 +307,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                    
                 }
                 if (x == 8) {
                     var marSum = 0;
@@ -400,17 +324,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                  
                 }
                 if (x == 9) {
                     var aprSum = 0;
@@ -427,17 +341,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                
                 }
                 if (x == 10) {
                     var maySum = 0;
@@ -454,17 +358,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                   
                 }
                 if (x == 11) {
                     var junSum = 0;
@@ -481,17 +375,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                    
                 }
                 if (x == 12) {
                     var julSum = 0;
@@ -508,17 +392,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                    
                 }
                 if (x == 13) {
                     var augSum = 0;
@@ -535,17 +409,7 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                    
                 }
                 if (x == 14) {
                     var sepSum = 0;
@@ -562,45 +426,13 @@ function LoadJexcel() {
                         alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    }
-                    //else {
-
-                    //    if (dataCheck.length == 0) {
-                    //        jssUpdatedData.push(retrivedData);
-                    //    }
-                    //    else {
-                    //        updateArray(jssUpdatedData, retrivedData);
-                    //    }
-
-                    //}
+                    }                  
                 }
             }
         });
-        //jss.deleteColumn(21, 4);
-
     } 
 
-
-        //$.ajax({
-        //    url: `/api/utilities/QaAssignmentTotal?year=${year}`,
-        //    contentType: 'application/json',
-        //    type: 'GET',
-        //    async: false,
-        //    dataType: 'json',
-        //    success: function (assignmentData) {
-        //        $.each(assignmentData, (index, itemValue) => {
-        //            $('#qa_assignments').append(`<tr><td>${itemValue.EmployeeName}</td><td>${itemValue.OctTotal}</td><td>${itemValue.NovTotal}</td><td>${itemValue.DecTotal}</td><td>${itemValue.JanTotal}</td><td>${itemValue.FebTotal}</td><td>${itemValue.MarTotal}</td><td>${itemValue.AprTotal}</td><td>${itemValue.MayTotal}</td><td>${itemValue.JunTotal}</td><td>${itemValue.JulTotal}</td><td>${itemValue.AugTotal}</td><td>${itemValue.SepTotal}</td></tr>`);
-        //        });
-        //    }
-        //});
-
-
-
     }, 3000);
-
-
-
-
 }
 
 function LoadJexcel1() {
@@ -611,76 +443,48 @@ function LoadJexcel1() {
         alert('年度を選択してください!!!');
         return false;
     }
-   // LoaderShow();
-    //$.ajax({
-    //    url: `/api/utilities/CreateApportionment?year=${year}`,
-    //    contentType: 'application/json',
-    //    type: 'GET',
-    //    async: false,
-    //    dataType: 'json',
-    //    success: function (data1) 
-    {
-            //LoaderHide();
-            //_retriveddata_1 = data1;
-
-            if (jss_1 != undefined) {
-                jss_1.destroy();
-                $('#jspreadsheet_1').empty();
-            }
-
-            jss_1 = $('#jspreadsheet_1').jspreadsheet({
-                data: _retriveddata_1,
-                //filters: true,
-                tableOverflow: true,
-                //freezeColumns: 3,
-                defaultColWidth: 100,
-                tableWidth: (window.innerWidth - 300) + "px",
-                tableHeight: (window.innerHeight - 300) + "px",
-                columns: [
-                    { title: "Department Id", type: 'hidden', name: "DepartmentId" },
-                    { title: "部門名 (Dept.)", type: 'text', name: "DepartmentName" },
-
-                    { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
-
-                    { title: "11月 (QA ratio)", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "12月 (QA ratio)", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "1月 (QA ratio)", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "2月 (QA ratio)", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "3月 (QA ratio)", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
-
-
-                    { title: "4月 (QA ratio)", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "5月 (QA ratio)", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "6月 (QA ratio)", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "7月 (QA ratio)", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
-
-                    { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
-                    { title: "Id", type: 'hidden', name: "Id" },
-                ],
-                //onchange: function (instance, cell, x, y, value) {
-                //    var count = 0;
-                //    var allPercentage = jss.getData();
-                //    $.each(allPercentage, function (index, value) {
-                //        count += value[x];
-                //    });
-
-                //    if (count > 100 || count < 0) {
-                //        alert("invalid value!");
-                //        jss.setValueFromCoords(x, y, 0, false);
-                //    }
-                //},
-            });
+    if (jss_1 != undefined) {
+        jss_1.destroy();
+        $('#jspreadsheet_1').empty();
     }
-    //});
+
+    jss_1 = $('#jspreadsheet_1').jspreadsheet({
+        data: _retriveddata_1,
+        tableOverflow: true,
+        defaultColWidth: 100,
+        tableWidth: (window.innerWidth - 300) + "px",
+        tableHeight: (window.innerHeight - 300) + "px",
+        columns: [
+            { title: "Department Id", type: 'hidden', name: "DepartmentId" },
+            { title: "部門名 (Dept.)", type: 'text', name: "DepartmentName" },
+
+            { title: "10月 (QA ratio)", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
+
+            { title: "11月 (QA ratio)", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
+
+            { title: "12月 (QA ratio)", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
+
+            { title: "1月 (QA ratio)", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
+
+            { title: "2月 (QA ratio)", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
+
+            { title: "3月 (QA ratio)", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
+
+
+            { title: "4月 (QA ratio)", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
+
+            { title: "5月 (QA ratio)", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
+
+            { title: "6月 (QA ratio)", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
+
+            { title: "7月 (QA ratio)", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
+
+            { title: "8月 (QA ratio)", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
+
+            { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
+            { title: "Id", type: 'hidden', name: "Id" },
+        ],
+    });
 }
 
 
@@ -1153,21 +957,21 @@ $(document).ready(function () {
         if (year == null || year == '' || year == undefined) {
             alert('年度を選択してください!!!');
             return false;
-        }     
+        }    
+        isLoaderShow = true; 
         if(isLoaderShow){
             HideTables();
             LoaderShow_QAProration();
-        }        
+        }  
+                    
         var year = $('#assignment_year').val();        
         EmployeeWiseQAProration(year);
-        GetDepartmentListForQAProration();
-        GetQAProrationByYear(year);
-
         if(!isLoaderShow){
             LoaderHide_QAProration();
             ShowTables();
-        }        
-        return false;                        
+        }   
+        GetDepartmentListForQAProration();
+        GetQAProrationByYear(year);                                 
     });
 
     $('#add_button').on('click', function () {

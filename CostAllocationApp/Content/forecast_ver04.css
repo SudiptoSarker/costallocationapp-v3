@@ -326,54 +326,42 @@ body {
 /*total cost header*/
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
     background-color: #d99a23;
-    white-space: nowrap !important;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
     background-color: #d99a23;
-    white-space: nowrap !important;
 }
 
 /*second header color*/

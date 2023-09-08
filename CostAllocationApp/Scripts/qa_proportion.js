@@ -8,7 +8,7 @@ var allEmployeeName1 = [];
 var beforeChangedValue = 0;
 var loadFlag = 0;
 var loadFlag1 = 0;
-
+var isLoaderShow = true;
 
 
 const channel = new BroadcastChannel("actualCost");
@@ -683,14 +683,7 @@ function LoadJexcel1() {
     //});
 }
 
-function LoaderShow() {
-    $("#jspreadsheet").hide();
-    $("#loading").css("display", "block");
-}
-function LoaderHide() {
-    $("#jspreadsheet").show();
-    $("#loading").css("display", "none");
-}
+
 function ColumnOrder(columnNumber, orderBy) {
     jss.orderBy(columnNumber, orderBy);
     if (orderBy == 0) {
@@ -706,11 +699,97 @@ function ColumnOrder(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
+function GetQAProrationByYear(year){
+    _retriveddata = [];
+    _retriveddata_1 = [];
+    $.ajax({
+        url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            _retriveddata = data;
+        }
+    });
+
+    $.ajax({
+        url: `/api/utilities/CreateApportionment?year=${year}`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            _retriveddata_1 = data;
+        }
+    });
+
+    LoadJexcel();
+    LoadJexcel1();
+}
+function GetDepartmentListForQAProration(){
+    $.ajax({
+        url: `/api/utilities/GetFilteredDepartments`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#department_list').empty();
+            $('#department_list').append(`<option value=''></option>`);
+            $.each(data, function (index, element) {
+                $('#department_list').append(`<option value='${element.Id}_${element.DepartmentName}'>${element.DepartmentName}</option>`);
+            });
+        }
+    });
+}
+
+function EmployeeWiseQAProration(year){    
+    $.ajax({
+        url: `/api/utilities/QaProportion?year=${year}`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            isLoaderShow = false;
+            $('#merged_employee_from_qc').empty();
+            $('#merged_employee_from_qc').append(`<option value=''></option>`);
+            $.each(data, function (index, element) {
+                $('#merged_employee_from_qc').append(`<option value='${element.EmployeeId}_${element.EmployeeName}'>${element.EmployeeName}</option>`);
+            });
+        }
+    });
+}
+
+//loader show
+function LoaderShow_QAProration(){
+    $("#loading").css("display", "block");
+}
+//loader hide
+function LoaderHide_QAProration(){
+    $("#loading").css("display", "none");
+}
+//hide all the tables
+function HideTables(){
+    $("#qa_proration_tables").hide();    
+}
+//show all the tables
+function ShowTables(){
+    $("#qa_proration_tables").show();
+}
+
+// function LoaderShow() {
+//     $("#jspreadsheet").hide();
+//     $("#loading").css("display", "block");
+// }
+
+// function LoaderHide() {
+//     $("#jspreadsheet").show();
+//     $("#loading").css("display", "none");
+// }
 $(document).ready(function () {
-
-    
-    // LoaderHide();
-
+    HideTables();
 
     $('#employee_wise_save_button').on('click', () => {
        
@@ -1069,66 +1148,26 @@ $(document).ready(function () {
         }
     });
 
-    $('#actual_cost').on('click', function () {
-        
+    $('#actual_cost').on('click', function () {        
         var year = $('#assignment_year').val();
+        if (year == null || year == '' || year == undefined) {
+            alert('年度を選択してください!!!');
+            return false;
+        }     
+        if(isLoaderShow){
+            HideTables();
+            LoaderShow_QAProration();
+        }        
+        var year = $('#assignment_year').val();        
+        EmployeeWiseQAProration(year);
+        GetDepartmentListForQAProration();
+        GetQAProrationByYear(year);
 
-        $.ajax({
-            url: `/api/utilities/QaProportion?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $('#merged_employee_from_qc').empty();
-                $('#merged_employee_from_qc').append(`<option value=''></option>`);
-                $.each(data, function (index, element) {
-                    $('#merged_employee_from_qc').append(`<option value='${element.EmployeeId}_${element.EmployeeName}'>${element.EmployeeName}</option>`);
-                });
-            }
-        });
-
-        $.ajax({
-            url: `/api/utilities/GetFilteredDepartments`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $('#department_list').empty();
-                $('#department_list').append(`<option value=''></option>`);
-                $.each(data, function (index, element) {
-                    $('#department_list').append(`<option value='${element.Id}_${element.DepartmentName}'>${element.DepartmentName}</option>`);
-                });
-            }
-        });
-
-        _retriveddata = [];
-        _retriveddata_1 = [];
-        $.ajax({
-            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                _retriveddata = data;
-            }
-        });
-
-        $.ajax({
-            url: `/api/utilities/CreateApportionment?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                _retriveddata_1 = data;
-            }
-        });
-
-        LoadJexcel();
-        LoadJexcel1();
+        if(!isLoaderShow){
+            LoaderHide_QAProration();
+            ShowTables();
+        }        
+        return false;                        
     });
 
     $('#add_button').on('click', function () {

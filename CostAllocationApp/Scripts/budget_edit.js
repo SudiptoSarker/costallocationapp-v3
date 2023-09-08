@@ -1559,6 +1559,7 @@ function ShowBedgetResults(year) {
                     mask: '#.##,0',
                     decimal: '.'
                 },
+                //cost
                 {
                     title: "計画工数",
                     type: "decimal",
@@ -1574,91 +1575,103 @@ function ShowBedgetResults(year) {
                     readOnly: true,
                     mask: "#,##0",
                     name: "OctTotal",
-                    width: 60
+                    width: 75
                 },
                 {
                     title: "11月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "NovTotal"
+                    name: "NovTotal",
+                    width: 75
                 },
                 {
                     title: "12月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "DecTotal"
+                    name: "DecTotal",
+                    width: 75
                 },
                 {
                     title: "1月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "JanTotal"
+                    name: "JanTotal",
+                    width: 75
                 },
                 {
                     title: "2月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "FebTotal"
+                    name: "FebTotal",
+                    width: 75
                 },
                 {
                     title: "3月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "MarTotal"
+                    name: "MarTotal",
+                    width: 75
                 },
                 {
                     title: "4月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "AprTotal"
+                    name: "AprTotal",
+                    width: 75
                 },
                 {
                     title: "5月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "MayTotal"
+                    name: "MayTotal",
+                    width: 75
                 },
                 {
                     title: "6月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "JunTotal"
+                    name: "JunTotal",
+                    width: 75
                 },
                 {
                     title: "7月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "JulTotal"
+                    name: "JulTotal",
+                    width: 75
                 },
                 {
                     title: "8月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "AugTotal"
+                    name: "AugTotal",
+                    width: 75
                 },
                 {
                     title: "9月",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "SepTotal"
+                    name: "SepTotal",
+                    width: 75
                 },
                 {
                     title: "実績・見通し",
                     type: "decimal",
                     readOnly: true,
                     mask: "#,##0",
-                    name: "TotalCost"
+                    name: "TotalCost",
+                    width: 75
                 },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
                 { title: "BCYR", type: 'hidden', name: "BCYR" },

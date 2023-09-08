@@ -27,7 +27,7 @@ $(document).ready(function () {
         var year = $('#history_year').val();
         console.log(year);
         if (year == '' || year == null || year == undefined) {
-            alert('Select Year');
+            alert('年度を選択してください');
             return false;
         }
         LoaderShow();
@@ -118,7 +118,7 @@ $('#btn_export_change_history_data').on('click', function () {
         columns: [      
             { title: "利用者", type: "text", name: "CreatedBy", width: 120},
             { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150},
-            { title: "Operation Type", type: "text", name: "OperationType", width: 100},
+            { title: "操作内容 (Type)", type: "text", name: "OperationType", width: 100},
             { title: "Remaks", type: "text", name: "Remarks", width: 100},
             { title: "区分(Section)	", type: "text", name: "SectionName", width: 120},            
             { title: "部署(Dept)", type: "text", name: "DepartmentName", width: 120},

@@ -58,124 +58,124 @@
         var idleTime = 0;
         var idleInterval;
 
-        document.addEventListener("visibilitychange", function () {
-            if (document.hidden) {
-                console.log("Browser tab is hidden")
-            } else {
-                console.log("Browser tab is visible")
-                idleTime = 0;
-                $.ajax({
-                    url: `/Registration/SetLastPath?lastPath=${window.location.pathname}`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    //dataType: 'json',
-                    success: function (data) {
-                        $.ajax({
-                            url: `/Registration/GetLastPath`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            //dataType: 'json',
-                            success: function (data1) {
+        // document.addEventListener("visibilitychange", function () {
+        //     if (document.hidden) {
+        //         console.log("Browser tab is hidden")
+        //     } else {
+        //         console.log("Browser tab is visible")
+        //         idleTime = 0;
+        //         $.ajax({
+        //             url: `/Registration/SetLastPath?lastPath=${window.location.pathname}`,
+        //             contentType: 'application/json',
+        //             type: 'GET',
+        //             async: false,
+        //             //dataType: 'json',
+        //             success: function (data) {
+        //                 $.ajax({
+        //                     url: `/Registration/GetLastPath`,
+        //                     contentType: 'application/json',
+        //                     type: 'GET',
+        //                     async: false,
+        //                     //dataType: 'json',
+        //                     success: function (data1) {
 
-                                console.log(data1);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        //                         console.log(data1);
+        //                     }
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
 
-        $(document).ready(function () {
-            {
-                // Increment the idle time counter every minute.
-                idleInterval = setInterval(timerIncrement, 60000); // 1 minute
-                // Zero the idle timer on mouse movement.
-                $(this).mousemove(function (e) {
-                    idleTime = 0;
-                });
-                $(this).keypress(function (e) {
-                    idleTime = 0;
-                });
-            }
+        // $(document).ready(function () {
+        //     {
+        //         // Increment the idle time counter every minute.
+        //         idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+        //         // Zero the idle timer on mouse movement.
+        //         $(this).mousemove(function (e) {
+        //             idleTime = 0;
+        //         });
+        //         $(this).keypress(function (e) {
+        //             idleTime = 0;
+        //         });
+        //     }
 
-            $(window).on("beforeunload", function () {
-                //debugger;
-                //alert("call");
-
-
-                setTimeout(function () {
-                    console.log(window.location);
-                }, 3000);
-
-                var _keysCount = 0;
-                var currentHost = window.location.host;
-                _keys = Object.keys(localStorage);
-                for (var key = 0; key < _keys.length; key++) {
-                    if (localStorage.getItem(_keys[key]) == currentHost) {
-                        _keysCount++;
-                    }
-                }
-                if (_keysCount == 1) {
-                    var user_name = $('#hidden_username').val();
-                    if (user_name != null || user_name != undefined || user_name != '') {
-                        $.ajax({
-                            url: `/Registration/RemoveSession?userName=${user_name}`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            //dataType: 'json',
-                            success: function (data) {
-                                localStorage.removeItem(window.location.pathname);
-                            }
-                        });
-                    }
-                }
-                if (_keysCount > 1) {
-                    localStorage.removeItem(window.location.pathname);
-                }
-            });
-
-            var localStorageItem = localStorage.getItem(window.location.pathname);
-            if (localStorageItem == null || localStorageItem == '' || localStorageItem == undefined) {
-                localStorage.setItem(window.location.pathname, window.location.host);
-            }
+        //     $(window).on("beforeunload", function () {
+        //         //debugger;
+        //         //alert("call");
 
 
+        //         setTimeout(function () {
+        //             console.log(window.location);
+        //         }, 3000);
+
+        //         var _keysCount = 0;
+        //         var currentHost = window.location.host;
+        //         _keys = Object.keys(localStorage);
+        //         for (var key = 0; key < _keys.length; key++) {
+        //             if (localStorage.getItem(_keys[key]) == currentHost) {
+        //                 _keysCount++;
+        //             }
+        //         }
+        //         if (_keysCount == 1) {
+        //             var user_name = $('#hidden_username').val();
+        //             if (user_name != null || user_name != undefined || user_name != '') {
+        //                 $.ajax({
+        //                     url: `/Registration/RemoveSession?userName=${user_name}`,
+        //                     contentType: 'application/json',
+        //                     type: 'GET',
+        //                     async: false,
+        //                     //dataType: 'json',
+        //                     success: function (data) {
+        //                         localStorage.removeItem(window.location.pathname);
+        //                     }
+        //                 });
+        //             }
+        //         }
+        //         if (_keysCount > 1) {
+        //             localStorage.removeItem(window.location.pathname);
+        //         }
+        //     });
+
+        //     var localStorageItem = localStorage.getItem(window.location.pathname);
+        //     if (localStorageItem == null || localStorageItem == '' || localStorageItem == undefined) {
+        //         localStorage.setItem(window.location.pathname, window.location.host);
+        //     }
 
 
-        });
 
-        function timerIncrement() {
-            idleTime = idleTime + 1;
-            let last_path = '';
-            if (window.location.pathname.toString() !== '/') {
-                if (idleTime > 5) { // 5 minutes
-                    debugger;
-                    $.ajax({
-                        url: `/Registration/GetLastPath`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        //dataType: 'json',
-                        success: function (data) {
-                            last_path = data;
-                            console.log(data);
-                        }
-                    });
-                    if ((last_path == window.location.pathname)) {
-                        RemoveSession();
-                        clearInterval(idleInterval);
-                    }
-                    else {
-                        idleTime = 0;
-                    }
 
-                }
-            }
+        // });
 
-        }
+        // function timerIncrement() {
+        //     idleTime = idleTime + 1;
+        //     let last_path = '';
+        //     if (window.location.pathname.toString() !== '/') {
+        //         if (idleTime > 5) { // 5 minutes
+        //             debugger;
+        //             $.ajax({
+        //                 url: `/Registration/GetLastPath`,
+        //                 contentType: 'application/json',
+        //                 type: 'GET',
+        //                 async: false,
+        //                 //dataType: 'json',
+        //                 success: function (data) {
+        //                     last_path = data;
+        //                     console.log(data);
+        //                 }
+        //             });
+        //             if ((last_path == window.location.pathname)) {
+        //                 RemoveSession();
+        //                 clearInterval(idleInterval);
+        //             }
+        //             else {
+        //                 idleTime = 0;
+        //             }
+
+        //         }
+        //     }
+
+        // }
     </script>
     @RenderSection("Scripts", false/*required*/)
     @{

@@ -295,7 +295,7 @@ namespace CostAllocationApp.Controllers
                 }
                 else if (upload_year==0)
                 {
-                    ModelState.AddModelError("Year", "Select Year");
+                    ModelState.AddModelError("Year", "年度を選択してください");
                 }
                 else
                 {

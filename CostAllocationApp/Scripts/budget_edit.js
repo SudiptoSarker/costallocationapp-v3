@@ -16,6 +16,27 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
+function ClearnAllJexcelData(){
+    globalSearchObject = '';
+    globalPreviousValue = '0.0';
+    globalPreviousId = '';
+    jss;
+    globalX = 0;
+    globalY = 0;
+    newRowCount = 1;
+    beforeChangedValue = 0;
+    jssUpdatedData = [];
+    jssInsertedData = [];
+    allEmployeeName = [];
+    allEmployeeName1 = [];
+    cellwiseColorCode = [];
+    cellwiseColorCodeForInsert = [];
+    changeCount = 0;
+    newRowChangeEventFlag = false;
+    deletedExistingRowIds = [];
+}
+
+
 //loader functions
 function LoaderShow() {    
     $("#loading").css("display", "block");
@@ -189,7 +210,9 @@ $(document).ready(function () {
 
     //checking the data is finalize or not.
     //save and finalize button disable/enable
-    $("#budget_years").change(function () {
+    $("#budget_years").change(function () {        
+        $("#is_finalize_budget").val('');
+
         var select_year_type = this.value;
         if (select_year_type != '' && select_year_type != null && select_year_type != undefined){
             var arrYear = select_year_type.split("_");
@@ -206,10 +229,12 @@ $(document).ready(function () {
                 data: "select_year_type=" + arrYear[0]+"&budgetReqType="+arrYear[1],
                 success: function (data) {
                     if(data){
+                        $("#is_finalize_budget").val(1);
                         $("#save_bedget").prop("disabled",true);
                         $("#budget_finalize").prop("disabled",true);
                     }
                     else{
+                        $("#is_finalize_budget").val(0);
                         $("#save_bedget").prop("disabled",false);
                         $("#budget_finalize").prop("disabled",false);
                     }
@@ -396,7 +421,7 @@ $(document).ready(function () {
             var tempArrayCopy=[];
             for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
                 for (var j = 0; j < allTableData.length; j++) {
-                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][35].toString()) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
                         tempArray.push(allTableData[j]);
                     }
                 }
@@ -445,7 +470,7 @@ $(document).ready(function () {
                             singleRowDuplicationCount++;
                         }                        
                         //employee id
-                        if (tempArray[i][35] == tempArrayCopy[k][35]) {
+                        if (tempArray[i][37] == tempArrayCopy[k][37]) {
                             singleRowDuplicationCount++;
                         }
 
@@ -517,7 +542,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][47]) {
                                             newUnitPriceList.push(_allData[k]);
                                         }
                                     }
@@ -690,7 +715,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][47]) {
                                             newRoleList.push(_allData[k]);
                                         }
                                     }
@@ -777,7 +802,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][47]) {
                                             newBothList.push(_allData[k]);
                                         }
                                     }
@@ -866,7 +891,7 @@ $(document).ready(function () {
             $("#close_save_modal").css("display", "none");
         } else {
             $("#update_forecast").modal("show");
-            $("#save_modal_header").html("There is nothing to save!");
+            $("#save_modal_header").html("変更されていないので、保存できません");
             $("#back_button_show").css("display", "none");
             $("#save_btn_modal").css("display", "none");
 
@@ -931,7 +956,7 @@ $(document).ready(function () {
         var selected_year_for_finalize_budget = $("#budget_years").val();
 
         if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
-            alert("please select year!");
+            alert("please 年度を選択してください!");
         }
         else{
             $.ajax({
@@ -942,7 +967,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("Operation Success");              
+                    alert("保存されました");              
                           
                 }
             });
@@ -957,7 +982,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -965,10 +990,12 @@ $(document).ready(function () {
     });
     
     //show budget data.
-    $(document).on('click', '#search_budget ', function () {           
+    $(document).on('click', '#search_budget ', function () {    
+        ClearnAllJexcelData();
+
         var assignmentYear = $('#budget_years').val();        
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }     
         
@@ -981,7 +1008,9 @@ $(document).ready(function () {
     });
 
     //refresh budget table data 
-    $(document).on('click', '#cancele_all_changed_budget ', function () {    
+    $(document).on('click', '#cancele_all_changed_budget ', function () {
+        ClearnAllJexcelData();
+
         var assignmentYear = $('#budget_years').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
@@ -1151,10 +1180,36 @@ function ShowBedgetResults(year) {
             });
         }
     });
+    var _retriveTotal = [];        
+    //get total man month
+    $.ajax({
+        url: `/api/utilities/GetTotalManMonthAndCostForBudgetEdit`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "yearWithType=" + year,
+        success: function (data) {
+            _retriveTotal = data;
+            // $.each(data, (index, value) => {
+            //     gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
+            // });
+        }
+    });
+
+    
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
     }
+
+    var yearHeaderTitleForPoints = "";
+    var yearHeaderTitleForCosts = "";
+    var arrYear = year.split('_');
+    yearHeaderTitleForPoints = "FY"+arrYear[0]+" 見通し";
+    yearHeaderTitleForCosts = "FY"+arrYear[0]+" コスト見通し";
+
+
     var w = window.innerWidth;
     var h = window.innerHeight;
     
@@ -1162,13 +1217,235 @@ function ShowBedgetResults(year) {
         jss = $('#jspreadsheet').jspreadsheet({
             data: _retriveddata,
             filters: true,
+            allowComments:true,
             tableOverflow: true,
             freezeColumns: 3,
             defaultColWidth: 50,
-            // tableWidth: w - 500 + "px",
-            // tableHeight: (h - 300) + "px",
             tableWidth: w-280+ "px",
-            tableHeight: (h-150) + "px",
+            tableHeight: (h-150) + "px",           
+            minDimensions: [6, 10],
+            columnSorting: true,
+            oninsertrow: newRowInserted,            
+
+            nestedHeaders:[
+                [
+                    {
+                        title: '',
+                        colspan: '10',
+                    },
+                    //month wise total points
+                    {
+                        title: _retriveTotal.OctTotalMM,                    
+                        type: "decimal",
+                        name: "octSumFormula",
+                        mask: '#.##,0',
+                        decimal: '.'                                       
+                    },
+                    {
+                        title: _retriveTotal.NovTotalMM,                    
+                        type: "decimal",
+                        name: "=SUM(M3:B3)",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.DecTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JanTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.FebTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MarTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AprTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MayTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JunTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JulTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AugTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.SepTotalMM,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.TotalManMonth,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    //month wise total cost
+                    {
+                        title: _retriveTotal.OctTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.NovTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.DecTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JanTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.FebTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MarTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AprTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.MayTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JunTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.JulTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.AugTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                    {
+                        title: _retriveTotal.SepTotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+
+                    {
+                        title: _retriveTotal.TotalCosts,
+                        type: "decimal",
+                        name: "OctPoints",
+                        mask: '#.##,0',
+                        decimal: '.'
+                    },
+                ],
+                [
+                    {
+                        title: '',
+                        colspan: '9',
+                    },
+                    {
+                        title: '',
+                        colspan: '1',
+                    },
+                    {
+                        title: yearHeaderTitleForPoints,
+                        colspan: '12',
+                    },
+                    
+                    {
+                        title: '',
+                        colspan: '1',
+                    },{
+                        title: yearHeaderTitleForCosts,
+                        colspan: '12',
+                    },
+                    {
+                        title: '',
+                        colspan: '1',
+                    },
+                ],
+            ],
             
             columns: [
                 { title: "Id", type: 'hidden', name: "Id" },
@@ -1286,6 +1563,15 @@ function ShowBedgetResults(year) {
                     decimal: '.'
                 },
                 {
+                    title: "計画工数",
+                    type: "decimal",
+                    name: "TotalManMonth",
+                    mask: '#.##,0',
+                    decimal: '.',
+                    backgroundColor:"#f46e42",
+                    readOnly: true,      
+                },
+                {
                     title: "10月",
                     type: "number",
                     readOnly: true,
@@ -1370,6 +1656,13 @@ function ShowBedgetResults(year) {
                     mask: "#,##0",
                     name: "SepTotal"
                 },
+                {
+                    title: "実績・見通し",
+                    type: "decimal",
+                    readOnly: true,
+                    mask: "#,##0",
+                    name: "TotalCost"
+                },
                 { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
                 { title: "BCYR", type: 'hidden', name: "BCYR" },
                 { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
@@ -1381,7 +1674,7 @@ function ShowBedgetResults(year) {
 
                 { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
                 { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-                { title: "RowType", type: 'hidden', name: "RowType" }
+                { title: "RowType", type: 'hidden', name: "RowType" }                
             ],
             minDimensions: [6, 10],
             columnSorting: true,
@@ -1429,7 +1722,7 @@ function ShowBedgetResults(year) {
             //},
             onchange: function (instance, cell, x, y, value) {            
                 var checkId = jss.getValueFromCoords(0, y);
-                var employeeId = jss.getValueFromCoords(35, y);
+                var employeeId = jss.getValueFromCoords(37, y);
                 
                 if (checkId == null || checkId == '' || checkId == undefined) {
                     //get data for new employee
@@ -1527,13 +1820,13 @@ function ShowBedgetResults(year) {
                                 var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                                 element[0].cells[10].innerText = '';
                                 $(jss.getCell("J" + rowNumber)).addClass('readonly');
-                                $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
+                                // $(jss.getCell("J" + rowNumber)).css('color', 'black');
+                                // $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
                             }
                             else {
                                 $(jss.getCell("J" + rowNumber)).removeClass('readonly');
-                                $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
+                                // $(jss.getCell("J" + rowNumber)).css('color', 'black');
+                                // $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
                             }
 
                             if (dataCheck.length == 0) {
@@ -1568,7 +1861,7 @@ function ShowBedgetResults(year) {
                         if (x == 11) {                        
                             var octSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     octSum += parseFloat(parseFloat(dataValue[11]));
                                 }
 
@@ -1576,7 +1869,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
                                 octSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1596,7 +1889,7 @@ function ShowBedgetResults(year) {
                             var novSum = 0;
 
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     novSum += parseFloat(dataValue[12]);
                                 }
 
@@ -1604,7 +1897,7 @@ function ShowBedgetResults(year) {
 
                             if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
                                 novSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1623,14 +1916,14 @@ function ShowBedgetResults(year) {
                         if (x == 13) {
                             var decSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     decSum += parseFloat(dataValue[13]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
                                 decSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1649,13 +1942,13 @@ function ShowBedgetResults(year) {
                         if (x == 14) {                        
                             var janSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     janSum += parseFloat(dataValue[14]);
                                 }
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
                                 janSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1674,14 +1967,14 @@ function ShowBedgetResults(year) {
                         if (x == 15) {                        
                             var febSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     febSum += parseFloat(dataValue[15]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
                                 febSum = 1;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1700,14 +1993,14 @@ function ShowBedgetResults(year) {
                         if (x == 16) {                    
                             var marSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     marSum += parseFloat(dataValue[16]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
                                 marSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1726,14 +2019,14 @@ function ShowBedgetResults(year) {
                         if (x == 17) {                        
                             var aprSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     aprSum += parseFloat(dataValue[17]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
                                 aprSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1752,13 +2045,13 @@ function ShowBedgetResults(year) {
                         if (x == 18) {                        
                             var maySum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     maySum += parseFloat(dataValue[18]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1777,14 +2070,14 @@ function ShowBedgetResults(year) {
                         if (x == 19) {                        
                             var junSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     junSum += parseFloat(dataValue[19]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
                                 junSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1803,13 +2096,13 @@ function ShowBedgetResults(year) {
                         if (x == 20) {                        
                             var julSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     julSum += parseFloat(dataValue[20]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1828,14 +2121,14 @@ function ShowBedgetResults(year) {
                         if (x == 21) {                        
                             var augSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     augSum += parseFloat(dataValue[21]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
                                 augSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1854,14 +2147,14 @@ function ShowBedgetResults(year) {
                         if (x == 22) {                        
                             var sepSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
+                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
                                     sepSum += parseFloat(dataValue[22]);
                                 }
 
                             });
                             if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
                                 sepSum = 0;
-                                alert('Input not valid');
+                                alert('入力値が不正です');
                                 jss.setValueFromCoords(x, y, beforeChangedValue, false);
                             }
                             else {
@@ -1874,638 +2167,78 @@ function ShowBedgetResults(year) {
 
                                 }
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);                                                        
                         }                                        
                     }
-
                 }
-
             },
-            oninsertrow: newRowInserted,
-            //ondeleterow: deleted,
+
             contextMenu: function (obj, x, y, e) {
                 var items = [];
-                //var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                //if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                //    return items;
-                //}
-    
-                // items.push({
-                //     title: '要員を追加 (Add Emp)',
-                //     onclick: function () {
-                //         obj.insertRow(1, parseInt(y));
-                //         var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
-                        
-                //         setTimeout(function () {
-                //             SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
-                //             //jss.setValueFromCoords(36, (insertedRowNumber - 1), true, false);
-                //             jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
-    
-                //             $('#jexcel_add_employee_modal').modal('show');
-                //             globalY = parseInt(y) + 1;
-                //             GetEmployeeList();
-                //         },1000);
-                        
-                        
-                //     }
-                // });
-                // items.push({
-                //     title: '要員のコピー（単価変更）(unit price)',
-                //     onclick: function () {
-                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                //             return false;
-                //         }
-    
-                //         newRowChangeEventFlag = true;
-                //         var allData = jss.getData();
-                //         let nextRow = parseInt(y) + 1;
-                //         var allSameEmployeeId = [];
-                //         var newCountedEmployeeName = '';
-                //         var newEmployeeId = "";
-                //         var activeEmployeeCount =0;
-                //         var masterEmployeeName = "";
-                //         var inactiveEmployeeCount = 0;
-    
-                //         obj.insertRow(1, parseInt(y));
-    
-                //         var retrivedData = retrivedObject(jss.getRowData(y));
-    
-                //         if (retrivedData.assignmentId.toString().includes('new')) {                        
-                //             newEmployeeId = "new-" + newRowCount;
-                //             var allSpecificObjectsCount = 0;
-    
-                //             for (let x of allData) {
-                //                 //if (x[35] == retrivedData.employeeId) {
-                //                 if (x[37] == retrivedData.employeeId) {
-                //                     if (isNaN(x[0])) {
-                //                         allSpecificObjectsCount++;
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-    
-                //                 }
-                //             }
-                //             var allSameEmployeeIdSplitted = [];
-                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
-                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                //             }
-                           
-    
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == 'new-'+minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-    
-    
-                //             for (let x of allData) {
-                //                 if (x[0] == 'new-'+minAssignmentNumber) {
-                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
-                //                     break;
-                //                 }
-                //             }
-    
-    
-    
-                //         }
-                //         else {
-                //             newEmployeeId = "new-" + newRowCount;
-                //             var allSpecificObjectsCount = 0;
-    
-                //             for (let x of allData) {
-                //                 if (x[37] == retrivedData.employeeId) {
-                //                     allSpecificObjectsCount++;
-                //                     if (!isNaN(x[0])) {
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-    
-                //                 }
-                //             }
-    
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-    
-                //             for (let x of allData) {                            
-                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                //                     activeEmployeeCount = activeEmployeeCount+1;
-                //                 }                          
-                //             }
-    
-                //             $.ajax({
-                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                //                 contentType: 'application/json',
-                //                 type: 'GET',
-                //                 async: false,
-                //                 dataType: 'json',
-                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                //                 success: function (data) { 
-                //                     masterEmployeeName = data.EmployeeName;
-                //                     inactiveEmployeeCount = data.EmployeeCount;
-                //                 }
-                //             });                        
-                //         }     
-                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")";
-                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                //         allSameEmployeeId = [];
-    
-                //         // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-    
-                //         // color row....
-                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("J" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("K" + (nextRow + 1), "color", "red");
-    
-                //         // disable section....
-                //         $(obj.getCell("D" + (nextRow + 1))).addClass('readonly');
-                //         // disable department....
-                //         $(obj.getCell("E" + (nextRow + 1))).addClass('readonly');
-                //         // disable incharge....
-                //         $(obj.getCell("F" + (nextRow + 1))).addClass('readonly');
-                //         // disable role....
-                //         $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
-                //         // disable role....
-                //         $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
-                        
-                //         obj.setValueFromCoords(38, nextRow, false, false);
-                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                //         obj.setValueFromCoords(40, nextRow, true, false);
-                //         obj.setValueFromCoords(47, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
-    
-                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
-    
-                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-                    
-                //         newRowCount++;
-                //         newRowChangeEventFlag = false;
-                //     }
-                   
-                // });
-    
-                // items.push({
-                //     title: '要員のコピー（役割変更）(role)',
-                //     onclick: function () {
-                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                //             return false;
-                //         }
-                //         newRowChangeEventFlag = true;
-                //         var allData = jss.getData();
-                //         let nextRow = parseInt(y) + 1;
-                //         var allSameEmployeeId = [];
-                //         var newCountedEmployeeName = '';
-                //         var newEmployeeId = "";
-                //         var activeEmployeeCount =0;
-                //         var masterEmployeeName = "";
-                //         var inactiveEmployeeCount = 0;
-    
-                //         obj.insertRow(1, parseInt(y));
-    
-                //         var retrivedData = retrivedObject(jss.getRowData(y));
-                //         if (retrivedData.assignmentId.toString().includes('new')) {
-                //             newEmployeeId = "new-" + newRowCount;
-                //             var allSpecificObjectsCount = 0;
-    
-                //             for (let x of allData) {
-                //                 if (x[37] == retrivedData.employeeId) {
-    
-                //                     if (isNaN(x[0])) {
-                //                         allSpecificObjectsCount++;
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-    
-                //                 }
-                //             }
-                //             var allSameEmployeeIdSplitted = [];
-                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
-                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                //             }
-    
-    
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == 'new-' + minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-    
-    
-                //             for (let x of allData) {
-                //                 if (x[0] == 'new-' + minAssignmentNumber) {
-                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                //                     break;
-                //                 }
-                //             }
-                //         }
-                //         else {
-                //             newEmployeeId = "new-" + newRowCount;
-    
-                //             var allSpecificObjectsCount = 0;
-                //             for (let x of allData) {
-                //                 if (x[37] == retrivedData.employeeId) {
-                //                     allSpecificObjectsCount++;
-                //                     if (!isNaN(x[0])) {
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-                //                 }
-                //             }
-    
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-    
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-    
-                //             for (let x of allData) {
-                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                //                     activeEmployeeCount = activeEmployeeCount+1;
-                //                 }  
-                //                 // if (x[0] == minAssignmentNumber) {
-                //                 //     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
-                //                 //     break;
-                //                 // }
-                //             }
-    
-                //             $.ajax({
-                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                //                 contentType: 'application/json',
-                //                 type: 'GET',
-                //                 async: false,
-                //                 dataType: 'json',
-                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                //                 success: function (data) { 
-                //                     masterEmployeeName = data.EmployeeName;
-                //                     inactiveEmployeeCount = data.EmployeeCount;
-                //                 }
-                //             });
-                //         }
-                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
-                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                //         allSameEmployeeId = [];                   
-    
-                //         //obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-    
-    
-                //         // color row....
-                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("D" + (nextRow + 1), "color", "red");
-    
-    
-                //         jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("E" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("F" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("G" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("I" + (nextRow + 1), "color", "red");
-    
-    
-                //         // disable grade and unit price....
-                //         $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
-                //         $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
-    
-    
-    
-    
-                //         //obj.setValueFromCoords(36, nextRow, false, false);
-                //         obj.setValueFromCoords(38, nextRow, false, false);
-                //         //obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                //         //obj.setValueFromCoords(38, nextRow, true, false);
-                //         obj.setValueFromCoords(40, nextRow, true, false);
-                //         //obj.setValueFromCoords(45, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-                //         obj.setValueFromCoords(47, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-    
-    
-                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
-    
-                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-    
-                //         newRowCount++;
-                //         newRowChangeEventFlag = false;
-    
-                //     }
-                // });
-                // items.push({
-                //     title: '要員のコピー（役割・単価変更）(role/unit)',
-                //     onclick: function () {
-                //         var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                //         if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                //             return false;
-                //         }
-                //         newRowChangeEventFlag = true;
-                //         var allData = jss.getData();
-                //         let nextRow = parseInt(y) + 1;
-                //         var allSameEmployeeId = [];
-                //         var newCountedEmployeeName = '';
-                //         var newEmployeeId = "";
-                //         var activeEmployeeCount =0;
-                //         var masterEmployeeName = "";
-                //         var inactiveEmployeeCount = 0;
-                        
-                //         obj.insertRow(1, parseInt(y));
-    
-                //         var retrivedData = retrivedObject(jss.getRowData(y));
-    
-                //         if (retrivedData.assignmentId.toString().includes('new')) {
-                //         //if (Assignmentid.tostring().include) {
-                //             newEmployeeId = "new-" + newRowCount;
-                //             var allSpecificObjectsCount = 0;
-    
-                //             for (let x of allData) {
-                //                 if (x[37] == retrivedData.employeeId) {
-    
-                //                     if (isNaN(x[0])) {
-                //                         allSpecificObjectsCount++;
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-    
-                //                 }
-                //             }
-                //             var allSameEmployeeIdSplitted = [];
-                //             for (var i = 0; i < allSameEmployeeId.length; i++) {
-                //                 var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                //                 allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                //             }
-    
-    
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == 'new-' + minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-    
-    
-                //             for (let x of allData) {
-                //                 if (x[0] == 'new-' + minAssignmentNumber) {
-                //                     newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
-                //                     break;
-                //                 }
-                //             }
-                //         } else {
-                //             newEmployeeId = "new-" + newRowCount;
-    
-                //             var allSpecificObjectsCount = 0;
-                //             for (let x of allData) {
-                //                 if (x[37] == retrivedData.employeeId) {
-                //                     allSpecificObjectsCount++;
-                //                     if (!isNaN(x[0])) {
-                //                         allSameEmployeeId.push(x[0]);
-                //                     }
-                //                 }
-                //             }
-                //             var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-    
-                //             for (let x = 0; x < allData.length; x++) {
-                //                 if (allData[x][0] == minAssignmentNumber) {
-    
-                //                     retrivedData = retrivedObject(jss.getRowData(x));
-    
-                //                     break;
-                //                 }
-                //             }
-    
-                //             retrivedData.bcyr = false;
-                //             retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-    
-    
-                //             for (let x of allData) {
-                //                 if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
-                //                     activeEmployeeCount = activeEmployeeCount+1;
-                //                 }  
-                //             }
-                //             $.ajax({
-                //                 url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                //                 contentType: 'application/json',
-                //                 type: 'GET',
-                //                 async: false,
-                //                 dataType: 'json',
-                //                 data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                //                 success: function (data) { 
-                //                     masterEmployeeName = data.EmployeeName;
-                //                     inactiveEmployeeCount = data.EmployeeCount;
-                //                 }
-                //             });
-                //         }
-    
-                //         newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
-                //         obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
-                //         allSameEmployeeId = [];
-    
-                //         jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("B" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("D" + (nextRow + 1), "color", "red");
-    
-    
-                //         jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("E" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("F" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("G" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("I" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("J" + (nextRow + 1), "color", "red");
-    
-                //         jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                //         jss.setStyle("K" + (nextRow + 1), "color", "red");
-    
-    
-    
-                //         // obj.setValueFromCoords(35, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                //         obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                //         obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                //         obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                //         obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                //         obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                //         obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                //         obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                //         obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                //         obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
-    
-    
-    
-                //         // obj.setValueFromCoords(36, nextRow, false, false);
-                //         // obj.setValueFromCoords(37, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                //         // obj.setValueFromCoords(38, nextRow, true, false);
-                //         // obj.setValueFromCoords(45, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
-                //         obj.setValueFromCoords(38, nextRow, false, false);
-                //         obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                //         obj.setValueFromCoords(40, nextRow, true, false);
-                //         obj.setValueFromCoords(47, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
-    
-                //         obj.setValueFromCoords(11, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(12, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(13, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(14, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(15, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(16, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(17, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(18, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(19, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(20, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(21, nextRow, '0.0', false);
-                //         obj.setValueFromCoords(22, nextRow, '0.0', false);
-    
-                //         jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                //         jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
-    
-                //         newRowCount++;
-                //         newRowChangeEventFlag = false;
-                //     }
-                // });
-                // items.push({
-                //     title: '選択した要員の削除 (delete)',                
-                //     onclick: function () {                    
-                //         var value = obj.getSelectedRows();                    
-                //         var assignementId = jss.getValueFromCoords(0, y);
-                //         var name = jss.getValueFromCoords(1, y);                                       
-                //         if(parseInt(assignementId) >0){
-                //             deletedExistingRowIds.push(assignementId);                                
-                //             SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
-                //         }else{
-                //             alert(name +" has not been saved yet. You can not delete this employee!")  
-                //         }      
-                //     }
-                // });
+                var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                   return items;
+                }
+                
+                var is_finalize = $("#is_finalize_budget").val();
+                if(is_finalize==1){
+                    return items;
+                }else{
+                    items.push({
+                        title: '要員を追加 (Add Emp)',
+                        onclick: function () {
+                            obj.insertRow(1, parseInt(y));
+                            var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
+                            
+                            setTimeout(function () {
+                                //SetColorCommonRow(insertedRowNumber,"yellow","red","newrow");
+                                jss.setValueFromCoords(40, (insertedRowNumber - 1), true, false);
+        
+                                $('#jexcel_add_employee_modal').modal('show');
+                                globalY = parseInt(y) + 1;
+                                GetEmployeeList();
+                            },1000);
+                            
+                            
+                        }
+                    });   
+    
+                    items.push({
+                        title: '選択した要員の削除 (delete)',                
+                        onclick: function () {     
+                            var assignmentIds = [];
+                                           
+                            var value = obj.getSelectedRows();                    
+                            var assignementId = jss.getValueFromCoords(0, y);
+                            assignmentIds.push(assignementId);
+                            var name = jss.getValueFromCoords(1, y);   
+                            
+                            if (parseInt(assignementId) > 0) {                       
+                               $.ajax({
+                                    url: `/api/utilities/DeleteBudgetAssignment`,
+                                    contentType: 'application/json',
+                                    type: 'GET',
+                                    async: true,
+                                    dataType: 'json',
+                                    data: "assignementId=" + assignementId,
+                                    success: function (data) {   
+                                        if(data==1){                      
+                                            jss.deleteRow(parseInt(y),1);                                    
+                                            alert("Operation Completed!");
+    
+                                        }else{
+                                            alert("Operation Failed!");
+                                        }
+                                    }
+                                });
+                            }else{
+                                alert(name +" has not been saved yet. You can not delete this employee!")  
+                            }                         
+                        }
+                    });
+                }
+
+                
     
                 return items;
             }
@@ -2520,67 +2253,67 @@ function ShowBedgetResults(year) {
 
     //create a row for search in each column
     jss.deleteColumn(46, 21);
-    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
-    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
+    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelFirstHeaderRow.css('top', '0px');
-    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
+    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(4) > td');
     jexcelFirstHeaderRow.css('position', 'sticky');
     jexcelSecondHeaderRow.css('top', '20px');
 
     //employee name column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {       
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)').on('click', function () {       
         $('.search_p').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_p').fadeIn("slow");
     });
 
     //section column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)').on('click', function () {               
         $('.search_section').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_section').fadeIn("slow");
     });
     
     //department column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)').on('click', function () {               
         $('.search_department').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_department').fadeIn("slow");
     });    
     //incharge column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)').on('click', function () {               
         $('.search_incharge').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_incharge').fadeIn("slow");
     });
     //role column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)').on('click', function () {               
         $('.search_role').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_role').fadeIn("slow");
     });
     //explanation column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)').on('click', function () {               
         $('.search_explanation').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_explanation').fadeIn("slow");
     });
     //company column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)').on('click', function () {               
         $('.search_company').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_company').fadeIn("slow");
     });
     //grade column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)').on('click', function () {               
         $('.search_grade').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_grade').fadeIn("slow");
     });
         //unit price column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)').on('click', function () {               
+    $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)').on('click', function () {               
         $('.search_unit_price').css('display', 'block');        
         $("#hider").fadeIn("slow");
         $('.search_unit_price').fadeIn("slow");
@@ -2590,12 +2323,12 @@ function ShowBedgetResults(year) {
     var count = 1;
     //get all data and set color
     $.each(allRows, function (index,value) {
-        if (value['36'] == true && value['39'] == false) {            
+        if (value['40'] == true && value['41'] == false) {            
             SetColorCommonRow(count,"yellow","red","newrow");
         }
         else {
-            var isApprovedCells = value['41'];
-            var columnInfo = value['37'];
+            var isApprovedCells = value['43'];
+            var columnInfo = value['41'];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
                 
@@ -2998,31 +2731,17 @@ function ShowBedgetResults(year) {
                
                 if (parseInt(nestedValue) == 34) {
                     jss.setStyle("AI" + count, "background-color", "yellow");
-                    jss.setStyle("AI" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AI" + count, "background-color", "red");
-                    //     jss.setStyle("AI" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AI" + count, "background-color", "yellow");
-                    //     jss.setStyle("AI" + count, "color", "red");
-                    // }                    
+                    jss.setStyle("AI" + count, "color", "red");                              
                 }
                 
                 if (parseInt(nestedValue) == 35) {
                     jss.setStyle("AJ" + count, "background-color", "yellow");
-                    jss.setStyle("AJ" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AJ" + count, "background-color", "red");
-                    //     jss.setStyle("AJ" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AJ" + count, "background-color", "yellow");
-                    //     jss.setStyle("AJ" + count, "color", "red");
-                    // }
+                    jss.setStyle("AJ" + count, "color", "red");                    
                 }
             });
 
             //approved cells color
-            var approvedCells = value['40'];
+            var approvedCells = value['44'];
             var arrApprovedCells = approvedCells.split(',');
             $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == 1) {
@@ -3175,7 +2894,7 @@ function ShowBedgetResults(year) {
             });
             
             //pending cells color
-            var bCYRCellPending = value['42'];
+            var bCYRCellPending = value['44'];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == 1) {
@@ -3327,11 +3046,11 @@ function ShowBedgetResults(year) {
                 }
             });
         }       
-        if (value['38'] == false && value['39'] == false && value['44'] == false) {
+        if (value['40'] == false && value['41'] == false && value['46'] == false) {
             //DisableRow(count);
             SetColorCommonRow(count,"gray","black","deleted");
         }
-        else if(value['43'] == true || value['44'] == true){
+        else if(value['45'] == true || value['46'] == true){
             SetColorCommonRow(count,"red","black","editable");
         }        
         count++;
@@ -3417,34 +3136,34 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 2) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
     }
     if (x == 7) {
         array[index].explanationId = retrivedData.explanationId;
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
     }
     if (x == 11) {
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 octSum += parseFloat(dataValue[11]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
             octSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
         }
@@ -3453,11 +3172,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37,y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
 
@@ -3466,14 +3185,14 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 12) {
         var novSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 novSum += parseFloat(dataValue[12]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
             novSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3481,11 +3200,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
 
@@ -3493,14 +3212,14 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 13) {
         var decSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 decSum += parseFloat(dataValue[13]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
             decSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3508,25 +3227,25 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 14) {
         var janSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 janSum += parseFloat(dataValue[14]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
             janSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3534,25 +3253,25 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 15) {
         var febSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 febSum += parseFloat(dataValue[15]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
             febSum = 1;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3560,11 +3279,11 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            $(cell).css('color', 'red');
-            $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            //$(cell).css('color', 'red');
+            //$(cell).css('background-color', 'yellow');
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
@@ -3572,14 +3291,14 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     if (x == 16) {
         var marSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 marSum += parseFloat(dataValue[16]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
             marSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3589,23 +3308,23 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 17) {
         var aprSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 aprSum += parseFloat(dataValue[17]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
             aprSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3615,22 +3334,22 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 18) {
         var maySum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 maySum += parseFloat(dataValue[18]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3640,23 +3359,23 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 19) {
         var junSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 junSum += parseFloat(dataValue[19]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
             junSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3666,22 +3385,22 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 20) {
         var julSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 julSum += parseFloat(dataValue[20]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3691,23 +3410,23 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 21) {
         var augSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 augSum += parseFloat(dataValue[21]);
             }
 
         });
         if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
             augSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3717,23 +3436,23 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
     if (x == 22) {
         var sepSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[35].toString() == retrivedData.employeeId.toString() && dataValue[38] == true) {
+            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
                 sepSum += parseFloat(dataValue[22]);
             }
 
         });
         if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
             sepSum = 0;
-            alert('Input not valid');
+            alert('入力値が不正です');
             jss.setValueFromCoords(x, y, beforeChangedValue, false);
         }
         else {
@@ -3743,9 +3462,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(37, y);
+            var currentValue = jss.getValueFromCoords(41, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(37, y, currentValue, false);
+            jss.setValueFromCoords(41, y, currentValue, false);
         }
 
     }
@@ -3764,7 +3483,7 @@ function retrivedObject(rowData) {
         assignmentId: rowData[0],
         employeeName: rowData[1],
         remarks: rowData[2],
-        employeeId: rowData[35],
+        employeeId: rowData[37],
         sectionId: rowData[3],
         departmentId: rowData[4],
         inchargeId: rowData[5],
@@ -3786,16 +3505,17 @@ function retrivedObject(rowData) {
         augPoint: parseFloat(rowData[21]),
         sepPoint: parseFloat(rowData[22]),
         year: document.getElementById('selected_budget_year').value,
-        bcyr: rowData[36],
-        bCYRCell: rowData[37],
-        isActive: rowData[38],
-        bCYRApproved: rowData[39],
-        bCYRCellApproved: rowData[40],
-        isApproved: rowData[41],
-        bCYRCellPending: rowData[42],
-        isRowPending: rowData[43],
-        isDeletePending: rowData[44],
-        rowType: rowData[45],
+
+        bcyr: rowData[40],
+        bCYRCell: rowData[41],
+        isActive: rowData[40],
+        bCYRApproved: rowData[41],
+        bCYRCellApproved: rowData[42],
+        isApproved: rowData[43],
+        bCYRCellPending: rowData[44],
+        isRowPending: rowData[45],
+        isDeletePending: rowData[46],
+        rowType: rowData[47],
     };
 }
 
@@ -3803,7 +3523,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -3836,7 +3556,7 @@ function InsertEmployee() {
                     console.log("result: "+result);
                     console.log("globalY: "+globalY);
 
-                    jss.setValueFromCoords(35, globalY, result, false);
+                    jss.setValueFromCoords(37, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
@@ -3853,8 +3573,9 @@ function InsertEmployee() {
 
 //Get employee list
 function GetEmployeeList() {
-    $('#employee_list').empty();
-    $.getJSON('/api/utilities/EmployeeList/')
+    var budget_year = $("#budget_years").val();
+    $('#employee_list').empty();    
+    $.getJSON(`/api/utilities/EmployeeListBudgetEditFiltered/${budget_year}`)
         .done(function (data) {
             $.each(data, function (key, item) {
                 $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
@@ -3869,7 +3590,7 @@ function AddEmployee() {
     var employeeId = $('#employee_list').val();
     var employeeName = $('#employee_list').find("option:selected").text();
     jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(35, globalY, employeeId, false);
+    jss.setValueFromCoords(37, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
 
@@ -3935,13 +3656,9 @@ function UpdateBudget() {
         
     }
     else {
-        alert("There is no data to update.");
         $("#jspreadsheet").show();
         $("#export_budget").show();
-        //$("#head_total").show();
-        //LoaderHide();
-        //alert('No data found!');
-        updateMessage = ""
+        updateMessage = "";
     }
 
     if (jssInsertedData.length > 0) {
@@ -3954,57 +3671,63 @@ function UpdateBudget() {
 
         
         var update_timeStampId = $("#timeStamp_ForUpdateData").val();
-        
-            insertMessage = "Successfully data inserted.";
-            $.ajax({
-                url: `/api/utilities/ExcelAssignment/`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                //data: JSON.stringify(jssInsertedData),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                success: function (data) {
-                    var allJexcelData = jss.getData();
-                    for (let i = 0; i < data.length; i++) {
+        var add_employee_budget_year = $("#budget_years").val();
 
-                        $.each(allJexcelData, (index, dataValue) => {
-                            if (data[i].assignmentId == dataValue[0]) {
-                                jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                            }
+        insertMessage = "Successfully data inserted.";
+        $.ajax({
+            url: `/api/utilities/ExcelAssignmentBudget/`,
+            contentType: 'application/json',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            //data: JSON.stringify(jssInsertedData),
+            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, YearWithBudgetType: add_employee_budget_year }),
+            success: function (data) {
+                // var allJexcelData = jss.getData();
+                // for (let i = 0; i < data.length; i++) {
 
-                        });
-                    }
+                //     $.each(allJexcelData, (index, dataValue) => {
+                //         if (data[i].assignmentId == dataValue[0]) {
+                //             jss.setValueFromCoords(0, index, data[i].returnedId, false);
+                //         }
 
-                    $("#timeStamp_ForUpdateData").val('');
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been inserted by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    $("#export_budget").show();
-                    //$("#head_total").show();
-                    //LoaderHide();
-                }
-            });
-            jssInsertedData = [];
-            newRowCount = 1;
+                //     });
+                // }
+
+                
+                var year = $("#assignment_year_list").val();
+                ShowForecastResults(year);
+
+                $("#timeStamp_ForUpdateData").val('');
+                var chat = $.connection.chatHub;
+                $.connection.hub.start();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    chat.server.send('data has been inserted by ', userName);
+                });
+                $("#jspreadsheet").show();                        
+                LoaderHide();
+            }
+        });
+        jssInsertedData = [];
+        newRowCount = 1;
+
     }
 
     if (deletedExistingRowIds.length > 0) {
-        var year = $("#budget_years").val();
+        var year = $("#assignment_year_list").val();
         $.ajax({
             url: `/api/utilities/ExcelDeleteAssignment/`,
             contentType: 'application/json',
             type: 'DELETE',
             async: false,
-            dataType: 'json',
-            //data: JSON.stringify(deletedExistingRowIds),
+            dataType: 'json',                
             data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
             success: function (data) {
-                alert(data);
+                //alert(data);
+                deleteMessage = "Successfully data deleted!";
+                var year = $("#assignment_year_list").val();
+                ShowForecastResults(year);
             }
         });
 
@@ -4016,16 +3739,15 @@ function UpdateBudget() {
             chat.server.send('data has been deleted by ', userName);
         });
         $("#jspreadsheet").show();
-        $("#export_budget").show();
         //$("#head_total").show();
-        //LoaderHide();
+        LoaderHide();
         deletedExistingRowIds = [];
     }
 
     if (updateMessage == "" && insertMessage == "") {
         $("#header_show").html("");
         $("#update_forecast").modal("show");
-        $("#save_modal_header").html("There is nothing to save!");
+        $("#save_modal_header").html("変更されていないので、保存できません");
         $("#back_button_show").css("display", "none");
         $("#save_btn_modal").css("display", "none");
 
@@ -4037,7 +3759,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (updateMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -4045,7 +3767,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if (insertMessage != "") {
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -4053,7 +3775,7 @@ function UpdateBudget() {
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
 
 }
@@ -4234,9 +3956,9 @@ function DuplicateBudget(){
                     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
                 }
                 else{
-                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
+                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                     // if(parseInt(data)>0){
-                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully imported to "+toDate+".</span>");                        
+                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                     // }else{
                     //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
                     // }
@@ -4261,7 +3983,7 @@ function validate(){
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");

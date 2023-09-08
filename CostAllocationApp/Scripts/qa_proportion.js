@@ -57,7 +57,7 @@ function LoadJexcel() {
     var year = $('#assignment_year').val();
 
     if (year == null || year == '' || year == undefined) {
-        alert('Select Year!!!');
+        alert('年度を選択してください!!!');
         return false;
     }
     //LoaderShow();
@@ -262,7 +262,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
                         octSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -289,7 +289,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || novSum > 100) {
                         novSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -316,7 +316,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || decSum > 100) {
                         decSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -343,7 +343,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || janSum > 100) {
                         janSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -370,7 +370,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || febSum > 100) {
                         febSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -397,7 +397,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || marSum > 100) {
                         marSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -424,7 +424,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || aprSum > 100) {
                         aprSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -451,7 +451,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || maySum > 100) {
                         maySum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -478,7 +478,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || junSum > 100) {
                         junSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -505,7 +505,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || julSum > 100) {
                         julSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -532,7 +532,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || augSum > 100) {
                         augSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -559,7 +559,7 @@ function LoadJexcel() {
 
                     if (isNaN(value) || parseFloat(value) < 0 || sepSum > 100) {
                         sepSum = 0;
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
                     }
@@ -608,7 +608,7 @@ function LoadJexcel1() {
     var year = $('#assignment_year').val();
 
     if (year == null || year == '' || year == undefined) {
-        alert('Select Year!!!');
+        alert('年度を選択してください!!!');
         return false;
     }
    // LoaderShow();
@@ -886,7 +886,7 @@ $(document).ready(function () {
                             }
                         });
                     } else {
-                        alert('No data found!');
+                        alert('追加、修正していないデータがありません!');
                         return false;
                     }
                 }
@@ -1047,7 +1047,7 @@ $(document).ready(function () {
             });
         }
         else {
-            alert('No Data Found!');
+            alert('追加、修正していないデータがありません!');
         }
     });
 
@@ -1242,7 +1242,7 @@ $(document).ready(function () {
     });
 
     $('#merged_employee_from_qc').select2({ placeholder: "要員の選択", });
-    $('#department_list').select2({ placeholder: "部署を選択 (Select Department)", });
+    $('#department_list').select2({ placeholder: "部署を選択 (部署を選択)", });
 
     $("#hider").hide();
     $(".search_p").hide();

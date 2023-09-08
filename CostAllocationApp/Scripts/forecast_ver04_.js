@@ -1888,7 +1888,7 @@ $(document).ready(function () {
 
         if (year == '' || year == undefined) {
 
-            alert('select year');
+            alert('年度を選択してください');
             return false;
         }
         LoaderShow();
@@ -2275,7 +2275,7 @@ $(document).ready(function () {
                 console.log(dataCheck);
                 if (x == 10) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2291,7 +2291,7 @@ $(document).ready(function () {
                 }
                 if (x == 11) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2308,7 +2308,7 @@ $(document).ready(function () {
                 }
                 if (x == 12) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2325,7 +2325,7 @@ $(document).ready(function () {
                 }
                 if (x == 13) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2342,7 +2342,7 @@ $(document).ready(function () {
                 }
                 if (x == 14) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2359,7 +2359,7 @@ $(document).ready(function () {
                 }
                 if (x == 15) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2376,7 +2376,7 @@ $(document).ready(function () {
                 }
                 if (x == 16) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2393,7 +2393,7 @@ $(document).ready(function () {
                 }
                 if (x == 17) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2410,7 +2410,7 @@ $(document).ready(function () {
                 }
                 if (x == 18) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2427,7 +2427,7 @@ $(document).ready(function () {
                 }
                 if (x == 19) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2444,7 +2444,7 @@ $(document).ready(function () {
                 }
                 if (x == 20) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2461,7 +2461,7 @@ $(document).ready(function () {
                 }
                 if (x == 21) {
                     if (isNaN(value) || x < 0) {
-                        alert('Input not valid');
+                        alert('入力値が不正です');
                         jss.setValueFromCoords(x, y, '0', false);
                     }
                     else {
@@ -2932,7 +2932,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -2946,7 +2946,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});

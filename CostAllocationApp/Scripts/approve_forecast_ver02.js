@@ -200,7 +200,7 @@ $(document).ready(function () {
     $('#saved_approved_data').on('click', function () {
         var assignmentYear = $('#assignment_year_list').val();
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }  
         
@@ -592,16 +592,16 @@ $(document).ready(function () {
         //         //         if(data==1){
         //         //             var assignmentYear = $('#assignment_year_list').val();
         //         //             // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-        //         //             //     alert('Select valid year!!!');
+        //         //             //     alert('年度を選択してください!!!');
         //         //             //     return false;
         //         //             // }    
         //         //             var cellNo = $("#selectCellNumber").val();
         //         //             // LoaderHide();
         //         //             SetCellWiseColor_ForUnApproved(cellNo)
-        //         //             //alert("Operation Success.")                    
+        //         //             //alert("保存されました.")                    
         //         //             //ShowForecastResults(assignmentYear);
         //         //             //$(cellPosition).css('color', 'red');                            
-        //         //             // alert("Operation Success.")
+        //         //             // alert("保存されました.")
         //         //             // location.reload();
 
         //         //             // var selectedCells = $("#hid_cellNo").val();
@@ -635,7 +635,7 @@ $(document).ready(function () {
         $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
             .done(function (data) {
                 $('#department_search').empty();
-                $('#department_search').append(`<option value=''>Select Department</option>`);
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
                 $.each(data, function (key, item) {
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
@@ -647,7 +647,7 @@ $(document).ready(function () {
         $("#all_selected_cells").val("");
         $("#all_selected_row_for_approve").val("");
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('Select valid year!!!');
+            alert('年度を選択してください!!!');
             return false;
         }     
         
@@ -693,7 +693,7 @@ function ShowForecastResults(year) {
     var explanationId = $('#explanation_multi_search').val();
     explanationId = "";
     if (year == '' || year == undefined) {
-        alert('select year');
+        alert('年度を選択してください');
         return false;
     }
 
@@ -1218,7 +1218,7 @@ function ShowForecastResults(year) {
 
         //                 if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
         //                     octSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
         //                 }
@@ -1247,7 +1247,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
         //                     novSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1274,7 +1274,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
         //                     decSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1301,7 +1301,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
         //                     janSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1328,7 +1328,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
         //                     febSum = 1;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1355,7 +1355,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
         //                     marSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1382,7 +1382,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
         //                     aprSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1408,7 +1408,7 @@ function ShowForecastResults(year) {
 
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1435,7 +1435,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
         //                     junSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1461,7 +1461,7 @@ function ShowForecastResults(year) {
 
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1488,7 +1488,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
         //                     augSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -1515,7 +1515,7 @@ function ShowForecastResults(year) {
         //                 });
         //                 if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
         //                     sepSum = 0;
-        //                     alert('Input not valid');
+        //                     alert('入力値が不正です');
         //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
         //                 }
         //                 else {
@@ -3169,7 +3169,7 @@ function DeleteRecords() {
     $.getJSON(`/api/utilities/DeleteAssignments/`)
         .done(function (data) {
             //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>Select Department</option>`);
+            //$('#department_search').append(`<option value=''>部署を選択</option>`);
             //$.each(data, function (key, item) {
             //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
             //});
@@ -3264,7 +3264,7 @@ function UpdateForecast(){
         var year = dateObj.getUTCFullYear();
         var miliSeconds= dateObj.getMilliseconds();    
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
-        var promptValue = prompt("History Save As", '');
+        var promptValue = prompt("履歴ファイル保存名", '');
 
         if (promptValue == null || promptValue == undefined || promptValue == "") {
             return false;
@@ -3297,7 +3297,7 @@ function UpdateForecast(){
         $("#jspreadsheet").show();        
         //$("#head_total").show();
         LoaderHide();    
-        //alert('No data found!');
+        //alert('追加、修正していないデータがありません!');
         updateMessage = ""
     }
 
@@ -3335,7 +3335,7 @@ function UpdateForecast(){
     if(updateMessage =="" && insertMessage==""){
         $("#header_show").html("");
         $("#update_forecast").modal("show");
-        $("#save_modal_header").html("There is nothing to save!");
+        $("#save_modal_header").html("変更されていないので、保存できません");
         $("#back_button_show").css("display", "none");
         $("#save_btn_modal").css("display", "none");
 
@@ -3347,7 +3347,7 @@ function UpdateForecast(){
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if(updateMessage !=""){
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -3355,7 +3355,7 @@ function UpdateForecast(){
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
     else if(insertMessage !=""){
         $("#save_modal_header").html("年度データー(Emp. Assignments)");
@@ -3363,7 +3363,7 @@ function UpdateForecast(){
         $("#save_btn_modal").css("display", "block");
         $("#close_save_modal").css("display", "none");
 
-        alert("Operation Success.");
+        alert("保存されました.");
     }
 }
 function CompareUpdatedData() {
@@ -3431,8 +3431,8 @@ function GetAllForecastYears() {
         //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
         success: function (data) {
             $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
-            $('#select_year_to_import').append(`<option value=''>select year</option>`);
-            $('#replicate_from').append(`<option value=''>select year</option>`);
+            $('#select_year_to_import').append(`<option value=''>年度を選択してください</option>`);
+            $('#replicate_from').append(`<option value=''>年度を選択してください</option>`);
             //var count =1;
             $.each(data, function (index, element) {
                 // if(count==1){
@@ -3463,7 +3463,7 @@ function CheckForecastYear(){
 //     // var selectedYear = $('#inputState').find(":selected").val();
 //     var selectedYear = $('#select_import_year').find(":selected").val();
 //     if(selectedYear =="" || typeof selectedYear === "undefined"){
-//         alert("please select year!");
+//         alert("please 年度を選択してください!");
 //         return false;
 //     }
     
@@ -3509,7 +3509,7 @@ function validate(){
     var import_file = $('#import_file_excel').val();
    
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please select year!");
+        alert("please 年度を選択してください!");
         return false;
     }else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");

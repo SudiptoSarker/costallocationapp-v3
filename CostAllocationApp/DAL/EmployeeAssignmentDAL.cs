@@ -3698,7 +3698,7 @@ namespace CostAllocationApp.DAL
                 where += $" ea.SecondHalfBudget=1 and ";
             }      
 
-            where += " 1=1 ";
+            where += " ea.IsActive=1 and 1=1 ";
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks,ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
@@ -5338,9 +5338,381 @@ namespace CostAllocationApp.DAL
             }
 
             return employeeAssignments;
+        }
 
+        public int RemoveBudgetAssignment(string budgetAssignmentId)
+        {
+            int result = 0;
+            string query = $@"update EmployeeeBudgets set IsActive=0 where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", budgetAssignmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
 
         }
+        public ForecastTotalManMonthCostsViewModal GetTotalManMonthAndCostForBudgetEdit(int year,int budgetType)
+        {
+            //List<ForecastTotalManMonthCostsViewModal> _forecastTotalManMonthCosts = new List<ForecastTotalManMonthCostsViewModal>();
+            string query = "";
+            query = query + "SELECT c.MonthId,SUM(c.Points) as 'TotalMM' ";
+            query = query + "FROM BudgetCosts c ";
+            query = query + "    INNER JOIN EmployeeeBudgets eb ON c.EmployeeBudgetId = eb.Id ";
+            if (budgetType == 1) { 
+                query = query + "WHERE c.Year = "+ year + " AND eb.FirstHalfBudget = 1 ";
+            }
+            else
+            {
+                query = query + "WHERE c.Year = "+ year + " AND eb.SecondHalfBudget = 1 ";
+            }
+            query = query + "GROUP BY c.MonthId ";
+
+
+            ForecastTotalManMonthCostsViewModal _forecastTotalManMonthCost = new ForecastTotalManMonthCostsViewModal();
+            decimal totalManMonth = 0;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            if (Convert.ToInt32(rdr["MonthId"]) == 10)
+                            {
+                                _forecastTotalManMonthCost.OctTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.OctTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 11)
+                            {
+                                _forecastTotalManMonthCost.NovTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.NovTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 12)
+                            {
+                                _forecastTotalManMonthCost.DecTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.DecTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 1)
+                            {
+                                _forecastTotalManMonthCost.JanTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.JanTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 2)
+                            {
+                                _forecastTotalManMonthCost.FebTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.FebTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 3)
+                            {
+                                _forecastTotalManMonthCost.MarTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.MarTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 4)
+                            {
+                                _forecastTotalManMonthCost.AprTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.AprTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 5)
+                            {
+                                _forecastTotalManMonthCost.MayTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.MayTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 6)
+                            {
+                                _forecastTotalManMonthCost.JunTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.JunTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 7)
+                            {
+                                _forecastTotalManMonthCost.JulTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.JulTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 8)
+                            {
+                                _forecastTotalManMonthCost.AugTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.AugTotalMM);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 9)
+                            {
+                                _forecastTotalManMonthCost.SepTotalMM = rdr["TotalMM"] is DBNull ? "0.0" : Convert.ToDecimal(rdr["TotalMM"]).ToString("0.0");
+                                totalManMonth = totalManMonth + Convert.ToDecimal(_forecastTotalManMonthCost.SepTotalMM);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            _forecastTotalManMonthCost.TotalManMonth = Convert.ToDecimal(totalManMonth).ToString("0.0");
+            ForecastTotalManMonthCostsViewModal _forecastCostsViewModal = new ForecastTotalManMonthCostsViewModal();
+            _forecastCostsViewModal = GetTotalCostsForBudget(year,budgetType);
+
+            _forecastTotalManMonthCost.OctTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.OctTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.NovTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.NovTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.DecTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.DecTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.JanTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.JanTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.FebTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.FebTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.MarTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.MarTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.AprTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.AprTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.MayTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.MayTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.JunTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.JunTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.JulTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.JulTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.AugTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.AugTotalCosts).ToString("N0");
+            _forecastTotalManMonthCost.SepTotalCosts = Convert.ToDecimal(_forecastCostsViewModal.SepTotalCosts).ToString("N0");
+            //_forecastTotalManMonthCost.TotalCosts = _forecastCostsViewModal.TotalCosts;
+            _forecastTotalManMonthCost.TotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.OctTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.NovTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.DecTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.JanTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.FebTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.MarTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.AprTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.MayTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.JunTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.JulTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.AugTotalCosts) + Convert.ToDecimal(_forecastTotalManMonthCost.SepTotalCosts)).ToString();
+            _forecastTotalManMonthCost.TotalCosts = Convert.ToDecimal(_forecastTotalManMonthCost.TotalCosts).ToString("N0");
+            return _forecastTotalManMonthCost;
+        }
+        public ForecastTotalManMonthCostsViewModal GetTotalCostsForBudget(int year,int budgetType)
+        {
+            //List<ForecastTotalManMonthCostsViewModal> _forecastTotalManMonthCosts = new List<ForecastTotalManMonthCostsViewModal>();
+            string query = "";
+            query = query + "SELECT ea.UnitPrice,c.MonthId,SUM(c.Points) as 'TPoints' ";
+            query = query + "FROM BudgetCosts c ";
+            query = query + "    INNER JOIN EmployeeeBudgets ea ON c.EmployeeBudgetId = ea.Id ";
+            if (budgetType == 1) { 
+                query = query + "WHERE c.year = "+ year + " AND ea.FirstHalfBudget = 1 ";
+            }
+            else
+            {
+                query = query + "WHERE c.year = " + year + " AND ea.SecondHalfBudget = 1 ";
+            }
+            query = query + "GROUP BY ea.UnitPrice,c.MonthId ";
+
+            ForecastTotalManMonthCostsViewModal _forecastTotalManMonthCost = new ForecastTotalManMonthCostsViewModal();
+            decimal totalCosts = 0;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            if (Convert.ToInt32(rdr["MonthId"]) == 10)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalOctCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.OctTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.OctTotalCosts = totalOctCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.OctTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.OctTotalCosts) + Convert.ToDecimal(totalOctCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.OctTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 11)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalNovCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.NovTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.NovTotalCosts = totalNovCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.NovTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.NovTotalCosts) + Convert.ToDecimal(totalNovCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.NovTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 12)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalDecCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.DecTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.DecTotalCosts = totalDecCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.DecTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.DecTotalCosts) + Convert.ToDecimal(totalDecCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.DecTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 1)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalJanCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.JanTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.JanTotalCosts = totalJanCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.JanTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.JanTotalCosts) + Convert.ToDecimal(totalJanCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.JanTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 2)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalFebCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.FebTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.FebTotalCosts = totalFebCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.FebTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.FebTotalCosts) + Convert.ToDecimal(totalFebCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.FebTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 3)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalMarCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.MarTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.MarTotalCosts = totalMarCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.MarTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.MarTotalCosts) + Convert.ToDecimal(totalMarCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.MarTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 4)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalAprCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.AprTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.AprTotalCosts = totalAprCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.AprTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.AprTotalCosts) + Convert.ToDecimal(totalAprCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.AprTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 5)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalMayCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.MayTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.MayTotalCosts = totalMayCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.MayTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.MayTotalCosts) + Convert.ToDecimal(totalMayCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.MayTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 6)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalJunCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.JunTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.JunTotalCosts = totalJunCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.JunTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.JunTotalCosts) + Convert.ToDecimal(totalJunCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.JunTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 7)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalJulCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.JulTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.JulTotalCosts = totalJulCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.JulTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.JulTotalCosts) + Convert.ToDecimal(totalJulCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.JulTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 8)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalAugCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.AugTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.AugTotalCosts = totalAugCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.AugTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.AugTotalCosts) + Convert.ToDecimal(totalAugCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.AugTotalCosts);
+                            }
+                            if (Convert.ToInt32(rdr["MonthId"]) == 9)
+                            {
+                                decimal totalPoints = rdr["TPoints"] is DBNull ? 0 : Convert.ToDecimal(rdr["TPoints"]);
+                                decimal totalUnitPrice = rdr["UnitPrice"] is DBNull ? 0 : Convert.ToDecimal(rdr["UnitPrice"]);
+                                decimal totalSepCost = totalUnitPrice * totalPoints;
+
+                                if (string.IsNullOrEmpty(_forecastTotalManMonthCost.SepTotalCosts))
+                                {
+                                    _forecastTotalManMonthCost.SepTotalCosts = totalSepCost.ToString();
+                                }
+                                else
+                                {
+                                    _forecastTotalManMonthCost.SepTotalCosts = (Convert.ToDecimal(_forecastTotalManMonthCost.SepTotalCosts) + Convert.ToDecimal(totalSepCost)).ToString();
+                                }
+                                totalCosts = totalCosts + Convert.ToDecimal(_forecastTotalManMonthCost.SepTotalCosts);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            //_forecastTotalManMonthCost.TotalCosts = totalCosts.ToString();            
+            return _forecastTotalManMonthCost;
+        }
+
     }
 }

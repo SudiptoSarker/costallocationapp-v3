@@ -44,7 +44,7 @@ $(document).ready(function () {
  Name Registration: Employee list                
 \***************************/
 function GetEmployeeList() {
-    $('#employee_list').append(`<option value=''>Select Employee</option>`);
+    $('#employee_list').append(`<option value=''>要員の選択</option>`);
     $.getJSON('/api/utilities/EmployeeList/')
         .done(function (data) {
             $.each(data, function (key, item) {
@@ -97,7 +97,7 @@ function FillDropdownOfNameRegistration() {
     \***************************/
     $.getJSON('/api/Departments/')
     .done(function(data) {
-        $('#department_new').append(`<option value=''>Select Department</option>`);
+        $('#department_new').append(`<option value=''>部署を選択</option>`);
         $.each(data, function(key, item) {                    
             $('#department_new').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
         });

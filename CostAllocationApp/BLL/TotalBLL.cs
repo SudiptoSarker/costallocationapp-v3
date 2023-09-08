@@ -67,5 +67,13 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.GetAllDynamicTables();
         }
+        public int InactiveDynamicTable(DynamicTable dynamicTable)
+        {
+            return totalDAL.InactiveDynamicTable(dynamicTable);
+        }
+        public int UpdateDynamicTable(DynamicTable dynamicTable)
+        {
+            return totalDAL.UpdateDynamicTable(dynamicTable);
+        }
     }
 }

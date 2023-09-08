@@ -195,5 +195,58 @@ namespace CostAllocationApp.DAL
                 return dynamicTables;
             }
         }
+
+        public int InactiveDynamicTable(DynamicTable dynamicTable)
+        {
+            int result = 0;
+            string query = $@"update DynamicTables set IsActive=@isActive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", dynamicTable.Id);
+                cmd.Parameters.AddWithValue("@updatedBy", dynamicTable.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", dynamicTable.UpdatedDate);
+                cmd.Parameters.AddWithValue("@isActive", dynamicTable.IsActive);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int UpdateDynamicTable(DynamicTable dynamicTable)
+        {
+            int result = 0;
+            string query = $@"update DynamicTables set TableName = @tableName, TableTitle=@tableTitle,TablePosition=@tablePosition, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", dynamicTable.Id);
+                cmd.Parameters.AddWithValue("@tableName", dynamicTable.TableName);
+                cmd.Parameters.AddWithValue("@tableTitle", dynamicTable.TableTitle);
+                cmd.Parameters.AddWithValue("@tablePosition", dynamicTable.TablePosition);
+                cmd.Parameters.AddWithValue("@updatedBy", dynamicTable.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", dynamicTable.UpdatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
     }
 }

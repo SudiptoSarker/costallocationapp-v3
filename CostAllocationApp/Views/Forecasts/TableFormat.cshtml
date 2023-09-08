@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewBag.Title = "Table Format";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/Content/table_format.css" />
+}
+<div class="content container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <table id="dynamic_table_create">
+                            <thead style="border: none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>Table Name</th>
+                                    <th>Teble Title</th>
+                                    <th>Teble Position</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="dynamic_table_create_td">
+                                        <input type="text" value="" placeholder="table name" class="dynamic_table_create_input" id="table_name">
+                                        <div class="" id="table_name_err">
+                                                Please provide a table name.
+                                        </div> 
+                                    </td>
+                                      <td class="dynamic_table_create_td">
+                                        <input type="text" value="" placeholder="table title" class="dynamic_table_create_input" id="table_title">
+                                        <div class="" id="table_title_err">
+                                                Please provide a table name.
+                                        </div>
+                                    </td>
+                                    <td class="dynamic_table_create_td">
+                                        <input type="number" value="" placeholder="position" class="dynamic_table_create_input" id="table_position">
+                                        @* <div class="" id="section_name_err">
+                                                Please provide a department name.
+                                            </div> *@
+                                    </td>
+                                    <td id="section_reg_frm_td">
+                                        <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                                        <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+
+
+    <!-----------------Section Master: Section list are showing on this part----------------->
+    <div id="dynamic_table_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="" id="dynamic_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Dynamic Table List</th>
+                            </tr>
+                            <tr>
+                                <th class="section_list_theader">Table Name</th>
+                                <th class="section_list_theader">Table Title</th>
+                                <th class="section_list_theader">Table Position</th>
+                                <th class="section_list_theader">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dynamic_list_tbody"></tbody>
+                    </table>
+                    @if (Convert.ToBoolean(ViewBag.linkFlag))
+                    {
+                        <label id="section_delete_btn">
+                            <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">削除</a>
+                        </label>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+<br><br>
+<br><br>
+
+<input type="hidden" id="section_warning_text" />
+<input type="hidden" id="section_chk_ids" />
+
+<!-----------------Modal: Delete sections----------------->
+<div class="modal custom-modal fade" id="delete_section" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>区分の削除 (Delete Section)</h3>
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p>本当に削除しますか？</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">削除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/table_format.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+            $.connection.hub.disconnected(function () {
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000); // Restart connection after 5 seconds.
+            });
+            $.connection.hub.start();
+            $(function () {
+
+                var chat = $.connection.chatHub;
+
+                chat.client.addNewMessageToPage = function (name, message) {
+                    alert(name + message);
+                    $.ajax({
+                        url: `/api/utilities/GetUserLogs/`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            var userName = $('#user_name').text();
+                            $('#user_log').empty();
+                            $.each(data, (index, value) => {
+                                if (userName !== value.UserName) {
+                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                }
+                            });
+
+                        }
+                    });
+                };
+            });
+
+            $(document).ready(function () {
+                GetDynamicTables();
+
+                setInterval(() => {
+                    $.ajax({
+                        url: `/api/utilities/GetUserLogs/`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            var userName = $('#user_name').text();
+                            $('#user_log').empty();
+                            $.each(data, (index, value) => {
+                                if (userName !== value.UserName) {
+                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                }
+                            });
+
+                        }
+                    });
+                }, 5000);
+
+                $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data,(index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+
+
+    </script>
+}
+
+

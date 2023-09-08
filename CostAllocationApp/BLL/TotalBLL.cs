@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.ViewModels;
+using CostAllocationApp.Models;
 
 namespace CostAllocationApp.BLL
 {
@@ -56,6 +57,15 @@ namespace CostAllocationApp.BLL
                 }
             }
             return forecastAssignments;
+        }
+
+        public int CreateDynamicTable(DynamicTable dynamicTable)
+        {
+            return totalDAL.CreateDynamicTable(dynamicTable);
+        }
+        public List<DynamicTable> GetAllDynamicTables()
+        {
+            return totalDAL.GetAllDynamicTables();
         }
     }
 }

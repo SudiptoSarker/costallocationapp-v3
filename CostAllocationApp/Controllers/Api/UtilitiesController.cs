@@ -7285,7 +7285,7 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/GetAllUnAssignedDepartments/")]
-        public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)       
+        public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)
         {
             if (!string.IsNullOrEmpty(sub_categoryId))
             {
@@ -7314,5 +7314,47 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("sub-category Id is empty!!!");
             }
         }
+
+        [HttpPost]
+        [Route("api/utilities/CreateDynamicTable/")]
+        public IHttpActionResult CreateDynamicTable(DynamicTable dynamicTable)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (String.IsNullOrEmpty(dynamicTable.TableName))
+            {
+                return BadRequest("Table name empty!!!");
+            }
+            if (String.IsNullOrEmpty(dynamicTable.TableTitle))
+            {
+                return BadRequest("Table title empty!!!");
+            }
+            else
+            {
+                dynamicTable.CreatedBy = session["userName"].ToString();
+                dynamicTable.CreatedDate = DateTime.Now;
+                dynamicTable.IsActive = true;
+
+                var result = totalBLL.CreateDynamicTable(dynamicTable);
+                if (result>0)
+                {
+                    return Ok("Data inserted successfully.");
+                }
+                else
+                {
+                    return BadRequest("Something went wrong!!!");
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDynamicTables/")]
+        public IHttpActionResult GetDynamicTables()
+        {
+            var result = totalBLL.GetAllDynamicTables();
+            return Ok(result);
+
+        }
+
     }
 }

@@ -46,7 +46,8 @@ function GetDynamicTables() {
         .done(function (data) {
             $('#dynamic_list_tbody').empty();
             $.each(data, function (key, item) {
-                $('#dynamic_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><button>remove<button></td></tr>`);
+                $('#dynamic_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_dynamic_table" onClick="onSectionInactiveClick()">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_dynamic_table_modal">編集</a></label></td></tr>`);
+                // $('#dynamic_list_tbody').append(`<tr><td>${item.Id}</td><td>${item.TableTitle}</td></tr>`);
             });
         });
 }

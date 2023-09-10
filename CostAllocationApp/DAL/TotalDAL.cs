@@ -280,11 +280,19 @@ namespace CostAllocationApp.DAL
                 return dynamicTable;
             }
         }
-        public bool IsNameAndPositionExists(string tableName,int tablePoisition)
+        public bool IsNameAndPositionExists(string tableName,int tablePoisition,int tableId,string checkType)
         {
             bool isExists = false;
             string query = "";
-            query = "SELECT * FROM DynamicTables WHERE TableName= N'"+ tableName + "' or TablePosition="+ tablePoisition + " ";
+            if (checkType == "add")
+            {
+                query = "SELECT * FROM DynamicTables WHERE TableName= N'" + tableName + "' OR TablePosition=" + tablePoisition + " ";
+            }
+            else
+            {
+                query = "SELECT* FROM DynamicTables WHERE TableName = N'" + tableName + "' OR TablePosition = " + tablePoisition + " AND Id<>"+ tableId+" ";
+            }
+            
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

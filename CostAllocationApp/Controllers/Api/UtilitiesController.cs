@@ -7542,7 +7542,7 @@ namespace CostAllocationApp.Controllers.Api
                 dynamicTable.CreatedDate = DateTime.Now;
                 dynamicTable.IsActive = true;
                 
-                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName, dynamicTable.TablePosition);
+                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName, dynamicTable.TablePosition,dynamicTable.Id,"add");
                 if (isExists)
                 {
                     return Ok(1);
@@ -7589,7 +7589,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 dynamicTable.UpdatedBy = session["userName"].ToString();
                 dynamicTable.UpdatedDate = DateTime.Now;
-                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName,dynamicTable.TablePosition);
+                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName,dynamicTable.TablePosition,dynamicTable.Id,"edit");
                 if (isExists) {
                     return Ok(1);
                 }

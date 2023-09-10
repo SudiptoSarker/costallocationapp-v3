@@ -7562,5 +7562,73 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(result);
 
         }
+
+        [HttpPost]
+        [Route("api/utilities/UpdateDynamicTable/")]
+        public IHttpActionResult UpdateDynamicTable(DynamicTable dynamicTable)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (String.IsNullOrEmpty(dynamicTable.TableName))
+            {
+                return BadRequest("Table name empty!!!");
+            }
+            if (String.IsNullOrEmpty(dynamicTable.TableTitle))
+            {
+                return BadRequest("Table title empty!!!");
+            }
+            else
+            {
+                dynamicTable.UpdatedBy = session["userName"].ToString();
+                dynamicTable.UpdatedDate = DateTime.Now;
+
+                var result = totalBLL.UpdateDynamicTable(dynamicTable);
+                if (result > 0)
+                {
+                    return Ok("Data inserted successfully.");
+                }
+                else
+                {
+                    return BadRequest("Something went wrong!!!");
+                }
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/utilities/InactiveDynamicTable/")]
+        public IHttpActionResult GetDynamicTables(int tableId)
+        {
+            var result = totalBLL.GetAllDynamicTables();
+
+            if (result.Count > 0)
+            {
+                var singleDynamicTable = result.Where(dt => dt.Id == tableId).SingleOrDefault();
+                if (singleDynamicTable != null)
+                {
+                    var inactiveResult = totalBLL.InactiveDynamicTable(singleDynamicTable);
+                    if (inactiveResult>0)
+                    {
+                        return Ok("Data saved successfully!");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong.");
+                    }
+
+                }
+                else
+                {
+                    return Ok("Data not found!");
+                }
+            }
+            else
+            {
+                return Ok("Data not found!");
+            }
+                
+            
+
+        }
     }
 }

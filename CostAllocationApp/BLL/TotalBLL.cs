@@ -67,6 +67,10 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.GetAllDynamicTables();
         }
+        public DynamicTable GetAllDynamicTableById(string table_id)
+        {
+            return totalDAL.GetAllDynamicTableById(table_id);
+        }
         public int InactiveDynamicTable(DynamicTable dynamicTable)
         {
             return totalDAL.InactiveDynamicTable(dynamicTable);
@@ -74,6 +78,10 @@ namespace CostAllocationApp.BLL
         public int UpdateDynamicTable(DynamicTable dynamicTable)
         {
             return totalDAL.UpdateDynamicTable(dynamicTable);
+        }
+        public bool IsNameAndPositionExists(string tableName, int tablePoisition)
+        {
+            return totalDAL.IsNameAndPositionExists(tableName, tablePoisition);
         }
     }
 }

@@ -11,41 +11,37 @@
 <div class="content container-fluid">
     <!--create table form-->
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-8">
-                    <table id="dynamic_table_create">
-                        <thead style="border: none;">
-                            <tr></tr>
-                            <tr>
-                                <th>テーブル名(Table)</th>
-                                <th>表のタイトル(Title)</th>
-                                <th>テーブルの位置(Position)</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
+        <div class="col-md-8">
+            <table id="dynamic_table_create">
+                <thead style="border: none;">
+                    <tr></tr>
+                    <tr>
+                        <th>テーブル名(Table)</th>
+                        <th>表のタイトル(Title)</th>
+                        <th>テーブルの位置(Position)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
 
-                        <tbody>
-                            <tr>                                     
-                                <td id="dynamic_table_create_td">
-                                    <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
-                                </td>
-                                <td id="dynamic_table_create_td">
-                                    <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
-                                </td>  
-                                <td id="dynamic_table_create_td">
-                                    <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
-                                </td>  
+                <tbody>
+                    <tr>                                     
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
+                        </td>
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
+                        </td>  
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
+                        </td>  
 
-                                <td id="dynamic_table_create_td">
-                                    <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
-                                    <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        <td id="dynamic_table_create_td">
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <br /><br />
@@ -79,8 +75,8 @@
 <br><br>
 <br><br>
 
-<input type="hidden" id="section_warning_text" />
-<input type="hidden" id="section_chk_ids" />
+<input type="hidden" id="table_id_for_edit" />
+<input type="hidden" id="table_id_for_delete" />
 
 <!-----------------Modal: Delete Dynamic Table----------------->
 <div class="modal custom-modal fade" id="delete_dynamic_table" role="dialog">
@@ -99,7 +95,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_dynamic_table_link">削除</a>
                         </div>
                     </div>
                 </div>
@@ -135,13 +131,13 @@
                             <tbody>
                                 <tr>                                     
                                     <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
+                                        <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">                                        
                                     </td>
                                     <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
+                                        <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">                                        
                                     </td>  
                                     <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
+                                        <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">                                        
                                     </td>  
                                 </tr>
                             </tbody>
@@ -155,37 +151,11 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
                         </div>
                     </div>
                 </div>
-                
-                <!-- <form>
-                    <div class="row">
-                        <div class="col-4">
-                            <label for="divison-name" id="section_name_lbl">Section Name <span class="text-danger">*</span></label>
-                        </div>
-                        <div class="col-8">
-                            <div class="form-group">
-                                <input class="form-control" id="divison-name" type="text" value="Development" placeholder="section name..">
-                                <div class="department-name-error">
-                                    Please provide a section name.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-btn delete-action">
-                        <div class="row">
-                            <div class="col-6">
-                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-                            </div>
-                            <div class="col-6">
-                                <a href="javascript:void(0);" class="btn btn-primary continue-btn" data-dismiss="modal" onclick="AddDivision();">Update</a>
-                            </div>
-                        </div>
-                    </div>
-                </form> -->
+                                
             </div>
         </div>
     </div>

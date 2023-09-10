@@ -214,3 +214,13 @@ body {
     text-align: center;
     line-height: 0.5;
 }
+
+#table_name_edit,#table_title_edit,#table_position_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}

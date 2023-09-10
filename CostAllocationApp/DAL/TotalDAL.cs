@@ -247,6 +247,66 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public DynamicTable GetAllDynamicTableById(string table_id)
+        {
+            DynamicTable dynamicTable = new DynamicTable ();
+            string query = "";
+            query = "SELECT * FROM DynamicTables WHERE IsActive=1 AND Id="+ table_id;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            dynamicTable.Id = Convert.ToInt32(rdr["Id"]);
+                            dynamicTable.TableName = rdr["TableName"].ToString();
+                            dynamicTable.TableTitle = rdr["TableTitle"].ToString();
+                            dynamicTable.TablePosition = Convert.ToInt32(rdr["TablePosition"]);
+                            dynamicTable.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            dynamicTable.CreatedBy = rdr["CreatedBy"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return dynamicTable;
+            }
+        }
+        public bool IsNameAndPositionExists(string tableName,int tablePoisition)
+        {
+            bool isExists = false;
+            string query = "";
+            query = "SELECT * FROM DynamicTables WHERE TableName= N'"+ tableName + "' or TablePosition="+ tablePoisition + " ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            isExists = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return isExists;
+            }
+        }
     }
 }

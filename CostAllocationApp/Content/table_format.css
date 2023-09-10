@@ -224,3 +224,18 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
+
+/***************************\                           
+	dynamic table: edit modal
+\***************************/
+#table_list_drp{
+    height: 25px;
+    border: none;
+    border: 1px solid #f5e7e7 !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#dynamic_table_list{
+    border: none;
+}

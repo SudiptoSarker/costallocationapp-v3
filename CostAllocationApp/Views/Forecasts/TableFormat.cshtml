@@ -8,10 +8,9 @@
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Content/table_format.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
 }
 <div class="content container-fluid">
-    <!--create table form-->
+    <!--create dynamic table form-->
     <div class="row">
         <div class="col-md-8">
             <table id="dynamic_table_create">
@@ -27,19 +26,33 @@
 
                 <tbody>
                     <tr>                                     
-                        <td id="dynamic_table_create_td">
+                        <td class="create_form_td">
                             <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
                         </td>
-                        <td id="dynamic_table_create_td">
+                        <td class="create_form_td">
                             <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
                         </td>  
-                        <td id="dynamic_table_create_td">
+                        <td class="create_form_td">
                             <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
                         </td>  
 
-                        <td id="dynamic_table_create_td">
-                            <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                        <td class="create_form_td">
+                            <a href="javascript:void(0);" class="" id="clear_input_frm" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="" id="save_inputs" onclick="InsertDynamicTables()">Save</a>
+                        </td>
+                    </tr>
+                    <tr>                                     
+                        <td class="warning_message">
+                            <label id="table_name_warning_msg">テーブル名を入力してください</label>
+                        </td>
+                        <td class="warning_message">
+                            <label id="table_title_warning_msg">テーブルのタイトルを入力してください</label>                                
+                        </td>  
+                        <td class="warning_message">
+                            <label id="table_position_warning_msg">テーブルの位置を入力してください</label>                                        
+                        </td>  
+
+                        <td class="warning_message">                            
                         </td>
                     </tr>
                 </tbody>
@@ -124,13 +137,13 @@
 
                     <tbody>
                         <tr>                                     
-                            <td id="dynamic_table_create_td">
+                            <td class="create_form_td">
                                 <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
                             </td>
-                            <td id="dynamic_table_create_td">
+                            <td class="create_form_td">
                                 <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
                             </td>  
-                            <td id="dynamic_table_create_td">
+                            <td class="create_form_td">
                                 <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
                             </td>  
                         </tr>
@@ -223,7 +236,7 @@
                             <td class="action_td"></td>
                             <!-- <td class="action_td"></td> -->
                             <td class="cancel_save_link_td">                            
-                                <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                                <a href="javascript:void(0);" class="" id="clear_setting_form" data-dismiss="modal">Cancel</a>
                                 <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
                             </td>                            
                         </tr>                      
@@ -597,13 +610,13 @@
 
                                 <tbody>
                                     <tr>                                     
-                                        <td id="dynamic_table_create_td">
+                                        <td class="create_form_td">
                                             <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
                                         </td>
-                                        <td id="dynamic_table_create_td">
+                                        <td class="create_form_td">
                                             <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
                                         </td>  
-                                        <td id="dynamic_table_create_td">
+                                        <td class="create_form_td">
                                             <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
                                         </td>  
                                     </tr>
@@ -695,8 +708,7 @@
     </div>
 </div>
 
-@section Scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+@section Scripts{    
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/table_format.js"></script>
     <script src="~/signalr/hubs"></script>

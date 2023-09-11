@@ -20,7 +20,7 @@ body {
     text-align: center;
 }
 
-#dynamic_table_create_td{
+.create_form_td{
     height: 25px;
     border: none;
     border: 1px solid #f5e7e7 !important;
@@ -28,6 +28,19 @@ body {
     border-spacing: 4px;
     text-align: center;
     line-height: 0.5;
+}
+.warning_message{
+    height: 25px;
+    border: none;
+    border: 1px solid white !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    line-height: 0.5;
+    color: red;
+}
+#table_name_warning_msg,#table_title_warning_msg,#table_position_warning_msg{
+    display: none;
 }
 #table_name,#table_title,#table_position{
     width: 100% !important;
@@ -38,17 +51,8 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-/* .dynamic_table_create_input {
-    width: 100% !important;
-    height: 100% !important;
-    border: none !important;
-    border: 1px solid #ccc !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-} */
 
-#dynamic_table_create_cancel_btn {
+#clear_inputs_for_table_create_frm {
     background-color: #3c4b5d;
     color: white;
     padding: 5px;
@@ -59,6 +63,30 @@ body {
     margin-left:10px;
     height: 16px;
 }
+
+#clear_input_frm,#clear_setting_form {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left:10px;
+    height: 16px;
+}
+#save_inputs {
+    background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    height: 16px;
+}
+
 #dynamic_table_create_save_btn {
     background-color: #3c4b5d;
     color: white;
@@ -81,7 +109,7 @@ body {
 	dynamic table List Show
 \***************************/
 #dynamic_table_list {
-    margin-left: 17px;
+    /* margin-left: 17px; */
     border: none;
 }
 #dynamic_list_tbl{
@@ -129,19 +157,22 @@ body {
 	Section List Delete Button
 \***************************/ 
 #dynamic_table_delete_link {
-    width: 127%;
+    width: 124%;
+    /* height: 23px; */
     font-size: 10px;
     font-family: Yu Gothic;
     background: indianred;
     color: white;
     border-radius: 5px;
-    padding: 5px;
+    padding: 4px;
     margin: 5px;
     display: inline-block;
-    margin-left: -10px !important;
+    margin-left: -5px !important;
+    line-height: .7;
+    margin-bottom: 0;
 }
 #dynamic_table_edit_link {
-    width: 96%;
+    width: 100%;
     font-size: 10px;
     font-family: Yu Gothic;
     background: cornflowerblue;
@@ -150,7 +181,9 @@ body {
     padding: 5px;
     margin: 5px;
     display: inline-block;
-    margin-left: 0px !important;
+    margin-left: 7px !important;
+    line-height: .7;
+    margin-bottom: 0;
 }
 /* #dynamic_table_delete {
     padding-left: 382px;
@@ -400,7 +433,7 @@ body {
 	Total Menu Setting List
 \***************************/
 #total_setting_list {
-    margin-left: 17px;
+    /* margin-left: 17px; */
     border: none;
 }
 #setting_list_tbl{

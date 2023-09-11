@@ -7,17 +7,40 @@ function InsertDynamicTables() {
     var tableName = $("#table_name").val();
     var tableTitle = $("#table_title").val();
     var tablePosition = $("#table_position").val();
+    var isValid = true;
+
     if (tableName == "") {
-        $("#table_name_err").show();
-        return false;
+        isValid = false;
+        $("#table_name_warning_msg").show();
+        $("#table_name").focus();        
+    }else{
+        $("#table_name_warning_msg").hide();
     }
     if (tableTitle == "") {
-        $("#table_title_err").show();
-        return false;
+        if(isValid){
+            $("#table_title").focus();   
+        }        
+        isValid = false;
+        $("#table_title_warning_msg").show();        
+    }else{         
+        $("#table_title_warning_msg").hide();
     }
-    else {
-        $("#table_name_err").hide();
-        $("#table_title_err").hide();
+    if (tablePosition == "") {
+        if(isValid){
+            $("#table_position").focus();   
+        }  
+        isValid = false;
+        $("#table_position_warning_msg").show();
+    }else{
+        $("#table_position_warning_msg").hide();
+    }
+
+
+    if(isValid) {
+        $("#table_name_warning_msg").hide();
+        $("#table_title_warning_msg").hide();
+        $("#table_position_warning_msg").hide();
+
         var data = {
             TableName: tableName,
             TableTitle: tableTitle,
@@ -40,6 +63,7 @@ function InsertDynamicTables() {
                     $("#table_position").val('');
                     ToastMessageSuccess(data);
                     GetDynamicTables();
+                    GetDynamicTablesForSetting();
                 }                
             },
             error: function (data) {
@@ -105,6 +129,7 @@ $(document).on('click', '#edit_dynamic_table_link ', function () {
                 }else{
                     ToastMessageSuccess(data);
                     GetDynamicTables();
+                    GetDynamicTablesForSetting();
                     $('#edit_dynamic_table_modal').modal('toggle');
                 }                
             },
@@ -146,6 +171,7 @@ $(document).on('click', '#delete_dynamic_table_link ', function () {
         success: function (data) {
             ToastMessageSuccess(data);
             GetDynamicTables();
+            GetDynamicTablesForSetting();
         },
         error: function (data) {
             ToastMessageFailed(data);
@@ -208,6 +234,7 @@ $(document).on('click', '#item_row_add ', function () {
     $clone.find('.setting_plus_icon').hide();    
     $clone.find('.setting_minus_icon').show();    
 });
+
 //remove rows
 $(document).on('click', '.setting_minus_icon ', function () { 
     $(this).closest("tr").remove();
@@ -223,3 +250,10 @@ function GetAllSettingValue() {
             });
         });
 }
+
+//clear dynamic table input fields
+$(document).on('click', '#clear_input_frm ', function () { 
+    $("#table_name").val('');
+    $("#table_title").val('');
+    $("#table_position").val('');
+});

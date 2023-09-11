@@ -1,4 +1,8 @@
-﻿function InsertDynamicTables() {
+﻿$(document).ready(function () {
+    GetDynamicTables();
+    GetDynamicTablesForSetting();
+});
+function InsertDynamicTables() {
     var apiurl = "/api/Utilities/CreateDynamicTable";
     var tableName = $("#table_name").val();
     var tableTitle = $("#table_title").val();
@@ -150,3 +154,72 @@ $(document).on('click', '#delete_dynamic_table_link ', function () {
     
     $('#delete_dynamic_table').modal('toggle');
 });
+
+function GetDynamicTablesForSetting() {
+    $.getJSON('/api/Utilities/GetDynamicTables')
+        .done(function (data) {
+            $('#dynamic_table_list_for_setting').empty();
+            $('#dynamic_table_list_for_setting').append(`<option value=''>Select Tables</option>`)
+            $.each(data, function (key, item) {
+                $('#dynamic_table_list_for_setting').append(`<option value='${item.Id}'>${item.TableName}</option>`)
+            });
+        });
+}
+
+function DynamicTableSetting(){
+    var tableId = $("#dynamic_table_list_for_setting").val();
+    if (tableId == '' || tableId == null || tableId == undefined) {
+        $("#total_menu_settings").hide();
+        alert('テーブルを選択してください!!!');        
+        return false;
+    }else{
+        $("#total_menu_settings").show();
+    }         
+}
+
+$(document).on('change', '.main_item_dropdown', function () {
+    var mainItem =  $(this).val();    
+    if(mainItem=="main"){        
+        $('#add_main_item_modal').modal('toggle');        
+        //$(".main_item_dropdown").val('');
+    }
+});
+$(document).on('change', '.sub_item_dropdown', function () {
+    var subItem = $(this).val();    
+    if(subItem=="sub"){        
+        $('#add_sub_item_modal').modal('toggle');
+        //$(".sub_item_dropdown").val('');
+    }
+});
+$(document).on('change', '.detail_item_dropdown', function () {
+    var detailItem = $(this).val();    
+    if(detailItem=="detail"){        
+        $('#add_detail_item_modal').modal('toggle');
+        //$(".detail_item_dropdown").val('');
+    }
+});
+
+//create new row and concate
+$(document).on('click', '#item_row_add ', function () { 
+    var $tr    = $(this).closest('.item_row');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+    $clone.find('.setting_plus_icon').hide();    
+    $clone.find('.setting_minus_icon').show();    
+});
+//remove rows
+$(document).on('click', '.setting_minus_icon ', function () { 
+    $(this).closest("tr").remove();
+});
+
+//get setting list value
+function GetAllSettingValue() {
+    $.getJSON('/api/Utilities/GetDynamicTables')
+        .done(function (data) {
+            $('#setting_list_body').empty();
+            $.each(data, function (key, item) {
+                $('#setting_list_body').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
+            });
+        });
+}

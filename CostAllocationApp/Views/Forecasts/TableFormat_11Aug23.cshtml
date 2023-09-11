@@ -1,0 +1,471 @@
+﻿
+@{
+    ViewBag.Title = "Table Format";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/Content/table_format.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
+}
+<div class="content container-fluid">
+    <!--create table form-->
+    <div class="row">
+        <div class="col-md-8">
+            <table id="dynamic_table_create">
+                <thead style="border: none;">
+                    <tr></tr>
+                    <tr>
+                        <th>テーブル名(Table)</th>
+                        <th>表のタイトル(Title)</th>
+                        <th>テーブルの位置(Position)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>                                     
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
+                        </td>
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
+                        </td>  
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
+                        </td>  
+
+                        <td id="dynamic_table_create_td">
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br /><br />
+
+    <!-----------------Dynamic Table Master: Dynamic Table list are showing on this part----------------->    
+    <div id="dynamic_table_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="table-responsive">
+
+                    <table class="" id="dynamic_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Dynamic Table List</th>
+                            </tr>
+                            <tr>
+                                <th class="section_list_theader">Table Name</th>                                    
+                                <th class="section_list_theader">Table Title</th>
+                                <th class="section_list_theader">Table Position</th>
+                                <th class="section_list_theader">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dynamic_list_tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />      
+
+    <!-----------------Total Menu Settings: Dynamic table list with dropdown----------------->    
+    <h4>View Formate </h4>
+    <div class="row">
+        <div class="col-md-5">
+            <table id="total_menu_setting_tbl">
+                <thead style="border: none;">
+                    <tr></tr>
+                    <tr>
+                        <th></th>
+                        <th>テーブル名(Table)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>                                     
+                        <td id="dynamic_table_list_for_setting_td">
+                            Select Table                                                        
+                        </td>
+                        <td id="dynamic_table_list_for_setting_td">
+                            <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting">                                
+                            </select>                                          
+                        </td>  
+
+                        <td id="dynamic_table_list_for_setting_td">                            
+                            <a href="javascript:void(0);" class="" id="setting_button" onclick="DynamicTableSetting()">Setting</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+    <br />
+
+    <!--table setting: columns insert form-->
+    <div class="row">
+        <div class="col-md-6">
+            <table id="total_menu_setting_columns_tbl">
+                <thead style="border: none;">
+                    <tr></tr>
+                    <tr>
+                        <th>Main-Item Title</th>
+                        <th>Sub-Item Title</th>
+                        <th>Detail-Item Title</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>                                     
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
+                        </td>
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
+                        </td>  
+                        <td id="dynamic_table_create_td">
+                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
+                        </td>  
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+
+    <!--table setting: items insert form-->
+    <div class="row">
+        <div class="col-md-10">
+            <table id="total_menu_setting_items_tbl">
+                <thead style="border: none;">
+                    <tr></tr>
+                    <tr>
+                        <th>Main Item</th>
+                        <th>Sub Item</th>
+                        <th>Detail Item</th>
+                        <th>Methods</th>
+                        <th>Data for</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>                                     
+                        <td class="setting_items_td">
+                            <input type="text" value="" placeholder="メインアイテム (main)" id="main_item">                                        
+                        </td>
+                        <td class="setting_items_td" >
+                            <input type="text" value="" placeholder="サブアイテム表のタイトル (sub)" id="sub_item">                                        
+                        </td>  
+                        <td class="setting_items_td">
+                            <input type="text" value="" placeholder="詳細項目 (detail)" id="detail_item">                                        
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                <option>select methods</option>   
+                                <option>method-1</option>
+                                <option>method-2</option>
+                            </select>                                          
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select  id="data_for_list_dropdown_for_setting">  
+                                <option>select data-for</option>   
+                                <option>department-1</option>
+                                <option>department-2</option>                              
+                            </select>                                          
+                        </td>  
+                        <td class="setting_items_dropdown_td">                            
+                            <a href="javascript:void(0);" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                </svg>
+                            </a>
+                        </td>
+                        <!-- <td id="action_td">                            
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                            <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                        </td> -->
+                    </tr>
+                    <!-- <tr>                                     
+                        <td class="setting_items_td" id="main_item_td">
+                            <input type="text" value="" placeholder="メインアイテム (main)" id="main_item">                                        
+                        </td>
+                        <td class="setting_items_td" id="sub_item_td">
+                            <input type="text" value="" placeholder="サブアイテム表のタイトル (sub)" id="sub_item">                                        
+                        </td>  
+                        <td class="setting_items_td" id="detail_item_td">
+                            <input type="text" value="" placeholder="詳細項目 (detail)" id="detail_item">                                        
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select id="methon_list_dropdown_for_setting">  
+                                <option>select methods</option>   
+                                <option>method-1</option>
+                                <option>method-2</option>
+                            </select>                                          
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select  id="data_for_list_dropdown_for_setting">  
+                                <option>select data-for</option>   
+                                <option>department-1</option>
+                                <option>department-2</option>                              
+                            </select>                                          
+                        </td>
+                        <td class="setting_items_dropdown_td">  
+                            <a href="javascript:void();" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                                </svg>
+                            </a>
+                        </td>                       
+                    </tr> 
+                    <tr>                                     
+                        <td class="setting_items_td" id="main_item_td">
+                            <input type="text" value="" placeholder="メインアイテム (main)" id="main_item">                                        
+                        </td>
+                        <td class="setting_items_td" id="sub_item_td">
+                            <input type="text" value="" placeholder="サブアイテム表のタイトル (sub)" id="sub_item">                                        
+                        </td>  
+                        <td class="setting_items_td" id="detail_item_td">
+                            <input type="text" value="" placeholder="詳細項目 (detail)" id="detail_item">                                        
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select id="methon_list_dropdown_for_setting">  
+                                <option>select methods</option>   
+                                <option>method-1</option>
+                                <option>method-2</option>
+                            </select>                                          
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select  id="data_for_list_dropdown_for_setting">  
+                                <option>select data-for</option>   
+                                <option>department-1</option>
+                                <option>department-2</option>                              
+                            </select>                                          
+                        </td>   
+                        <td class="setting_items_dropdown_td">  
+                            <a href="javascript:void();" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                                </svg>
+                            </a>
+                        </td>               
+                    </tr> 
+                    <tr>                                     
+                        <td class="setting_items_td" id="main_item_td">
+                            <input type="text" value="" placeholder="メインアイテム (main)" id="main_item">                                        
+                        </td>
+                        <td class="setting_items_td" id="sub_item_td">
+                            <input type="text" value="" placeholder="サブアイテム表のタイトル (sub)" id="sub_item">                                        
+                        </td>  
+                        <td class="setting_items_td" id="detail_item_td">
+                            <input type="text" value="" placeholder="詳細項目 (detail)" id="detail_item">                                        
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select id="methon_list_dropdown_for_setting">  
+                                <option>select methods</option>   
+                                <option>method-1</option>
+                                <option>method-2</option>
+                            </select>                                          
+                        </td>  
+                        <td class="setting_items_dropdown_td">
+                            <select  id="data_for_list_dropdown_for_setting">  
+                                <option>select data-for</option>   
+                                <option>department-1</option>
+                                <option>department-2</option>                              
+                            </select>                                          
+                        </td>      
+                        <td class="setting_items_dropdown_td">  
+                            <a href="javascript:void();" class="text-decoration-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                                </svg>
+                            </a>
+                        </td>                  
+                    </tr>                     -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br /><br />
+</div>
+<br><br>
+<br><br>
+
+<input type="hidden" id="table_id_for_edit" />
+<input type="hidden" id="table_id_for_delete" />
+
+<!-----------------Modal: Delete Dynamic Table----------------->
+<div class="modal custom-modal fade" id="delete_dynamic_table" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>テーブルの削除 (Delete Table)</h3>
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p>本当に削除しますか？</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_dynamic_table_link">削除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit Dynamic Table----------------->
+<div id="edit_dynamic_table_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Dynamic Table</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <table id="dynamic_table_edit">
+                            <thead style="border: none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>テーブル名(Table)</th>
+                                    <th>表のタイトル(Title)</th>
+                                    <th>テーブルの位置(Position)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>                                     
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">                                        
+                                    </td>
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">                                        
+                                    </td>  
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">                                        
+                                    </td>  
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/table_format.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+            $.connection.hub.disconnected(function () {
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000); // Restart connection after 5 seconds.
+            });
+            $.connection.hub.start();
+            $(function () {
+
+                var chat = $.connection.chatHub;
+
+                chat.client.addNewMessageToPage = function (name, message) {
+                    alert(name + message);
+                    $.ajax({
+                        url: `/api/utilities/GetUserLogs/`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            var userName = $('#user_name').text();
+                            $('#user_log').empty();
+                            $.each(data, (index, value) => {
+                                if (userName !== value.UserName) {
+                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                }
+                            });
+
+                        }
+                    });
+                };
+            });
+
+            $(document).ready(function () {
+
+                setInterval(() => {
+                    $.ajax({
+                        url: `/api/utilities/GetUserLogs/`,
+                        contentType: 'application/json',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            var userName = $('#user_name').text();
+                            $('#user_log').empty();
+                            $.each(data, (index, value) => {
+                                if (userName !== value.UserName) {
+                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                                }
+                            });
+
+                        }
+                    });
+                }, 5000);
+
+                $.ajax({
+                url: `/api/utilities/GetUserLogs/`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var userName = $('#user_name').text();
+                    $('#user_log').empty();
+                    $.each(data,(index, value) => {
+                        if (userName !== value.UserName) {
+                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                        }
+                    });
+
+                }
+            });
+
+        });
+
+
+
+    </script>
+}
+
+

@@ -6,7 +6,9 @@
 
 
 @section Styles {
+    <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Content/table_format.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
 }
 <div class="content container-fluid">
     <!--create table form-->
@@ -46,7 +48,7 @@
     </div>
     <br /><br />
 
-    <!-----------------Dynamic Table Master: Dynamic Table list are showing on this part----------------->    
+    <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->    
     <div id="dynamic_table_list" style="display: block;">
         <div class="row">
             <div class="col-md-8">
@@ -61,7 +63,7 @@
                                 <th class="section_list_theader">Table Name</th>                                    
                                 <th class="section_list_theader">Table Title</th>
                                 <th class="section_list_theader">Table Position</th>
-                                <th class="section_list_theader">Action</th>
+                                <th class="section_list_theader">操作</th>
                             </tr>
                         </thead>
                         <tbody id="dynamic_list_tbody"></tbody>
@@ -76,11 +78,11 @@
     <h4>View Formate </h4>
     <div class="row">
         <div class="col-md-5">
-            <table id="dynamic_table_create">
+            <table id="total_menu_setting_tbl">
                 <thead style="border: none;">
                     <tr></tr>
                     <tr>
-                        <th>Select Table</th>
+                        <th></th>
                         <th>テーブル名(Table)</th>
                         <th>操作</th>
                     </tr>
@@ -88,26 +90,199 @@
 
                 <tbody>
                     <tr>                                     
-                        <td>                                                         
+                        <td id="dynamic_table_list_for_setting_td">
+                            Select Table                                                        
                         </td>
-                        <td id="dynamic_table_create_td">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                        <td id="dynamic_table_list_for_setting_td">
+                            <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting">                                
                             </select>                                          
                         </td>  
 
-                        <td id="dynamic_table_create_td">
-                            <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                        <td id="dynamic_table_list_for_setting_td">                            
+                            <a href="javascript:void(0);" class="" id="setting_button" onclick="DynamicTableSetting()">Setting</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        </div>    
+    </div>    
+    <br />
+
+    <div id="total_menu_settings" style="display:none;">
+        <!--table setting: columns insert form-->
+        <div class="row">
+            <div class="col-md-6">
+                <table id="total_menu_setting_columns_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th>Main-Item Title</th>
+                            <th>Sub-Item Title</th>
+                            <th>Detail-Item Title</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>                                     
+                            <td id="dynamic_table_create_td">
+                                <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
+                            </td>
+                            <td id="dynamic_table_create_td">
+                                <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
+                            </td>  
+                            <td id="dynamic_table_create_td">
+                                <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
+                            </td>  
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+
+        <!--table setting: items insert form-->
+        <div class="row">
+            <div class="col-md-10">
+                <table id="total_menu_setting_items_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th>Main Item</th>
+                            <th>Sub Item</th>
+                            <th>Detail Item</th>
+                            <th>Methods</th>
+                            <th>Data for</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item_tbody">
+                        <tr class="item_row">                                     
+                            <td class="setting_items_td">
+                                <select class="main_item_dropdown" name="main_item" id="main_item">  
+                                    <option>select main item</option>   
+                                    <option>main item-1</option>
+                                    <option>main item-2</option>
+                                    <option disabled="disabled">---------</option>
+                                    <option value="main">
+                                        Add New                                                                    
+                                    </option>
+                                </select> 
+                            </td>
+                            <td class="setting_items_td" >
+                                <select class="sub_item_dropdown" name="sub_item" id="sub_item">  
+                                    <option>select sub item</option>   
+                                    <option>sub item-1</option>
+                                    <option>sub item-2</option>
+                                    <option disabled="disabled">---------</option>
+                                    <option value="sub">Add New</option>
+                                </select> 
+                            </td>  
+                            <td class="setting_items_td">
+                                <select class="detail_item_dropdown" name="detail_item" id="detail_item">  
+                                    <option>select detail item</option>   
+                                    <option>detail item-1</option>
+                                    <option>detail item-2</option>
+                                    <option disabled="disabled">---------</option>
+                                    <option value='detail'>Add New</option>
+                                </select> 
+                            </td>  
+                            <td class="setting_items_td">
+                                <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                    <option>select methods</option>   
+                                    <option>method-1</option>
+                                    <option>method-2</option>
+                                </select>                                          
+                            </td>  
+                            <td class="setting_items_td">
+                                <select class="setting_dropdowns"   id="data_for_list_dropdown_for_setting">  
+                                    <option>select data-for</option>   
+                                    <option>department-1</option>
+                                    <option>department-2</option>                              
+                                </select>                                          
+                            </td>  
+                            <td class="setting_plus_icon" style="display:show;">                            
+                                <a href="javascript:void(0);" class="text-decoration-none" id="item_row_add">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="setting_minus_icon" style="display:none;">  
+                                <a href="javascript:void(0);" class="text-decoration-none" class="remove_row">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                                    </svg>
+                                </a>
+                            </td>    
+                        </tr>  
+                        <tr>
+                            <td class="action_td"></td>
+                            <td class="action_td"></td>
+                            <td class="action_td"></td>
+                            <td class="action_td"></td>
+                            <!-- <td class="action_td"></td> -->
+                            <td class="cancel_save_link_td">                            
+                                <a href="javascript:void(0);" class="" id="dynamic_table_create_cancel_btn" data-dismiss="modal">Cancel</a>
+                                <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                            </td>                            
+                        </tr>                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->    
+        <div id="total_setting_list" style="display: block;">
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="table-responsive">
+
+                        <table class="" id="setting_list_tbl">
+                            <thead>
+                                <tr>
+                                    <th colspan="12">Total Menu Setting List</th>
+                                </tr>
+                                <tr>
+                                    <th class="setting_list_header">Table Name</th>    
+                                    <th class="setting_list_header">Main Item</th>    
+                                    <th class="setting_list_header">Sub Item</th>    
+                                    <th class="setting_list_header">Detail Item</th>    
+                                    <th class="setting_list_header">Methods</th>   
+                                    <th class="setting_list_header">Data for</th>
+                                    <th class="setting_list_header">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="setting_list_body">
+                                <tr>
+                                    <td>table-1</td>
+                                    <td>main-item-1</td>
+                                    <td>sub-item-1</td>
+                                    <td>detail-item-1</td>
+                                    <td>method-1</td>
+                                    <td>development-1</td>
+                                    <td>
+                                        <label id="setting_list_delete_lbl">
+                                            <a id="setting_list_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_setting_table" onClick="DeleteDynmaicTalbe(${item.Id})">
+                                                削除
+                                            </a>
+                                        </label>
+                                        <!-- <label id="dynamic_table_edit_label">
+                                            <a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_settings_modal" onClick="GetDynamicTalbeById(${item.Id})">
+                                                編集
+                                            </a>
+                                        </label> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /> 
+    </div>    
+
 </div>
 <br><br>
 <br><br>
@@ -198,7 +373,330 @@
     </div>
 </div>
 
+<!-----------------Modal: Add Main Item----------------->
+<div id="add_main_item_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Main Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <table id="dynamic_table_edit">
+                            <thead style="border: none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>Main Item Name</th>                                    
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>                                     
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="main item" id="table_name_edit">                                        
+                                    </td>                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Add Sub Item----------------->
+<div id="add_sub_item_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Sub Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <table id="dynamic_table_edit">
+                            <thead style="border: none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>Main Item</th>
+                                    <th>Sub Item</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>                                     
+                                    <td id="dynamic_table_edit_td">
+                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                            <option>select main item</option>   
+                                            <option>main-item-1</option>
+                                            <option>main-item-2</option>
+                                        </select>                                                                                
+                                    </td>
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="sub item" id="table_name_edit">     
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Add Detail Item----------------->
+<div id="add_detail_item_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Detail Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <table id="dynamic_table_edit">
+                            <thead style="border: none;">
+                                <tr></tr>
+                                <tr>
+                                    <th>Main Item</th>
+                                    <th>Sub Item</th>
+                                    <th>Detail Item</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>                                     
+                                    <td id="dynamic_table_edit_td">
+                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                            <option>select main item</option>   
+                                            <option>main-item-1</option>
+                                            <option>main-item-2</option>
+                                        </select>                                                                                
+                                    </td>
+                                    <td id="dynamic_table_edit_td">
+                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                            <option>select sub item</option>   
+                                            <option>sub-item-1</option>
+                                            <option>sub-item-2</option>
+                                        </select>                                                                                
+                                    </td>
+                                    <td id="dynamic_table_edit_td">
+                                        <input type="text" value="" placeholder="detail item" id="table_name_edit">     
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Delete settings ----------------->
+<div class="modal custom-modal fade" id="delete_setting_table" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>テーブルの削除 (Delete Settings)</h3>
+                    <p id="section_warning" style="display:none;"></p>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p>本当に削除しますか？</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_dynamic_table_link">削除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit settings----------------->
+<div id="edit_settings_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-header">
+                    <!--table setting: columns insert form-->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table id="total_menu_setting_columns_tbl">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>Main-Item Title</th>
+                                        <th>Sub-Item Title</th>
+                                        <th>Detail-Item Title</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>                                     
+                                        <td id="dynamic_table_create_td">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
+                                        </td>
+                                        <td id="dynamic_table_create_td">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
+                                        </td>  
+                                        <td id="dynamic_table_create_td">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
+                                        </td>  
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+
+                    <!--table setting: items insert form-->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <table id="total_menu_setting_items_tbl">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>Main Item</th>
+                                        <th>Sub Item</th>
+                                        <th>Detail Item</th>
+                                        <th>Methods</th>
+                                        <th>Data for</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="item_tbody">
+                                    <tr class="item_row">                                     
+                                        <td class="setting_items_td">
+                                            <select class="main_item_dropdown" name="main_item" id="main_item">  
+                                                <option>select main item</option>   
+                                                <option>main item-1</option>
+                                                <option>main item-2</option>
+                                                <option disabled="disabled">---------</option>
+                                                <option value="main">
+                                                    Add New                                                                    
+                                                </option>
+                                            </select> 
+                                        </td>
+                                        <td class="setting_items_td" >
+                                            <select class="sub_item_dropdown" name="sub_item" id="sub_item">  
+                                                <option>select sub item</option>   
+                                                <option>sub item-1</option>
+                                                <option>sub item-2</option>
+                                                <option disabled="disabled">---------</option>
+                                                <option value="sub">Add New</option>
+                                            </select> 
+                                        </td>  
+                                        <td class="setting_items_td">
+                                            <select class="detail_item_dropdown" name="detail_item" id="detail_item">  
+                                                <option>select detail item</option>   
+                                                <option>detail item-1</option>
+                                                <option>detail item-2</option>
+                                                <option disabled="disabled">---------</option>
+                                                <option value='detail'>Add New</option>
+                                            </select> 
+                                        </td>  
+                                        <td class="setting_items_td">
+                                            <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                                <option>select methods</option>   
+                                                <option>method-1</option>
+                                                <option>method-2</option>
+                                            </select>                                          
+                                        </td>  
+                                        <td class="setting_items_td">
+                                            <select class="setting_dropdowns"   id="data_for_list_dropdown_for_setting">  
+                                                <option>select data-for</option>   
+                                                <option>department-1</option>
+                                                <option>department-2</option>                              
+                                            </select>                                          
+                                        </td>                                          
+                                    </tr>                                      
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                        </div>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/table_format.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -236,7 +734,6 @@
             });
 
             $(document).ready(function () {
-                GetDynamicTables();
 
                 setInterval(() => {
                     $.ajax({

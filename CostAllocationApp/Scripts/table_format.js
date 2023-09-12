@@ -312,49 +312,49 @@ function DynamicTableSetting(){
             error: function (data) {
             }
         }); 
-
-
     }         
 }
 
-$(document).on('change', '.main_item_dropdown', function () {
-    var mainItem = $(this).val();
-    console.log("mainitem: "+mainItem);
-    if (mainItem == "" || mainItem == undefined || mainItem == null) {
-        return;
-    } else if (mainItem == "main") {
-        console.log("mainitem2: "+mainItem);
-        $('#add_main_item_modal').modal('toggle');
-    }
-    else {
-        console.log("mainitem3: "+mainItem);
-        // pull data for sub item
-        $.ajax({
-            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${mainItem}`,
-            type: 'Get',
-            dataType: 'json',
-            success: function (data) {
-                //$('#sub_item').empty();
-                let sub_item_options = "";
-                sub_item_options = "<option value=''>select sub item</option>";
-                $.each(data, function (key, item) {                    
-                    sub_item_options = sub_item_options +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
-                    //$('#sub_item').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
-                });
-                $(this).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
+$( document ).ready(function() {   
+   
+    $(document).on('change', '.main_item_dropdown', function () {
+        var sub_item_options = "";
+        var mainItem = $(this).val();
+        console.log("mainitem: "+mainItem);
+        if (mainItem == "" || mainItem == undefined || mainItem == null) {
+            return;
+        } else if (mainItem == "main") {
+            console.log("mainitem2: "+mainItem);
+            $('#add_main_item_modal').modal('toggle');
+        }
+        else {            
+            // pull data for sub item
+            $.ajax({
+                url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${mainItem}`,
+                type: 'Get',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    sub_item_options = sub_item_options + "<option value=''>select sub item</option>";                  
+                    $.each(data, function (key, item) {                    
+                        sub_item_options = sub_item_options +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                    });
+                    sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
+                    sub_item_options = sub_item_options +"<option value='sub'>Add New</option>";
+                },
+                error: function (data) {
+                }
+            }); 
 
-                $('#sub_item').append(`<option disabled="disabled">---------</option>`);
-                $('#sub_item').append(`<option value='sub'>Add New</option>`);
-            },
-            error: function (data) {
-            }
-        }); 
-    }
+            $(this).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
+        }
+    });
 });
 $(document).on('change', '.method_dropdown', function () {
+    var data_for_options = "";
     var methodId = $(this).val();    
     var dependency = $('option:selected', this).attr('data-dependency');
-    console.log(dependency);
+    
     if (methodId == "" || methodId == undefined || methodId == null) {
         return;
     }
@@ -364,19 +364,15 @@ $(document).on('change', '.method_dropdown', function () {
             $.ajax({
                 url: `/api/Departments`,
                 type: 'Get',
+                async:false,
                 dataType: 'json',
-                success: function (data) {
-                    // $('#data_for_list_dropdown_for_setting').empty();
-                    // $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
-                    let data_for_options = "";
+                success: function (data) {    
+                    data_for_options ="";
                     data_for_options = "<option value=''>select item</option>";
 
-                    $.each(data, function (key, item) {
-                        //$('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
+                    $.each(data, function (key, item) {                        
                         data_for_options = data_for_options +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
-                    });      
-                    console.log("dpt: "+data_for_options);
-                    $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);                                   
+                    });                          
                 },
                 error: function (data) {
                 }
@@ -386,26 +382,24 @@ $(document).on('change', '.method_dropdown', function () {
             $.ajax({
                 url: `/api/InCharges`,
                 type: 'Get',
+                async:false,
                 dataType: 'json',
                 success: function (data) {
-                    // $('#data_for_list_dropdown_for_setting').empty();
-                    // $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
-                    let data_for_options = "";
+                    data_for_options ="";
                     data_for_options = "<option value=''>select item</option>";
                     $.each(data, function (key, item) {
-                        //$('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
                         data_for_options = data_for_options +`<option value='${item.Id}'>${item.InChargeName}</option>`;
                     });
-                    console.log("int: "+data_for_options);
-                    $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);         
                 },
                 error: function (data) {
                 }
             });
         }
-        
+
+        $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);                                   
     }
 });
+
 $(document).on('change', '.sub_item_dropdown', function () {
     var subItem = $(this).val();        
 if (subItem == '' || subItem == null || subItem == undefined) {

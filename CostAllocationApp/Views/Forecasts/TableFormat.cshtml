@@ -4,11 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Content/table_format.css" />
 }
+
 <div class="content container-fluid">
     <!--create dynamic table form-->
     <div class="row">
@@ -66,17 +66,16 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="table-responsive">
-
                     <table class="" id="dynamic_list_tbl">
                         <thead>
                             <tr>
                                 <th colspan="6">Dynamic Table List</th>
                             </tr>
                             <tr>
-                                <th class="section_list_theader">Table Name</th>                                    
-                                <th class="section_list_theader">Table Title</th>
-                                <th class="section_list_theader">Table Position</th>
-                                <th class="section_list_theader">操作</th>
+                                <th class="table_list_th">Table Name</th>                                    
+                                <th class="table_list_th">Table Title</th>
+                                <th class="table_list_th">Table Position</th>
+                                <th class="table_list_th">操作</th>
                             </tr>
                         </thead>
                         <tbody id="dynamic_list_tbody"></tbody>
@@ -103,15 +102,15 @@
 
                 <tbody>
                     <tr>                                     
-                        <td id="dynamic_table_list_for_setting_td">
+                        <td class="dynamic_table_list_for_setting_td">
                             Select Table                                                        
                         </td>
-                        <td id="dynamic_table_list_for_setting_td">
+                        <td class="dynamic_table_list_for_setting_td">
                             <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting">                                
                             </select>                                          
                         </td>  
 
-                        <td id="dynamic_table_list_for_setting_td">                            
+                        <td class="dynamic_table_list_for_setting_td">                            
                             <a href="javascript:void(0);" class="" id="setting_button" onclick="DynamicTableSetting()">Setting</a>
                         </td>
                     </tr>
@@ -125,7 +124,7 @@
         <!--table setting: columns insert form-->
         <div class="row">
             <div class="col-md-6">
-                <table id="total_menu_setting_columns_tbl">
+                <table id="title_setting_table">
                     <thead style="border: none;">
                         <tr></tr>
                         <tr>
@@ -201,7 +200,7 @@
                                 </select> 
                             </td>  
                             <td class="setting_items_td">
-                                <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                <select class="setting_dropdowns" >  
                                     <option>select methods</option>   
                                     <option>method-1</option>
                                     <option>method-2</option>
@@ -237,7 +236,7 @@
                             <!-- <td class="action_td"></td> -->
                             <td class="cancel_save_link_td">                            
                                 <a href="javascript:void(0);" class="" id="clear_setting_form" data-dismiss="modal">Cancel</a>
-                                <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicTables()">Save</a>
+                                <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicSetting()">Save</a>
                             </td>                            
                         </tr>                      
                     </tbody>
@@ -295,7 +294,6 @@
         </div>
         <br /> 
     </div>    
-
 </div>
 <br><br>
 <br><br>
@@ -310,7 +308,6 @@
             <div class="modal-body">
                 <div class="form-header">
                     <h3>テーブルの削除 (Delete Table)</h3>
-                    <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
                     <p>本当に削除しますか？</p>
                 </div>
@@ -320,7 +317,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_dynamic_table_link">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_table_link">削除</a>
                         </div>
                     </div>
                 </div>
@@ -343,7 +340,7 @@
                 <div class="form-header">
                     <div class="row">
                     <div class="col-md-12">
-                        <table id="dynamic_table_edit">
+                        <table id="edit_table_modal">
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
@@ -355,13 +352,13 @@
 
                             <tbody>
                                 <tr>                                     
-                                    <td id="dynamic_table_edit_td">
+                                    <td class="table_setting_modal">
                                         <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">                                        
                                     </td>
-                                    <td id="dynamic_table_edit_td">
+                                    <td class="table_setting_modal">
                                         <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">                                        
                                     </td>  
-                                    <td id="dynamic_table_edit_td">
+                                    <td class="table_setting_modal">
                                         <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">                                        
                                     </td>  
                                 </tr>
@@ -376,7 +373,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_dynamic_table">編集</a>
                         </div>
                     </div>
                 </div>
@@ -400,7 +397,7 @@
                 <div class="form-header">
                     <div class="row">
                     <div class="col-md-12">
-                        <table id="dynamic_table_edit">
+                        <table id="add_main_item_modal">
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
@@ -410,8 +407,8 @@
 
                             <tbody>
                                 <tr>                                     
-                                    <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="main item" id="table_name_edit">                                        
+                                    <td class="table_setting_modal">
+                                        <input type="text" value="" placeholder="main item" id="input_main_item">                                        
                                     </td>                                    
                                 </tr>
                             </tbody>
@@ -425,7 +422,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_main_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -449,7 +446,7 @@
                 <div class="form-header">
                     <div class="row">
                     <div class="col-md-12">
-                        <table id="dynamic_table_edit">
+                        <table id="add_sub_item_modal">
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
@@ -460,15 +457,15 @@
 
                             <tbody>
                                 <tr>                                     
-                                    <td id="dynamic_table_edit_td">
-                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                    <td class="table_setting_modal">
+                                        <select class="setting_dropdowns">  
                                             <option>select main item</option>   
                                             <option>main-item-1</option>
                                             <option>main-item-2</option>
                                         </select>                                                                                
                                     </td>
-                                    <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="sub item" id="table_name_edit">     
+                                    <td class="table_setting_modal">
+                                        <input type="text" value="" placeholder="sub item" id="input_sub_item">     
                                     </td> 
                                 </tr>
                             </tbody>
@@ -482,7 +479,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_sub_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -506,7 +503,7 @@
                 <div class="form-header">
                     <div class="row">
                     <div class="col-md-12">
-                        <table id="dynamic_table_edit">
+                        <table id="add_details_item_modal">
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
@@ -518,22 +515,22 @@
 
                             <tbody>
                                 <tr>                                     
-                                    <td id="dynamic_table_edit_td">
-                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                    <td class="table_setting_modal">
+                                        <select class="setting_dropdowns">  
                                             <option>select main item</option>   
                                             <option>main-item-1</option>
                                             <option>main-item-2</option>
                                         </select>                                                                                
                                     </td>
-                                    <td id="dynamic_table_edit_td">
-                                        <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                    <td class="table_setting_modal">
+                                        <select class="setting_dropdowns">  
                                             <option>select sub item</option>   
                                             <option>sub-item-1</option>
                                             <option>sub-item-2</option>
                                         </select>                                                                                
                                     </td>
-                                    <td id="dynamic_table_edit_td">
-                                        <input type="text" value="" placeholder="detail item" id="table_name_edit">     
+                                    <td class="table_setting_modal">
+                                        <input type="text" value="" placeholder="detail item" id="input_detail_item">     
                                     </td> 
                                 </tr>
                             </tbody>
@@ -547,7 +544,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_detail_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -564,7 +561,6 @@
             <div class="modal-body">
                 <div class="form-header">
                     <h3>テーブルの削除 (Delete Settings)</h3>
-                    <p id="section_warning" style="display:none;"></p>
                     <ol class="section_count" style="text-align:left;"></ol>
                     <p>本当に削除しますか？</p>
                 </div>
@@ -574,7 +570,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_dynamic_table_link">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_setting_link">削除</a>
                         </div>
                     </div>
                 </div>
@@ -598,7 +594,7 @@
                     <!--table setting: columns insert form-->
                     <div class="row">
                         <div class="col-md-8">
-                            <table id="total_menu_setting_columns_tbl">
+                            <table id="title_setting_table_modal">
                                 <thead style="border: none;">
                                     <tr></tr>
                                     <tr>
@@ -611,13 +607,13 @@
                                 <tbody>
                                     <tr>                                     
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
+                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1_modal">                                        
                                         </td>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
+                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2_modal">                                        
                                         </td>  
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
+                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3_modal">                                        
                                         </td>  
                                     </tr>
                                 </tbody>
@@ -629,7 +625,7 @@
                     <!--table setting: items insert form-->
                     <div class="row">
                         <div class="col-md-10">
-                            <table id="total_menu_setting_items_tbl">
+                            <table id="total_menu_setting_items_tbl_modal">
                                 <thead style="border: none;">
                                     <tr></tr>
                                     <tr>
@@ -641,10 +637,10 @@
                                     </tr>
                                 </thead>
 
-                                <tbody id="item_tbody">
+                                <tbody id="item_tbody_modal">
                                     <tr class="item_row">                                     
                                         <td class="setting_items_td">
-                                            <select class="main_item_dropdown" name="main_item" id="main_item">  
+                                            <select class="main_item_dropdown" name="main_item_modal" id="main_item_modal">  
                                                 <option>select main item</option>   
                                                 <option>main item-1</option>
                                                 <option>main item-2</option>
@@ -655,7 +651,7 @@
                                             </select> 
                                         </td>
                                         <td class="setting_items_td" >
-                                            <select class="sub_item_dropdown" name="sub_item" id="sub_item">  
+                                            <select class="sub_item_dropdown" name="sub_item_modal" id="sub_item_modal">  
                                                 <option>select sub item</option>   
                                                 <option>sub item-1</option>
                                                 <option>sub item-2</option>
@@ -664,7 +660,7 @@
                                             </select> 
                                         </td>  
                                         <td class="setting_items_td">
-                                            <select class="detail_item_dropdown" name="detail_item" id="detail_item">  
+                                            <select class="detail_item_dropdown" name="detail_item_modal" id="detail_item_modal">  
                                                 <option>select detail item</option>   
                                                 <option>detail item-1</option>
                                                 <option>detail item-2</option>
@@ -673,7 +669,7 @@
                                             </select> 
                                         </td>  
                                         <td class="setting_items_td">
-                                            <select class="setting_dropdowns" id="methon_list_dropdown_for_setting">  
+                                            <select class="setting_dropdowns">  
                                                 <option>select methods</option>   
                                                 <option>method-1</option>
                                                 <option>method-2</option>
@@ -698,7 +694,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="edit_dynamic_table_link">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="udpate_tbl_setting">編集</a>
                         </div>
                     </div>
                 </div>

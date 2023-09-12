@@ -109,7 +109,6 @@ body {
 	dynamic table List Show
 \***************************/
 #dynamic_table_list {
-    /* margin-left: 17px; */
     border: none;
 }
 #dynamic_list_tbl{
@@ -149,16 +148,15 @@ body {
     text-align: center;
 }
 
-.section_list_theader{
+.table_list_th{
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
 /***************************\                           
-	Section List Delete Button
+	total menu delete button
 \***************************/ 
 #dynamic_table_delete_link {
     width: 124%;
-    /* height: 23px; */
     font-size: 10px;
     font-family: Yu Gothic;
     background: indianred;
@@ -185,49 +183,59 @@ body {
     line-height: .7;
     margin-bottom: 0;
 }
-/* #dynamic_table_delete {
-    padding-left: 382px;
-} */
-
-/**********total cost-create table: table name input field*************/
-
-/**********total cost-create table: cancel and save button*************/
-#section_reg_cancel_btn {
-    background-color: #3c4b5d;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-#section_reg_save_btn {
-    background-color: #3c4b5d;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
 /***************************\                           
 	dynamic table: edit modal
 \***************************/
-#dynamic_table_edit {
+#edit_table_modal {
     width: 100%;
     border-collapse: collapse;
     font-size: 12px;
     border: 1px solid;
     font-family: Yu Gothic;
 }
-
-#dynamic_table_edit thead {
+#edit_table_modal thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-#dynamic_table_edit_td{
+#add_main_item_modal {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+#add_main_item_modal thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+#add_sub_item_modal {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+#add_sub_item_modal thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#add_details_item_modal {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+#add_details_item_modal thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.table_setting_modal{
     height: 25px;
     border: none;
     border: 1px solid #f5e7e7 !important;
@@ -236,8 +244,17 @@ body {
     text-align: center;
     line-height: 0.5;
 }
-
 #table_name_edit,#table_title_edit,#table_position_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+
+#input_main_item,#input_sub_item,#input_detail_item{
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -261,7 +278,7 @@ body {
 #dynamic_table_list_for_setting{
     border: none;
 }
-#dynamic_table_list_for_setting_td{
+.dynamic_table_list_for_setting_td{
     height: 25px;
     border: none;
     border: 1px solid #f5e7e7 !important;
@@ -269,6 +286,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
+
 #setting_button {
     background-color: #3c4b5d;
     color: white;
@@ -293,6 +311,15 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
+#column_title_1_modal,#column_title_2_modal,#column_title_3_modal,#column_title_4_modal{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
 #total_menu_setting_tbl {
     width: 100%;
     border-collapse: collapse;
@@ -306,7 +333,7 @@ body {
     color: white;
     text-align: center;
 }
-#total_menu_setting_columns_tbl {
+#title_setting_table,#title_setting_table_modal {
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
@@ -314,11 +341,12 @@ body {
     font-family: Yu Gothic;
 }
 
-#total_menu_setting_columns_tbl thead {
+#title_setting_table,#title_setting_table_modal thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
+
 #total_menu_setting_items_tbl {
     width: 100%;
     border-collapse: collapse;
@@ -326,13 +354,33 @@ body {
     border: 1px solid white;
     font-family: Yu Gothic;
 }
-
+#total_menu_setting_items_tbl_modal {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid white;
+    font-family: Yu Gothic;
+}
 #total_menu_setting_items_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
+#total_menu_setting_items_tbl_modal thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
 #main_item,#sub_item,#detail_item{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#main_item_modal,#sub_item_modal,#detail_item_modal{
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -353,16 +401,6 @@ body {
     text-align: center;
     line-height: 0.5;
 }
-/* #main_item_td,#sub_item_td,#detail_item_td{
-    height: 25px;
-    border: none;
-    border: 1px solid #f5e7e7 !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-    line-height: 0.5;
-    width: 160px;
-} */
 .setting_items_td{
     height: 25px;
     border: none;
@@ -373,15 +411,6 @@ body {
     line-height: 0.5;
     width: 160px;
 }
-/* .setting_items_dropdown_td{
-    height: 25px;
-    border: none;
-    border: 1px solid #f5e7e7 !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-    line-height: 0.5;
-} */
 .setting_plus_icon,.setting_minus_icon{
     height: 25px;
     border: none;
@@ -405,7 +434,6 @@ body {
     display: inline-block;
     margin-left: 0px !important;
 }
-
 .main_item_dropdown,.sub_item_dropdown,.detail_item_dropdown{
     border: none;
 }
@@ -433,7 +461,6 @@ body {
 	Total Menu Setting List
 \***************************/
 #total_setting_list {
-    /* margin-left: 17px; */
     border: none;
 }
 #setting_list_tbl{
@@ -450,20 +477,16 @@ body {
     padding: 0px !important;
     text-align: center;
 }
-
 #setting_list_tbl td, th:nth-of-type(9) {
     text-align: center;
     width: 20px;
 }
-
 #setting_list_tbl td:nth-of-type(2) {
     border: 1px solid;
     padding: 2px !important;
     text-align: left;
     text-indent: 1em;
 }
-
-
 #setting_list_tbl thead tr:nth-of-type(1) {
     background-color: #3c4b5d;
     color: white;
@@ -473,10 +496,8 @@ body {
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
-
 #setting_list_delete_link {
     width: 124%;
-    /* height: 23px; */
     font-size: 10px;
     font-family: Yu Gothic;
     background: indianred;

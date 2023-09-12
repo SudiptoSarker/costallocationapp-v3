@@ -1,7 +1,10 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
+    //get table lsit and setting list on page load. 
     GetDynamicTables();
     GetDynamicTablesForSetting();
 });
+
 function InsertDynamicTables() {
     var apiurl = "/api/Utilities/CreateDynamicTable";
     var tableName = $("#table_name").val();
@@ -73,13 +76,15 @@ function InsertDynamicTables() {
     }
 }
 
+function InsertDynamicSetting() {
+    
+}
 function GetDynamicTables() {
     $.getJSON('/api/Utilities/GetDynamicTables')
         .done(function (data) {
             $('#dynamic_list_tbody').empty();
             $.each(data, function (key, item) {
                 $('#dynamic_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);
-                // $('#dynamic_list_tbody').append(`<tr><td>${item.Id}</td><td>${item.TableTitle}</td></tr>`);
             });
         });
 }
@@ -94,8 +99,7 @@ function GetDynamicTalbeById(dynamicTableId){
 }
 
 //edit dynamic table by table id
-$(document).on('click', '#edit_dynamic_table_link ', function () { 
-
+$(document).on('click', '#update_dynamic_table ', function () { 
     var apiurl = "/api/Utilities/UpdateDynamicTable";
     var id = $("#table_id_for_edit").val();
     var tableName = $("#table_name_edit").val();
@@ -143,11 +147,59 @@ $(document).on('click', '#edit_dynamic_table_link ', function () {
     
 });
 
+//update main item
+$(document).on('click', '#update_main_item ', function () {     
+});
+//update sub item
+$(document).on('click', '#update_sub_item ', function () {     
+});
+//update detail item
+$(document).on('click', '#update_detail_item ', function () {     
+});
+//update table setting
+$(document).on('click', '#udpate_tbl_setting ', function () {     
+});
+
 function DeleteDynmaicTalbe(dynamicTableId){
     $("#table_id_for_delete").val(dynamicTableId);
 }
+
 //delete dynamic table by table id
-$(document).on('click', '#delete_dynamic_table_link ', function () { 
+$(document).on('click', '#delete_table_link ', function () { 
+
+    var apiurl = "/api/Utilities/InactiveDynamicTable";
+    var id = $("#table_id_for_delete").val();
+    var tableName ="";
+    var tableTitle ="";
+    var tablePosition ="";
+
+    var data = {
+        Id:id,
+        TableName: tableName,
+        TableTitle: tableTitle,
+        TablePosition: tablePosition,
+        IsActive: false,
+    };
+
+    $.ajax({
+        url: apiurl,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            ToastMessageSuccess(data);
+            GetDynamicTables();
+            GetDynamicTablesForSetting();
+        },
+        error: function (data) {
+            ToastMessageFailed(data);
+        }
+    });
+    
+    $('#delete_dynamic_table').modal('toggle');
+});
+//delete dynamic table by table id
+$(document).on('click', '#delete_setting_link ', function () { 
 
     var apiurl = "/api/Utilities/InactiveDynamicTable";
     var id = $("#table_id_for_delete").val();
@@ -207,21 +259,18 @@ $(document).on('change', '.main_item_dropdown', function () {
     var mainItem =  $(this).val();    
     if(mainItem=="main"){        
         $('#add_main_item_modal').modal('toggle');        
-        //$(".main_item_dropdown").val('');
     }
 });
 $(document).on('change', '.sub_item_dropdown', function () {
     var subItem = $(this).val();    
     if(subItem=="sub"){        
         $('#add_sub_item_modal').modal('toggle');
-        //$(".sub_item_dropdown").val('');
     }
 });
 $(document).on('change', '.detail_item_dropdown', function () {
     var detailItem = $(this).val();    
     if(detailItem=="detail"){        
         $('#add_detail_item_modal').modal('toggle');
-        //$(".detail_item_dropdown").val('');
     }
 });
 
@@ -256,4 +305,7 @@ $(document).on('click', '#clear_input_frm ', function () {
     $("#table_name").val('');
     $("#table_title").val('');
     $("#table_position").val('');
+    $("#table_name_warning_msg").hide();
+    $("#table_title_warning_msg").hide();
+    $("#table_position_warning_msg").hide();    
 });

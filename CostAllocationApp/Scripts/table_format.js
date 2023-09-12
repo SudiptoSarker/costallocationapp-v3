@@ -351,8 +351,8 @@ $(document).on('change', '.main_item_dropdown', function () {
         }); 
     }
 });
-$(document).on('change', '#method_list_dropdown', function () {
-    var methodId = $(this).val();
+$(document).on('change', '.method_dropdown', function () {
+    var methodId = $(this).val();    
     var dependency = $('option:selected', this).attr('data-dependency');
     console.log(dependency);
     if (methodId == "" || methodId == undefined || methodId == null) {
@@ -366,11 +366,17 @@ $(document).on('change', '#method_list_dropdown', function () {
                 type: 'Get',
                 dataType: 'json',
                 success: function (data) {
-                    $('#data_for_list_dropdown_for_setting').empty();
-                    $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    // $('#data_for_list_dropdown_for_setting').empty();
+                    // $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    let data_for_options = "";
+                    data_for_options = "<option value=''>select item</option>";
+
                     $.each(data, function (key, item) {
-                        $('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-                    });
+                        //$('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
+                        data_for_options = data_for_options +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
+                    });      
+                    console.log("dpt: "+data_for_options);
+                    $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);                                   
                 },
                 error: function (data) {
                 }
@@ -382,11 +388,16 @@ $(document).on('change', '#method_list_dropdown', function () {
                 type: 'Get',
                 dataType: 'json',
                 success: function (data) {
-                    $('#data_for_list_dropdown_for_setting').empty();
-                    $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    // $('#data_for_list_dropdown_for_setting').empty();
+                    // $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    let data_for_options = "";
+                    data_for_options = "<option value=''>select item</option>";
                     $.each(data, function (key, item) {
-                        $('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
+                        //$('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
+                        data_for_options = data_for_options +`<option value='${item.Id}'>${item.InChargeName}</option>`;
                     });
+                    console.log("int: "+data_for_options);
+                    $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);         
                 },
                 error: function (data) {
                 }
@@ -404,21 +415,23 @@ if (subItem == '' || subItem == null || subItem == undefined) {
 	if(subItem=="sub"){        
 		$('#add_sub_item_modal').modal('toggle');
 	}else{
-		// let sub_item_options = "";
-		// sub_item_options = "<option value=''>select sub item</option>";
-		// sub_item_options = sub_item_options +"<option value='10'>sub-item-10</option>";
-		// sub_item_options = sub_item_options +"<option value='11'>sub-item-11</option>";
-		// sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
-		// sub_item_options = sub_item_options +"<option value='main'>Add New</option>";
+		let sub_item_options = "";
+		sub_item_options = "<option value=''>select sub item</option>";
+		sub_item_options = sub_item_options +"<option value='10'>detail-item-12</option>";
+		sub_item_options = sub_item_options +"<option value='11'>detail-item-13</option>";
+		sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
+		sub_item_options = sub_item_options +"<option value='detail'>Add New</option>";
+        $(this).closest('tr').find('.detail_item_dropdown').empty().append(sub_item_options);
+        
 
-		$(this).closest('tr').find('.detail_item_dropdown').empty().append
-		(
-			`<option value="">select detail item</option>`,
-			`<option value="10">detail-item-12</option>`,
-			`<option value="11">detail-item-13</option>`,
-			`<option disabled='disabled'>---------</option>`,
-			`<option value='detail'>Add New</option>`
-		);                        
+		// $(this).closest('tr').find('.detail_item_dropdown').empty().append
+		// (
+		// 	`<option value="">select detail item</option>`,
+		// 	`<option value="10">detail-item-12</option>`,
+		// 	`<option value="11">detail-item-13</option>`,
+		// 	`<option disabled='disabled'>---------</option>`,
+		// 	`<option value='detail'>Add New</option>`
+		// );                        
 	}
 }  
 });

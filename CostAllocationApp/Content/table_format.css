@@ -434,7 +434,7 @@ body {
     display: inline-block;
     margin-left: 0px !important;
 }
-.main_item_dropdown,.sub_item_dropdown,.detail_item_dropdown{
+.main_item_dropdown,.sub_item_dropdown,.detail_item_dropdown,.data_for_dropdown{
     border: none;
 }
 
@@ -510,6 +510,7 @@ body {
     line-height: .7;
     margin-bottom: 0;
 }
-#method_list_dropdown{
+.method_dropdown{
+    border: none;
     width: 91%;
 }

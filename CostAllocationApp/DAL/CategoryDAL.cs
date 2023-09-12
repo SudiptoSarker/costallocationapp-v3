@@ -54,9 +54,9 @@ namespace CostAllocationApp.DAL
                             Category category = new Category();
                             category.Id = Convert.ToInt32(rdr["Id"]);
                             category.CategoryName = rdr["CategoryName"].ToString();
-                            category.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            category.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            category.CreatedBy = rdr["CreatedBy"].ToString();
+                            //category.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            //category.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            //category.CreatedBy = rdr["CreatedBy"].ToString();
 
                             categories.Add(category);
                         }

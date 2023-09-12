@@ -382,5 +382,42 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public bool IsNameAndPositionExists(string tableName, int tablePoisition, int tableId, string checkType)
+        {
+            bool isExists = false;
+            string query = "";
+            if (checkType == "add")
+            {
+                query = "SELECT * FROM DynamicTables WHERE TableName= N'" + tableName + "' OR TablePosition=" + tablePoisition + " ";
+            }
+            else
+            {
+                query = "SELECT* FROM DynamicTables WHERE TableName = N'" + tableName + "' OR TablePosition = " + tablePoisition + " AND Id<>" + tableId + " ";
+            }
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            isExists = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return isExists;
+            }
+        }
+
     }
 }

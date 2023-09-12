@@ -77,7 +77,31 @@ function InsertDynamicTables() {
 }
 
 function InsertDynamicSetting() {
-    
+    var dynamicTableId = $('#dynamic_table_list_for_setting').val();
+    var mainItemId = $('#main_item').val();
+    var subItemId = $('#sub_item').val();
+    var subItemId = $('#sub_item').val();
+    var methodId = $('#method_list_dropdown').val();
+    var dependencyId = $('#data_for_list_dropdown_for_setting').val();
+
+    $.ajax({
+        url: '/api/utilities/CreateDynamicSetting/',
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        data: {
+            DynamicTableId: dynamicTableId,
+            CategoryId: mainItemId,
+            SubCategoryId: subItemId,
+            DetailsId: '0',
+            MethodId: methodId,
+            ParameterId: dependencyId
+        },
+        success: function (data) {
+            ToastMessageSuccess(data);
+            GetDynamicSettings();
+        }
+    });
 }
 function GetDynamicTables() {
     $.getJSON('/api/Utilities/GetDynamicTables')
@@ -250,15 +274,118 @@ function DynamicTableSetting(){
         $("#total_menu_settings").hide();
         alert('テーブルを選択してください!!!');        
         return false;
-    }else{
+    } else {
+        GetDynamicSettings();
         $("#total_menu_settings").show();
+
+        // pull data for main item
+        $.ajax({
+            url: '/api/utilities/GetCategories/',
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('#main_item').empty();
+                $('#main_item').append(`<option value=''>Select Item</option>`);
+                $.each(data, function (key, item) {
+                    $('#main_item').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                });
+                $('#main_item').append(`<option disabled="disabled">---------</option>`);
+                $('#main_item').append(`<option value='detail'>Add New</option>`);
+            },
+            error: function (data) {
+            }
+        }); 
+
+        // pull method list
+        $.ajax({
+            url: '/api/utilities/GetMethodList/',
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('#method_list_dropdown').empty();
+                $('#method_list_dropdown').append(`<option value=''>Select Item</option>`);
+                console.log(data);
+                $.each(data, function (key, item) {
+                    $('#method_list_dropdown').append(`<option value='${item.Id}'data-dependency=${item.Dependency}>${item.MethodName}</option>`);
+                });
+            },
+            error: function (data) {
+            }
+        }); 
+
+
     }         
 }
 
 $(document).on('change', '.main_item_dropdown', function () {
-    var mainItem =  $(this).val();    
-    if(mainItem=="main"){        
-        $('#add_main_item_modal').modal('toggle');        
+    var mainItem = $(this).val();
+    if (mainItem == "" || mainItem == undefined || mainItem == null) {
+        return;
+    } else if (mainItem == "main") {
+        $('#add_main_item_modal').modal('toggle');
+    }
+    else {
+        // pull data for sub item
+        $.ajax({
+            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${mainItem}`,
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('#sub_item').empty();
+                $.each(data, function (key, item) {
+                    $('#sub_item').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
+                });
+
+                $('#sub_item').append(`<option disabled="disabled">---------</option>`);
+                $('#sub_item').append(`<option value='detail'>Add New</option>`);
+            },
+            error: function (data) {
+            }
+        }); 
+    }
+});
+$(document).on('change', '#method_list_dropdown', function () {
+    var methodId = $(this).val();
+    var dependency = $('option:selected', this).attr('data-dependency');
+    console.log(dependency);
+    if (methodId == "" || methodId == undefined || methodId == null) {
+        return;
+    }
+    else {
+        // pull data for dependency
+        if (dependency=="dp") {
+            $.ajax({
+                url: `/api/Departments`,
+                type: 'Get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#data_for_list_dropdown_for_setting').empty();
+                    $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    $.each(data, function (key, item) {
+                        $('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        if (dependency == "in") {
+            $.ajax({
+                url: `/api/InCharges`,
+                type: 'Get',
+                dataType: 'json',
+                success: function (data) {
+                    $('#data_for_list_dropdown_for_setting').empty();
+                    $('#data_for_list_dropdown_for_setting').append(`<option value=''>Select Item</option>`);
+                    $.each(data, function (key, item) {
+                        $('#data_for_list_dropdown_for_setting').append(`<option value='${item.Id}'>${item.InChargeName}</option>`);
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        
     }
 });
 $(document).on('change', '.sub_item_dropdown', function () {
@@ -309,3 +436,21 @@ $(document).on('click', '#clear_input_frm ', function () {
     $("#table_title_warning_msg").hide();
     $("#table_position_warning_msg").hide();    
 });
+
+function GetDynamicSettings() {
+    var dynamicTableId = $('#dynamic_table_list_for_setting').val();
+
+    $.ajax({
+        url: `/api/utilities/GetDynamicSettingsByDynamicTableId?dynamicTableId=${dynamicTableId}`,
+        type: 'Get',
+        dataType: 'json',
+        success: function (data) {
+            $('#setting_list_body').empty();
+            $.each(data, function (key, item) {
+                $('#setting_list_body').append(`<tr><td>${item.DynamicTableName}</td><td>${item.CategoryName}</td><td>${item.SubCategoryName}</td><td>n/a</td><td>${item.MethodName}</td><td>${item.ParameterId}</td></tr>`);
+            });
+        },
+        error: function (data) {
+        }
+    });
+}

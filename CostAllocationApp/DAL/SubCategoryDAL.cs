@@ -143,7 +143,7 @@ namespace CostAllocationApp.DAL
                         {
                             SubCategory subCategory = new SubCategory();
                             subCategory.Id = Convert.ToInt32(rdr["Id"]);
-                            subCategory.SubCategoryName = rdr["CategoryName"].ToString();
+                            subCategory.SubCategoryName = rdr["SubCategoryName"].ToString();
                             subCategories.Add(subCategory);
 
 

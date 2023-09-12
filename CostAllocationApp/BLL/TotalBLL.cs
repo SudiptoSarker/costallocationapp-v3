@@ -91,7 +91,7 @@ namespace CostAllocationApp.BLL
             {
                 foreach (var dynamicSetting in dynamicSettings)
                 {
-                    dynamicSetting.MethodName = DynamicMethod.GetMethods().Where(dm => dm.Key == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault().Value;
+                    dynamicSetting.MethodName = DynamicMethodDefinition.GetMethods().Where(dmd => dmd.Id == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault().MethodName;
                 }
             }
 
@@ -102,5 +102,11 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.UpdateDynamicTablesTitle(dynamicTable);
         }
+
+        public bool IsNameAndPositionExists(string tableName, int tablePoisition, int tableId, string checkType)
+        {
+            return totalDAL.IsNameAndPositionExists(tableName, tablePoisition, tableId, checkType);
+        }
+
     }
 }

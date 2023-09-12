@@ -87,7 +87,7 @@
     <br />      
 
     <!-----------------Total Menu Settings: Dynamic table list with dropdown----------------->    
-    <h4>View Formate </h4>
+    <h4>View Format </h4>
     <div class="row">
         <div class="col-md-5">
             <table id="total_menu_setting_tbl">
@@ -200,7 +200,7 @@
                                 </select> 
                             </td>  
                             <td class="setting_items_td">
-                                <select class="setting_dropdowns" >  
+                                <select class="setting_dropdowns" id="method_list_dropdown">  
                                     <option>select methods</option>   
                                     <option>method-1</option>
                                     <option>method-2</option>
@@ -262,7 +262,7 @@
                                     <th class="setting_list_header">Detail Item</th>    
                                     <th class="setting_list_header">Methods</th>   
                                     <th class="setting_list_header">Data for</th>
-                                    <th class="setting_list_header">操作</th>
+                                    @*<th class="setting_list_header">操作</th>*@
                                 </tr>
                             </thead>
                             <tbody id="setting_list_body">
@@ -273,18 +273,6 @@
                                     <td>detail-item-1</td>
                                     <td>method-1</td>
                                     <td>development-1</td>
-                                    <td>
-                                        <label id="setting_list_delete_lbl">
-                                            <a id="setting_list_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_setting_table" onClick="DeleteDynmaicTalbe(${item.Id})">
-                                                削除
-                                            </a>
-                                        </label>
-                                        <!-- <label id="dynamic_table_edit_label">
-                                            <a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_settings_modal" onClick="GetDynamicTalbeById(${item.Id})">
-                                                編集
-                                            </a>
-                                        </label> -->
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>

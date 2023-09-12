@@ -5,24 +5,25 @@ using System.Web;
 
 namespace CostAllocationApp.Models
 {
-    public class DynamicMethod
+    public class DynamicMethodDefinition
     {
-        private Dictionary<int, string> _methodList = new Dictionary<int, string>();
-        
-        public static Dictionary<int, string> GetMethods()
+        private List<DynamicMethodDefinition> _methodList = new List<DynamicMethodDefinition>();
+
+        public int Id { get; set; }
+        public string MethodName { get; set; }
+        public string Dependency { get; set; }
+
+        public static List<DynamicMethodDefinition> GetMethods()
         {
-            DynamicMethod dynamicMethod = new DynamicMethod();
-            dynamicMethod._methodList.Add(1, "Hello");
-            dynamicMethod._methodList.Add(2, "Hello");
-            dynamicMethod._methodList.Add(3, "Hello");
-            dynamicMethod._methodList.Add(4, "Hello");
-            dynamicMethod._methodList.Add(5, "Hello");
-            dynamicMethod._methodList.Add(6, "Hello");
-            dynamicMethod._methodList.Add(7, "Hello");
-            dynamicMethod._methodList.Add(8, "Hello");
-            dynamicMethod._methodList.Add(9, "Hello");
-            dynamicMethod._methodList.Add(10, "Hello");
-            dynamicMethod._methodList.Add(11, "Hello");
+            DynamicMethodDefinition dynamicMethod = new DynamicMethodDefinition();
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 1, MethodName = "Headcount for department", Dependency="dp" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 2, MethodName = "Headcount for in chg", Dependency = "in" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 3, MethodName = "Man month for department", Dependency="dp" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 4, MethodName = "Man month for in chg", Dependency="in" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 5, MethodName = "Cost for department without QA preparation", Dependency="dp" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 6, MethodName = "Cost for department with QA preparation", Dependency="dp" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 7, MethodName = "Cost for in chg", Dependency="in" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 8, MethodName = "Cost for QA proration for department", Dependency="dp" });
 
             return dynamicMethod._methodList;
         }

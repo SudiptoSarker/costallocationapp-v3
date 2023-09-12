@@ -256,16 +256,58 @@ function DynamicTableSetting(){
 }
 
 $(document).on('change', '.main_item_dropdown', function () {
-    var mainItem =  $(this).val();    
-    if(mainItem=="main"){        
-        $('#add_main_item_modal').modal('toggle');        
-    }
+    var mainItem =  $(this).val(); 
+    if (mainItem == '' || mainItem == null || mainItem == undefined) {
+        
+    }else{
+
+        if(mainItem=="main"){        
+            $('#add_main_item_modal').modal('toggle');        
+        }else{
+            // let sub_item_options = "";
+            // sub_item_options = "<option value=''>select sub item</option>";
+            // sub_item_options = sub_item_options +"<option value='10'>sub-item-10</option>";
+            // sub_item_options = sub_item_options +"<option value='11'>sub-item-11</option>";
+            // sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
+            // sub_item_options = sub_item_options +"<option value='main'>Add New</option>";
+
+            $(this).closest('tr').find('.sub_item_dropdown').empty().append
+            (
+                `<option value="">select sub item</option>`,
+                `<option value="10">sub-item-10</option>`,
+                `<option value="11">sub-item-11</option>`,
+                `<option disabled='disabled'>---------</option>`,
+                `<option value='main'>Add New</option>`
+            );                        
+        }
+    }           
 });
 $(document).on('change', '.sub_item_dropdown', function () {
-    var subItem = $(this).val();    
-    if(subItem=="sub"){        
-        $('#add_sub_item_modal').modal('toggle');
-    }
+    var subItem = $(this).val();        
+    if (subItem == '' || subItem == null || subItem == undefined) {
+        
+    }else{
+
+        if(subItem=="sub"){        
+            $('#add_sub_item_modal').modal('toggle');
+        }else{
+            // let sub_item_options = "";
+            // sub_item_options = "<option value=''>select sub item</option>";
+            // sub_item_options = sub_item_options +"<option value='10'>sub-item-10</option>";
+            // sub_item_options = sub_item_options +"<option value='11'>sub-item-11</option>";
+            // sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
+            // sub_item_options = sub_item_options +"<option value='main'>Add New</option>";
+
+            $(this).closest('tr').find('.detail_item_dropdown').empty().append
+            (
+                `<option value="">select detail item</option>`,
+                `<option value="10">detail-item-12</option>`,
+                `<option value="11">detail-item-13</option>`,
+                `<option disabled='disabled'>---------</option>`,
+                `<option value='main'>Add New</option>`
+            );                        
+        }
+    }  
 });
 $(document).on('change', '.detail_item_dropdown', function () {
     var detailItem = $(this).val();    
@@ -308,4 +350,8 @@ $(document).on('click', '#clear_input_frm ', function () {
     $("#table_name_warning_msg").hide();
     $("#table_title_warning_msg").hide();
     $("#table_position_warning_msg").hide();    
+});
+//clear dynamic table settings input fields
+$(document).on('click', '#clear_setting_form ', function () { 
+    $('#total_menu_setting_items_tbl').load(' #total_menu_setting_items_tbl')
 });

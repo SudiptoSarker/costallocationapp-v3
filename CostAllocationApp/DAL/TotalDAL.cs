@@ -196,6 +196,43 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public DynamicTable GetDynamicTableById(int tableId)
+        {
+            DynamicTable dynamicTable = new DynamicTable();
+            string query = "";
+            query = "SELECT * FROM DynamicTables WHERE IsActive=1 and Id="+ tableId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            dynamicTable.Id = Convert.ToInt32(rdr["Id"]);
+                            dynamicTable.TableName = rdr["TableName"].ToString();
+                            dynamicTable.TableTitle = rdr["TableTitle"].ToString();
+                            dynamicTable.TablePosition = Convert.ToInt32(rdr["TablePosition"]);
+                            dynamicTable.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            dynamicTable.CreatedBy = rdr["CreatedBy"].ToString();
+                            dynamicTable.CategoryTitle = rdr["CategoryTitle"] == DBNull.Value ? "" : rdr["CategoryTitle"].ToString();
+                            dynamicTable.SubCategoryTitle = rdr["SubCategoryTitle"] == DBNull.Value ? "" : rdr["SubCategoryTitle"].ToString();
+                            dynamicTable.DetailsTitle = rdr["DetailsTitle"] == DBNull.Value ? "" : rdr["DetailsTitle"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return dynamicTable;
+            }
+        }
+
         public int InactiveDynamicTable(DynamicTable dynamicTable)
         {
             int result = 0;
@@ -233,6 +270,103 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@tableName", dynamicTable.TableName);
                 cmd.Parameters.AddWithValue("@tableTitle", dynamicTable.TableTitle);
                 cmd.Parameters.AddWithValue("@tablePosition", dynamicTable.TablePosition);
+                cmd.Parameters.AddWithValue("@updatedBy", dynamicTable.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", dynamicTable.UpdatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public int CreateDynamicSetting(DynamicSetting dynamicSetting)
+        {
+            int result = 0;
+            string query = $@"insert into DynamicSettings(CategoryId,SubCategoryId,DetailsId,MethodId,ParameterId,CreatedBy,CreatedDate,IsActive,DynamicTableId) 
+                            values(@categoryId,@subCategoryId,@detailsId,@methodId,@parameterId,@createdBy,@createdDate,@isActive,@dynamicTableId)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@categoryId", dynamicSetting.CategoryId);
+                cmd.Parameters.AddWithValue("@subCategoryId", dynamicSetting.SubCategoryId);
+                cmd.Parameters.AddWithValue("@detailsId", dynamicSetting.DetailsId);
+                cmd.Parameters.AddWithValue("@methodId", dynamicSetting.MethodId);
+                cmd.Parameters.AddWithValue("@parameterId", dynamicSetting.ParameterId);
+                cmd.Parameters.AddWithValue("@createdBy", dynamicSetting.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", dynamicSetting.CreatedDate);
+                cmd.Parameters.AddWithValue("@isActive", dynamicSetting.IsActive);
+                cmd.Parameters.AddWithValue("@dynamicTableId", dynamicSetting.DynamicTableId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+
+        public List<DynamicSetting> GetDynamicSettingsByDynamicTableId(int dynamicTableId)
+        {
+            List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+            string query = $@"select ds.Id,c.CategoryName,sc.SubCategoryName,dt.TableName,ds.MethodId,ds.ParameterId,ds.IsActive
+                            from DynamicSettings ds join DynamicTables dt on ds.DynamicTableId=dt.Id
+                            join Categories c on ds.CategoryId = c.Id 
+                            join SubCategories sc on ds.SubCategoryId = sc.Id where ds.IsActive=1 and ds.DynamicTableId={dynamicTableId}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            DynamicSetting dynamicSetting = new DynamicSetting();
+                            dynamicSetting.Id = Convert.ToInt32(rdr["Id"]);
+                            dynamicSetting.CategoryName = rdr["CategoryName"].ToString();
+                            dynamicSetting.SubCategoryName = rdr["SubCategoryName"].ToString();
+                            dynamicSetting.DynamicTableName = rdr["TableName"].ToString();
+                            dynamicSetting.MethodId = rdr["MethodId"].ToString();
+                            dynamicSetting.ParameterId = rdr["ParameterId"].ToString();
+                            dynamicSetting.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            dynamicSettings.Add(dynamicSetting);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return dynamicSettings;
+            }
+        }
+
+        public int UpdateDynamicTablesTitle(DynamicTable dynamicTable)
+        {
+            int result = 0;
+            string query = $@"update DynamicTables set CategoryTitle=@categoryTitle,SubCategoryTitle=@subCategoryTitle,DetailsTitle=@detailsTitle, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", dynamicTable.Id);
+                cmd.Parameters.AddWithValue("@categoryTitle", dynamicTable.CategoryTitle);
+                cmd.Parameters.AddWithValue("@subCategoryTitle", dynamicTable.SubCategoryTitle);
+                cmd.Parameters.AddWithValue("@detailsTitle", dynamicTable.DetailsTitle);
                 cmd.Parameters.AddWithValue("@updatedBy", dynamicTable.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedDate", dynamicTable.UpdatedDate);
                 try

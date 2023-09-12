@@ -35,6 +35,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<Category> GetAllCategories()
         {
             List<Category> categories = new List<Category>();
@@ -53,6 +54,7 @@ namespace CostAllocationApp.DAL
                             Category category = new Category();
                             category.Id = Convert.ToInt32(rdr["Id"]);
                             category.CategoryName = rdr["CategoryName"].ToString();
+                            category.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             category.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             category.CreatedBy = rdr["CreatedBy"].ToString();
 
@@ -116,6 +118,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public Category GetCategoryByCategoryId(int categoryId)
         {
             Category category = null;

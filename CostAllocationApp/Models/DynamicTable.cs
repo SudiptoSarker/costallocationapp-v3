@@ -12,6 +12,9 @@ namespace CostAllocationApp.Models
         public string TableTitle { get; set; }
         public int TablePosition { get; set; }
         public bool IsActive { get; set; }
+        public string CategoryTitle { get; set; }
+        public string SubCategoryTitle { get; set; }
+        public string DetailsTitle { get; set; }
 
     }
 }

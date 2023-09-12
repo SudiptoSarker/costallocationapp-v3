@@ -32,6 +32,7 @@ namespace CostAllocationApp.Controllers.Api
         QaProportionBLL qaProportionBLL = null;
         TotalBLL totalBLL = null;
         CategoryBLL categoryBLL = null;
+        SubCategoryBLL subCategoryBLL = null;
 
         public UtilitiesController()
         {
@@ -51,6 +52,7 @@ namespace CostAllocationApp.Controllers.Api
             qaProportionBLL = new QaProportionBLL();
             totalBLL = new TotalBLL();
             categoryBLL = new CategoryBLL();
+            subCategoryBLL = new SubCategoryBLL();
         }
 
 
@@ -7444,6 +7446,8 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [Route("api/utilities/GetSubCategoryByCategoryId/{id}")]
+
+        // have to check.......
         [HttpGet]
         [ActionName("GetSubCategoryByCategoryId")]
         public IHttpActionResult GetSubCategoryByCategoryId(string id)
@@ -7475,9 +7479,10 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("Category Id is empty!!!");
             }
         }
+
         [HttpGet]
         [Route("api/utilities/GetAllUnAssignedDepartments/")]
-        public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)       
+        public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)
         {
             if (!string.IsNullOrEmpty(sub_categoryId))
             {
@@ -7629,6 +7634,146 @@ namespace CostAllocationApp.Controllers.Api
                 
             
 
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetMethodList/")]
+        public IHttpActionResult GetMethodList()
+        {
+            return Ok(DynamicMethod.GetMethods());
+        }
+
+        [HttpPost]
+        [Route("api/utilities/CreateSubCategory/")]
+        public IHttpActionResult CreateSubCategory(SubCategory subCategory)
+        {
+            if (String.IsNullOrEmpty(subCategory.SubCategoryName))
+            {
+                return BadRequest("Sub-Category name required!");
+            }
+
+            subCategory.CreatedBy = "";
+            subCategory.CreatedDate = DateTime.Now;
+            subCategory.IsActive = true;
+
+            var result = subCategoryBLL.CreateSubCategory(subCategory);
+
+            if (result > 0)
+            {
+                return Ok("Data Saved Successfully!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpPost]
+        [Route("api/utilities/CreateCategory/")]
+        public IHttpActionResult CreateCategory(Category category)
+        {
+            if (String.IsNullOrEmpty(category.CategoryName))
+            {
+                return BadRequest("Category name required!");
+            }
+
+            category.CreatedBy = "";
+            category.CreatedDate = DateTime.Now;
+            category.IsActive = true;
+
+            var result = categoryBLL.CreateCategory(category);
+
+            if (result > 0)
+            {
+                return Ok("Data Saved Successfully!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetCategories/")]
+        public IHttpActionResult GetCategories()
+        {
+            CategoryBLL categoryBLL = new CategoryBLL();
+            return Ok(categoryBLL.GetAllCategories());
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetSubCategoriesByCategory/")]
+        public IHttpActionResult GetSubCategoriesByCategory(int categoryId)
+        {
+            List<SubCategory> subCategories = subCategoryBLL.GetSubCategoryByCategoryId(categoryId);
+
+            return Ok(subCategories);
+        }
+
+        [HttpPost]
+        [Route("api/utilities/CreateDynamicSetting/")]
+        public IHttpActionResult CreateDynamicSetting(DynamicSetting dynamicSetting)
+        {
+            if (String.IsNullOrEmpty(dynamicSetting.DynamicTableId))
+            {
+                return BadRequest("TableId required!");
+            }
+            if (String.IsNullOrEmpty(dynamicSetting.CategoryId))
+            {
+                return BadRequest("Input Category!");
+            }
+            if (String.IsNullOrEmpty(dynamicSetting.SubCategoryId))
+            {
+                return BadRequest("Input Sub-Category!");
+            }
+
+            dynamicSetting.CreatedBy = "";
+            dynamicSetting.CreatedDate = DateTime.Now;
+            dynamicSetting.IsActive = true;
+
+            var result = totalBLL.CreateDynamicSetting(dynamicSetting);
+            if (result>0)
+            {
+                return Ok("Data Saved Successfully!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDynamicSettingsByDynamicTableId/")]
+        public IHttpActionResult GetDynamicSettingsByDynamicTableId(int dynamicTableId)
+        {
+            List<DynamicSetting> dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(dynamicTableId);
+
+            return Ok(dynamicSettings);
+        }
+
+        [HttpPost]
+        [Route("api/utilities/UpdateDynamicTablesTitle/")]
+        public IHttpActionResult UpdateDynamicTablesTitle(int dynamicTableId,string categoryTitle, string subCategoryTitle, string detailsTitle)
+        {
+            DynamicTable dynamicTable =  totalBLL.GetDynamicTableById(dynamicTableId);
+            dynamicTable.CategoryTitle = categoryTitle;
+            dynamicTable.SubCategoryTitle = subCategoryTitle;
+            dynamicTable.DetailsTitle = detailsTitle;
+            dynamicTable.UpdatedBy = "";
+            dynamicTable.UpdatedDate = DateTime.Now;
+
+            var result = totalBLL.UpdateDynamicTablesTitle(dynamicTable);
+            if (result>0)
+            {
+                return Ok("Data updated successfully!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            
         }
     }
 }

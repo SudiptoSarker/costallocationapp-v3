@@ -35,6 +35,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<SubCategory> GetAllSubCategories()
         {
             List<SubCategory> subCategories = new List<SubCategory>();
@@ -123,10 +124,11 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-        public Category GetCategoryByCategoryId(int categoryId)
+
+        public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
-            Category category = null;
-            string query = "select * from Categories where Id = " + categoryId;
+            List<SubCategory> subCategories = new List<SubCategory>();
+            string query = "select * from SubCategories where CategoryId = " + categoryId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -139,18 +141,21 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            category = new Category();
-                            category.CategoryName = rdr["CategoryName"].ToString();
-                            category.Id = Convert.ToInt32(rdr["Id"]);
+                            SubCategory subCategory = new SubCategory();
+                            subCategory.Id = Convert.ToInt32(rdr["Id"]);
+                            subCategory.SubCategoryName = rdr["CategoryName"].ToString();
+                            subCategories.Add(subCategory);
+
+
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    category = null;
+                   
                 }
 
-                return category;
+                return subCategories;
             }
         }
     }

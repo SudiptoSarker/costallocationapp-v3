@@ -33,9 +33,9 @@ namespace CostAllocationApp.BLL
         {
             return subCategoryDAL.CheckSubCategory(subCategoryName);
         }
-        public Category GetCategoryByCategoryId(int categoryId)
+        public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
-            return subCategoryDAL.GetCategoryByCategoryId(categoryId);
+            return subCategoryDAL.GetSubCategoryByCategoryId(categoryId);
         }
     }
 }

@@ -75,5 +75,32 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.UpdateDynamicTable(dynamicTable);
         }
+        public int CreateDynamicSetting(DynamicSetting dynamicSetting)
+        {
+            return totalDAL.CreateDynamicSetting(dynamicSetting);
+        }
+        public DynamicTable GetDynamicTableById(int tableId)
+        {
+            return totalDAL.GetDynamicTableById(tableId);
+        }
+
+        public List<DynamicSetting> GetDynamicSettingsByDynamicTableId(int dynamicTableId)
+        {
+            List<DynamicSetting> dynamicSettings = totalDAL.GetDynamicSettingsByDynamicTableId(dynamicTableId);
+            if (dynamicSettings.Count > 0)
+            {
+                foreach (var dynamicSetting in dynamicSettings)
+                {
+                    dynamicSetting.MethodName = DynamicMethod.GetMethods().Where(dm => dm.Key == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault().Value;
+                }
+            }
+
+            return dynamicSettings;
+        }
+
+        public int UpdateDynamicTablesTitle(DynamicTable dynamicTable)
+        {
+            return totalDAL.UpdateDynamicTablesTitle(dynamicTable);
+        }
     }
 }

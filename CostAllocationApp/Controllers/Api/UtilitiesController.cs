@@ -7546,16 +7546,24 @@ namespace CostAllocationApp.Controllers.Api
                 dynamicTable.CreatedBy = session["userName"].ToString();
                 dynamicTable.CreatedDate = DateTime.Now;
                 dynamicTable.IsActive = true;
-
-                var result = totalBLL.CreateDynamicTable(dynamicTable);
-                if (result > 0)
+                
+                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName, dynamicTable.TablePosition,dynamicTable.Id,"add");
+                if (isExists)
                 {
-                    return Ok("保存されました.");
+                    return Ok(1);
                 }
                 else
                 {
-                    return BadRequest("Something went wrong!!!");
-                }
+                    var result = totalBLL.CreateDynamicTable(dynamicTable);
+                    if (result > 0)
+                    {
+                        return Ok("保存されました.");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong!!!");
+                    }
+                }                
             }
         }
 
@@ -7586,35 +7594,48 @@ namespace CostAllocationApp.Controllers.Api
             {
                 dynamicTable.UpdatedBy = session["userName"].ToString();
                 dynamicTable.UpdatedDate = DateTime.Now;
-
-                var result = totalBLL.UpdateDynamicTable(dynamicTable);
-                if (result > 0)
-                {
-                    return Ok("Data inserted successfully.");
+                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName,dynamicTable.TablePosition,dynamicTable.Id,"edit");
+                if (isExists) {
+                    return Ok(1);
                 }
                 else
                 {
-                    return BadRequest("Something went wrong!!!");
-                }
+                    var result = totalBLL.UpdateDynamicTable(dynamicTable);
+                    if (result > 0)
+                    {
+                        return Ok("データが保存されました.");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong!!!");
+                    }
+                }                
             }
         }
 
 
         [HttpPost]
         [Route("api/utilities/InactiveDynamicTable/")]
-        public IHttpActionResult GetDynamicTables(int tableId)
+        public IHttpActionResult GetDynamicTables(DynamicTable dynamicTable)
         {
+            var session = System.Web.HttpContext.Current.Session;
+
             var result = totalBLL.GetAllDynamicTables();
 
             if (result.Count > 0)
             {
-                var singleDynamicTable = result.Where(dt => dt.Id == tableId).SingleOrDefault();
-                if (singleDynamicTable != null)
+                //int tableId = dynamicTable.Id;
+                dynamicTable.UpdatedBy = session["userName"].ToString();
+                dynamicTable.UpdatedDate = DateTime.Now;
+                dynamicTable.IsActive = false;
+
+                //var singleDynamicTable = result.Where(dt => dt.Id == tableId).SingleOrDefault();
+                if (dynamicTable != null)
                 {
-                    var inactiveResult = totalBLL.InactiveDynamicTable(singleDynamicTable);
+                    var inactiveResult = totalBLL.InactiveDynamicTable(dynamicTable);
                     if (inactiveResult>0)
                     {
-                        return Ok("Data saved successfully!");
+                        return Ok("保存されました!");
                     }
                     else
                     {
@@ -7631,9 +7652,32 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return Ok("Data not found!");
             }
-                
-            
+        }
 
+        [Route("api/utilities/GetDynamicTableById/{table_id}")]
+        [HttpGet]
+        [ActionName("GetDynamicTableById")]
+        public IHttpActionResult GetDynamicTableById(string table_id)
+        {
+            var result = totalBLL.GetAllDynamicTableById(table_id);
+            return Ok(result);
+            //int tempValue = 0;
+            //if (int.TryParse(id, out tempValue))
+            //{
+            //    if (tempValue > 0)
+            //    {
+            //        List<Department> departments = departmentBLL.GetAllDepartmentsBySectionId(sectionId: tempValue);
+            //        return Ok(departments);
+            //    }
+            //    else
+            //    {
+            //        return BadRequest("Something Went Wrong!!!");
+            //    }
+            //}
+            //else
+            //{
+            //    return BadRequest("Something Went Wrong!!!");
+            //}
         }
 
         [HttpGet]

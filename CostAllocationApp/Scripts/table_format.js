@@ -290,7 +290,7 @@ function DynamicTableSetting(){
                     $('#main_item').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
                 });
                 $('#main_item').append(`<option disabled="disabled">---------</option>`);
-                $('#main_item').append(`<option value='detail'>Add New</option>`);
+                $('#main_item').append(`<option value='main'>Add New</option>`);
             },
             error: function (data) {
             }
@@ -319,25 +319,32 @@ function DynamicTableSetting(){
 
 $(document).on('change', '.main_item_dropdown', function () {
     var mainItem = $(this).val();
+    console.log("mainitem: "+mainItem);
     if (mainItem == "" || mainItem == undefined || mainItem == null) {
         return;
     } else if (mainItem == "main") {
+        console.log("mainitem2: "+mainItem);
         $('#add_main_item_modal').modal('toggle');
     }
     else {
+        console.log("mainitem3: "+mainItem);
         // pull data for sub item
         $.ajax({
             url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${mainItem}`,
             type: 'Get',
             dataType: 'json',
             success: function (data) {
-                $('#sub_item').empty();
-                $.each(data, function (key, item) {
-                    $('#sub_item').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
+                //$('#sub_item').empty();
+                let sub_item_options = "";
+                sub_item_options = "<option value=''>select sub item</option>";
+                $.each(data, function (key, item) {                    
+                    sub_item_options = sub_item_options +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                    //$('#sub_item').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
                 });
+                $(this).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
 
                 $('#sub_item').append(`<option disabled="disabled">---------</option>`);
-                $('#sub_item').append(`<option value='detail'>Add New</option>`);
+                $('#sub_item').append(`<option value='sub'>Add New</option>`);
             },
             error: function (data) {
             }
@@ -389,10 +396,31 @@ $(document).on('change', '#method_list_dropdown', function () {
     }
 });
 $(document).on('change', '.sub_item_dropdown', function () {
-    var subItem = $(this).val();    
-    if(subItem=="sub"){        
-        $('#add_sub_item_modal').modal('toggle');
-    }
+    var subItem = $(this).val();        
+if (subItem == '' || subItem == null || subItem == undefined) {
+	
+}else{
+
+	if(subItem=="sub"){        
+		$('#add_sub_item_modal').modal('toggle');
+	}else{
+		// let sub_item_options = "";
+		// sub_item_options = "<option value=''>select sub item</option>";
+		// sub_item_options = sub_item_options +"<option value='10'>sub-item-10</option>";
+		// sub_item_options = sub_item_options +"<option value='11'>sub-item-11</option>";
+		// sub_item_options = sub_item_options +"<option disabled='disabled'>---------</option>";
+		// sub_item_options = sub_item_options +"<option value='main'>Add New</option>";
+
+		$(this).closest('tr').find('.detail_item_dropdown').empty().append
+		(
+			`<option value="">select detail item</option>`,
+			`<option value="10">detail-item-12</option>`,
+			`<option value="11">detail-item-13</option>`,
+			`<option disabled='disabled'>---------</option>`,
+			`<option value='detail'>Add New</option>`
+		);                        
+	}
+}  
 });
 $(document).on('change', '.detail_item_dropdown', function () {
     var detailItem = $(this).val();    
@@ -435,6 +463,10 @@ $(document).on('click', '#clear_input_frm ', function () {
     $("#table_name_warning_msg").hide();
     $("#table_title_warning_msg").hide();
     $("#table_position_warning_msg").hide();    
+});
+//clear dynamic table input fields
+$(document).on('click', '#clear_setting_form ', function () { 
+    $('#total_menu_setting_items_tbl').load(' #total_menu_setting_items_tbl')
 });
 
 function GetDynamicSettings() {

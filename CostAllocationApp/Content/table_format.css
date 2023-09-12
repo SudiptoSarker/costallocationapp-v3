@@ -510,3 +510,6 @@ body {
     line-height: .7;
     margin-bottom: 0;
 }
+#method_list_dropdown{
+    width: 91%;
+}

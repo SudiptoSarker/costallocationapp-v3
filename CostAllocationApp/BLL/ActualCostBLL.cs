@@ -119,5 +119,8 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.GetLeatestActualCostYear();
         }
+        public int UpdateAssignmentIds(int previousId, int updateId) {
+            return actualCostDAL.UpdateAssignmentIds(previousId, updateId);
+        }
     }
 }

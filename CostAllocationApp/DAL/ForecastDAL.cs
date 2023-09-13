@@ -1233,7 +1233,7 @@ namespace CostAllocationApp.DAL
             strWhere = "ea.Year="+ year+ " " + strWhere;
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,emp.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.EmployeeName 'DuplicateName'
                             from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -1336,6 +1336,7 @@ namespace CostAllocationApp.DAL
                             }
                             excelAssignmentDto.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             excelAssignmentDto.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            excelAssignmentDto.EmployeeModifiedName = rdr["DuplicateName"] is DBNull ? "" : rdr["DuplicateName"].ToString();
 
                             excelAssignmentDtos.Add(excelAssignmentDto);
                         }

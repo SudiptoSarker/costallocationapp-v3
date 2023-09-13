@@ -228,6 +228,8 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
                     employeeAssignment.Year = insertYear.ToString();
                     employeeAssignment.EmployeeName = item.EmployeeName;
+                    employeeAssignment.EmployeeModifiedName = item.EmployeeModifiedName;
+
                     if (!string.IsNullOrEmpty(budgetType.ToString()))
                     {
                         if (budgetType == 1)

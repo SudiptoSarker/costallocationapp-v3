@@ -583,5 +583,25 @@ namespace CostAllocationApp.DAL
 
             return result;
         }
+        public int UpdateAssignmentIds(int previousId,int updateId)
+        {
+            int result = 0;
+            string query = $@"update ActualCosts set AssignmentId={updateId} where AssignmentId={previousId}";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ body {
 .create_form_td{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black!important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -149,7 +149,7 @@ body {
 }
 
 .table_list_th{
-    border: 1px solid #ccc !important;
+    border: 1px solid black !important;
     border-spacing: 4px;
 }
 /***************************\                           
@@ -238,7 +238,7 @@ body {
 .table_setting_modal{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -281,7 +281,7 @@ body {
 .dynamic_table_list_for_setting_td{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -404,7 +404,7 @@ body {
 .setting_items_td{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -415,7 +415,7 @@ body {
 .setting_items_td.data_for{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -510,7 +510,7 @@ body {
     text-align: center;
 }
 .setting_list_header{
-    border: 1px solid #ccc !important;
+    border: 1px solid black !important;
     border-spacing: 4px;
 }
 #setting_list_delete_link {

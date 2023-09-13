@@ -33,6 +33,7 @@ namespace CostAllocationApp.Controllers.Api
         TotalBLL totalBLL = null;
         CategoryBLL categoryBLL = null;
         SubCategoryBLL subCategoryBLL = null;
+        DetailsItemBLL detailsItemBLL = null;
 
         public UtilitiesController()
         {
@@ -53,6 +54,7 @@ namespace CostAllocationApp.Controllers.Api
             totalBLL = new TotalBLL();
             categoryBLL = new CategoryBLL();
             subCategoryBLL = new SubCategoryBLL();
+            detailsItemBLL = new DetailsItemBLL();
         }
 
 
@@ -7727,6 +7729,44 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return BadRequest("Something went wrong!");
             }
+        }
+
+        [HttpPost]
+        [Route("api/utilities/CreateDetailsItem/")]
+        public IHttpActionResult CreateDetailsItem(DeatailsItem deatailsItem)
+        {
+            if (String.IsNullOrEmpty(deatailsItem.DetailsItemName))
+            {
+                return BadRequest("Details Item Name required!");
+            }
+            if (String.IsNullOrEmpty(deatailsItem.SubCategoryId))
+            {
+                return BadRequest("Sub Item required!");
+            }
+
+            deatailsItem.CreatedBy = "";
+            deatailsItem.CreatedDate = DateTime.Now;
+            deatailsItem.IsActive = true;
+
+            var result = detailsItemBLL.CreateDetailsItem(deatailsItem);
+
+            if (result > 0)
+            {
+                return Ok("Data Saved Successfully!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDetailsItemBySubItemsId/")]
+        public IHttpActionResult GetDetailsItemBySubItemsId(int subItemId)
+        {
+            List<DeatailsItem> deatailsItems = detailsItemBLL.GetDetailsItemBySubItemsId(subItemId);
+
+            return Ok(deatailsItems);
         }
 
         [HttpGet]

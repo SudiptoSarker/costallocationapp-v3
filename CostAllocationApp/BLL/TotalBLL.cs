@@ -12,10 +12,12 @@ namespace CostAllocationApp.BLL
     {
         TotalDAL totalDAL = null;
         DepartmentBLL departmentBLL = null;
+        InChargeBLL inchargeBLL = null;
         public TotalBLL()
         {
             totalDAL = new TotalDAL();
             departmentBLL = new DepartmentBLL();
+            inchargeBLL = new InChargeBLL();
         }
 
         public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
@@ -93,18 +95,30 @@ namespace CostAllocationApp.BLL
             {
                 foreach (var dynamicSetting in dynamicSettings)
                 {
-                    dynamicSetting.MethodName = DynamicMethodDefinition.GetMethods().Where(dmd => dmd.Id == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault().MethodName;
+                    var dynamicMethodDefinition = DynamicMethodDefinition.GetMethods().Where(dmd => dmd.Id == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault();
+                    dynamicSetting.MethodName = dynamicMethodDefinition.MethodName;
                     if (!String.IsNullOrEmpty(dynamicSetting.ParameterId))
                     {
-                        string departmentNames = "";
+                        string dependencyNames = "";
                         string[] parameterNames = dynamicSetting.ParameterId.Split(',');
-                        foreach (var item in parameterNames)
+                        if (dynamicMethodDefinition.Dependency=="dp")
                         {
-                            departmentNames += departmentBLL.GetDepartmentByDepartemntId(Convert.ToInt32(item)).DepartmentName+", ";
+                            foreach (var item in parameterNames)
+                            {
+                                dependencyNames += departmentBLL.GetDepartmentByDepartemntId(Convert.ToInt32(item)).DepartmentName + ", ";
+                            }
                         }
+                        if (dynamicMethodDefinition.Dependency == "in")
+                        {
+                            foreach (var item in parameterNames)
+                            {
+                                dependencyNames += inchargeBLL.GetInChargeByInChargeId(Convert.ToInt32(item)).InChargeName + ", ";
+                            }
+                        }
+                        
 
-                        departmentNames.TrimEnd(',');
-                        dynamicSetting.CommaSeperatedParameterName = departmentNames;
+                        dependencyNames.TrimEnd(',');
+                        dynamicSetting.CommaSeperatedParameterName = dependencyNames;
                     }
                     
                 }

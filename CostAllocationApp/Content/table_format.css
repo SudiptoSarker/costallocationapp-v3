@@ -411,6 +411,23 @@ body {
     line-height: 0.5;
     width: 160px;
 }
+
+.setting_items_td.data_for{
+    height: 25px;
+    border: none;
+    border: 1px solid #f5e7e7 !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    line-height: 0.5;
+    width: 250px !important;
+}
+.select2.select2-container.select2-container--default.select2-container--above{
+    width: 100% !important;
+}
+.select2.select2-container.select2-container--default{
+    width: 100% !important;
+}
 .setting_plus_icon,.setting_minus_icon{
     height: 25px;
     border: none;

@@ -1752,7 +1752,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive
+                            ,gd.GradePoints,ea.IsActive,ea.EmployeeName 'DuplicateName'
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -1777,7 +1777,7 @@ namespace CostAllocationApp.DAL
                         {
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            //employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -1800,7 +1800,7 @@ namespace CostAllocationApp.DAL
                             employeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             employeeAssignmentViewModel.AddNameSubCode = rdr["SubCode"].ToString();
                             employeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            
+                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"] is DBNull ? "" : rdr["DuplicateName"].ToString();
 
                             employeeAssignments.Add(employeeAssignmentViewModel);
                         }
@@ -1824,7 +1824,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total 
+                            ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total,ea.EmployeeName 'DuplicateName'
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -1850,7 +1850,8 @@ namespace CostAllocationApp.DAL
                         {
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            //employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();

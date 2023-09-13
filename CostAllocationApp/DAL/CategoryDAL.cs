@@ -33,7 +33,6 @@ namespace CostAllocationApp.DAL
 
                 return result;
             }
-
         }
 
         public List<Category> GetAllCategories()

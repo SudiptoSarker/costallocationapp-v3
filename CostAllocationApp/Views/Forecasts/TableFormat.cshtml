@@ -172,18 +172,10 @@
                         <tr class="item_row" data-count="1">                                     
                             <td class="setting_items_td">
                                 <select class="main_item_dropdown" name="main_item" id="main_item">  
-                                    <option value="">select main item</option>   
-                                    <option value="1">main item-1</option>
-                                    <option value="2">main item-2</option>
-                                    <option disabled="disabled">---------</option>
-                                    <option value="main">
-                                        Add New                                                                    
-                                    </option>
                                 </select> 
                             </td>
                             <td class="setting_items_td" >
                                 <select class="sub_item_dropdown" name="sub_item" id="sub_item">  
-                                    <option value=''>select sub item</option>
                                 </select> 
                             </td>  
                             <td class="setting_items_td">
@@ -191,17 +183,11 @@
                                 </select> 
                             </td>  
                             <td class="setting_items_td">
-                                <select class="method_dropdown" id="method_list_dropdown">  
-                                    <option>select methods</option>   
-                                    <option>method-1</option>
-                                    <option>method-2</option>
+                                <select class="method_dropdown" id="method_list_dropdown" name="method_item">  
                                 </select>                                          
                             </td>  
                             <td class="setting_items_td data_for" >
-                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting" multiple="multiple">  
-                                    <option>select data-for</option>   
-                                    <option>department-1</option>
-                                    <option>department-2</option>                              
+                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting1" multiple="multiple">                              
                                 </select>                                          
                             </td>  
                             <td class="setting_plus_icon" style="display:show;">                            
@@ -219,7 +205,7 @@
                                 </a>
                             </td>    
                         </tr>  
-                        <tr>
+                        <tr data-count="0">
                             <td class="action_td"></td>
                             <td class="action_td"></td>
                             <td class="action_td"></td>
@@ -444,7 +430,8 @@
                                         </select>                                                                                
                                     </td>
                                     <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="sub item" id="input_sub_item">     
+                                        <input type="text" value="" placeholder="sub item" id="input_sub_item">  
+                                        <input type="hidden" value="" id="row_number_sub_item">
                                     </td> 
                                 </tr>
                             </tbody>
@@ -509,7 +496,8 @@
                                         </select>                                                                                
                                     </td>
                                     <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="detail item" id="input_detail_item">     
+                                        <input type="text" value="" placeholder="detail item" id="input_detail_item">
+                                        <input type="hidden" value="" id="row_number_details_item">
                                     </td> 
                                 </tr>
                             </tbody>

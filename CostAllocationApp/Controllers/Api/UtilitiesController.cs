@@ -7789,34 +7789,32 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpPost]
         [Route("api/utilities/CreateDynamicSetting/")]
-        public IHttpActionResult CreateDynamicSetting(DynamicSetting dynamicSetting)
+        public IHttpActionResult CreateDynamicSetting(DynamicSetting dynamicSettingData)
         {
-            if (String.IsNullOrEmpty(dynamicSetting.DynamicTableId))
+            foreach (var dynamicSetting in dynamicSettingData.DynamicSettings)
             {
-                return BadRequest("TableId required!");
-            }
-            if (String.IsNullOrEmpty(dynamicSetting.CategoryId))
-            {
-                return BadRequest("Input Category!");
-            }
-            if (String.IsNullOrEmpty(dynamicSetting.SubCategoryId))
-            {
-                return BadRequest("Input Sub-Category!");
+                if (String.IsNullOrEmpty(dynamicSetting.DynamicTableId))
+                {
+                    return BadRequest("TableId required!");
+                }
+                if (String.IsNullOrEmpty(dynamicSetting.CategoryId))
+                {
+                    return BadRequest("Input Category!");
+                }
+                if (String.IsNullOrEmpty(dynamicSetting.SubCategoryId))
+                {
+                    return BadRequest("Input Sub-Category!");
+                }
+
+                dynamicSetting.CreatedBy = "";
+                dynamicSetting.CreatedDate = DateTime.Now;
+                dynamicSetting.IsActive = true;
+
+                var result = totalBLL.CreateDynamicSetting(dynamicSetting);
             }
 
-            dynamicSetting.CreatedBy = "";
-            dynamicSetting.CreatedDate = DateTime.Now;
-            dynamicSetting.IsActive = true;
 
-            var result = totalBLL.CreateDynamicSetting(dynamicSetting);
-            if (result>0)
-            {
-                return Ok("Data Saved Successfully!");
-            }
-            else
-            {
-                return BadRequest("Something went wrong!");
-            }
+            return Ok("Operation Completed!");
 
         }
 

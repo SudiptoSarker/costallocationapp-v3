@@ -1,5 +1,8 @@
-﻿
+﻿var globalCount = 1;
+var globalSettingList = [];
+var html;
 $(document).ready(function () {
+    html = $('#total_menu_setting_items_tbl').html();
     //get table lsit and setting list on page load. 
     GetDynamicTables();
     GetDynamicTablesForSetting();
@@ -77,45 +80,58 @@ function InsertDynamicTables() {
 }
 
 function InsertDynamicSetting() {
-
+    globalSettingList = [];
     var title1 = $('#column_title_1').val();
     var title2 = $('#column_title_2').val();
     var title3 = $('#column_title_3').val();
     var dynamicTableId = $('#dynamic_table_list_for_setting').val();
-    var mainItemId = $('#main_item').val();
-    var subItemId = $('#sub_item').val();
-    var detailsItemId = $('#detail_item').val();
-    var methodId = $('#method_list_dropdown').val();
-    var dependencyId = $('#data_for_list_dropdown_for_setting').val();
 
+    var allTr = $('#item_tbody tr');
+    $.each(allTr, function (index, item) {
+        if (parseInt($(item)[0].dataset.count) > 0) {
+            var obj = {
+                    DynamicTableId: dynamicTableId,
+                    CategoryId: $(item).find('[name="main_item"]').val(),
+                    SubCategoryId: $(item).find('[name="sub_item"]').val(),
+                    DetailsId: $(item).find('[name="detail_item"]').val(),
+                    MethodId: $(item).find('[name="method_item"]').val(),
+                    ParameterId: $(item).find('[name="data_for_list_dropdown_for_setting"]').val().join(','),
+            };
 
-    $.ajax({
-        url: `/api/utilities/UpdateDynamicTablesTitle?dynamicTableId=${dynamicTableId}&categoryTitle=${title1}&subCategoryTitle=${title2}&detailsTitle=${title3}`,
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
+            globalSettingList.push(obj);
         }
     });
 
-    $.ajax({
-        url: '/api/utilities/CreateDynamicSetting/',
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        data: {
-            DynamicTableId: dynamicTableId,
-            CategoryId: mainItemId,
-            SubCategoryId: subItemId,
-            DetailsId: detailsItemId,
-            MethodId: methodId,
-            ParameterId: dependencyId
-        },
-        success: function (data) {
-            ToastMessageSuccess(data);
-            GetDynamicSettings();
-        }
-    });
+    if (globalSettingList.length > 0) {
+        $.ajax({
+            url: `/api/utilities/UpdateDynamicTablesTitle?dynamicTableId=${dynamicTableId}&categoryTitle=${title1}&subCategoryTitle=${title2}&detailsTitle=${title3}`,
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+            }
+        });
+
+        $.ajax({
+            url: '/api/utilities/CreateDynamicSetting/',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            data: {
+                DynamicSettings: globalSettingList
+            },
+            success: function (data) {
+                ToastMessageSuccess(data);
+                GetDynamicSettings();
+                globalCount = 1;
+                $('#total_menu_setting_items_tbl').html(html);
+                DynamicTableSetting();
+            }
+        });
+    }
+
+
+    
 }
 function GetDynamicTables() {
     $.getJSON('/api/Utilities/GetDynamicTables')
@@ -202,6 +218,24 @@ $(document).on('click', '#update_main_item ', function () {
                 },
             success: function (data) {
                 ToastMessageSuccess(data);
+                // pull data for main item
+                $.ajax({
+                    url: '/api/utilities/GetCategories/',
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        $('.main_item_dropdown').empty();
+                        $('.main_item_dropdown').append(`<option value=''>Select Item</option>`);
+                        $.each(data, function (key, item) {
+                            $('.main_item_dropdown').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                        });
+                        $('.main_item_dropdown').append(`<option disabled="disabled">---------</option>`);
+                        $('.main_item_dropdown').append(`<option value='main'>Add New</option>`);
+                    },
+                    error: function (data) {
+                    }
+                });
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -215,6 +249,7 @@ $(document).on('click', '#update_sub_item ', function () {
 
     var categoryId = $('.setting_dropdowns').val();
     var subCategoryName = $('#input_sub_item').val();
+    var rowNumber = $('#row_number_sub_item').val();
 
     $.ajax({
         url: `/api/utilities/CreateSubCategory/`,
@@ -229,6 +264,33 @@ $(document).on('click', '#update_sub_item ', function () {
                 alert("同一データが登録済みです.");
             } else {
                 ToastMessageSuccess(data);
+                var allTr = $('#item_tbody tr');
+                $.each(allTr, function (index, item) {
+                    if (parseInt($(item)[0].dataset.count) == parseInt(rowNumber)) {
+                       
+                        var sub_item_options = "";
+                        // pull data for sub item
+                        $.ajax({
+                            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
+                            type: 'Get',
+                            dataType: 'json',
+                            async: false,
+                            success: function (data) {
+                                sub_item_options = sub_item_options + "<option value=''>select sub item</option>";
+                                $.each(data, function (key, item) {
+                                    sub_item_options = sub_item_options + `<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                                });
+                                sub_item_options = sub_item_options + "<option disabled='disabled'>---------</option>";
+                                sub_item_options = sub_item_options + "<option value='sub'>Add New</option>";
+                            },
+                            error: function (data) {
+                            }
+                        });
+                        $(item).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
+                      
+                    }
+                });
+                
             }
         },
         error: function (data) {
@@ -241,7 +303,7 @@ $(document).on('click', '#update_sub_item ', function () {
 $(document).on('click', '#update_detail_item ', function () { 
     var subItemId = $('#sub_category_dropdown').val();
     var detailsItemName = $('#input_detail_item').val();
-
+    var rowNumber = $('#row_number_details_item').val();
     $.ajax({
         url: `/api/utilities/CreateDetailsItem/`,
         type: 'POST',
@@ -252,6 +314,36 @@ $(document).on('click', '#update_detail_item ', function () {
         },
         success: function (data) {
             ToastMessageSuccess(data);
+            var allTr = $('#item_tbody tr');
+            $.each(allTr, function (index, item) {
+                if (parseInt($(item)[0].dataset.count) == parseInt(rowNumber)) {
+
+                    var details_item_options = "";
+                    // pull data for details item
+                    $.ajax({
+                        url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItemId}`,
+                        type: 'Get',
+                        dataType: 'json',
+                        async: false,
+                        success: function (data) {
+                            debugger;
+                            //var sub_item_options = "";
+                            details_item_options = details_item_options + "<option value=''>select details item</option>";
+                            $.each(data, function (key, item) {
+                                details_item_options = details_item_options + `<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                            });
+                            details_item_options = details_item_options + "<option disabled='disabled'>---------</option>";
+                            details_item_options = details_item_options + "<option value='detail'>Add New</option>";
+
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    $(item).closest('tr').find('.detail_item_dropdown').empty().append(details_item_options);
+
+                }
+            });
+
         },
         error: function (data) {
             ToastMessageFailed(data);
@@ -411,15 +503,12 @@ function DynamicTableSetting(){
 }
 
 $( document ).ready(function() {   
-    $('#data_for_list_dropdown_for_setting').select2({});
     $(document).on('change', '.main_item_dropdown', function () {
         var sub_item_options = "";
         var mainItem = $(this).val();
-        console.log("mainitem: "+mainItem);
         if (mainItem == "" || mainItem == undefined || mainItem == null) {
             return;
         } else if (mainItem == "main") {
-            console.log("mainitem2: "+mainItem);
             $('#add_main_item_modal').modal('toggle');
         }
         else {            
@@ -455,7 +544,7 @@ $(document).on('change', '.method_dropdown', function () {
     }
     else {
         // pull data for dependency
-        if (dependency=="dp") {
+        if (dependency == "dp") {
             $.ajax({
                 url: `/api/Departments`,
                 type: 'Get',
@@ -491,7 +580,8 @@ $(document).on('change', '.method_dropdown', function () {
             });
         }
 
-        $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);                                   
+        $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);
+        $(this).closest('tr').find('.data_for_dropdown').select2();
     }
 });
 
@@ -501,7 +591,9 @@ if (subItem == '' || subItem == null || subItem == undefined) {
 	
 }else{
 
-    if (subItem == "sub") {     
+    if (subItem == "sub") {  
+        var row = $(this).closest("tr");
+        $('#row_number_sub_item').val(row[0].dataset.count);
         $.ajax({
             url: '/api/utilities/GetCategories/',
             type: 'Get',
@@ -553,6 +645,8 @@ $(document).on('change', '.detail_item_dropdown', function () {
     var detailItem = $(this).val();    
     if(detailItem=="detail"){        
         $('#add_detail_item_modal').modal('toggle');
+        var row = $(this).closest("tr");
+        $('#row_number_details_item').val(row[0].dataset.count);
         $.ajax({
             url: '/api/utilities/GetCategories/',
             type: 'Get',
@@ -595,11 +689,13 @@ $(document).on('change', '#add_details_item_modal .category_dropdown', function 
 
 
 //create new row and concate
-$(document).on('click', '#item_row_add ', function () { 
+$(document).on('click', '#item_row_add ', function () {
+    debugger;
     var $tr = $(this).closest('.item_row');
-    //$tr[0].dataset.count
     var $clone = $tr.clone();
-    $clone[0].dataset.count = parseInt($('#total_menu_setting_items_tbl tbody tr').length)+1;
+    $($clone[0].cells[4]).empty();
+    $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
+    $clone[0].dataset.count = ++globalCount;
     $clone.find(':text').val('');
     $tr.after($clone);
     $clone.find('.setting_plus_icon').hide();    
@@ -632,8 +728,12 @@ $(document).on('click', '#clear_input_frm ', function () {
     $("#table_position_warning_msg").hide();    
 });
 //clear dynamic table input fields
-$(document).on('click', '#clear_setting_form ', function () { 
-    $('#total_menu_setting_items_tbl').load(' #total_menu_setting_items_tbl')
+$(document).on('click', '#clear_setting_form ', function (e) {
+    globalCount = 1;
+    //var html = $('#total_menu_setting_items_tbl').html();
+    //$('#total_menu_setting_items_tbl').html('#total_menu_setting_items_tbl');
+    $('#total_menu_setting_items_tbl').html(html);
+    DynamicTableSetting();
 });
 
 function GetDynamicSettings() {

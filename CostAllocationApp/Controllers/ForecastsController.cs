@@ -1119,53 +1119,52 @@ namespace CostAllocationApp.Controllers
                                 }
 
                                 //Actual Cost Insert: Start: start from:24 index
-                                ActualCost _actualCost = new ActualCost();
-                                decimal octActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][24].ToString(), out octActualCost);
-                                _actualCost.OctCost = Convert.ToDouble(octActualCost);
+                                //ActualCost _actualCost = new ActualCost();
+                                //decimal octActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][24].ToString(), out octActualCost);
+                                //_actualCost.OctCost = Convert.ToDouble(octActualCost);
 
-                                decimal novActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][25].ToString(), out novActualCost);
-                                _actualCost.NovCost = Convert.ToDouble(novActualCost);
+                                //decimal novActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][25].ToString(), out novActualCost);
+                                //_actualCost.NovCost = Convert.ToDouble(novActualCost);
 
-                                decimal decActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][26].ToString(), out decActualCost);
-                                _actualCost.DecCost = Convert.ToDouble(decActualCost);
+                                //decimal decActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][26].ToString(), out decActualCost);
+                                //_actualCost.DecCost = Convert.ToDouble(decActualCost);
 
-                                decimal janActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][27].ToString(), out janActualCost);
-                                _actualCost.JanCost = Convert.ToDouble(janActualCost);
+                                //decimal janActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][27].ToString(), out janActualCost);
+                                //_actualCost.JanCost = Convert.ToDouble(janActualCost);
 
-                                decimal febActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][28].ToString(), out febActualCost);
-                                _actualCost.FebCost = Convert.ToDouble(febActualCost);
+                                //decimal febActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][28].ToString(), out febActualCost);
+                                //_actualCost.FebCost = Convert.ToDouble(febActualCost);
 
-                                decimal marActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][29].ToString(), out marActualCost);
-                                _actualCost.MarCost = Convert.ToDouble(marActualCost);
+                                //decimal marActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][29].ToString(), out marActualCost);
+                                //_actualCost.MarCost = Convert.ToDouble(marActualCost);
 
-                                decimal aprActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][30].ToString(), out aprActualCost);
-                                _actualCost.AprCost = Convert.ToDouble(aprActualCost);
+                                //decimal aprActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][30].ToString(), out aprActualCost);
+                                //_actualCost.AprCost = Convert.ToDouble(aprActualCost);
 
-                                decimal mayActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][31].ToString(), out mayActualCost);
-                                _actualCost.MayCost = Convert.ToDouble(mayActualCost);
+                                //decimal mayActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][31].ToString(), out mayActualCost);
+                                //_actualCost.MayCost = Convert.ToDouble(mayActualCost);
 
-                                decimal junActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][32].ToString(), out junActualCost);
-                                _actualCost.JunCost = Convert.ToDouble(junActualCost);
+                                //decimal junActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][32].ToString(), out junActualCost);
+                                //_actualCost.JunCost = Convert.ToDouble(junActualCost);
 
-                                decimal augActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][33].ToString(), out augActualCost);
-                                _actualCost.AugCost = Convert.ToDouble(augActualCost);
+                                //decimal augActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][33].ToString(), out augActualCost);
+                                //_actualCost.AugCost = Convert.ToDouble(augActualCost);
 
-                                decimal sepActualCost = 0;
-                                decimal.TryParse(dt_.Rows[i][34].ToString(), out sepActualCost);
-                                _actualCost.SepCost = Convert.ToDouble(sepActualCost);
-                                _actualCost.AssignmentId = tempAssignmentId;
+                                //decimal sepActualCost = 0;
+                                //decimal.TryParse(dt_.Rows[i][34].ToString(), out sepActualCost);
+                                //_actualCost.SepCost = Convert.ToDouble(sepActualCost);
+                                //_actualCost.AssignmentId = tempAssignmentId;
 
-                                //var results = actualCostBLL.CreateActualCost(_actualCost);
                                 //Actual Cost Insert: End
 
                                 //get the man month from budget.
@@ -1205,23 +1204,23 @@ namespace CostAllocationApp.Controllers
                                 decimal septInput = 0;
                                 decimal.TryParse(dt_.Rows[i][20].ToString(), out septInput);
 
-                                _actualCost.OctPoint = Convert.ToDouble(octInput);
-                                _actualCost.NovPoint = Convert.ToDouble(novInput);
-                                _actualCost.DecPoint = Convert.ToDouble(decInput);
-                                _actualCost.JanPoint = Convert.ToDouble(janInput);
-                                _actualCost.FebPoint = Convert.ToDouble(febInput);
-                                _actualCost.MarPoint = Convert.ToDouble(marInput);
-                                _actualCost.AprPoint = Convert.ToDouble(aprInput);
-                                _actualCost.MayPoint = Convert.ToDouble(mayInput);
-                                _actualCost.JunPoint = Convert.ToDouble(junInput);
-                                _actualCost.JulPoint = Convert.ToDouble(julInput);
-                                _actualCost.AugPoint = Convert.ToDouble(augInput);
-                                _actualCost.SepPoint = Convert.ToDouble(septInput);
-                                _actualCost.Year = tempYear;
-                                _actualCost.CreatedDate = DateTime.Now;
-                                _actualCost.CreatedBy = userName;
+                                //_actualCost.OctPoint = Convert.ToDouble(octInput);
+                                //_actualCost.NovPoint = Convert.ToDouble(novInput);
+                                //_actualCost.DecPoint = Convert.ToDouble(decInput);
+                                //_actualCost.JanPoint = Convert.ToDouble(janInput);
+                                //_actualCost.FebPoint = Convert.ToDouble(febInput);
+                                //_actualCost.MarPoint = Convert.ToDouble(marInput);
+                                //_actualCost.AprPoint = Convert.ToDouble(aprInput);
+                                //_actualCost.MayPoint = Convert.ToDouble(mayInput);
+                                //_actualCost.JunPoint = Convert.ToDouble(junInput);
+                                //_actualCost.JulPoint = Convert.ToDouble(julInput);
+                                //_actualCost.AugPoint = Convert.ToDouble(augInput);
+                                //_actualCost.SepPoint = Convert.ToDouble(septInput);
+                                //_actualCost.Year = tempYear;
+                                //_actualCost.CreatedDate = DateTime.Now;
+                                //_actualCost.CreatedBy = userName;
 
-                                var results = actualCostBLL.CreateActualCost(_actualCost);
+                                //var results = actualCostBLL.CreateActualCost(_actualCost);
 
 
                                 tempRow = $@"10_{octInput}_{octInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},11_{novInput}_{novInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},12_{decInput}_{decInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},1_{janInput}_{janInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},2_{febInput}_{febInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},3_{marInput}_{marInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},4_{aprInput}_{aprInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},5_{mayInput}_{mayInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},6_{junInput}_{junInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},7_{julInput}_{julInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},8_{augInput}_{augInput * Convert.ToDecimal(_uploadExcel.UnitPrice)},9_{septInput}_{septInput * Convert.ToDecimal(_uploadExcel.UnitPrice)}";

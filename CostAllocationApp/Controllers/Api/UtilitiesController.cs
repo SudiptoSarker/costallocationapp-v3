@@ -7331,7 +7331,7 @@ namespace CostAllocationApp.Controllers.Api
                             if (assignmentCreateResults == 1)
                             {
                                 int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
-                                int updateActualCostResults = actualCostBLL.UpdateAssignmentIds(_assignmentData.Id, employeeAssignmentLastId);
+                                //int updateActualCostResults = actualCostBLL.UpdateAssignmentIds(_assignmentData.Id, employeeAssignmentLastId);
                                 int finalAssignmentId = employeeAssignmentBLL.GetFinalBudgetLastId();
 
                                 List<Forecast> forecasts = new List<Forecast>();

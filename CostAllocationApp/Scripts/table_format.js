@@ -77,12 +77,25 @@ function InsertDynamicTables() {
 }
 
 function InsertDynamicSetting() {
+    var title1 = $('#column_title_1').val();
+    var title2 = $('#column_title_2').val();
+    var title3 = $('#column_title_3').val();
     var dynamicTableId = $('#dynamic_table_list_for_setting').val();
     var mainItemId = $('#main_item').val();
     var subItemId = $('#sub_item').val();
     var subItemId = $('#sub_item').val();
     var methodId = $('#method_list_dropdown').val();
     var dependencyId = $('#data_for_list_dropdown_for_setting').val();
+
+
+    $.ajax({
+        url: `/api/utilities/UpdateDynamicTablesTitle?dynamicTableId=${dynamicTableId}&categoryTitle=${title1}&subCategoryTitle=${title2}&detailsTitle=${title3}`,
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+        }
+    });
 
     $.ajax({
         url: '/api/utilities/CreateDynamicSetting/',
@@ -172,10 +185,56 @@ $(document).on('click', '#update_dynamic_table ', function () {
 });
 
 //update main item
-$(document).on('click', '#update_main_item ', function () {     
+$(document).on('click', '#update_main_item ', function () {   
+    var categoryName = $('#input_main_item').val();
+    if (categoryName == '' || categoryName == undefined || categoryName == null) {
+        alert('Main item required!');
+        return;
+    }
+    else {
+        $.ajax({
+            url: `/api/utilities/CreateCategory`,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                CategoryName: categoryName
+                },
+            success: function (data) {
+                ToastMessageSuccess(data);
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    }
+    
 });
 //update sub item
-$(document).on('click', '#update_sub_item ', function () {     
+$(document).on('click', '#update_sub_item ', function () {   
+
+    var categoryId = $('.setting_dropdowns').val();
+    var subCategoryName = $('#input_sub_item').val();
+
+    $.ajax({
+        url: `/api/utilities/CreateSubCategory/`,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            CategoryId: categoryId,
+            SubCategoryName: subCategoryName
+        },
+        success: function (data) {
+            if (data == 1) {
+                alert("同一データが登録済みです.");
+            } else {
+                ToastMessageSuccess(data);
+            }
+        },
+        error: function (data) {
+            ToastMessageFailed(data);
+        }
+    });
+
 });
 //update detail item
 $(document).on('click', '#update_detail_item ', function () {     
@@ -277,12 +336,28 @@ function DynamicTableSetting(){
     } else {
         GetDynamicSettings();
         $("#total_menu_settings").show();
+        
+        // pull columns title
+        $.ajax({
+            url: `/api/utilities/GetDynamicTableById/${tableId}`,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                $('#column_title_1').val(data.CategoryTitle);
+                $('#column_title_2').val(data.SubCategoryTitle);
+                $('#column_title_3').val(data.DetailsTitle);
+            },
+            error: function (data) {
+            }
+        });
 
         // pull data for main item
         $.ajax({
             url: '/api/utilities/GetCategories/',
             type: 'Get',
             dataType: 'json',
+            async: false,
             success: function (data) {
                 $('#main_item').empty();
                 $('#main_item').append(`<option value=''>Select Item</option>`);
@@ -301,6 +376,7 @@ function DynamicTableSetting(){
             url: '/api/utilities/GetMethodList/',
             type: 'Get',
             dataType: 'json',
+            async: false,
             success: function (data) {
                 $('#method_list_dropdown').empty();
                 $('#method_list_dropdown').append(`<option value=''>Select Item</option>`);
@@ -316,7 +392,7 @@ function DynamicTableSetting(){
 }
 
 $( document ).ready(function() {   
-   
+    $('#data_for_list_dropdown_for_setting').select2({});
     $(document).on('change', '.main_item_dropdown', function () {
         var sub_item_options = "";
         var mainItem = $(this).val();
@@ -406,7 +482,21 @@ if (subItem == '' || subItem == null || subItem == undefined) {
 	
 }else{
 
-	if(subItem=="sub"){        
+    if (subItem == "sub") {     
+        $.ajax({
+            url: '/api/utilities/GetCategories/',
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('#setting_dropdowns').empty();
+                $('#setting_dropdowns').append(`<option value=''>Select Item</option>`);
+                $.each(data, function (key, item) {
+                    $('#setting_dropdowns').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                });
+            },
+            error: function (data) {
+            }
+        }); 
 		$('#add_sub_item_modal').modal('toggle');
 	}else{
 		let sub_item_options = "";
@@ -486,7 +576,7 @@ function GetDynamicSettings() {
         success: function (data) {
             $('#setting_list_body').empty();
             $.each(data, function (key, item) {
-                $('#setting_list_body').append(`<tr><td>${item.DynamicTableName}</td><td>${item.CategoryName}</td><td>${item.SubCategoryName}</td><td>n/a</td><td>${item.MethodName}</td><td>${item.ParameterId}</td></tr>`);
+                $('#setting_list_body').append(`<tr><td>${item.DynamicTableName}</td><td>${item.CategoryName}</td><td>${item.SubCategoryName}</td><td>n/a</td><td>${item.MethodName}</td><td>${item.CommaSeperatedParameterName}</td></tr>`);
             });
         },
         error: function (data) {

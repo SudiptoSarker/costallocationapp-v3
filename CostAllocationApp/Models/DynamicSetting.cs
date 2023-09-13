@@ -30,5 +30,7 @@ namespace CostAllocationApp.Models
         public string DynamicTableId { get; set; }
 
         public string DynamicTableName { get; set; }
+
+        public string CommaSeperatedParameterName { get; set; }
     }
 }

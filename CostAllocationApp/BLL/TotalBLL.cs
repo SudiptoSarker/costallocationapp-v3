@@ -11,9 +11,11 @@ namespace CostAllocationApp.BLL
     public class TotalBLL
     {
         TotalDAL totalDAL = null;
+        DepartmentBLL departmentBLL = null;
         public TotalBLL()
         {
             totalDAL = new TotalDAL();
+            departmentBLL = new DepartmentBLL();
         }
 
         public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
@@ -92,6 +94,19 @@ namespace CostAllocationApp.BLL
                 foreach (var dynamicSetting in dynamicSettings)
                 {
                     dynamicSetting.MethodName = DynamicMethodDefinition.GetMethods().Where(dmd => dmd.Id == Convert.ToInt32(dynamicSetting.MethodId)).SingleOrDefault().MethodName;
+                    if (!String.IsNullOrEmpty(dynamicSetting.ParameterId))
+                    {
+                        string departmentNames = "";
+                        string[] parameterNames = dynamicSetting.ParameterId.Split(',');
+                        foreach (var item in parameterNames)
+                        {
+                            departmentNames += departmentBLL.GetDepartmentByDepartemntId(Convert.ToInt32(item)).DepartmentName+", ";
+                        }
+
+                        departmentNames.TrimEnd(',');
+                        dynamicSetting.CommaSeperatedParameterName = departmentNames;
+                    }
+                    
                 }
             }
 

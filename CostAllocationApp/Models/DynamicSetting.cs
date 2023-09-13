@@ -19,6 +19,8 @@ namespace CostAllocationApp.Models
 
         public string DetailsId { get; set; }
 
+        public string DetailsItemName { get; set; }
+
         public string MethodId { get; set; }
 
         public string MethodName { get; set; }

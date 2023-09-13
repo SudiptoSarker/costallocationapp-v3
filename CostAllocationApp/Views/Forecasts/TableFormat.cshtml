@@ -169,7 +169,7 @@
                     </thead>
 
                     <tbody id="item_tbody">
-                        <tr class="item_row">                                     
+                        <tr class="item_row" data-count="1">                                     
                             <td class="setting_items_td">
                                 <select class="main_item_dropdown" name="main_item" id="main_item">  
                                     <option value="">select main item</option>   
@@ -198,7 +198,7 @@
                                 </select>                                          
                             </td>  
                             <td class="setting_items_td data_for" >
-                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting">  
+                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting" multiple="multiple">  
                                     <option>select data-for</option>   
                                     <option>department-1</option>
                                     <option>department-2</option>                              
@@ -495,14 +495,14 @@
                             <tbody>
                                 <tr>                                     
                                     <td class="table_setting_modal">
-                                        <select class="setting_dropdowns">  
+                                        <select class="setting_dropdowns category_dropdown">  
                                             <option>select main item</option>   
                                             <option>main-item-1</option>
                                             <option>main-item-2</option>
                                         </select>                                                                                
                                     </td>
                                     <td class="table_setting_modal">
-                                        <select class="setting_dropdowns">  
+                                        <select class="setting_dropdowns" id="sub_category_dropdown">  
                                             <option>select sub item</option>   
                                             <option>sub-item-1</option>
                                             <option>sub-item-2</option>

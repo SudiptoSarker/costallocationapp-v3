@@ -176,6 +176,7 @@
     <Compile Include="BLL\CompanyBLL.cs" />
     <Compile Include="BLL\DepartmentBLL.cs" />
     <Compile Include="BLL\DepartmentWithSubCategoryBLL.cs" />
+    <Compile Include="BLL\DetailsItemBLL.cs" />
     <Compile Include="BLL\EmployeeBLL.cs" />
     <Compile Include="BLL\EmployeeAssignmentBLL.cs" />
     <Compile Include="BLL\ExplanationsBLL.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DepartmentDAL.cs" />
     <Compile Include="DAL\DepartmentWithSubCategoryDAL.cs" />
+    <Compile Include="DAL\DetailsItemDAL.cs" />
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\EmployeeAssignmentDAL.cs" />
     <Compile Include="DAL\ExplanationDAL.cs" />
@@ -265,6 +267,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DeatailsItem.cs" />
     <Compile Include="Models\DepartmentWithSubCategory.cs" />
     <Compile Include="Models\DynamicMethod.cs" />
     <Compile Include="Models\DynamicSetting.cs" />

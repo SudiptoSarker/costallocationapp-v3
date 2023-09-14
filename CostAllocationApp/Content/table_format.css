@@ -531,3 +531,26 @@ body {
     border: none;
     width: 91%;
 }
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: white !important;
+    /* border: none; */
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 3px;
+    padding-left: 20px;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+    height: 14px;
+    text-align: center;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+    height: 14px !important; 
+}

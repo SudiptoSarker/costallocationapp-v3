@@ -65,7 +65,7 @@ body {
 }
 
 #clear_input_frm,#clear_setting_form {
-    background-color: #3c4b5d;
+    background-color: red;
     color: white;
     padding: 5px;
     border-radius: 5px;
@@ -74,9 +74,10 @@ body {
     margin-bottom: 20px;
     margin-left:10px;
     height: 16px;
+    border: none;
 }
 #save_inputs {
-    background-color: #3c4b5d;
+    background-color: green;
     color: white;
     padding: 5px;
     border-radius: 5px;
@@ -85,10 +86,11 @@ body {
     margin-bottom: 20px;
     margin-left: 10px;
     height: 16px;
+    border: none;
 }
 
 #dynamic_table_create_save_btn {
-    background-color: #3c4b5d;
+    background-color: green;
     color: white;
     padding: 5px;
     border-radius: 5px;

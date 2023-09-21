@@ -57,7 +57,7 @@ body {
 }
 
 #users_reg_cancel_btn {
-    background-color: #3c4b5d;
+    background-color: red;
     color: white;
     padding: 5px;
     border-radius: 5px;
@@ -66,7 +66,7 @@ body {
     margin-bottom: 20px;
 }
 #users_reg_save_btn {
-    background-color: #3c4b5d;
+    background-color: green;
     color: white;
     padding: 5px;
     border-radius: 5px;

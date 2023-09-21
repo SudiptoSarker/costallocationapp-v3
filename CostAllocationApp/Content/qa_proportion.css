@@ -206,3 +206,10 @@ body {
     #qa_assignments th, td {
         border: 1px solid black;
     }
+
+/*save buttons*/    
+#employee_wise_save_button,#department_wise_save_button{    
+    line-height:1;
+    background-color: green;
+	border: none;
+}

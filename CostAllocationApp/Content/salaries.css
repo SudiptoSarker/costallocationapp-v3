@@ -1,19 +1,39 @@
 ﻿/*-----------------Salary Master-----------------------*/
 #salary_registration {
-    background-color: #3c4b5d;
+    /* background-color: #3c4b5d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block; */
+    line-height:1;
+    background-color: green;
+	border: none;
+
     color: white;
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
     display: inline-block;
+    margin-bottom: 20px;
 }
 #salary_cancel {
-    background-color: #FC4136;
+    /* background-color: #FC4136;
     color: white;
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
+    display: inline-block; */
+    line-height: 1;
+	background-color: red;
+    color: white;
+	border: none;
+
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
     display: inline-block;
+    margin-bottom: 20px;
 }
 #salary_inactive_btn {
     background: indianred;

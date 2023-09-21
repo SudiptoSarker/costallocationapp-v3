@@ -245,3 +245,29 @@ body {
      $(this).css("background-color", "yellow"); //Here Change color to yellow.
     return false;
 }); */
+
+/*cancel,approve and save button*/
+#unapprove_forecast_data{
+    display:none;    
+    margin-left: 33px; 
+
+    line-height: 1;
+	background-color: red;
+	border: none;
+}
+#approve_forecast_data{
+    display:none;    
+    margin-left: 8px; 
+
+    line-height: 1;
+	background-color: Blue !important;
+	border: none;
+}
+#saved_approved_data{
+    display:none;    
+    margin-left: 8px; 
+
+    line-height: 1;
+	background-color: green !important;
+	border: none;
+}

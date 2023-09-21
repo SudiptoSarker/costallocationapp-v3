@@ -648,3 +648,37 @@ CSS.g-6,
 }.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
   background-color: #d99a23;
 } */
+
+#cancele_all_changed_budget{
+  display:none;
+  margin-left: 29px;
+
+  line-height: 1;
+	background-color: red;
+	border: none;
+	/* color:white; */
+}
+#save_bedget{
+  display:none;
+  margin-left: 13px;
+
+  line-height:1;
+  background-color: green;
+	border: none;
+}
+#budget_finalize{
+  display:none;
+  margin-left: 1px;
+
+  line-height:1;
+  background-color: blue;
+	border: none;
+}
+#export_budget{
+  /* display:none !important;; */
+  margin-left: 1px;
+
+  line-height:1;
+  background-color: #89CFF0;
+	border: none;  
+}

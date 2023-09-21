@@ -38,8 +38,11 @@ body {
 }
 
 #users_reg_cancel_btn {
-    background-color: #3c4b5d;
+    line-height: 1;
+	background-color: red;
     color: white;
+	border: none;
+
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
@@ -47,7 +50,10 @@ body {
     margin-bottom: 20px;
 }
 #users_reg_save_btn {
-    background-color: #3c4b5d;
+    line-height:1;
+    background-color: green;
+	border: none;
+
     color: white;
     padding: 5px;
     border-radius: 5px;

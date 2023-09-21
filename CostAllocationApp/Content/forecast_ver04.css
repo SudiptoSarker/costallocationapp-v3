@@ -485,6 +485,7 @@ body {
 	border: none;
 }
 #update_forecast_history{
+    display:none;    
     margin-left: 1px; 
 
     line-height: 1;

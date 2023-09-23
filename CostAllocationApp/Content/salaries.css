@@ -69,7 +69,7 @@
     text-indent: 1em;
 }
 #salary_delete_btn {
-    padding-left: 429px;
+    padding-left: 348px;
 }
 .salary_error_msg {
     display: none;
@@ -90,4 +90,6 @@
 #salary_body {
     width: 59% !important;
 }
-
+.salary_th{
+    border: 1px solid black !important;
+}

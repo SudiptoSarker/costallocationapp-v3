@@ -3,6 +3,7 @@
 }
 
 @section Styles {    
+    <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
 }
     <div class="content container-fluid">
@@ -13,12 +14,17 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-5">
+                            <label id="input_master">
+                                新規登録する場合は、「新規区分をここに入力」テキストボックスに
+                                <br>
+                                区分名を記載し、保存ボタンをクリックしてください
+                            </label>
                             <table id="section_reg_tbl">
                                 <thead style="border: none;">
                                     <tr></tr>
                                     <tr>
-                                        <th>区分 (Section)</th>
-                                        <th>操作</th>
+                                        <th class="section_th">区分 (Section)</th>
+                                        <th class="section_th">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,14 +55,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
+                        <label id="list_master">
+                            登録した部署を消去するには、チェックボックスにチェックを入れ、
+                        <br>
+                            削除ボタンをクリックしてください。 
+                        </label>
                         <table class="" id="section_list_tbl">
                             <thead>
-                                <tr>
-                                    <th colspan="6">区分リスト(Secttion List)</th>
+                                <tr >
+                                    <th colspan="6" class="section_th">区分リスト(Secttion List)</th>
                                 </tr>
                                 <tr>
-                                    <th class="section_list_theader">複数選択</th>
-                                    <th class="section_list_theader">区分 (Section)</th>
+                                    <th class="section_list_theader section_th">複数選択</th>
+                                    <th class="section_list_theader section_th">区分 (Section)</th>
                                 </tr>
                             </thead>
                             <tbody id="section_list_tbody"></tbody>
@@ -64,7 +75,7 @@
                         @if (Convert.ToBoolean(ViewBag.linkFlag))
                         {
                             <label id="section_delete_btn">
-                                <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">削除</a>
+                                <a id="section_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#delete_section" onClick="onSectionInactiveClick()">削除 (delete)</a>
                             </label>
                         }
 

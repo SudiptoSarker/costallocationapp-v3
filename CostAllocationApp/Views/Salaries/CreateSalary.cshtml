@@ -8,16 +8,20 @@
 }
     <div class="content container-fluid">
         <!--Salaries List-->
-        <h4 style="text-align:left;">リスト (List)</h4>
         <div class="row">
             <div class="col-md-12">
                 <div class="">
+                    <label id="list_master">
+                        登録した部署を消去するには、チェックボックスにチェックを入れ、
+                    <br>
+                        削除ボタンをクリックしてください。 
+                    </label>
                     <table class="" id="salary_table">
                         <thead>
                             <tr>
-                                <th>複数選択</th>
-                                <th>給与登録</th>
-                                <th>グレード (Grade)</th>
+                                <th class="salary_th">複数選択</th>
+                                <th class="salary_th">給与登録</th>
+                                <th class="salary_th">グレード (Grade)</th>
                             </tr>
                         </thead>
                         <tbody id="salary_list_tbody"></tbody>
@@ -25,7 +29,7 @@
                     @if (Convert.ToBoolean(ViewBag.linkFlag))
                     {
                         <label id="salary_delete_btn">
-                            <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();" data-target="#inactive_salary_modal">削除</a>
+                            <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();" data-target="#inactive_salary_modal">削除 (delete)</a>
                         </label>
                     }
 
@@ -37,10 +41,15 @@
         <!-- Salary Reg. -->
         @if (Convert.ToBoolean(ViewBag.linkFlag))
         {
+                 <label id="input_master">
+                            新規登録する場合は、「新規区分をここに入力」テキストボックスに
+                            <br>
+                            区分名を記載し、保存ボタンをクリックしてください
+                        </label>
             <div class="modal-content" id="salary_body">
                 <div class="modal-body">
-                    <form>
-                        <div id="main-div">
+                    <form>                
+                        <div id="main-div">                            
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">

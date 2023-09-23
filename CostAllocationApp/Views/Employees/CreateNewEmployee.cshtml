@@ -15,21 +15,23 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-5">
+                        <label id="input_master">
+                            新規登録する場合は、「新規区分をここに入力」テキストボックスに
+                            <br>
+                            区分名を記載し、保存ボタンをクリックしてください
+                        </label>
                         <table id="employee_reg_tbl">
                             <thead style="border: none;">
                                 <tr></tr>
                                 <tr>
-                                    <th>要員 氏名 (Name)</th>
-                                    <th>操作</th>
+                                    <th class="employee_th">要員 氏名 (Name)</th>
+                                    <th class="employee_th">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="employee_reg_frm_td">
-                                        <input type="text" value="" placeholder="要員 氏名 (employee name)" id="employee-name">
-                                        <!-- <div class="employee_err">
-                                            Please provide employee name.
-                                        </div>                                     -->
+                                        <input type="text" value="" placeholder="要員 氏名 (employee name)" id="employee-name">                                        
                                     </td>
                                     <td id="employee_reg_frm_td">
                                         <a href="javascript:void(0);" class="" id="employee_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
@@ -47,6 +49,11 @@
 
 
     <!-----------------Employee Master: Employee list are showing on this part----------------->
+    <label id="list_master">
+        登録した部署を消去するには、チェックボックスにチェックを入れ、
+    <br>
+        削除ボタンをクリックしてください。 
+    </label>
     <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:60%">
         <thead id="employeelist_thead">
             <tr>

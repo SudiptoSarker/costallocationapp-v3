@@ -1481,7 +1481,20 @@ namespace CostAllocationApp.Controllers
             //}
             return View();
         }
-
+        public ActionResult CreateDynamicTable()
+        {
+            //if (Session["token"] == null)
+            //{
+            //    return RedirectToAction("Login", "Registration");
+            //}
+            //if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            //{
+            //    Session["token"] = null;
+            //    Session["userName"] = null;
+            //    return RedirectToAction("Login", "Registration");
+            //}
+            return View();
+        }
         [HttpPost]
         public ActionResult ExportBudgetByYear(int hid_budget_year = 0, int hid_budget_type = 0)
         {

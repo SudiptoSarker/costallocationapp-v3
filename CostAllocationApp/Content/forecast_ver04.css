@@ -54,7 +54,7 @@ body {
 }
 
 .employee_registration, .employee_add {
-    background-color: #3c4b5d;
+    background-color: green;
     color: white;
     padding: 5px;
     border-radius: 5px;

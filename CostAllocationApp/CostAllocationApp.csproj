@@ -880,6 +880,7 @@
     <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
     <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
     <Content Include="Views\Forecasts\TableFormat.cshtml" />
+    <Content Include="Views\Forecasts\CreateDynamicTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

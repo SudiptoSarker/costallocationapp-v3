@@ -1,0 +1,78 @@
+﻿/*-----------------Dynamic Table Format-----------------------*/
+body {
+    overflow-x: auto;
+}
+
+#dynamic_input_frm_header{
+    border: 1px solid black !important;
+    background-color: lightgray;
+}
+#dynamic_input_frm{
+    border: 1px solid black !important;    
+}
+.dynamic_page_title{
+    text-align: left;
+    font-size: 12px !important;
+    margin: 4px;
+    margin-left: -8px;
+}
+.form_title{
+    font-size: 11px;
+    margin: 7px;
+}
+.input_table_frm_lbl{
+    font-size: 12px;
+    margin-right: -53px;
+}
+.input_table_text_field{
+    font-size: 12px;
+    border: 1px solid black !important;
+    width: 85%;
+    height: 32px;
+}
+.select_column_no{
+    margin-left: -65px;
+    font-size: 12px;
+    border: 1px solid black !important;
+    width: 53%;
+    height: 32px;
+}
+.frm_add_btn{
+    line-height: .7;
+    background-color: #bfbfbf;
+    border: 1px solid black;
+    color: white;
+    /* padding: 2px; */
+    /* border-radius: 5px; */
+    /* margin-top: 10px; */
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 111px;
+    margin-left: -31px;
+}
+.frm_setting_btn{
+    line-height: .7;
+    background-color: #bfbfbf;
+    border: 1px solid black;
+    color: white;
+    /* padding: 2px; */
+    /* border-radius: 5px; */
+    /* margin-top: 10px; */
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left: -64px;
+    width: 111px;
+}
+.frm_cancel_btn{
+    line-height: .7;
+    background-color: #bfbfbf;
+    border: 1px solid black;
+    color: white;
+    /* padding: 2px; */
+    /* border-radius: 5px; */
+    /* margin-top: 10px; */
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-left: -102px;
+    width: 111px;
+}

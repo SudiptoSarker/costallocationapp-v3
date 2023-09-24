@@ -45,6 +45,7 @@ body {
     border-radius: 5px;
     margin-top: 10px;
     display: inline-block;
+    line-height: 1;
 }
 
 .employee_cancel:hover {
@@ -58,6 +59,7 @@ body {
     border-radius: 5px;
     margin-top: 10px;
     display: inline-block;
+    line-height: 1;
 }
 
 .employee_registration:hover {
@@ -73,8 +75,16 @@ body {
 }
 
 .custom_button_group_employee {
-    float: right;
-    margin-left: 69%;
+  float: right;
+  margin-left: 55%;
+  margin-top: -21px;
+  font-size: 13px;
+}
+.custom_button_group_employee_list {
+  float: right;
+  margin-left: 55%;
+  margin-top: -5px;
+  font-size: 13px;
 }
 
 .select2-container{
@@ -681,4 +691,16 @@ CSS.g-6,
   line-height:1;
   background-color: #89CFF0;
 	border: none;  
+}
+.form-control{
+    border-color: #e3e3e3;
+    box-shadow: none;
+    font-size: 14px;
+    height: 29px !important;
+}
+.select2-selection.select2-selection--single{
+  border-color: #e3e3e3 !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  height: 29px !important;
 }

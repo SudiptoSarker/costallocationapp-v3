@@ -62,8 +62,9 @@ body {
     margin-bottom: 20px;
 }
 #name_search {
-    width: 100% !important;
+    width: 79% !important;
     text-indent: 1em;
+    float: left;
 }
 /***************************\                           
 	Employee List Show

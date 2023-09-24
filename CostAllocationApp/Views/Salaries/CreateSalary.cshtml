@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <div class="">
                     <label id="list_master">
-                        登録した部署を消去するには、チェックボックスにチェックを入れ、
+                        登録したグレードを消去するには、チェックボックスにチェックを入れ、
                     <br>
                         削除ボタンをクリックしてください。 
                     </label>
@@ -41,11 +41,13 @@
         <!-- Salary Reg. -->
         @if (Convert.ToBoolean(ViewBag.linkFlag))
         {
-                 <label id="input_master">
-                            新規登録する場合は、「新規区分をここに入力」テキストボックスに
-                            <br>
-                            区分名を記載し、保存ボタンをクリックしてください
-                        </label>
+            <label id="input_master">
+                新規登録する場合は、給与レンジを入力し、「グレード番号をグレード入力」テキストボックスに記載し、登録ボタンをクリックしてください。 
+                <br>
+                既存のグレードの内容を変更する場合は、給与レンジを変更し、既存のグレード番号をグレード入力BOXに記載し、変更ボタンをクリックしてください。 
+                <br>
+                区分名を記載し、保存ボタンをクリックしてください
+            </label>
             <div class="modal-content" id="salary_body">
                 <div class="modal-body">
                     <form>                
@@ -56,24 +58,18 @@
                                         <label for="lowUnitPrice" style="padding-top: 37px;">給与 (Unit Price) <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="lowUnitPrice">下限 (From)</label>
+                                        <label style="float: right;" id="lowPrice">Please provide a unit price.</label>
                                         <input class="form-control" id="lowUnitPrice" type="text" placeholder="">
-
-                                        <div class="salary_error_msg" id="lowPrice">
-                                            Please provide a unit price.
-                                        </div>
                                     </div>
-                                </div>
-                                <label style="padding-top:40px;">～</label>
-                                <div class="col-sm-3">
+                                </div>                                
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="highPrice">上限 (To)</label>
-                                        <input class="form-control" id="hightUnitPrice" type="text" placeholder="">
-                                        <div class="salary_error_msg" id="highPrice">
-                                            Please provide a unit price.
-                                        </div>
+                                        <label style="float: right;" id="highPrice">Please provide a unit price.</label>
+                                        <input class="form-control" id="hightUnitPrice" type="text" placeholder="">                                    
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +77,7 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="department-name" style="padding-top:1px;">Grade <span class="text-danger">*</span></label>
+                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
                                 </div>
                             </div>
                             <div class="col-sm-5">
@@ -92,14 +88,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="cutom_button_group_salary">
-                                <a href="javascript:void(0);" id="salary_cancel">取消(undo)</a>
-                                <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">保存（save）</a>
-                            </div>
-                        </div>
+                        </div>                        
                     </form>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="cutom_button_group_salary">
+                    <a href="javascript:void(0);" id="salary_cancel">取消(undo)</a>
+                    <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">保存（save）</a>
                 </div>
             </div>
             <br><br>

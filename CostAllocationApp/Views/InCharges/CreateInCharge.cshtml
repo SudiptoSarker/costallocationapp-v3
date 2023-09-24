@@ -16,21 +16,21 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-5">
+                            <label id="input_master">
+                                新規登録する場合は、「新規担当をここに入力」テキストボックスに担当名を記載し、保存ボタンをクリックしてください。 
+                            </label>
                             <table id="incharge_reg_tbl">
                                 <thead style="border:none;">
                                     <tr></tr>
                                     <tr>
-                                        <th>担当 (In-Charge Name)</th>
-                                        <th>操作</th>
+                                        <th class="incharge_th">担当 (In-Charge Name)</th>
+                                        <th class="incharge_th">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td id="incharge_reg_frm_td">
-                                            <input type="text" value="" placeholder="担当 氏名 (in-charge name)" id="in_charge_name">
-                                            @* <div class="department_name_err" id="department_name_err">
-                                                Please provide a department name.
-                                            </div> *@
+                                            <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name">                                            
                                         </td>
                                         <td id="incharge_reg_frm_td">
                                             <a href="javascript:void(0);" class="" id="incharge_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
@@ -52,14 +52,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
+                        <label id="list_master">
+                            登録した担当を消去するには、チェックボックスにチェックを入れ、
+                        <br>
+                            削除ボタンをクリックしてください。 
+                        </label>
                         <table class="" id="incharge_list_tbl">
                             <thead>
                                 <tr>
-                                    <th colspan="6">担当 氏名(In-Charge List)</th>
+                                    <th colspan="6" class="incharge_th">担当 氏名(In-Charge List)</th>
                                 </tr>
                                 <tr>
-                                    <th class="incharge_list_theader">複数選択</th>
-                                    <th class="incharge_list_theader">担当 (In-Charge Name)</th>
+                                    <th class="incharge_list_theader incharge_th">複数選択</th>
+                                    <th class="incharge_list_theader incharge_th">担当 (In-Charge Name)</th>
                                 </tr>
                             </thead>
                             <tbody id="incharge_list_tbody"></tbody>
@@ -67,7 +72,7 @@
                         @if (Convert.ToBoolean(ViewBag.linkFlag))
                         {
                             <label id="incharge_delete_btn">
-                                <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">削除</a>
+                                <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">削除 (delete)</a>
                             </label>
                         }
 

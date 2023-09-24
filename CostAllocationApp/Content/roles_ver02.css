@@ -22,7 +22,7 @@ body {
 #roles_reg_frm_td{
     height: 25px;
     border: none;
-    border: 1px solid #f5e7e7 !important;
+    border: 1px solid black !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
@@ -65,9 +65,6 @@ body {
 /***************************\                           
 	Roles List Show
 \***************************/ 
-#roles_list{
-    margin-left: 17px
-}
 #roles_list_tbl{
     width: 85%;
     border-collapse: collapse;
@@ -137,5 +134,8 @@ body {
     margin-left: -10px !important;
 }
 #roles_delete_btn {
-    padding-left: 382px;
+    padding-left: 331px;
+}
+.role_th{
+    border: 1px solid black !important;
 }

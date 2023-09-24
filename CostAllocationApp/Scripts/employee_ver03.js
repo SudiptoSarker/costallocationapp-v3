@@ -76,7 +76,7 @@ function ShowNameList_Datatable(data){
         data: data,
         //ordering: false,
         ordering: true,
-        orderCellsTop: false,
+        orderCellsTop: true,
         pageLength: 100,
         searching: false,
         //searching: true,

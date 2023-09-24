@@ -60,7 +60,7 @@
 }
 .cutom_button_group_salary {
     float: right;
-    margin-left: 45%;
+    margin-left: 20px;
 }
 #salary_table tbody tr td:last-child {
     border: 1px solid;
@@ -69,7 +69,7 @@
     text-indent: 1em;
 }
 #salary_delete_btn {
-    padding-left: 429px;
+    padding-left: 348px;
 }
 .salary_error_msg {
     display: none;
@@ -88,6 +88,23 @@
     width: 200px
 }
 #salary_body {
-    width: 59% !important;
+    width: 79% !important;
+}
+.salary_th{
+    border: 1px solid black !important;
 }
 
+#lowPrice {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+#highPrice {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}

@@ -177,12 +177,17 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>追加 名前 (Add)</h3>
+                    <h3>要員の追加 (add employee)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
+                </div>                
                 <div class="modal-body">
+                    <label id="input_master">
+                        新規の要員の場合、名前を入力して追加する。一旦要員リストから削除した、又は契約を解除した要員の再追加の場
+                        <!-- <br> -->
+                        合、要員マスターに登録してある要員から追加
+                    </label>
                     <div class="form-group">
                         <label for="employee_name">要員 氏名 (Name)</label>
                         <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)">
@@ -192,8 +197,8 @@
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">Add</a>
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
+                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">追加(Add）</a>
                         </div>
                     </div>
 
@@ -202,9 +207,9 @@
                     <label for="employee_list" style="display:block;width:100%;">名前一覧から選択</label>
                     <select id="employee_list" style=""></select>
 
-                    <div class="custom_button_group_employee">
-                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">Cancel</a>
-                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">Add</a>
+                    <div class="custom_button_group_employee_list">
+                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
+                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">追加(Add）</a>
                     </div>
                 </div>
             </div>

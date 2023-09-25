@@ -68,6 +68,14 @@ function InsertSalaries() {
     let highPriceEmpty = false;
     let gradeEmpty = false;
 
+    if (gradePoints == "") {
+        $("#salaryGradePoints").show();
+        isValidRequest = false;
+        gradeEmpty = true;
+    } else {
+        gradeEmpty = false;
+        $("#salaryGradePoints").hide();
+    }    
     if (lowUnitPrice == "") {
         $("#lowPrice").show();
         isValidRequest = false;
@@ -84,21 +92,15 @@ function InsertSalaries() {
     } else {
         highPriceEmpty = false;
         $("#highPrice").hide();
-    }
-    if (gradePoints == "") {
-        $("#salaryGradePoints").show();
-        isValidRequest = false;
-        gradeEmpty = true;
-    } else {
-        gradeEmpty = false;
-        $("#salaryGradePoints").hide();
-    }
-    if(lowPriceEmpty){
-        $("#lowUnitPrice").focus();
-    }else if(highPriceEmpty){
-        $("#hightUnitPrice").focus()
-    }else if(gradeEmpty){
+    }   
+     
+    if(gradeEmpty){
         $("#gradePoints").focus()
+    }
+    else if(highPriceEmpty){
+        $("#hightUnitPrice").focus()
+    }else if(lowPriceEmpty){
+        $("#lowUnitPrice").focus();
     }
 
     if (isValidRequest) {

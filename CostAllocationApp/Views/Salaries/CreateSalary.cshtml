@@ -44,13 +44,26 @@
             <label id="input_master">
                 新規登録する場合は、給与レンジを入力し、「グレード番号をグレード入力」テキストボックスに記載し、登録ボタンをクリックしてください。 
                 <br>
-                既存のグレードの内容を変更する場合は、給与レンジを変更し、既存のグレード番号をグレード入力BOXに記載し、変更ボタンをクリックしてください。 
-                <br>
-                区分名を記載し、保存ボタンをクリックしてください
+                既存のグレードの内容を変更する場合は、給与レンジを変更し、既存のグレード番号をグレード入力BOXに記載し、変更ボタンをクリックしてください。                 
             </label>
             <div class="modal-content" id="salary_body">
                 <div class="modal-body">
-                    <form>                
+                    <form>   
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <input class="form-control" id="gradePoints" type="text" placeholder="">
+                                    <div class="salary_error_msg" id="salaryGradePoints">
+                                        Please provide a grade.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>               
                         <div id="main-div">                            
                             <div class="row">
                                 <div class="col-sm-3">
@@ -74,21 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <input class="form-control" id="gradePoints" type="text" placeholder="">
-                                    <div class="salary_error_msg" id="salaryGradePoints">
-                                        Please provide a grade.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        
+                                              
                     </form>
                 </div>
                 

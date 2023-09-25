@@ -18,11 +18,16 @@ body {
 }
 .form_title{
     font-size: 11px;
-    margin: 7px;
+    margin-right: 77px;
+    padding-top: 8px;
 }
 .input_table_frm_lbl{
     font-size: 12px;
-    margin-right: -53px;
+    margin-right: -41px;
+}
+.input_table_frm_lbl2{
+    font-size: 12px;
+    margin-right: -9px;
 }
 .input_table_text_field{
     font-size: 12px;
@@ -48,7 +53,7 @@ body {
     display: inline-block;
     margin-bottom: 20px;
     width: 111px;
-    margin-left: -31px;
+    margin-left: -83px;
 }
 .frm_setting_btn{
     line-height: .7;
@@ -73,6 +78,6 @@ body {
     /* margin-top: 10px; */
     display: inline-block;
     margin-bottom: 20px;
-    margin-left: -102px;
+    margin-left: -44px;
     width: 111px;
 }

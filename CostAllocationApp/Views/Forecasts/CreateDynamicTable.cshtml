@@ -12,81 +12,84 @@
 
 <div class="content container-fluid">
     <div class="content container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="row" id="dynamic_input_frm_header">
+                    <div class="col-sm-12">
+                        <h4 class="dynamic_page_title">集計表追加​</h4>
+                    </div>
+                </div>
 
-        <div class="row" id="dynamic_input_frm_header">
-            <div class="col-sm-12">
-                <h4 class="dynamic_page_title">集計表追加​</h4>
-            </div>
-        </div>
+                <div class="row" id="dynamic_input_frm">
+                    <div class="col-lg-12">
+                        <div class="card-box">
+                            <h4 class="form_title">追加する利用者情報をを入力してください​</h4>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl" >表名​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="test_input" id="test_input">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl">表タイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="test_input" id="test_input">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl">表示位置​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="test_input" id="test_input">
+                                </div>
+                            </div>
 
-        <div class="row" id="dynamic_input_frm">
-            <div class="col-lg-12">
-                <div class="card-box">
-                    <h4 class="form_title">追加する利用者情報をを入力してください​</h4>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-1"></label>
-                        <label class="col-form-label col-md-2 input_table_frm_lbl" >表名​</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="test_input" id="test_input">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-1"></label>
-                        <label class="col-form-label col-md-2 input_table_frm_lbl">表タイトル​</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="test_input" id="test_input">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-1"></label>
-                        <label class="col-form-label col-md-2 input_table_frm_lbl">表示位置​</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="test_input" id="test_input">
-                        </div>
-                    </div>
+                            <div class="form-group row"></div>
 
-                    <div class="form-group row"></div>
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-3 form_title">表階層を設定してください​</label>
-                        <div class="col-md-4 ">
-                            <select class="form-control select_column_no">
-                                <option>-- Select --</option>
-                                <option>1 階層​</option>
-                                <option>2 階層​</option>
-                                <option>3 階層​</option>
-                            </select>
-                        </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 form_title">表階層を設定してください​</label>
+                                <div class="col-md-4 ">
+                                    <select class="form-control select_column_no">
+                                        <option>-- Select --</option>
+                                        <option>1 階層​</option>
+                                        <option>2 階層​</option>
+                                        <option>3 階層​</option>
+                                    </select>                            
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="test_input">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl2">中項目ヘッダータイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​​" name="test_input" id="test_input">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">
+                                    
+                                ​</label>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary frm_add_btn" type="button">追　加​</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary frm_setting_btn" type="button">項目設定​</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-1"></label>
-                        <label class="col-form-label col-md-3 input_table_frm_lbl">大項目ヘッダータイトル​</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="test_input">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-1"></label>
-                        <label class="col-form-label col-md-3 input_table_frm_lbl">中項目ヘッダータイトル​</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​​" name="test_input" id="test_input">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-3">
-                            
-                        ​</label>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary frm_add_btn" type="button">追　加​</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary frm_setting_btn" type="button">項目設定​</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>
-                        </div>
-                    </div>
-                </div>                    
+                </div>
             </div>
         </div>
     </div>

@@ -98,7 +98,7 @@ body {
 }
 
 #dynamic_list_tbl{
-    width: 85%;
+    width: 100%;
     border-collapse: collapse;
     font-size: 10px;
     font-family: Yu Gothic;
@@ -122,7 +122,7 @@ body {
     text-indent: 1em;
 }
 #dynamic_list_tbl {
-    width: 85%;
+    width: 100%;
     border-collapse: collapse;
     font-size: 14px;
     border: 1px solid;
@@ -139,4 +139,148 @@ body {
 }
 .table_heading{
     font-size: 12px;
+}
+/*list action button*/
+.dynamic_table_list_action{
+    margin-top: 8px;
+    margin-left: 28%;
+}
+.list_table_delete_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: indianred;
+    color: white;
+    line-height: 1;    
+    margin-left: 6px;
+}
+
+.list_table_add_btn{   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: blueviolet;
+    color: white;
+    line-height: 1;
+    margin-left: 5px;
+}
+.list_table_edit_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: blueviolet;
+    color: white;
+    line-height: 1;
+    margin-left: 12px;
+}
+
+/*delete confirm modal*/
+.delete_confirm_header{
+    /* color: #333;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    background: lightgray; */
+    text-align: left;
+}
+.confrim_del_btn{
+    width: 100%;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    background: darkgray;
+    color: black !important;
+    line-height: 1.1;
+    /* margin-left: 188px; */
+    border: 1px solid black !important;
+}
+.confrim_cancel_btn{
+    width: 100%;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    background: darkgray;
+    color: black !important;
+    line-height: 1.1;
+    /* margin-left: 84px; */
+    border: 1px solid black !important;
+}
+
+/*main list modal*/
+.main_list_header{
+    height: 48px !important;
+    background: lightgray !important;
+}
+.main_item_add_btn{
+    line-height: 1;
+    background-color: #4472c4;
+    border: none;
+    color: white;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 5px;
+    margin-top: 10px;
+    /* display: inline-block; */
+    margin-bottom: 20px;
+}
+
+.main_item_del_btn{  
+    line-height: 1;
+    background-color: white;
+    border: none;
+    color: red;
+    border: 1px solid red;
+    padding: 3px;
+    border-radius: 5px;
+    margin-top: 10px;
+    /* display: inline-block; */
+    margin-bottom: 20px;
+}
+#main_item_input_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#main_item_input_tbl thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+.main_item_input_td{
+    height: 26px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 61%;
+}
+.main_item_add_btn_footer,.main_item_del_btn_footer{
+    line-height: 1;
+    background-color: #d9d9d9;
+    border: none;
+    color: black;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 5px;
+    margin-top: 10px;
+    /* display: inline-block; */
+    margin-bottom: 20px;
+}
+.input_frm_footer{
+    padding: 0px !important;
+}
+.main_item_list_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+    margin-top: -34px;
+}
+
+.main_item_list_tbl thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
 }

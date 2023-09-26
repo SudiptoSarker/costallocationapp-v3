@@ -754,3 +754,9 @@ function GetDynamicSettings() {
         }
     });
 }
+
+//modal show hide
+$(document).on('click', '.main_item_add_btn ', function (e) {
+    $('#main_item_list').modal('hide');
+    $('#sub_item_list').modal('show');
+});

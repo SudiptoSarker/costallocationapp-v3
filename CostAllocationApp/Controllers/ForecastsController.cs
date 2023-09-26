@@ -697,6 +697,7 @@ namespace CostAllocationApp.Controllers
             }
             return View(forecastViewModal);
         }
+
         public ActionResult ApproveHistories()
         {
             if (Session["token"] == null)
@@ -764,15 +765,15 @@ namespace CostAllocationApp.Controllers
                         eachPersonSheet = exportExcelFileBLL.ExportEachPersonExcelSheet(eachPersonSheet, forecastAssignmentViewModels);
                         //*****************Download: Each Person: End***********************//
 
-                        //*****************Download: Dev Distribution: Start***********************//                        
-                        var devDistributionSheet = package.Workbook.Worksheets.Add("【開発】配置表(Dev Distribution)");
-                        devDistributionSheet = exportExcelFileBLL.ExportDevDistributionExcelSheet(devDistributionSheet, forecastAssignmentViewModels);
-                        //*****************Download: Dev Distribution: End***********************//
-
                         //*****************Download: Planning Distribution: Start***********************//                        
                         var planningDistributionSheet = package.Workbook.Worksheets.Add("【企画】配置表(Planning Distribution)");
                         planningDistributionSheet = exportExcelFileBLL.ExportPlanningDistributionExcelSheet(planningDistributionSheet, forecastAssignmentViewModels);
-                        //*****************Download: Planning Distribution: End***********************//                        
+                        //*****************Download: Planning Distribution: End***********************//         
+
+                        //*****************Download: Dev Distribution: Start***********************//                        
+                        var devDistributionSheet = package.Workbook.Worksheets.Add("【開発】配置表(Dev Distribution)");
+                        devDistributionSheet = exportExcelFileBLL.ExportDevDistributionExcelSheet(devDistributionSheet, forecastAssignmentViewModels);
+                        //*****************Download: Dev Distribution: End***********************//                                       
 
                         //*****************Download: Distributed: Start***********************//
                         //var distributedWorksheet = package.Workbook.Worksheets.Add("Download(Distributed)");

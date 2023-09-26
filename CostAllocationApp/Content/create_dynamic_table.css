@@ -81,3 +81,62 @@ body {
     margin-left: -44px;
     width: 111px;
 }
+/*dynamic table list*/
+#dynamic_table_list {
+    border: none;
+}
+#dynamic_table_list_for_setting{
+    border: none;
+}
+.dynamic_table_list_for_setting_td{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+
+#dynamic_list_tbl{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+#dynamic_list_tbl td, th {
+    border: 1px solid black !important;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#dynamic_list_tbl td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#dynamic_list_tbl td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#dynamic_list_tbl {
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+
+#dynamic_list_tbl thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.table_list_th{
+    border: 1px solid black !important;
+    border-spacing: 4px;
+}
+.table_heading{
+    font-size: 12px;
+}

@@ -854,6 +854,9 @@ $(document).on('click', '.list_table_edit_btn ', function (e) {
         $('.table_input_frm_div').show();   
     }    
 });
+$(document).on('click', '.frm_cancel_btn ', function (e) {
+    ClearInputEditForm();
+});
 //input form clear button
 function ClearInputEditForm(){
     $("#table_name_input").val("");

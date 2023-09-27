@@ -135,7 +135,7 @@ namespace CostAllocationApp.DAL
         public int CreateDynamicTable(DynamicTable dynamicTable)
         {
             int result = 0;
-            string query = $@"insert into DynamicTables(TableName,TableTitle,TablePosition,CreatedBy,CreatedDate,IsActive) values(@tableName,@tableTitle,@tablePosition,@createdBy,@createdDate,@isActive)";
+            string query = $@"insert into DynamicTables(TableName,TableTitle,TablePosition,CreatedBy,CreatedDate,IsActive,CategoryTitle,SubCategoryTitle,DetailsTitle) values(@tableName,@tableTitle,@tablePosition,@createdBy,@createdDate,@isActive,@categoryTitle,@subCategoryTitle,@detailsTitle)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -146,6 +146,32 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@createdBy", dynamicTable.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", dynamicTable.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", dynamicTable.IsActive);
+                if (String.IsNullOrEmpty(dynamicTable.CategoryTitle))
+                {
+                    cmd.Parameters.AddWithValue("@categoryTitle", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@categoryTitle", dynamicTable.CategoryTitle);
+                }
+                if (String.IsNullOrEmpty(dynamicTable.SubCategoryTitle))
+                {
+                    cmd.Parameters.AddWithValue("@subCategoryTitle", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@subCategoryTitle", dynamicTable.SubCategoryTitle);
+                }
+                if (String.IsNullOrEmpty(dynamicTable.DetailsTitle))
+                {
+                    cmd.Parameters.AddWithValue("@detailsTitle", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@detailsTitle", dynamicTable.DetailsTitle);
+                }
+                
+                
                 try
                 {
                     result = cmd.ExecuteNonQuery();

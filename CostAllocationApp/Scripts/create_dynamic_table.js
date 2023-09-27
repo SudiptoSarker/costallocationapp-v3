@@ -9,11 +9,30 @@ $(document).ready(function () {
 });
 
 function InsertDynamicTables() {
+    debugger;
     var apiurl = "/api/Utilities/CreateDynamicTable";
     var tableName = $("#table_name").val();
     var tableTitle = $("#table_title").val();
     var tablePosition = $("#table_position").val();
     var isValid = true;
+    var columnTitle1 = '';
+    var columnTitle2 = '';
+    var columnTitle3 = '';
+    var columnInputDropdown = $('.select_column_no').val();
+    if (columnInputDropdown == "1") {
+        columnTitle1 = $('#column_input_1').val();
+    }
+    if (columnInputDropdown == "2") {
+        columnTitle1 = $('#column_input_1').val();
+        columnTitle2 = $('#column_input_2').val();
+    }
+
+    if (columnInputDropdown == "3") {
+        columnTitle1 = $('#column_input_1').val();
+        columnTitle2 = $('#column_input_2').val();
+        columnTitle3 = $('#column_input_3').val();
+    }
+
 
     if (tableName == "") {
         isValid = false;
@@ -52,6 +71,9 @@ function InsertDynamicTables() {
             TableTitle: tableTitle,
             TablePosition: tablePosition,
             IsActive: true,
+            CategoryTitle: columnTitle1,
+            SubCategoryTitle: columnTitle2,
+            DetailsTitle: columnTitle3,
         };
 
         $.ajax({
@@ -533,6 +555,54 @@ $( document ).ready(function() {
             $(this).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
         }
     });
+
+
+
+    $(document).on('change', '.select_column_no', function () {
+        var columnNo = $(this).val();
+        var columnInputContaner = $('.input_container');
+        columnInputContaner.empty();
+        if (columnNo=="1") {
+            for (var i = 1; i <= 1; i++) {
+                columnInputContaner.append(`
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
+                                </div>
+                            </div>
+                `);
+            }
+        }
+        if (columnNo == "2") {
+            for (var i = 1; i <= 2; i++) {
+                columnInputContaner.append(`
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
+                                </div>
+                            </div>
+                `);
+            }
+        }
+        if (columnNo == "3") {
+            for (var i = 1; i <= 3; i++) {
+                columnInputContaner.append(`
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-1"></label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
+                                </div>
+                            </div>
+                `);
+            }
+        }
+    });
+
 });
 $(document).on('change', '.method_dropdown', function () {
     var data_for_options = "";

@@ -28,21 +28,21 @@
                                 <label class="col-form-label col-md-1"></label>
                                 <label class="col-form-label col-md-3 input_table_frm_lbl" >表名​</label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="test_input" id="test_input">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="test_input" id="table_name">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-1"></label>
                                 <label class="col-form-label col-md-3 input_table_frm_lbl">表タイトル​</label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="test_input" id="test_input">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="test_input" id="table_title">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-1"></label>
                                 <label class="col-form-label col-md-3 input_table_frm_lbl">表示位置​</label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="test_input" id="test_input">
+                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="test_input" id="table_position">
                                 </div>
                             </div>
 
@@ -53,13 +53,16 @@
                                 <div class="col-md-4 ">
                                     <select class="form-control select_column_no">
                                         <option>-- Select --</option>
-                                        <option>1 階層​</option>
-                                        <option>2 階層​</option>
-                                        <option>3 階層​</option>
+                                        <option value="1">1 階層​</option>
+                                        <option value="2">2 階層​</option>
+                                        <option value="3">3 階層​</option>
                                     </select>                            
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="input_container">
+
+                            </div>
+                            @*<div class="form-group row">
                                 <label class="col-form-label col-md-1"></label>
                                 <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
                                 <div class="col-md-4">
@@ -72,13 +75,13 @@
                                 <div class="col-md-4">
                                     <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​​" name="test_input" id="test_input">
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-3">
                                     
                                 ​</label>
                                 <div class="col-md-2">
-                                    <button class="btn btn-primary frm_add_btn" type="button">追　加​</button>
+                                    <button class="btn btn-primary frm_add_btn" type="button" onclick="InsertDynamicTables();">追　加​</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-primary frm_setting_btn" type="button">項目設定​</button>

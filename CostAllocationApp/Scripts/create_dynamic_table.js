@@ -138,8 +138,8 @@ function GetDynamicTables() {
         .done(function (data) {
             $('#dynamic_list_tbody').empty();
             $.each(data, function (key, item) {
-                $('#dynamic_list_tbody').append(`<tr><td></thead><div class="form-check"><input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"><label class="form-check-label" for="flexRadioDefault1">    </label></div></td><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td></tr>`);
-                // <td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td>
+                $('#dynamic_list_tbody').append(`<tr><td></thead><div class="form-check"><input class="form-check-input table_list_radio" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="${item.Id}"><label class="form-check-label" for="flexRadioDefault1">    </label></div></td><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td></tr>`);
+                // <td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td>
             });
         });
 }
@@ -714,7 +714,7 @@ function GetAllSettingValue() {
         .done(function (data) {
             $('#setting_list_body').empty();
             $.each(data, function (key, item) {
-                $('#setting_list_body').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void();" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void();" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
+                $('#setting_list_body').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
             });
         });
 }
@@ -755,8 +755,82 @@ function GetDynamicSettings() {
     });
 }
 
+//add form show when add button click
+$(document).on('click', '.list_table_add_btn ', function (e) {
+    ClearInputEditForm();
+    $(".frm_add_btn").text("追加 (add)");    
+    
+    $('.table_input_frm_div').show();    
+});
+
+//edit button click: fill up the input form with checked value
+$(document).on('click', '.list_table_edit_btn ', function (e) {
+    var tableId = $('.table_list_radio:checked').val();
+    if (tableId == null || tableId == undefined || tableId == "") {
+        alert("please select a table!");
+    }else{
+        //ajax call here
+        //get value by id and set to the form
+        $("#table_name_input").val("test-1111	");
+        $("#table_title_input").val("test--332222");
+        $("#table_position_input").val("33322111");
+
+        $(".select_column_no").val(2);
+        
+        $("#table_main_item_input").val("NewBlend");
+        $("#table_sub_item_input").val("sub-item");
+        $(".frm_add_btn").text("編集​ (edit)");
+        
+        $('.table_input_frm_div').show();   
+    }    
+});
+//input form clear button
+function ClearInputEditForm(){
+    $("#table_name_input").val("");
+    $("#table_title_input").val("");
+    $("#table_position_input").val("");
+
+    $(".select_column_no").val(-1);
+    
+    $("#table_main_item_input").val("");
+    $("#table_sub_item_input").val("");
+}
+//setting button click, show the item modal.
+$(document).on('click', '.frm_setting_btn ', function (e) {
+    var tableId = $('.table_list_radio:checked').val();
+    if (tableId == null || tableId == undefined || tableId == "") {
+        alert("please select a table!");
+    }else{
+        //ajax call here
+        //get value by id and set to the modal        
+        $('#main_item_list').modal('show');
+    }    
+});
+
 //modal show hide
+// $(document).on('click', '.main_item_add_btn ', function (e) {
+//     $('#main_item_list').modal('hide');
+//     $('#sub_item_list').modal('show');
+// });
+//edit modal open for main item
+
 $(document).on('click', '.main_item_add_btn ', function (e) {
     $('#main_item_list').modal('hide');
-    $('#sub_item_list').modal('show');
+    //e.preventDefault();
+    //console.log("edit clicked");
+
+    //$('#sub_item_list').modal('show');
+
+    // $('#main_item_list').modal('toggle');
+    // $('#main_item_edit').modal('toggle');
+    // $('#main_item_list').modal('hide');
+    // $('#main_item_edit').modal('show');
+    
+    
 });
+
+// $('#myModal').modal('hide')
+// $('#myModal').on('hidden.bs.modal', function () {
+//   // Load up a new modal...
+//   $('#myModalNew').modal('show')
+// })

@@ -84,6 +84,7 @@ body {
 /*dynamic table list*/
 #dynamic_table_list {
     border: none;
+    margin-top: -31px;
 }
 #dynamic_table_list_for_setting{
     border: none;
@@ -143,7 +144,7 @@ body {
 /*list action button*/
 .dynamic_table_list_action{
     margin-top: 8px;
-    margin-left: 28%;
+    margin-left: 24%;
 }
 .list_table_delete_btn{
     font-size: 10px;
@@ -169,6 +170,16 @@ body {
     color: white;
     line-height: 1;
     margin-left: 12px;
+}
+.frm_setting_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: blueviolet;
+    color: white;
+    line-height: 1;
+    margin-left: 12px;
+    text-align: center;
+    width: 72%;
 }
 
 /*delete confirm modal*/
@@ -283,4 +294,7 @@ body {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
+}
+.main_item_link{
+    text-decoration: underline;
 }

@@ -1,17 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "Dynamic Talbe Format";
+    ViewBag.Title = "集計表VIEWフォーマット設定​";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/view_dynamic_table.css" />
     <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
+    <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-
 <div class="content container-fluid">
+    <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
+    <br/><br/>
 
     <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->        
     <div id="dynamic_table_list" style="display: block;">

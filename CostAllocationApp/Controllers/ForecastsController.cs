@@ -1496,6 +1496,10 @@ namespace CostAllocationApp.Controllers
             //}
             return View();
         }
+        public ActionResult DynamicTableView()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult ExportBudgetByYear(int hid_budget_year = 0, int hid_budget_type = 0)
         {

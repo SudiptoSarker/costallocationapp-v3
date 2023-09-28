@@ -825,42 +825,35 @@ function GetDynamicSettings() {
     });
 }
 
-$(document).ready(function ()
-{
-    //add form show when add button click
-    $(document).on('click', '.list_table_add_btn ', function (e) {
-        ClearInputEditForm();
-        $(".frm_add_btn").text("追加 (add)");    
-        
-        $('.table_input_frm_div').show();    
-        $('#table_name_input').focus()
-    });
-
-    //edit button click: fill up the input form with checked value
-    $(document).on('click', '.list_table_edit_btn ', function (e) {
-        var tableId = $('.table_list_radio:checked').val();
-        if (tableId == null || tableId == undefined || tableId == "") {
-            alert("please select a table!");
-        }else{
-            //ajax call here
-            //get value by id and set to the form
-            $('#table_name_input').focus()
-            $("#table_name_input").val("test-1111");
-            
-            $("#table_title_input").val("test--332222");
-            $("#table_position_input").val("33322111");
-
-            $(".select_column_no").val(2);
-            
-            $("#table_main_item_input").val("NewBlend");
-            $("#table_sub_item_input").val("sub-item");
-            $(".frm_add_btn").text("編集​ (edit)");
-                        
-            $('.table_input_frm_div').show();   
-        }    
-    });
+//add form show when add button click
+$(document).on('click', '.list_table_add_btn ', function (e) {
+    ClearInputEditForm();
+    $(".frm_add_btn").text("追加 (add)");    
+    
+    $('.table_input_frm_div').show();    
 });
 
+//edit button click: fill up the input form with checked value
+$(document).on('click', '.list_table_edit_btn ', function (e) {
+    var tableId = $('.table_list_radio:checked').val();
+    if (tableId == null || tableId == undefined || tableId == "") {
+        alert("please select a table!");
+    }else{
+        //ajax call here
+        //get value by id and set to the form
+        $("#table_name_input").val("test-1111	");
+        $("#table_title_input").val("test--332222");
+        $("#table_position_input").val("33322111");
+
+        $(".select_column_no").val(2);
+        
+        $("#table_main_item_input").val("NewBlend");
+        $("#table_sub_item_input").val("sub-item");
+        $(".frm_add_btn").text("編集​ (edit)");
+        
+        $('.table_input_frm_div').show();   
+    }    
+});
 $(document).on('click', '.frm_cancel_btn ', function (e) {
     ClearInputEditForm();
 });

@@ -9854,36 +9854,27 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpPost]
         [Route("api/utilities/InactiveDynamicTable/")]
-        public IHttpActionResult GetDynamicTables(DynamicTable dynamicTable)
+        public IHttpActionResult GetDynamicTables(string tableId)
         {
             var session = System.Web.HttpContext.Current.Session;
 
-            var result = totalBLL.GetAllDynamicTables();
+            var singleDynamicTable = totalBLL.GetAllDynamicTables().Where(dt=>dt.Id==Convert.ToInt32(tableId)).FirstOrDefault();
 
-            if (result.Count > 0)
+            if (singleDynamicTable != null)
             {
                 //int tableId = dynamicTable.Id;
-                dynamicTable.UpdatedBy = session["userName"].ToString();
-                dynamicTable.UpdatedDate = DateTime.Now;
-                dynamicTable.IsActive = false;
+                singleDynamicTable.UpdatedBy = session["userName"].ToString();
+                singleDynamicTable.UpdatedDate = DateTime.Now;
+                singleDynamicTable.IsActive = false;
 
-                //var singleDynamicTable = result.Where(dt => dt.Id == tableId).SingleOrDefault();
-                if (dynamicTable != null)
+                var inactiveResult = totalBLL.InactiveDynamicTable(singleDynamicTable);
+                if (inactiveResult>0)
                 {
-                    var inactiveResult = totalBLL.InactiveDynamicTable(dynamicTable);
-                    if (inactiveResult>0)
-                    {
-                        return Ok("保存されました!");
-                    }
-                    else
-                    {
-                        return BadRequest("Something went wrong.");
-                    }
-
+                    return Ok("保存されました!");
                 }
                 else
                 {
-                    return Ok("Data not found!");
+                    return BadRequest("Something went wrong.");
                 }
             }
             else

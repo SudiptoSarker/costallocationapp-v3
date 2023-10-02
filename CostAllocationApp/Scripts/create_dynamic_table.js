@@ -844,7 +844,7 @@ $(document).ready(function ()
         }else{
             //ajax call here
             //get value by id and set to the form
-            $('#table_name_input').focus()
+            $('#table_name_input').focus();
             $("#table_name_input").val("test-1111");
             
             $("#table_title_input").val("test--332222");

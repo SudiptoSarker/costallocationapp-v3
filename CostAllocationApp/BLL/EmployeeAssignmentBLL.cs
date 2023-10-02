@@ -2521,5 +2521,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetTotalManMonthAndCostForBudgetEdit(year, budgetType);
         }
+        public List<QaProportion> GetQAProportionsWithEmployee(string employeeId, string year)
+        {
+            return employeeAssignmentDAL.GetQAProportionsWithEmployee(employeeId,year);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace CostAllocationApp.Models
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public string DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
         public double OctPercentage { get; set; }
         public double NovPercentage { get; set; }
         public double DecPercentage { get; set; }

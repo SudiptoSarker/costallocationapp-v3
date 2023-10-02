@@ -767,12 +767,12 @@ namespace CostAllocationApp.Controllers
 
                         //*****************Download: Planning Distribution: Start***********************//                        
                         var planningDistributionSheet = package.Workbook.Worksheets.Add("【企画】配置表(Planning Distribution)");
-                        planningDistributionSheet = exportExcelFileBLL.ExportPlanningDistributionExcelSheet(planningDistributionSheet, forecastAssignmentViewModels);
+                        planningDistributionSheet = exportExcelFileBLL.ExportPlanningDistributionExcelSheet(planningDistributionSheet, forecastAssignmentViewModels, employeeAssignment.Year);
                         //*****************Download: Planning Distribution: End***********************//         
 
                         //*****************Download: Dev Distribution: Start***********************//                        
                         var devDistributionSheet = package.Workbook.Worksheets.Add("【開発】配置表(Dev Distribution)");
-                        devDistributionSheet = exportExcelFileBLL.ExportDevDistributionExcelSheet(devDistributionSheet, forecastAssignmentViewModels);
+                        devDistributionSheet = exportExcelFileBLL.ExportDevDistributionExcelSheet(devDistributionSheet, forecastAssignmentViewModels, employeeAssignment.Year);
                         //*****************Download: Dev Distribution: End***********************//                                       
 
                         //*****************Download: Distributed: Start***********************//
@@ -1494,6 +1494,10 @@ namespace CostAllocationApp.Controllers
             //    Session["userName"] = null;
             //    return RedirectToAction("Login", "Registration");
             //}
+            return View();
+        }
+        public ActionResult DynamicTableView()
+        {
             return View();
         }
         [HttpPost]

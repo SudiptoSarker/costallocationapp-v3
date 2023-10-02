@@ -5817,5 +5817,122 @@ namespace CostAllocationApp.DAL
             return _forecastTotalManMonthCost;
         }
 
+        public List<QaProportion> GetQAProportionPercentageWithEmployee(string employeeId, string year)
+        {
+            List<QaProportion> objQAProportions = new List<QaProportion>();
+
+            string query = "";
+            query = query + "SELECT qp.*,d.Name 'DepartmentName' ";
+            query = query + "FROM QaProportions qp ";
+            query = query + "    INNER JOIN Departments d ON qp.DepartmentId=d.Id ";
+            query = query + "WHERE qp.EmployeeId=" + employeeId + " AND qp.Year=" + year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            QaProportion objQAProportion = new QaProportion();
+                            objQAProportion.Id = Convert.ToInt32(rdr["Id"]);
+                            objQAProportion.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
+                            objQAProportion.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            objQAProportion.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+
+                            objQAProportion.OctPercentage = rdr["OctPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["OctPercentage"]);
+                            objQAProportion.NovPercentage = rdr["NovPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["NovPercentage"]);
+                            objQAProportion.DecPercentage = rdr["DecPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["DecPercentage"]);
+                            objQAProportion.JanPercentage = rdr["JanPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JanPercentage"]);
+                            objQAProportion.FebPercentage = rdr["FebPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["FebPercentage"]);
+                            objQAProportion.MarPercentage = rdr["MarPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["MarPercentage"]);
+                            objQAProportion.AprPercentage = rdr["AprPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["AprPercentage"]);
+                            objQAProportion.MayPercentage = rdr["MayPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["MayPercentage"]);
+                            objQAProportion.JunPercentage = rdr["JunPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JunPercentage"]);
+                            objQAProportion.JulPercentage = rdr["JulPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JulPercentage"]);
+                            objQAProportion.AugPercentage = rdr["AugPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["AugPercentage"]);
+                            objQAProportion.SepPercentage = rdr["SepPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["SepPercentage"]);
+
+                            objQAProportions.Add(objQAProportion);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return objQAProportions;
+        }
+        public List<QaProportion> GetQAProportionPercentageWithoutEmployee(string year)
+        {
+            List<QaProportion> objQAProportions = new List<QaProportion>();
+
+            string query = "";
+            query = query + "SELECT ap.*,d.Name 'DepartmentName' ";
+            query = query + "FROM Apportionments ap ";
+            query = query + "    INNER JOIN Departments d ON ap.DepartmentId=d.Id ";
+            query = query + "WHERE ap.Year = " + year;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            QaProportion objQAProportion = new QaProportion();
+                            objQAProportion.Id = Convert.ToInt32(rdr["Id"]);
+                            //objQAProportion.EmployeeId = 0;
+                            objQAProportion.DepartmentId = rdr["DepartmentId"] is DBNull ? "" : rdr["DepartmentId"].ToString();
+                            objQAProportion.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
+
+                            objQAProportion.OctPercentage = rdr["OctPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["OctPercentage"]);
+                            objQAProportion.NovPercentage = rdr["NovPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["NovPercentage"]);
+                            objQAProportion.DecPercentage = rdr["DecPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["DecPercentage"]);
+                            objQAProportion.JanPercentage = rdr["JanPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JanPercentage"]);
+                            objQAProportion.FebPercentage = rdr["FebPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["FebPercentage"]);
+                            objQAProportion.MarPercentage = rdr["MarPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["MarPercentage"]);
+                            objQAProportion.AprPercentage = rdr["AprPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["AprPercentage"]);
+                            objQAProportion.MayPercentage = rdr["MayPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["MayPercentage"]);
+                            objQAProportion.JunPercentage = rdr["JunPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JunPercentage"]);
+                            objQAProportion.JulPercentage = rdr["JulPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["JulPercentage"]);
+                            objQAProportion.AugPercentage = rdr["AugPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["AugPercentage"]);
+                            objQAProportion.SepPercentage = rdr["SepPercentage"] is DBNull ? 0.0 : Convert.ToDouble(rdr["SepPercentage"]);
+
+                            objQAProportions.Add(objQAProportion);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return objQAProportions;
+        }
+
+        public List<QaProportion> GetQAProportionsWithEmployee(string employeeId,string year)
+        {
+            List<QaProportion> objQAProportions = new List<QaProportion>();
+            objQAProportions = GetQAProportionPercentageWithEmployee(employeeId,year);
+            if (objQAProportions.Count > 0)
+            {
+                return objQAProportions;
+            }
+            else
+            {
+                objQAProportions = GetQAProportionPercentageWithoutEmployee(year);
+                return objQAProportions;                
+            }            
+        }
     }
 }

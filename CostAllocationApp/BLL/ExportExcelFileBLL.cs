@@ -1141,7 +1141,7 @@ namespace CostAllocationApp.BLL
             return distributedWorksheet;
         }
 
-        public ExcelWorksheet ExportPlanningDistributionExcelSheet(ExcelWorksheet planningDistributionSheet, List<ForecastAssignmentViewModel> forecastAssignmentViewModels)
+        public ExcelWorksheet ExportPlanningDistributionExcelSheet(ExcelWorksheet planningDistributionSheet, List<ForecastAssignmentViewModel> forecastAssignmentViewModels,string year)
         {
             planningDistributionSheet = GetPlanningAndDevelopmentDistributionExcelSheetHeader(planningDistributionSheet);
 
@@ -1293,8 +1293,79 @@ namespace CostAllocationApp.BLL
 
             if (objEachPersonList.Count > 0)
             {
+                //qc distribution plan : start
+                List<DownloadApproveHistoryViewModal> objQCDistribution = new List<DownloadApproveHistoryViewModal>();
+                foreach (var qcItem in objEachPersonList)
+                {
+                    var departmentName = qcItem.DepartmentName;
+                    if (departmentName == "品証")
+                    {
+                        List<QaProportion> qaProportions = employeeAssignmentBLL.GetQAProportionsWithEmployee(qcItem.EmployeeId.ToString(), year);
+                        if (qaProportions.Count > 0)
+                        {
+                            foreach (var qaProportionItem in qaProportions)
+                            {
+                                DownloadApproveHistoryViewModal downloadApproveHistoryViewModal = new DownloadApproveHistoryViewModal();
+                                downloadApproveHistoryViewModal.EmployeeName = qcItem.EmployeeName;
+                                downloadApproveHistoryViewModal.SectionName = qcItem.SectionName;
+                                downloadApproveHistoryViewModal.DepartmentName = qaProportionItem.DepartmentName;
+                                downloadApproveHistoryViewModal.CompanyName = qcItem.CompanyName;
+                                downloadApproveHistoryViewModal.GradePoint = qcItem.GradePoint;
+
+                                var tempOctPoints = (Convert.ToDouble(qcItem.OctPoints) * qaProportionItem.OctPercentage) / 100;
+                                downloadApproveHistoryViewModal.OctPoints = Convert.ToDecimal(tempOctPoints);
+
+                                var tempNovPoints = (Convert.ToDouble(qcItem.NovPoints) * qaProportionItem.NovPercentage) / 100;
+                                downloadApproveHistoryViewModal.NovPoints = Convert.ToDecimal(tempNovPoints);
+
+                                var tempDecPoints = (Convert.ToDouble(qcItem.DecPoints) * qaProportionItem.DecPercentage) / 100;
+                                downloadApproveHistoryViewModal.DecPoints = Convert.ToDecimal(tempDecPoints);
+
+                                var tempJanPoints = (Convert.ToDouble(qcItem.JanPoints) * qaProportionItem.JanPercentage) / 100;
+                                downloadApproveHistoryViewModal.JanPoints = Convert.ToDecimal(tempJanPoints);
+
+                                var tempFebPoints = (Convert.ToDouble(qcItem.FebPoints) * qaProportionItem.FebPercentage) / 100;
+                                downloadApproveHistoryViewModal.FebPoints = Convert.ToDecimal(tempFebPoints);
+
+                                var tempMarPoints = (Convert.ToDouble(qcItem.MarPoints) * qaProportionItem.MarPercentage) / 100;
+                                downloadApproveHistoryViewModal.MarPoints = Convert.ToDecimal(tempMarPoints);
+
+                                var tempAprPoints = (Convert.ToDouble(qcItem.AprPoints) * qaProportionItem.AprPercentage) / 100;
+                                downloadApproveHistoryViewModal.AprPoints = Convert.ToDecimal(tempAprPoints);
+
+                                var tempMayPoints = (Convert.ToDouble(qcItem.MayPoints) * qaProportionItem.MayPercentage) / 100;
+                                downloadApproveHistoryViewModal.MayPoints = Convert.ToDecimal(tempMayPoints);
+
+                                var tempJunPoints = (Convert.ToDouble(qcItem.JunPoints) * qaProportionItem.JunPercentage) / 100;
+                                downloadApproveHistoryViewModal.JunPoints = Convert.ToDecimal(tempJunPoints);
+
+                                var tempJulPoints = (Convert.ToDouble(qcItem.JulPoints) * qaProportionItem.JulPercentage) / 100;
+                                downloadApproveHistoryViewModal.JulPoints = Convert.ToDecimal(tempJulPoints);
+
+                                var tempAugPoints = (Convert.ToDouble(qcItem.AugPoints) * qaProportionItem.AugPercentage) / 100;
+                                downloadApproveHistoryViewModal.AugPoints = Convert.ToDecimal(tempAugPoints);
+
+                                var tempSepPoints = (Convert.ToDouble(qcItem.SepPoints) * qaProportionItem.SepPercentage) / 100;
+                                downloadApproveHistoryViewModal.SepPoints = Convert.ToDecimal(tempSepPoints);
+
+                                objQCDistribution.Add(downloadApproveHistoryViewModal);
+                            }
+                        }
+                        else
+                        {
+                            objQCDistribution.Add(qcItem);
+                        }
+                    }
+                    else
+                    {
+                        objQCDistribution.Add(qcItem);
+                    }
+                }
+                //qc distribution plan: end
+
                 int eachPersonIndex = 2;
-                foreach (var eachItem in objEachPersonList)
+                foreach (var eachItem in objQCDistribution)
+                //foreach (var eachItem in objEachPersonList)
                 {
                     //Planning Distribution
                     bool isPlanningDistribution = false;
@@ -1356,51 +1427,51 @@ namespace CostAllocationApp.BLL
                             }
                         }
 
-                        planningDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.00");
                         planningDistributionSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["G" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.00");
                         planningDistributionSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["H" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.00");
                         planningDistributionSheet.Cells["I" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["I" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.00");
                         planningDistributionSheet.Cells["J" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["J" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.00");
                         planningDistributionSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["K" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.00");
                         planningDistributionSheet.Cells["L" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["L" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.00");
                         planningDistributionSheet.Cells["M" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["M" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.00");
                         planningDistributionSheet.Cells["N" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["N" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.00");
                         planningDistributionSheet.Cells["O" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["O" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.00");
                         planningDistributionSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["P" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.00");
                         planningDistributionSheet.Cells["Q" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["Q" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.0");
+                        planningDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.00");
                         planningDistributionSheet.Cells["R" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["R" + eachPersonIndex].AutoFitColumns();
 
@@ -1412,7 +1483,7 @@ namespace CostAllocationApp.BLL
             return planningDistributionSheet;
         }
 
-        public ExcelWorksheet ExportDevDistributionExcelSheet(ExcelWorksheet devDistributionSheet, List<ForecastAssignmentViewModel> forecastAssignmentViewModels)
+        public ExcelWorksheet ExportDevDistributionExcelSheet(ExcelWorksheet devDistributionSheet, List<ForecastAssignmentViewModel> forecastAssignmentViewModels,string year)
         {
             devDistributionSheet = GetPlanningAndDevelopmentDistributionExcelSheetHeader(devDistributionSheet);
 
@@ -1562,10 +1633,82 @@ namespace CostAllocationApp.BLL
                 countEachPerson++;
             }
 
+
             if (objDevWiseDistributions.Count > 0)
             {
+                //qc distribution : start
+                List<DownloadApproveHistoryViewModal> objQCDistribution = new List<DownloadApproveHistoryViewModal>();                
+                foreach (var qcItem in objDevWiseDistributions)
+                {
+                    var departmentName = qcItem.DepartmentName;
+                    if(departmentName == "品証")
+                    {
+                        List<QaProportion> qaProportions = employeeAssignmentBLL.GetQAProportionsWithEmployee(qcItem.EmployeeId.ToString(), year);
+                        if (qaProportions.Count > 0)
+                        {
+                            foreach(var qaProportionItem in qaProportions)
+                            {
+                                DownloadApproveHistoryViewModal downloadApproveHistoryViewModal = new DownloadApproveHistoryViewModal();
+                                downloadApproveHistoryViewModal.EmployeeName = qcItem.EmployeeName;
+                                downloadApproveHistoryViewModal.SectionName = qcItem.SectionName;
+                                downloadApproveHistoryViewModal.DepartmentName = qaProportionItem.DepartmentName;
+                                downloadApproveHistoryViewModal.CompanyName = qcItem.CompanyName;
+                                downloadApproveHistoryViewModal.GradePoint = qcItem.GradePoint;
+
+                                var tempOctPoints = (Convert.ToDouble(qcItem.OctPoints) * qaProportionItem.OctPercentage) / 100;
+                                downloadApproveHistoryViewModal.OctPoints = Convert.ToDecimal(tempOctPoints);
+
+                                var tempNovPoints = (Convert.ToDouble(qcItem.NovPoints) * qaProportionItem.NovPercentage) / 100;
+                                downloadApproveHistoryViewModal.NovPoints = Convert.ToDecimal(tempNovPoints);
+
+                                var tempDecPoints = (Convert.ToDouble(qcItem.DecPoints) * qaProportionItem.DecPercentage) / 100;
+                                downloadApproveHistoryViewModal.DecPoints = Convert.ToDecimal(tempDecPoints);
+
+                                var tempJanPoints = (Convert.ToDouble(qcItem.JanPoints) * qaProportionItem.JanPercentage) / 100;
+                                downloadApproveHistoryViewModal.JanPoints = Convert.ToDecimal(tempJanPoints);
+
+                                var tempFebPoints = (Convert.ToDouble(qcItem.FebPoints) * qaProportionItem.FebPercentage) / 100;
+                                downloadApproveHistoryViewModal.FebPoints = Convert.ToDecimal(tempFebPoints);
+
+                                var tempMarPoints = (Convert.ToDouble(qcItem.MarPoints) * qaProportionItem.MarPercentage) / 100;
+                                downloadApproveHistoryViewModal.MarPoints = Convert.ToDecimal(tempMarPoints);
+
+                                var tempAprPoints = (Convert.ToDouble(qcItem.AprPoints) * qaProportionItem.AprPercentage) / 100;
+                                downloadApproveHistoryViewModal.AprPoints = Convert.ToDecimal(tempAprPoints);
+
+                                var tempMayPoints = (Convert.ToDouble(qcItem.MayPoints) * qaProportionItem.MayPercentage) / 100;
+                                downloadApproveHistoryViewModal.MayPoints = Convert.ToDecimal(tempMayPoints);
+
+                                var tempJunPoints = (Convert.ToDouble(qcItem.JunPoints) * qaProportionItem.JunPercentage) / 100;
+                                downloadApproveHistoryViewModal.JunPoints = Convert.ToDecimal(tempJunPoints);
+
+                                var tempJulPoints = (Convert.ToDouble(qcItem.JulPoints) * qaProportionItem.JulPercentage) / 100;
+                                downloadApproveHistoryViewModal.JulPoints = Convert.ToDecimal(tempJulPoints);
+
+                                var tempAugPoints = (Convert.ToDouble(qcItem.AugPoints) * qaProportionItem.AugPercentage) / 100;
+                                downloadApproveHistoryViewModal.AugPoints = Convert.ToDecimal(tempAugPoints);
+
+                                var tempSepPoints = (Convert.ToDouble(qcItem.SepPoints) * qaProportionItem.SepPercentage) / 100;
+                                downloadApproveHistoryViewModal.SepPoints = Convert.ToDecimal(tempSepPoints);
+
+                                objQCDistribution.Add(downloadApproveHistoryViewModal);
+                            }
+                        }
+                        else
+                        {
+                            objQCDistribution.Add(qcItem);
+                        }
+                    }
+                    else
+                    {
+                        objQCDistribution.Add(qcItem);
+                    }
+                }
+                //qc distribution: end
+
                 int eachPersonIndex = 2;
-                foreach (var eachItem in objDevWiseDistributions)
+                //foreach (var eachItem in objDevWiseDistributions)
+                foreach (var eachItem in objQCDistribution)
                 {
                     //Distributed sheet.
                     if (!string.IsNullOrEmpty(eachItem.SectionName)) { 
@@ -1616,51 +1759,51 @@ namespace CostAllocationApp.BLL
                                 }
                             }
 
-                            devDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.0");
+                            devDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.00");
                             devDistributionSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["G" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.0");
+                            devDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.00");
                             devDistributionSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["H" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.0");
+                            devDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.00");
                             devDistributionSheet.Cells["I" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["I" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.0");
+                            devDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.00");
                             devDistributionSheet.Cells["J" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["J" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.0");
+                            devDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.00");
                             devDistributionSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["K" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.0");
+                            devDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.00");
                             devDistributionSheet.Cells["L" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["L" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.0");
+                            devDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.00");
                             devDistributionSheet.Cells["M" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["M" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.0");
+                            devDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.00");
                             devDistributionSheet.Cells["N" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["N" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.0");
+                            devDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.00");
                             devDistributionSheet.Cells["O" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["O" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.0");
+                            devDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.00");
                             devDistributionSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["P" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.0");
+                            devDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.00");
                             devDistributionSheet.Cells["Q" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["Q" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.0");
+                            devDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.00");
                             devDistributionSheet.Cells["R" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["R" + eachPersonIndex].AutoFitColumns();
 

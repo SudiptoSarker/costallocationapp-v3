@@ -1,17 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "Dynamic Talbe Format";
+    ViewBag.Title = "集計表VIEWフォーマット設定​";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/view_dynamic_table.css" />
     <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
+    <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-
 <div class="content container-fluid">
+    <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
+    <br/><br/>
 
     <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->        
     <div id="dynamic_table_list" style="display: block;">
@@ -106,10 +108,10 @@
                                 <label class="col-form-label col-md-3 form_title">表階層を設定してください​</label>
                                 <div class="col-md-4 ">
                                     <select class="form-control select_column_no">
-                                        <option value="-1">-- Select --</option>
-                                        <option value="1">1 階層​</option>
-                                        <option value="2">2 階層​</option>
-                                        <option value="3">3 階層​</option>
+                                        <option>-- Select --</option>
+                                        <option>1 階層​</option>
+                                        <option>2 階層​</option>
+                                        <option>3 階層​</option>
                                     </select>                            
                                 </div>
                             </div>
@@ -134,7 +136,7 @@
                             <div class="form-group row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button class="btn btn-primary frm_add_btn" data-tag="" type="button" onclick="InsertDynamicTables();">追　加​</button>
+                                    <button class="btn btn-primary frm_add_btn" type="button">追　加​</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>

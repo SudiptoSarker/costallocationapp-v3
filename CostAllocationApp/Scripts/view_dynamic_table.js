@@ -16,7 +16,7 @@
     }
     
     //create total menu dynamic list
-    function GetTotalMenuListHtml(){
+    function GetTotalMenuListHtml(data){
         var startTR = "";
         var endTR = "";
         var checkItem = "";
@@ -91,7 +91,8 @@
         // $.each(data, function (key, item) {
         //     $('#total_menu_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
         // });
-        var listItemBody  = GetTotalMenuListHtml();
+        var dada = "";
+        var listItemBody  = GetTotalMenuListHtml(data);
         $('#total_menu_list_tbody').empty();                
         $('#total_menu_list_tbody').append(`${listItemBody}`);     
         $(".total_menu_list_tbl").show();         

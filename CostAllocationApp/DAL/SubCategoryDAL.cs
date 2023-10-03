@@ -77,15 +77,56 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int RemoveSubCategory(int subCategoryId)
+        public SubCategory GetSubCategoryById(int subCategoryId)
         {
-            int result = 0;
-            string query = $@"update SubCategories set isactive=0 where id=@id";
+            SubCategory subCategory = new SubCategory();
+            string query = "";
+            query = query + "SELECT d.Id 'SubCategoryId',d.SubCategoryName,s.Id 'CategoryId',s.CategoryName ,d.CreatedDate,d.CreatedBy ";
+            query = query + "FROM SubCategories d ";
+            query = query + "   INNER JOIN Categories s ON d.CategoryId = s.Id ";
+            query = query + "WHERE d.id="+ subCategoryId;
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@id", subCategoryId);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            subCategory.Id = Convert.ToInt32(rdr["SubCategoryId"]);
+                            subCategory.CategoryId = rdr["CategoryId"].ToString();
+                            subCategory.SubCategoryName = rdr["SubCategoryName"].ToString();
+                            subCategory.CategoryName = rdr["CategoryName"].ToString();
+                            subCategory.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            subCategory.CreatedBy = rdr["CreatedBy"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return subCategory;
+            }
+        }
+
+        public int RemoveSubCategory(SubCategory subCategory)
+        {
+            int result = 0;
+            string query = $@"update SubCategories set isactive=@isactive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@isactive", subCategory.IsActive);
+                cmd.Parameters.AddWithValue("@updatedBy", subCategory.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", subCategory.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", subCategory.Id);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -128,7 +169,7 @@ namespace CostAllocationApp.DAL
         public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
             List<SubCategory> subCategories = new List<SubCategory>();
-            string query = "select * from SubCategories where CategoryId = " + categoryId;
+            string query = "select * from SubCategories where isactive=1 and CategoryId = " + categoryId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {

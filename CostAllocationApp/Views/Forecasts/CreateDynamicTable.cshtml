@@ -7,13 +7,13 @@
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />
+    @*<link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />*@
 }
 
 
 <div class="content container-fluid">
 
-    <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->        
+    <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->
     <div id="dynamic_table_list" style="display: block;">
         <h4 class="table_heading">集計表マスター​</h4>
         <div class="row" class="dynamic_table_list_row">
@@ -26,28 +26,28 @@
                             </tr>
                             <tr>
                                 <th>選択​</th>
-                                <th class="table_list_th">表名​ (table)</th>                                    
+                                <th class="table_list_th">表名​ (table)</th>
                                 <th class="table_list_th">表タイトル​ (title)</th>
-                                <th class="table_list_th">表示位置​ (position)</th>                                
-                            </tr>                        
+                                <th class="table_list_th">表示位置​ (position)</th>
+                            </tr>
                         <tbody id="dynamic_list_tbody"></tbody>
-                    </table>                    
+                    </table>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 
-    <div class="dynamic_table_list_action" style="display: block;">        
-        <div class="row" >                 
+    <div class="dynamic_table_list_action" style="display: block;">
+        <div class="row">
             <div class="col-md-2">
                 <div class="table-responsive">
                     <button class="btn list_table_add_btn" type="button">追　加​ (add)</button>
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="table-responsive">                    
+                <div class="table-responsive">
                     <!-- <a class="btn frm_setting_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_list" onClick="DeleteDynmaicTalbe();">項目設定​</a></label>                     -->
-                    <a class="btn frm_setting_btn" id="dynamic_table_delete_link" href="javascript:void(0);">項目設定​</a></label>                    
+                    <a class="btn frm_setting_btn" id="dynamic_table_delete_link">項目設定​</a>
                 </div>
             </div>
             <div class="col-md-2">
@@ -57,12 +57,12 @@
             </div>
             <div class="col-md-3">
                 <div class="table-responsive">
-                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削　除 (delete)​</a></label>                    
+                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削　除 (delete)​</a></label>
                 </div>
             </div>
         </div>
     </div>
-    <br />    
+    <br />
 
 
     <div class="content container-fluid table_input_frm_div" style="display:none;>
@@ -80,7 +80,7 @@
                             <h4 class="form_title">追加する利用者情報をを入力してください​</h4>
                             <div class="form-group row">
                                 <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl" >表名​</label>
+                                <label class="col-form-label col-md-3 input_table_frm_lbl">表名​</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="table_name_input" id="table_name_input">
                                 </div>
@@ -110,7 +110,7 @@
                                         <option value="1">1 階層​</option>
                                         <option value="2">2 階層​</option>
                                         <option value="3">3 階層​</option>
-                                    </select>                            
+                                    </select>
                                 </div>
                             </div>
                             <div class="input_container">
@@ -140,7 +140,7 @@
                                     <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>
                                 </div>
                             </div>
-                        </div>                    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,35 +167,34 @@
                 </thead>
 
                 <tbody>
-                    <tr>                                     
+                    <tr>
                         <td class="create_form_td">
-                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">                                        
+                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name">
                         </td>
                         <td class="create_form_td">
-                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">                                        
-                        </td>  
+                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title">
+                        </td>
                         <td class="create_form_td">
-                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">                                        
-                        </td>  
+                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position">
+                        </td>
 
                         <td class="create_form_td">
                             <a href="javascript:void(0);" class="" id="clear_input_frm" data-dismiss="modal">取消(undo)</a>
                             <a href="javascript:void(0);" class="" id="save_inputs" onclick="InsertDynamicTables()">保存（save）</a>
                         </td>
                     </tr>
-                    <tr>                                     
+                    <tr>
                         <td class="warning_message">
                             <label id="table_name_warning_msg">テーブル名を入力してください</label>
                         </td>
                         <td class="warning_message">
-                            <label id="table_title_warning_msg">テーブルのタイトルを入力してください</label>                                
-                        </td>  
-                        <td class="warning_message">
-                            <label id="table_position_warning_msg">テーブルの位置を入力してください</label>                                        
-                        </td>  
-
-                        <td class="warning_message">                            
+                            <label id="table_title_warning_msg">テーブルのタイトルを入力してください</label>
                         </td>
+                        <td class="warning_message">
+                            <label id="table_position_warning_msg">テーブルの位置を入力してください</label>
+                        </td>
+
+                        <td class="warning_message"></td>
                     </tr>
                 </tbody>
             </table>
@@ -203,7 +202,7 @@
     </div>
     <br /><br />
 
-    <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->    
+    <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->
     <div id="dynamic_table_list" style="display: none;">
         <div class="row">
             <div class="col-md-8">
@@ -214,7 +213,7 @@
                                 <th colspan="6">Dynamic Table List</th>
                             </tr>
                             <tr>
-                                <th class="table_list_th">Table Name</th>                                    
+                                <th class="table_list_th">Table Name</th>
                                 <th class="table_list_th">Table Title</th>
                                 <th class="table_list_th">Table Position</th>
                                 <th class="table_list_th">操作</th>
@@ -226,9 +225,9 @@
             </div>
         </div>
     </div>
-    <br />      
+    <br />
 
-    <!-----------------Total Menu Settings: Dynamic table list with dropdown----------------->    
+    <!-----------------Total Menu Settings: Dynamic table list with dropdown----------------->
     <!-- <h4>View Format </h4> -->
     <div class="row" style="display: none;">
         <div class="col-md-5">
@@ -243,23 +242,22 @@
                 </thead>
 
                 <tbody>
-                    <tr>                                     
+                    <tr>
                         <td class="dynamic_table_list_for_setting_td">
-                            Select Table                                                        
+                            Select Table
                         </td>
                         <td class="dynamic_table_list_for_setting_td">
-                            <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting">                                
-                            </select>                                          
-                        </td>  
+                            <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting"></select>
+                        </td>
 
-                        <td class="dynamic_table_list_for_setting_td">                            
+                        <td class="dynamic_table_list_for_setting_td">
                             <a href="javascript:void(0);" class="" id="setting_button" onclick="DynamicTableSetting()">Setting</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>
     <br />
 
     <div id="total_menu_settings" style="display:none;">
@@ -277,16 +275,16 @@
                     </thead>
 
                     <tbody>
-                        <tr>                                     
+                        <tr>
                             <td class="create_form_td">
-                                <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">                                        
+                                <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1">
                             </td>
                             <td class="create_form_td">
-                                <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">                                        
-                            </td>  
+                                <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2">
+                            </td>
                             <td class="create_form_td">
-                                <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">                                        
-                            </td>  
+                                <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -311,59 +309,54 @@
                     </thead>
 
                     <tbody id="item_tbody">
-                        <tr class="item_row" data-count="1">                                     
+                        <tr class="item_row" data-count="1">
                             <td class="setting_items_td">
-                                <select class="main_item_dropdown" name="main_item" id="main_item">  
-                                </select> 
+                                <select class="main_item_dropdown" name="main_item" id="main_item"></select>
                             </td>
-                            <td class="setting_items_td" >
-                                <select class="sub_item_dropdown" name="sub_item" id="sub_item">  
-                                </select> 
-                            </td>  
                             <td class="setting_items_td">
-                                <select class="detail_item_dropdown" name="detail_item" id="detail_item">                                      
-                                </select> 
-                            </td>  
+                                <select class="sub_item_dropdown" name="sub_item" id="sub_item"></select>
+                            </td>
                             <td class="setting_items_td">
-                                <select class="method_dropdown" id="method_list_dropdown" name="method_item">  
-                                </select>                                          
-                            </td>  
-                            <td class="setting_items_td data_for" >
-                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting1" multiple="multiple">                              
-                                </select>                                          
-                            </td>  
-                            <!-- <td class="setting_plus_icon" style="display:show;">                            
+                                <select class="detail_item_dropdown" name="detail_item" id="detail_item"></select>
+                            </td>
+                            <td class="setting_items_td">
+                                <select class="method_dropdown" id="method_list_dropdown" name="method_item"></select>
+                            </td>
+                            <td class="setting_items_td data_for">
+                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting1" multiple="multiple"></select>
+                            </td>
+                            <!-- <td class="setting_plus_icon" style="display:show;">
                                 <a href="javascript:void(0);" class="text-decoration-none" id="item_row_add">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
                                     </svg>
                                 </a>
                             </td>
-                            <td class="setting_minus_icon" style="display:none;">  
+                            <td class="setting_minus_icon" style="display:none;">
                                 <a href="javascript:void(0);" class="text-decoration-none" class="remove_row">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
                                     </svg>
                                 </a>
                             </td>     -->
-                        </tr>  
+                        </tr>
                         <tr data-count="0">
                             <td class="action_td"></td>
                             <td class="action_td"></td>
                             <td class="action_td"></td>
                             <td class="action_td"></td>
                             <!-- <td class="action_td"></td> -->
-                            <td class="cancel_save_link_td">                            
+                            <td class="cancel_save_link_td">
                                 <a href="javascript:void(0);" class="" id="clear_setting_form" data-dismiss="modal">取消(undo)</a>
                                 <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicSetting()">保存（save）</a>
-                            </td>                            
-                        </tr>                      
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <br />
-        <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->    
+        <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->
         <div id="total_setting_list" style="display: block;">
             <div class="row">
                 <div class="col-md-11">
@@ -375,11 +368,11 @@
                                     <th colspan="12">Total Menu Setting List</th>
                                 </tr>
                                 <tr>
-                                    <th class="setting_list_header">Table Name</th>    
-                                    <th class="setting_list_header">Main Item</th>    
-                                    <th class="setting_list_header">Sub Item</th>    
-                                    <th class="setting_list_header">Detail Item</th>    
-                                    <th class="setting_list_header">Methods</th>   
+                                    <th class="setting_list_header">Table Name</th>
+                                    <th class="setting_list_header">Main Item</th>
+                                    <th class="setting_list_header">Sub Item</th>
+                                    <th class="setting_list_header">Detail Item</th>
+                                    <th class="setting_list_header">Methods</th>
                                     <th class="setting_list_header">Data for</th>
                                     @*<th class="setting_list_header">操作</th>*@
                                 </tr>
@@ -399,8 +392,8 @@
                 </div>
             </div>
         </div>
-        <br /> 
-    </div>    
+        <br />
+    </div>
 </div>
 <br><br>
 <br><br>
@@ -422,10 +415,10 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col-3"></div>
-                        <div class="col-3">                            
+                        <div class="col-3">
                             <a href="javascript:void(0);" class="btn confrim_del_btn">はい (Y)​</a></label>
                         </div>
-                        ​
+
                         <div class="col-3">
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn">いいえ (N)​</a></label>
                         </div>
@@ -436,18 +429,19 @@
     </div>
 </div>
 
+
 <!-----------------Modal: Main Item List and Input Form----------------->
-<div class="modal fade" id="main_item_list" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="main_item_list_modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header main_list_header" >
+            <div class="modal-header main_list_header">
                 <h5 class="modal-title" id="exampleModalLongTitle">大項目リスト​ (Main Item List)</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <div class="modal-body">        
+            <div class="modal-body">
                 <table id="main_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -459,10 +453,10 @@
                     <tbody>
                         <tr>
                             <td class="main_item_input_td">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">                                            
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">
                             </td>
                             <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>                            
+                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
                             </td>
                         </tr>
                     </tbody>
@@ -477,93 +471,34 @@
                             <th class="section_th">操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="main_item_input_td">                            
-                                <a class="main_item_link" href="javascript:void(0);" >NewBlend</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>                                                                
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >導入​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>  
-                        <tr>                            
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >運用保守​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>   
-                        <tr>                            
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >移行​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                                            
-                        <tr>                            
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >自治体​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr> 
-                        <tr>                            
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >その他​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                       
-                        <tr>                            
-                            <td class="main_item_input_td">                                
-                                <a class="main_item_link" href="javascript:void(0);" >合計​</a>                                
-                            </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">編集 (edit)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                           
-                    </tbody>
+                    <tbody></tbody>
                 </table>
-                <div class="modal-footer input_frm_footer">                                        
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>                    
+                <div class="modal-footer input_frm_footer">
+                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
+
+
 <!-----------------Modal: Sub Item List and Input Form----------------->
-<div class="modal fade" id="sub_item_list" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="sub_item_list_modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header main_list_header" >
-                <h5 class="modal-title" id="exampleModalLongTitle">中項目リスト　（導入）​</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header sub_list_header">
+                <h5 class="modal-title" id="exampleModalLongTitle">中項目リスト　（導入）(Sub Item List)​</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="sub_item_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <div class="modal-body">        
-                <table id="main_item_input_tbl">
+            <div class="modal-body">
+
+                <h5>Main Item: <span id="main_item_name"></span></h5>
+                <table id="sub_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
                         <tr>
@@ -573,26 +508,18 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="main_item_input_td">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">                                            
+                            <td class="sub_item_input_td">
+                                <input type="hidden" value="" id="main_item_id" />
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="input_sub_item">
                             </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
+                            <td class="sub_item_input_td">
+                                <a href="javascript:void(0);" class="sub_item_add_btn" id="">追加​ (add)</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <div class="modal-footer input_frm_footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                </div>
-
-                <hr>
-                <table class="main_item_list_tbl">
+                <hr />
+                <table class="sub_item_list_tbl">
                     <thead style="border: none;">
                         <tr></tr>
                         <tr>
@@ -600,57 +527,7 @@
                             <th class="section_th">操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="main_item_input_td">NewBlend</td>
-                            <td class="main_item_input_td">
-                                <a class="main_item_add_btn" href="javascript:void(0);">追加​ (add)</a>                                
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="main_item_input_td">導入​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>  
-                        <tr>
-                            <td class="main_item_input_td">運用保守​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>   
-                        <tr>
-                            <td class="main_item_input_td">移行​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                                            
-                        <tr>
-                            <td class="main_item_input_td">自治体​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr> 
-                        <tr>
-                            <td class="main_item_input_td">その他​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                       
-                        <tr>
-                            <td class="main_item_input_td">合計​</td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
-                                <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                            </td>
-                        </tr>                           
-                    </tbody>
+                    <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
                     <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
@@ -660,26 +537,82 @@
                 </div>
             </div>
 
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
         </div>
     </div>
 </div>
+
+
+<!-----------------Modal: Detail Item List and Input Form----------------->
+<div class="modal fade" id="detail_item_list_modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header detail_list_header">
+                <h5 class="modal-title" id="exampleModalLongTitle">中項目リスト（導入）(Detail Item List)​</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="detail_item_close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <h5>Main Item: <span id="main_item_name"></span></h5>
+                <h5>Sub Item: <span id="sub_item_name"></span></h5>
+                <table id="detail_item_input_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th class="section_th">項目​ (item)</th>
+                            <th class="section_th">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="detail_item_input_td">
+                                <input type="hidden" value="" id="sub_item_id" />
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="input_detail_item">
+                            </td>
+                            <td class="sub_item_input_td">
+                                <a href="javascript:void(0);" class="detail_item_add_btn" id="">追加​ (add)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
+                <table class="detail_item_list_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th class="section_th">項目​ (item)</th>
+                            <th class="section_th">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="modal-footer input_frm_footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
+                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <!-----------------Modal: Edit Main Item---------------->
 <div class="modal fade" id="main_item_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header main_list_header" >
+            <div class="modal-header main_list_header">
                 <h5 class="modal-title" id="exampleModalLongTitle">大項目リスト​ (Main Item List)</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <div class="modal-body">        
+            <div class="modal-body">
                 <table id="main_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -691,36 +624,20 @@
                     <tbody>
                         <tr>
                             <td class="main_item_input_td">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">                                            
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">
                             </td>
                             <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>                            
+                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <br>
-                <hr>                
+                <hr>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -737,33 +654,33 @@
             <div class="modal-body">
                 <div class="form-header">
                     <div class="row">
-                    <div class="col-md-12">
-                        <table id="edit_table_modal">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th>テーブル名(Table)</th>
-                                    <th>表のタイトル(Title)</th>
-                                    <th>テーブルの位置(Position)</th>
-                                </tr>
-                            </thead>
+                        <div class="col-md-12">
+                            <table id="edit_table_modal">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>テーブル名(Table)</th>
+                                        <th>表のタイトル(Title)</th>
+                                        <th>テーブルの位置(Position)</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <tr>                                     
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">                                        
-                                    </td>
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">                                        
-                                    </td>  
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">                                        
-                                    </td>  
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    <tr>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">
+                                        </td>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">
+                                        </td>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -775,7 +692,7 @@
                         </div>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>
@@ -794,25 +711,25 @@
             <div class="modal-body">
                 <div class="form-header">
                     <div class="row">
-                    <div class="col-md-12">
-                        <table id="add_main_item_modal">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th>Main Item Name</th>                                    
-                                </tr>
-                            </thead>
+                        <div class="col-md-12">
+                            <table id="add_main_item_modal">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>Main Item Name</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <tr>                                     
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="main item" id="input_main_item" >                                        
-                                    </td>                                    
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    <tr>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="main item" id="input_main_item">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -824,7 +741,7 @@
                         </div>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>
@@ -843,34 +760,34 @@
             <div class="modal-body">
                 <div class="form-header">
                     <div class="row">
-                    <div class="col-md-12">
-                        <table id="add_sub_item_modal">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th>Main Item</th>
-                                    <th>Sub Item</th>
-                                </tr>
-                            </thead>
+                        <div class="col-md-12">
+                            <table id="add_sub_item_modal">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>Main Item</th>
+                                        <th>Sub Item</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <tr>                                     
-                                    <td class="table_setting_modal">
-                                        <select class="setting_dropdowns" id="setting_dropdowns">  
-                                            <option>select main item</option>   
-                                            <option>main-item-1</option>
-                                            <option>main-item-2</option>
-                                        </select>                                                                                
-                                    </td>
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="sub item" id="input_sub_item">  
-                                        <input type="hidden" value="" id="row_number_sub_item">
-                                    </td> 
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    <tr>
+                                        <td class="table_setting_modal">
+                                            <select class="setting_dropdowns" id="setting_dropdowns">
+                                                <option>select main item</option>
+                                                <option>main-item-1</option>
+                                                <option>main-item-2</option>
+                                            </select>
+                                        </td>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="sub item" id="input_sub_item">
+                                            <input type="hidden" value="" id="row_number_sub_item">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -882,7 +799,7 @@
                         </div>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>
@@ -901,42 +818,42 @@
             <div class="modal-body">
                 <div class="form-header">
                     <div class="row">
-                    <div class="col-md-12">
-                        <table id="add_details_item_modal">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th>Main Item</th>
-                                    <th>Sub Item</th>
-                                    <th>Detail Item</th>
-                                </tr>
-                            </thead>
+                        <div class="col-md-12">
+                            <table id="add_details_item_modal">
+                                <thead style="border: none;">
+                                    <tr></tr>
+                                    <tr>
+                                        <th>Main Item</th>
+                                        <th>Sub Item</th>
+                                        <th>Detail Item</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                <tr>                                     
-                                    <td class="table_setting_modal">
-                                        <select class="setting_dropdowns category_dropdown">  
-                                            <option>select main item</option>   
-                                            <option>main-item-1</option>
-                                            <option>main-item-2</option>
-                                        </select>                                                                                
-                                    </td>
-                                    <td class="table_setting_modal">
-                                        <select class="setting_dropdowns" id="sub_category_dropdown">  
-                                            <option>select sub item</option>   
-                                            <option>sub-item-1</option>
-                                            <option>sub-item-2</option>
-                                        </select>                                                                                
-                                    </td>
-                                    <td class="table_setting_modal">
-                                        <input type="text" value="" placeholder="detail item" id="input_detail_item">
-                                        <input type="hidden" value="" id="row_number_details_item">
-                                    </td> 
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    <tr>
+                                        <td class="table_setting_modal">
+                                            <select class="setting_dropdowns category_dropdown">
+                                                <option>select main item</option>
+                                                <option>main-item-1</option>
+                                                <option>main-item-2</option>
+                                            </select>
+                                        </td>
+                                        <td class="table_setting_modal">
+                                            <select class="setting_dropdowns" id="sub_category_dropdown">
+                                                <option>select sub item</option>
+                                                <option>sub-item-1</option>
+                                                <option>sub-item-2</option>
+                                            </select>
+                                        </td>
+                                        <td class="table_setting_modal">
+                                            <input type="text" value="" placeholder="detail item" id="input_detail_item">
+                                            <input type="hidden" value="" id="row_number_details_item">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -948,7 +865,7 @@
                         </div>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>
@@ -1005,16 +922,16 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>                                     
+                                    <tr>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1_modal">                                        
+                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1_modal">
                                         </td>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2_modal">                                        
-                                        </td>  
+                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2_modal">
+                                        </td>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3_modal">                                        
-                                        </td>  
+                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3_modal">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1038,51 +955,51 @@
                                 </thead>
 
                                 <tbody id="item_tbody_modal">
-                                    <tr class="item_row">                                     
+                                    <tr class="item_row">
                                         <td class="setting_items_td">
-                                            <select class="main_item_dropdown" name="main_item_modal" id="main_item_modal">  
-                                                <option>select main item</option>   
+                                            <select class="main_item_dropdown" name="main_item_modal" id="main_item_modal">
+                                                <option>select main item</option>
                                                 <option>main item-1</option>
                                                 <option>main item-2</option>
                                                 <option disabled="disabled">---------</option>
                                                 <option value="main">
-                                                    Add New                                                                    
+                                                    Add New
                                                 </option>
-                                            </select> 
+                                            </select>
                                         </td>
-                                        <td class="setting_items_td" >
-                                            <select class="sub_item_dropdown" name="sub_item_modal" id="sub_item_modal">  
-                                                <option>select sub item</option>   
+                                        <td class="setting_items_td">
+                                            <select class="sub_item_dropdown" name="sub_item_modal" id="sub_item_modal">
+                                                <option>select sub item</option>
                                                 <option>sub item-1</option>
                                                 <option>sub item-2</option>
                                                 <option disabled="disabled">---------</option>
                                                 <option value="sub">Add New</option>
-                                            </select> 
-                                        </td>  
+                                            </select>
+                                        </td>
                                         <td class="setting_items_td">
-                                            <select class="detail_item_dropdown" name="detail_item_modal" id="detail_item_modal">  
-                                                <option>select detail item</option>   
+                                            <select class="detail_item_dropdown" name="detail_item_modal" id="detail_item_modal">
+                                                <option>select detail item</option>
                                                 <option>detail item-1</option>
                                                 <option>detail item-2</option>
                                                 <option disabled="disabled">---------</option>
                                                 <option value='detail'>Add New</option>
-                                            </select> 
-                                        </td>  
+                                            </select>
+                                        </td>
                                         <td class="setting_items_td">
-                                            <select class="setting_dropdowns">  
-                                                <option>select methods</option>   
+                                            <select class="setting_dropdowns">
+                                                <option>select methods</option>
                                                 <option>method-1</option>
                                                 <option>method-2</option>
-                                            </select>                                          
-                                        </td>  
+                                            </select>
+                                        </td>
                                         <td class="setting_items_td">
-                                            <select class="setting_dropdowns"   id="data_for_list_dropdown_for_setting">  
-                                                <option>select data-for</option>   
+                                            <select class="setting_dropdowns" id="data_for_list_dropdown_for_setting">
+                                                <option>select data-for</option>
                                                 <option>department-1</option>
-                                                <option>department-2</option>                              
-                                            </select>                                          
-                                        </td>                                          
-                                    </tr>                                      
+                                                <option>department-2</option>
+                                            </select>
+                                        </td>
+                                    </tr>
                             </table>
                         </div>
                     </div>
@@ -1098,72 +1015,72 @@
                         </div>
                     </div>
                 </div>
-                                
+
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts{    
+@section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/create_dynamic_table.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
-            $.connection.hub.disconnected(function () {
-                setTimeout(function () {
-                    $.connection.hub.start();
-                }, 5000); // Restart connection after 5 seconds.
-            });
-            $.connection.hub.start();
-            $(function () {
+        $.connection.hub.disconnected(function () {
+            setTimeout(function () {
+                $.connection.hub.start();
+            }, 5000); // Restart connection after 5 seconds.
+        });
+        $.connection.hub.start();
+        $(function () {
 
-                var chat = $.connection.chatHub;
+            var chat = $.connection.chatHub;
 
-                chat.client.addNewMessageToPage = function (name, message) {
-                    alert(name + message);
-                    $.ajax({
-                        url: `/api/utilities/GetUserLogs/`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        dataType: 'json',
-                        success: function (data) {
-                            var userName = $('#user_name').text();
-                            $('#user_log').empty();
-                            $.each(data, (index, value) => {
-                                if (userName !== value.UserName) {
-                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                                }
-                            });
-
-                        }
-                    });
-                };
-            });
-
-            $(document).ready(function () {
-
-                setInterval(() => {
-                    $.ajax({
-                        url: `/api/utilities/GetUserLogs/`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        dataType: 'json',
-                        success: function (data) {
-                            var userName = $('#user_name').text();
-                            $('#user_log').empty();
-                            $.each(data, (index, value) => {
-                                if (userName !== value.UserName) {
-                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                                }
-                            });
-
-                        }
-                    });
-                }, 5000);
-
+            chat.client.addNewMessageToPage = function (name, message) {
+                alert(name + message);
                 $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            };
+        });
+
+        $(document).ready(function () {
+
+            setInterval(() => {
+                $.ajax({
+                    url: `/api/utilities/GetUserLogs/`,
+                    contentType: 'application/json',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        var userName = $('#user_name').text();
+                        $('#user_log').empty();
+                        $.each(data, (index, value) => {
+                            if (userName !== value.UserName) {
+                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
+                            }
+                        });
+
+                    }
+                });
+            }, 5000);
+
+            $.ajax({
                 url: `/api/utilities/GetUserLogs/`,
                 contentType: 'application/json',
                 type: 'GET',
@@ -1172,7 +1089,7 @@
                 success: function (data) {
                     var userName = $('#user_name').text();
                     $('#user_log').empty();
-                    $.each(data,(index, value) => {
+                    $.each(data, (index, value) => {
                         if (userName !== value.UserName) {
                             $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
                         }

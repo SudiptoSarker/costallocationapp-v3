@@ -264,9 +264,9 @@ $(document).on('click', '#update_dynamic_table ', function () {
 });
 
 //update main item
-$(document).on('click', '#update_main_item ', function () {   
-    var categoryName = $('#input_main_item').val();
-    if (categoryName == '' || categoryName == undefined || categoryName == null) {
+$(document).on('click', '.main_item_add_btn ', function () {   
+    var mainItem = $('#section-name').val();
+    if (mainItem == '' || mainItem == undefined || mainItem == null) {
         alert('Main item required!');
         return;
     }
@@ -276,7 +276,7 @@ $(document).on('click', '#update_main_item ', function () {
             type: 'POST',
             dataType: 'json',
             data: {
-                CategoryName: categoryName
+                CategoryName: mainItem
                 },
             success: function (data) {
                 ToastMessageSuccess(data);
@@ -287,17 +287,28 @@ $(document).on('click', '#update_main_item ', function () {
                     dataType: 'json',
                     async: false,
                     success: function (data) {
-                        $('.main_item_dropdown').empty();
-                        $('.main_item_dropdown').append(`<option value=''>Select Item</option>`);
-                        $.each(data, function (key, item) {
-                            $('.main_item_dropdown').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                        $('.main_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.main_item_list_tbl tbody').append(`
+                                <tr data-id='${value.Id}'>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_link" href="#" >${value.CategoryName}</a>
+                                    </td>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
                         });
-                        $('.main_item_dropdown').append(`<option disabled="disabled">---------</option>`);
-                        $('.main_item_dropdown').append(`<option value='main'>Add New</option>`);
+                        
                     },
                     error: function (data) {
                     }
                 });
+
+              
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -306,50 +317,50 @@ $(document).on('click', '#update_main_item ', function () {
     }
     
 });
-//update sub item
-$(document).on('click', '#update_sub_item ', function () {   
 
-    var categoryId = $('.setting_dropdowns').val();
-    var subCategoryName = $('#input_sub_item').val();
-    var rowNumber = $('#row_number_sub_item').val();
+
+//update sub item
+$(document).on('click', '.sub_item_add_btn ', function () {   
+    var mainItemId = $('#main_item_id').val();
+    var subItem = $('#input_sub_item').val();
 
     $.ajax({
         url: `/api/utilities/CreateSubCategory/`,
         type: 'POST',
         dataType: 'json',
         data: {
-            CategoryId: categoryId,
-            SubCategoryName: subCategoryName
+            CategoryId: mainItemId,
+            SubCategoryName: subItem
         },
         success: function (data) {
             if (data == 1) {
                 alert("同一データが登録済みです.");
             } else {
                 ToastMessageSuccess(data);
-                var allTr = $('#item_tbody tr');
-                $.each(allTr, function (index, item) {
-                    if (parseInt($(item)[0].dataset.count) == parseInt(rowNumber)) {
-                       
-                        var sub_item_options = "";
-                        // pull data for sub item
-                        $.ajax({
-                            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
-                            type: 'Get',
-                            dataType: 'json',
-                            async: false,
-                            success: function (data) {
-                                sub_item_options = sub_item_options + "<option value=''>select sub item</option>";
-                                $.each(data, function (key, item) {
-                                    sub_item_options = sub_item_options + `<option value='${item.Id}'>${item.SubCategoryName}</option>`;
-                                });
-                                sub_item_options = sub_item_options + "<option disabled='disabled'>---------</option>";
-                                sub_item_options = sub_item_options + "<option value='sub'>Add New</option>";
-                            },
-                            error: function (data) {
-                            }
+                $.ajax({
+                    url: '/api/utilities/GetSubCategoriesByCategory?categoryId=' + mainItemId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+
+                        $('.sub_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.sub_item_list_tbl tbody').append(`
+                                <tr data-sub-item-id='${value.Id}'>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
+                                    </td>
+                                    <td class="sub_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
                         });
-                        $(item).closest('tr').find('.sub_item_dropdown').empty().append(sub_item_options); 
-                      
+                    },
+                    error: function (data) {
                     }
                 });
                 
@@ -362,10 +373,10 @@ $(document).on('click', '#update_sub_item ', function () {
 
 });
 //update detail item
-$(document).on('click', '#update_detail_item ', function () { 
-    var subItemId = $('#sub_category_dropdown').val();
+$(document).on('click', '.detail_item_add_btn ', function () { 
+    var subItemId = $('#sub_item_id').val();
     var detailsItemName = $('#input_detail_item').val();
-    var rowNumber = $('#row_number_details_item').val();
+
     $.ajax({
         url: `/api/utilities/CreateDetailsItem/`,
         type: 'POST',
@@ -376,36 +387,33 @@ $(document).on('click', '#update_detail_item ', function () {
         },
         success: function (data) {
             ToastMessageSuccess(data);
-            var allTr = $('#item_tbody tr');
-            $.each(allTr, function (index, item) {
-                if (parseInt($(item)[0].dataset.count) == parseInt(rowNumber)) {
+            
+            $.ajax({
+                url: '/api/utilities/GetDetailsItemBySubItemsId?subItemId=' + subItemId,
+                type: 'Get',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
 
-                    var details_item_options = "";
-                    // pull data for details item
-                    $.ajax({
-                        url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItemId}`,
-                        type: 'Get',
-                        dataType: 'json',
-                        async: false,
-                        success: function (data) {
-                            debugger;
-                            //var sub_item_options = "";
-                            details_item_options = details_item_options + "<option value=''>select details item</option>";
-                            $.each(data, function (key, item) {
-                                details_item_options = details_item_options + `<option value='${item.Id}'>${item.DetailsItemName}</option>`;
-                            });
-                            details_item_options = details_item_options + "<option disabled='disabled'>---------</option>";
-                            details_item_options = details_item_options + "<option value='detail'>Add New</option>";
+                    $('.detail_item_list_tbl tbody').empty();
+                    $.each(data, function (index, value) {
+                        $('.detail_item_list_tbl tbody').append(`
+                                <tr data-detail-item-id='${value.Id}'>
+                                    <td class="detail_item_input_td">
+                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                    </td>
+                                    <td class="detail_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
 
-                        },
-                        error: function (data) {
-                        }
+                            `);
                     });
-                    $(item).closest('tr').find('.detail_item_dropdown').empty().append(details_item_options);
-
+                },
+                error: function (data) {
                 }
             });
-
         },
         error: function (data) {
             ToastMessageFailed(data);
@@ -559,7 +567,7 @@ function DynamicTableSetting(){
     }         
 }
 
-$( document ).ready(function() {   
+$(document).ready(function() {   
     $(document).on('change', '.main_item_dropdown', function () {
         var sub_item_options = "";
         var mainItem = $(this).val();
@@ -638,179 +646,722 @@ $( document ).ready(function() {
         }
     });
 
-});
-$(document).on('change', '.method_dropdown', function () {
-    var data_for_options = "";
-    var methodId = $(this).val();    
-    var dependency = $('option:selected', this).attr('data-dependency');
-    
-    if (methodId == "" || methodId == undefined || methodId == null) {
-        return;
-    }
-    else {
-        // pull data for dependency
-        if (dependency == "dp") {
-            $.ajax({
-                url: `/api/Departments`,
-                type: 'Get',
-                async:false,
-                dataType: 'json',
-                success: function (data) {    
-                    data_for_options ="";
-                    data_for_options = "<option value=''>select item</option>";
 
-                    $.each(data, function (key, item) {                        
-                        data_for_options = data_for_options +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
-                    });                          
-                },
-                error: function (data) {
-                }
-            });
+    $(document).on('change', '.method_dropdown', function () {
+        var data_for_options = "";
+        var methodId = $(this).val();
+        var dependency = $('option:selected', this).attr('data-dependency');
+
+        if (methodId == "" || methodId == undefined || methodId == null) {
+            return;
         }
-        if (dependency == "in") {
+        else {
+            // pull data for dependency
+            if (dependency == "dp") {
+                $.ajax({
+                    url: `/api/Departments`,
+                    type: 'Get',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        data_for_options = "";
+                        data_for_options = "<option value=''>select item</option>";
+
+                        $.each(data, function (key, item) {
+                            data_for_options = data_for_options + `<option value='${item.Id}'>${item.DepartmentName}</option>`;
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+            if (dependency == "in") {
+                $.ajax({
+                    url: `/api/InCharges`,
+                    type: 'Get',
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        data_for_options = "";
+                        data_for_options = "<option value=''>select item</option>";
+                        $.each(data, function (key, item) {
+                            data_for_options = data_for_options + `<option value='${item.Id}'>${item.InChargeName}</option>`;
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+
+            $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);
+            $(this).closest('tr').find('.data_for_dropdown').select2();
+        }
+    });
+
+    $(document).on('change', '.sub_item_dropdown', function () {
+        var subItem = $(this).val();
+        if (subItem == '' || subItem == null || subItem == undefined) {
+
+        } else {
+
+            if (subItem == "sub") {
+                var row = $(this).closest("tr");
+                $('#row_number_sub_item').val(row[0].dataset.count);
+                $.ajax({
+                    url: '/api/utilities/GetCategories/',
+                    type: 'Get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#setting_dropdowns').empty();
+                        $('#setting_dropdowns').append(`<option value=''>Select Item</option>`);
+                        $.each(data, function (key, item) {
+                            $('#setting_dropdowns').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+                $('#add_sub_item_modal').modal('toggle');
+            } else {
+                var details_item_options = "";
+
+                // pull data for details item
+                $.ajax({
+                    url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItem}`,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        //var sub_item_options = "";
+                        details_item_options = details_item_options + "<option value=''>select details item</option>";
+                        $.each(data, function (key, item) {
+                            details_item_options = details_item_options + `<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                        });
+                        details_item_options = details_item_options + "<option disabled='disabled'>---------</option>";
+                        details_item_options = details_item_options + "<option value='detail'>Add New</option>";
+
+                    },
+                    error: function (data) {
+                    }
+                });
+
+                $(this).closest('tr').find('.detail_item_dropdown').empty().append(details_item_options);
+
+
+
+
+            }
+        }
+    });
+    $(document).on('change', '.detail_item_dropdown', function () {
+        var detailItem = $(this).val();
+        if (detailItem == "detail") {
+            $('#add_detail_item_modal').modal('toggle');
+            var row = $(this).closest("tr");
+            $('#row_number_details_item').val(row[0].dataset.count);
             $.ajax({
-                url: `/api/InCharges`,
+                url: '/api/utilities/GetCategories/',
                 type: 'Get',
-                async:false,
+                async: false,
                 dataType: 'json',
                 success: function (data) {
-                    data_for_options ="";
-                    data_for_options = "<option value=''>select item</option>";
+                    $('.category_dropdown').empty();
+                    $('.category_dropdown').append(`<option value=''>Select Item</option>`);
                     $.each(data, function (key, item) {
-                        data_for_options = data_for_options +`<option value='${item.Id}'>${item.InChargeName}</option>`;
+                        $('.category_dropdown').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
                     });
                 },
                 error: function (data) {
                 }
             });
         }
+    });
 
-        $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);
-        $(this).closest('tr').find('.data_for_dropdown').select2();
-    }
-});
-
-$(document).on('change', '.sub_item_dropdown', function () {
-    var subItem = $(this).val();        
-if (subItem == '' || subItem == null || subItem == undefined) {
-	
-}else{
-
-    if (subItem == "sub") {  
-        var row = $(this).closest("tr");
-        $('#row_number_sub_item').val(row[0].dataset.count);
+    $(document).on('change', '#add_details_item_modal .category_dropdown', function () {
+        var categoryId = $(this).val();
         $.ajax({
-            url: '/api/utilities/GetCategories/',
+            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
             type: 'Get',
-            dataType: 'json',
-            success: function (data) {
-                $('#setting_dropdowns').empty();
-                $('#setting_dropdowns').append(`<option value=''>Select Item</option>`);
-                $.each(data, function (key, item) {
-                    $('#setting_dropdowns').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
-                });
-            },
-            error: function (data) {
-            }
-        }); 
-		$('#add_sub_item_modal').modal('toggle');
-	}else{
-        var details_item_options = "";
-        
-        // pull data for details item
-        $.ajax({
-            url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItem}`,
-            type: 'Get',
-            dataType: 'json',
             async: false,
+            dataType: 'json',
             success: function (data) {
                 debugger;
-                //var sub_item_options = "";
-                details_item_options = details_item_options + "<option value=''>select details item</option>";
+                $('#add_details_item_modal #sub_category_dropdown').empty();
+                $('#add_details_item_modal #sub_category_dropdown').append(`<option value=''>Select Item</option>`);
                 $.each(data, function (key, item) {
-                    details_item_options = details_item_options + `<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                    $('#add_details_item_modal #sub_category_dropdown').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
                 });
-                details_item_options = details_item_options + "<option disabled='disabled'>---------</option>";
-                details_item_options = details_item_options + "<option value='detail'>Add New</option>";
-                
             },
             error: function (data) {
             }
-        }); 
+        });
+    });
 
-        $(this).closest('tr').find('.detail_item_dropdown').empty().append(details_item_options);
+    //create new row and concate
+    $(document).on('click', '#item_row_add ', function () {
+        debugger;
+        var $tr = $(this).closest('.item_row');
+        var $clone = $tr.clone();
+        $($clone[0].cells[4]).empty();
+        $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
+        $clone[0].dataset.count = ++globalCount;
+        $clone.find(':text').val('');
+        $tr.after($clone);
+        $clone.find('.setting_plus_icon').hide();
+        $clone.find('.setting_minus_icon').show();
+    });
+
+    //remove rows
+    $(document).on('click', '.setting_minus_icon ', function () {
+        $(this).closest("tr").remove();
+    });
+
+    //clear dynamic table input fields
+    $(document).on('click', '#clear_input_frm ', function () {
+        $("#table_name").val('');
+        $("#table_title").val('');
+        $("#table_position").val('');
+        $("#table_name_warning_msg").hide();
+        $("#table_title_warning_msg").hide();
+        $("#table_position_warning_msg").hide();
+    });
+    //clear dynamic table input fields
+    $(document).on('click', '#clear_setting_form ', function (e) {
+        globalCount = 1;
+        //var html = $('#total_menu_setting_items_tbl').html();
+        //$('#total_menu_setting_items_tbl').html('#total_menu_setting_items_tbl');
+        $('#total_menu_setting_items_tbl').html(html);
+        DynamicTableSetting();
+    });
 
 
+    //add form show when add button click
+    $(document).on('click', '.list_table_add_btn ', function (e) {
+        ClearInputEditForm();
+        $(".frm_add_btn").text("追加 (add)");
+        $(".frm_add_btn").attr("tag", "add");
+        $('.table_input_frm_div').show();
 
-                      
-	}
-}  
-});
-$(document).on('change', '.detail_item_dropdown', function () {
-    var detailItem = $(this).val();    
-    if(detailItem=="detail"){        
-        $('#add_detail_item_modal').modal('toggle');
-        var row = $(this).closest("tr");
-        $('#row_number_details_item').val(row[0].dataset.count);
+    });
+
+    //edit button click: fill up the input form with checked value
+    $(document).on('click', '.list_table_edit_btn ', function (e) {
+        var responseData = '';
+        var tableId = $('.table_list_radio:checked').val();
+        if (tableId == null || tableId == undefined || tableId == "") {
+            alert("please select a table!");
+        } else {
+            //ajax call here
+            debugger;
+            var count = 0;
+            var columnInputContainer = $('.input_container');
+            $.ajax({
+                url: `/api/utilities/GetDynamicTableById/${tableId}`,
+                type: 'Get',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+
+                    responseData = data;
+                    $("#table_name_input").val(data.TableName);
+                    $("#table_title_input").val(data.TableTitle);
+                    $("#table_position_input").val(data.TablePosition);
+                    if (data.CategoryTitle != "") {
+                        count++;
+                    }
+                    if (data.SubCategoryTitle != "") {
+                        count++;
+                    }
+                    if (data.DetailsTitle != "") {
+                        count++;
+                    }
+                },
+                error: function (data) {
+                }
+            });
+            debugger;
+            //get value by id and set to the form
+            //$("#table_name_input").val("test-1111	");
+            //$("#table_title_input").val("test--332222");
+            //$("#table_position_input").val("33322111");
+            //$(".select_column_no").val(2);
+
+            //$("#table_main_item_input").val("NewBlend");
+            //$("#table_sub_item_input").val("sub-item");
+            $('.table_input_frm_div').show();
+            $(".select_column_no").val(count);
+            columnInputContainer.empty();
+            if (count == 1) {
+                if (responseData.CategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+
+                }
+
+                if (responseData.SubCategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+
+                if (responseData.DetailsTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+            }
+            if (count == 2) {
+                if (responseData.CategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+
+                }
+
+                if (responseData.SubCategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+
+                if (responseData.DetailsTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+            }
+            if (count == 3) {
+                if (responseData.CategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+
+                }
+
+                if (responseData.SubCategoryTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+
+                if (responseData.DetailsTitle != "") {
+
+                    columnInputContainer.append(`
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-1"></label>
+                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
+                                    </div>
+                                </div>
+                    `);
+                }
+            }
+
+
+            $(".frm_add_btn").text("編集​ (edit)");
+            $(".frm_add_btn").attr("tag", "edit");
+
+        }
+    });
+    $(document).on('click', '.frm_cancel_btn ', function (e) {
+        ClearInputEditForm();
+    });
+
+    //setting button click, show the item modal.
+    $(document).on('click', '.frm_setting_btn ', function (e) {
+        var tableId = $('.table_list_radio:checked').val();
+        if (tableId == null || tableId == undefined || tableId == "") {
+            alert("please select a table!");
+        } else {
+            //ajax call here
+            //get value by id and set to the modal 
+            $('.main_item_list_tbl tbody').empty();
+
+            // pull data for main item
+            $.ajax({
+                url: '/api/utilities/GetCategories/',
+                type: 'Get',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    $('.main_item_list_tbl tbody').empty();
+                    $.each(data, function (index, value) {
+                        $('.main_item_list_tbl tbody').append(`
+                                <tr data-id='${value.Id}'>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_link" href="#">${value.CategoryName}</a>
+                                    </td>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                    });
+
+                },
+                error: function (data) {
+                }
+            });
+
+            $('#main_item_list_modal').modal('show');
+        }
+    });
+
+    $(document).on('click', '.main_item_del_btn', function () {
+        var buttonElement = $(this);
+        var categoryId = buttonElement.closest('tr').attr('data-id');
+        var apiurl = "/api/Utilities/RemoveCategory?categoryId=" + categoryId;
+
+
         $.ajax({
-            url: '/api/utilities/GetCategories/',
-            type: 'Get',
-            async: false,
+            url: apiurl,
+            type: 'DELETE',
             dataType: 'json',
             success: function (data) {
-                $('.category_dropdown').empty();
-                $('.category_dropdown').append(`<option value=''>Select Item</option>`);
-                $.each(data, function (key, item) {
-                    $('.category_dropdown').append(`<option value='${item.Id}'>${item.CategoryName}</option>`);
+                ToastMessageSuccess(data);
+
+                // pull data for main item
+                $.ajax({
+                    url: '/api/utilities/GetCategories/',
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        $('.main_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.main_item_list_tbl tbody').append(`
+                                <tr data-id='${value.Id}'>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_link" href="#" onclick='clickInside();'">${value.CategoryName}</a>
+                                    </td>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+
+                    },
+                    error: function (data) {
+                    }
+                });
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    });
+
+    $(document).on('click', '.sub_item_del_btn', function () {
+        var buttonElement = $(this);
+        var subCategoryId = buttonElement.closest('tr').attr('data-sub-item-id');
+        var mainItemId = $('#main_item_id').val();
+        var apiurl = "/api/Utilities/RemoveSubCategory?subCategoryId=" + subCategoryId;
+        debugger;
+
+        $.ajax({
+            url: apiurl,
+            type: 'DELETE',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                ToastMessageSuccess(data);
+
+                // pull data for sub main item
+                $.ajax({
+                    url: '/api/utilities/GetSubCategoriesByCategory?categoryId=' + mainItemId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+
+                        $('.sub_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.sub_item_list_tbl tbody').append(`
+                                <tr data-sub-item-id='${value.Id}'>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_link" href="#">${value.SubCategoryName}</a>
+                                    </td>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    });
+
+    $(document).on('click', '.detail_item_del_btn', function () {
+        var buttonElement = $(this);
+        var detailId = buttonElement.closest('tr').attr('data-detail-item-id');
+        var subItemId = $('#sub_item_id').val();
+        var apiurl = "/api/Utilities/RemoveDetailItem?detailId=" + detailId;
+        debugger;
+
+        $.ajax({
+            url: apiurl,
+            type: 'DELETE',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                ToastMessageSuccess(data);
+
+                // pull data for detail item
+                $.ajax({
+                    url: '/api/utilities/GetDetailsItemBySubItemsId?subItemId=' + subItemId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+
+                        $('.detail_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.detail_item_list_tbl tbody').append(`
+                                <tr data-detail-item-id='${value.Id}'>
+                                    <td class="detail_item_input_td">
+                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                    </td>
+                                    <td class="detail_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    });
+
+    $(document).on('click', '.main_item_link', function (e) {
+        
+        var mainItemId = $(this).closest('tr').data('id');
+
+        $('#main_item_list_modal').modal('hide');
+
+        $.ajax({
+            url: '/api/utilities/GetCategoryById?categoryId=' + mainItemId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                $('#main_item_name').empty();
+                $('#main_item_name').append(data.CategoryName);
+                $('#main_item_id').val(data.Id);
+
+            },
+            error: function (data) {
+            }
+        });
+
+        $.ajax({
+            url: '/api/utilities/GetSubCategoriesByCategory?categoryId=' + mainItemId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+
+                $('.sub_item_list_tbl tbody').empty();
+                $.each(data, function (index, value) {
+                    $('.sub_item_list_tbl tbody').append(`
+                                <tr data-sub-item-id='${value.Id}'>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
+                                    </td>
+                                    <td class="sub_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
                 });
             },
             error: function (data) {
             }
-        }); 
-    }
+        });
+
+        setTimeout(function () {
+            $('#sub_item_list_modal').modal('show');
+        }, 600);
+        
+    });
+
+    $(document).on('click', '.sub_item_link', function (e) {
+        debugger;
+        var subItemId = $(this).closest('tr').data('sub-item-id');
+
+        $('#sub_item_list_modal').modal('hide');
+
+        $.ajax({
+            url: '/api/utilities/GetSubCategorieById?subCategoryId=' + subItemId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                console.log(data);
+                $('#main_item_name').empty();
+                $('#main_item_name').append(data.CategoryName);
+                $('#sub_item_name').empty();
+                $('#sub_item_name').append(data.SubCategoryName);
+                $('#sub_item_id').val(data.Id);
+
+            },
+            error: function (data) {
+            }
+        });
+
+        $.ajax({
+            url: '/api/utilities/GetDetailsItemBySubItemsId?subItemId=' + subItemId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+
+                $('.detail_item_list_tbl tbody').empty();
+                $.each(data, function (index, value) {
+                    $('.detail_item_list_tbl tbody').append(`
+                                <tr data-detail-item-id='${value.Id}'>
+                                    <td class="detail_item_input_td">
+                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                    </td>
+                                    <td class="detail_item_input_td">
+                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                });
+            },
+            error: function (data) {
+            }
+        });
+
+        setTimeout(function () {
+            $('#detail_item_list_modal').modal('show');
+        }, 600);
+
+    });
+
+    $(document).on('click', '#sub_item_close', function () {
+        $('#sub_item_list_modal').modal('hide');
+        setTimeout(function () {
+            $('#main_item_list_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '#detail_item_close', function () {
+        $('#detail_item_list_modal').modal('hide');
+        setTimeout(function () {
+            $('#sub_item_list_modal').modal('show');
+        }, 600);
+    });
+
+
+
 });
 
-$(document).on('change', '#add_details_item_modal .category_dropdown', function () {
-    var categoryId = $(this).val();
-    $.ajax({
-        url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
-        type: 'Get',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            debugger;
-            $('#add_details_item_modal #sub_category_dropdown').empty();
-            $('#add_details_item_modal #sub_category_dropdown').append(`<option value=''>Select Item</option>`);
-            $.each(data, function (key, item) {
-                $('#add_details_item_modal #sub_category_dropdown').append(`<option value='${item.Id}'>${item.SubCategoryName}</option>`);
-            });
-        },
-        error: function (data) {
-        }
-    }); 
-});
+//function clickInside() {
+//    alert('clicked');
+//}
+
+//const modally = new Modally({
+//    disableScroll: true,
+//    selector: '.modally-init',
+//})
+
+//modally.add('ipsum', {
+//    maxWidth: 800,
+//    selector: '#ipsum'
+//})
+
+//document.addEventListener('modally:opening:ipsum', function (e) {
+//    console.log(e.detail);
+//    e.detail.template.querySelector('.modally-content').innerHTML = 'Hello world!';
+//});
 
 
-
-
-//create new row and concate
-$(document).on('click', '#item_row_add ', function () {
-    debugger;
-    var $tr = $(this).closest('.item_row');
-    var $clone = $tr.clone();
-    $($clone[0].cells[4]).empty();
-    $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
-    $clone[0].dataset.count = ++globalCount;
-    $clone.find(':text').val('');
-    $tr.after($clone);
-    $clone.find('.setting_plus_icon').hide();    
-    $clone.find('.setting_minus_icon').show();    
-});
-
-//remove rows
-$(document).on('click', '.setting_minus_icon ', function () { 
-    $(this).closest("tr").remove();
-});
 
 //get setting list value
 function GetAllSettingValue() {
@@ -823,23 +1374,7 @@ function GetAllSettingValue() {
         });
 }
 
-//clear dynamic table input fields
-$(document).on('click', '#clear_input_frm ', function () { 
-    $("#table_name").val('');
-    $("#table_title").val('');
-    $("#table_position").val('');
-    $("#table_name_warning_msg").hide();
-    $("#table_title_warning_msg").hide();
-    $("#table_position_warning_msg").hide();    
-});
-//clear dynamic table input fields
-$(document).on('click', '#clear_setting_form ', function (e) {
-    globalCount = 1;
-    //var html = $('#total_menu_setting_items_tbl').html();
-    //$('#total_menu_setting_items_tbl').html('#total_menu_setting_items_tbl');
-    $('#total_menu_setting_items_tbl').html(html);
-    DynamicTableSetting();
-});
+
 
 // not needed may be.
 function GetDynamicSettings() {
@@ -860,195 +1395,7 @@ function GetDynamicSettings() {
     });
 }
 
-//add form show when add button click
-$(document).on('click', '.list_table_add_btn ', function (e) {
-    ClearInputEditForm();
-    $(".frm_add_btn").text("追加 (add)");    
-    $(".frm_add_btn").attr("tag","add"); 
-    $('.table_input_frm_div').show();    
 
-});
-
-//edit button click: fill up the input form with checked value
-$(document).on('click', '.list_table_edit_btn ', function (e) {
-    var responseData = '';
-    var tableId = $('.table_list_radio:checked').val();
-    if (tableId == null || tableId == undefined || tableId == "") {
-        alert("please select a table!");
-    }else{
-        //ajax call here
-        debugger;
-        var count = 0;
-        var columnInputContainer = $('.input_container');
-        $.ajax({
-            url: `/api/utilities/GetDynamicTableById/${tableId}`,
-            type: 'Get',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                
-                responseData = data;
-                $("#table_name_input").val(data.TableName);
-                $("#table_title_input").val(data.TableTitle);
-                $("#table_position_input").val(data.TablePosition);
-                if (data.CategoryTitle != "") {
-                    count++;
-                }
-                if (data.SubCategoryTitle != "") {
-                    count++;
-                }
-                if (data.DetailsTitle != "") {
-                    count++;
-                }
-            },
-            error: function (data) {
-            }
-        }); 
-        debugger;
-        //get value by id and set to the form
-        //$("#table_name_input").val("test-1111	");
-        //$("#table_title_input").val("test--332222");
-        //$("#table_position_input").val("33322111");
-        //$(".select_column_no").val(2);
-        
-        //$("#table_main_item_input").val("NewBlend");
-        //$("#table_sub_item_input").val("sub-item");
-        $('.table_input_frm_div').show(); 
-        $(".select_column_no").val(count);
-        columnInputContainer.empty();
-            if (count==1) {
-                if (responseData.CategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-
-                }
-
-                if (responseData.SubCategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-
-                if (responseData.DetailsTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-            }
-            if (count==2) {
-                if (responseData.CategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-
-                }
-
-                if (responseData.SubCategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-
-                if (responseData.DetailsTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-            }
-            if (count==3) {
-                if (responseData.CategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-
-                }
-
-                if (responseData.SubCategoryTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-
-                if (responseData.DetailsTitle != "") {
-
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
-                }
-            }
-            
-            
-        $(".frm_add_btn").text("編集​ (edit)");
-        $(".frm_add_btn").attr("tag", "edit"); 
-          
-    }    
-});
-$(document).on('click', '.frm_cancel_btn ', function (e) {
-    ClearInputEditForm();
-});
 //input form clear button
 function ClearInputEditForm(){
     $("#table_name_input").val("");
@@ -1062,42 +1409,5 @@ function ClearInputEditForm(){
 
     $('.input_container').empty();
 }
-//setting button click, show the item modal.
-$(document).on('click', '.frm_setting_btn ', function (e) {
-    var tableId = $('.table_list_radio:checked').val();
-    if (tableId == null || tableId == undefined || tableId == "") {
-        alert("please select a table!");
-    }else{
-        //ajax call here
-        //get value by id and set to the modal        
-        $('#main_item_list').modal('show');
-    }    
-});
 
-//modal show hide
-// $(document).on('click', '.main_item_add_btn ', function (e) {
-//     $('#main_item_list').modal('hide');
-//     $('#sub_item_list').modal('show');
-// });
-//edit modal open for main item
 
-$(document).on('click', '.main_item_add_btn ', function (e) {
-    $('#main_item_list').modal('hide');
-    //e.preventDefault();
-    //console.log("edit clicked");
-
-    //$('#sub_item_list').modal('show');
-
-    // $('#main_item_list').modal('toggle');
-    // $('#main_item_edit').modal('toggle');
-    // $('#main_item_list').modal('hide');
-    // $('#main_item_edit').modal('show');
-    
-    
-});
-
-// $('#myModal').modal('hide')
-// $('#myModal').on('hidden.bs.modal', function () {
-//   // Load up a new modal...
-//   $('#myModalNew').modal('show')
-// })

@@ -9949,6 +9949,87 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpGet]
+        [Route("api/utilities/GetCategoryById/")]
+        public IHttpActionResult GetCategoryById(string categoryId)
+        {
+            if (String.IsNullOrEmpty(categoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            Category category = categoryBLL.GetCategoryByCategoryId(Convert.ToInt32(categoryId));
+            if (category == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+            return Ok(category);
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveCategory/")]
+        public IHttpActionResult RemoveCategory(string categoryId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(categoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            Category category = categoryBLL.GetAllCategories().Where(c=>c.Id== Convert.ToInt32(categoryId)).SingleOrDefault();
+            if (category==null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            category.UpdatedBy = session["userName"].ToString();
+            category.UpdatedDate = DateTime.Now;
+            category.IsActive = false;
+
+            var result = categoryBLL.RemoveCategory(category);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveSubCategory/")]
+        public IHttpActionResult RemoveSubCategory(string subCategoryId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(subCategoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            SubCategory subCategory = subCategoryBLL.GetAllSubCategories().Where(c => c.Id == Convert.ToInt32(subCategoryId)).SingleOrDefault();
+            if (subCategory == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            subCategory.UpdatedBy = session["userName"].ToString();
+            subCategory.UpdatedDate = DateTime.Now;
+            subCategory.IsActive = false;
+
+            var result = subCategoryBLL.RemoveSubCategory(subCategory);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
         [HttpPost]
         [Route("api/utilities/CreateDetailsItem/")]
         public IHttpActionResult CreateDetailsItem(DeatailsItem deatailsItem)
@@ -9985,6 +10066,46 @@ namespace CostAllocationApp.Controllers.Api
             List<DeatailsItem> deatailsItems = detailsItemBLL.GetDetailsItemBySubItemsId(subItemId);
 
             return Ok(deatailsItems);
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveDetailItem/")]
+        public IHttpActionResult RemoveDetailItem(string detailId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(detailId))
+            {
+                return BadRequest("Detail item required!");
+            }
+
+            DeatailsItem deatailsItem = detailsItemBLL.GetDetailsItemById(Convert.ToInt32(detailId));
+            if (deatailsItem == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            deatailsItem.UpdatedBy = session["userName"].ToString();
+            deatailsItem.UpdatedDate = DateTime.Now;
+            deatailsItem.IsActive = false;
+
+            var result = detailsItemBLL.RemoveDetailsItem(deatailsItem);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetSubCategorieById/")]
+        public IHttpActionResult GetSubCategorieById(int subCategoryId)
+        {
+            SubCategory subCategory = subCategoryBLL.GetSubCategoryById(subCategoryId);
+            return Ok(subCategory);
         }
 
         [HttpGet]

@@ -214,11 +214,11 @@ body {
 }
 
 /*main list modal*/
-.main_list_header{
+.main_list_header, .sub_list_header, .detail_list_header {
     height: 48px !important;
     background: lightgray !important;
 }
-.main_item_add_btn{
+.main_item_add_btn, .sub_item_add_btn, .detail_item_add_btn {
     line-height: 1;
     background-color: #4472c4;
     border: none;
@@ -231,7 +231,7 @@ body {
     margin-bottom: 20px;
 }
 
-.main_item_del_btn{  
+.main_item_del_btn, .sub_item_del_btn, .detail_item_del_btn {
     line-height: 1;
     background-color: white;
     border: none;
@@ -243,21 +243,22 @@ body {
     /* display: inline-block; */
     margin-bottom: 20px;
 }
-#main_item_input_tbl {
+#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl {
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
     border: 1px solid;
     font-family: Yu Gothic;
+    margin-bottom: 20px;
 }
 
-#main_item_input_tbl thead {
+#main_item_input_tbl thead,#sub_item_input_tbl thead,#detail_item_input_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
 
-.main_item_input_td{
+.main_item_input_td, .sub_item_input_td, .detail_item_input_td {
     height: 26px;
     border: none;
     border: 1px solid black !important;
@@ -266,7 +267,7 @@ body {
     text-align: center;
     width: 61%;
 }
-.main_item_add_btn_footer,.main_item_del_btn_footer{
+.main_item_add_btn_footer, .main_item_del_btn_footer, .sub_item_add_btn_footer, .sub_item_del_btn_footer, .detail_item_add_btn_footer, .detail_item_del_btn_footer {
     line-height: 1;
     background-color: #d9d9d9;
     border: none;
@@ -280,21 +281,26 @@ body {
 }
 .input_frm_footer{
     padding: 0px !important;
+    text-align:right;
+    margin:10px;
 }
-.main_item_list_tbl {
+.main_item_list_tbl, .sub_item_list_tbl, .detail_item_list_tbl {
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
     border: 1px solid;
     font-family: Yu Gothic;
-    margin-top: -34px;
+    margin-bottom: 20px;
 }
 
-.main_item_list_tbl thead {
+.main_item_list_tbl thead,.sub_item_list_tbl thead,.detail_item_list_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-.main_item_link{
+.main_item_link, .sub_item_link, .detail_item_link {
     text-decoration: underline;
 }
+
+
+    

@@ -13,10 +13,40 @@
                     $('#table_list').append(`<option value='${item.Id}'>${item.TableName}</option>`);
                 });
             });
-    }
-    
+    }    
+
+    //show table details
+    $(document).on('click', '#search_dynamic_table ', function () {
+        //ajax call here 
+        //appen the table body with dynamic value
+        // $('#total_menu_list_tbody').empty();
+        // $.each(data, function (key, item) {
+        //     $('#total_menu_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
+        // });
+        //var dada = "";
+        var listItemBody  = GetTotalMenuListHtml();
+        $('#total_menu_list_tbody').empty();                
+        $('#total_menu_list_tbody').append(`${listItemBody}`);     
+        $(".total_menu_list_tbl").show();         
+    });
+
+
+    //create new row and concate
+    $(document).on('click', '#item_row_add ', function () {
+        debugger;
+        var $tr = $(this).closest('.item_row');
+        var $clone = $tr.clone();
+        $($clone[0].cells[4]).empty();
+        $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
+        $clone[0].dataset.count = ++globalCount;
+        $clone.find(':text').val('');
+        $tr.after($clone);
+        $clone.find('.setting_plus_icon').hide();    
+        $clone.find('.setting_minus_icon').show();    
+    });
+
     //create total menu dynamic list
-    function GetTotalMenuListHtml(data){
+    function GetTotalMenuListHtml(){
         var startTR = "";
         var endTR = "";
         var checkItem = "";
@@ -82,35 +112,4 @@
 
         return totalListItem;
     }
-
-    //show table details
-    $(document).on('click', '#search_dynamic_table ', function () {
-        //ajax call here 
-        //appen the table body with dynamic value
-        // $('#total_menu_list_tbody').empty();
-        // $.each(data, function (key, item) {
-        //     $('#total_menu_list_tbody').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
-        // });
-        var dada = "";
-        var listItemBody  = GetTotalMenuListHtml(data);
-        $('#total_menu_list_tbody').empty();                
-        $('#total_menu_list_tbody').append(`${listItemBody}`);     
-        $(".total_menu_list_tbl").show();         
-    });
-
-
-    //create new row and concate
-    $(document).on('click', '#item_row_add ', function () {
-        debugger;
-        var $tr = $(this).closest('.item_row');
-        var $clone = $tr.clone();
-        $($clone[0].cells[4]).empty();
-        $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
-        $clone[0].dataset.count = ++globalCount;
-        $clone.find(':text').val('');
-        $tr.after($clone);
-        $clone.find('.setting_plus_icon').hide();    
-        $clone.find('.setting_minus_icon').show();    
-    });
-
 });

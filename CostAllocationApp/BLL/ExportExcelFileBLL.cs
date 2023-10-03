@@ -95,8 +95,8 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["H" + count].Value = companyNameReceived;
                 sheet.Cells["H" + count].AutoFitColumns();
 
-                string gradePointsReceived = GetApprovedOrOriginalVlaue("9", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, gradePoints);
-                sheet.Cells["I" + count].Value = gradePointsReceived;
+                var gradePointsReceived = GetApprovedOrOriginalVlaue("9", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, gradePoints);
+                sheet.Cells["I" + count].Value = gradePointsReceived;                
                 sheet.Cells["I" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
                 sheet.Cells["I" + count].AutoFitColumns();
 

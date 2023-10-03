@@ -744,7 +744,6 @@ $(document).on('change', '#add_details_item_modal .category_dropdown', function 
         async: false,
         dataType: 'json',
         success: function (data) {
-            debugger;
             $('#add_details_item_modal #sub_category_dropdown').empty();
             $('#add_details_item_modal #sub_category_dropdown').append(`<option value=''>Select Item</option>`);
             $.each(data, function (key, item) {

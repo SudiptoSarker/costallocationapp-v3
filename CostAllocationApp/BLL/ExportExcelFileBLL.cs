@@ -6,6 +6,7 @@ using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.Models;
 using CostAllocationApp.ViewModels;
+using ExcelNumberFormat;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -99,69 +100,81 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["I" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
                 sheet.Cells["I" + count].AutoFitColumns();
 
-                string unitPriceReceived = GetApprovedOrOriginalVlaue("10", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, unitPrice);
-                unitPriceReceived = Convert.ToInt32(unitPriceReceived).ToString("N0");
-                sheet.Cells["J" + count].Value = unitPriceReceived;
+                string unitPriceReceived = GetApprovedOrOriginalVlaue("10", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, unitPrice);                
+                sheet.Cells["J" + count].Value = Convert.ToInt32(unitPriceReceived);
+                sheet.Cells["J" + count].Style.Numberformat.Format = "#,#";
                 sheet.Cells["J" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 sheet.Cells["J" + count].AutoFitColumns();
 
-                string octPOriginalReceived = GetApprovedOrOriginalVlaue("11", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, octPOriginal);
-                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginalReceived).ToString("0.00");
-                sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Cells["K" + count].AutoFitColumns();
+                string octPOriginalReceived = GetApprovedOrOriginalVlaue("11", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, octPOriginal);                
+                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginalReceived);
+                sheet.Cells["K" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
+                sheet.Cells["K" + count].AutoFitColumns();                
 
-                string novPOriginalReceived = GetApprovedOrOriginalVlaue("12", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, novPOriginal);
-                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginalReceived).ToString("0.00");
-                sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                string novPOriginalReceived = GetApprovedOrOriginalVlaue("12", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, novPOriginal);                
+                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginalReceived);
+                sheet.Cells["L" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
                 sheet.Cells["L" + count].AutoFitColumns();
 
-                string decPOriginalReceived = GetApprovedOrOriginalVlaue("13", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, decPOriginal);
-                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginalReceived).ToString("0.00");
+                string decPOriginalReceived = GetApprovedOrOriginalVlaue("13", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, decPOriginal);                
+                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginalReceived);
+                sheet.Cells["M" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["M" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["M" + count].AutoFitColumns();
 
                 string janPOriginalReceived = GetApprovedOrOriginalVlaue("14", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, janPOriginal);
-                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginalReceived).ToString("0.00");
+                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginalReceived);
+                sheet.Cells["N" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["N" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["N" + count].AutoFitColumns();
 
                 string febPOriginalReceived = GetApprovedOrOriginalVlaue("15", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, febPOriginal);
-                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginalReceived).ToString("0.00");
+                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginalReceived);
+                sheet.Cells["O" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["O" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["O" + count].AutoFitColumns();
 
                 string marPOriginalReceived = GetApprovedOrOriginalVlaue("16", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, marPOriginal);
-                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginalReceived).ToString("0.00");
+                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginalReceived);
+                sheet.Cells["P" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["P" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["P" + count].AutoFitColumns();
 
                 string aprPOriginalReceived = GetApprovedOrOriginalVlaue("17", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, aprPOriginal);
-                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginalReceived).ToString("0.00");
+                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginalReceived);
+                sheet.Cells["Q" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["Q" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["Q" + count].AutoFitColumns();
 
                 string mayPOriginalReceived = GetApprovedOrOriginalVlaue("18", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, mayPOriginal);
-                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginalReceived).ToString("0.00");
+                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginalReceived);
+                sheet.Cells["R" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["R" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["R" + count].AutoFitColumns();
 
                 string junPOriginalReceived = GetApprovedOrOriginalVlaue("19", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, junPOriginal);
-                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginalReceived).ToString("0.00");
+                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginalReceived);
+                sheet.Cells["S" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["S" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["S" + count].AutoFitColumns();
 
                 string julPOriginalReceived = GetApprovedOrOriginalVlaue("20", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, julPOriginal);
-                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginalReceived).ToString("0.00");
+                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginalReceived);
+                sheet.Cells["T" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["T" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["T" + count].AutoFitColumns();
 
                 string augPOriginalReceived = GetApprovedOrOriginalVlaue("21", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, augPOriginal);
-                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginalReceived).ToString("0.00");
+                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginalReceived);
+                sheet.Cells["U" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["U" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["U" + count].AutoFitColumns();
 
                 string sepPOriginalReceived = GetApprovedOrOriginalVlaue("22", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, sepPOriginal);
-                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginalReceived).ToString("0.00");
+                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginalReceived);
+                sheet.Cells["V" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["V" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["V" + count].AutoFitColumns();
 
@@ -515,66 +528,65 @@ namespace CostAllocationApp.BLL
                             eachPersonSheet.Cells["E" + eachPersonIndex].AutoFitColumns();
                         }
                     }
-
-                    eachPersonSheet.Cells["F" + eachPersonIndex].Value =Convert.ToDecimal(eachItem.OctPoints.ToString("0.00"));
-                    //eachPersonSheet.Cells[5,7].NumberFormat = "";
-                    eachPersonSheet.Cells["F" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    //eachPersonSheet.Cells["F" + eachPersonIndex].Worksheet.;
+                    
+                    eachPersonSheet.Cells["F" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.OctPoints);
+                    eachPersonSheet.Cells["F" + eachPersonIndex].Style.Numberformat.Format = "0.00";
+                    eachPersonSheet.Cells["F" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                    
                     eachPersonSheet.Cells["F" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["G" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.00");
-                    eachPersonSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["G" + eachPersonIndex].Formula = "0000";
+                    eachPersonSheet.Cells["G" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.NovPoints);
+                    eachPersonSheet.Cells["G" + eachPersonIndex].Style.Numberformat.Format = "0.00";
+                    eachPersonSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                    
                     eachPersonSheet.Cells["G" + eachPersonIndex].AutoFitColumns();
-
-                    eachPersonSheet.Cells["H" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.00");
-                    eachPersonSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["H" + eachPersonIndex].Formula = "0000";
+                    
+                    eachPersonSheet.Cells["H" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.DecPoints);
+                    eachPersonSheet.Cells["H" + eachPersonIndex].Style.Numberformat.Format = "0.00";
+                    eachPersonSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                    
                     eachPersonSheet.Cells["H" + eachPersonIndex].AutoFitColumns();
-
-                    eachPersonSheet.Cells["I" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.00");
+                    
+                    eachPersonSheet.Cells["I" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JanPoints);
+                    eachPersonSheet.Cells["I" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["I" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["I" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["I" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["J" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.00");
+                    eachPersonSheet.Cells["J" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.FebPoints);
+                    eachPersonSheet.Cells["J" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["J" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["J" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["J" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["K" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.00");
-                    eachPersonSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["K" + eachPersonIndex].Formula = "0000";
+                    eachPersonSheet.Cells["K" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MarPoints);
+                    eachPersonSheet.Cells["K" + eachPersonIndex].Style.Numberformat.Format = "0.00";
+                    eachPersonSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                   
                     eachPersonSheet.Cells["K" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["L" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.00");
+                    eachPersonSheet.Cells["L" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AprPoints);
+                    eachPersonSheet.Cells["L" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["L" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["L" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["L" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["M" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.00");
+                    eachPersonSheet.Cells["M" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MayPoints);
+                    eachPersonSheet.Cells["M" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["M" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["M" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["M" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["N" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.00");
+                    eachPersonSheet.Cells["N" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JunPoints);
+                    eachPersonSheet.Cells["N" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["N" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["N" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["N" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["O" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.00");
+                    eachPersonSheet.Cells["O" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JulPoints);
+                    eachPersonSheet.Cells["O" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["O" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["O" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["O" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["P" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.00");
-                    eachPersonSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["P" + eachPersonIndex].Formula = "0000";
+                    eachPersonSheet.Cells["P" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AugPoints);
+                    eachPersonSheet.Cells["P" + eachPersonIndex].Style.Numberformat.Format = "0.00";
+                    eachPersonSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                    
                     eachPersonSheet.Cells["P" + eachPersonIndex].AutoFitColumns();
 
-                    eachPersonSheet.Cells["Q" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.00");
+                    eachPersonSheet.Cells["Q" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.SepPoints);
+                    eachPersonSheet.Cells["Q" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                     eachPersonSheet.Cells["Q" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    eachPersonSheet.Cells["Q" + eachPersonIndex].Formula = "0000";
                     eachPersonSheet.Cells["Q" + eachPersonIndex].AutoFitColumns();
 
                     eachPersonIndex++;
@@ -1439,52 +1451,64 @@ namespace CostAllocationApp.BLL
                                 planningDistributionSheet.Cells["F" + eachPersonIndex].AutoFitColumns();
                             }
                         }
-
-                        planningDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.00");
+                        
+                        planningDistributionSheet.Cells["G" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.OctPoints);
+                        planningDistributionSheet.Cells["G" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["G" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["H" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.NovPoints);
+                        planningDistributionSheet.Cells["H" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["H" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["I" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.DecPoints);
+                        planningDistributionSheet.Cells["I" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["I" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["I" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["J" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JanPoints);
+                        planningDistributionSheet.Cells["J" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["J" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["J" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["K" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.FebPoints);
+                        planningDistributionSheet.Cells["K" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["K" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["L" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MarPoints);
+                        planningDistributionSheet.Cells["L" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["L" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["L" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["M" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AprPoints);
+                        planningDistributionSheet.Cells["M" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["M" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["M" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["N" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MayPoints);
+                        planningDistributionSheet.Cells["N" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["N" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["N" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["O" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JunPoints);
+                        planningDistributionSheet.Cells["O" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["O" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["O" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["P" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JulPoints);
+                        planningDistributionSheet.Cells["P" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["P" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["Q" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AugPoints);
+                        planningDistributionSheet.Cells["Q" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["Q" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["Q" + eachPersonIndex].AutoFitColumns();
 
-                        planningDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.00");
+                        planningDistributionSheet.Cells["R" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.SepPoints);
+                        planningDistributionSheet.Cells["R" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                         planningDistributionSheet.Cells["R" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         planningDistributionSheet.Cells["R" + eachPersonIndex].AutoFitColumns();
 
@@ -1772,51 +1796,63 @@ namespace CostAllocationApp.BLL
                                 }
                             }
 
-                            devDistributionSheet.Cells["G" + eachPersonIndex].Value = eachItem.OctPoints.ToString("0.00");
+                            devDistributionSheet.Cells["G" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.OctPoints);
+                            devDistributionSheet.Cells["G" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["G" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["G" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["H" + eachPersonIndex].Value = eachItem.NovPoints.ToString("0.00");
+                            devDistributionSheet.Cells["H" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.NovPoints);
+                            devDistributionSheet.Cells["H" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["H" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["H" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["I" + eachPersonIndex].Value = eachItem.DecPoints.ToString("0.00");
+                            devDistributionSheet.Cells["I" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.DecPoints);
+                            devDistributionSheet.Cells["I" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["I" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["I" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["J" + eachPersonIndex].Value = eachItem.JanPoints.ToString("0.00");
+                            devDistributionSheet.Cells["J" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JanPoints);
+                            devDistributionSheet.Cells["J" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["J" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["J" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["K" + eachPersonIndex].Value = eachItem.FebPoints.ToString("0.00");
+                            devDistributionSheet.Cells["K" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.FebPoints);
+                            devDistributionSheet.Cells["K" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["K" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["K" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["L" + eachPersonIndex].Value = eachItem.MarPoints.ToString("0.00");
+                            devDistributionSheet.Cells["L" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MarPoints);
+                            devDistributionSheet.Cells["L" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["L" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["L" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["M" + eachPersonIndex].Value = eachItem.AprPoints.ToString("0.00");
+                            devDistributionSheet.Cells["M" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AprPoints);
+                            devDistributionSheet.Cells["M" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["M" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["M" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["N" + eachPersonIndex].Value = eachItem.MayPoints.ToString("0.00");
+                            devDistributionSheet.Cells["N" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.MayPoints);
+                            devDistributionSheet.Cells["N" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["N" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["N" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["O" + eachPersonIndex].Value = eachItem.JunPoints.ToString("0.00");
+                            devDistributionSheet.Cells["O" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JunPoints);
+                            devDistributionSheet.Cells["O" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["O" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["O" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["P" + eachPersonIndex].Value = eachItem.JulPoints.ToString("0.00");
+                            devDistributionSheet.Cells["P" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.JulPoints);
+                            devDistributionSheet.Cells["P" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["P" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["P" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["Q" + eachPersonIndex].Value = eachItem.AugPoints.ToString("0.00");
+                            devDistributionSheet.Cells["Q" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.AugPoints);
+                            devDistributionSheet.Cells["Q" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["Q" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["Q" + eachPersonIndex].AutoFitColumns();
 
-                            devDistributionSheet.Cells["R" + eachPersonIndex].Value = eachItem.SepPoints.ToString("0.00");
+                            devDistributionSheet.Cells["R" + eachPersonIndex].Value = Convert.ToDecimal(eachItem.SepPoints);
+                            devDistributionSheet.Cells["R" + eachPersonIndex].Style.Numberformat.Format = "0.00";
                             devDistributionSheet.Cells["R" + eachPersonIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             devDistributionSheet.Cells["R" + eachPersonIndex].AutoFitColumns();
 

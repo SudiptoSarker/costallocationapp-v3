@@ -346,6 +346,7 @@ namespace CostAllocationApp.DAL
         {
             List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
             string query = $@"select ds.Id,c.CategoryName,sc.SubCategoryName,di.DetailsItemName,dt.TableName,ds.MethodId,ds.ParameterId,ds.IsActive
+                            ,c.Id 'CategoryId',sc.Id 'SubCategoryId',di.Id 'DetailId'
                             from DynamicSettings ds left join DynamicTables dt on ds.DynamicTableId=dt.Id
                             left join Categories c on ds.CategoryId = c.Id 
                             left join SubCategories sc on ds.SubCategoryId = sc.Id
@@ -364,8 +365,11 @@ namespace CostAllocationApp.DAL
                             DynamicSetting dynamicSetting = new DynamicSetting();
                             dynamicSetting.Id = Convert.ToInt32(rdr["Id"]);
                             dynamicSetting.CategoryName = rdr["CategoryName"] is DBNull ? "" : rdr["CategoryName"].ToString();
+                            dynamicSetting.CategoryId = rdr["CategoryId"] is DBNull ? "" : rdr["CategoryId"].ToString();
                             dynamicSetting.SubCategoryName = rdr["SubCategoryName"] is DBNull ? "" : rdr["SubCategoryName"].ToString();
+                            dynamicSetting.SubCategoryId = rdr["SubCategoryId"] is DBNull ? "" : rdr["SubCategoryId"].ToString();
                             dynamicSetting.DetailsItemName = rdr["DetailsItemName"] is DBNull ? "" : rdr["DetailsItemName"].ToString();
+                            dynamicSetting.DetailsId = rdr["DetailId"] is DBNull ? "" : rdr["DetailId"].ToString();
                             dynamicSetting.DynamicTableName = rdr["TableName"].ToString();
                             dynamicSetting.MethodId = rdr["MethodId"].ToString();
                             dynamicSetting.ParameterId = rdr["ParameterId"].ToString();

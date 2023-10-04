@@ -36,5 +36,9 @@ namespace CostAllocationApp.BLL
         {
             return categoryDAL.GetCategoryByCategoryId(categoryId);
         }
+        public int UpdateCategory(Category category)
+        {
+            return categoryDAL.UpdateCategory(category);
+        }
     }
 }

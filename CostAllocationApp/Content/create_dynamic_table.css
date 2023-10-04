@@ -214,11 +214,11 @@ body {
 }
 
 /*main list modal*/
-.main_list_header, .sub_list_header, .detail_list_header {
+.main_list_header, .sub_list_header, .detail_list_header, .main_item_edit_header, .sub_item_edit_header, .detail_item_edit_header {
     height: 48px !important;
     background: lightgray !important;
 }
-.main_item_add_btn, .sub_item_add_btn, .detail_item_add_btn {
+.main_item_add_btn, .main_item_edit_btn, .main_item_edit_action, .sub_item_add_btn, .sub_item_edit_action, .detail_item_add_btn, .sub_item_edit_btn, .detail_item_edit_btn, .detail_item_edit_action {
     line-height: 1;
     background-color: #4472c4;
     border: none;
@@ -243,7 +243,7 @@ body {
     /* display: inline-block; */
     margin-bottom: 20px;
 }
-#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl {
+#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
@@ -252,13 +252,13 @@ body {
     margin-bottom: 20px;
 }
 
-#main_item_input_tbl thead,#sub_item_input_tbl thead,#detail_item_input_tbl thead {
+#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
 
-.main_item_input_td, .sub_item_input_td, .detail_item_input_td {
+.main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
     height: 26px;
     border: none;
     border: 1px solid black !important;

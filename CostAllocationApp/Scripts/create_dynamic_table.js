@@ -263,7 +263,7 @@ $(document).on('click', '#update_dynamic_table ', function () {
     
 });
 
-//update main item
+//add main item
 $(document).on('click', '.main_item_add_btn ', function () {   
     var mainItem = $('#section-name').val();
     if (mainItem == '' || mainItem == undefined || mainItem == null) {
@@ -295,7 +295,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
                                         <a class="main_item_link" href="#" >${value.CategoryName}</a>
                                     </td>
                                     <td class="main_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="main_item_add_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -318,8 +318,211 @@ $(document).on('click', '.main_item_add_btn ', function () {
     
 });
 
+//update main item
+$(document).on('click', '.main_item_edit_btn ', function () {
+    var mainItemId = $(this).closest('tr').data('id');
+    $('#main_item_id_edit_input').val(mainItemId);
 
+
+    $.ajax({
+        url: '/api/utilities/GetCategoryById?categoryId=' + mainItemId,
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            $('#main_item_edit_input').val(data.CategoryName);
+
+        },
+        error: function (data) {
+        }
+    });
+
+
+    $('#main_item_list_modal').modal('hide');
+
+    setTimeout(() => {
+        $('#main_item_edit_modal').modal('show');
+    }, 600);
+
+        
+
+});
+
+$(document).on('click', '.main_item_edit_action ', function () {
+    var mainItemId = $('#main_item_id_edit_input').val();
+    var mainItemName = $('#main_item_edit_input').val();
+
+    if (mainItemName == '' || mainItemName == undefined || mainItemName == null) {
+        alert('Main item required!');
+        return;
+    }
+    else {
+        $.ajax({
+            url: `/api/utilities/UpdateCategory`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                Id: mainItemId,
+                CategoryName: mainItemName
+            },
+            success: function (data) {
+                ToastMessageSuccess(data);
+                // pull data for main item
+                $.ajax({
+                    url: '/api/utilities/GetCategories/',
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        $('.main_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.main_item_list_tbl tbody').append(`
+                                <tr data-id='${value.Id}'>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_link" href="#" >${value.CategoryName}</a>
+                                    </td>
+                                    <td class="main_item_input_td">
+                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+
+                    },
+                    error: function (data) {
+                    }
+                });
+
+
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    }
+
+});
+
+$(document).on('click', '#main_item_edit_modal_close', () => {
+
+    $('#main_item_edit_modal').modal('hide');
+    setTimeout(() => {
+        $('#main_item_list_modal').modal('show');
+    }, 600);
+
+
+});
+
+$(document).on('click', '#sub_item_edit_modal_close', () => {
+
+    $('#sub_item_edit_modal').modal('hide');
+    setTimeout(() => {
+        $('#sub_item_list_modal').modal('show');
+    }, 600);
+
+
+});
+
+$(document).on('click', '#detail_item_edit_modal_close', () => {
+
+    $('#detail_item_edit_modal').modal('hide');
+    setTimeout(() => {
+        $('#detail_item_list_modal').modal('show');
+    }, 600);
+
+
+});
 //update sub item
+$(document).on('click', '.sub_item_edit_btn', function () {
+    var subItemId = $(this).closest('tr').data('sub-item-id');
+    $('#sub_item_id_edit_input').val(subItemId);
+
+
+    $.ajax({
+        url: '/api/utilities/GetSubCategorieById?subCategoryId=' + subItemId,
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            $('#main_item_id_edit_input').val(data.CategoryId);
+            $('#sub_item_edit_input').val(data.SubCategoryName);
+
+        },
+        error: function (data) {
+        }
+    });
+
+
+    $('#sub_item_list_modal').modal('hide');
+
+    setTimeout(() => {
+        $('#sub_item_edit_modal').modal('show');
+    }, 600);
+
+
+
+});
+$(document).on('click', '.sub_item_edit_action', function () {
+    var mainItemId = $('#main_item_id_edit_input').val();
+    var subItemId = $('#sub_item_id_edit_input').val();
+    var subItemName = $('#sub_item_edit_input').val();
+
+    if (subItemName == '' || subItemName == undefined || subItemName == null) {
+        alert('Sub item required!');
+        return;
+    }
+    else {
+        $.ajax({
+            url: `/api/utilities/UpdateSubCategory`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                Id: subItemId,
+                SubCategoryName: subItemName
+            },
+            success: function (data) {
+                ToastMessageSuccess(data);
+                // pull data for sub item
+                $.ajax({
+                    url: '/api/utilities/GetSubCategoriesByCategory?categoryId=' + mainItemId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+
+                        $('.sub_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.sub_item_list_tbl tbody').append(`
+                                <tr data-sub-item-id='${value.Id}'>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
+                                    </td>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+
+
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    }
+
+});
+
+
 $(document).on('click', '.sub_item_add_btn ', function () {   
     var mainItemId = $('#main_item_id').val();
     var subItem = $('#input_sub_item').val();
@@ -352,7 +555,7 @@ $(document).on('click', '.sub_item_add_btn ', function () {
                                         <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
                                     </td>
                                     <td class="sub_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -372,7 +575,7 @@ $(document).on('click', '.sub_item_add_btn ', function () {
     });
 
 });
-//update detail item
+
 $(document).on('click', '.detail_item_add_btn ', function () { 
     var subItemId = $('#sub_item_id').val();
     var detailsItemName = $('#input_detail_item').val();
@@ -403,7 +606,7 @@ $(document).on('click', '.detail_item_add_btn ', function () {
                                         <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -420,6 +623,99 @@ $(document).on('click', '.detail_item_add_btn ', function () {
         }
     });
 });
+//update sub item/
+$(document).on('click', '.detail_item_edit_btn', function () {
+    
+    var detailItemId = $(this).closest('tr').data('detail-item-id');
+    $('#detail_item_id_edit_input').val(detailItemId);
+
+
+    $.ajax({
+        url: '/api/utilities/GetDetailsItemById?detailsId=' + detailItemId,
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            debugger;
+            $('#sub_item_id_edit_input').val(data.SubCategoryId);
+            $('#detail_item_edit_input').val(data.DetailsItemName);
+
+        },
+        error: function (data) {
+        }
+    });
+
+
+    $('#detail_item_list_modal').modal('hide');
+
+    setTimeout(() => {
+        $('#detail_item_edit_modal').modal('show');
+    }, 600);
+
+
+
+});
+//.
+$(document).on('click', '.detail_item_edit_action', function () {
+    var subItemId = $('#sub_item_id_edit_input').val();
+    var detailItemId = $('#detail_item_id_edit_input').val();
+    var detailItemName = $('#detail_item_edit_input').val();
+
+    if (detailItemName == '' || detailItemName == undefined || detailItemName == null) {
+        alert('Detail item required!');
+        return;
+    }
+    else {
+        $.ajax({
+            url: `/api/utilities/UpdateDetailItem`,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+                Id: detailItemId,
+                DetailsItemName: detailItemName
+            },
+            success: function (data) {
+                ToastMessageSuccess(data);
+                // pull data for detail item
+                $.ajax({
+                    url: '/api/utilities/GetDetailsItemBySubItemsId?subItemId=' + subItemId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        $('.detail_item_list_tbl tbody').empty();
+                        $.each(data, function (index, value) {
+                            $('.detail_item_list_tbl tbody').append(`
+                                <tr data-detail-item-id='${value.Id}'>
+                                    <td class="detail_item_input_td">
+                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                    </td>
+                                    <td class="detail_item_input_td">
+                                        <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
+                                        <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
+                                    </td>
+                                </tr>
+
+                            `);
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+
+
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    }
+
+});
+
+
+
 //update table setting
 $(document).on('click', '#udpate_tbl_setting ', function () {     
 });
@@ -1051,7 +1347,7 @@ $(document).ready(function() {
                                         <a class="main_item_link" href="#">${value.CategoryName}</a>
                                     </td>
                                     <td class="main_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -1096,7 +1392,7 @@ $(document).ready(function() {
                                         <a class="main_item_link" href="#" onclick='clickInside();'">${value.CategoryName}</a>
                                     </td>
                                     <td class="main_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -1142,11 +1438,11 @@ $(document).ready(function() {
                         $.each(data, function (index, value) {
                             $('.sub_item_list_tbl tbody').append(`
                                 <tr data-sub-item-id='${value.Id}'>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_link" href="#">${value.SubCategoryName}</a>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
                                     </td>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                    <td class="sub_item_input_td">
+                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -1195,7 +1491,7 @@ $(document).ready(function() {
                                         <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -1225,8 +1521,8 @@ $(document).ready(function() {
             dataType: 'json',
             async: false,
             success: function (data) {
-                $('#main_item_name').empty();
-                $('#main_item_name').append(data.CategoryName);
+                $('.main_item_name').empty();
+                $('.main_item_name').append(data.CategoryName);
                 $('#main_item_id').val(data.Id);
 
             },
@@ -1249,7 +1545,7 @@ $(document).ready(function() {
                                         <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
                                     </td>
                                     <td class="sub_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="sub_item_edit_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -1280,10 +1576,10 @@ $(document).ready(function() {
             async: false,
             success: function (data) {
                 console.log(data);
-                $('#main_item_name').empty();
-                $('#main_item_name').append(data.CategoryName);
-                $('#sub_item_name').empty();
-                $('#sub_item_name').append(data.SubCategoryName);
+                $('.main_item_name').empty();
+                $('.main_item_name').append(data.CategoryName);
+                $('.sub_item_name').empty();
+                $('.sub_item_name').append(data.SubCategoryName);
                 $('#sub_item_id').val(data.Id);
 
             },
@@ -1306,7 +1602,7 @@ $(document).ready(function() {
                                         <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
+                                        <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="detail_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>

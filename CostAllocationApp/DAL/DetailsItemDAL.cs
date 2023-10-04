@@ -38,7 +38,7 @@ namespace CostAllocationApp.DAL
         public DeatailsItem GetDetailsItemById(int detailsItemId)
         {
             DeatailsItem deatailsItem = null;
-            string query = "select d.Id,d.DetailsItemName, sb.SubCategoryName, c.CategoryName from DetailsItems d join SubCategories sb on d.SubCategoryId = sb.Id join Categories c on sb.CategoryId = c.Id  where d.id = " + detailsItemId;
+            string query = "select d.Id,d.DetailsItemName, d.SubCategoryId ,sb.SubCategoryName, c.CategoryName from DetailsItems d join SubCategories sb on d.SubCategoryId = sb.Id join Categories c on sb.CategoryId = c.Id  where d.id = " + detailsItemId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -53,6 +53,7 @@ namespace CostAllocationApp.DAL
                         {
                             deatailsItem = new DeatailsItem();
                             deatailsItem.DetailsItemName = rdr["DetailsItemName"].ToString();
+                            deatailsItem.SubCategoryId = rdr["SubCategoryId"].ToString();
                             deatailsItem.SubItemName = rdr["SubCategoryName"].ToString();
                             deatailsItem.MainItemName = rdr["CategoryName"].ToString();
                             deatailsItem.Id = Convert.ToInt32(rdr["Id"]);
@@ -111,6 +112,32 @@ namespace CostAllocationApp.DAL
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@isactive", deatailsItem.IsActive);
+                cmd.Parameters.AddWithValue("@updatedBy", deatailsItem.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", deatailsItem.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", deatailsItem.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int UpdateDetailsItem(DeatailsItem deatailsItem)
+        {
+            int result = 0;
+            string query = $@"update DetailsItems set DetailsItemName=@detailsItemName, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@detailsItemName", deatailsItem.DetailsItemName);
                 cmd.Parameters.AddWithValue("@updatedBy", deatailsItem.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedDate", deatailsItem.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", deatailsItem.Id);

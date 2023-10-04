@@ -489,7 +489,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header sub_list_header">
-                <h5 class="modal-title" id="exampleModalLongTitle">中項目リスト　（導入）(Sub Item List)​</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">(Sub Item List)​</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="sub_item_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -497,7 +497,7 @@
 
             <div class="modal-body">
 
-                <h5>Main Item: <span id="main_item_name"></span></h5>
+                <h5>Main Item: <span class="main_item_name"></span></h5>
                 <table id="sub_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -530,10 +530,8 @@
                     <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
             </div>
 
@@ -547,7 +545,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header detail_list_header">
-                <h5 class="modal-title" id="exampleModalLongTitle">中項目リスト（導入）(Detail Item List)​</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">(Detail Item List)​</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="detail_item_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -555,8 +553,8 @@
 
             <div class="modal-body">
 
-                <h5>Main Item: <span id="main_item_name"></span></h5>
-                <h5>Sub Item: <span id="sub_item_name"></span></h5>
+                <h5>Main Item: <span class="main_item_name"></span></h5>
+                <h5>Sub Item: <span class="sub_item_name"></span></h5>
                 <table id="detail_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -589,10 +587,8 @@
                     <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
             </div>
 
@@ -602,18 +598,18 @@
 
 
 <!-----------------Modal: Edit Main Item---------------->
-<div class="modal fade" id="main_item_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="main_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header main_list_header">
-                <h5 class="modal-title" id="exampleModalLongTitle">大項目リスト​ (Main Item List)</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header main_item_edit_header">
+                <h5 class="modal-title" id="exampleModalLongTitle">(Main Item Edit)</h5>
+                <button type="button" class="close" id="main_item_edit_modal_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-                <table id="main_item_input_tbl">
+                <table id="main_item_edit_tbl">
                     <thead style="border: none;">
                         <tr></tr>
                         <tr>
@@ -623,11 +619,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="main_item_input_td">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="section-name">
+                            <td class="main_item_edit_input_td">
+                                <input type="hidden" value="" id="main_item_id_edit_input">
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="main_item_edit_input">
                             </td>
-                            <td class="main_item_input_td">
-                                <a href="javascript:void(0);" class="main_item_add_btn" id="">追加​ (add)</a>
+                            <td class="main_item_edit_input_td">
+                                <a href="javascript:void(0);" class="main_item_edit_action" id="">追加​ (edit)</a>
                             </td>
                         </tr>
                     </tbody>
@@ -639,7 +636,85 @@
     </div>
 </div>
 
+<!-----------------Modal: Edit Sub Item---------------->
+<div class="modal fade" id="sub_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header sub_item_edit_header">
+                <h5 class="modal-title" id="exampleModalLongTitle">(Sub Item Edit)</h5>
+                <button type="button" class="close" id="sub_item_edit_modal_close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+            <div class="modal-body">
+                <table id="sub_item_edit_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th class="section_th">項目​ (item)</th>
+                            <th class="section_th">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="sub_item_edit_input_td">
+                                <input type="hidden" value="" id="main_item_id_edit_input">
+                                <input type="hidden" value="" id="sub_item_id_edit_input">
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="sub_item_edit_input">
+                            </td>
+                            <td class="sub_item_edit_input_td">
+                                <a href="javascript:void(0);" class="sub_item_edit_action" id="">追加​ (edit)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit Details Item---------------->
+<div class="modal fade" id="detail_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header detail_item_edit_header">
+                <h5 class="modal-title" id="exampleModalLongTitle">(Detail Item Edit)</h5>
+                <button type="button" class="close" id="detail_item_edit_modal_close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table id="detail_item_edit_tbl">
+                    <thead style="border: none;">
+                        <tr></tr>
+                        <tr>
+                            <th class="section_th">項目​ (item)</th>
+                            <th class="section_th">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="detail_item_edit_input_td">
+                                <input type="hidden" value="" id="sub_item_id_edit_input">
+                                <input type="hidden" value="" id="detail_item_id_edit_input">
+                                <input type="text" value="" placeholder="設定する大項目を入力​" id="detail_item_edit_input">
+                            </td>
+                            <td class="detail_item_edit_input_td">
+                                <a href="javascript:void(0);" class="detail_item_edit_action" id="">追加​ (edit)</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-----------------Modal: Edit Dynamic Table----------------->
 <div id="edit_dynamic_table_modal" class="modal custom-modal fade" role="dialog">

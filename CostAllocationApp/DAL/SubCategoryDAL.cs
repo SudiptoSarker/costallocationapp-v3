@@ -141,6 +141,32 @@ namespace CostAllocationApp.DAL
 
         }
 
+        public int UpdateSubCategory(SubCategory subCategory)
+        {
+            int result = 0;
+            string query = $@"update SubCategories set SubCategoryName=@subCategoryName, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@subCategoryName", subCategory.SubCategoryName);
+                cmd.Parameters.AddWithValue("@updatedBy", subCategory.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", subCategory.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", subCategory.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
         public bool CheckSubCategory(string subCategoryName)
         {
             string query = "select * from SubCategories where SubCategoryName=N'" + subCategoryName + "'";

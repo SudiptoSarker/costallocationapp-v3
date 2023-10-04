@@ -41,5 +41,9 @@ namespace CostAllocationApp.BLL
         {
             return subCategoryDAL.GetSubCategoryByCategoryId(categoryId);
         }
+        public int UpdateSubCategory(SubCategory subCategory)
+        {
+            return subCategoryDAL.UpdateSubCategory(subCategory);
+        }
     }
 }

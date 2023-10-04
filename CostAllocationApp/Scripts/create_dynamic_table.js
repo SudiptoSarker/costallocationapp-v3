@@ -1367,6 +1367,23 @@ $(document).ready(function() {
     $(document).on('click', '.main_item_del_btn', function () {
         var buttonElement = $(this);
         var categoryId = buttonElement.closest('tr').attr('data-id');
+        $('#main_item_del_id').val(categoryId);
+        $('#main_item_list_modal').modal('hide');
+        setTimeout(() => {
+            $('#delete_main_item_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '.confrim_cancel_btn_main_item', function () {
+
+        $('#delete_main_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#main_item_list_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '.confrim_del_btn_main_item', function () {
+        var categoryId = $('#main_item_del_id').val();
         var apiurl = "/api/Utilities/RemoveCategory?categoryId=" + categoryId;
 
 
@@ -1409,13 +1426,39 @@ $(document).ready(function() {
                 ToastMessageFailed(data);
             }
         });
+
+        $('#delete_main_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#main_item_list_modal').modal('show');
+        }, 600);
     });
+
+
 
     $(document).on('click', '.sub_item_del_btn', function () {
         var buttonElement = $(this);
-        var subCategoryId = buttonElement.closest('tr').attr('data-sub-item-id');
         var mainItemId = $('#main_item_id').val();
-        var apiurl = "/api/Utilities/RemoveSubCategory?subCategoryId=" + subCategoryId;
+        var subItemId = buttonElement.closest('tr').attr('data-sub-item-id');
+        $('#sub_item_del_id').val(subItemId);
+        $('#main_item_del_id_in_sub_item_delete_modal').val(mainItemId);
+        $('#sub_item_list_modal').modal('hide');
+        setTimeout(() => {
+            $('#delete_sub_item_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '.confrim_cancel_btn_sub_item', function () {
+
+        $('#delete_sub_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#sub_item_list_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '.confrim_del_btn_sub_item', function () {
+        var mainItemId = $('#main_item_del_id_in_sub_item_delete_modal').val();
+        var subItemId = $('#sub_item_del_id').val();
+        var apiurl = "/api/Utilities/RemoveSubCategory?subCategoryId=" + subItemId;
         debugger;
 
         $.ajax({
@@ -1458,12 +1501,38 @@ $(document).ready(function() {
                 ToastMessageFailed(data);
             }
         });
+
+        $('#delete_sub_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#sub_item_list_modal').modal('show');
+        }, 600);
     });
 
     $(document).on('click', '.detail_item_del_btn', function () {
         var buttonElement = $(this);
         var detailId = buttonElement.closest('tr').attr('data-detail-item-id');
         var subItemId = $('#sub_item_id').val();
+        $('#detail_item_del_id').val(detailId);
+        $('#sub_item_del_id_in_detail_item_delete_modal').val(subItemId);
+        $('#detail_item_list_modal').modal('hide');
+        setTimeout(() => {
+            $('#delete_detail_item_modal').modal('show');
+        }, 600);
+    });
+
+    $(document).on('click', '.confrim_cancel_btn_detail_item', function () {
+
+        $('#delete_detail_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#detail_item_list_modal').modal('show');
+        }, 600);
+    });
+
+
+    $(document).on('click', '.confrim_del_btn_detail_item', function () {
+
+        var detailId = $('#detail_item_del_id').val();
+        var subItemId = $('#sub_item_del_id_in_detail_item_delete_modal').val();
         var apiurl = "/api/Utilities/RemoveDetailItem?detailId=" + detailId;
         debugger;
 
@@ -1507,6 +1576,11 @@ $(document).ready(function() {
                 ToastMessageFailed(data);
             }
         });
+
+        $('#delete_detail_item_modal').modal('hide');
+        setTimeout(() => {
+            $('#detail_item_list_modal').modal('show');
+        }, 600);
     });
 
     $(document).on('click', '.main_item_link', function (e) {

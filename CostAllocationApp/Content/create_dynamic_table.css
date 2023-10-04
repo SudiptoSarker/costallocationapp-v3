@@ -192,7 +192,7 @@ body {
     background: lightgray; */
     text-align: left;
 }
-.confrim_del_btn{
+.confrim_del_btn, .confrim_del_btn_main_item, .confrim_del_btn_sub_item, .confrim_del_btn_detail_item {
     width: 100%;
     font-size: 13px;
     font-family: Yu Gothic;
@@ -202,7 +202,7 @@ body {
     /* margin-left: 188px; */
     border: 1px solid black !important;
 }
-.confrim_cancel_btn{
+.confrim_cancel_btn, .confrim_cancel_btn_main_item, .confrim_cancel_btn_sub_item, .confrim_cancel_btn_detail_item {
     width: 100%;
     font-size: 13px;
     font-family: Yu Gothic;

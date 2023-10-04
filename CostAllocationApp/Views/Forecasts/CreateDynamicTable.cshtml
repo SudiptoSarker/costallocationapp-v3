@@ -429,6 +429,95 @@
     </div>
 </div>
 
+<!-----------------Modal: Delete Main Item----------------->
+<div class="modal custom-modal-delete-item fade" id="delete_main_item_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3 class="delete_confirm_header">(Delete Record)</h3>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <input type="hidden" value="" id="main_item_del_id" />
+                            <a href="javascript:void(0);" class="btn confrim_del_btn_main_item">はい (Y)​</a>
+                        </div>
+
+                        <div class="col-3">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_main_item">いいえ (N)​</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Delete Sub Item----------------->
+<div class="modal custom-modal-delete-item fade" id="delete_sub_item_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3 class="delete_confirm_header">(Delete Record)</h3>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <input type="hidden" value="" id="main_item_del_id_in_sub_item_delete_modal" />
+                            <input type="hidden" value="" id="sub_item_del_id" />
+                            <a href="javascript:void(0);" class="btn confrim_del_btn_sub_item">はい (Y)​</a>
+                        </div>
+
+                        <div class="col-3">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_sub_item">いいえ (N)​</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Delete Detail Item----------------->
+<div class="modal custom-modal-delete-item fade" id="delete_detail_item_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3 class="delete_confirm_header">(Delete Record)</h3>
+                    <ol class="section_count" style="text-align:left;"></ol>
+                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <input type="hidden" value="" id="sub_item_del_id_in_detail_item_delete_modal" />
+                            <input type="hidden" value="" id="detail_item_del_id" />
+                            <a href="javascript:void(0);" class="btn confrim_del_btn_detail_item">はい (Y)​</a>
+                        </div>
+
+                        <div class="col-3">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_detail_item">いいえ (N)​</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-----------------Modal: Main Item List and Input Form----------------->
 <div class="modal fade" id="main_item_list_modal">
@@ -473,9 +562,9 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <div class="modal-footer input_frm_footer">
+                @*<div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -529,10 +618,10 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <div class="modal-footer input_frm_footer">
+                @*<div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>
+                </div>*@
             </div>
 
         </div>
@@ -586,10 +675,10 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <div class="modal-footer input_frm_footer">
+                @*<div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
                     <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>
+                </div>*@
             </div>
 
         </div>

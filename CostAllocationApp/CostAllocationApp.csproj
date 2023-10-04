@@ -338,6 +338,7 @@
     <Content Include="Content\common.css" />
     <Content Include="Content\companies.css" />
     <Content Include="Content\companies_ver02.css" />
+    <Content Include="Content\modally.css" />
     <Content Include="Content\table_format.css" />
     <Content Include="Content\employee.css" />
     <Content Include="Content\Custom.css" />
@@ -801,6 +802,7 @@
     <Content Include="Scripts\mask.js" />
     <Content Include="Scripts\mastersetting_reg_modal.js" />
     <Content Include="Scripts\master_setting.js" />
+    <Content Include="Scripts\modally.js" />
     <Content Include="Scripts\modal_registrations.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />

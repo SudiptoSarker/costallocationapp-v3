@@ -77,7 +77,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult RemoveSubCategory([FromUri] string subCategoryId)
         {
             int result = 0;
-
+            var session = System.Web.HttpContext.Current.Session;
 
             if (!String.IsNullOrEmpty(subCategoryId))
             {
@@ -85,7 +85,10 @@ namespace CostAllocationApp.Controllers.Api
 
                 foreach (var item in ids)
                 {
-                    result += subCategoryBLL.RemoveSubCategory(Convert.ToInt32(item));
+                    SubCategory subCategory = subCategoryBLL.GetAllSubCategories().Where(c => c.Id == Convert.ToInt32(item)).SingleOrDefault();
+                    subCategory.UpdatedBy = session["userName"].ToString();
+                    subCategory.UpdatedDate = DateTime.Now;
+                    result += subCategoryBLL.RemoveSubCategory(subCategory);
                 }
 
                 if (result == ids.Length)

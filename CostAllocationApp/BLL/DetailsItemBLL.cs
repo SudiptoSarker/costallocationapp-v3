@@ -28,5 +28,13 @@ namespace CostAllocationApp.BLL
         {
             return detailsItemDAL.GetDetailsItemBySubItemsId(subItemId);
         }
+        public int RemoveDetailsItem(DeatailsItem deatailsItem)
+        {
+            return detailsItemDAL.RemoveDetailsItem(deatailsItem);
+        }
+        public int UpdateDetailsItem(DeatailsItem deatailsItem)
+        {
+            return detailsItemDAL.UpdateDetailsItem(deatailsItem);
+        }
     }
 }

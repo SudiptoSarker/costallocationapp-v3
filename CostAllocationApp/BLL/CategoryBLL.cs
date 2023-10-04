@@ -23,9 +23,9 @@ namespace CostAllocationApp.BLL
         {
             return categoryDAL.GetAllCategories();
         }
-        public int RemoveCategory(int categoryId)
+        public int RemoveCategory(Category category)
         {
-            return categoryDAL.RemoveCategory(categoryId);
+            return categoryDAL.RemoveCategory(category);
         }
 
         public bool CheckCategory(string categoryName)
@@ -35,6 +35,10 @@ namespace CostAllocationApp.BLL
         public Category GetCategoryByCategoryId(int categoryId)
         {
             return categoryDAL.GetCategoryByCategoryId(categoryId);
+        }
+        public int UpdateCategory(Category category)
+        {
+            return categoryDAL.UpdateCategory(category);
         }
     }
 }

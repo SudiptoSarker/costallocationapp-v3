@@ -70,15 +70,44 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int RemoveCategory(int categoryId)
+        public int RemoveCategory(Category category)
         {
             int result = 0;
-            string query = $@"update Categories set isactive=0 where id=@id";
+            string query = $@"update Categories set isactive=@isactive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@id", categoryId);
+                cmd.Parameters.AddWithValue("@isactive", category.IsActive);
+                cmd.Parameters.AddWithValue("@updatedBy", category.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", category.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", category.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+
+        public int UpdateCategory(Category category)
+        {
+            int result = 0;
+            string query = $@"update Categories set CategoryName=@categoryName, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@categoryName", category.CategoryName);
+                cmd.Parameters.AddWithValue("@updatedBy", category.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", category.UpdatedDate);
+                cmd.Parameters.AddWithValue("@id", category.Id);
                 try
                 {
                     result = cmd.ExecuteNonQuery();

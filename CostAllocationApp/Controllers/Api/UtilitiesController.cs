@@ -9854,36 +9854,27 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpPost]
         [Route("api/utilities/InactiveDynamicTable/")]
-        public IHttpActionResult GetDynamicTables(DynamicTable dynamicTable)
+        public IHttpActionResult GetDynamicTables(string tableId)
         {
             var session = System.Web.HttpContext.Current.Session;
 
-            var result = totalBLL.GetAllDynamicTables();
+            var singleDynamicTable = totalBLL.GetAllDynamicTables().Where(dt=>dt.Id==Convert.ToInt32(tableId)).FirstOrDefault();
 
-            if (result.Count > 0)
+            if (singleDynamicTable != null)
             {
                 //int tableId = dynamicTable.Id;
-                dynamicTable.UpdatedBy = session["userName"].ToString();
-                dynamicTable.UpdatedDate = DateTime.Now;
-                dynamicTable.IsActive = false;
+                singleDynamicTable.UpdatedBy = session["userName"].ToString();
+                singleDynamicTable.UpdatedDate = DateTime.Now;
+                singleDynamicTable.IsActive = false;
 
-                //var singleDynamicTable = result.Where(dt => dt.Id == tableId).SingleOrDefault();
-                if (dynamicTable != null)
+                var inactiveResult = totalBLL.InactiveDynamicTable(singleDynamicTable);
+                if (inactiveResult>0)
                 {
-                    var inactiveResult = totalBLL.InactiveDynamicTable(dynamicTable);
-                    if (inactiveResult>0)
-                    {
-                        return Ok("保存されました!");
-                    }
-                    else
-                    {
-                        return BadRequest("Something went wrong.");
-                    }
-
+                    return Ok("保存されました!");
                 }
                 else
                 {
-                    return Ok("Data not found!");
+                    return BadRequest("Something went wrong.");
                 }
             }
             else
@@ -9958,6 +9949,113 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpGet]
+        [Route("api/utilities/GetCategoryById/")]
+        public IHttpActionResult GetCategoryById(string categoryId)
+        {
+            if (String.IsNullOrEmpty(categoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            Category category = categoryBLL.GetCategoryByCategoryId(Convert.ToInt32(categoryId));
+            if (category == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+            return Ok(category);
+        }
+
+        [HttpPut]
+        [Route("api/utilities/UpdateCategory/")]
+        public IHttpActionResult UpdateCategory(Category category)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (category == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            category.UpdatedBy = session["userName"].ToString();
+            category.UpdatedDate = DateTime.Now;
+
+            var result = categoryBLL.UpdateCategory(category);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveCategory/")]
+        public IHttpActionResult RemoveCategory(string categoryId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(categoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            Category category = categoryBLL.GetAllCategories().Where(c=>c.Id== Convert.ToInt32(categoryId)).SingleOrDefault();
+            if (category==null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            category.UpdatedBy = session["userName"].ToString();
+            category.UpdatedDate = DateTime.Now;
+            category.IsActive = false;
+
+            var result = categoryBLL.RemoveCategory(category);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveSubCategory/")]
+        public IHttpActionResult RemoveSubCategory(string subCategoryId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(subCategoryId))
+            {
+                return BadRequest("Category required!");
+            }
+
+            SubCategory subCategory = subCategoryBLL.GetAllSubCategories().Where(c => c.Id == Convert.ToInt32(subCategoryId)).SingleOrDefault();
+            if (subCategory == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            subCategory.UpdatedBy = session["userName"].ToString();
+            subCategory.UpdatedDate = DateTime.Now;
+            subCategory.IsActive = false;
+
+            var result = subCategoryBLL.RemoveSubCategory(subCategory);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
         [HttpPost]
         [Route("api/utilities/CreateDetailsItem/")]
         public IHttpActionResult CreateDetailsItem(DeatailsItem deatailsItem)
@@ -9994,6 +10092,107 @@ namespace CostAllocationApp.Controllers.Api
             List<DeatailsItem> deatailsItems = detailsItemBLL.GetDetailsItemBySubItemsId(subItemId);
 
             return Ok(deatailsItems);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDetailsItemById/")]
+        public IHttpActionResult GetDetailsItemById(int detailsId)
+        {
+            DeatailsItem deatailsItem = detailsItemBLL.GetDetailsItemById(detailsId);
+
+            return Ok(deatailsItem);
+        }
+
+        [HttpPut]
+        [Route("api/utilities/UpdateDetailItem/")]
+        public IHttpActionResult UpdateDetailItem(DeatailsItem deatailsItem)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (deatailsItem == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            deatailsItem.UpdatedBy = session["userName"].ToString();
+            deatailsItem.UpdatedDate = DateTime.Now;
+
+            var result = detailsItemBLL.UpdateDetailsItem(deatailsItem);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/utilities/RemoveDetailItem/")]
+        public IHttpActionResult RemoveDetailItem(string detailId)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+            if (String.IsNullOrEmpty(detailId))
+            {
+                return BadRequest("Detail item required!");
+            }
+
+            DeatailsItem deatailsItem = detailsItemBLL.GetDetailsItemById(Convert.ToInt32(detailId));
+            if (deatailsItem == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            deatailsItem.UpdatedBy = session["userName"].ToString();
+            deatailsItem.UpdatedDate = DateTime.Now;
+            deatailsItem.IsActive = false;
+
+            var result = detailsItemBLL.RemoveDetailsItem(deatailsItem);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetSubCategorieById/")]
+        public IHttpActionResult GetSubCategorieById(int subCategoryId)
+        {
+            SubCategory subCategory = subCategoryBLL.GetSubCategoryById(subCategoryId);
+            return Ok(subCategory);
+        }
+
+        [HttpPut]
+        [Route("api/utilities/UpdateSubCategory/")]
+        public IHttpActionResult UpdateSubCategory(SubCategory subCategory)
+        {
+            var session = System.Web.HttpContext.Current.Session;
+
+            if (subCategory == null)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            subCategory.UpdatedBy = session["userName"].ToString();
+            subCategory.UpdatedDate = DateTime.Now;
+
+            var result = subCategoryBLL.UpdateSubCategory(subCategory);
+
+            if (result > 0)
+            {
+                return Ok("Operation Completed!");
+            }
+            else
+            {
+                return BadRequest("Something went wrong!");
+            }
         }
 
         [HttpGet]

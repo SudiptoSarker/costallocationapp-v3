@@ -70,7 +70,7 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult RemoveCategory([FromUri] string CategoryId)
         {
             int result = 0;
-
+            var session = System.Web.HttpContext.Current.Session;
 
             if (!String.IsNullOrEmpty(CategoryId))
             {
@@ -78,7 +78,10 @@ namespace CostAllocationApp.Controllers.Api
 
                 foreach (var item in ids)
                 {
-                    result += categoryBLL.RemoveCategory(Convert.ToInt32(item));
+                    Category category = categoryBLL.GetAllCategories().Where(c => c.Id == Convert.ToInt32(item)).SingleOrDefault();
+                    category.UpdatedBy = session["userName"].ToString();
+                    category.UpdatedDate = DateTime.Now;
+                    result += categoryBLL.RemoveCategory(category);
                 }
 
                 if (result == ids.Length)

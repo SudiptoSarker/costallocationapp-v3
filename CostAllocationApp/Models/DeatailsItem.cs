@@ -11,6 +11,8 @@ namespace CostAllocationApp.Models
         public string DetailsItemName { get; set; }
         public string SubCategoryId { get; set; }
         public bool IsActive { get; set; }
+        public string MainItemName { get; set; }
+        public string SubItemName { get; set; }
 
     }
 }

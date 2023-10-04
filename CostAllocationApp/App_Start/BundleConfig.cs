@@ -30,7 +30,8 @@ namespace CostAllocationApp
                             "~/Scripts/dataTables.bootstrap4.min.js",
                             "~/Scripts/toastr.min.js",
                             "~/Scripts/toastr.min.js",
-                            "~/Scripts/jquery.signalR-2.4.3.js"
+                            "~/Scripts/jquery.signalR-2.4.3.js",
+                            "~/Scripts/modally.js"
 
                             //,
                             //"~/Scripts/loader.js",
@@ -55,7 +56,8 @@ namespace CostAllocationApp
                     "~/Content/style_ver02.css",
                     "~/Content/side_menu_ver02.css",
                     "~/Content/new_side_menu_ver02.css",
-                    "~/Content/custome_side_menu.css"
+                    "~/Content/custome_side_menu.css",
+                    "~/Content/modally.css"
                     //,
                     //"~/Content/custom.css"
                     ));

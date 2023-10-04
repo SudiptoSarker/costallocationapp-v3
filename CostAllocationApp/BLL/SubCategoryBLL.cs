@@ -24,9 +24,13 @@ namespace CostAllocationApp.BLL
         {
             return subCategoryDAL.GetAllSubCategories();
         }
-        public int RemoveSubCategory(int subCategoryId)
+        public int RemoveSubCategory(SubCategory subCategory)
         {
-            return subCategoryDAL.RemoveSubCategory(subCategoryId);
+            return subCategoryDAL.RemoveSubCategory(subCategory);
+        }
+        public SubCategory GetSubCategoryById(int subCategoryId)
+        {
+            return subCategoryDAL.GetSubCategoryById(subCategoryId);
         }
 
         public bool CheckSubCategory(string subCategoryName)
@@ -36,6 +40,10 @@ namespace CostAllocationApp.BLL
         public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
             return subCategoryDAL.GetSubCategoryByCategoryId(categoryId);
+        }
+        public int UpdateSubCategory(SubCategory subCategory)
+        {
+            return subCategoryDAL.UpdateSubCategory(subCategory);
         }
     }
 }

@@ -652,7 +652,21 @@ $(document).ready(function () {
                         var sep_sum = 0;
 
                         $.each(jss.getData(), (index1, itemValue1) => {
-                            if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
+                            //if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
+                            //    oct_sum += parseFloat(itemValue1[3]);
+                            //    nov_sum += parseFloat(itemValue1[4]);
+                            //    dec_sum += parseFloat(itemValue1[5]);
+                            //    jan_sum += parseFloat(itemValue1[6]);
+                            //    feb_sum += parseFloat(itemValue1[7]);
+                            //    mar_sum += parseFloat(itemValue1[8]);
+                            //    apr_sum += parseFloat(itemValue1[9]);
+                            //    may_sum += parseFloat(itemValue1[10]);
+                            //    jun_sum += parseFloat(itemValue1[11]);
+                            //    jul_sum += parseFloat(itemValue1[12]);
+                            //    aug_sum += parseFloat(itemValue1[13]);
+                            //    sep_sum += parseFloat(itemValue1[14]);
+                            //}
+
                                 oct_sum += parseFloat(itemValue1[3]);
                                 nov_sum += parseFloat(itemValue1[4]);
                                 dec_sum += parseFloat(itemValue1[5]);
@@ -665,55 +679,54 @@ $(document).ready(function () {
                                 jul_sum += parseFloat(itemValue1[12]);
                                 aug_sum += parseFloat(itemValue1[13]);
                                 sep_sum += parseFloat(itemValue1[14]);
-                            }
 
                         }); // end of each...
                         
-                        if (oct_sum !=100) {
+                        if (oct_sum < 0 || oct_sum > 100) {
                             alert('Invalid Month (Oct) Value ' + oct_sum);
                             return false;
                         }
-                        if (nov_sum != 100) {
+                        if (nov_sum < 0 || nov_sum > 100) {
                             alert('Invalid Month (Nov) Value ' + nov_sum);
                             return false;
                         }
-                        if (dec_sum != 100) {
+                        if (dec_sum < 0 || dec_sum > 100) {
                             alert('Invalid Month (Dec) Value ' + dec_sum);
                             return false;
                         }
-                        if (jan_sum != 100) {
+                        if (jan_sum < 0 || jan_sum > 100) {
                             alert('Invalid Month (Jan) Value ' + jan_sum);
                             return false;
                         }
-                        if (feb_sum != 100) {
+                        if (feb_sum < 0 || feb_sum > 100) {
                             alert('Invalid Month (Feb) Value ' + feb_sum);
                             return false;
                         }
-                        if (mar_sum != 100) {
+                        if (mar_sum < 0 || feb_sum > 100) {
                             alert('Invalid Month (Mar) Value ' + mar_sum);
                             return false;
                         }
-                        if (apr_sum != 100) {
+                        if (apr_sum < 0 || apr_sum > 100) {
                             alert('Invalid Month (Apr) Value ' + apr_sum);
                             return false;
                         }
-                        if (may_sum != 100) {
+                        if (may_sum < 0 || may_sum > 100) {
                             alert('Invalid Month (May) Value ' + may_sum);
                             return false;
                         }
-                        if (jun_sum != 100) {
+                        if (jun_sum < 0 || jun_sum > 100) {
                             alert('Invalid Month (Jun) Value ' + jun_sum);
                             return false;
                         }
-                        if (jul_sum != 100) {
+                        if (jul_sum < 0 || jul_sum > 100) {
                             alert('Invalid Month (Jul) Value ' + jul_sum);
                             return false;
                         }
-                        if (aug_sum != 100) {
+                        if (aug_sum < 0 || aug_sum > 100) {
                             alert('Invalid Month (Aug) Value ' + aug_sum);
                             return false;
                         }
-                        if (sep_sum != 100) {
+                        if (sep_sum < 0 || sep_sum > 100) {
                             alert('Invalid Month (Sep) Value ' + sep_sum);
                             return false;
                         }
@@ -975,6 +988,7 @@ $(document).ready(function () {
     });
 
     $('#add_button').on('click', function () {
+        var duplicateEmployees = [];
         var datas = $('#merged_employee_from_qc').val();
         var year = $('#assignment_year').val();
         if (loadFlag==0) {
@@ -994,28 +1008,51 @@ $(document).ready(function () {
         
         
         $.each(datas, function (index, itemValue) {
+            let pushFlag = true;
             var splittedString = itemValue.split('_');
-            _retriveddata.push({
-                EmployeeId: splittedString[0],
-                EmployeeName: splittedString[1],
-                DepartmentId: null,
-                OctPercentage: 0,
-                NovPercentage: 0,
-                DecPercentage: 0,
-                JanPercentage: 0,
-                FebPercentage: 0,
-                MarPercentage: 0,
-                AprPercentage: 0,
-                MayPercentage: 0,
-                JunPercentage: 0,
-                JulPercentage: 0,
-                AugPercentage: 0,
-                SepPercentage: 0,
-                Id: 0
-               
 
-            });
+            for (let i = 0; i < _retriveddata.length; i++) {
+                if (_retriveddata[i].EmployeeId.toString() == splittedString[0].toString()) {
+                    pushFlag = false;
+                    duplicateEmployees.push(splittedString[1]);
+                    break;
+                }
+            }
+
+            if (pushFlag) {
+                _retriveddata.push({
+                    EmployeeId: splittedString[0],
+                    EmployeeName: splittedString[1],
+                    DepartmentId: null,
+                    OctPercentage: 0,
+                    NovPercentage: 0,
+                    DecPercentage: 0,
+                    JanPercentage: 0,
+                    FebPercentage: 0,
+                    MarPercentage: 0,
+                    AprPercentage: 0,
+                    MayPercentage: 0,
+                    JunPercentage: 0,
+                    JulPercentage: 0,
+                    AugPercentage: 0,
+                    SepPercentage: 0,
+                    Id: 0
+
+
+                });
+            }
+
+              
         });
+
+        if (duplicateEmployees.length > 0) {
+            var duplicateMessege = '';
+            $.each(duplicateEmployees, function (duplicateIndex, duplicateValue) {
+                duplicateMessege += duplicateValue + '\n';
+            });
+            duplicateMessege += 'employee\'s are already exists!';
+            alert(duplicateMessege);
+        }
         LoadJexcel();
     });
     

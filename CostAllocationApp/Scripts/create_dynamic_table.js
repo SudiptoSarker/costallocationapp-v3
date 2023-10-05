@@ -266,6 +266,8 @@ $(document).on('click', '#update_dynamic_table ', function () {
 //add main item
 $(document).on('click', '.main_item_add_btn ', function () {   
     var mainItem = $('#section-name').val();
+    var tableId = $('#table_id_for_edit').val();
+    var dynamicTable;
     if (mainItem == '' || mainItem == undefined || mainItem == null) {
         alert('Main item required!');
         return;
@@ -280,6 +282,18 @@ $(document).on('click', '.main_item_add_btn ', function () {
                 },
             success: function (data) {
                 ToastMessageSuccess(data);
+                $.ajax({
+                    url: '/api/utilities/GetDynamicTableById/' + tableId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        dynamicTable = data;
+
+                    },
+                    error: function (data) {
+                    }
+                });
                 // pull data for main item
                 $.ajax({
                     url: '/api/utilities/GetCategories/',
@@ -307,7 +321,9 @@ $(document).on('click', '.main_item_add_btn ', function () {
                     error: function (data) {
                     }
                 });
-
+                if (dynamicTable.SubCategoryTitle == "" || dynamicTable.SubCategoryTitle == null || dynamicTable.SubCategoryTitle == undefined) {
+                    $('.main_item_list_tbl tbody .main_item_input_td a').removeClass('main_item_link');
+                }
               
             },
             error: function (data) {
@@ -468,12 +484,26 @@ $(document).on('click', '.sub_item_edit_action', function () {
     var mainItemId = $('#main_item_id_edit_input').val();
     var subItemId = $('#sub_item_id_edit_input').val();
     var subItemName = $('#sub_item_edit_input').val();
+    var tableId = $('#table_id_for_edit').val();
+    var dynamicTable;
 
     if (subItemName == '' || subItemName == undefined || subItemName == null) {
         alert('Sub item required!');
         return;
     }
     else {
+        $.ajax({
+            url: '/api/utilities/GetDynamicTableById/' + tableId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                dynamicTable = data;
+
+            },
+            error: function (data) {
+            }
+        });
         $.ajax({
             url: `/api/utilities/UpdateSubCategory`,
             type: 'PUT',
@@ -512,7 +542,9 @@ $(document).on('click', '.sub_item_edit_action', function () {
                     }
                 });
 
-
+                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
+                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
+                }
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -526,7 +558,20 @@ $(document).on('click', '.sub_item_edit_action', function () {
 $(document).on('click', '.sub_item_add_btn ', function () {   
     var mainItemId = $('#main_item_id').val();
     var subItem = $('#input_sub_item').val();
+    var tableId = $('#table_id_for_edit').val();
+    var dynamicTable;
+    $.ajax({
+        url: '/api/utilities/GetDynamicTableById/' + tableId,
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            dynamicTable = data;
 
+        },
+        error: function (data) {
+        }
+    });
     $.ajax({
         url: `/api/utilities/CreateSubCategory/`,
         type: 'POST',
@@ -566,7 +611,10 @@ $(document).on('click', '.sub_item_add_btn ', function () {
                     error: function (data) {
                     }
                 });
-                
+
+                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
+                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
+                }
             }
         },
         error: function (data) {
@@ -1141,6 +1189,13 @@ $(document).ready(function() {
 
     });
 
+    //add form show when add button click
+    $(document).on('click', '#table_input_frm_div_close ', function (e) {
+        ClearInputEditForm();
+        $('.table_input_frm_div').hide();
+
+    });
+
     //edit button click: fill up the input form with checked value
     $(document).on('click', '.list_table_edit_btn ', function (e) {
         var responseData = '';
@@ -1176,7 +1231,7 @@ $(document).ready(function() {
                 error: function (data) {
                 }
             });
-            debugger;
+            //debugger;
             //get value by id and set to the form
             //$("#table_name_input").val("test-1111	");
             //$("#table_title_input").val("test--332222");
@@ -1318,17 +1373,31 @@ $(document).ready(function() {
 
         }
     });
-    $(document).on('click', '.frm_cancel_btn ', function (e) {
-        ClearInputEditForm();
-    });
+    //$(document).on('click', '.frm_cancel_btn ', function (e) {
+    //    ClearInputEditForm();
+    //});
 
     //setting button click, show the item modal.
     $(document).on('click', '.frm_setting_btn ', function (e) {
         var tableId = $('.table_list_radio:checked').val();
+        var dynamicTable;
         if (tableId == null || tableId == undefined || tableId == "") {
             alert("please select a table!");
         } else {
             //ajax call here
+            $.ajax({
+                url: '/api/utilities/GetDynamicTableById/' + tableId,
+                type: 'Get',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    dynamicTable = data;
+
+                },
+                error: function (data) {
+                }
+            });
+
             //get value by id and set to the modal 
             $('.main_item_list_tbl tbody').empty();
 
@@ -1360,6 +1429,10 @@ $(document).ready(function() {
                 }
             });
 
+            if (dynamicTable.SubCategoryTitle == "" || dynamicTable.SubCategoryTitle == null || dynamicTable.SubCategoryTitle == undefined) {
+                $('.main_item_list_tbl tbody .main_item_input_td a').removeClass('main_item_link');
+            }
+
             $('#main_item_list_modal').modal('show');
         }
     });
@@ -1385,7 +1458,8 @@ $(document).ready(function() {
     $(document).on('click', '.confrim_del_btn_main_item', function () {
         var categoryId = $('#main_item_del_id').val();
         var apiurl = "/api/Utilities/RemoveCategory?categoryId=" + categoryId;
-
+        var tableId = $('#table_id_for_edit').val();
+        var dynamicTable; 
 
         $.ajax({
             url: apiurl,
@@ -1393,6 +1467,20 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 ToastMessageSuccess(data);
+
+                $.ajax({
+                    url: '/api/utilities/GetDynamicTableById/' + tableId,
+                    type: 'Get',
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        dynamicTable = data;
+
+                    },
+                    error: function (data) {
+                    }
+                });
+
 
                 // pull data for main item
                 $.ajax({
@@ -1421,6 +1509,10 @@ $(document).ready(function() {
                     error: function (data) {
                     }
                 });
+
+                if (dynamicTable.SubCategoryTitle == "" || dynamicTable.SubCategoryTitle == null || dynamicTable.SubCategoryTitle == undefined) {
+                    $('.main_item_list_tbl tbody .main_item_input_td a').removeClass('main_item_link');
+                }
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -1459,7 +1551,21 @@ $(document).ready(function() {
         var mainItemId = $('#main_item_del_id_in_sub_item_delete_modal').val();
         var subItemId = $('#sub_item_del_id').val();
         var apiurl = "/api/Utilities/RemoveSubCategory?subCategoryId=" + subItemId;
-        debugger;
+        var tableId = $('#table_id_for_edit').val();
+        var dynamicTable;
+
+        $.ajax({
+            url: '/api/utilities/GetDynamicTableById/' + tableId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                dynamicTable = data;
+
+            },
+            error: function (data) {
+            }
+        });
 
         $.ajax({
             url: apiurl,
@@ -1496,6 +1602,10 @@ $(document).ready(function() {
                     error: function (data) {
                     }
                 });
+
+                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
+                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
+                }
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -1586,8 +1696,23 @@ $(document).ready(function() {
     $(document).on('click', '.main_item_link', function (e) {
         
         var mainItemId = $(this).closest('tr').data('id');
+        var tableId = $('#table_id_for_edit').val();
+        var dynamicTable;
 
         $('#main_item_list_modal').modal('hide');
+
+        $.ajax({
+            url: '/api/utilities/GetDynamicTableById/' + tableId,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                dynamicTable = data;
+
+            },
+            error: function (data) {
+            }
+        });
 
         $.ajax({
             url: '/api/utilities/GetCategoryById?categoryId=' + mainItemId,
@@ -1630,6 +1755,10 @@ $(document).ready(function() {
             error: function (data) {
             }
         });
+
+        if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
+            $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
+        }
 
         setTimeout(function () {
             $('#sub_item_list_modal').modal('show');

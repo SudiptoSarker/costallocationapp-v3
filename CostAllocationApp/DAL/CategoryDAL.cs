@@ -13,7 +13,7 @@ namespace CostAllocationApp.DAL
         public int CreateCategory(Category category)
         {
             int result = 0;
-            string query = $@"insert into Categories(CategoryName,CreatedBy,CreatedDate,IsActive) values(@categoryName,@createdBy,@createdDate,@isActive)";
+            string query = $@"insert into Categories(CategoryName,CreatedBy,CreatedDate,IsActive,DynamicTableId) values(@categoryName,@createdBy,@createdDate,@isActive,@dynamicTableId)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -22,6 +22,7 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@createdBy", category.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdDate", category.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", category.IsActive);
+                cmd.Parameters.AddWithValue("@dynamicTableId", category.DynamicTableId);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -35,10 +36,10 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public List<Category> GetAllCategories()
+        public List<Category> GetAllCategoriesByDynamicTableId(int dynamicTableId)
         {
             List<Category> categories = new List<Category>();
-            string query = "select * from Categories where IsActive=1";
+            string query = "select * from Categories where DynamicTableId="+dynamicTableId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -73,14 +74,11 @@ namespace CostAllocationApp.DAL
         public int RemoveCategory(Category category)
         {
             int result = 0;
-            string query = $@"update Categories set isactive=@isactive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            string query = $@"delete from  Categories where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@isactive", category.IsActive);
-                cmd.Parameters.AddWithValue("@updatedBy", category.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedDate", category.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", category.Id);
                 try
                 {

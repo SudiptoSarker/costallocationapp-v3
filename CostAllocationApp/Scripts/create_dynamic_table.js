@@ -95,6 +95,9 @@ function InsertDynamicTables() {
                         ToastMessageSuccess(data);
                         GetDynamicTables();
                         GetDynamicTablesForSetting();
+                        GetDynamicTables();
+                        ClearInputEditForm();
+                        $('.table_input_frm_div').hide();
                     }
                 },
                 error: function (data) {
@@ -121,8 +124,11 @@ function InsertDynamicTables() {
                         $("#table_position").val('');
                         ToastMessageSuccess(data);
                         GetDynamicTables();
+                        GetDynamicTables();
                         GetDynamicTablesForSetting();
                     }
+                    ClearInputEditForm();
+                    $('.table_input_frm_div').hide();
                 },
                 error: function (data) {
                     ToastMessageFailed(data);
@@ -212,6 +218,8 @@ $(document).on('change', '#dynamic_list_tbody tr td .table_list_radio', function
     var selectedValue  = $('input[name="flexRadioDefault"]:checked').val();
     $('#table_id_for_edit').val(selectedValue);
     $('#table_id_for_delete').val(selectedValue);
+    ClearInputEditForm();
+    $('.table_input_frm_div').hide();
 });
 
 //edit dynamic table by table id
@@ -278,7 +286,8 @@ $(document).on('click', '.main_item_add_btn ', function () {
             type: 'POST',
             dataType: 'json',
             data: {
-                CategoryName: mainItem
+                CategoryName: mainItem,
+                DynamicTableId: tableId
                 },
             success: function (data) {
                 ToastMessageSuccess(data);
@@ -296,7 +305,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
                 });
                 // pull data for main item
                 $.ajax({
-                    url: '/api/utilities/GetCategories/',
+                    url: '/api/utilities/GetCategories?dynamicTableId=' + tableId,
                     type: 'Get',
                     dataType: 'json',
                     async: false,
@@ -365,8 +374,10 @@ $(document).on('click', '.main_item_edit_btn ', function () {
 });
 
 $(document).on('click', '.main_item_edit_action ', function () {
+    debugger;
     var mainItemId = $('#main_item_id_edit_input').val();
     var mainItemName = $('#main_item_edit_input').val();
+    var dynamicTableId = $('#table_id_for_edit').val();
 
     if (mainItemName == '' || mainItemName == undefined || mainItemName == null) {
         alert('Main item required!');
@@ -385,7 +396,7 @@ $(document).on('click', '.main_item_edit_action ', function () {
                 ToastMessageSuccess(data);
                 // pull data for main item
                 $.ajax({
-                    url: '/api/utilities/GetCategories/',
+                    url: '/api/utilities/GetCategories?dynamicTableId=' + dynamicTableId,
                     type: 'Get',
                     dataType: 'json',
                     async: false,
@@ -405,7 +416,10 @@ $(document).on('click', '.main_item_edit_action ', function () {
 
                             `);
                         });
-
+                        $('#main_item_edit_modal').modal('hide');
+                        setTimeout(() => {
+                            $('#main_item_list_modal').modal('show');
+                        }, 600);
                     },
                     error: function (data) {
                     }
@@ -537,6 +551,11 @@ $(document).on('click', '.sub_item_edit_action', function () {
 
                             `);
                         });
+
+                        $('#sub_item_edit_modal').modal('hide');
+                        setTimeout(() => {
+                            $('#sub_item_list_modal').modal('show');
+                        }, 600);
                     },
                     error: function (data) {
                     }
@@ -731,7 +750,6 @@ $(document).on('click', '.detail_item_edit_action', function () {
                     dataType: 'json',
                     async: false,
                     success: function (data) {
-                        debugger;
                         $('.detail_item_list_tbl tbody').empty();
                         $.each(data, function (index, value) {
                             $('.detail_item_list_tbl tbody').append(`
@@ -747,6 +765,11 @@ $(document).on('click', '.detail_item_edit_action', function () {
 
                             `);
                         });
+
+                        $('#detail_item_edit_modal').modal('hide');
+                        setTimeout(() => {
+                            $('#detail_item_list_modal').modal('show');
+                        }, 600);
                     },
                     error: function (data) {
                     }
@@ -777,7 +800,7 @@ $(document).on('click', '#delete_table_link ', function () {
 
 $(document).on('click', '.confrim_del_btn ', function () {
     var id = $("#table_id_for_delete").val();
-    var apiurl = "/api/Utilities/InactiveDynamicTable?tableId=" + id;
+    var apiurl = "/api/Utilities/RemoveDynamicTable?tableId=" + id;
     
 
     $.ajax({
@@ -788,6 +811,8 @@ $(document).on('click', '.confrim_del_btn ', function () {
             ToastMessageSuccess(data);
             GetDynamicTables();
             GetDynamicTablesForSetting();
+            ClearInputEditForm();
+            $('.table_input_frm_div').hide();
         },
         error: function (data) {
             ToastMessageFailed(data);
@@ -947,15 +972,14 @@ $(document).ready(function() {
 
     $(document).on('change', '.select_column_no', function () {
         var columnNo = $(this).val();
-        var columnInputContaner = $('.input_container');
+        var columnInputContaner = $('.input-container-3');
         columnInputContaner.empty();
         if (columnNo=="1") {
             for (var i = 1; i <= 1; i++) {
                 columnInputContaner.append(`
                             <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-4">
+                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-7">
                                     <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
                                 </div>
                             </div>
@@ -966,9 +990,8 @@ $(document).ready(function() {
             for (var i = 1; i <= 2; i++) {
                 columnInputContaner.append(`
                             <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-4">
+                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-7">
                                     <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
                                 </div>
                             </div>
@@ -979,9 +1002,8 @@ $(document).ready(function() {
             for (var i = 1; i <= 3; i++) {
                 columnInputContaner.append(`
                             <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-4">
+                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <div class="col-md-7">
                                     <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
                                 </div>
                             </div>
@@ -1206,7 +1228,7 @@ $(document).ready(function() {
             //ajax call here
             debugger;
             var count = 0;
-            var columnInputContainer = $('.input_container');
+            var columnInputContainer = $('.input-container-3');
             $.ajax({
                 url: `/api/utilities/GetDynamicTableById/${tableId}`,
                 type: 'Get',
@@ -1248,9 +1270,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
                                     </div>
                                 </div>
@@ -1262,9 +1283,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
                                     </div>
                                 </div>
@@ -1275,9 +1295,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
                                     </div>
                                 </div>
@@ -1289,9 +1308,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
                                     </div>
                                 </div>
@@ -1303,9 +1321,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
                                     </div>
                                 </div>
@@ -1316,9 +1333,8 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <div class="col-md-7">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
                                     </div>
                                 </div>
@@ -1330,8 +1346,7 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
                                     </div>
@@ -1344,8 +1359,7 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
                                     </div>
@@ -1357,8 +1371,7 @@ $(document).ready(function() {
 
                     columnInputContainer.append(`
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-1"></label>
-                                    <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
                                     </div>
@@ -1397,13 +1410,16 @@ $(document).ready(function() {
                 error: function (data) {
                 }
             });
-
+            if (dynamicTable.CategoryTitle == "" || dynamicTable.CategoryTitle == null || dynamicTable.CategoryTitle == undefined) {
+                alert('Main Title not defined!');
+                return false;
+            }
             //get value by id and set to the modal 
             $('.main_item_list_tbl tbody').empty();
 
             // pull data for main item
             $.ajax({
-                url: '/api/utilities/GetCategories/',
+                url: '/api/utilities/GetCategories?dynamicTableId=' + tableId,
                 type: 'Get',
                 dataType: 'json',
                 async: false,
@@ -1423,6 +1439,7 @@ $(document).ready(function() {
 
                             `);
                     });
+                    
 
                 },
                 error: function (data) {
@@ -1460,6 +1477,7 @@ $(document).ready(function() {
         var apiurl = "/api/Utilities/RemoveCategory?categoryId=" + categoryId;
         var tableId = $('#table_id_for_edit').val();
         var dynamicTable; 
+        var dynamicTableId = $('#table_id_for_edit').val();
 
         $.ajax({
             url: apiurl,
@@ -1484,7 +1502,7 @@ $(document).ready(function() {
 
                 // pull data for main item
                 $.ajax({
-                    url: '/api/utilities/GetCategories/',
+                    url: '/api/utilities/GetCategories?dynamicTableId=' + dynamicTableId,
                     type: 'Get',
                     dataType: 'json',
                     async: false,
@@ -1830,7 +1848,21 @@ $(document).ready(function() {
         }, 600);
     });
 
+    $(document).on('click', '.sub_item_close_btn_footer', function () {
+        $('#sub_item_list_modal').modal('hide');
+        setTimeout(function () {
+            $('#main_item_list_modal').modal('show');
+        }, 600);
+    });
+
+
     $(document).on('click', '#detail_item_close', function () {
+        $('#detail_item_list_modal').modal('hide');
+        setTimeout(function () {
+            $('#sub_item_list_modal').modal('show');
+        }, 600);
+    });
+    $(document).on('click', '.detail_item_close_btn_footer', function () {
         $('#detail_item_list_modal').modal('hide');
         setTimeout(function () {
             $('#sub_item_list_modal').modal('show');
@@ -1906,7 +1938,7 @@ function ClearInputEditForm(){
     $("#table_main_item_input").val("");
     $("#table_sub_item_input").val("");
 
-    $('.input_container').empty();
+    $('.input-container-3').empty();
 }
 
 

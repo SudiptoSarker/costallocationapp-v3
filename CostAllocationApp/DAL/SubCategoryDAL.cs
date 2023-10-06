@@ -118,14 +118,11 @@ namespace CostAllocationApp.DAL
         public int RemoveSubCategory(SubCategory subCategory)
         {
             int result = 0;
-            string query = $@"update SubCategories set isactive=@isactive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            string query = $@"delete from SubCategories where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@isactive", subCategory.IsActive);
-                cmd.Parameters.AddWithValue("@updatedBy", subCategory.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedDate", subCategory.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", subCategory.Id);
                 try
                 {

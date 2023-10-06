@@ -106,14 +106,11 @@ namespace CostAllocationApp.DAL
         public int RemoveDetailsItem(DeatailsItem deatailsItem)
         {
             int result = 0;
-            string query = $@"update DetailsItems set isactive=@isactive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where id=@id";
+            string query = $@"delete from  DetailsItems where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                cmd.Parameters.AddWithValue("@isactive", deatailsItem.IsActive);
-                cmd.Parameters.AddWithValue("@updatedBy", deatailsItem.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedDate", deatailsItem.UpdatedDate);
                 cmd.Parameters.AddWithValue("@id", deatailsItem.Id);
                 try
                 {

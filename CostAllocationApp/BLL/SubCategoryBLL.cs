@@ -10,9 +10,11 @@ namespace CostAllocationApp.BLL
     public class SubCategoryBLL
     {
         SubCategoryDAL subCategoryDAL = null;
+        DetailsItemBLL detailsItemBLL = null;
         public SubCategoryBLL()
         {
             subCategoryDAL = new SubCategoryDAL();
+            detailsItemBLL = new DetailsItemBLL();
         }
 
         public int CreateSubCategory(SubCategory category)
@@ -26,6 +28,15 @@ namespace CostAllocationApp.BLL
         }
         public int RemoveSubCategory(SubCategory subCategory)
         {
+            List<DeatailsItem> detailsItems = detailsItemBLL.GetDetailsItemBySubItemsId(subCategory.Id);
+            if (detailsItems.Count > 0)
+            {
+                foreach (var detailsItem in detailsItems)
+                {
+                    detailsItemBLL.RemoveDetailsItem(detailsItem);
+                }
+
+            }
             return subCategoryDAL.RemoveSubCategory(subCategory);
         }
         public SubCategory GetSubCategoryById(int subCategoryId)

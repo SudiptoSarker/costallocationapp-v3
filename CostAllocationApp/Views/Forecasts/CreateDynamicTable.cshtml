@@ -67,7 +67,7 @@
 
     <div class="content container-fluid table_input_frm_div" style="display:none;>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-5">
                 <div class="row" id="dynamic_input_frm_header">
                     <div class="col-sm-12">
                         <h4 class="dynamic_page_title">集計表追加​</h4>
@@ -81,33 +81,44 @@
                     <div class="col-lg-12">
                         <div class="card-box">
                             <h4 class="form_title">追加する利用者情報をを入力してください​</h4>
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl">表名​</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="table_name_input" id="table_name_input">
+                            <div class="input-container-1">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表名​</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="table_name_input" id="table_name_input">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl">表タイトル​</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="table_title_input" id="table_title_input">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表タイトル​</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="table_title_input" id="table_title_input">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl">表示位置​</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="table_position_input" id="table_position_input">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表示位置​</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="table_position_input" id="table_position_input">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group row"></div>
-
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-3 form_title">表階層を設定してください​</label>
-                                <div class="col-md-4 ">
+                            <div class="input-container-2">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-4 input_table_frm_lbl">表階層を設定してください​</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select_column_no">
+                                            <option value="-1">-- Select --</option>
+                                            <option value="1">1 階層​</option>
+                                            <option value="2">2 階層​</option>
+                                            <option value="3">3 階層​</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            @*<div class="form-group row">
+                                <label class="col-form-label col-md-4 form_title">表階層を設定してください​</label>
+                                <div class="col-md-7 ">
                                     <select class="form-control select_column_no">
                                         <option value="-1">-- Select --</option>
                                         <option value="1">1 階層​</option>
@@ -115,33 +126,18 @@
                                         <option value="3">3 階層​</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="input_container">
+                            </div>*@
+                            <div class="input-container-3">
 
                             </div>
-                            <!-- <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="table_main_item_input" id="table_main_item_input">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-1"></label>
-                                <label class="col-form-label col-md-3 input_table_frm_lbl2">中項目ヘッダータイトル​</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​​" name="table_sub_item_input" id="table_sub_item_input">
-                                </div>
-                            </div> -->
 
                             <div class="form-group row">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-2">
+                                <div class="offset-md-6 col-md-2">
                                     <button class="btn btn-primary frm_add_btn" data-tag="" type="button" onclick="InsertDynamicTables();">追　加​</button>
                                 </div>
                                 @*<div class="col-md-2">
-                                    <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>
-                                </div>*@
+                <button class="btn btn-primary frm_cancel_btn" type="button">キャンセル​</button>
+            </div>*@
                             </div>
                         </div>
                     </div>
@@ -553,7 +549,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <br>
                 <hr>
                 <table class="main_item_list_tbl">
                     <thead style="border: none;">
@@ -565,9 +560,9 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                @*<div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>*@
+                <div class="modal-footer input_frm_footer">
+                    <a href="javascript:void(0);" class="main_item_close_btn_footer" data-dismiss="modal" aria-label="Close" id="">キャンセル</a>
+                </div>
             </div>
         </div>
     </div>
@@ -621,10 +616,9 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                @*<div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>*@
+                <div class="modal-footer input_frm_footer">
+                    <a href="javascript:void(0);" class="sub_item_close_btn_footer" id="">キャンセル</a>
+                </div>
             </div>
 
         </div>
@@ -678,10 +672,9 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                @*<div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">保存（save)</a>
-                    <a href="javascript:void(0);" class="main_item_add_btn_footer" id="">キャンセル</a>
-                </div>*@
+                <div class="modal-footer input_frm_footer">
+                    <a href="javascript:void(0);" class="detail_item_close_btn_footer" id="">キャンセル</a>
+                </div>
             </div>
 
         </div>

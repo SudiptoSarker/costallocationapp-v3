@@ -4,14 +4,20 @@ using System.Linq;
 using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.Models;
+
+
 namespace CostAllocationApp.BLL
 {
     public class CategoryBLL
     {
         CategoryDAL categoryDAL = null;
+        SubCategoryBLL subCategoryBLL = null;
+        DetailsItemBLL detailsItemBLL = null;
         public CategoryBLL()
         {
             categoryDAL = new CategoryDAL();
+            subCategoryBLL = new SubCategoryBLL();
+            detailsItemBLL = new DetailsItemBLL();
         }
 
         public int CreateCategory(Category category)
@@ -19,12 +25,39 @@ namespace CostAllocationApp.BLL
             return categoryDAL.CreateCategory(category);
         }
 
-        public List<Category> GetAllCategories()
+        public List<Category> GetAllCategoriesByDynamicTableId(int dynamicTableId)
         {
-            return categoryDAL.GetAllCategories();
+            return categoryDAL.GetAllCategoriesByDynamicTableId(dynamicTableId);
         }
         public int RemoveCategory(Category category)
         {
+
+            List<SubCategory> subCategories = subCategoryBLL.GetSubCategoryByCategoryId(category.Id);
+            List<DeatailsItem> detailsItems = new List<DeatailsItem>();
+
+            if (subCategories.Count > 0)
+            {
+                foreach (var subCategory in subCategories)
+                {
+                    var deatailsItemsList = detailsItemBLL.GetDetailsItemBySubItemsId(subCategory.Id);
+                    detailsItems.AddRange(deatailsItemsList);
+                }
+
+                foreach (var subCategory in subCategories)
+                {
+                    subCategoryBLL.RemoveSubCategory(subCategory);
+                }
+            }
+
+            if (detailsItems.Count > 0)
+            {
+                foreach (var detailsItem in detailsItems)
+                {
+                    detailsItemBLL.RemoveDetailsItem(detailsItem);
+                }
+
+            }
+
             return categoryDAL.RemoveCategory(category);
         }
 

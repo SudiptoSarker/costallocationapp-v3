@@ -259,18 +259,15 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int InactiveDynamicTable(DynamicTable dynamicTable)
+        public int RemoveDynamicTable(DynamicTable dynamicTable)
         {
             int result = 0;
-            string query = $@"update DynamicTables set IsActive=@isActive, UpdatedBy=@updatedBy, UpdatedDate=@updatedDate where Id=@id";
+            string query = $@"delete from DynamicTables where Id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@id", dynamicTable.Id);
-                cmd.Parameters.AddWithValue("@updatedBy", dynamicTable.UpdatedBy);
-                cmd.Parameters.AddWithValue("@updatedDate", dynamicTable.UpdatedDate);
-                cmd.Parameters.AddWithValue("@isActive", dynamicTable.IsActive);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -451,7 +448,7 @@ namespace CostAllocationApp.DAL
             }
             else
             {
-                query = "SELECT* FROM DynamicTables WHERE TableName = N'" + tableName + "' OR TablePosition = " + tablePoisition + " AND Id<>" + tableId + " ";
+                query = "SELECT* FROM DynamicTables WHERE (TableName = N'" + tableName + "' OR TablePosition = " + tablePoisition + ") AND Id<>" + tableId + " ";
             }
 
             using (SqlConnection sqlConnection = this.GetConnection())

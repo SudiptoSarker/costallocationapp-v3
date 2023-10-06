@@ -9821,17 +9821,26 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                dynamicTable.UpdatedBy = session["userName"].ToString();
-                dynamicTable.UpdatedDate = DateTime.Now;
-                var result = totalBLL.UpdateDynamicTable(dynamicTable);
-                if (result > 0)
+                bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName, dynamicTable.TablePosition, dynamicTable.Id, "edit");
+                if (isExists)
                 {
-                    return Ok("データが保存されました.");
+                    return BadRequest("Data already exists!");
                 }
                 else
                 {
-                    return BadRequest("Something went wrong!!!");
+                    dynamicTable.UpdatedBy = session["userName"].ToString();
+                    dynamicTable.UpdatedDate = DateTime.Now;
+                    var result = totalBLL.UpdateDynamicTable(dynamicTable);
+                    if (result > 0)
+                    {
+                        return Ok("データが保存されました.");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong!!!");
+                    }
                 }
+                
             }
             //bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName,dynamicTable.TablePosition,dynamicTable.Id,"edit");
             //if (isExists) {
@@ -9853,8 +9862,8 @@ namespace CostAllocationApp.Controllers.Api
 
 
         [HttpPost]
-        [Route("api/utilities/InactiveDynamicTable/")]
-        public IHttpActionResult GetDynamicTables(string tableId)
+        [Route("api/utilities/RemoveDynamicTable/")]
+        public IHttpActionResult RemoveDynamicTable(string tableId)
         {
             var session = System.Web.HttpContext.Current.Session;
 
@@ -9862,12 +9871,8 @@ namespace CostAllocationApp.Controllers.Api
 
             if (singleDynamicTable != null)
             {
-                //int tableId = dynamicTable.Id;
-                singleDynamicTable.UpdatedBy = session["userName"].ToString();
-                singleDynamicTable.UpdatedDate = DateTime.Now;
-                singleDynamicTable.IsActive = false;
 
-                var inactiveResult = totalBLL.InactiveDynamicTable(singleDynamicTable);
+                var inactiveResult = totalBLL.RemoveDynamicTable(singleDynamicTable);
                 if (inactiveResult>0)
                 {
                     return Ok("保存されました!");
@@ -10002,8 +10007,8 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("Category required!");
             }
 
-            Category category = categoryBLL.GetAllCategories().Where(c=>c.Id== Convert.ToInt32(categoryId)).SingleOrDefault();
-            if (category==null)
+            Category category = categoryBLL.GetCategoryByCategoryId(Convert.ToInt32(categoryId));
+            if (category == null)
             {
                 return BadRequest("Something went wrong!");
             }
@@ -10034,7 +10039,7 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("Category required!");
             }
 
-            SubCategory subCategory = subCategoryBLL.GetAllSubCategories().Where(c => c.Id == Convert.ToInt32(subCategoryId)).SingleOrDefault();
+            SubCategory subCategory = subCategoryBLL.GetSubCategoryById(Convert.ToInt32(subCategoryId));
             if (subCategory == null)
             {
                 return BadRequest("Something went wrong!");
@@ -10197,10 +10202,10 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetCategories/")]
-        public IHttpActionResult GetCategories()
+        public IHttpActionResult GetCategories(string dynamicTableId)
         {
             CategoryBLL categoryBLL = new CategoryBLL();
-            return Ok(categoryBLL.GetAllCategories());
+            return Ok(categoryBLL.GetAllCategoriesByDynamicTableId(Convert.ToInt32(dynamicTableId)));
         }
 
         [HttpGet]

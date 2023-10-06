@@ -56,48 +56,48 @@ namespace CostAllocationApp.Controllers.Api
         ///***************************\                           
         //    Category Master Api: All the Category are fetched using this api.                            
         //\***************************/
-        [HttpGet]
-        public IHttpActionResult Category()
-        {
-            List<Category> categories = categoryBLL.GetAllCategories();
-            return Ok(categories);
-        }
+        //[HttpGet]
+        //public IHttpActionResult Category()
+        //{
+        //    List<Category> categories = categoryBLL.GetAllCategories();
+        //    return Ok(categories);
+        //}
 
         ///***************************\                           
         //    Category Master Api: Category are removed using this api.                          
         //\***************************/
-        [HttpDelete]
-        public IHttpActionResult RemoveCategory([FromUri] string CategoryId)
-        {
-            int result = 0;
-            var session = System.Web.HttpContext.Current.Session;
+        //[HttpDelete]
+        //public IHttpActionResult RemoveCategory([FromUri] string CategoryId)
+        //{
+        //    int result = 0;
+        //    var session = System.Web.HttpContext.Current.Session;
 
-            if (!String.IsNullOrEmpty(CategoryId))
-            {
-                string[] ids = CategoryId.Split(',');
+        //    if (!String.IsNullOrEmpty(CategoryId))
+        //    {
+        //        string[] ids = CategoryId.Split(',');
 
-                foreach (var item in ids)
-                {
-                    Category category = categoryBLL.GetAllCategories().Where(c => c.Id == Convert.ToInt32(item)).SingleOrDefault();
-                    category.UpdatedBy = session["userName"].ToString();
-                    category.UpdatedDate = DateTime.Now;
-                    result += categoryBLL.RemoveCategory(category);
-                }
+        //        foreach (var item in ids)
+        //        {
+        //            Category category = categoryBLL.GetAllCategories().Where(c => c.Id == Convert.ToInt32(item)).SingleOrDefault();
+        //            category.UpdatedBy = session["userName"].ToString();
+        //            category.UpdatedDate = DateTime.Now;
+        //            result += categoryBLL.RemoveCategory(category);
+        //        }
 
-                if (result == ids.Length)
-                {
-                    return Ok("正常に削除がされました!");
-                }
-                else
-                {
-                    return BadRequest("Something Went Wrong!!!");
-                }
-            }
-            else
-            {
-                return BadRequest("Select Category Id!");
-            }
+        //        if (result == ids.Length)
+        //        {
+        //            return Ok("正常に削除がされました!");
+        //        }
+        //        else
+        //        {
+        //            return BadRequest("Something Went Wrong!!!");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Select Category Id!");
+        //    }
 
-        }
+        //}
     }
 }

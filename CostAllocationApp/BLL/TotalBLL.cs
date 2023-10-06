@@ -13,11 +13,17 @@ namespace CostAllocationApp.BLL
         TotalDAL totalDAL = null;
         DepartmentBLL departmentBLL = null;
         InChargeBLL inchargeBLL = null;
+        CategoryBLL categoryBLL = null;
+        SubCategoryBLL subCategoryBLL = null;
+        DetailsItemBLL detailsItemBLL = null;
         public TotalBLL()
         {
             totalDAL = new TotalDAL();
             departmentBLL = new DepartmentBLL();
             inchargeBLL = new InChargeBLL();
+            categoryBLL = new CategoryBLL();
+            subCategoryBLL = new SubCategoryBLL();
+            detailsItemBLL = new DetailsItemBLL();
         }
 
         public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
@@ -71,9 +77,51 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.GetAllDynamicTables();
         }
-        public int InactiveDynamicTable(DynamicTable dynamicTable)
+        public int RemoveDynamicTable(DynamicTable dynamicTable)
         {
-            return totalDAL.InactiveDynamicTable(dynamicTable);
+            List<Category> categories = categoryBLL.GetAllCategoriesByDynamicTableId(dynamicTable.Id);
+            List<SubCategory> subCategories = new List<SubCategory>();
+            List<DeatailsItem> detailsItems = new List<DeatailsItem>();
+
+
+            if (categories.Count>0)
+            {
+                foreach (var category in categories)
+                {
+                    var subCategoryList = subCategoryBLL.GetSubCategoryByCategoryId(category.Id);
+                    subCategories.AddRange(subCategoryList);
+                }
+
+                foreach (var category in categories)
+                {
+                    categoryBLL.RemoveCategory(category);
+                }
+            }
+
+            if (subCategories.Count > 0)
+            {
+                foreach (var subCategory in subCategories)
+                {
+                    var deatailsItemsList = detailsItemBLL.GetDetailsItemBySubItemsId(subCategory.Id);
+                    detailsItems.AddRange(deatailsItemsList);
+                }
+
+                foreach (var subCategory in subCategories)
+                {
+                    subCategoryBLL.RemoveSubCategory(subCategory);
+                }
+            }
+
+            if (detailsItems.Count > 0)
+            {
+                foreach (var detailsItem in detailsItems)
+                {
+                    detailsItemBLL.RemoveDetailsItem(detailsItem);
+                }
+                
+            }
+            
+            return totalDAL.RemoveDynamicTable(dynamicTable);
         }
         public int UpdateDynamicTable(DynamicTable dynamicTable)
         {

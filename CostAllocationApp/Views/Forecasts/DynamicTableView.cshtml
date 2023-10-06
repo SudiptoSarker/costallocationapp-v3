@@ -58,14 +58,40 @@
                     <a href="javascript:void(0);" class="list_table_add_btn">追加​(add)</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="javascript:void(0);" class="list_table_delete_btn">削除​ (delete)</a>
+                    <a href="javascript:void(0);" class="list_table_delete_btn">削除​ (delete)</a>                    
                 </div>            
             </div>
         </div>
     </div>
     <br />
 
+    <!-----------------Modal: Delete Dynamic Table----------------->
+    <div class="modal custom-modal fade" id="delete_settings_table" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3 class="delete_confirm_header">削除確認​ (Delete Settings)</h3>
+                        <ol class="section_count" style="text-align:left;"></ol>
+                        <p style="margin-left: -151px;">選択した設定を削除しますか?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                <a href="javascript:void(0);" class="btn confrim_del_btn">はい (Y)​</a></label>
+                            </div>
 
+                            <div class="col-3">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn">いいえ (N)​</a></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @section Scripts{    
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/view_dynamic_table.js"></script>  

@@ -75,6 +75,10 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.InactiveDynamicTable(dynamicTable);
         }
+        public int DeleteDynamicTableSettings(string dynamicTableid,string dynamicSettingsIds)
+        {
+            return totalDAL.DeleteDynamicTableSettings(dynamicTableid, dynamicSettingsIds);
+        }
         public int UpdateDynamicTable(DynamicTable dynamicTable)
         {
             return totalDAL.UpdateDynamicTable(dynamicTable);

@@ -33,21 +33,6 @@
             $(".data_for_dropdown").select2();            
         }
     });
-
-
-    //create new row and concate
-    $(document).on('click', '#item_row_add ', function () {
-        debugger;
-        var $tr = $(this).closest('.item_row');
-        var $clone = $tr.clone();
-        $($clone[0].cells[4]).empty();
-        $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
-        $clone[0].dataset.count = ++globalCount;
-        $clone.find(':text').val('');
-        $tr.after($clone);
-        $clone.find('.setting_plus_icon').hide();    
-        $clone.find('.setting_minus_icon').show();    
-    });
     
     //get dynamic table settings by table id
     function GetDynamicSettings(dynamicTableId) {            
@@ -68,19 +53,21 @@
                     var dataForList = "";
                     var totalListItem = "";
                     
-                    startTR = "<tr data-count='1'>";
+                    startTR = "<tr data-count='1' class='setting_tbl_tr'>";
                     endTR = "</tr>";        
                     
-                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}'></td>`;                       
+                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                       
                     mainItem = GetMainItemList(item.CategoryId);                 
                     subItem = GetSubItemList(item.CategoryId,item.SubCategoryId);            
                     detailItem = GetDetailItemList(item.SubCategoryId,item.DetailsId); 
                     methodList = GetMethodList(item.MethodId);
                     
                     dataForList = "";
-                    dataForList = dataForList +" <td class='setting_items_td'>";                    
-                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                        
-                    // dataForList = dataForList +"<option value='cheese'>Cheese</option>";    
+                    dataForList = dataForList +" <td class='setting_items_td data_for'>";         
+                    // dataForList = dataForList +"    <span>one</span><span>two</span>";
+                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                    
+                    //dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                        
+                    //dataForList = dataForList +"<option value='cheese'>Cheese,butter,red</option>";    
                     // dataForList = dataForList +"<option value='tomatoes'>Tomatoes</option>";    
                     dataForList = dataForList +"</select>   ";                      
                     dataForList = dataForList +" </td>";
@@ -122,11 +109,12 @@
         
         dataForList = "";
         dataForList = dataForList +" <td class='setting_items_td'>";
-        dataForList = dataForList +"    <select class='select' multiple>";
-        dataForList = dataForList +"        <option value='1'>One</option>";
-        dataForList = dataForList +"        <option value='2'>Two</option>";
-        dataForList = dataForList +"        <option value='3'>Three</option>";
-        dataForList = dataForList +"    </select>";
+        dataForList = dataForList +"    <span>one</span><span>two</span>";
+        // dataForList = dataForList +"    <select class='select' multiple>";
+        // dataForList = dataForList +"        <option value='1'>One</option>";
+        // dataForList = dataForList +"        <option value='2'>Two</option>";
+        // dataForList = dataForList +"        <option value='3'>Three</option>";
+        // dataForList = dataForList +"    </select>";
         //dataForList = dataForList +"    <select class='data_for_dropdown'> ";
         // dataForList = dataForList +"      <option value=''>select data</option>";
         // dataForList = dataForList +"      <option value='9'>data-1</option>";
@@ -154,7 +142,7 @@
                 
                 mainItem = mainItem +" <td class='setting_items_td'>";
                 mainItem = mainItem +"    <select class='main_item_dropdown'>";
-                mainItem = mainItem +"      <option value='0'>設定する大項目を入力</option>";
+                mainItem = mainItem +"      <option value=''>設定する大項目を入力</option>";
                 $.each(data, function (key, item) {
                     if (mainItemId != '' && mainItemId != null && mainItemId != undefined) {
                         if(parseInt(mainItemId) == parseInt(item.Id)){
@@ -318,5 +306,154 @@
             $(this).closest('tr').find('.data_for_dropdown').empty().append(data_for_options);
             $(this).closest('tr').find('.data_for_dropdown').select2();
         }
+    });   
+    
+    $(document).on('change', '#table_list', function () {
+        $(".total_menu_list_tbl").hide();    
+    });
+
+    //add new row for table settings
+    $(document).on('click', '.list_table_add_btn ', function () {
+
+        var $lastRow = $("#total_menu_setting_items_tbl").find("tr").last();
+        var $newRow = $lastRow.clone(); 
+        $newRow.find(".setting_tbl_chk").val('');   
+        $newRow.find(".main_item_dropdown").val('');
+        $newRow.find(".sub_item_dropdown").val('');
+        $newRow.find(".detail_item_dropdown").val('');
+        $newRow.find(".method_dropdown").val('');
+        $newRow.find(".data_for_dropdown").val('');
+        $lastRow.after($newRow);
+    });
+
+    //delete button clicked event
+    $(document).on('click', '.list_table_delete_btn ', function () {
+        var tableId = $("#table_list").val();        
+        if (tableId == '' || tableId == null || tableId == undefined) {   
+            $(".total_menu_list_tbl").hide();  
+            alert('テーブルを選択してください!!!');        
+            return false;                 
+        }else{
+            var checkedId = $('.setting_tbl_chk:checkbox:checked').val();
+            if (checkedId == '' || checkedId == null || checkedId == undefined) {            
+                $("#delete_settings_table").modal("hide");
+                alert('設定を選択してください!!!');        
+                return false;
+            }else{
+                $("#delete_settings_table").modal("show");
+            } 
+        }        
+    });
+
+    
+
+    //delete settings for the selected table
+    $(document).on('click', '.confrim_del_btn ', function () {
+        var tableId = $("#table_list").val();        
+        var checkedId = $('.setting_tbl_chk:checkbox:checked').val();
+        var settingIds = "";
+        var val = [];
+        $('.setting_tbl_chk:checkbox:checked').each(function(i){
+            val[i] = $(this).val();
+            if (settingIds == '' || settingIds == null || settingIds == undefined) {
+                settingIds = val[i];
+            }else{
+                settingIds = settingIds+","+val[i];
+            }             
+        });  
+                
+        var apiurl = "/api/Utilities/DeleteDynamicTableSettings?tableId=" + tableId+"&settingIds="+settingIds;
+        
+    
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {                
+                ToastMessageSuccess(data);                                
+                $('#total_menu_list_tbody').empty();      
+                GetDynamicSettings(tableId);
+                $("#delete_settings_table").modal("hide");
+            },
+            error: function (data) {
+                ToastMessageFailed(data); 
+            }
+        });
+    
+        $('#delete_dynamic_table').modal('toggle');
     });    
+    $(document).on('click', '.list_table_edit_btn ', function () {
+        //alert("operation success.");
+
+        var tableSettingsParameters = "";
+        //tableSettingsParameters = "settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1,2,3)_insertType(update/insert)###settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1#2#3#)_insertType(update/insert)"
+        $('.setting_tbl_tr').each(function(i){
+            var settingsId = "";
+            var mainItemId = "";
+            var subItemId  = "";
+            var detailItemId = "";
+            var methodId = "";
+            var paramterIds = "";
+            var insertType = "";
+            
+            var settingsId = $(this).find(".setting_tbl_chk").val();
+            if (settingsId == '' || settingsId == null || settingsId == undefined) {
+                insertType = "insert"
+                settingsId = 0;
+            }else{
+                insertType = "update"
+            }
+
+            var mainItemId = $(this).find(".main_item_dropdown").val();
+            if (mainItemId == '' || mainItemId == null || mainItemId == undefined) {                
+                mainItemId = 0;
+            }
+
+            var subItemId = $(this).find(".sub_item_dropdown").val();
+            if (subItemId == '' || subItemId == null || subItemId == undefined) {                
+                subItemId = 0;
+            }
+            var detailItemId = $(this).find(".detail_item_dropdown").val();
+            if (detailItemId == '' || detailItemId == null || detailItemId == undefined) {                
+                detailItemId = 0;
+            }
+            var methodId = $(this).find(".method_dropdown").val();
+            if (methodId == '' || methodId == null || methodId == undefined) {                
+                methodId = 0;
+            }
+            var paramterIds = $(this).find(".data_for_dropdown").val();
+            if (paramterIds == '' || paramterIds == null || paramterIds == undefined) {                
+                paramterIds = 0;
+            }
+            if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined){
+                tableSettingsParameters =settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
+            }else{
+                tableSettingsParameters = tableSettingsParameters+ "---"+settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
+            }            
+        })
+        UpdateInsertSettings(tableSettingsParameters);
+    });
+    //udpate insert dynamic table settings.
+    function UpdateInsertSettings(tableSettingsParameters) {       
+        alert("out: "+tableSettingsParameters)                                 
+        if (tableSettingsParameters != '' && tableSettingsParameters != null && tableSettingsParameters != undefined){
+            var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters;
+            
+            $.ajax({
+                url: apiurl,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {                
+                    ToastMessageSuccess(data);                                
+                    $('#total_menu_list_tbody').empty();      
+                    GetDynamicSettings(tableId);
+                    $("#delete_settings_table").modal("hide");
+                },
+                error: function (data) {
+                    ToastMessageFailed(data); 
+                }
+            });            
+        }else{
+        }        
+    }    
 });

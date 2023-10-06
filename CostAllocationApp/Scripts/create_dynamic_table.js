@@ -1908,5 +1908,3 @@ function ClearInputEditForm(){
 
     $('.input_container').empty();
 }
-
-

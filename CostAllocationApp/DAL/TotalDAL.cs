@@ -283,7 +283,26 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public int DeleteDynamicTableSettings(string dynamicTalbeId,string dynamicSettingIds)
+        {
+            int result = 0;
+            string query = $@"DELETE FROM DynamicSettings WHERE DynamicTableId="+ dynamicTalbeId + " AND Id in ("+ dynamicSettingIds +")";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);               
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
+        }
         public int UpdateDynamicTable(DynamicTable dynamicTable)
         {
             int result = 0;
@@ -397,10 +416,11 @@ namespace CostAllocationApp.DAL
                             dynamicSetting.SubCategoryId = rdr["SubCategoryId"] is DBNull ? "" : rdr["SubCategoryId"].ToString();
                             dynamicSetting.DetailsItemName = rdr["DetailsItemName"] is DBNull ? "" : rdr["DetailsItemName"].ToString();
                             dynamicSetting.DetailsId = rdr["DetailId"] is DBNull ? "" : rdr["DetailId"].ToString();
-                            dynamicSetting.DynamicTableName = rdr["TableName"].ToString();
+                            dynamicSetting.DynamicTableName = rdr["TableName"].ToString();                            
                             dynamicSetting.MethodId = rdr["MethodId"].ToString();
                             dynamicSetting.ParameterId = rdr["ParameterId"].ToString();
-                            dynamicSetting.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            
+
                             dynamicSettings.Add(dynamicSetting);
                         }
                     }

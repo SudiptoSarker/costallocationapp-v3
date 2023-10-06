@@ -133,6 +133,7 @@ function InsertDynamicSetting() {
 
     
 }
+
 function GetDynamicTables() {
     $.getJSON('/api/Utilities/GetDynamicTables')
         .done(function (data) {

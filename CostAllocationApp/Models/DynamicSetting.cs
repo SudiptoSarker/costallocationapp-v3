@@ -33,8 +33,7 @@ namespace CostAllocationApp.Models
 
         public string DynamicTableName { get; set; }
 
-        public string CommaSeperatedParameterName { get; set; }
-
+        public string CommaSeperatedParameterName { get; set; }        
         // for receive data from client
         public List<DynamicSetting> DynamicSettings { get; set; }
     }

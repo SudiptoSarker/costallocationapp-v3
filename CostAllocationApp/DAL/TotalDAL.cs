@@ -494,6 +494,37 @@ namespace CostAllocationApp.DAL
                 return isExists;
             }
         }
+        public int UpdateDynamicTableSettings(DynamicSetting dynamicSetting)
+        {
 
+            int result = 0;
+            //string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id AND DynamicTableId=@dynamicTableId";
+            string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id AND DynamicTableId=@dynamicTableId";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);                               
+                cmd.Parameters.AddWithValue("@categoryId", dynamicSetting.CategoryId);
+                cmd.Parameters.AddWithValue("@subCategoryId", dynamicSetting.SubCategoryId);
+                cmd.Parameters.AddWithValue("@detailsId", dynamicSetting.DetailsId);
+                cmd.Parameters.AddWithValue("@methodId", dynamicSetting.MethodId);
+                //cmd.Parameters.AddWithValue("@parameterId", dynamicSetting.ParameterId);
+                cmd.Parameters.AddWithValue("@updatedBy", dynamicSetting.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", dynamicSetting.UpdatedDate);
+
+                cmd.Parameters.AddWithValue("@id", dynamicSetting.Id);
+                cmd.Parameters.AddWithValue("@dynamicTableId", dynamicSetting.DynamicTableId);                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
     }
 }

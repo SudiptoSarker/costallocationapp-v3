@@ -9918,13 +9918,47 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpPost]
         [Route("api/utilities/InsertUpdateDynamicSettings/")]
-        public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters)
-        {
+        public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters,string tableId)
+        {           
+            var session = System.Web.HttpContext.Current.Session;
             if (!string.IsNullOrEmpty(tableSettingsParameters))
             {
-                int resultsDelete = 0;
-                //int resultsDelete = totalBLL.DeleteDynamicTableSettings(tableId, settingIds);
-                if (resultsDelete > 0)
+                int finalResults = 0;
+
+                var arrTableSettingParams = tableSettingsParameters.Split('-');                
+                foreach(var settingItem in arrTableSettingParams)
+                {
+                    if (!string.IsNullOrEmpty(settingItem))
+                    {
+                        string insertType = "";
+                        DynamicSetting dynamicSetting = new DynamicSetting();
+                        var arrSettingItem = settingItem.Split('_');                        
+                        dynamicSetting.Id = Convert.ToInt32(arrSettingItem[0]);
+                        dynamicSetting.CategoryId = arrSettingItem[1].ToString();
+                        dynamicSetting.SubCategoryId = arrSettingItem[2].ToString();
+                        dynamicSetting.DetailsId = arrSettingItem[3].ToString();
+                        dynamicSetting.MethodId = arrSettingItem[4].ToString();
+                        dynamicSetting.ParameterId = arrSettingItem[5].ToString();
+                        dynamicSetting.DynamicTableId = tableId;
+                        dynamicSetting.IsActive = true;
+
+                        insertType = arrSettingItem[6].ToString();
+                        if (insertType == "insert")
+                        {
+                            dynamicSetting.CreatedBy = session["userName"].ToString();
+                            dynamicSetting.CreatedDate = DateTime.Now;
+                            finalResults = totalBLL.CreateDynamicSetting(dynamicSetting);
+                        }
+                        else if(insertType == "update")
+                        {
+                            dynamicSetting.UpdatedBy = session["userName"].ToString();
+                            dynamicSetting.UpdatedDate = DateTime.Now;
+                            finalResults = totalBLL.UpdateDynamicTableSettings(dynamicSetting);
+                        }
+                    }
+                }
+
+                if (finalResults > 0)
                 {
                     return Ok("設定が削除されました.");
                 }
@@ -10245,6 +10279,14 @@ namespace CostAllocationApp.Controllers.Api
             CategoryBLL categoryBLL = new CategoryBLL();
             return Ok(categoryBLL.GetAllCategoriesByDynamicTableId(Convert.ToInt32(dynamicTableId)));
         }
+
+        //[HttpGet]
+        //[Route("api/utilities/GetCategories/")]
+        //public IHttpActionResult GetCategories()
+        //{
+        //    CategoryBLL categoryBLL = new CategoryBLL();
+        //    return Ok(categoryBLL.GetAllCategoriesByDynamicTableId(Convert.ToInt32(dynamicTableId)));
+        //}
 
         [HttpGet]
         [Route("api/utilities/GetSubCategoriesByCategory/")]

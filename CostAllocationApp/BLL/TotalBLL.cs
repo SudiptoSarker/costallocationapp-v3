@@ -188,6 +188,9 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.IsNameAndPositionExists(tableName, tablePoisition, tableId, checkType);
         }
-
+        public int UpdateDynamicTableSettings(DynamicSetting dynamicSetting)
+        {
+            return totalDAL.UpdateDynamicTableSettings(dynamicSetting);
+        }
     }
 }

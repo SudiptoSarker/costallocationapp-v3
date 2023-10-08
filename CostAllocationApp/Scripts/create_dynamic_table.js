@@ -437,7 +437,7 @@ $(document).on('click', '.main_item_edit_action ', function () {
 
 });
 
-$(document).on('click', '#main_item_edit_modal_close', () => {
+$(document).on('click', '.main_item_edit_modal_close', () => {
 
     $('#main_item_edit_modal').modal('hide');
     setTimeout(() => {
@@ -447,7 +447,7 @@ $(document).on('click', '#main_item_edit_modal_close', () => {
 
 });
 
-$(document).on('click', '#sub_item_edit_modal_close', () => {
+$(document).on('click', '.sub_item_edit_modal_close', () => {
 
     $('#sub_item_edit_modal').modal('hide');
     setTimeout(() => {
@@ -457,7 +457,7 @@ $(document).on('click', '#sub_item_edit_modal_close', () => {
 
 });
 
-$(document).on('click', '#detail_item_edit_modal_close', () => {
+$(document).on('click', '.detail_item_edit_modal_close', () => {
 
     $('#detail_item_edit_modal').modal('hide');
     setTimeout(() => {

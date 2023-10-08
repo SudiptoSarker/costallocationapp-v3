@@ -257,7 +257,7 @@ body {
     font-family: Yu Gothic;
 }
 
-#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead {
+#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
@@ -272,7 +272,13 @@ body {
     text-align: center;
     width: 61%;
 }
-.main_item_close_btn_footer, .main_item_del_btn_footer, .sub_item_close_btn_footer, .sub_item_del_btn_footer, .detail_item_close_btn_footer, .detail_item_del_btn_footer {
+.main_item_close_btn_footer,
+.main_item_del_btn_footer,
+.sub_item_close_btn_footer,
+.sub_item_del_btn_footer,
+.detail_item_close_btn_footer,
+.detail_item_del_btn_footer,
+.edit_modal_close_button{
     line-height: 1;
     background-color: #d9d9d9;
     border: none;

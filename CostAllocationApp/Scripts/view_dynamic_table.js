@@ -29,8 +29,9 @@
         }else{ 
             $('#total_menu_list_tbody').empty();      
             GetDynamicSettings(tableId);
-            $(".total_menu_list_tbl").show();  
-            $(".data_for_dropdown").select2();            
+            $('.data_for_dropdown').select2();
+            $(".total_menu_list_tbl").show();              
+            //$(".data_for_dropdown").select2();             
         }
     });
     
@@ -42,6 +43,7 @@
             dataType: 'json',
             success: function (data) {
                 //$('#setting_list_body').empty();
+                var count =1;
                 $.each(data, function (key, item) {
                     var startTR = "";
                     var endTR = "";
@@ -62,16 +64,24 @@
                     detailItem = GetDetailItemList(item.SubCategoryId,item.DetailsId); 
                     methodList = GetMethodList(item.MethodId);
                     
-                    dataForList = "";
+                    //dataForList = "";
                     dataForList = dataForList +" <td class='setting_items_td data_for'>";         
-                    // dataForList = dataForList +"    <span>one</span><span>two</span>";
-                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                    
-                    //dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                        
-                    //dataForList = dataForList +"<option value='cheese'>Cheese,butter,red</option>";    
-                    // dataForList = dataForList +"<option value='tomatoes'>Tomatoes</option>";    
+                    // // dataForList = dataForList +"    <span>one</span><span>two</span>";
+                    // //dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple'>";                    
+                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                        
+                    // dataForList = dataForList +"    <option value='cheese'>Cheese,butter,red</option>";    
+                    // dataForList = dataForList +"    <option value='tomatoes'>Tomatoes</option>";    
                     dataForList = dataForList +"</select>   ";                      
                     dataForList = dataForList +" </td>";
-                    
+                    var dependency = "";
+                    if(parseInt(item.MethodId) == 1 || parseInt(item.MethodId)==3 || parseInt(item.MethodId)==5 || parseInt(item.MethodId)==6 || parseInt(item.MethodId)==8){
+                        dependency = "dp";
+                    }else{
+                        dependency = "in";
+                    }
+                    DataForDropdown(item.ParameterId,dependency,count);
+                    count = count +1;
+
                     totalListItem = ""        
                     totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
 
@@ -131,10 +141,11 @@
     }
 
     //get main item list
-    function GetMainItemList(mainItemId){
+    function GetMainItemList(mainItemId){        
+        var tableId = $("#table_list").val();
         var mainItem = "";
         $.ajax({
-            url: '/api/utilities/GetCategories/',
+            url: `/api/utilities/GetCategories?dynamicTableId=${tableId}`,
             type: 'Get',
             dataType: 'json',
             async: false,
@@ -173,22 +184,33 @@
             type: 'Get',
             dataType: 'json',
             async: false,
-            success: function (data) {                
-                subItem = subItem +" <td class='setting_items_td'>";
-                subItem = subItem +"    <select class='sub_item_dropdown'> ";
-                subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
-                $.each(data, function (key, item) {   
-                    if (subCategoryId != '' && subCategoryId != null && subCategoryId != undefined){
-                        if(parseInt(subCategoryId) == parseInt(item.Id)){
-                            subItem = subItem +`<option value='${item.Id}' selected>${item.SubCategoryName}</option>`;
-                        }else{
-                            subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
-                        } 
-                        
-                    }
+            success: function (data) { 
+                if(parseInt(subCategoryId) ==0)  {
+                    subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
+                }else{
+                    subItem = subItem +" <td class='setting_items_td'>";
+                    subItem = subItem +"    <select class='sub_item_dropdown'> ";
+                    subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
+                }               
+                
+                $.each(data, function (key, item) { 
+                    if(subCategoryId ==0)  {
+                        subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                    }else{
+                        if (subCategoryId != '' && subCategoryId != null && subCategoryId != undefined){
+                            if(parseInt(subCategoryId) == parseInt(item.Id)){
+                                subItem = subItem +`<option value='${item.Id}' selected>${item.SubCategoryName}</option>`;
+                            }else{
+                                subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                            }                         
+                        }
+                    }                    
                 });  
-                subItem = subItem +"    </select>";
-                subItem = subItem +" </td>";               
+                if(parseInt(subCategoryId) !=0)  {                    
+                    subItem = subItem +"    </select>";
+                    subItem = subItem +" </td>";                                                                
+                } 
+                         
             },
             error: function (data) {
             }
@@ -204,21 +226,33 @@
             type: 'Get',
             dataType: 'json',
             async: false,
-            success: function (data) {                
-                detailItem = detailItem +" <td class='setting_items_td'>";
-                detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
-                detailItem = detailItem +"      <option value=''>select detail item</option>";                                                                   
+            success: function (data) {                                
+                if(parseInt(detailItemId) ==0)  {
+                    detailItem = detailItem +"      <option value=''>select detail item</option>";                                                                  
+                }else{
+                    detailItem = detailItem +" <td class='setting_items_td'>";
+                    detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
+                    detailItem = detailItem +"      <option value=''>select detail item</option>";                                                                    
+                }    
+
                 $.each(data, function (key, item) {   
-                    if (detailItemId != '' && detailItemId != null && detailItemId != undefined){
-                        if(parseInt(detailItemId) == parseInt(item.Id)){
-                            detailItem = detailItem +`<option value='${item.Id}' selected>${item.DetailsItemName}</option>`;
-                        }else{
-                            detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
-                        }                         
-                    }                                     
+                    if(parseInt(detailItemId) ==0){
+                        detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                    }else{
+                        if (detailItemId != '' && detailItemId != null && detailItemId != undefined){
+                            if(parseInt(detailItemId) == parseInt(item.Id)){
+                                detailItem = detailItem +`<option value='${item.Id}' selected>${item.DetailsItemName}</option>`;
+                            }else{
+                                detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                            }                         
+                        }  
+                    }
+                                                       
                 });  
-                detailItem = detailItem +"    </select>";
-                detailItem = detailItem +" </td>";               
+                if(parseInt(detailItemId) !=0){
+                    detailItem = detailItem +"    </select>";
+                    detailItem = detailItem +" </td>";               
+                }                
             },
             error: function (data) {
             }
@@ -255,7 +289,72 @@
         }); 
         return methodList;
     }
+    function DataForDropdown(parameterIds,dependency,indexCount){       
+        var dataForList = "";
+        // pull data for dependency
+        var arrParameters = parameterIds.split(",");    
+        if (dependency == "dp") {
+            $.ajax({
+                url: `/api/Departments`,
+                type: 'Get',
+                async:false,
+                dataType: 'json',
+                success: function (data) {                                                         
+                    $.each(data, function (key, item) {    
+                        var isDepartmentSelected = false;
 
+                        for (i = 0; i < arrParameters.length; ++i) {
+                            if(parseInt(item.Id) == parseInt(arrParameters[i])){
+                                isDepartmentSelected = true;
+                            }
+                        }    
+                        if(isDepartmentSelected){
+                            dataForList = dataForList +`<option value='${item.Id}' selected>${item.DepartmentName}</option>`;
+                        }else{
+                            dataForList = dataForList +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
+                        }                        
+                    });                       
+                },
+                error: function (data) {
+                }
+            });
+        }
+        if (dependency == "in") {
+            $.ajax({
+                url: `/api/InCharges`,
+                type: 'Get',
+                async:false,
+                dataType: 'json',
+                success: function (data) {                     
+                    $.each(data, function (key, item) {
+                        var isInchageSelected = false;
+                        for (i = 0; i < arrParameters.length; ++i) {
+                            if(parseInt(item.Id) == parseInt(arrParameters[i])){
+                                isInchageSelected = true;
+                            }
+                        }  
+                        if(isInchageSelected){
+                            dataForList = dataForList +`<option value='${item.Id}' selected>${item.InChargeName}</option>`;
+                        }else{
+                            dataForList = dataForList +`<option value='${item.Id}'>${item.InChargeName}</option>`;
+                        } 
+                    });                        
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //return dataForList;
+        //$("#data_for_id_3").closest('tr').find('.data_for_dropdown').empty().append(dataForList);
+        //$('#data_for_id_3').find('.data_for').append(dataForList);
+        //$("#data_for_id_3").closest('tr').find('.data_for_dropdown').select2();
+        $('.data_for_dropdown').find('.data_for').append(dataForList);
+        $('.data_for_dropdown').select2();
+
+        //$(".data_for_dropdown").closest('tr').find('#data_for_id_'+indexCount).empty().append(dataForList);
+        //$(".data_for_dropdown").closest('tr').find('#data_for_id_'+indexCount).select2();
+    }
     //get data for list, when method is changed
     $(document).on('change', '.method_dropdown', function () {
         var data_for_options = "";
@@ -265,8 +364,7 @@
         if (methodId == "" || methodId == undefined || methodId == null) {
             return;
         }
-        else {
-            // pull data for dependency
+        else {                        
             if (dependency == "dp") {
                 $.ajax({
                     url: `/api/Departments`,
@@ -387,6 +485,7 @@
 
         var tableSettingsParameters = "";
         //tableSettingsParameters = "settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1,2,3)_insertType(update/insert)###settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1#2#3#)_insertType(update/insert)"
+        var isValidRequest = true;
         $('.setting_tbl_tr').each(function(i){
             var settingsId = "";
             var mainItemId = "";
@@ -394,8 +493,8 @@
             var detailItemId = "";
             var methodId = "";
             var paramterIds = "";
-            var insertType = "";
-            
+            var insertType = "";            
+                        
             var settingsId = $(this).find(".setting_tbl_chk").val();
             if (settingsId == '' || settingsId == null || settingsId == undefined) {
                 insertType = "insert"
@@ -425,19 +524,28 @@
             if (paramterIds == '' || paramterIds == null || paramterIds == undefined) {                
                 paramterIds = 0;
             }
+            if(mainItemId ==0 || subItemId==0 || detailItemId==0 || methodId==0 || paramterIds==0){
+                isValidRequest = false;
+            }
+            
             if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined){
                 tableSettingsParameters =settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
             }else{
-                tableSettingsParameters = tableSettingsParameters+ "---"+settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
-            }            
+                tableSettingsParameters = tableSettingsParameters+ "-"+settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
+            }                        
         })
-        UpdateInsertSettings(tableSettingsParameters);
+        if(isValidRequest){
+            UpdateInsertSettings(tableSettingsParameters);
+        }else{
+            alert("すべてのフィールドを選択してください");
+            return false;
+        }        
     });
     //udpate insert dynamic table settings.
     function UpdateInsertSettings(tableSettingsParameters) {       
-        alert("out: "+tableSettingsParameters)                                 
+        var tableId = $("#table_list").val();  
         if (tableSettingsParameters != '' && tableSettingsParameters != null && tableSettingsParameters != undefined){
-            var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters;
+            var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters+"&tableId="+tableId;
             
             $.ajax({
                 url: apiurl,
@@ -455,5 +563,18 @@
             });            
         }else{
         }        
-    }    
+    }  
+    //cascading dropdown for main item 
+    $(document).on('change', '.main_item_dropdown', function () {
+        var categoryId = $(this).val();  
+        var subItemHtml = GetSubItemList(categoryId,0);
+        $(this).closest('tr').find('.sub_item_dropdown').empty().append(subItemHtml);
+        $(this).closest('tr').find('.detail_item_dropdown').empty();
+    }); 
+    //cascading dropdown for sub item 
+    $(document).on('change', '.sub_item_dropdown', function () {
+        var subItemId = $(this).val();  
+        var detailItemHtml = GetDetailItemList(subItemId,0);        
+        $(this).closest('tr').find('.detail_item_dropdown').empty().append(detailItemHtml);        
+    }); 
 });

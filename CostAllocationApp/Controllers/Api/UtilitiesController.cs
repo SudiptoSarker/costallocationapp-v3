@@ -9872,8 +9872,8 @@ namespace CostAllocationApp.Controllers.Api
             if (singleDynamicTable != null)
             {
 
-                var inactiveResult = totalBLL.RemoveDynamicTable(singleDynamicTable);
-                if (inactiveResult>0)
+                var removedResult = totalBLL.RemoveDynamicTable(singleDynamicTable);
+                if (removedResult > 0)
                 {
                     return Ok("保存されました!");
                 }
@@ -10063,10 +10063,6 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("Something went wrong!");
             }
 
-            category.UpdatedBy = session["userName"].ToString();
-            category.UpdatedDate = DateTime.Now;
-            category.IsActive = false;
-
             var result = categoryBLL.RemoveCategory(category);
 
             if (result > 0)
@@ -10094,10 +10090,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return BadRequest("Something went wrong!");
             }
-
-            subCategory.UpdatedBy = session["userName"].ToString();
-            subCategory.UpdatedDate = DateTime.Now;
-            subCategory.IsActive = false;
 
             var result = subCategoryBLL.RemoveSubCategory(subCategory);
 
@@ -10199,10 +10191,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return BadRequest("Something went wrong!");
             }
-
-            deatailsItem.UpdatedBy = session["userName"].ToString();
-            deatailsItem.UpdatedDate = DateTime.Now;
-            deatailsItem.IsActive = false;
 
             var result = detailsItemBLL.RemoveDetailsItem(deatailsItem);
 

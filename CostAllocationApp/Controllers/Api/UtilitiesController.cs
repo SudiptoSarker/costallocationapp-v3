@@ -9888,6 +9888,56 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpPost]
+        [Route("api/utilities/DeleteDynamicTableSettings/")]
+        public IHttpActionResult DeleteDynamicTableSettings(string tableId,string settingIds)
+        {
+            if (!string.IsNullOrEmpty(tableId))
+            {
+                if (!string.IsNullOrEmpty(settingIds))
+                {
+                    int resultsDelete = totalBLL.DeleteDynamicTableSettings(tableId, settingIds);
+                    if (resultsDelete > 0)
+                    {
+                        return Ok("設定が削除されました.");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong.");
+                    }
+                }
+                else
+                {
+                    return Ok("Data not found!");
+                }
+            }
+            else
+            {
+                return Ok("Data not found!");
+            }            
+        }
+        [HttpPost]
+        [Route("api/utilities/InsertUpdateDynamicSettings/")]
+        public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters)
+        {
+            if (!string.IsNullOrEmpty(tableSettingsParameters))
+            {
+                int resultsDelete = 0;
+                //int resultsDelete = totalBLL.DeleteDynamicTableSettings(tableId, settingIds);
+                if (resultsDelete > 0)
+                {
+                    return Ok("設定が削除されました.");
+                }
+                else
+                {
+                    return BadRequest("Something went wrong.");
+                }
+            }
+            else
+            {
+                return Ok("Data not found!");
+            }
+        }
         [Route("api/utilities/GetDynamicTableById/{table_id}")]
         [HttpGet]
         [ActionName("GetDynamicTableById")]

@@ -1940,5 +1940,3 @@ function ClearInputEditForm(){
 
     $('.input-container-3').empty();
 }
-
-

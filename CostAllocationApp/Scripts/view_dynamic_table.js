@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     // $('.selectpicker').selectpicker();
-    // $(".data_for_dropdown").select2();
+    $(".data_for_dropdown").select2();
     // $('.data_for_multiselect').multiselect();
 
     html = $('#total_menu_setting_items_tbl').html();
@@ -79,13 +79,22 @@
                     }else{
                         dependency = "in";
                     }
-                    DataForDropdown(item.ParameterId,dependency,count);
-                    count = count +1;
+                    
+                    
 
                     totalListItem = ""        
                     totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
 
                     $('#total_menu_list_tbody').append(`${totalListItem}`);  
+                    
+                    var optionDataFor = "";
+                    optionDataFor = DataForDropdown(item.ParameterId,dependency,count);
+                    //$('.setting_items_td').find('.data_for_dropdown').empty().append(optionDataFor);
+                    $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
+                    //$('.data_for_dropdow').find('.data_for').select2();
+                    $(".data_for_dropdown").select2();
+                    
+                    count = count +1;
                     //GetTotalMenuListHtml(item.Id,item.CategoryId,item.SubCategoryId,item.DetailsId,item.MethodId);
                     //$('#setting_list_body').append(`<tr><td>${item.DynamicTableName}</td><td>${item.CategoryName}</td><td>${item.SubCategoryName}</td><td>${item.DetailsItemName}</td><td>${item.MethodName}</td><td>${item.CommaSeperatedParameterName}</td></tr>`);
                 });
@@ -346,14 +355,20 @@
         }
 
         //return dataForList;
-        //$("#data_for_id_3").closest('tr').find('.data_for_dropdown').empty().append(dataForList);
-        //$('#data_for_id_3').find('.data_for').append(dataForList);
+        // $("#data_for_id_3").closest('tr').find('.data_for_dropdown').empty().append(dataForList);
+        // $('#data_for_id_3').find('.data_for').append(dataForList);
         //$("#data_for_id_3").closest('tr').find('.data_for_dropdown').select2();
-        $('.data_for_dropdown').find('.data_for').append(dataForList);
-        $('.data_for_dropdown').select2();
+        // $('.data_for_dropdown').find('.data_for').append(dataForList);
+        // $('.data_for_dropdown').select2();
 
         //$(".data_for_dropdown").closest('tr').find('#data_for_id_'+indexCount).empty().append(dataForList);
         //$(".data_for_dropdown").closest('tr').find('#data_for_id_'+indexCount).select2();
+
+
+        // $('.data_for_dropdow').find('.data_for').empty().append(dataForList);
+        // // reinit your plugin something like the below code.
+        // $('.data_for_dropdow').find('.data_for').select2();
+        return dataForList;
     }
     //get data for list, when method is changed
     $(document).on('change', '.method_dropdown', function () {

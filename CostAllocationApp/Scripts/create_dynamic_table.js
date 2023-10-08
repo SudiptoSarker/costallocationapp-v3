@@ -272,7 +272,8 @@ $(document).on('click', '#update_dynamic_table ', function () {
 });
 
 //add main item
-$(document).on('click', '.main_item_add_btn ', function () {   
+$(document).on('click', '.main_item_add_btn ', function () {
+    debugger;
     var mainItem = $('#section-name').val();
     var tableId = $('#table_id_for_edit').val();
     var dynamicTable;
@@ -291,6 +292,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
                 },
             success: function (data) {
                 ToastMessageSuccess(data);
+                $('#section-name').val('');
                 $.ajax({
                     url: '/api/utilities/GetDynamicTableById/' + tableId,
                     type: 'Get',
@@ -318,7 +320,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
                                         <a class="main_item_link" href="#" >${value.CategoryName}</a>
                                     </td>
                                     <td class="main_item_input_td">
-                                        <a class="main_item_add_btn" href="javascript:void(0);">編集 (edit)</a>
+                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
                                         <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
                                     </td>
                                 </tr>
@@ -603,6 +605,7 @@ $(document).on('click', '.sub_item_add_btn ', function () {
             if (data == 1) {
                 alert("同一データが登録済みです.");
             } else {
+                $('#input_sub_item').val('');
                 ToastMessageSuccess(data);
                 $.ajax({
                     url: '/api/utilities/GetSubCategoriesByCategory?categoryId=' + mainItemId,
@@ -656,6 +659,7 @@ $(document).on('click', '.detail_item_add_btn ', function () {
             DetailsItemName: detailsItemName
         },
         success: function (data) {
+            $('#input_detail_item').val('');
             ToastMessageSuccess(data);
             
             $.ajax({
@@ -1212,7 +1216,7 @@ $(document).ready(function() {
     });
 
     //add form show when add button click
-    $(document).on('click', '#table_input_frm_div_close ', function (e) {
+    $(document).on('click', '.table_input_frm_div_close ', function (e) {
         ClearInputEditForm();
         $('.table_input_frm_div').hide();
 
@@ -1386,12 +1390,11 @@ $(document).ready(function() {
 
         }
     });
-    //$(document).on('click', '.frm_cancel_btn ', function (e) {
-    //    ClearInputEditForm();
-    //});
 
     //setting button click, show the item modal.
     $(document).on('click', '.frm_setting_btn ', function (e) {
+        ClearInputEditForm();
+        $('.table_input_frm_div').hide();
         var tableId = $('.table_list_radio:checked').val();
         var dynamicTable;
         if (tableId == null || tableId == undefined || tableId == "") {

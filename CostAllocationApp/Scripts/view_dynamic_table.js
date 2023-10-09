@@ -203,7 +203,7 @@
                     startTR = "<tr data-count='1' class='setting_tbl_tr'>";
                     endTR = "</tr>";
                     tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";        
-                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='' class='setting_tbl_chk'></td>`;   
+                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='0' class='setting_tbl_chk'></td>`;   
                     settingColCount = parseInt(settingColCount)+1;                                                                
 
                     var tempCatId = 0;
@@ -602,7 +602,7 @@
         $($newRow[0].cells[parseInt(setting_col_count)-1]).empty();
         $($newRow[0].cells[parseInt(setting_col_count)-1]).append(`<select class='data_for_dropdown' multiple='multiple' id=''></select>`);
         
-        $newRow.find(".setting_tbl_chk").val('');   
+        $newRow.find(".setting_tbl_chk").val('0');   
         $newRow.find(".main_item_dropdown").val('');
         $newRow.find(".sub_item_dropdown").val('');
         $newRow.find(".detail_item_dropdown").val('');
@@ -632,7 +632,8 @@
             alert('テーブルを選択してください!!!');        
             return false;                 
         }else{
-            var checkedId = $('.setting_tbl_chk:checkbox:checked').val();
+            var checkedId = $('.setting_tbl_chk:checkbox:checked').val();            
+
             if (checkedId == '' || checkedId == null || checkedId == undefined) {            
                 $("#delete_settings_table").modal("hide");
                 alert('設定を選択してください!!!');        
@@ -647,36 +648,46 @@
     $(document).on('click', '.confrim_del_btn ', function () {
         var tableId = $("#table_list").val();    
         var resultsItem = GetDynamicTablesByTableId(tableId);
-
-        var checkedId = $('.setting_tbl_chk:checkbox:checked').val();
+        
         var settingIds = "";
         var val = [];
+        var isNotSavedRow = false;
+
         $('.setting_tbl_chk:checkbox:checked').each(function(i){
             val[i] = $(this).val();
-            if (settingIds == '' || settingIds == null || settingIds == undefined) {
-                settingIds = val[i];
+            if(parseInt(val[i]) ==0){
+                isNotSavedRow = true;
             }else{
-                settingIds = settingIds+","+val[i];
-            }             
+                if (settingIds == '' || settingIds == null || settingIds == undefined) {
+                    settingIds = val[i];
+                }else{
+                    settingIds = settingIds+","+val[i];
+                }             
+            }            
         });  
                 
-        var apiurl = "/api/Utilities/DeleteDynamicTableSettings?tableId=" + tableId+"&settingIds="+settingIds;
-        
-    
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            success: function (data) {                
-                ToastMessageSuccess(data);                                
-                $('#total_menu_list_tbody').empty();      
-                GetDynamicSettings(tableId,resultsItem);
-                $("#delete_settings_table").modal("hide");
-            },
-            error: function (data) {
-                ToastMessageFailed(data); 
-            }
-        });
+        if (settingIds !=''){
+            var apiurl = "/api/Utilities/DeleteDynamicTableSettings?tableId=" + tableId+"&settingIds="+settingIds;        
+            $.ajax({
+                url: apiurl,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {                
+                    ToastMessageSuccess(data);                                
+                    $('#total_menu_list_tbody').empty();      
+                    GetDynamicSettings(tableId,resultsItem);
+                    $("#delete_settings_table").modal("hide");
+                },
+                error: function (data) {
+                    ToastMessageFailed(data); 
+                }
+            });
+        }else{
+            ToastMessageSuccess("設定が削除されました");                                
+            $('#total_menu_list_tbody').empty();      
+            GetDynamicSettings(tableId,resultsItem);
+            $("#delete_settings_table").modal("hide"); 
+        }        
     
         $('#delete_dynamic_table').modal('toggle');
     }); 
@@ -700,7 +711,7 @@
             var insertType = "";            
                         
             var settingsId = $(this).find(".setting_tbl_chk").val();
-            if (settingsId == '' || settingsId == null || settingsId == undefined) {
+            if (settingsId == '' || settingsId == null || settingsId == undefined || settingsId==0) {
                 insertType = "insert"
                 settingsId = 0;
             }else{

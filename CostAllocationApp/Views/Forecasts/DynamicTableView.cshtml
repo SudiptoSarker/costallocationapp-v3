@@ -32,15 +32,7 @@
         <div class="row">
             <div class="col-md-11">
                 <table id="total_menu_setting_items_tbl">
-                    <thead>                    
-                        <tr>
-                            <th class="total_tbl_header">選択​</th>
-                            <th class="total_tbl_header">大項目​(main)</th>
-                            <th class="total_tbl_header">中項目​(sub)</th>
-                            <th class="total_tbl_header">小項目​(detail)</th>
-                            <th class="total_tbl_header">集計方式​(methods)</th>
-                            <th class="total_tbl_header">集計データ​(data)</th>
-                        </tr>
+                    <thead id="total_menu_list_thead">                                       
                     </thead>
 
                     <tbody id="total_menu_list_tbody">                                    
@@ -64,6 +56,11 @@
         </div>
     </div>
     <br />
+
+    <input type="hidden" id="main_item_settings" value=""/>
+    <input type="hidden" id="sub_item_settings" value=""/>
+    <input type="hidden" id="detail_item_settings" value=""/>    
+    <input type="hidden" id="setting_column_count" value=""/>
 
     <!-----------------Modal: Delete Dynamic Table----------------->
     <div class="modal custom-modal fade" id="delete_settings_table" role="dialog">
@@ -92,6 +89,7 @@
             </div>
         </div>
     </div>
+</div>
 @section Scripts{    
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/view_dynamic_table.js"></script>  

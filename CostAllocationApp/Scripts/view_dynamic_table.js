@@ -13,7 +13,37 @@
                 });
             });
     }    
+    function GetDynamicTablesByTableId(tableId){
+        var tableMainItemTitle="";
+        var tableSubItemTitle = "";
+        var tableDetialItemTitle = "";
+        var resultsItem = "";
 
+        $.ajax({
+            url: `/api/utilities/GetDynamicTableById/${tableId}`,
+            type: 'Get',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.CategoryTitle != '' && data.CategoryTitle != null && data.CategoryTitle != undefined) {
+                    tableMainItemTitle =  data.CategoryTitle;     
+                    resultsItem = tableMainItemTitle;
+                    if (data.SubCategoryTitle != '' && data.SubCategoryTitle != null && data.SubCategoryTitle != undefined) {
+                        tableSubItemTitle =  data.SubCategoryTitle;       
+                        resultsItem = resultsItem+"##"+tableSubItemTitle;
+                        if (data.DetailsTitle != '' && data.DetailsTitle != null && data.DetailsTitle != undefined){
+                            tableDetialItemTitle = data.DetailsTitle;
+                            resultsItem = resultsItem+"##"+tableDetialItemTitle;
+                        }                        
+                    }                                  
+                }                
+            },
+            error: function (data) {
+            }
+        });
+
+        return resultsItem;
+    }
     //show table details
     $(document).on('click', '#search_dynamic_table ', function () {
         var tableId = $("#table_list").val();
@@ -22,22 +52,31 @@
             alert('テーブルを選択してください!!!');        
             return false;
         }else{ 
-            $('#total_menu_list_tbody').empty();      
-            GetDynamicSettings(tableId);
+            $('#total_menu_list_tbody').empty();    
+            var resultsItem = GetDynamicTablesByTableId(tableId);
+            GetDynamicSettings(tableId,resultsItem);
             $('.data_for_dropdown').select2();
             $(".total_menu_list_tbl").show();              
         }
     });
     
     //get dynamic table settings by table id
-    function GetDynamicSettings(dynamicTableId) {            
+    function GetDynamicSettings(dynamicTableId,resultsItem) {            
         $.ajax({
             url: `/api/utilities/GetDynamicSettingsByDynamicTableId?dynamicTableId=${dynamicTableId}`,
             type: 'Get',
             dataType: 'json',
-            success: function (data) {                
-                var count =1;
-                if(parseInt(data.length)>0){                    
+            success: function (data) {         
+                var tableheaderStartHtml = "<tr>"       
+                var tableheaderEndHtml = "</tr>"
+                var tableheaderHtml = ""
+
+                var arrResultsItem = resultsItem.split('##');
+                //alert(resultsItem);
+                //alert(arrResultsItem.length);
+                //return false;
+                var count =1;                
+                if(parseInt(data.length)>0){                        
                     $.each(data, function (key, item) {
                         var startTR = "";
                         var endTR = "";
@@ -47,15 +86,67 @@
                         var detailItem = "";
                         var methodList = "";
                         var dataForList = "";
-                        var totalListItem = "";
+                        var totalListItem = "";                        
+                        var settingColCount = 0;
+
+                        $("#main_item_settings").val('');
+                        $("#sub_item_settings").val('');
+                        $("#detail_item_settings").val('');
+
                         
                         startTR = "<tr data-count='1' class='setting_tbl_tr'>";
                         endTR = "</tr>";        
+                        if (item.Id != '' && item.Id != null && item.Id != undefined){
+                            settingColCount = parseInt(settingColCount)+1;
+
+                            if(parseInt(count) ==1){
+                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";
+                            }                            
+                            checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                                               
+                        }
+
+                        var tempCatId = 0;
+                        if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
+                            if (item.CategoryId != '' && item.CategoryId != null && item.CategoryId != undefined){
+                                tempCatId = item.CategoryId;
+                            }
+
+                            settingColCount = parseInt(settingColCount)+1;
+                            $("#main_item_settings").val(1);
+                            if(parseInt(count) ==1){                                
+                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[0]+"</th>";
+                            }                            
+                            mainItem = GetMainItemList(tempCatId);
+                        }
+
+                        var tempSubCatId = 0;
+                        if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                            
+                            if (item.SubCategoryId != '' && item.SubCategoryId != null && item.SubCategoryId != undefined){
+                                tempSubCatId = item.SubCategoryId;
+                            }
+
+                            settingColCount = parseInt(settingColCount)+1;
+                            $("#sub_item_settings").val(1);
+                            if(parseInt(count) ==1){
+                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[1]+"</th>";
+                            }                            
+                            subItem = GetSubItemList(tempCatId,tempSubCatId);  
+                        }                             
+
+                        var tempDetailId = 0;
+                        if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){
+                            if (item.DetailsId != '' && item.DetailsId != null && item.DetailsId != undefined){
+                                tempDetailId = item.DetailsId;
+                            }
+
+                            $("#detail_item_settings").val(1);
+                            settingColCount = parseInt(settingColCount)+1;
+                            if(parseInt(count) == 1){                                
+                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[2]+"</th>";
+                            }                            
+                            detailItem = GetDetailItemList(tempSubCatId,tempDetailId);   
+                        }                        
                         
-                        checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                       
-                        mainItem = GetMainItemList(item.CategoryId);                 
-                        subItem = GetSubItemList(item.CategoryId,item.SubCategoryId);            
-                        detailItem = GetDetailItemList(item.SubCategoryId,item.DetailsId); 
                         methodList = GetMethodList(item.MethodId,count);
                                             
                         dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
@@ -71,6 +162,17 @@
                         }                                        
                         totalListItem = ""        
                         totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
+                        
+                        if(parseInt(count) == 1){
+                            settingColCount = parseInt(settingColCount)+2;
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計データ​(data)</th>";
+
+                            tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
+                            $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
+                            $("#setting_column_count").val(settingColCount);
+                        }
+
                         $('#total_menu_list_tbody').append(`${totalListItem}`);  
                         
                         var optionDataFor = "";
@@ -81,7 +183,7 @@
                         count = count +1;
                     });
                 }
-                else{                    
+                else{ 
                     var startTR = "";
                     var endTR = "";
                     var checkItem = "";
@@ -90,30 +192,117 @@
                     var detailItem = "";
                     var methodList = "";
                     var dataForList = "";
-                    var totalListItem = "";
+                    var totalListItem = "";                        
+                    var settingColCount = 0;
+
+                    $("#main_item_settings").val('');
+                    $("#sub_item_settings").val('');
+                    $("#detail_item_settings").val('');
+
                     
                     startTR = "<tr data-count='1' class='setting_tbl_tr'>";
-                    endTR = "</tr>";        
-                    
-                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='' class='setting_tbl_chk'></td>`;                       
-                    mainItem = GetMainItemList(0);                 
-                    subItem = GetSubItemList(0,0);            
-                    detailItem = GetDetailItemList(0,0); 
-                    methodList = GetMethodList(0,1);
+                    endTR = "</tr>";
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";        
+                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='' class='setting_tbl_chk'></td>`;   
+                    settingColCount = parseInt(settingColCount)+1;                                                                
+
+                    var tempCatId = 0;
+                    if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
+                        settingColCount = parseInt(settingColCount)+1;
+                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[0]+"</th>";
+                        $("#main_item_settings").val(1);                                                    
+                        mainItem = GetMainItemList(tempCatId);
+                    }
+
+                    var tempSubCatId = 0;
+                    if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                                                    
+                        settingColCount = parseInt(settingColCount)+1;                        
+                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[1]+"</th>";                            
+                        $("#sub_item_settings").val(1);
+                        subItem = GetSubItemList(tempCatId,tempSubCatId);  
+                    }                             
+
+                    var tempDetailId = 0;
+                    if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){                        
+                        $("#detail_item_settings").val(1);
+                        settingColCount = parseInt(settingColCount)+1;
+                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[2]+"</th>";                            
+                        detailItem = GetDetailItemList(tempSubCatId,tempDetailId);   
+                    }                        
+                    var tempMethodId=0;
+                    methodList = GetMethodList(tempMethodId,count);
                                         
                     dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
                     dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
                     dataForList = dataForList +"</select>   ";                      
                     dataForList = dataForList +" </td>";
                     
-                    var dependency = "";                                                         
+                    var dependency = "";                                                            
                     totalListItem = ""        
                     totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
+                    
+                    settingColCount = parseInt(settingColCount)+2;
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計データ​(data)</th>";
+
+                    tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
+                    $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
+                    $("#setting_column_count").val(settingColCount);
+
                     $('#total_menu_list_tbody').append(`${totalListItem}`);  
                     
                     var optionDataFor = "";
                     $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
-                    $(".data_for_dropdown").select2();                                        
+                    $(".data_for_dropdown").select2(); 
+                                       
+                    // var startTR = "";
+                    // var endTR = "";
+                    // var checkItem = "";
+                    // var mainItem = "";
+                    // var subItem = "";
+                    // var detailItem = "";
+                    // var methodList = "";
+                    // var dataForList = "";
+                    // var totalListItem = "";
+                    // tableheaderHtml = "";
+
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>大項目​(main)</th>";
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>中項目​(sub)</th>";
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>小項目​(detail)</th>";
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
+                    // tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計データ​(data)</th>";
+
+                    // tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
+                    // $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);                      
+                    // $("#setting_column_count").val(6);
+
+                    // $("#main_item_settings").val(1);
+                    // $("#sub_item_settings").val(1);
+                    // $("#detail_item_settings").val(1);
+
+                    // startTR = "<tr data-count='1' class='setting_tbl_tr'>";
+                    // endTR = "</tr>";        
+                    
+                    // checkItem = `<td class='setting_items_td'><input  type='checkbox' value='' class='setting_tbl_chk'></td>`;                       
+                    // mainItem = GetMainItemList(0);                 
+                    // subItem = GetSubItemList(0,0);                            
+                    // detailItem = GetDetailItemList(0,0); 
+                    // methodList = GetMethodList(0,1);
+                                        
+                    // dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
+                    // dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
+                    // dataForList = dataForList +"</select>   ";                      
+                    // dataForList = dataForList +" </td>";
+                    
+                    // var dependency = "";                                                         
+                    // totalListItem = ""        
+                    // totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
+                    // $('#total_menu_list_tbody').append(`${totalListItem}`);  
+                    
+                    // var optionDataFor = "";
+                    // $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
+                    // $(".data_for_dropdown").select2();                                        
                 }
             },
             error: function (data) {
@@ -157,7 +346,7 @@
     //get sub item list
     function GetSubItemList(categoryId,subCategoryId){
         var subItem = "";
-        if(parseInt(categoryId==0)){
+        if(parseInt(categoryId)==0){
             subItem = subItem +" <td class='setting_items_td'>";
             subItem = subItem +"    <select class='sub_item_dropdown'> ";
             subItem = subItem +"    </select>";
@@ -206,7 +395,7 @@
     //get sub item list
     function GetDetailItemList(subItemId,detailItemId){        
         var detailItem = "";       
-        if(parseInt(subItemId==0)){
+        if(parseInt(subItemId)==0){
             detailItem = detailItem +" <td class='setting_items_td'>";
             detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
             detailItem = detailItem +"    </select>";
@@ -407,8 +596,11 @@
 
         var $lastRow = $("#total_menu_list_tbody").find("tr").last();        
         var $newRow = $lastRow.clone();
-        $($newRow[0].cells[5]).empty();
-        $($newRow[0].cells[5]).append(`<select class='data_for_dropdown' multiple='multiple' id=''></select>`);
+
+        var setting_col_count = $("#setting_column_count").val();
+
+        $($newRow[0].cells[parseInt(setting_col_count)-1]).empty();
+        $($newRow[0].cells[parseInt(setting_col_count)-1]).append(`<select class='data_for_dropdown' multiple='multiple' id=''></select>`);
         
         $newRow.find(".setting_tbl_chk").val('');   
         $newRow.find(".main_item_dropdown").val('');
@@ -453,7 +645,9 @@
 
     //delete settings for the selected table
     $(document).on('click', '.confrim_del_btn ', function () {
-        var tableId = $("#table_list").val();        
+        var tableId = $("#table_list").val();    
+        var resultsItem = GetDynamicTablesByTableId(tableId);
+
         var checkedId = $('.setting_tbl_chk:checkbox:checked').val();
         var settingIds = "";
         var val = [];
@@ -476,7 +670,7 @@
             success: function (data) {                
                 ToastMessageSuccess(data);                                
                 $('#total_menu_list_tbody').empty();      
-                GetDynamicSettings(tableId);
+                GetDynamicSettings(tableId,resultsItem);
                 $("#delete_settings_table").modal("hide");
             },
             error: function (data) {
@@ -490,6 +684,11 @@
     $(document).on('click', '.list_table_edit_btn ', function () {
         var tableSettingsParameters = "";
         //tableSettingsParameters = "settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1,2,3)_insertType(update/insert)###settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1#2#3#)_insertType(update/insert)"
+        
+        var is_main_item_colmn = $("#main_item_settings").val();
+        var is_sub_item_colmn = $("#sub_item_settings").val();
+        var is_detail_item_colmn = $("#detail_item_settings").val();
+
         var isValidRequest = true;
         $('.setting_tbl_tr').each(function(i){
             var settingsId = "";
@@ -507,31 +706,47 @@
             }else{
                 insertType = "update"
             }
-
-            var mainItemId = $(this).find(".main_item_dropdown").val();
-            if (mainItemId == '' || mainItemId == null || mainItemId == undefined) {                
-                mainItemId = 0;
+            
+            if (is_main_item_colmn != '' && is_main_item_colmn != null && is_main_item_colmn != undefined) {         
+                if(parseInt(is_main_item_colmn) == 1){
+                    var mainItemId = $(this).find(".main_item_dropdown").val();
+                    if (mainItemId == '' || mainItemId == null || mainItemId == undefined) {                
+                        mainItemId = 0;
+                        isValidRequest = false;
+                    }
+                }
             }
 
-            var subItemId = $(this).find(".sub_item_dropdown").val();
-            if (subItemId == '' || subItemId == null || subItemId == undefined) {                
-                subItemId = 0;
+            if (is_sub_item_colmn != '' && is_sub_item_colmn != null && is_sub_item_colmn != undefined) {         
+                if(parseInt(is_sub_item_colmn) == 1){
+                    var subItemId = $(this).find(".sub_item_dropdown").val();
+                    if (subItemId == '' || subItemId == null || subItemId == undefined) {                
+                        subItemId = 0;
+                        isValidRequest = false;
+                    }
+                }
             }
-            var detailItemId = $(this).find(".detail_item_dropdown").val();
-            if (detailItemId == '' || detailItemId == null || detailItemId == undefined) {                
-                detailItemId = 0;
+            
+            if (is_detail_item_colmn != '' && is_detail_item_colmn != null && is_detail_item_colmn != undefined) {         
+                if(parseInt(is_detail_item_colmn) == 1){
+                    var detailItemId = $(this).find(".detail_item_dropdown").val();
+                    if (detailItemId == '' || detailItemId == null || detailItemId == undefined) {                
+                        detailItemId = 0;
+                        isValidRequest = false;
+                    }
+                }
             }
+            
             var methodId = $(this).find(".method_dropdown").val();
             if (methodId == '' || methodId == null || methodId == undefined) {                
                 methodId = 0;
+                isValidRequest = false;
             }
             var paramterIds = $(this).find(".data_for_dropdown").val();
             if (paramterIds == '' || paramterIds == null || paramterIds == undefined) {                
                 paramterIds = 0;
-            }
-            if(mainItemId ==0 || subItemId==0 || detailItemId==0 || methodId==0 || paramterIds==0){
                 isValidRequest = false;
-            }
+            }                        
             
             if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined){
                 tableSettingsParameters =settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
@@ -550,6 +765,7 @@
     //udpate insert dynamic table settings.
     function UpdateInsertSettings(tableSettingsParameters) {       
         var tableId = $("#table_list").val();  
+        var resultsItem = GetDynamicTablesByTableId(tableId);
         if (tableSettingsParameters != '' && tableSettingsParameters != null && tableSettingsParameters != undefined){
             var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters+"&tableId="+tableId;
             
@@ -560,7 +776,7 @@
                 success: function (data) {                
                     ToastMessageSuccess(data);                                
                     $('#total_menu_list_tbody').empty();      
-                    GetDynamicSettings(tableId);
+                    GetDynamicSettings(tableId,resultsItem);
                     $("#delete_settings_table").modal("hide");
                 },
                 error: function (data) {

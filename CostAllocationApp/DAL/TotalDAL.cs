@@ -206,6 +206,9 @@ namespace CostAllocationApp.DAL
                             dynamicTable.TableName = rdr["TableName"].ToString();
                             dynamicTable.TableTitle = rdr["TableTitle"].ToString();
                             dynamicTable.TablePosition = Convert.ToInt32(rdr["TablePosition"]);
+                            dynamicTable.CategoryTitle = rdr["CategoryTitle"] == DBNull.Value ? "" : rdr["CategoryTitle"].ToString();
+                            dynamicTable.SubCategoryTitle = rdr["SubCategoryTitle"] == DBNull.Value ? "" : rdr["SubCategoryTitle"].ToString();
+                            dynamicTable.DetailsTitle = rdr["DetailsTitle"] == DBNull.Value ? "" : rdr["DetailsTitle"].ToString();
                             dynamicTable.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             dynamicTable.CreatedBy = rdr["CreatedBy"].ToString();
 

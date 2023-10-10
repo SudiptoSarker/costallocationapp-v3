@@ -357,7 +357,27 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int GetAssignmentTimeStampsLastId()
+        {
+            int result = 0;
+            string query = $@"select max(Id) from EmployeesAssignmentsWithTimeStamps;";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
+
+        }
         //update forecast assignment data
         public int UpdateAssignment(EmployeeAssignment employeeAssignment)
         {
@@ -5933,6 +5953,98 @@ namespace CostAllocationApp.DAL
                 objQAProportions = GetQAProportionPercentageWithoutEmployee(year);
                 return objQAProportions;                
             }            
+        }
+        public int InsertEmployeeAssignmentsForTimeStamps(EmployeeAssignment employeeAssignment,int timeStampId)
+        {
+            int result = 0;
+            string query = $@"insert into EmployeesAssignmentsWithTimeStamps(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,BCYR,BCYRCell,EmployeeName,TimeStampsId) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@bCYR,@bCYRCell,@employeeName,@timeStampsId);";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@employeeId", employeeAssignment.EmployeeId);
+                if (employeeAssignment.SectionId == null)
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@sectionId", employeeAssignment.SectionId);
+                }
+                if (employeeAssignment.DepartmentId == null)
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@departmentId", employeeAssignment.DepartmentId);
+                }
+                if (employeeAssignment.InchargeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@inChargeId", employeeAssignment.InchargeId);
+                }
+
+                if (employeeAssignment.RoleId == null)
+                {
+                    cmd.Parameters.AddWithValue("@roleId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleId", employeeAssignment.RoleId);
+                }
+
+                if (String.IsNullOrEmpty(employeeAssignment.ExplanationId))
+                {
+                    cmd.Parameters.AddWithValue("@explanationId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@explanationId", employeeAssignment.ExplanationId);
+                }
+
+                if (employeeAssignment.CompanyId == null)
+                {
+                    cmd.Parameters.AddWithValue("@companyId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@companyId", employeeAssignment.CompanyId);
+                }
+
+                if (employeeAssignment.GradeId == null)
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
+                }
+                cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);                
+                cmd.Parameters.AddWithValue("@createdBy", "");
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@isActive", 1);
+                cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);                
+                cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
+                cmd.Parameters.AddWithValue("@bCYR", employeeAssignment.BCYR);
+                cmd.Parameters.AddWithValue("@bCYRCell", employeeAssignment.BCYRCell);                
+                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
+                cmd.Parameters.AddWithValue("@timeStampsId", timeStampId);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();                    
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
         }
     }
 }

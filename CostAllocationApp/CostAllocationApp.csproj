@@ -294,6 +294,7 @@
     <Compile Include="Models\EmployeeAssignment.cs" />
     <Compile Include="Models\Explanation.cs" />
     <Compile Include="Models\ForecastHisory.cs" />
+    <Compile Include="Models\ForecastList.cs" />
     <Compile Include="Models\InCharge.cs" />
     <Compile Include="Models\QaProportion.cs" />
     <Compile Include="Models\Role.cs" />

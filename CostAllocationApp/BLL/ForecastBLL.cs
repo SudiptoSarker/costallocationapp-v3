@@ -42,6 +42,10 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.UpdateForecast(forecast);
         }
+        public int InsertForecastWithTimeStamp(Forecast forecast)
+        {
+            return forecastDAL.InsertForecastWithTimeStamp(forecast);
+        }
         public int UpdateBudgetForecast(Forecast forecast)
         {
             return forecastDAL.UpdateBudgetForecast(forecast);
@@ -50,9 +54,18 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
+        //public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
+        //{
+        //    return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
+        //}
+        public int CreateTimeStampsForYearlyEditData(ForecastHisory forecastHisory)
         {
-            return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
+            return forecastDAL.CreateTimeStampsForYearlyEditData(forecastHisory);
+        }
+
+        public int CreateAssignmentHistoryWithTimeStampId(List<AssignmentHistory> assignmentHistories, bool isUpdate, bool isDeleted,int timeStampId)
+        {
+            return forecastDAL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, timeStampId);
         }
         public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted,bool isOriginal)
         {

@@ -2525,5 +2525,13 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetQAProportionsWithEmployee(employeeId,year);
         }
+        public int InsertEmployeeAssignmentsForTimeStamps(EmployeeAssignment employeeAssignment, int timeStampId)
+        {
+            return employeeAssignmentDAL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, timeStampId);
+        }
+        public int GetAssignmentTimeStampsLastId()
+        {
+            return employeeAssignmentDAL.GetAssignmentTimeStampsLastId();
+        }
     }
 }

@@ -1268,7 +1268,6 @@ $(document).ready(function() {
             $('.table_input_frm_div').show();
             $(".select_column_no").val(count);
             columnInputContainer.empty();
-            const column_title_label = ["大項目ヘッダータイトル", "中項目ヘッダータイトル", "詳細項目ヘッダーのタイトル"];
             
             if (count == 1) {
                 if (responseData.CategoryTitle != "") {

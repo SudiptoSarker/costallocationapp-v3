@@ -451,7 +451,7 @@
                 <div class="form-header">
                     <h3 class="delete_confirm_header">(Delete Record)</h3>
                     <ol class="section_count" style="text-align:left;"></ol>
-                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                    <p style="margin-left: -151px;">選択した項目を削除しますか?​</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -481,7 +481,7 @@
                 <div class="form-header">
                     <h3 class="delete_confirm_header">(Delete Record)</h3>
                     <ol class="section_count" style="text-align:left;"></ol>
-                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                    <p style="margin-left: -151px;">選択した項目を削除しますか?</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -512,7 +512,7 @@
                 <div class="form-header">
                     <h3 class="delete_confirm_header">(Delete Record)</h3>
                     <ol class="section_count" style="text-align:left;"></ol>
-                    <p style="margin-left: -151px;">選択した集計表を削除しますか？​</p>
+                    <p style="margin-left: -151px;">選択した項目を削除しますか?​</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
@@ -580,7 +580,7 @@
                 </table>
                 <div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="main_item_close_btn_footer" data-dismiss="modal"
-                        aria-label="Close" id="">キャンセル</a>
+                       aria-label="Close" id="">戻る</a>
                 </div>
             </div>
         </div>
@@ -636,7 +636,7 @@
                     <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="sub_item_close_btn_footer" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="sub_item_close_btn_footer" id="">戻る</a>
                 </div>
             </div>
 
@@ -692,7 +692,7 @@
                     <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="detail_item_close_btn_footer" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="detail_item_close_btn_footer" id="">戻る</a>
                 </div>
             </div>
 
@@ -729,14 +729,14 @@
                                 <input type="text" value="" placeholder="設定する大項目を入力​" id="main_item_edit_input">
                             </td>
                             <td class="main_item_edit_input_td">
-                                <a href="javascript:void(0);" class="main_item_edit_action" id="">追加​ (edit)</a>
+                                <a href="javascript:void(0);" class="main_item_edit_action" id="">更新​ (Update)</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="edit_modal_close_button main_item_edit_modal_close"
-                        id="">キャンセル</a>
+                       id="">戻る</a>
                 </div>
             </div>
         </div>
@@ -772,14 +772,14 @@
                                 <input type="text" value="" placeholder="設定する大項目を入力​" id="sub_item_edit_input">
                             </td>
                             <td class="sub_item_edit_input_td">
-                                <a href="javascript:void(0);" class="sub_item_edit_action" id="">追加​ (edit)</a>
+                                <a href="javascript:void(0);" class="sub_item_edit_action" id="">更新​ (Update)</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="edit_modal_close_button sub_item_edit_modal_close"
-                        id="">キャンセル</a>
+                       id="">戻る</a>
                 </div>
             </div>
         </div>
@@ -815,14 +815,14 @@
                                 <input type="text" value="" placeholder="設定する大項目を入力​" id="detail_item_edit_input">
                             </td>
                             <td class="detail_item_edit_input_td">
-                                <a href="javascript:void(0);" class="detail_item_edit_action" id="">追加​ (edit)</a>
+                                <a href="javascript:void(0);" class="detail_item_edit_action" id="">更新​ (Update)</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
                     <a href="javascript:void(0);" class="edit_modal_close_button detail_item_edit_modal_close"
-                        id="">キャンセル</a>
+                       id="">戻る</a>
                 </div>
             </div>
         </div>
@@ -1318,7 +1318,7 @@
                     append_block += '<div class="row mt-1">' +
                         '<div class="col-md-1" ></div >' +
                         '<div class="col-md-5 dynamic_column_title_label">' +
-                        '<label class="input_table_frm_lbl">' + column_title_label[i] + '</label>' +
+                        '<label class="input_table_frm_lbl">' + column_title_label[i-1] + '</label>' +
                         '</div>' +
                         '<div class="col-md-6 dynamic_column_title_input">' +
                         '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_' + i + '">' +

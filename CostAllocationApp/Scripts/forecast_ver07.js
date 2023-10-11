@@ -1882,7 +1882,7 @@ function ShowForecastResults(year) {
                     }
                     // for unit price
                     if (x == 10) {
-                        debugger;
+                                debugger;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }

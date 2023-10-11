@@ -270,7 +270,42 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory, List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
+        //commented out by sudipto, on 10Oct2023
+        //public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory, List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
+        //{
+        //    int result = 0;
+        //    string query = $@"insert into TimeStamps(TimeStamp,Year,CreatedBy,CreatedDate) values(@timeStamp,@year,@createdBy,@createdDate)";
+        //    using (SqlConnection sqlConnection = this.GetConnection())
+        //    {
+        //        sqlConnection.Open();
+        //        SqlCommand cmd = new SqlCommand(query, sqlConnection);
+        //        cmd.Parameters.AddWithValue("@timeStamp", forecastHisory.TimeStamp);
+        //        cmd.Parameters.AddWithValue("@year", forecastHisory.Year);
+        //        cmd.Parameters.AddWithValue("@createdBy", forecastHisory.CreatedBy);
+        //        cmd.Parameters.AddWithValue("@createdDate", forecastHisory.CreatedDate);
+        //        try
+        //        {
+        //            result = cmd.ExecuteNonQuery();
+        //        }
+        //        catch (Exception ex)
+        //        {
+
+        //        }
+
+        //        if (result > 0)
+        //        {
+        //            var lastId = GetLastId("TimeStamps");
+
+        //            foreach (var item in assignmentHistories)
+        //            {
+        //                CreateAssignmenttHistory(item, lastId, isUpdate, isDeleted,false);
+        //            }
+        //            result = lastId;
+        //        }
+        //        return result;
+        //    }
+        //}
+        public int CreateTimeStampsForYearlyEditData(ForecastHisory forecastHisory)
         {
             int result = 0;
             string query = $@"insert into TimeStamps(TimeStamp,Year,CreatedBy,CreatedDate) values(@timeStamp,@year,@createdBy,@createdDate)";
@@ -286,23 +321,25 @@ namespace CostAllocationApp.DAL
                 {
                     result = cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-
+                catch (Exception ex){
                 }
 
                 if (result > 0)
                 {
-                    var lastId = GetLastId("TimeStamps");
-
-                    foreach (var item in assignmentHistories)
-                    {
-                        CreateAssignmenttHistory(item, lastId, isUpdate, isDeleted,false);
-                    }
+                    var lastId = GetLastId("TimeStamps");                    
                     result = lastId;
                 }
                 return result;
             }
+        }
+        public int CreateAssignmentHistoryWithTimeStampId(List<AssignmentHistory> assignmentHistories, bool isUpdate, bool isDeleted,int timeStampId)
+        {
+            int results = 0;
+            foreach (var item in assignmentHistories)
+            {
+                results = CreateAssignmenttHistory(item, timeStampId, isUpdate, isDeleted, false);
+            }
+            return results;
         }
 
         public int CreateAssignmenttHistory(AssignmentHistory assignmentHistory, int timeStampId,bool isUpdate,bool isDeleted,bool isOriginal)
@@ -3054,6 +3091,33 @@ namespace CostAllocationApp.DAL
         {
             int result = 0;
             string query = $@"insert into BudgetCosts(Year,MonthId,Points,Total,EmployeeBudgetId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@total,@employeeAssignmentsId,@createdBy,@createdDate)";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@year", forecast.Year);
+                cmd.Parameters.AddWithValue("@monthId", forecast.Month);
+                cmd.Parameters.AddWithValue("@points", forecast.Points);
+                cmd.Parameters.AddWithValue("@total", forecast.Total);
+                cmd.Parameters.AddWithValue("@employeeAssignmentsId", forecast.EmployeeAssignmentId);
+                cmd.Parameters.AddWithValue("@createdBy", forecast.CreatedBy);
+                cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
+        public int InsertForecastWithTimeStamp(Forecast forecast)
+        {
+            int result = 0;
+            string query = $@"insert into Costs_WithAssignmentsTimeStamps(Year,MonthId,Points,Total,TimeStampsAssignmentId,CreatedBy,CreatedDate) values(@year,@monthId,@points,@total,@employeeAssignmentsId,@createdBy,@createdDate)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

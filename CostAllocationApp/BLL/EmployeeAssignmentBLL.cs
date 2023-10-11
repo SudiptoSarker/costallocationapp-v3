@@ -2533,5 +2533,14 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetAssignmentTimeStampsLastId();
         }
+
+        public List<EmployeeAssignment> GetEmployeesAssignmentsByYear(int year,string strUpdatedAssignmentIds)
+        {           
+            return employeeAssignmentDAL.GetEmployeesAssignmentsByYear(year, strUpdatedAssignmentIds);
+        }
+        public List<Forecast> GetAssignmentForecastByYearAndAssignmentId(int assignmentId, int year)
+        {
+            return employeeAssignmentDAL.GetAssignmentForecastByYearAndAssignmentId(assignmentId, year);
+        }
     }
 }

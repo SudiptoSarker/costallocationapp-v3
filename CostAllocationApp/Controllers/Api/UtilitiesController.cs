@@ -1036,6 +1036,9 @@ namespace CostAllocationApp.Controllers.Api
             List<ForecastList> forecastsForTimeStamps = new List<ForecastList>();
             List<Forecast> forecasts = new List<Forecast>();
 
+            string strUpdatedAssignmentIds = "";
+            int selected_year = 0;
+
             string message = "Something went wrong!!!";
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -1054,6 +1057,14 @@ namespace CostAllocationApp.Controllers.Api
                     foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+                        if (string.IsNullOrEmpty(strUpdatedAssignmentIds))
+                        {
+                            strUpdatedAssignmentIds = item.AssignmentId;
+                        }
+                        else
+                        {
+                            strUpdatedAssignmentIds = strUpdatedAssignmentIds+","+ item.AssignmentId;
+                        }
                         employeeAssignment.Id = Convert.ToInt32(item.AssignmentId);
                         employeeAssignment.Remarks = item.Remarks;
                         employeeAssignment.UpdatedBy = session["userName"].ToString();
@@ -1067,6 +1078,7 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.CompanyId = item.CompanyId;
 
                         employeeAssignment.Year = item.Year.ToString();
+                        selected_year = item.Year;
                         employeeAssignment.EmployeeName = item.EmployeeName;
                         employeeAssignment.BCYR = item.BCYR;
                         employeeAssignment.BCYRCell = item.BCYRCell;
@@ -1780,7 +1792,40 @@ namespace CostAllocationApp.Controllers.Api
                     bool isDeleted = false;
 
                     //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-                    var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted,yearlyDataTimeStampId);                  
+                    var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted,yearlyDataTimeStampId);
+
+                    //assignment aganist timestamps store all other data with year
+                    int update_results = 0;
+                    List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
+                    List<ForecastDto> forecastWithTimeStamps = new List<ForecastDto>();
+
+                    employeeAssignments = employeeAssignmentBLL.GetEmployeesAssignmentsByYear(selected_year, strUpdatedAssignmentIds);
+                    if (employeeAssignments.Count > 0)
+                    {
+                        foreach(var assignmentItem in employeeAssignments)
+                        {
+                            var forecastList = employeeAssignmentBLL.GetAssignmentForecastByYearAndAssignmentId(assignmentItem.Id, selected_year);
+                            update_results = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(assignmentItem, yearlyDataTimeStampId);
+
+                            int latestAssignmentId = 0;
+                            if (update_results > 0)
+                            {
+                                latestAssignmentId = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
+                            }
+
+                            if (forecastList.Count > 0)
+                            {
+                                foreach (var forecast in forecastList)
+                                {
+                                    //forecastBLL.UpdateForecast(forecast);
+                                    forecast.EmployeeAssignmentId = latestAssignmentId;
+                                    forecast.CreatedBy = session["userName"].ToString();
+                                    forecastBLL.InsertForecastWithTimeStamp(forecast);
+                                }
+                                forecasts = new List<Forecast>();
+                            }
+                        }
+                    }
 
                     ////edited data history: start
                     //AssignmentHistory _originalAssignmentHistory = new AssignmentHistory();
@@ -1898,9 +1943,9 @@ namespace CostAllocationApp.Controllers.Api
                     }
 
 
-                    if (resultTimeStamp > 0)
+                    if (yearlyDataTimeStampId > 0)
                     {
-                        message = resultTimeStamp.ToString();
+                        message = yearlyDataTimeStampId.ToString();
                     }
                 }
             }
@@ -2665,7 +2710,6 @@ namespace CostAllocationApp.Controllers.Api
                     return NotFound();
                 }
             }
-
         }
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]
@@ -2723,6 +2767,10 @@ namespace CostAllocationApp.Controllers.Api
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
 
             string tempTimeStampId = "";
+            var selected_year = 0;
+            var strUpdatedAssignmentIds = "";
+            string yearlyDataTimeStampId = "";
+
             var session = System.Web.HttpContext.Current.Session;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -2734,13 +2782,23 @@ namespace CostAllocationApp.Controllers.Api
                     //forecastHisory.Forecasts = forecastsPrevious;
                     forecastHisory.CreatedBy = session["userName"].ToString();
                     forecastHisory.CreatedDate = DateTime.Now;
-                    int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+                    yearlyDataTimeStampId = forecastHistoryDto.TimeStampId;
+                    int timestampId_add_employee = 0;
+                    bool isOnlyAdd = false;
+
+                    if (string.IsNullOrEmpty(yearlyDataTimeStampId))
+                    {
+                        isOnlyAdd = true;
+                        timestampId_add_employee = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+                        yearlyDataTimeStampId = timestampId_add_employee.ToString();
+                    }
+                    //int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
 
                     foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                     {
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
-                        tempTimeStampId = forecastHistoryDto.TimeStampId;
+                        //tempTimeStampId = forecastHistoryDto.TimeStampId;
 
                         if (item.EmployeeId == "" || item.EmployeeId == null)
                         {
@@ -2754,6 +2812,8 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.RoleId = item.RoleId;
                         employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
                         employeeAssignment.CompanyId = item.CompanyId;
+                        selected_year = item.Year;
+
                         if (item.CompanyId != null)
                         {
                             if (item.CompanyId.Value != 3)
@@ -2785,7 +2845,7 @@ namespace CostAllocationApp.Controllers.Api
 
                         employeeAssignment.EmployeeName = item.EmployeeName;
                         int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
-                        int return_assignmentIdWithTimeStamp = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, yearlyDataTimeStampId);
+                        int return_assignmentIdWithTimeStamp = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, Convert.ToInt32(yearlyDataTimeStampId));
                         int latestAssignmentIdForTimeStamps = 0;
                         if (return_assignmentIdWithTimeStamp > 0)
                         {
@@ -2794,6 +2854,14 @@ namespace CostAllocationApp.Controllers.Api
                         if (result == 1)
                         {
                             int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                            if (string.IsNullOrEmpty(strUpdatedAssignmentIds))
+                            {
+                                strUpdatedAssignmentIds = employeeAssignmentLastId.ToString();
+                            }
+                            else
+                            {
+                                strUpdatedAssignmentIds = strUpdatedAssignmentIds + "," + employeeAssignmentLastId;
+                            }
                             returnedIdList.Add(new
                             {
                                 assignmentId = item.AssignmentId,
@@ -2854,11 +2922,11 @@ namespace CostAllocationApp.Controllers.Api
                     bool isUpdate = false;
                     bool isDeleted = false;
 
-                    if (!string.IsNullOrEmpty(tempTimeStampId))
+                    if (!string.IsNullOrEmpty(yearlyDataTimeStampId))
                     {
                         foreach (var item in assignmentHistories)
                         {
-                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(tempTimeStampId), isUpdate, isDeleted, false);
+                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(yearlyDataTimeStampId), isUpdate, isDeleted, false);
                         }
                     }
                     else
@@ -2871,7 +2939,43 @@ namespace CostAllocationApp.Controllers.Api
                         //forecastHisory.CreatedDate = DateTime.Now;
 
                         //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-                        var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, yearlyDataTimeStampId);
+                        var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, Convert.ToInt32(yearlyDataTimeStampId));                        
+                    }
+
+                    if (isOnlyAdd)
+                    {
+                        //assignment aganist timestamps store all other data with year
+                        int update_results = 0;
+                        List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
+                        List<ForecastDto> forecastWithTimeStamps = new List<ForecastDto>();
+                        
+                        employeeAssignments = employeeAssignmentBLL.GetEmployeesAssignmentsByYear(selected_year, strUpdatedAssignmentIds);
+                        if (employeeAssignments.Count > 0)
+                        {
+                            foreach (var assignmentItem in employeeAssignments)
+                            {
+                                var forecastList = employeeAssignmentBLL.GetAssignmentForecastByYearAndAssignmentId(assignmentItem.Id, selected_year);
+                                update_results = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(assignmentItem, Convert.ToInt32(yearlyDataTimeStampId));
+
+                                int latestAssignmentId = 0;
+                                if (update_results > 0)
+                                {
+                                    latestAssignmentId = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
+                                }
+
+                                if (forecastList.Count > 0)
+                                {
+                                    foreach (var forecast in forecastList)
+                                    {
+                                        //forecastBLL.UpdateForecast(forecast);
+                                        forecast.EmployeeAssignmentId = latestAssignmentId;
+                                        forecast.CreatedBy = session["userName"].ToString();
+                                        forecastBLL.InsertForecastWithTimeStamp(forecast);
+                                    }
+                                    //forecasts = new List<Forecast>();
+                                }
+                            }
+                        }
                     }
                 }
             }

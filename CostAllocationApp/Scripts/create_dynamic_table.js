@@ -9,10 +9,9 @@ $(document).ready(function () {
 });
 // need to omit
 function InsertDynamicTables() {
-    debugger;
     var apiurlInsert = "/api/Utilities/CreateDynamicTable";
     var apiurlUpdate = "/api/Utilities/UpdateDynamicTable";
-    var buttonTag = $('.frm_add_btn').attr('tag');
+    var buttonTag = $('#table_format_add_btn').attr('tag');
     var tableName = $("#table_name_input").val();
     var tableTitle = $("#table_title_input").val();
     var tablePosition = $("#table_position_input").val();
@@ -34,7 +33,6 @@ function InsertDynamicTables() {
         columnTitle2 = $('#column_input_2').val();
         columnTitle3 = $('#column_input_3').val();
     }
-
 
     if (tableName == "") {
         isValid = false;
@@ -273,7 +271,7 @@ $(document).on('click', '#update_dynamic_table ', function () {
 
 //add main item
 $(document).on('click', '.main_item_add_btn ', function () {
-    debugger;
+
     var mainItem = $('#section-name').val();
     var tableId = $('#table_id_for_edit').val();
     var dynamicTable;
@@ -376,7 +374,7 @@ $(document).on('click', '.main_item_edit_btn ', function () {
 });
 
 $(document).on('click', '.main_item_edit_action ', function () {
-    debugger;
+    
     var mainItemId = $('#main_item_id_edit_input').val();
     var mainItemName = $('#main_item_edit_input').val();
     var dynamicTableId = $('#table_id_for_edit').val();
@@ -707,7 +705,7 @@ $(document).on('click', '.detail_item_edit_btn', function () {
         dataType: 'json',
         async: false,
         success: function (data) {
-            debugger;
+            
             $('#sub_item_id_edit_input').val(data.SubCategoryId);
             $('#detail_item_edit_input').val(data.DetailsItemName);
 
@@ -1102,7 +1100,7 @@ $(document).ready(function() {
                     dataType: 'json',
                     async: false,
                     success: function (data) {
-                        debugger;
+                        
                         //var sub_item_options = "";
                         details_item_options = details_item_options + "<option value=''>select details item</option>";
                         $.each(data, function (key, item) {
@@ -1156,7 +1154,6 @@ $(document).ready(function() {
             async: false,
             dataType: 'json',
             success: function (data) {
-                debugger;
                 $('#add_details_item_modal #sub_category_dropdown').empty();
                 $('#add_details_item_modal #sub_category_dropdown').append(`<option value=''>Select Item</option>`);
                 $.each(data, function (key, item) {
@@ -1170,7 +1167,7 @@ $(document).ready(function() {
 
     //create new row and concate
     $(document).on('click', '#item_row_add ', function () {
-        debugger;
+        
         var $tr = $(this).closest('.item_row');
         var $clone = $tr.clone();
         $($clone[0].cells[4]).empty();
@@ -1209,8 +1206,10 @@ $(document).ready(function() {
     //add form show when add button click
     $(document).on('click', '.list_table_add_btn ', function (e) {
         ClearInputEditForm();
-        $(".frm_add_btn").text("追加 (add)");
-        $(".frm_add_btn").attr("tag", "add");
+        $("#dynamic_input_form_header").text("集計表追加");
+        $("#table_format_add_btn").text("追　加");
+        $("#table_format_add_btn").attr("tag", "add");
+        $('#dynamic_column_title_block').empty();
         $('.table_input_frm_div').show();
 
     });
@@ -1230,9 +1229,9 @@ $(document).ready(function() {
             alert("please select a table!");
         } else {
             //ajax call here
-            debugger;
             var count = 0;
-            var columnInputContainer = $('.input-container-3');
+            //var columnInputContainer = $('.input-container-3');
+            var columnInputContainer = $('#dynamic_column_title_block');
             $.ajax({
                 url: `/api/utilities/GetDynamicTableById/${tableId}`,
                 type: 'Get',
@@ -1269,124 +1268,135 @@ $(document).ready(function() {
             $('.table_input_frm_div').show();
             $(".select_column_no").val(count);
             columnInputContainer.empty();
+            const column_title_label = ["大項目ヘッダータイトル", "中項目ヘッダータイトル", "詳細項目ヘッダーのタイトル"];
+            
             if (count == 1) {
                 if (responseData.CategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">大項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value="' + responseData.CategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
 
                 }
 
                 if (responseData.SubCategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">中項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value="' + responseData.SubCategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
 
                 if (responseData.DetailsTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">詳細項目ヘッダーのタイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value="' + responseData.DetailsTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
             }
             if (count == 2) {
                 if (responseData.CategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">大項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value="' + responseData.CategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
 
                 }
 
                 if (responseData.SubCategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">中項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value="' + responseData.SubCategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
 
                 if (responseData.DetailsTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">詳細項目ヘッダーのタイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value="' + responseData.DetailsTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
             }
             if (count == 3) {
                 if (responseData.CategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value='${responseData.CategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">大項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_1" value="' + responseData.CategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
 
                 }
 
                 if (responseData.SubCategoryTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value='${responseData.SubCategoryTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">中項目ヘッダータイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_2" value="' + responseData.SubCategoryTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
 
                 if (responseData.DetailsTitle != "") {
 
-                    columnInputContainer.append(`
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value='${responseData.DetailsTitle}'>
-                                    </div>
-                                </div>
-                    `);
+                    columnInputContainer.append('<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">詳細項目ヘッダーのタイトル</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value="' + responseData.DetailsTitle + '">' +
+                        '</div>' +
+                        '</div>');
                 }
             }
 
-
-            $(".frm_add_btn").text("編集​ (edit)");
-            $(".frm_add_btn").attr("tag", "edit");
+            $("#dynamic_input_form_header").text("集計表編集");
+            $("#table_format_add_btn").text("保　存");
+            $("#table_format_add_btn").attr("tag", "edit");
 
         }
     });
@@ -1665,7 +1675,7 @@ $(document).ready(function() {
         var detailId = $('#detail_item_del_id').val();
         var subItemId = $('#sub_item_del_id_in_detail_item_delete_modal').val();
         var apiurl = "/api/Utilities/RemoveDetailItem?detailId=" + detailId;
-        debugger;
+        
 
         $.ajax({
             url: apiurl,
@@ -1788,7 +1798,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.sub_item_link', function (e) {
-        debugger;
+       
         var subItemId = $(this).closest('tr').data('sub-item-id');
 
         $('#sub_item_list_modal').modal('hide');

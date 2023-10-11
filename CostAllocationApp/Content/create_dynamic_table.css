@@ -49,7 +49,14 @@ body {
     width: 85%;
     height: 32px;
 }
-.frm_add_btn{
+.table_format_frm_btn {
+    line-height: .7;
+    background-color: lightgray;
+    border: 1px solid black;
+    color: white;
+}
+
+.frm_add_btn {
     line-height: .7;
     background-color: #bfbfbf;
     border: 1px solid black;

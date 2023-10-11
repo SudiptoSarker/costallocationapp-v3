@@ -57,7 +57,9 @@
             </div>
             <div class="col-md-3">
                 <div class="table-responsive">
-                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削　除 (delete)​</a></label>
+                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);"
+                        data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削　除
+                        (delete)​</a></label>
                 </div>
             </div>
         </div>
@@ -65,82 +67,88 @@
     <br />
 
 
-    <div class="content container-fluid table_input_frm_div" style="display:none;>
+    <div class="content container-fluid table_input_frm_div" style="display:none;">
         <div class="row">
-            <div class="col-sm-6">
-                <div class="row" id="dynamic_input_frm_header">
-                    <div class="col-sm-12">
-                        <h4 class="dynamic_page_title">集計表追加​</h4>
-                        <button type="button" class="close table_input_frm_div_close" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <div class="col-md-6">
+                <div class="grid-container" style="border:solid 1px;">
+                    <div class="" style="grid-area:header; background-color:lightgray;">
+                        <h5 class="ml-1" id="dynamic_input_form_header">集計表追加</h5>
                     </div>
-                </div>
-
-                <div class="row" id="dynamic_input_frm">
-                    <div class="col-lg-12">
-                        <div class="card-box">
-                            <h4 class="form_title">追加する利用者情報をを入力してください​</h4>
-                            <div class="input-container-1">
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表名​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表名を入力​" name="table_name_input" id="table_name_input">
-                                    </div>
+                    <div class="dynamic_input_form_main ml-1" style="grid-area:main;">
+                        <h6>追加する利用者情報をを入力してください​</h6>
+                        <div class="input-container">
+                            <div class="row mt-1" style="">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <label class="input_table_frm_lbl">表名</label>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表タイトル​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表タイトルを入力​​" name="table_title_input" id="table_title_input">
-                                    </div>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input_table_text_field"
+                                        placeholder="クリックして表名を入力​" name="table_name_input" id="table_name_input">
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-2 input_table_frm_lbl">表示位置​</label>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control input_table_text_field" placeholder="クリックして表示位置を入力​​" name="table_position_input" id="table_position_input">
-                                    </div>
-                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-
-                            <div class="input-container-2">
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-4 input_table_frm_lbl">表階層を設定してください​</label>
-                                    <div class="col-md-4">
-                                        <select class="form-control select_column_no">
-                                            <option value="-1">-- Select --</option>
-                                            <option value="1">1 階層​</option>
-                                            <option value="2">2 階層​</option>
-                                            <option value="3">3 階層​</option>
-                                        </select>
-                                    </div>
+                            <div class="row mt-1">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <label class="input_table_frm_lbl">表タイトル</label>
                                 </div>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input_table_text_field"
+                                        placeholder="クリックして表タイトルを入力​​" name="table_title_input" id="table_title_input">
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            
-                            @*<div class="form-group row">
-                                <label class="col-form-label col-md-4 form_title">表階層を設定してください​</label>
-                                <div class="col-md-7 ">
-                                    <select class="form-control select_column_no">
+                            <div class="row mt-1">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <label class="input_table_frm_lbl">表示位置</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input_table_text_field"
+                                        placeholder="クリックして表示位置を入力​​" name="table_position_input"
+                                        id="table_position_input">
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="row mt-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="input_table_frm_lbl">表階層を設定してください​</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control select_column_no" id="showColumnTitleInput">
                                         <option value="-1">-- Select --</option>
                                         <option value="1">1 階層​</option>
                                         <option value="2">2 階層​</option>
                                         <option value="3">3 階層​</option>
                                     </select>
                                 </div>
-                            </div>*@
-                            <div class="input-container-3">
-
+                                <div class="col-md-2"></div>
                             </div>
+                            <div id="dynamic_column_title_block">
 
-                            <div class="form-group row">
-                                <div class="offset-md-6 col-md-2">
-                                    <button class="btn btn-primary frm_add_btn" data-tag="" type="button" onclick="InsertDynamicTables();">追　加​</button>
-                                </div>
-                                <div class="offset-md-1 col-md-2">
-                                    <button class="btn btn-primary frm_cancel_btn table_input_frm_div_close" type="button">キャンセル​</button></div>
                             </div>
                         </div>
                     </div>
+                    <div class="dynamic_input_form_footer" style="grid-area:footer;">
+                        <div class="row m-2">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-3">
+                                <button class="btn table_format_frm_btn" id="table_format_add_btn" type="button"
+                                    onclick="InsertDynamicTables();">追　加​</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn table_format_frm_btn table_input_frm_div_close"
+                                    type="button">キャンセル​</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -177,8 +185,10 @@
                         </td>
 
                         <td class="create_form_td">
-                            <a href="javascript:void(0);" class="" id="clear_input_frm" data-dismiss="modal">取消(undo)</a>
-                            <a href="javascript:void(0);" class="" id="save_inputs" onclick="InsertDynamicTables()">保存（save）</a>
+                            <a href="javascript:void(0);" class="" id="clear_input_frm"
+                                data-dismiss="modal">取消(undo)</a>
+                            <a href="javascript:void(0);" class="" id="save_inputs"
+                                onclick="InsertDynamicTables()">保存（save）</a>
                         </td>
                     </tr>
                     <tr>
@@ -245,11 +255,13 @@
                             Select Table
                         </td>
                         <td class="dynamic_table_list_for_setting_td">
-                            <select class="form-select" aria-label="Default select example" id="dynamic_table_list_for_setting"></select>
+                            <select class="form-select" aria-label="Default select example"
+                                id="dynamic_table_list_for_setting"></select>
                         </td>
 
                         <td class="dynamic_table_list_for_setting_td">
-                            <a href="javascript:void(0);" class="" id="setting_button" onclick="DynamicTableSetting()">Setting</a>
+                            <a href="javascript:void(0);" class="" id="setting_button"
+                                onclick="DynamicTableSetting()">Setting</a>
                         </td>
                     </tr>
                 </tbody>
@@ -321,7 +333,8 @@
                                 <select class="method_dropdown" id="method_list_dropdown" name="method_item"></select>
                             </td>
                             <td class="setting_items_td data_for">
-                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting1" multiple="multiple"></select>
+                                <select class="data_for_dropdown" name="data_for_list_dropdown_for_setting"
+                                    id="data_for_list_dropdown_for_setting1" multiple="multiple"></select>
                             </td>
                             <!-- <td class="setting_plus_icon" style="display:show;">
                                 <a href="javascript:void(0);" class="text-decoration-none" id="item_row_add">
@@ -345,8 +358,10 @@
                             <td class="action_td"></td>
                             <!-- <td class="action_td"></td> -->
                             <td class="cancel_save_link_td">
-                                <a href="javascript:void(0);" class="" id="clear_setting_form" data-dismiss="modal">取消(undo)</a>
-                                <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn" onclick="InsertDynamicSetting()">保存（save）</a>
+                                <a href="javascript:void(0);" class="" id="clear_setting_form"
+                                    data-dismiss="modal">取消(undo)</a>
+                                <a href="javascript:void(0);" class="" id="dynamic_table_create_save_btn"
+                                    onclick="InsertDynamicSetting()">保存（save）</a>
                             </td>
                         </tr>
                     </tbody>
@@ -418,7 +433,8 @@
                         </div>
 
                         <div class="col-3">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn">いいえ (N)​</a></label>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn">いいえ
+                                (N)​</a></label>
                         </div>
                     </div>
                 </div>
@@ -447,7 +463,8 @@
                         </div>
 
                         <div class="col-3">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_main_item">いいえ (N)​</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn confrim_cancel_btn_main_item">いいえ (N)​</a>
                         </div>
                     </div>
                 </div>
@@ -477,7 +494,8 @@
                         </div>
 
                         <div class="col-3">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_sub_item">いいえ (N)​</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn confrim_cancel_btn_sub_item">いいえ (N)​</a>
                         </div>
                     </div>
                 </div>
@@ -507,7 +525,8 @@
                         </div>
 
                         <div class="col-3">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn confrim_cancel_btn_detail_item">いいえ (N)​</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn confrim_cancel_btn_detail_item">いいえ (N)​</a>
                         </div>
                     </div>
                 </div>
@@ -560,7 +579,8 @@
                     <tbody></tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="main_item_close_btn_footer" data-dismiss="modal" aria-label="Close" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="main_item_close_btn_footer" data-dismiss="modal"
+                        aria-label="Close" id="">キャンセル</a>
                 </div>
             </div>
         </div>
@@ -682,7 +702,8 @@
 
 
 <!-----------------Modal: Edit Main Item---------------->
-<div class="modal fade" id="main_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="main_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header main_item_edit_header">
@@ -714,7 +735,8 @@
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="edit_modal_close_button main_item_edit_modal_close" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="edit_modal_close_button main_item_edit_modal_close"
+                        id="">キャンセル</a>
                 </div>
             </div>
         </div>
@@ -722,7 +744,8 @@
 </div>
 
 <!-----------------Modal: Edit Sub Item---------------->
-<div class="modal fade" id="sub_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="sub_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header sub_item_edit_header">
@@ -755,7 +778,8 @@
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="edit_modal_close_button sub_item_edit_modal_close" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="edit_modal_close_button sub_item_edit_modal_close"
+                        id="">キャンセル</a>
                 </div>
             </div>
         </div>
@@ -763,7 +787,8 @@
 </div>
 
 <!-----------------Modal: Edit Details Item---------------->
-<div class="modal fade" id="detail_item_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="detail_item_edit_modal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header detail_item_edit_header">
@@ -796,7 +821,8 @@
                     </tbody>
                 </table>
                 <div class="modal-footer input_frm_footer">
-                    <a href="javascript:void(0);" class="edit_modal_close_button detail_item_edit_modal_close" id="">キャンセル</a>
+                    <a href="javascript:void(0);" class="edit_modal_close_button detail_item_edit_modal_close"
+                        id="">キャンセル</a>
                 </div>
             </div>
         </div>
@@ -830,13 +856,16 @@
                                 <tbody>
                                     <tr>
                                         <td class="table_setting_modal">
-                                            <input type="text" value="" placeholder="テーブル名 (table name)" id="table_name_edit">
+                                            <input type="text" value="" placeholder="テーブル名 (table name)"
+                                                id="table_name_edit">
                                         </td>
                                         <td class="table_setting_modal">
-                                            <input type="text" value="" placeholder="表のタイトル (table title)" id="table_title_edit">
+                                            <input type="text" value="" placeholder="表のタイトル (table title)"
+                                                id="table_title_edit">
                                         </td>
                                         <td class="table_setting_modal">
-                                            <input type="text" value="" placeholder="テーブルの位置 (table position)" id="table_position_edit">
+                                            <input type="text" value="" placeholder="テーブルの位置 (table position)"
+                                                id="table_position_edit">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -847,10 +876,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_dynamic_table">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="update_dynamic_table">編集</a>
                         </div>
                     </div>
                 </div>
@@ -896,10 +927,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_main_item">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="update_main_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -954,10 +987,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_sub_item">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="update_sub_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -1008,7 +1043,8 @@
                                             </select>
                                         </td>
                                         <td class="table_setting_modal">
-                                            <input type="text" value="" placeholder="detail item" id="input_detail_item">
+                                            <input type="text" value="" placeholder="detail item"
+                                                id="input_detail_item">
                                             <input type="hidden" value="" id="row_number_details_item">
                                         </td>
                                     </tr>
@@ -1020,10 +1056,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="update_detail_item">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="update_detail_item">編集</a>
                         </div>
                     </div>
                 </div>
@@ -1046,10 +1084,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="delete_setting_link">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="delete_setting_link">削除</a>
                         </div>
                     </div>
                 </div>
@@ -1086,13 +1126,16 @@
                                 <tbody>
                                     <tr>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 1)" id="column_title_1_modal">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 1)"
+                                                id="column_title_1_modal">
                                         </td>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 2)" id="column_title_2_modal">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 2)"
+                                                id="column_title_2_modal">
                                         </td>
                                         <td class="create_form_td">
-                                            <input type="text" value="" placeholder="コラムタイトル(title 3)" id="column_title_3_modal">
+                                            <input type="text" value="" placeholder="コラムタイトル(title 3)"
+                                                id="column_title_3_modal">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -1119,7 +1162,8 @@
                                 <tbody id="item_tbody_modal">
                                     <tr class="item_row">
                                         <td class="setting_items_td">
-                                            <select class="main_item_dropdown" name="main_item_modal" id="main_item_modal">
+                                            <select class="main_item_dropdown" name="main_item_modal"
+                                                id="main_item_modal">
                                                 <option>select main item</option>
                                                 <option>main item-1</option>
                                                 <option>main item-2</option>
@@ -1139,7 +1183,8 @@
                                             </select>
                                         </td>
                                         <td class="setting_items_td">
-                                            <select class="detail_item_dropdown" name="detail_item_modal" id="detail_item_modal">
+                                            <select class="detail_item_dropdown" name="detail_item_modal"
+                                                id="detail_item_modal">
                                                 <option>select detail item</option>
                                                 <option>detail item-1</option>
                                                 <option>detail item-2</option>
@@ -1170,10 +1215,12 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal"
+                                class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="udpate_tbl_setting">編集</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn"
+                                id="udpate_tbl_setting">編集</a>
                         </div>
                     </div>
                 </div>
@@ -1183,7 +1230,7 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/create_dynamic_table.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -1219,6 +1266,8 @@
                 });
             };
         });
+
+
 
         $(document).ready(function () {
 
@@ -1260,11 +1309,30 @@
                 }
             });
 
+            $('#showColumnTitleInput').change(function () {
+                const column_title_label = ["大項目ヘッダータイトル", "中項目ヘッダータイトル", "詳細項目ヘッダーのタイトル"];
+                let append_block = '';
+                $('#dynamic_column_title_block').empty();
+
+                for (let i = 1; i <= $(this).val(); i++) {
+                    append_block += '<div class="row mt-1">' +
+                        '<div class="col-md-1" ></div >' +
+                        '<div class="col-md-5 dynamic_column_title_label">' +
+                        '<label class="input_table_frm_lbl">' + column_title_label[i] + '</label>' +
+                        '</div>' +
+                        '<div class="col-md-6 dynamic_column_title_input">' +
+                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_' + i + '">' +
+                        '</div>' +
+                        '</div>';
+
+                }
+                $('#dynamic_column_title_block').append(append_block);
+                append_block = "";
+            });
+
         });
 
 
 
     </script>
 }
-
-

@@ -22,6 +22,8 @@
     border: 1px solid black;
     padding: 5px 20px 5px 20px;
     font-size: 10px;
+    margin-left: -124px;
+    margin-top: 2px;
 }
 
 /*style for total table*/
@@ -225,4 +227,29 @@
     td:nth-of-type(12),
     td:nth-of-type(13) {
         min-width: 100px;
+    }
+    /*filters*/
+    #total_year_list{
+        transition: all 0.2s ease-in-out 0s;
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 12px;
+        width: 70%;
+        height: 30px;
+        border: 1px solid #ccc !important;
+        text-align: center;
+    }
+    #edit_history_time_stamp{
+        transition: all 0.2s ease-in-out 0s;
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 12px;
+        width: 70%;
+        height: 30px;
+        border: 1px solid #ccc !important;
+        text-align: center;
+        margin-left: -62px;
+    }
+    #companies{
+        height: 30px !important;
     }

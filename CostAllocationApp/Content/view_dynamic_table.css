@@ -179,3 +179,10 @@ body {
     /* margin-left: 84px; */
     border: 1px solid black !important;
 }
+/*multi select*/
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    height: 18px !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    padding: 2px 4px !important;    
+}

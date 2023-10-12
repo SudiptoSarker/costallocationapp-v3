@@ -2314,7 +2314,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                return NotFound();
+                return Ok(0);
             }
         }
 

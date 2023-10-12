@@ -1491,21 +1491,22 @@ $(document).ready(function () {
       
     });
 
-    $.ajax({
-        // url: `/api/utilities/GetYearFromHistory`,
-        url: `/api/utilities/GetAssignmentYearList`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $('#total_year_list').empty();
-            $('#total_year_list').append('<option value="">年度データーの選択</option>');
-            $.each(data, function (index, value) {
-                $('#total_year_list').append(`<option value="${value}">${value}</option>`);
-            });
-        }
-    });
+    // $.ajax({
+    //     // url: `/api/utilities/GetYearFromHistory`,
+    //     //url: `/api/utilities/GetAssignmentYearList`,
+    //     url: `/api/utilities/GetForecatYear`,
+    //     contentType: 'application/json',
+    //     type: 'GET',
+    //     async: false,
+    //     dataType: 'json',
+    //     success: function (data) {
+    //         $('#total_year_list').empty();
+    //         $('#total_year_list').append('<option value="">年度データーの選択</option>');
+    //         $.each(data, function (index, value) {
+    //             $('#total_year_list').append(`<option value="${value}">${value}</option>`);
+    //         });
+    //     }
+    // });
 
     //cascading edit history time stamp dropdown
     $(document).on('change', '#total_year_list', function () {
@@ -1518,12 +1519,36 @@ $(document).ready(function () {
             dataType: 'json',
             data: { year: year },
             success: function (data) {
-                $('#edit_history_time_stamp').empty();
-                $('#edit_history_time_stamp').append('<option value="">タイムスタンプの選択</option>');                
-                $.each(data, function (index, element) {
-                    $('#edit_history_time_stamp').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);                    
-                });
+                
+                if (data == "" || data == null || data == undefined) {          
+                    console.log("empty")          
+                    $('#edit_history_time_stamp').empty().append('<option value="">タイムスタンプの選択</option>');      
+                }else{
+                    console.log("not empty")          
+                    $('#edit_history_time_stamp').empty();
+                    $('#edit_history_time_stamp').append('<option value="">タイムスタンプの選択</option>');                
+                    $.each(data, function (index, element) {
+                        $('#edit_history_time_stamp').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);                    
+                    });
+                }                
             }
         });
     });   
+
+    GetAllForecastYears();
+    function GetAllForecastYears() {
+        $.ajax({
+            url: `/api/utilities/GetForecatYear`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#total_year_list').append(`<option value=''>年度データーの選択</option>`);
+                $.each(data, function (index, element) {
+                    $('#total_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
+                });
+            }
+        });
+    }
 });

@@ -1684,7 +1684,14 @@ function ShowBedgetResults(year) {
 
                 { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
                 { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-                { title: "RowType", type: 'hidden', name: "RowType" }                
+                { title: "RowType", type: 'hidden', name: "RowType" }, 
+
+                { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
+                { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
+                { title: "RoleChanged", type: 'text', name: "RoleChanged" },
+                { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
+
+
             ],
             minDimensions: [6, 10],
             columnSorting: true,
@@ -2447,7 +2454,7 @@ function ShowBedgetResults(year) {
     $("#budget_finalize").css("display", "block");
 
     //create a row for search in each column
-    jss.deleteColumn(48, 19);
+    jss.deleteColumn(52, 23);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
@@ -2899,7 +2906,12 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
         
     array[index].year = retrivedData.year;
-    array[index].bcyr= retrivedData.bcyr;   
+    array[index].bcyr = retrivedData.bcyr;   
+
+    array[index].duplicateFrom = retrivedData.duplicateFrom;
+    array[index].duplicateCount = retrivedData.duplicateCount;
+    array[index].roleChanged = retrivedData.roleChanged;
+    array[index].unitPriceChanged = retrivedData.unitPriceChanged;
     
     if(array[index].bCYRCell.length <= retrivedData.bCYRCell.length){
         array[index].bCYRCell= retrivedData.bCYRCell;  
@@ -2945,6 +2957,11 @@ function retrivedObject(rowData) {
         isRowPending: rowData[45],
         isDeletePending: rowData[46],
         rowType: rowData[47],
+
+        duplicateFrom: rowData[48],
+        duplicateCount: rowData[49],
+        roleChanged: rowData[50],
+        unitPriceChanged: rowData[51],
     };
 }
 

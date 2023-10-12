@@ -37,5 +37,10 @@ namespace CostAllocationApp.Models
 
         public string EmployeeRootName { get; set; }
         public string EmployeeModifiedName { get; set; }
+
+        public string DuplicateFrom { get; set; }
+        public string DuplicateCount { get; set; }
+        public string RoleChanged { get; set; }
+        public string UnitPriceChanged { get; set; }
     }
 }

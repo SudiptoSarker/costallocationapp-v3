@@ -1042,6 +1042,11 @@ function ShowForecastResults(year) {
 
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
+
+            { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
+            { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
+            { title: "RoleChanged", type: 'text', name: "RoleChanged" },
+            { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
         ],
         minDimensions: [6, 10],
         columnSorting: true,
@@ -1550,7 +1555,7 @@ function ShowForecastResults(year) {
     $("#approve_forecast_data").css("display", "block");
     $("#unapprove_forecast_data").css("display", "block");
 
-    jss.deleteColumn(45, 22);
+    jss.deleteColumn(49, 26);
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');

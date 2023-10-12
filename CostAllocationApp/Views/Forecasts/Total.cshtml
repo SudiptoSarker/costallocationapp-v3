@@ -4,16 +4,23 @@
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/filter_multi_select.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/Content/multi_select_dynamic_table.css" />
+    <!-- <link href="/Content/filter_multi_select.css" rel="stylesheet" type="text/css" /> -->
     <link href="/Content/total.css" rel="stylesheet" type="text/css" />
 }
-    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;display: inline-block;">
         <div id="actual_cost_table_header">合計 (Total)</div>
 
         <!-----------------Employee Assignment: Create Actual Cost----------------->
         <div class="row" id="actual_cost_search">
             <div class="col-3">
-                <select multiple name="companies" id="companies"></select>
+                <!-- <select multiple name="companies" id="companies"></select> -->
+                <select multiple='multiple' id='company_list'>                    
+                    <!-- <option value='1'>sudipto</option>
+                    <option value='2'>mahbub</option>
+                    <option value='3'>ridoy</option>
+                    <option value='4'>raihan</option> -->
+                </select>
             </div>            
             <div class="col-3">
                 <select id="total_year_list" class="" ></select>
@@ -22,7 +29,7 @@
                 <select id="edit_history_time_stamp" class="" ></select>
             </div>
             <div class="col-2" id="btn_submit">
-                <button type="submit" class="btn btn-light mb-2" id="total_btn" >表示</button>
+                <button type="submit" class="btn btn-light mb-2" id="show_dynamic_tables" >表示</button>
             </div>
         </div>
         <div class="row">
@@ -52,6 +59,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>
-    <script src="/Scripts/filter-multi-select-bundle.min.js"></script>
+    <!-- <script src="/Scripts/filter-multi-select-bundle.min.js"></script> -->
+    <script src="/Scripts/multi_select_dynamic_table.js"></script>
     <script src="/Scripts/total.js"></script>
 }

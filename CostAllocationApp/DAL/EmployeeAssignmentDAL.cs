@@ -15,7 +15,7 @@ namespace CostAllocationApp.DAL
         public int CreateAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,BCYR,BCYRCell,EmployeeName) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@bCYR,@bCYRCell,@employeeName);";
+            string query = $@"insert into EmployeesAssignments(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,BCYR,BCYRCell,EmployeeName,DuplicateFrom,DuplicateCount,RoleChanged,UnitPriceChanged) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@bCYR,@bCYRCell,@employeeName,@duplicateFrom,@duplicateCount,@roleChanged,@unitPriceChanged);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -81,6 +81,9 @@ namespace CostAllocationApp.DAL
                 {
                     cmd.Parameters.AddWithValue("@gradeId", employeeAssignment.GradeId);
                 }
+                
+                
+
                 cmd.Parameters.AddWithValue("@unitPrice", employeeAssignment.UnitPrice);
                 //cmd.Parameters.AddWithValue("@createdBy", employeeAssignment.CreatedBy);
                 cmd.Parameters.AddWithValue("@createdBy", "");
@@ -93,6 +96,39 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@bCYRCell", employeeAssignment.BCYRCell);
                 //cmd.Parameters.AddWithValue("@employeeName", "");
                 cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
+
+                if (employeeAssignment.DuplicateFrom == null)
+                {
+                    cmd.Parameters.AddWithValue("@duplicateFrom", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@duplicateFrom", employeeAssignment.DuplicateFrom);
+                }
+                if (employeeAssignment.DuplicateCount == null)
+                {
+                    cmd.Parameters.AddWithValue("@duplicateCount", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@duplicateCount", employeeAssignment.DuplicateCount);
+                }
+                if (employeeAssignment.RoleChanged == null)
+                {
+                    cmd.Parameters.AddWithValue("@roleChanged", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleChanged", employeeAssignment.RoleChanged);
+                }
+                if (employeeAssignment.UnitPriceChanged == null)
+                {
+                    cmd.Parameters.AddWithValue("@unitPriceChanged", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@unitPriceChanged", employeeAssignment.UnitPriceChanged);
+                }
 
                 try
                 {
@@ -111,7 +147,7 @@ namespace CostAllocationApp.DAL
         public int CreateFinalBudgetAssignment(EmployeeAssignment employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeeeFinalBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName);";
+            string query = $@"insert into EmployeeeFinalBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName,DuplicateFrom,DuplicateCount,RoleChanged,UnitPriceChanged) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName,@duplicateFrom,@duplicateCount,@roleChanged,@unitPriceChanged);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -185,6 +221,11 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
                 cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
 
+                cmd.Parameters.AddWithValue("@duplicateFrom", employeeAssignment.DuplicateFrom);
+                cmd.Parameters.AddWithValue("@duplicateCount", employeeAssignment.DuplicateCount);
+                cmd.Parameters.AddWithValue("@roleChanged", employeeAssignment.RoleChanged);
+                cmd.Parameters.AddWithValue("@unitPriceChanged", employeeAssignment.UnitPriceChanged);
+
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -202,7 +243,7 @@ namespace CostAllocationApp.DAL
         public int CreateBudgets(EmployeeBudget employeeAssignment)
         {
             int result = 0;
-            string query = $@"insert into EmployeeeBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName,FirstHalfBudget,SecondHalfBudget,FinalizedBudget) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName,@firstHalfBudget,@secondHalfBudget,@finalizedBudget);";
+            string query = $@"insert into EmployeeeBudgets(EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,Year,EmployeeName,FirstHalfBudget,SecondHalfBudget,FinalizedBudget,DuplicateFrom,DuplicateCount,RoleChanged,UnitPriceChanged) values(@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@year,@employeeName,@firstHalfBudget,@secondHalfBudget,@finalizedBudget,@duplicateFrom,@duplicateCount,@roleChanged,@unitPriceChanged);";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -280,6 +321,12 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@secondHalfBudget", employeeAssignment.SecondHalfBudget);
                 cmd.Parameters.AddWithValue("@finalizedBudget", employeeAssignment.FinalizedBudget);
 
+                cmd.Parameters.AddWithValue("@duplicateFrom", employeeAssignment.DuplicateFrom);
+                cmd.Parameters.AddWithValue("@duplicateCount", employeeAssignment.DuplicateCount);
+                cmd.Parameters.AddWithValue("@roleChanged", employeeAssignment.RoleChanged);
+                cmd.Parameters.AddWithValue("@unitPriceChanged", employeeAssignment.UnitPriceChanged);
+
+            
                 try
                 {
                     result = cmd.ExecuteNonQuery();                    
@@ -3486,7 +3533,7 @@ namespace CostAllocationApp.DAL
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
+                            ,ea.IsRowPending,ea.IsDeletePending, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -3539,11 +3586,15 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            forecastEmployeeAssignmentViewModel.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
 
-                            if(forecastEmployeeAssignmentViewModel.Id== 224)
-                            {
-                                var tepp = 1;
-                            }
+                            //if(forecastEmployeeAssignmentViewModel.Id== 224)
+                            //{
+                            //    var tepp = 1;
+                            //}
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
                             //check for if duplicate pending cells is there!
                             string bcyrCellWithoutDuplicateData = "";
@@ -3805,7 +3856,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks,ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged
                             from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -3849,7 +3900,11 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
                             forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();                           
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            forecastEmployeeAssignmentViewModel.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            forecastEmployeeAssignmentViewModel.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
 
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
@@ -4543,6 +4598,11 @@ namespace CostAllocationApp.DAL
                             _employeeBudget.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
                             _employeeBudget.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
 
+                            _employeeBudget.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "0" : rdr["DuplicateFrom"].ToString();
+                            _employeeBudget.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "0" : rdr["DuplicateCount"].ToString();
+                            _employeeBudget.RoleChanged = rdr["RoleChanged"] is DBNull ? "0" : rdr["RoleChanged"].ToString();
+                            _employeeBudget.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "0" : rdr["UnitPriceChanged"].ToString();
+
                             _employeeAssignments.Add(_employeeBudget);
                         }
                     }
@@ -4827,6 +4887,11 @@ namespace CostAllocationApp.DAL
                             _employeeBudget.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             _employeeBudget.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
                             _employeeBudget.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+
+                            _employeeBudget.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "0" : rdr["DuplicateFrom"].ToString();
+                            _employeeBudget.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "0" : rdr["DuplicateCount"].ToString();
+                            _employeeBudget.RoleChanged = rdr["RoleChanged"] is DBNull ? "0" : rdr["RoleChanged"].ToString();
+                            _employeeBudget.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "0" : rdr["UnitPriceChanged"].ToString();
 
                             _employeeAssignments.Add(_employeeBudget);
                         }

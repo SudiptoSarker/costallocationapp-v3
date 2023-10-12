@@ -466,6 +466,12 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.EmployeeName = dt_.EmployeeName;
             employeeAssignment.EmployeeModifiedName = dt_.EmployeeName;
 
+            employeeAssignment.DuplicateFrom = dt_.DuplicateFrom;
+            employeeAssignment.DuplicateCount = dt_.DuplicateCount;
+            employeeAssignment.RoleChanged = dt_.RoleChanged;
+            employeeAssignment.UnitPriceChanged = dt_.UnitPriceChanged;
+
+
             if (Convert.ToInt32(select_budget_type) == 1)
             {
                 employeeAssignment.FirstHalfBudget = true;
@@ -482,6 +488,7 @@ namespace CostAllocationApp.Controllers
                 employeeAssignment.SecondHalfBudget = false;
             }
             employeeAssignment.FinalizedBudget = false;
+
 
             //int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
@@ -1043,6 +1050,41 @@ namespace CostAllocationApp.Controllers
                                 //{
                                 //    _uploadExcel.Remarks = "";
                                 //}
+
+                                // new code added by shekhar
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
+                                {
+                                    _uploadExcel.DuplicateFrom = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                }
+                                else
+                                {
+                                    _uploadExcel.DuplicateFrom = "0";
+                                }
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][22].ToString()))
+                                {
+                                    _uploadExcel.DuplicateCount = dt_.Rows[i][22].ToString().Trim(trimElements);
+                                }
+                                else
+                                {
+                                    _uploadExcel.DuplicateCount = "0";
+                                }
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][23].ToString()))
+                                {
+                                    _uploadExcel.RoleChanged = dt_.Rows[i][23].ToString().Trim(trimElements);
+                                }
+                                else
+                                {
+                                    _uploadExcel.RoleChanged = "0";
+                                }
+                                if (!string.IsNullOrEmpty(dt_.Rows[i][24].ToString()))
+                                {
+                                    _uploadExcel.UnitPriceChanged = dt_.Rows[i][24].ToString().Trim(trimElements);
+                                }
+                                else
+                                {
+                                    _uploadExcel.UnitPriceChanged = "0";
+                                }
+                                // ------------------
                                 _uploadExcel.Remarks = "";
                                 
                                 //name: read/write
@@ -1076,30 +1118,37 @@ namespace CostAllocationApp.Controllers
                                         _uploadExcel.EmployeeId = result;
 
                                         //duplicate employee count
-                                        string duplicateCount = "0";
+                                        string duplicateFrom = "0";
                                         if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
                                         {
-                                            duplicateCount = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                            duplicateFrom = dt_.Rows[i][21].ToString().Trim(trimElements);
+                                        }
+
+                                        //duplicate employee count
+                                        string duplicateCount = "0";
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][22].ToString()))
+                                        {
+                                            duplicateCount = dt_.Rows[i][22].ToString().Trim(trimElements);
                                         }
 
                                         //role change for employee
                                         string roleChange = "0";
-                                        if (!string.IsNullOrEmpty(dt_.Rows[i][22].ToString()))
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][23].ToString()))
                                         {
-                                            roleChange = dt_.Rows[i][22].ToString().Trim(trimElements);
+                                            roleChange = dt_.Rows[i][23].ToString().Trim(trimElements);
                                         }
 
                                         //unit price change for employee
                                         string unitPriceChange = "0";
-                                        if (!string.IsNullOrEmpty(dt_.Rows[i][23].ToString()))
+                                        if (!string.IsNullOrEmpty(dt_.Rows[i][24].ToString()))
                                         {
-                                            unitPriceChange = dt_.Rows[i][23].ToString().Trim(trimElements);
+                                            unitPriceChange = dt_.Rows[i][24].ToString().Trim(trimElements);
                                         }
 
                                         //get duplicate name for employee assignment
 
-                                        string employeeFullName = employeeBLL.GetEmployeeNameWithNamingConvension(employee.FullName, duplicateCount, roleChange, unitPriceChange);
-                                        _uploadExcel.EmployeeName = employeeFullName;
+                                        //string employeeFullName = employeeBLL.GetEmployeeNameWithNamingConvension(employee.FullName, duplicateCount, roleChange, unitPriceChange);
+                                        _uploadExcel.EmployeeName = employee.FullName;
                                         //_uploadExcel.EmployeeName = employee.FullName;
                                     }                                    
                                 }

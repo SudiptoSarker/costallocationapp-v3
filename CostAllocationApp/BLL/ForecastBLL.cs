@@ -230,6 +230,11 @@ namespace CostAllocationApp.BLL
                     employeeAssignment.EmployeeName = item.EmployeeName;
                     employeeAssignment.EmployeeModifiedName = item.EmployeeModifiedName;
 
+                    employeeAssignment.DuplicateFrom = item.DuplicateFrom;
+                    employeeAssignment.DuplicateCount = item.DuplicateCount;
+                    employeeAssignment.RoleChanged = item.RoleChanged;
+                    employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
+
                     if (!string.IsNullOrEmpty(budgetType.ToString()))
                     {
                         if (budgetType == 1)

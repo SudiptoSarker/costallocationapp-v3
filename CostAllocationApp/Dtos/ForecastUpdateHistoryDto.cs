@@ -26,6 +26,12 @@ namespace CostAllocationApp.Dtos
         public string BCYRCell { get; set; }
         public bool IsDeletePending { get; set; }
 
+        public string DuplicateFrom { get; set; }
+        public string DuplicateCount { get; set; }
+        public string RoleChanged { get; set; }
+        public string UnitPriceChanged { get; set; }
+
+
         public decimal OctPoint { get; set; }
         public decimal NovPoint { get; set; }
         public decimal DecPoint { get; set; }

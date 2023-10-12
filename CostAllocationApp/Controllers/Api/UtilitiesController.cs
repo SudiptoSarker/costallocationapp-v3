@@ -2745,6 +2745,11 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.BCYRCell = "";
 
                         employeeAssignment.EmployeeName = item.EmployeeName;
+                        employeeAssignment.DuplicateFrom = item.DuplicateFrom;
+                        employeeAssignment.DuplicateCount = item.DuplicateCount;
+                        employeeAssignment.RoleChanged = item.RoleChanged;
+                        employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
+
                         int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
 
                         if (result == 1)
@@ -2884,6 +2889,11 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.BCYR = false;
                         employeeAssignment.BCYRCell = "";
                         employeeAssignment.EmployeeName = item.EmployeeName;
+
+                        employeeAssignment.DuplicateFrom = item.DuplicateFrom;
+                        employeeAssignment.DuplicateCount = item.DuplicateCount;
+                        employeeAssignment.RoleChanged = item.RoleChanged;
+                        employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
 
                         if (!string.IsNullOrEmpty(forecastHistoryDto.YearWithBudgetType))
                         {
@@ -9551,6 +9561,10 @@ namespace CostAllocationApp.Controllers.Api
                             _assignmentData.BCYR = assignmentItem.BCYR;
                             _assignmentData.BCYRCell = assignmentItem.BCYRCell;
                             _assignmentData.EmployeeName = assignmentItem.EmployeeName;
+                            _assignmentData.DuplicateFrom = assignmentItem.DuplicateFrom;
+                            _assignmentData.DuplicateCount = assignmentItem.DuplicateCount;
+                            _assignmentData.RoleChanged = assignmentItem.RoleChanged;
+                            _assignmentData.UnitPriceChanged = assignmentItem.UnitPriceChanged;
 
                             int finalBudgetAssignments = employeeAssignmentBLL.CreateFinalBudgetAssignment(_assignmentData);
 

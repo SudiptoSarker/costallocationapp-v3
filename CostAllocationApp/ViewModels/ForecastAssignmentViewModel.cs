@@ -50,6 +50,13 @@ namespace CostAllocationApp.ViewModels
         public bool IsCellWiseUpdate { get; set; }
         public string ApprovedCells { get; set; }
         public string RootEmployeeName { get; set; }
+
+        public string DuplicateFrom { get; set; }
+        public string DuplicateCount { get; set; }
+        public string RoleChanged { get; set; }
+        public string UnitPriceChanged { get; set; }
+
+
         // for forecast
         public List<ForecastDto> forecasts { get; set; }
         public List<ActualCost> ActualCosts { get; set; }

@@ -42,5 +42,11 @@ namespace CostAllocationApp.Dtos
         public decimal JulPoint { get; set; }
         public decimal AugPoint { get; set; }
         public decimal SepPoint { get; set; }
+
+
+        public string DuplicateFrom { get; set; }
+        public string DuplicateCount { get; set; }
+        public string RoleChanged { get; set; }
+        public string UnitPriceChanged { get; set; }
     }
 }

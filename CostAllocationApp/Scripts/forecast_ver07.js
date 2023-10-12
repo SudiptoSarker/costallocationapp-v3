@@ -234,7 +234,7 @@ $(document).ready(function () {
                 employeeCount = data.length;
             }
         });
-
+        debugger;
         if (jssInsertedData.length > 0) {
             for (var i = 0; i < jssInsertedData.length; i++) {
                 if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
@@ -1562,7 +1562,14 @@ function ShowForecastResults(year) {
             { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-            { title: "RowType", type: 'hidden', name: "RowType" },            
+            { title: "RowType", type: 'hidden', name: "RowType" },
+
+            { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
+            { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
+            { title: "RoleChanged", type: 'text', name: "RoleChanged" },
+            { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
+            
+            
         ],        
         
         onbeforechange: function (instance, cell, x, y, value) {
@@ -2614,11 +2621,15 @@ function ShowForecastResults(year) {
                     var activeEmployeeCount =0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
+                    var _duplicateFrom = "";
+                    var _duplicateCount = "";
+                    var _roleChanged = "";
+                    var _unitPriceChanged = "";
 
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
-
+                    _duplicateFrom = retrivedData.assignmentId.toString();
                     if (retrivedData.assignmentId.toString().includes('new')) {                        
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
@@ -2710,11 +2721,20 @@ function ShowForecastResults(year) {
                                 inactiveEmployeeCount = data.EmployeeCount;
                             }
                         });                        
-                    }     
-                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")";
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                    }    
+
+
+                    _unitPriceChanged = '1';
+                    _roleChanged = '0';
+                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                    //newCountedEmployeeName = masterEmployeeName + " (" + (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1) + ")";
+                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
+                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                     obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
@@ -2800,10 +2820,15 @@ function ShowForecastResults(year) {
                     var activeEmployeeCount =0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
+                    var _duplicateFrom = "";
+                    var _duplicateCount = "";
+                    var _roleChanged = "";
+                    var _unitPriceChanged = "";
 
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
+                    _duplicateFrom = retrivedData.assignmentId.toString();
                     if (retrivedData.assignmentId.toString().includes('new')) {
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
@@ -2894,10 +2919,18 @@ function ShowForecastResults(year) {
                             }
                         });
                     }
-                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+
+                    _unitPriceChanged = '0';
+                    _roleChanged = '1';
+                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                    //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
+                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];                   
 
+                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
                     obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
@@ -2988,10 +3021,15 @@ function ShowForecastResults(year) {
                     var activeEmployeeCount =0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
+                    var _duplicateFrom = "";
+                    var _duplicateCount = "";
+                    var _roleChanged = "";
+                    var _unitPriceChanged = "";
                     
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
+                    _duplicateFrom = retrivedData.assignmentId.toString();
 
                     if (retrivedData.assignmentId.toString().includes('new')) {
                         newEmployeeId = "new-" + newRowCount;
@@ -3081,8 +3119,11 @@ function ShowForecastResults(year) {
                         });
                     }
 
-                    newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
-                    obj.setValueFromCoords(1, nextRow, newCountedEmployeeName, false);
+                    _unitPriceChanged = '1';
+                    _roleChanged = '1';
+                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                    //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
+                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
                     jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
@@ -3109,6 +3150,11 @@ function ShowForecastResults(year) {
 
                     jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
                     jss.setStyle("K" + (nextRow + 1), "color", "red");
+
+                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
 
                     obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
                     obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
@@ -3179,7 +3225,7 @@ function ShowForecastResults(year) {
     $("#cancel_forecast_history").css("display", "block");
 
     //delete unwanted column from jexcel table
-    jss.deleteColumn(48, 19);
+    jss.deleteColumn(52, 23);
 
     //get the header for shorting the column wise 
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
@@ -4169,7 +4215,13 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }
         
     array[index].year = retrivedData.year;
-    array[index].bcyr= retrivedData.bcyr;   
+    array[index].bcyr = retrivedData.bcyr;  
+
+    array[index].duplicateFrom = retrivedData.duplicateFrom;  
+    array[index].duplicateCount = retrivedData.duplicateCount;  
+    array[index].roleChanged = retrivedData.roleChanged;  
+    array[index].unitPriceChanged = retrivedData.unitPriceChanged;  
+    
     
     if(array[index].bCYRCell.length <= retrivedData.bCYRCell.length){
         array[index].bCYRCell= retrivedData.bCYRCell;  
@@ -4213,6 +4265,11 @@ function retrivedObject(rowData) {
         isRowPending: rowData[45],
         isDeletePending: rowData[46],
         rowType: rowData[47],
+        duplicateFrom: rowData[48],
+        duplicateCount: rowData[49],
+        roleChanged: rowData[50],
+        unitPriceChanged: rowData[51],
+        
     };
 }
 

@@ -206,8 +206,6 @@ namespace CostAllocationApp.DAL
                             dynamicTable.TableName = rdr["TableName"].ToString();
                             dynamicTable.TableTitle = rdr["TableTitle"].ToString();
                             dynamicTable.TablePosition = Convert.ToInt32(rdr["TablePosition"]);
-                            dynamicTable.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            dynamicTable.CreatedBy = rdr["CreatedBy"].ToString();
 
                             dynamicTables.Add(dynamicTable);
                         }

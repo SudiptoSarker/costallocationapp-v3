@@ -41,13 +41,25 @@
         }else if(selected_year == "" || selected_year == null || selected_year == undefined){
             alert("年を選択してください");
         }
-        else{            
-            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year);
+        else{       
+            //total table: start     
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'total');
+            var totalTableTitle = GetDynamicTableTitleByPosition(1);
             $('#p-total').remove();
+            $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
             $('#total_table').empty();
-            //$('#total_table').append(strDynamicCostTableBody);
-            $('#total_table').append(`${strDynamicCostTableBody}`);
-            alert("2: "+strDynamicCostTableBody);
+            $('#total_table').append(strDynamicCostTableBody);
+            //total table: end
+
+            //initial budget table: start     
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'initial');
+            var totalTableTitle = GetDynamicTableTitleByPosition(2);
+            $('#p-total').remove();
+            $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
+            $('#total_table').empty();
+            $('#total_table').append(strDynamicCostTableBody);
+            //initial budget table: end
+
             return false;
 
             //defined variables: global
@@ -963,29 +975,46 @@
         }   
     });
 
-    function GetDynamicCostTables(selected_compannies,selected_year){        
-        var strTotalTalbe = "";        
-
-        $.ajax({
-            //url: `/api/utilities/GetDynamicCostTalbes?companiIds=${selected_compannies}`,
-            url: "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year,
-            // contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'html',
-            success: function (data) {
-                if (data == "" || data == null || data == undefined) {
-                    alert("table not found")
-                }else{
-                    strTotalTalbe = data;
-                }
+    function GetDynamicCostTables(selected_compannies,selected_year,strTableType){        
+        var strTotalTalbe = "";    
+        if (strTableType == "" || strTableType == null || strTableType == undefined) {
+            alert("invalid request!");
+        }else{
+            var apiurl = "";
+            if(strTableType == 'total'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
             }
-        });
+            else if(strTableType == 'initial'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'difference'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'head'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+                        
+            $.ajax({                
+                url: apiurl,                
+                type: 'GET',
+                async: false,
+                dataType: 'html',
+                success: function (data) {
+                    if (data == "" || data == null || data == undefined) {
+                        alert("table not found")
+                    }else{
+                        strTotalTalbe = data;
+                    }
+                }
+            });
+        } 
+        
         return strTotalTalbe
     }
+
     function GetTotalTableHeaderPart(main_header,sub_header,detial_header,tableTitle,year){
         var strTableHeader = "";            
-        strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
+        //strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
         strTableHeader = strTableHeader + "<thead>";
         strTableHeader = strTableHeader + "	<tr>";
         if (!string.IsNullOrEmpty(main_header))
@@ -1020,6 +1049,28 @@
         strTableHeader = strTableHeader + "</thead>";
 
         return strTableHeader;
+    }
+
+    //get table title
+    function GetDynamicTableTitleByPosition(tablePosition){
+        var strTotalTalbe = "";        
+
+        $.ajax({            
+            url: "/api/Utilities/GetDynamicTableTitleByPosition?tablePosition=" + tablePosition,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data == "" || data == null || data == undefined) {
+                    alert("table not found")
+                }else{
+                    strTotalTalbe = data;
+                    alert("data: "+data);
+                }
+            }
+        });
+        return strTotalTalbe
     }
     //company multi select: end
 });

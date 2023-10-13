@@ -10844,6 +10844,20 @@ namespace CostAllocationApp.Controllers.Api
             //}
             //return Ok(sukeyQADtos);
         }
-
+        [HttpGet]
+        [Route("api/utilities/GetDynamicTableTitleByPosition/")]
+        public IHttpActionResult GetDynamicTableTitleByPosition(string tablePosition)
+        {
+            string retunTitle = "";
+            if (!string.IsNullOrEmpty(tablePosition))
+            {
+                retunTitle = totalBLL.GetDynamicTableTitleByPosition(tablePosition);
+                return Ok(retunTitle);
+            }
+            else
+            {
+                return Ok("");
+            }
+        }
     }
 }

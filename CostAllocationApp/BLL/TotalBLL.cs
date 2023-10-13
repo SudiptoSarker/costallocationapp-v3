@@ -195,7 +195,7 @@ namespace CostAllocationApp.BLL
         public string GetTotalTableHeaderPart(string main_header,string sub_header,string detial_header,string tableTitle,string year)
         {
             string strTableHeader = "";            
-            strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
+            //strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
 
             strTableHeader = strTableHeader + "<thead>";
             strTableHeader = strTableHeader + "	<tr>";
@@ -231,6 +231,10 @@ namespace CostAllocationApp.BLL
             strTableHeader = strTableHeader + "</thead>";
 
             return strTableHeader;
+        }
+        public string GetDynamicTableTitleByPosition(string tablePosition)
+        {
+            return totalDAL.GetDynamicTableTitleByPosition(tablePosition);
         }
     }
 }

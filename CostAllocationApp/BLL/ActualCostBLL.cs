@@ -122,5 +122,6 @@ namespace CostAllocationApp.BLL
         public int UpdateAssignmentIds(int previousId, int updateId) {
             return actualCostDAL.UpdateAssignmentIds(previousId, updateId);
         }
+
     }
 }

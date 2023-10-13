@@ -192,5 +192,45 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.UpdateDynamicTableSettings(dynamicSetting);
         }
+        public string GetTotalTableHeaderPart(string main_header,string sub_header,string detial_header,string tableTitle,string year)
+        {
+            string strTableHeader = "";            
+            strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
+
+            strTableHeader = strTableHeader + "<thead>";
+            strTableHeader = strTableHeader + "	<tr>";
+            if (!string.IsNullOrEmpty(main_header))
+            {
+                strTableHeader = strTableHeader + "<th>"+ main_header + "</th>";
+            }
+            if (!string.IsNullOrEmpty(sub_header))
+            {
+                strTableHeader = strTableHeader + "<th>" + sub_header + "</th>";
+            }
+            if (!string.IsNullOrEmpty(detial_header))
+            {
+                strTableHeader = strTableHeader + "<th>" + detial_header + "</th>";
+            }
+            strTableHeader = strTableHeader + "		<th>10月</th>";
+            strTableHeader = strTableHeader + "		<th>11月</th>";
+            strTableHeader = strTableHeader + "		<th>12月</th>";
+            strTableHeader = strTableHeader + "		<th>1月</th>";
+            strTableHeader = strTableHeader + "		<th>2月</th>";
+            strTableHeader = strTableHeader + "		<th>3月</th>";
+            strTableHeader = strTableHeader + "		<th>4月</th>";
+            strTableHeader = strTableHeader + "		<th>5月</th>";
+            strTableHeader = strTableHeader + "		<th>6月</th>";
+            strTableHeader = strTableHeader + "		<th>7月</th>";
+            strTableHeader = strTableHeader + "		<th>8月</th>";
+            strTableHeader = strTableHeader + "		<th>9月</th>";
+
+            strTableHeader = strTableHeader + "		<th>FY$"+ year + "計</th>";
+            strTableHeader = strTableHeader + "		<th>上期</th>";
+            strTableHeader = strTableHeader + "		<th>下期 </th>";
+            strTableHeader = strTableHeader + "	</tr>";
+            strTableHeader = strTableHeader + "</thead>";
+
+            return strTableHeader;
+        }
     }
 }

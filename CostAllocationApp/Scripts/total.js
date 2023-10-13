@@ -34,11 +34,19 @@
 
     $('#show_dynamic_tables').on('click', () => {        
         var selected_compannies = $("#company_list").val();
+        var selected_year = $("#total_year_list").val();
+
         if (selected_compannies == "" || selected_compannies == null || selected_compannies == undefined) {
             alert("会社を選択してください");
-        }else{
-            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies);
-
+        }else if(selected_year == "" || selected_year == null || selected_year == undefined){
+            alert("年を選択してください");
+        }
+        else{            
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year);
+            $('#p-total').remove();
+            $('#total_table').empty();
+            //$('#total_table').append(strDynamicCostTableBody);
+            $('#total_table').append(`${strDynamicCostTableBody}`);
             alert("2: "+strDynamicCostTableBody);
             return false;
 
@@ -955,22 +963,63 @@
         }   
     });
 
-    function GetDynamicCostTables(selsected_companies){
-        var strTotalTalbe = "";
-        strTotalTalbe = "";
+    function GetDynamicCostTables(selected_compannies,selected_year){        
+        var strTotalTalbe = "";        
 
         $.ajax({
-            url: `/api/utilities/GetDynamicCostTalbes?companiIds=${selected_compannies}`,
-            contentType: 'application/json',
+            //url: `/api/utilities/GetDynamicCostTalbes?companiIds=${selected_compannies}`,
+            url: "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year,
+            // contentType: 'application/json',
             type: 'GET',
             async: false,
-            dataType: 'json',
+            dataType: 'html',
             success: function (data) {
-                // totalList = data;
-                // differenceTable = structuredClone(totalList);                    
+                if (data == "" || data == null || data == undefined) {
+                    alert("table not found")
+                }else{
+                    strTotalTalbe = data;
+                }
             }
         });
         return strTotalTalbe
+    }
+    function GetTotalTableHeaderPart(main_header,sub_header,detial_header,tableTitle,year){
+        var strTableHeader = "";            
+        strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
+        strTableHeader = strTableHeader + "<thead>";
+        strTableHeader = strTableHeader + "	<tr>";
+        if (!string.IsNullOrEmpty(main_header))
+        {
+            strTableHeader = strTableHeader + "<th>"+ main_header + "</th>";
+        }
+        if (!string.IsNullOrEmpty(sub_header))
+        {
+            strTableHeader = strTableHeader + "<th>" + sub_header + "</th>";
+        }
+        if (!string.IsNullOrEmpty(detial_header))
+        {
+            strTableHeader = strTableHeader + "<th>" + detial_header + "</th>";
+        }
+        strTableHeader = strTableHeader + "		<th>10月</th>";
+        strTableHeader = strTableHeader + "		<th>11月</th>";
+        strTableHeader = strTableHeader + "		<th>12月</th>";
+        strTableHeader = strTableHeader + "		<th>1月</th>";
+        strTableHeader = strTableHeader + "		<th>2月</th>";
+        strTableHeader = strTableHeader + "		<th>3月</th>";
+        strTableHeader = strTableHeader + "		<th>4月</th>";
+        strTableHeader = strTableHeader + "		<th>5月</th>";
+        strTableHeader = strTableHeader + "		<th>6月</th>";
+        strTableHeader = strTableHeader + "		<th>7月</th>";
+        strTableHeader = strTableHeader + "		<th>8月</th>";
+        strTableHeader = strTableHeader + "		<th>9月</th>";
+
+        strTableHeader = strTableHeader + "		<th>FY$"+ year + "計</th>";
+        strTableHeader = strTableHeader + "		<th>上期</th>";
+        strTableHeader = strTableHeader + "		<th>下期 </th>";
+        strTableHeader = strTableHeader + "	</tr>";
+        strTableHeader = strTableHeader + "</thead>";
+
+        return strTableHeader;
     }
     //company multi select: end
 });

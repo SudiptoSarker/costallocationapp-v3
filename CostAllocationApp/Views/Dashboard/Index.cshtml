@@ -1,39 +1,37 @@
 ﻿@{
     ViewBag.Title = "ダッシュボードにアクセスする";
 }
-@section Styles {    
-     @* <link rel="stylesheet" href="/Content/custome_side_menu.css">
-     <link rel="stylesheet" href="/Content/new_side_menu_ver02.css"> *@
+@section Styles {
+    @* <link rel="stylesheet" href="/Content/custome_side_menu.css">
+<link rel="stylesheet" href="/Content/new_side_menu_ver02.css"> *@
 }
+
 <div class="row">
-    <div class="col-sm-6">
-        <div class="form-group">
-            <div id="cost_management"></div>
-        </div>
+    <div class="col-md-6">
+        <div id="total_cost_chart" style="max-width: 500px; width:100%"></div>
     </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <div id="employees"></div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="form-group">
-            <div id="grade_system"></div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-        </div>
+    <div class="col-md-6">
+        <div id="total_head_count_chart" style="max-width: 500px; width:100%"></div>
     </div>
 </div>
 
-@section Scripts{
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div id="monthly_cost_chart" style="width:100%"></div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div id="monthly_head_count_chart" style="width:100%"></div>
+    </div>
+</div>
+
+@section Scripts {
     <script src="/Scripts/loader.js"></script>
     <script src="/Scripts/Chart.min.js"></script>
     <script src="/Scripts/Custome-Reporting.js"></script>
+    <script src="~/Scripts/dash.js"></script>
     <script src="~/signalr/hubs"></script>
 
     <script src="~/signalr/5-1-2.js"></script>
@@ -50,9 +48,9 @@
 
         $.connection.hub.start();
         $(function () {
-            
+
             var chat = $.connection.chatHub;
-            
+
             chat.client.addNewMessageToPage = function (name, message) {
                 if (message != $('#user_name').text()) {
                     alert(name + message);
@@ -77,10 +75,10 @@
             };
         });
 
-       
+
 
         $(document).ready(function () {
-            
+
             setInterval(() => {
                 $.ajax({
                     url: `/api/utilities/GetUserLogs/`,
@@ -111,7 +109,7 @@
                 success: function (data) {
                     var userName = $('#user_name').text();
                     $('#user_log').empty();
-                    $.each(data,(index, value) => {
+                    $.each(data, (index, value) => {
                         if (userName !== value.UserName) {
                             $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
                         }
@@ -120,11 +118,11 @@
                 }
             });
 
-            
+
         });
 
 
-       
-        
+
+
     </script>
 }

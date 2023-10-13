@@ -208,6 +208,7 @@
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\Api\CategoryController.cs" />
     <Compile Include="Controllers\Api\CompaniesController.cs" />
+    <Compile Include="Controllers\Api\DashController.cs" />
     <Compile Include="Controllers\Api\DepartmentsController.cs" />
     <Compile Include="Controllers\Api\DepartmentWithSubCategoryController.cs" />
     <Compile Include="Controllers\Api\EmployeesController.cs" />
@@ -753,6 +754,7 @@
     <Content Include="Scripts\companies_ver02.js" />
     <Content Include="Scripts\Custome-Reporting.js" />
     <Content Include="Scripts\Custome.js" />
+    <Content Include="Scripts\dash.js" />
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\departments.js" />
     <Content Include="Scripts\departments_ver02.js" />
@@ -891,6 +893,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Dash\" />
     <Folder Include="Views\Explanation\" />
     <Folder Include="Views\Exports\" />
     <Folder Include="Views\InCharge\" />

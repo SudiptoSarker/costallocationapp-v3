@@ -10583,6 +10583,38 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                             }
                         }
+                        //initial budget table
+                        if (Convert.ToInt32(tableItem.TablePosition) == 2)
+                        {
+                            List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                            dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+                            if (dynamicSettings.Count > 0)
+                            {
+                                string strTotalTableTitle = "";
+                                string strTotalTableHeader = "";
+                                string strTotalTableBody = "";
+                                string tableTitle = "";
+                                tableTitle = tableItem.TableTitle;
+
+                                strTotalTableHeader = totalBLL.GetTotalTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+                                foreach (var settingItem in dynamicSettings)
+                                {
+
+                                    //strTotalTableHeader
+                                }
+
+
+                                if (string.IsNullOrEmpty(strTotalTalbe))
+                                {
+                                    strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                }
+                                else
+                                {
+                                    strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                }
+                            }
+                        }
                     }
 
                 }

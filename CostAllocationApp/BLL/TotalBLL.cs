@@ -232,6 +232,7 @@ namespace CostAllocationApp.BLL
 
             return strTableHeader;
         }
+
         public string GetDynamicTableTitleByPosition(string tablePosition)
         {
             return totalDAL.GetDynamicTableTitleByPosition(tablePosition);

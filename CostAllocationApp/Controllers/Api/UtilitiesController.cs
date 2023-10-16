@@ -10538,80 +10538,228 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetDynamicCostTalbes/")]
-        public IHttpActionResult GetDynamicCostTalbes(string companiIds, string year)
-        {            
+        public IHttpActionResult GetDynamicCostTalbes(string companiIds, string year, string strTableType)
+        {
             List<DynamicTable> dynamicTables = new List<DynamicTable>();
 
 
             dynamicTables = totalBLL.GetAllDynamicTables();
             if (dynamicTables.Count > 0)
-            {                
+            {
                 string strTotalTalbe = "";
                 foreach (var tableItem in dynamicTables)
                 {
                     if (!string.IsNullOrEmpty(tableItem.TablePosition.ToString()))
                     {
                         //total table
-                        if (Convert.ToInt32(tableItem.TablePosition) == 1)
+                        if (!string.IsNullOrEmpty(strTableType))
                         {
-                            List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
-                            dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
-                            if (dynamicSettings.Count > 0)
+                            if (strTableType == "total")
                             {
-                                string strTotalTableTitle = "";
-                                string strTotalTableHeader = "";
-                                string strTotalTableBody = "";
-                                string tableTitle = "";
-                                tableTitle = tableItem.TableTitle;
-                                
-                                strTotalTableHeader = totalBLL.GetTotalTableHeaderPart(tableItem.CategoryTitle,tableItem.SubCategoryTitle,tableItem.DetailsTitle,tableTitle,year);
+                                //total table 
+                                if (Convert.ToInt32(tableItem.TablePosition) == 1)
+                                {
+                                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                                    dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+                                    if (dynamicSettings.Count > 0)
+                                    {
+                                        string strTotalTableHeader = "";
+                                        string strTotalTableBody = "";
+                                        string tableTitle = "";
+                                        string strTotalTableBodyStart = "<tbody>";
+                                        string strTotalTableBodyEnd = "</tbody>";
 
-                                foreach (var settingItem in dynamicSettings)
-                                {
+                                        tableTitle = tableItem.TableTitle;
 
-                                    //strTotalTableHeader
-                                }
-                                
-                                
-                                if (string.IsNullOrEmpty(strTotalTalbe))
-                                {
-                                    strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
-                                }
-                                else
-                                {
-                                    strTotalTalbe = strTotalTalbe+ "" + strTotalTableHeader + "" + strTotalTableBody;
+                                        strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+                                        
+                                        int totalTableIndexCount = 0;
+                                        string multiTotalBody = "";
+
+                                        foreach (var settingItem in dynamicSettings)
+                                        {                                          
+                                            string singleTotalBody = "";
+
+                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+
+                                            if (string.IsNullOrEmpty(multiTotalBody))
+                                            {
+                                                multiTotalBody = singleTotalBody;
+                                            }
+                                            else
+                                            {
+                                                multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                                            }
+                                        }
+
+                                        strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
+
+                                        if (string.IsNullOrEmpty(strTotalTalbe))
+                                        {
+                                            strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                        else
+                                        {
+                                            strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        //initial budget table
-                        if (Convert.ToInt32(tableItem.TablePosition) == 2)
-                        {
-                            List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
-                            dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
-                            if (dynamicSettings.Count > 0)
+                            else if (strTableType == "initial")
                             {
-                                string strTotalTableTitle = "";
-                                string strTotalTableHeader = "";
-                                string strTotalTableBody = "";
-                                string tableTitle = "";
-                                tableTitle = tableItem.TableTitle;
-
-                                strTotalTableHeader = totalBLL.GetTotalTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
-
-                                foreach (var settingItem in dynamicSettings)
+                                //initial budget table
+                                if (Convert.ToInt32(tableItem.TablePosition) == 2)
                                 {
+                                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                                    dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+                                    if (dynamicSettings.Count > 0)
+                                    {
+                                        string strTotalTableHeader = "";
+                                        string strTotalTableBody = "";
+                                        string tableTitle = "";
+                                        string strTotalTableBodyStart = "<tbody>";
+                                        string strTotalTableBodyEnd = "</tbody>";
 
-                                    //strTotalTableHeader
+                                        tableTitle = tableItem.TableTitle;
+
+                                        strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+                                        int totalTableIndexCount = 0;
+                                        string multiTotalBody = "";
+
+                                        foreach (var settingItem in dynamicSettings)
+                                        {
+                                            string singleTotalBody = "";
+
+                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+
+                                            if (string.IsNullOrEmpty(multiTotalBody))
+                                            {
+                                                multiTotalBody = singleTotalBody;
+                                            }
+                                            else
+                                            {
+                                                multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                                            }
+                                        }
+
+                                        strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
+
+
+                                        if (string.IsNullOrEmpty(strTotalTalbe))
+                                        {
+                                            strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                        else
+                                        {
+                                            strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                    }
                                 }
+                            }
 
-
-                                if (string.IsNullOrEmpty(strTotalTalbe))
+                            else if (strTableType == "difference")
+                            {
+                                //difference table
+                                if (Convert.ToInt32(tableItem.TablePosition) == 3)
                                 {
-                                    strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                                    dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+                                    if (dynamicSettings.Count > 0)
+                                    {
+                                        string strTotalTableHeader = "";
+                                        string strTotalTableBody = "";
+                                        string tableTitle = "";
+                                        string strTotalTableBodyStart = "<tbody>";
+                                        string strTotalTableBodyEnd = "</tbody>";
+
+                                        tableTitle = tableItem.TableTitle;
+
+                                        strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+                                        int totalTableIndexCount = 0;
+                                        string multiTotalBody = "";
+
+                                        foreach (var settingItem in dynamicSettings)
+                                        {
+                                            string singleTotalBody = "";
+
+                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+
+                                            if (string.IsNullOrEmpty(multiTotalBody))
+                                            {
+                                                multiTotalBody = singleTotalBody;
+                                            }
+                                            else
+                                            {
+                                                multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                                            }
+                                        }
+
+                                        strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
+
+
+                                        if (string.IsNullOrEmpty(strTotalTalbe))
+                                        {
+                                            strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                        else
+                                        {
+                                            strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                    }
                                 }
-                                else
+                            }
+                            else if (strTableType == "headcount")
+                            {
+                                //headcount table
+                                if (Convert.ToInt32(tableItem.TablePosition) == 4)
                                 {
-                                    strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                                    dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+                                    if (dynamicSettings.Count > 0)
+                                    {
+                                        string strTotalTableHeader = "";
+                                        string strTotalTableBody = "";
+                                        string tableTitle = "";
+                                        string strTotalTableBodyStart = "<tbody>";
+                                        string strTotalTableBodyEnd = "</tbody>";
+
+                                        tableTitle = tableItem.TableTitle;
+
+                                        strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+                                        int totalTableIndexCount = 0;
+                                        string multiTotalBody = "";
+
+                                        foreach (var settingItem in dynamicSettings)
+                                        {
+                                            string singleTotalBody = "";
+
+                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+
+                                            if (string.IsNullOrEmpty(multiTotalBody))
+                                            {
+                                                multiTotalBody = singleTotalBody;
+                                            }
+                                            else
+                                            {
+                                                multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                                            }
+                                        }
+
+                                        strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
+
+
+                                        if (string.IsNullOrEmpty(strTotalTalbe))
+                                        {
+                                            strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                        else
+                                        {
+                                            strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -10624,7 +10772,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return Ok("Table not created!");
             }
-           
+
             //int year = 0;
             //double _octHinsho = 0;
             //double _novHinsho = 0;

@@ -68,7 +68,6 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select * from ActualCosts where Year={year} and AssignmentId={assignmentId}";
 
-
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

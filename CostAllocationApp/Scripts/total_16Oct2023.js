@@ -44,40 +44,23 @@
         else{
                    
             //total table: start     
-            var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total');
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'total');
             var totalTableTitle = GetDynamicTableTitleByPosition(1);
             $('#p-total').remove();
             $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
             $('#total_table').empty();
-            $('#total_table').append(strTotalTableHeaderPart);
+            $('#total_table').append(strDynamicCostTableBody);
             //total table: end
 
             //initial budget table: start     
-            var strInitialTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'initial');
-            var initialTableTitle = GetDynamicTableTitleByPosition(2);
-            $('#p-initial-budget').remove();            
-            $('#total_budget_table').before('<p class="font-weight-bold" id="p-initial-budget" style="margin-top:20px;"><u>'+initialTableTitle+'</u></p>');            
-            $('#total_budget_table').empty();
-            $('#total_budget_table').append(strInitialTableHeaderPart);
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'initial');
+            var totalTableTitle = GetDynamicTableTitleByPosition(2);
+            $('#p-total').remove();
+            $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
+            $('#total_table').empty();
+            $('#total_table').append(strDynamicCostTableBody);
             //initial budget table: end
 
-            //difference table: start     
-            var strDifferenceableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'difference');
-            var differenceTableTitle = GetDynamicTableTitleByPosition(3);
-            $('#p-difference').remove();            
-            $('#difference_table').before('<p class="font-weight-bold" id="p-difference" style="margin-top:20px;"><u>'+differenceTableTitle+'</u></p>');            
-            $('#difference_table').empty();
-            $('#difference_table').append(strDifferenceableHeaderPart);
-            //difference table: end
-
-            //headcount table: start     
-            var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount');
-            var headCountTableTitle = GetDynamicTableTitleByPosition(4);
-            $('#p-headcount').remove();            
-            $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
-            $('#headcount_table').empty();
-            $('#headcount_table').append(strHeadCountTableHeaderPart);
-            //headcount table: end
             return false;
 
             //defined variables: global
@@ -999,7 +982,18 @@
             alert("invalid request!");
         }else{
             var apiurl = "";
-            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType;
+            if(strTableType == 'total'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'initial'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'difference'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'head'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
                         
             $.ajax({                
                 url: apiurl,                
@@ -1072,7 +1066,8 @@
                 if (data == "" || data == null || data == undefined) {
                     alert("table not found")
                 }else{
-                    strTotalTalbe = data;                    
+                    strTotalTalbe = data;
+                    alert("data: "+data);
                 }
             }
         });

@@ -192,7 +192,7 @@ namespace CostAllocationApp.BLL
         {
             return totalDAL.UpdateDynamicTableSettings(dynamicSetting);
         }
-        public string GetTotalTableHeaderPart(string main_header,string sub_header,string detial_header,string tableTitle,string year)
+        public string GetCostTableHeaderPart(string main_header,string sub_header,string detial_header,string tableTitle,string year)
         {
             string strTableHeader = "";            
             //strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";
@@ -236,6 +236,75 @@ namespace CostAllocationApp.BLL
         public string GetDynamicTableTitleByPosition(string tablePosition)
         {
             return totalDAL.GetDynamicTableTitleByPosition(tablePosition);
+        }
+        public string GetTotalTableBodyPart(DynamicSetting settingItem, int totalTableIndexCount)
+        {
+            string totalTableTrStart = "";
+            totalTableTrStart = "<tr data-indentity='" + totalTableIndexCount + "'>";
+
+            string totalTableTrEnd = "";
+            totalTableTrEnd = "</tr>";
+
+            string totalTableTd = "";
+            string singleTotalBody = "";
+
+            if (!string.IsNullOrEmpty(settingItem.CategoryName))
+            {
+                if (string.IsNullOrEmpty(totalTableTd))
+                {
+                    totalTableTd = "<td>" + settingItem.CategoryName + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td>" + settingItem.CategoryName + "</td>";
+                }
+
+            }
+            if (!string.IsNullOrEmpty(settingItem.SubCategoryName))
+            {
+                if (string.IsNullOrEmpty(totalTableTd))
+                {
+                    totalTableTd = "<td>" + settingItem.SubCategoryName + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td>" + settingItem.SubCategoryName + "</td>";
+                }
+
+            }
+            if (!string.IsNullOrEmpty(settingItem.DetailsItemName))
+            {
+                if (string.IsNullOrEmpty(totalTableTd))
+                {
+                    totalTableTd = "<td>" + settingItem.DetailsItemName + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td>" + settingItem.DetailsItemName + "</td>";
+                }
+
+            }
+            if (!string.IsNullOrEmpty(totalTableTd))
+            {
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>0</td>";
+            }
+            singleTotalBody = totalTableTrStart + "" + totalTableTd + "" + totalTableTrEnd;
+
+            return singleTotalBody;
         }
     }
 }

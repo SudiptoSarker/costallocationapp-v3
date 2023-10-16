@@ -10173,7 +10173,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return BadRequest("Sub-Category name required!");
             }
-
+            
             subCategory.CreatedBy = "";
             subCategory.CreatedDate = DateTime.Now;
             subCategory.IsActive = true;

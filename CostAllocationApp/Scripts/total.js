@@ -35,6 +35,7 @@
     $('#show_dynamic_tables').on('click', () => {        
         var selected_compannies = $("#company_list").val();
         var selected_year = $("#total_year_list").val();
+        var timeStampId = $("#edit_history_time_stamp").val();
 
         if (selected_compannies == "" || selected_compannies == null || selected_compannies == undefined) {
             alert("会社を選択してください");
@@ -44,7 +45,7 @@
         else{
                    
             //total table: start     
-            var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total');
+            var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total',timeStampId);
             var totalTableTitle = GetDynamicTableTitleByPosition(1);
             $('#p-total').remove();
             $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
@@ -53,7 +54,7 @@
             //total table: end
 
             //initial budget table: start     
-            var strInitialTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'initial');
+            var strInitialTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'initial',timeStampId);
             var initialTableTitle = GetDynamicTableTitleByPosition(2);
             $('#p-initial-budget').remove();            
             $('#total_budget_table').before('<p class="font-weight-bold" id="p-initial-budget" style="margin-top:20px;"><u>'+initialTableTitle+'</u></p>');            
@@ -62,7 +63,7 @@
             //initial budget table: end
 
             //difference table: start     
-            var strDifferenceableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'difference');
+            var strDifferenceableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'difference',timeStampId);
             var differenceTableTitle = GetDynamicTableTitleByPosition(3);
             $('#p-difference').remove();            
             $('#difference_table').before('<p class="font-weight-bold" id="p-difference" style="margin-top:20px;"><u>'+differenceTableTitle+'</u></p>');            
@@ -71,7 +72,7 @@
             //difference table: end
 
             //headcount table: start     
-            var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount');
+            var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount',timeStampId);
             var headCountTableTitle = GetDynamicTableTitleByPosition(4);
             $('#p-headcount').remove();            
             $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
@@ -993,13 +994,13 @@
         }   
     });
 
-    function GetDynamicCostTables(selected_compannies,selected_year,strTableType){        
+    function GetDynamicCostTables(selected_compannies,selected_year,strTableType,timeStampId){        
         var strTotalTalbe = "";    
         if (strTableType == "" || strTableType == null || strTableType == undefined) {
             alert("invalid request!");
         }else{
             var apiurl = "";
-            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType;
+            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timestampsId;
                         
             $.ajax({                
                 url: apiurl,                

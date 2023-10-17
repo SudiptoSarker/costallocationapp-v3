@@ -560,5 +560,33 @@ namespace CostAllocationApp.DAL
                 return strTableTitle;
             }
         }
+        public string GetParameterIdsByMethodId(string tableId,string methodId)
+        {
+            string paramIds = "";
+            string query = "";
+            query = "select Id,ParameterId from DynamicSettings where DynamicTableId="+ tableId + " and methodId="+ methodId + "";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            paramIds = rdr["ParameterId"] == DBNull.Value ? "" : rdr["ParameterId"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return paramIds;
+            }
+        }
     }
 }

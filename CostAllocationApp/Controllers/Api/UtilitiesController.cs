@@ -10538,7 +10538,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetDynamicCostTalbes/")]
-        public IHttpActionResult GetDynamicCostTalbes(string companiIds, string year, string strTableType)
+        public IHttpActionResult GetDynamicCostTalbes(string companiIds, string year, string strTableType,string timestampsId)
         {
             List<DynamicTable> dynamicTables = new List<DynamicTable>();
 
@@ -10580,7 +10580,7 @@ namespace CostAllocationApp.Controllers.Api
                                         {                                          
                                             string singleTotalBody = "";
 
-                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+                                            singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId);
 
                                             if (string.IsNullOrEmpty(multiTotalBody))
                                             {

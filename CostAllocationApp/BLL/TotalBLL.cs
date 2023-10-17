@@ -549,7 +549,7 @@ namespace CostAllocationApp.BLL
                         rowTotal += _augActualCostTotal + _augCalculation;
                     }
                     else
-                    {
+                    {      
                         sukeyDto.AugCost.Add(_augTotal + _augCalculation);
                         rowTotal += _augTotal + _augCalculation;
                     }

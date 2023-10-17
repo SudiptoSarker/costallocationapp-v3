@@ -338,9 +338,11 @@ namespace CostAllocationApp.BLL
             }
             return totalTableTd;
         }
-        public List<SukeyQADto> GetTotalCostTableByMethodId(int year,int )
+        public List<SukeyQADto> GetTotalCostTableByMethodId(int year,int timestampId,string companyIds)
         {
-            int year = 0;
+            ActualCostBLL actualCostBLL = new ActualCostBLL();
+            EmployeeAssignmentBLL employeeAssignmentBLL = new EmployeeAssignmentBLL();
+
             double _octHinsho = 0;
             double _novHinsho = 0;
             double _decHinsho = 0;
@@ -361,9 +363,9 @@ namespace CostAllocationApp.BLL
             Department qaDepartmentByName = departments.Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
-                return NotFound();
+                //return "";
             }
-            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
+            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companyIds, year);
             if (hinsoData.Count > 0)
             {
                 _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -398,7 +400,7 @@ namespace CostAllocationApp.BLL
                 }
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -589,7 +591,7 @@ namespace CostAllocationApp.BLL
 
                 sukeyQADtos.Add(sukeyDto);
             }
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
         public string GetTotalTableBodyPart(DynamicSetting settingItem, int totalTableIndexCount)

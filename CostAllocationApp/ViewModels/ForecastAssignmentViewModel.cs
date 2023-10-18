@@ -12,6 +12,7 @@ namespace CostAllocationApp.ViewModels
         // for assignment
         public int SerialNumber { get; set; }
         public int Id { get; set; }
+        public int AssignmentTimeStampId { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string SectionId { get; set; }

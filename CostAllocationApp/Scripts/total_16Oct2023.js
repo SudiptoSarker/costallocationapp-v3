@@ -35,7 +35,6 @@
     $('#show_dynamic_tables').on('click', () => {        
         var selected_compannies = $("#company_list").val();
         var selected_year = $("#total_year_list").val();
-        var timeStampId = $("#edit_history_time_stamp").val();
 
         if (selected_compannies == "" || selected_compannies == null || selected_compannies == undefined) {
             alert("会社を選択してください");
@@ -45,40 +44,23 @@
         else{
                    
             //total table: start     
-            var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total',timeStampId);
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'total');
             var totalTableTitle = GetDynamicTableTitleByPosition(1);
             $('#p-total').remove();
             $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
             $('#total_table').empty();
-            $('#total_table').append(strTotalTableHeaderPart);
+            $('#total_table').append(strDynamicCostTableBody);
             //total table: end
 
             //initial budget table: start     
-            var strInitialTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'initial',timeStampId);
-            var initialTableTitle = GetDynamicTableTitleByPosition(2);
-            $('#p-initial-budget').remove();            
-            $('#total_budget_table').before('<p class="font-weight-bold" id="p-initial-budget" style="margin-top:20px;"><u>'+initialTableTitle+'</u></p>');            
-            $('#total_budget_table').empty();
-            $('#total_budget_table').append(strInitialTableHeaderPart);
+            var strDynamicCostTableBody = GetDynamicCostTables(selected_compannies,selected_year,'initial');
+            var totalTableTitle = GetDynamicTableTitleByPosition(2);
+            $('#p-total').remove();
+            $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
+            $('#total_table').empty();
+            $('#total_table').append(strDynamicCostTableBody);
             //initial budget table: end
 
-            //difference table: start     
-            var strDifferenceableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'difference',timeStampId);
-            var differenceTableTitle = GetDynamicTableTitleByPosition(3);
-            $('#p-difference').remove();            
-            $('#difference_table').before('<p class="font-weight-bold" id="p-difference" style="margin-top:20px;"><u>'+differenceTableTitle+'</u></p>');            
-            $('#difference_table').empty();
-            $('#difference_table').append(strDifferenceableHeaderPart);
-            //difference table: end
-
-            //headcount table: start     
-            var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount',timeStampId);
-            var headCountTableTitle = GetDynamicTableTitleByPosition(4);
-            $('#p-headcount').remove();            
-            $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
-            $('#headcount_table').empty();
-            $('#headcount_table').append(strHeadCountTableHeaderPart);
-            //headcount table: end
             return false;
 
             //defined variables: global
@@ -994,13 +976,24 @@
         }   
     });
 
-    function GetDynamicCostTables(selected_compannies,selected_year,strTableType,timeStampId){        
+    function GetDynamicCostTables(selected_compannies,selected_year,strTableType){        
         var strTotalTalbe = "";    
         if (strTableType == "" || strTableType == null || strTableType == undefined) {
             alert("invalid request!");
         }else{
             var apiurl = "";
-            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timeStampId;
+            if(strTableType == 'total'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'initial'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'difference'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
+            else if(strTableType == 'head'){
+                apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year;
+            }
                         
             $.ajax({                
                 url: apiurl,                
@@ -1073,7 +1066,8 @@
                 if (data == "" || data == null || data == undefined) {
                     alert("table not found")
                 }else{
-                    strTotalTalbe = data;                    
+                    strTotalTalbe = data;
+                    alert("data: "+data);
                 }
             }
         });

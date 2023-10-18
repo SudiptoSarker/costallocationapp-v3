@@ -10570,7 +10570,7 @@ namespace CostAllocationApp.Controllers.Api
                                         string strTotalTableBodyEnd = "</tbody>";
 
                                         tableTitle = tableItem.TableTitle;
-
+                                        stinr ssss=;
                                         strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
                                         
                                         int totalTableIndexCount = 0;

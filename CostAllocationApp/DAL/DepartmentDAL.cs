@@ -466,5 +466,47 @@ namespace CostAllocationApp.DAL
 
             return departmentId;
         }
+
+        public List<Department> GetDepartmentsById(string departmentIds)
+        {
+            List<Department> departments = new List<Department>();
+            string query = "";
+            query = query + "SELECT d.Id 'DepartmentId',d.Name 'DepartmentName',s.Id 'SectionId',s.Name 'SectionName',d.CreatedDate,d.CreatedBy,d.SubCategoryId ";
+            query = query + "FROM Departments d ";
+            query = query + "   INNER JOIN Sections s ON d.SectionId = s.Id ";
+            query = query + "WHERE d.isactive=1 and d.Id in ("+ departmentIds + ") ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Department department = new Department();
+                            department.Id = Convert.ToInt32(rdr["DepartmentId"]);
+                            department.SectionId = Convert.ToInt32(rdr["SectionId"]);
+                            department.DepartmentName = rdr["DepartmentName"].ToString();
+                            department.SectionName = rdr["SectionName"].ToString();
+                            department.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            department.CreatedBy = rdr["CreatedBy"].ToString();
+                            department.SubCategoryId = rdr["SubCategoryId"].ToString();
+
+                            departments.Add(department);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return departments;
+            }
+        }
     }
 }

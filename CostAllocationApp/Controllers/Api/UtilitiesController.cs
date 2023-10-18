@@ -10575,12 +10575,139 @@ namespace CostAllocationApp.Controllers.Api
                                         
                                         int totalTableIndexCount = 0;
                                         string multiTotalBody = "";
+                                        DynamicTableViewModal _totalCost = new DynamicTableViewModal();
+                                        double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;                                       
 
                                         foreach (var settingItem in dynamicSettings)
-                                        {                                          
+                                        {                                                                           
                                             string singleTotalBody = "";
-
-                                            singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId);
+                                            singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId, companiIds);
+                                            
+                                            //total row calculation
+                                            { 
+                                                DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                                                dynamicTableViewModal = totalBLL.GetTotalCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                                                if (octTotalSum > 0)
+                                                {
+                                                    octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    octTotalSum = dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                if (novTotalSum > 0)
+                                                {
+                                                    novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    novTotalSum = dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                if (decTotalSum > 0)
+                                                {
+                                                    decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    decTotalSum = dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                if (janTotalSum > 0)
+                                                {
+                                                    janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    janTotalSum = dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                if (febTotalSum > 0)
+                                                {
+                                                    febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    febTotalSum = dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                if (marTotalSum > 0)
+                                                {
+                                                    marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    marTotalSum = dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                if (aprTotalSum > 0)
+                                                {
+                                                    aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                if (mayTotalSum > 0)
+                                                {
+                                                    mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                if (junTotalSum > 0)
+                                                {
+                                                    junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    junTotalSum = dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                if (julTotalSum > 0)
+                                                {
+                                                    julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    julTotalSum = dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                if (augTotalSum > 0)
+                                                {
+                                                    augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    augTotalSum = dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                if (sepTotalSum > 0)
+                                                {
+                                                    sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                if (firstHalfTotalSum > 0)
+                                                {
+                                                    firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                if (secondHalfTotalSum > 0)
+                                                {
+                                                    secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                if (yearCostTotalSum > 0)
+                                                {
+                                                    yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                                                }
+                                            }
 
                                             if (string.IsNullOrEmpty(multiTotalBody))
                                             {
@@ -10590,6 +10717,45 @@ namespace CostAllocationApp.Controllers.Api
                                             {
                                                 multiTotalBody = multiTotalBody + "" + singleTotalBody;
                                             }
+                                        }
+
+                                        string totalRowTd = "";
+                                        totalRowTd = totalRowTd +"<tr data-indentity='" + totalTableIndexCount + "'>";
+                                        totalRowTd = totalRowTd + "<td>Total</td>";
+                                        if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }                                        
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "</tr>";
+                                    
+                                        if (string.IsNullOrEmpty(multiTotalBody))
+                                        {
+                                            multiTotalBody = totalRowTd;
+                                        }
+                                        else
+                                        {
+                                            multiTotalBody = multiTotalBody + "" + totalRowTd;
                                         }
 
                                         strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
@@ -10624,6 +10790,7 @@ namespace CostAllocationApp.Controllers.Api
 
                                         strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
 
+                                        double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
                                         int totalTableIndexCount = 0;
                                         string multiTotalBody = "";
 
@@ -10631,7 +10798,135 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             string singleTotalBody = "";
 
-                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+                                            singleTotalBody = totalBLL.GetBudgetTableBodyPart(settingItem, totalTableIndexCount, companiIds, Convert.ToInt32(year), timestampsId);
+
+                                            //total row calculation
+                                            {
+                                                DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                                                dynamicTableViewModal = totalBLL.GetBudgetCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                                                if (octTotalSum > 0)
+                                                {
+                                                    octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    octTotalSum = dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                if (novTotalSum > 0)
+                                                {
+                                                    novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    novTotalSum = dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                if (decTotalSum > 0)
+                                                {
+                                                    decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    decTotalSum = dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                if (janTotalSum > 0)
+                                                {
+                                                    janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    janTotalSum = dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                if (febTotalSum > 0)
+                                                {
+                                                    febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    febTotalSum = dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                if (marTotalSum > 0)
+                                                {
+                                                    marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    marTotalSum = dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                if (aprTotalSum > 0)
+                                                {
+                                                    aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                if (mayTotalSum > 0)
+                                                {
+                                                    mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                if (junTotalSum > 0)
+                                                {
+                                                    junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    junTotalSum = dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                if (julTotalSum > 0)
+                                                {
+                                                    julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    julTotalSum = dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                if (augTotalSum > 0)
+                                                {
+                                                    augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    augTotalSum = dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                if (sepTotalSum > 0)
+                                                {
+                                                    sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                if (firstHalfTotalSum > 0)
+                                                {
+                                                    firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                if (secondHalfTotalSum > 0)
+                                                {
+                                                    secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                if (yearCostTotalSum > 0)
+                                                {
+                                                    yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                                                }
+                                            }
+
+
 
                                             if (string.IsNullOrEmpty(multiTotalBody))
                                             {
@@ -10641,6 +10936,44 @@ namespace CostAllocationApp.Controllers.Api
                                             {
                                                 multiTotalBody = multiTotalBody + "" + singleTotalBody;
                                             }
+                                        }
+                                        string totalRowTd = "";
+                                        totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
+                                        totalRowTd = totalRowTd + "<td>Total</td>";
+                                        if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "</tr>";
+
+                                        if (string.IsNullOrEmpty(multiTotalBody))
+                                        {
+                                            multiTotalBody = totalRowTd;
+                                        }
+                                        else
+                                        {
+                                            multiTotalBody = multiTotalBody + "" + totalRowTd;
                                         }
 
                                         strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
@@ -10677,6 +11010,7 @@ namespace CostAllocationApp.Controllers.Api
 
                                         strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
 
+                                        double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
                                         int totalTableIndexCount = 0;
                                         string multiTotalBody = "";
 
@@ -10684,7 +11018,152 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             string singleTotalBody = "";
 
-                                            singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
+                                            singleTotalBody = totalBLL.GeDifferenceTableBodyPart(settingItem, totalTableIndexCount,companiIds,Convert.ToInt32(year),timestampsId);
+
+                                            //total row calculation
+                                            {
+                                                DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                                                DynamicTableViewModal costWithQAProportion = new DynamicTableViewModal();
+                                                DynamicTableViewModal budgetWithQAProportion = new DynamicTableViewModal();
+
+                                                costWithQAProportion = totalBLL.GetTotalCostWithQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                                                budgetWithQAProportion = totalBLL.GetBudgetCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+
+                                                dynamicTableViewModal.OctTotalCost = costWithQAProportion.OctTotalCost - budgetWithQAProportion.OctTotalCost;
+                                                dynamicTableViewModal.NovTotalCost = costWithQAProportion.NovTotalCost - budgetWithQAProportion.NovTotalCost;
+                                                dynamicTableViewModal.DecTotalCost = costWithQAProportion.DecTotalCost - budgetWithQAProportion.DecTotalCost;
+                                                dynamicTableViewModal.JanTotalCost = costWithQAProportion.JanTotalCost - budgetWithQAProportion.JanTotalCost;
+                                                dynamicTableViewModal.FebTotalCost = costWithQAProportion.FebTotalCost - budgetWithQAProportion.FebTotalCost;
+                                                dynamicTableViewModal.MarTotalCost = costWithQAProportion.MarTotalCost - budgetWithQAProportion.MarTotalCost;
+                                                dynamicTableViewModal.AprTotalCost = costWithQAProportion.AprTotalCost - budgetWithQAProportion.AprTotalCost;
+                                                dynamicTableViewModal.MayTotalCost = costWithQAProportion.MayTotalCost - budgetWithQAProportion.MayTotalCost;
+                                                dynamicTableViewModal.JunTotalCost = costWithQAProportion.JunTotalCost - budgetWithQAProportion.JunTotalCost;
+                                                dynamicTableViewModal.JulTotalCost = costWithQAProportion.JulTotalCost - budgetWithQAProportion.JulTotalCost;
+                                                dynamicTableViewModal.AugTotalCost = costWithQAProportion.AugTotalCost - budgetWithQAProportion.AugTotalCost;
+                                                dynamicTableViewModal.SepTotalCost = costWithQAProportion.SepTotalCost - budgetWithQAProportion.SepTotalCost;
+
+                                                if (octTotalSum > 0)
+                                                {
+                                                    octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    octTotalSum = dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                if (novTotalSum > 0)
+                                                {
+                                                    novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    novTotalSum = dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                if (decTotalSum > 0)
+                                                {
+                                                    decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    decTotalSum = dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                if (janTotalSum > 0)
+                                                {
+                                                    janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    janTotalSum = dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                if (febTotalSum > 0)
+                                                {
+                                                    febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    febTotalSum = dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                if (marTotalSum > 0)
+                                                {
+                                                    marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    marTotalSum = dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                if (aprTotalSum > 0)
+                                                {
+                                                    aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                if (mayTotalSum > 0)
+                                                {
+                                                    mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                if (junTotalSum > 0)
+                                                {
+                                                    junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    junTotalSum = dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                if (julTotalSum > 0)
+                                                {
+                                                    julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    julTotalSum = dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                if (augTotalSum > 0)
+                                                {
+                                                    augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    augTotalSum = dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                if (sepTotalSum > 0)
+                                                {
+                                                    sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                if (firstHalfTotalSum > 0)
+                                                {
+                                                    firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                if (secondHalfTotalSum > 0)
+                                                {
+                                                    secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                if (yearCostTotalSum > 0)
+                                                {
+                                                    yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                                                }
+                                            }
+
 
                                             if (string.IsNullOrEmpty(multiTotalBody))
                                             {
@@ -10695,7 +11174,44 @@ namespace CostAllocationApp.Controllers.Api
                                                 multiTotalBody = multiTotalBody + "" + singleTotalBody;
                                             }
                                         }
+                                        string totalRowTd = "";
+                                        totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
+                                        totalRowTd = totalRowTd + "<td>Total</td>";
+                                        if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
 
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "</tr>";
+
+                                        if (string.IsNullOrEmpty(multiTotalBody))
+                                        {
+                                            multiTotalBody = totalRowTd;
+                                        }
+                                        else
+                                        {
+                                            multiTotalBody = multiTotalBody + "" + totalRowTd;
+                                        }
                                         strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
 
 
@@ -10729,6 +11245,7 @@ namespace CostAllocationApp.Controllers.Api
 
                                         strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
 
+                                        double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
                                         int totalTableIndexCount = 0;
                                         string multiTotalBody = "";
 
@@ -10738,6 +11255,133 @@ namespace CostAllocationApp.Controllers.Api
 
                                             singleTotalBody = totalBLL.GetTotalTableBodyPart(settingItem, totalTableIndexCount);
 
+                                            //total row calculation
+                                            {
+                                                DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                                                dynamicTableViewModal = totalBLL.GetTotalCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                                                if (octTotalSum > 0)
+                                                {
+                                                    octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    octTotalSum = dynamicTableViewModal.OctTotalCost;
+                                                }
+                                                if (novTotalSum > 0)
+                                                {
+                                                    novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    novTotalSum = dynamicTableViewModal.NovTotalCost;
+                                                }
+                                                if (decTotalSum > 0)
+                                                {
+                                                    decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    decTotalSum = dynamicTableViewModal.DecTotalCost;
+                                                }
+                                                if (janTotalSum > 0)
+                                                {
+                                                    janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    janTotalSum = dynamicTableViewModal.JanTotalCost;
+                                                }
+                                                if (febTotalSum > 0)
+                                                {
+                                                    febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    febTotalSum = dynamicTableViewModal.FebTotalCost;
+                                                }
+                                                if (marTotalSum > 0)
+                                                {
+                                                    marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    marTotalSum = dynamicTableViewModal.MarTotalCost;
+                                                }
+                                                if (aprTotalSum > 0)
+                                                {
+                                                    aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                                                }
+                                                if (mayTotalSum > 0)
+                                                {
+                                                    mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                                                }
+                                                if (junTotalSum > 0)
+                                                {
+                                                    junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    junTotalSum = dynamicTableViewModal.JunTotalCost;
+                                                }
+                                                if (julTotalSum > 0)
+                                                {
+                                                    julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    julTotalSum = dynamicTableViewModal.JulTotalCost;
+                                                }
+                                                if (augTotalSum > 0)
+                                                {
+                                                    augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    augTotalSum = dynamicTableViewModal.AugTotalCost;
+                                                }
+                                                if (sepTotalSum > 0)
+                                                {
+                                                    sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                                                }
+                                                if (firstHalfTotalSum > 0)
+                                                {
+                                                    firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                                                }
+                                                if (secondHalfTotalSum > 0)
+                                                {
+                                                    secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                                                }
+                                                if (yearCostTotalSum > 0)
+                                                {
+                                                    yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                                                }
+                                                else
+                                                {
+                                                    yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                                                }
+                                            }
+
+
                                             if (string.IsNullOrEmpty(multiTotalBody))
                                             {
                                                 multiTotalBody = singleTotalBody;
@@ -10746,6 +11390,44 @@ namespace CostAllocationApp.Controllers.Api
                                             {
                                                 multiTotalBody = multiTotalBody + "" + singleTotalBody;
                                             }
+                                        }
+                                        string totalRowTd = "";
+                                        totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
+                                        totalRowTd = totalRowTd + "<td>Total</td>";
+                                        if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                                        {
+                                            totalRowTd = totalRowTd + "<td></td>";
+                                        }
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "</tr>";
+
+                                        if (string.IsNullOrEmpty(multiTotalBody))
+                                        {
+                                            multiTotalBody = totalRowTd;
+                                        }
+                                        else
+                                        {
+                                            multiTotalBody = multiTotalBody + "" + totalRowTd;
                                         }
 
                                         strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;

@@ -1000,7 +1000,7 @@
             alert("invalid request!");
         }else{
             var apiurl = "";
-            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timestampsId;
+            apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timeStampId;
                         
             $.ajax({                
                 url: apiurl,                

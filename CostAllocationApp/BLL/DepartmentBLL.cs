@@ -100,5 +100,9 @@ namespace CostAllocationApp.BLL
                 return depatmentId;
             }  
         }
+        public List<Department> GetDepartmentsById(string departmentIds)
+        {
+            return departmentDAL.GetDepartmentsById(departmentIds);
+        }
     }
 }

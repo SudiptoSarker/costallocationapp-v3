@@ -11721,5 +11721,21 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("");
             }
         }
+
+        [HttpGet]
+        [Route("api/utilities/IsGradeExists/")]
+        public IHttpActionResult IsGradeExists(string gradePoint)
+        {
+            int returnGradeId = 0;
+            if (!string.IsNullOrEmpty(gradePoint))
+            {
+                returnGradeId = salaryBLL.GetGradeIdByGradePoint(gradePoint);
+                return Ok(returnGradeId);
+            }
+            else
+            {
+                return Ok(returnGradeId);
+            }
+        }
     }
 }

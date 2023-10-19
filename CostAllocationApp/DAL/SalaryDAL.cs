@@ -37,6 +37,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateSalary(Salary salary)
+        {
+            int result = 0;
+            string query = $@"update Grades set GradeLowPoints=@gradeLowPoints,GradeHighPoints=@gradeHighPoints,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", salary.Id);
+                cmd.Parameters.AddWithValue("@gradeLowPoints", salary.SalaryLowPoint);
+                cmd.Parameters.AddWithValue("@gradeHighPoints", salary.SalaryHighPoint);
+                cmd.Parameters.AddWithValue("@updatedBy", salary.UpdatedBy);
+                cmd.Parameters.AddWithValue("@updatedDate", salary.UpdatedDate);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
         public List<Salary> GetAllSalaryPoints()
         {
             List<Salary> salaries = new List<Salary>();
@@ -180,5 +205,32 @@ namespace CostAllocationApp.DAL
                 return salary;
             }
         }
+        public int GetGradeIdByGradePoint(string gradePoint)
+        {
+            int returnGradeId = 0;
+            string query = "select * from Grades where GradePoints= "+ gradePoint;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            returnGradeId = Convert.ToInt32(rdr["Id"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    returnGradeId = 0;
+                }
+
+                return returnGradeId;
+            }
+        }        
     }
 }

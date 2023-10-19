@@ -1,22 +1,4 @@
-﻿function onSalaryInactiveClick() {
-    let salaryIds = GetCheckedIds("salary_list_tbody");
-    var apiurl = '/api/utilities/SalaryCount?salaryIds=' + salaryIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $('.salary_count').empty();
-            $.each(data, function (key, item) {
-                $('.salary_count').append(`<li class='text-info'>${item}</li>`);
-            });
-        },
-        error: function (data) {
-        }
-    });
-}
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     GetSalaries();
 
     $('#salary_inactive_confirm_btn').on('click', function (event) {
@@ -47,7 +29,48 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('change', '#gradePoints', function () {        
+        var gradePoint = $("#gradePoints").val();
+        var apiurl = '/api/utilities/IsGradeExists?gradePoint=' + gradePoint;
+        $.ajax({
+            url: apiurl,
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                if(parseInt(data)>0){
+                    $("#salary_registration").text('更新​ (Update)');
+                    
+                }else{
+                    $("#salary_registration").text('保存（save）');                    
+                }
+
+                $("#onchange_gradeId").val(data);                
+            },
+            error: function (data) {
+            }
+        });
+    });
 });
+
+function onSalaryInactiveClick() {
+    let salaryIds = GetCheckedIds("salary_list_tbody");
+    var apiurl = '/api/utilities/SalaryCount?salaryIds=' + salaryIds;
+    $.ajax({
+        url: apiurl,
+        type: 'Get',
+        dataType: 'json',
+        success: function (data) {
+            $('.salary_count').empty();
+            $.each(data, function (key, item) {
+                $('.salary_count').append(`<li class='text-info'>${item}</li>`);
+            });
+        },
+        error: function (data) {
+        }
+    });
+}
+
+
 function GetSalaries(){
     $.getJSON('/api/Salaries/')
     .done(function (data) {
@@ -57,25 +80,29 @@ function GetSalaries(){
         });
     });
 }    
-function InsertSalaries() {
+
+function UpdateInsertGrade() {
     var apiurl = "/api/Salaries/";
     let lowUnitPrice = $("#lowUnitPrice").val().trim();
     let highUnitPrice = $("#hightUnitPrice").val().trim();
     let gradePoints = $("#gradePoints").val().trim();
+    let gradeId = $("#onchange_gradeId").val();
+    let isUpdate = false;
+    if (gradeId == "" || gradeId == null || gradeId == undefined) {
+        gradeId = 0;
+    }
+
+    if(parseInt(gradeId)==0){
+        isUpdate = false;
+    }else{
+        isUpdate = true;
+    }
 
     let isValidRequest = true;
     let lowPriceEmpty = false;
     let highPriceEmpty = false;
     let gradeEmpty = false;
-
-    if (gradePoints == "") {
-        $("#salaryGradePoints").show();
-        isValidRequest = false;
-        gradeEmpty = true;
-    } else {
-        gradeEmpty = false;
-        $("#salaryGradePoints").hide();
-    }    
+     
     if (lowUnitPrice == "") {
         $("#lowPrice").show();
         isValidRequest = false;
@@ -93,21 +120,30 @@ function InsertSalaries() {
         highPriceEmpty = false;
         $("#highPrice").hide();
     }   
-     
-    if(gradeEmpty){
-        $("#gradePoints").focus()
-    }
-    else if(highPriceEmpty){
-        $("#hightUnitPrice").focus()
-    }else if(lowPriceEmpty){
+    if (gradePoints == "") {
+        $("#salaryGradePoints").show();
+        isValidRequest = false;
+        gradeEmpty = true;
+    } else {
+        gradeEmpty = false;
+        $("#salaryGradePoints").hide();
+    }   
+    if(lowPriceEmpty){
         $("#lowUnitPrice").focus();
+    }else if(highPriceEmpty){
+        
+        $("#hightUnitPrice").focus()
+    }else if(gradeEmpty){
+        $("#gradePoints").focus()
     }
 
     if (isValidRequest) {
         var data = {
+            Id:gradeId,
             SalaryLowPoint: lowUnitPrice,
             SalaryHighPoint: highUnitPrice,
-            SalaryGrade: gradePoints
+            SalaryGrade: gradePoints,
+            IsUpdate: isUpdate            
         };
 
         $.ajax({
@@ -116,7 +152,6 @@ function InsertSalaries() {
             dataType: 'json',
             data: data,
             success: function (data) {
-
                 ToastMessageSuccess(data);
                 GetSalaries();    
             },

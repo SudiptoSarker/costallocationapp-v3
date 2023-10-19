@@ -43,27 +43,10 @@
         {
             <label id="input_master">
                 新規登録する場合は、給与レンジを入力し、「グレード番号をグレード入力」テキストボックスに記載し、登録ボタンをクリックしてください。 
-                <br>
-                既存のグレードの内容を変更する場合は、給与レンジを変更し、既存のグレード番号をグレード入力BOXに記載し、変更ボタンをクリックしてください。                 
             </label>
             <div class="modal-content" id="salary_body">
                 <div class="modal-body">
                     <form>   
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <input class="form-control" id="gradePoints" type="text" placeholder="">
-                                    <div class="salary_error_msg" id="salaryGradePoints">
-                                        Please provide a grade.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>               
                         <div id="main-div">                            
                             <div class="row">
                                 <div class="col-sm-3">
@@ -87,7 +70,21 @@
                                 </div>
                             </div>
                         </div>
-                                              
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <input class="form-control" id="gradePoints" type="text" placeholder="">
+                                    <div class="salary_error_msg" id="salaryGradePoints">
+                                        Please provide a grade.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                                             
                     </form>
                 </div>
                 
@@ -95,7 +92,7 @@
             <div class="row">
                 <div class="cutom_button_group_salary">
                     <a href="javascript:void(0);" id="salary_cancel">取消(undo)</a>
-                    <a href="javascript:void(0);" id="salary_registration" onclick="InsertSalaries();">保存（save）</a>
+                    <a href="javascript:void(0);" id="salary_registration" onclick="UpdateInsertGrade();">保存（save）</a>
                 </div>
             </div>
             <br><br>
@@ -103,6 +100,7 @@
 
     </div>
 <input type="hidden" id="salary_warning_text" />
+<input type="hidden" id="onchange_gradeId" />
 <!-- Inactive Salary Modal -->
 <div class="modal custom-modal fade" id="inactive_salary_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">

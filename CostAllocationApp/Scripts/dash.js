@@ -101,10 +101,13 @@
     //Function for render monthly cost bar chart
     function MonthlyCostChart() {
         monthlyCostChartData.push(['Months', 'Forecasted', 'Budget', 'Actual']);
-        for (let i = 1; i <= 12; i++)
-        {
+        //prepare the chart data with month sequance 10(Oct)-1(Jan)
+        let i = 10;
+        do {
             monthlyCostChartData.push([i + "月", monthlyForecastData[i], monthlyBudgetData[i], monthlyActualData[i]]);
-        }
+            i = (i == 12) ? 1 : i+1;
+        } while (i !== 10);
+
         console.log(monthlyCostChartData);
         var data = google.visualization.arrayToDataTable(monthlyCostChartData);
 
@@ -115,7 +118,7 @@
             bars: 'vertical',
             vAxis: { format: 'short' },
             height: 400,
-            colors: ['#f5da42', '#42f54b', '#f56642']
+            colors: ['#1e81b0', '#42f54b', '#f56642']
         };
 
         var chart = new google.charts.Bar(document.getElementById('monthly_cost_chart'));

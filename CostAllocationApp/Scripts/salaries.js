@@ -88,6 +88,7 @@ function UpdateInsertGrade() {
     let gradePoints = $("#gradePoints").val().trim();
     let gradeId = $("#onchange_gradeId").val();
     let isUpdate = false;
+    
     if (gradeId == "" || gradeId == null || gradeId == undefined) {
         gradeId = 0;
     }

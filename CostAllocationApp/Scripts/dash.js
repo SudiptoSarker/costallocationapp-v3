@@ -4,11 +4,13 @@
     var totalHeadCountChartData = [];
     var monthlyBudgetHeadCountData = [];
     var monthlyForecastHeadCountData = [];
+    var monthlyHeadCountData = [];
     var monthlyBudgetData = [];
     var monthlyForecastData = [];
     var monthlyActualData = [];
     var year = 9999;
     var totalCost = 0;
+    var totalHeadCount = 0;
 
     // API call for chart data
     $.ajax({
@@ -37,6 +39,32 @@
         dataType: 'json',
         success: function (data) {
             monthlyBudgetData = data;
+        }
+    });
+
+    // API call for head count
+    $.ajax({
+        url: `/api/dash/GetHeadCount/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            totalHeadCountChartData = data["ChartData"];
+            monthlyForecastHeadCountData = data["monthlyHeadcount"];
+            totalHeadCount = data["totalHeadcount"];
+        }
+    });
+
+    // API call for head count
+    $.ajax({
+        url: `/api/dash/GetBudgetHeadCount/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
         }
     });
 
@@ -73,20 +101,12 @@
     //Function for render total head count bar chart
     function TotalHeadCountChart() {
         // Data for the bar chart
-        var data = google.visualization.arrayToDataTable([
-            ['Departments', 'Head Count'],
-            ['NewBlend', 12],
-            ['導入', 3],
-            ['移行', 7],
-            ['自治体', 21],
-            ['運用保守', 1],
-            ['その他', 33],
-        ]);
+        var data = google.visualization.arrayToDataTable(totalHeadCountChartData);
 
         var options = {
             chart: {
-                title: 'Total Head Count',
-                subtitle: 'Total head count: 2030',
+                title: 'Total Head Count (' + year + ')',
+                subtitle: 'Total head count: ' + totalHeadCount,
             },
             bars: 'vertical',
             // vAxis: { format: 'decimal'},
@@ -127,25 +147,19 @@
 
     //Function for render monthly headcount bar chart
     function MonthlyHeadCountChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Months', 'Forecasted', 'Budget'],
-            ['10月', 65, 80],
-            ['11月', 72, 80],
-            ['12月', 70, 80],
-            ['1月', 60, 80],
-            ['2月', 59, 80],
-            ['3月', 73, 80],
-            ['4月', 68, 80],
-            ['5月', 65, 80],
-            ['6月', 77, 80],
-            ['7月', 66, 80],
-            ['8月', 55, 80],
-            ['9月', 59, 80],
-        ]);
+        monthlyHeadCountData.push(['Months', 'Forecasted', 'Budget']);
+
+        let i = 10;
+        do {
+            monthlyHeadCountData.push([i + "月", monthlyForecastHeadCountData[i], 0]);
+            i = (i == 12) ? 1 : i + 1;
+        } while (i !== 10);
+
+        var data = google.visualization.arrayToDataTable(monthlyHeadCountData);
 
         var options = {
             chart: {
-                title: 'Monthly Head Count'
+                title: 'Monthly Head Count (' + year + ')',
             },
             bars: 'vertical',
             vAxis: { format: 'decimal' },

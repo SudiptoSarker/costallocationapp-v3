@@ -475,5 +475,536 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("api/dash/GetHeadCount")]
+        public IHttpActionResult GetHeadCount()
+        {
+            //initial the variables
+            int year = 0;
+            var companyIds = "";
+            double totalHeadCount = 0;
+            double budgetHeadCount = 0;
+            double _octHeadCount = 0;
+            double _novHeadCount = 0;
+            double _decHeadCount = 0;
+            double _janHeadCount = 0;
+            double _febHeadCount = 0;
+            double _marHeadCount = 0;
+            double _aprHeadCount = 0;
+            double _mayHeadCount = 0;
+            double _junHeadCount = 0;
+            double _julHeadCount = 0;
+            double _augHeadCount = 0;
+            double _sepHeadCount = 0;
+            var response = new Dictionary<string, object>();
+            var deptHeadCount = new Dictionary<object, object>();
+            var monthlyHeadCount = new Dictionary<string, object>();
+            List<int> companyIDList = new List<int>();
+
+            //Get the latest year
+            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            year = forecastLeatestYear;
+
+            //prepare the instances
+            List<Department> departments = departmentBLL.GetAllDepartments();
+            List<Company> companies = companyBLL.GetAllCompanies();
+            List<SubCategory> subCategories = departmentBLL.GetAllSubCategories();
+            List<HeadCountInner> _headCountList = new List<HeadCountInner>();
+            List<ForecastAssignmentViewModel> _allforecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+
+            //prepare company ids
+            foreach (var company in companies)
+            {
+                companyIDList.Add(company.Id);
+            }
+            companyIds = String.Join(",", companyIDList);
+
+            //Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
+            foreach (var department in departments)
+            {
+                var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
+
+                _headCountList.Add(new HeadCountInner
+                {
+                    DepartmentId = department.Id,
+                    DepartmentName = department.DepartmentName,
+                    CategoryName = subCategory.CategoryName,
+                    SubCategoryName = subCategory.SubCategoryName,
+                    OctCount = 0,
+                    NovCount = 0,
+                    DecCount = 0,
+                    JanCount = 0,
+                    FebCount = 0,
+                    MarCount = 0,
+                    AprCount = 0,
+                    MayCount = 0,
+                    JunCount = 0,
+                    JulCount = 0,
+                    AugCount = 0,
+                    SepCount = 0,
+                });
+
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
+
+                if (forecastAssignmentViewModels.Count > 0)
+                {
+                    _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
+                }
+            }
+
+            if (_allforecastAssignmentViewModels.Count > 0)
+            {
+                var _uniqueItemList = _allforecastAssignmentViewModels.GroupBy(x => x.EmployeeId).Select(x => x.First()).ToList();
+                var _uniqueEmployeeIdList = _uniqueItemList.Select(x => x.EmployeeId).ToList();
+
+                foreach (var employeeId in _uniqueEmployeeIdList)
+                {
+                    var filteredByEmployeeId = _allforecastAssignmentViewModels.Where(x => x.EmployeeId == employeeId).ToList();
+                    if (filteredByEmployeeId.Count == 1)
+                    {
+                        foreach (var item in filteredByEmployeeId)
+                        {
+                            var getSingleDeptHeadCount = _headCountList.Where(h => h.DepartmentId == Convert.ToInt32(item.DepartmentId)).SingleOrDefault();
+                            if (Convert.ToDouble(item.OctPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.OctCount++;
+                                _octHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.NovPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.NovCount++;
+                                _novHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.DecPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.DecCount++;
+                                _decHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.JanPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JanCount++;
+                                _janHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.FebPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.FebCount++;
+                                _febHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.MarPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MarCount++;
+                                _marHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.AprPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AprCount++;
+                                _aprHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.MayPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.MayCount++;
+                                _mayHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.JunPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JunCount++;
+                                _junHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.JulPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.JulCount++;
+                                _julHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.AugPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.AugCount++;
+                                _augHeadCount++;
+                                totalHeadCount++;
+                            }
+                            if (Convert.ToDouble(item.SepPoints) > 0)
+                            {
+                                getSingleDeptHeadCount.SepCount++;
+                                _sepHeadCount++;
+                                totalHeadCount++;
+                            }
+                        }
+                    }
+                    else if (filteredByEmployeeId.Count > 1)
+                    {
+                        List<int> _octDeptId = new List<int>();
+                        List<int> _novDeptId = new List<int>();
+                        List<int> _decDeptId = new List<int>();
+                        List<int> _janDeptId = new List<int>();
+                        List<int> _febDeptId = new List<int>();
+                        List<int> _marDeptId = new List<int>();
+                        List<int> _aprDeptId = new List<int>();
+                        List<int> _mayDeptId = new List<int>();
+                        List<int> _junDeptId = new List<int>();
+                        List<int> _julDeptId = new List<int>();
+                        List<int> _augDeptId = new List<int>();
+                        List<int> _sepDeptId = new List<int>();
+
+                        for (int i = 0; i < filteredByEmployeeId.Count; i++)
+                        {
+
+                            ForecastAssignmentViewModel _filterForOct, _filterForNov, _filterForDec, _filterForJan, _filterForFeb, _filterForMar, _filterForApr, _filterForMay, _filterForJun, _filterForJul, _filterForAug, _filterForSep;
+                            //October count
+                            var _octVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.OctPoints));
+                            if (_octVal == 0)
+                            {
+                                _filterForOct = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForOct = filteredByEmployeeId.Where(a => Convert.ToDouble(a.OctPoints) == _octVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForOct.OctPoints) > 0)
+                            {
+                                _octDeptId.Add(Convert.ToInt32(_filterForOct.DepartmentId));
+                            }
+                            //November count
+                            var _novVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.NovPoints));
+                            if (_novVal == 0)
+                            {
+                                _filterForNov = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForNov = filteredByEmployeeId.Where(a => Convert.ToDouble(a.NovPoints) == _novVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForNov.NovPoints) > 0)
+                            {
+                                _novDeptId.Add(Convert.ToInt32(_filterForNov.DepartmentId));
+                            }
+                            //December count
+                            var _decVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.DecPoints));
+                            if (_decVal == 0)
+                            {
+                                _filterForDec = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForDec = filteredByEmployeeId.Where(a => Convert.ToDouble(a.DecPoints) == _decVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForDec.DecPoints) > 0)
+                            {
+                                _decDeptId.Add(Convert.ToInt32(_filterForDec.DepartmentId));
+                            }
+                            //January count
+                            var _janVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.JanPoints));
+                            if (_janVal == 0)
+                            {
+                                _filterForJan = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForJan = filteredByEmployeeId.Where(a => Convert.ToDouble(a.JanPoints) == _janVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForJan.JanPoints) > 0)
+                            {
+                                _janDeptId.Add(Convert.ToInt32(_filterForJan.DepartmentId));
+                            }
+                            //February count
+                            var _febVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.FebPoints));
+                            if (_febVal == 0)
+                            {
+                                _filterForFeb = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForFeb = filteredByEmployeeId.Where(a => Convert.ToDouble(a.FebPoints) == _febVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForFeb.FebPoints) > 0)
+                            {
+                                _febDeptId.Add(Convert.ToInt32(_filterForFeb.DepartmentId));
+                            }
+                            //March count
+                            var _marVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.MarPoints));
+                            if (_marVal == 0)
+                            {
+                                _filterForMar = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForMar = filteredByEmployeeId.Where(a => Convert.ToDouble(a.MarPoints) == _marVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForMar.MarPoints) > 0)
+                            {
+                                _marDeptId.Add(Convert.ToInt32(_filterForMar.DepartmentId));
+                            }
+                            //April count
+                            var _aprVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.AprPoints));
+                            if (_aprVal == 0)
+                            {
+                                _filterForApr = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForApr = filteredByEmployeeId.Where(a => Convert.ToDouble(a.AprPoints) == _aprVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForApr.AprPoints) > 0)
+                            {
+                                _aprDeptId.Add(Convert.ToInt32(_filterForApr.DepartmentId));
+                            }
+                            //May count
+                            var _mayVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.MayPoints));
+                            if (_mayVal == 0)
+                            {
+                                _filterForMay = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForMay = filteredByEmployeeId.Where(a => Convert.ToDouble(a.MayPoints) == _mayVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForMay.MayPoints) > 0)
+                            {
+                                _mayDeptId.Add(Convert.ToInt32(_filterForMay.DepartmentId));
+                            }
+                            //June count
+                            var _junVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.JunPoints));
+                            if (_junVal == 0)
+                            {
+                                _filterForJun = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForJun = filteredByEmployeeId.Where(a => Convert.ToDouble(a.JunPoints) == _junVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForJun.JunPoints) > 0)
+                            {
+                                _junDeptId.Add(Convert.ToInt32(_filterForJun.DepartmentId));
+                            }
+                            //July count
+                            var _julVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.JulPoints));
+                            if (_julVal == 0)
+                            {
+                                _filterForJul = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForJul = filteredByEmployeeId.Where(a => Convert.ToDouble(a.JulPoints) == _julVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForJul.JulPoints) > 0)
+                            {
+                                _julDeptId.Add(Convert.ToInt32(_filterForJul.DepartmentId));
+                            }
+                            //August count
+                            var _augVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.AugPoints));
+                            if (_augVal == 0)
+                            {
+                                _filterForAug = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForAug = filteredByEmployeeId.Where(a => Convert.ToDouble(a.AugPoints) == _augVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForAug.AugPoints) > 0)
+                            {
+                                _augDeptId.Add(Convert.ToInt32(_filterForAug.DepartmentId));
+                            }
+                            //September count
+                            var _sepVal = filteredByEmployeeId.Max(a => Convert.ToDouble(a.SepPoints));
+                            if (_sepVal == 0)
+                            {
+                                _filterForSep = filteredByEmployeeId[0];
+                            }
+                            else
+                            {
+                                _filterForSep = filteredByEmployeeId.Where(a => Convert.ToDouble(a.SepPoints) == _sepVal).FirstOrDefault();
+                            }
+                            if (Convert.ToDouble(_filterForSep.SepPoints) > 0)
+                            {
+                                _sepDeptId.Add(Convert.ToInt32(_filterForSep.DepartmentId));
+                            }
+                        }
+
+                        if (_octDeptId.Count > 0)
+                        {
+                            var val = _octDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.OctCount++;
+                            _octHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_novDeptId.Count > 0)
+                        {
+                            var val = _novDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.NovCount++;
+                            _novHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_decDeptId.Count > 0)
+                        {
+                            var val = _decDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.DecCount++;
+                            _decHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_janDeptId.Count > 0)
+                        {
+                            var val = _janDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JanCount++;
+                            _janHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_febDeptId.Count > 0)
+                        {
+                            var val = _febDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.FebCount++;
+                            _febHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_marDeptId.Count > 0)
+                        {
+                            var val = _marDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.MarCount++;
+                            _marHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_aprDeptId.Count > 0)
+                        {
+                            var val = _aprDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.AprCount++;
+                            _aprHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_mayDeptId.Count > 0)
+                        {
+                            var val = _mayDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.MayCount++;
+                            _mayHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_junDeptId.Count > 0)
+                        {
+                            var val = _junDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JunCount++;
+                            _junHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_julDeptId.Count > 0)
+                        {
+                            var val = _julDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.JulCount++;
+                            _julHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_augDeptId.Count > 0)
+                        {
+                            var val = _augDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.AugCount++;
+                            _augHeadCount++;
+                            totalHeadCount++;
+                        }
+                        if (_sepDeptId.Count > 0)
+                        {
+                            var val = _sepDeptId.LastOrDefault();
+                            var singleHeadCount = _headCountList.Where(d => d.DepartmentId == val).SingleOrDefault();
+                            singleHeadCount.SepCount++;
+                            _sepHeadCount++;
+                            totalHeadCount++;
+                        }
+                    }
+                }
+            }
+            monthlyHeadCount.Add("10", _octHeadCount);
+            monthlyHeadCount.Add("11", _novHeadCount);
+            monthlyHeadCount.Add("12", _decHeadCount);
+            monthlyHeadCount.Add("1", _janHeadCount);
+            monthlyHeadCount.Add("2", _febHeadCount);
+            monthlyHeadCount.Add("3", _marHeadCount);
+            monthlyHeadCount.Add("4", _aprHeadCount);
+            monthlyHeadCount.Add("5", _mayHeadCount);
+            monthlyHeadCount.Add("6", _junHeadCount);
+            monthlyHeadCount.Add("7", _julHeadCount);
+            monthlyHeadCount.Add("8", _augHeadCount);
+            monthlyHeadCount.Add("9", _sepHeadCount);
+            response.Add("totalHeadcount", totalHeadCount);
+            response.Add("monthlyHeadcount", monthlyHeadCount);
+
+            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "その他" };
+            double listedDeptHeadCount = 0;
+            double otherDeptHeadCount = 0;
+            var data = new ArrayList();
+            var chartData = new ArrayList();
+            data.Add("Departments");
+            data.Add("Count");
+            chartData.Add(data);
+
+            foreach (var item in _headCountList)
+            {
+                data = new ArrayList();
+                listedDeptHeadCount = 0;
+                if (departmentListToShow.Contains(item.DepartmentName))
+                {
+                    data.Add(item.DepartmentName);
+                    listedDeptHeadCount = item.OctCount + item.NovCount + item.DecCount + item.JanCount + item.FebCount + item.MarCount + item.AprCount + item.MayCount + item.JunCount + item.JulCount + item.AugCount + item.SepCount;
+                    data.Add(listedDeptHeadCount);
+                    chartData.Add(data);
+                }
+                else
+                {
+                    otherDeptHeadCount += item.OctCount + item.NovCount + item.DecCount + item.JanCount + item.FebCount + item.MarCount + item.AprCount + item.MayCount + item.JunCount + item.JulCount + item.AugCount + item.SepCount;
+                }
+            }
+
+            data = new ArrayList();
+            data.Add("その他");
+            data.Add(otherDeptHeadCount);
+            chartData.Add(data);
+            response.Add("ChartData", chartData);
+            return Ok(response);
+        }
+
+
+        [HttpGet]
+        [Route("api/dash/GetBudgetHeadCount")]
+        public IHttpActionResult GetBudgetHeadCount()
+        {
+            return Ok("OK");
+        }
+    }
+
+    internal class HeadCountInner
+    {
+        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public int InchargeId { get; set; }
+        public string InchagreName { get; set; }
+        public string CategoryName { get; set; }
+        public string SubCategoryName { get; set; }
+        public double OctCount { get; set; }
+        public double NovCount { get; set; }
+        public double DecCount { get; set; }
+        public double JanCount { get; set; }
+        public double FebCount { get; set; }
+        public double MarCount { get; set; }
+        public double AprCount { get; set; }
+        public double MayCount { get; set; }
+        public double JunCount { get; set; }
+        public double JulCount { get; set; }
+        public double AugCount { get; set; }
+        public double SepCount { get; set; }
     }
 }

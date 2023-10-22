@@ -27,12 +27,21 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                explanation.CreatedBy = session["userName"].ToString();
-                explanation.CreatedDate = DateTime.Now;
-                explanation.IsActive = true;
-
-                // save an explanation
-                int result = explanationsBLL.CreateExplanation(explanation);
+                int result = 0;
+                if (explanation.IsUpdate)
+                {
+                    explanation.UpdatedBy = session["userName"].ToString();
+                    explanation.UpdatedDate = DateTime.Now;
+                    explanation.IsActive = true;
+                    result = explanationsBLL.UpdateExplanations(explanation);
+                }
+                else
+                {
+                    explanation.CreatedBy = session["userName"].ToString();
+                    explanation.CreatedDate = DateTime.Now;
+                    explanation.IsActive = true;
+                    result = explanationsBLL.CreateExplanation(explanation);
+                }
                 if (result > 0)
                 {
                     return Ok("データが保存されました!");

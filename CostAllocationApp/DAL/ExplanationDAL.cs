@@ -35,6 +35,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateExplanations(Explanation explanation)
+        {
+            int result = 0;
+            string query = "";
+            query = query + "UPDATE Explanations ";
+            query = query + "SET Name = N'" + explanation.ExplanationName + "',UpdatedBy=N'" + explanation.UpdatedBy + "',UpdatedDate='" + explanation.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = " + explanation.Id + " ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return result = 0;
+                }
+
+                return result;
+            }
+
+        }
         public List<Explanation> GetAllExplanations()
         {
             List<Explanation> explanations = new List<Explanation>();
@@ -103,8 +128,8 @@ namespace CostAllocationApp.DAL
         }
         public int RemoveExplanations(int explanationIds)
         {
-            int result = 0;
-            string query = $@"update Explanations set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM Explanations WHERE id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

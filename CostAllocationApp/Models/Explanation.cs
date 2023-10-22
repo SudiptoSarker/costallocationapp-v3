@@ -9,5 +9,6 @@ namespace CostAllocationApp.Models
         public int Id { get; set; }
         public string ExplanationName { get; set; }
         public bool IsActive { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

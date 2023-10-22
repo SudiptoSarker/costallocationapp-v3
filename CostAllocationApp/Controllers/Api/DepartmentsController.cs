@@ -32,17 +32,29 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                department.CreatedBy = session["userName"].ToString();
-                department.CreatedDate = DateTime.Now;
-                department.IsActive = true;
-
                 if (departmentBLL.CheckDepartment(department))
                 {
                     return BadRequest("部門は登録済みです!!!");
                 }
-                else
-                {
-                    int result = departmentBLL.CreateDepartment(department);
+                else {
+                    int result = 0;
+                    if (department.IsUpdate)
+                    {
+                        department.UpdatedBy = session["userName"].ToString();
+                        department.UpdatedDate = DateTime.Now;
+                        department.IsActive = true;
+
+                        result = departmentBLL.UpdateDepartment(department);
+                    }
+                    else
+                    {
+                        department.CreatedBy = session["userName"].ToString();
+                        department.CreatedDate = DateTime.Now;
+                        department.IsActive = true;
+
+                        result = departmentBLL.CreateDepartment(department);
+                    }
+
                     if (result > 0)
                     {
                         return Ok("データが保存されました!");
@@ -52,8 +64,7 @@ namespace CostAllocationApp.Controllers.Api
                         return BadRequest("Something Went Wrong!!!");
                     }
                 }
-
-                
+                                                
             }
         }
         [HttpGet]

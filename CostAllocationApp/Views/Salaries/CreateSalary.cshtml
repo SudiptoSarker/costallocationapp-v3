@@ -5,16 +5,17 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/salaries.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />  
+    <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" />
 }
-    <div class="content container-fluid">
-        <!--Salaries List-->
+<div class="content container-fluid">
+    <!--Salaries List-->
+    <div id="salary_list" style="display: block;">
         <div class="row">
-            <div class="col-md-12">
-                <div class="">
+            <div class="col-md-10">
+                <div class="table-responsive">
                     <label id="list_master">
-                        登録したグレードを消去するには、チェックボックスにチェックを入れ、
-                    <br>
-                        削除ボタンをクリックしてください。 
+                        登録したグレードを消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
                     </label>
                     <table class="" id="salary_table">
                         <thead>
@@ -26,81 +27,84 @@
                         </thead>
                         <tbody id="salary_list_tbody"></tbody>
                     </table>
-                    @if (Convert.ToBoolean(ViewBag.linkFlag))
-                    {
-                        <label id="salary_delete_btn">
-                            <a id="salary_inactive_btn" href="javascript:void();" data-toggle="modal" onclick="onSalaryInactiveClick();" data-target="#inactive_salary_modal">削除 (delete)</a>
-                        </label>
-                    }
+                </div>
+            </div>
+        </div>    
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {            
+            <div class="add_edit_delete_btn_section" style="display: block;">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3" >
+                                <button class="btn add_salary_btn" type="button">追加 (add)</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn edit_explanation_btn" type="button">編集​ (edit)​</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        } 
+    </div> 
+</div>
 
+<input type="hidden" id="salary_warning_text" />
+<input type="hidden" id="onchange_gradeId" />
+
+
+<!-----------------Modal: Add salary----------------->
+<div class="modal custom-modal fade" id="add_salary_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='add_modal_header'>追加 説明 (add salary)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="exp_reg_tbl">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="explanation_th">From</th>
+                                <th class="explanation_th">To</th>
+                                <th class="explanation_th">Grade</th>
+                                <th class="explanation_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="salary_from_td">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_from">                                           
+                                </td>
+                                <td id="salary_to_td">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_to">                                           
+                                </td>
+                                <td id="salary_grade_point_td">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="grae_point">                                           
+                                </td>
+                                <td id="salary_action_td">
+                                    <a href="javascript:void(0);" class="" id="exp_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>          
                 </div>
             </div>
         </div>
-        <br />
-
-        <!-- Salary Reg. -->
-        @if (Convert.ToBoolean(ViewBag.linkFlag))
-        {
-            <label id="input_master">
-                新規登録する場合は、給与レンジを入力し、「グレード番号をグレード入力」テキストボックスに記載し、登録ボタンをクリックしてください。 
-            </label>
-            <div class="modal-content" id="salary_body">
-                <div class="modal-body">
-                    <form>   
-                        <div id="main-div">                            
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="lowUnitPrice" style="padding-top: 37px;">給与 (Unit Price) <span class="text-danger">*</span></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="lowUnitPrice">下限 (From)</label>
-                                        <label style="float: right;" id="lowPrice">Please provide a unit price.</label>
-                                        <input class="form-control" id="lowUnitPrice" type="text" placeholder="">
-                                    </div>
-                                </div>                                
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="highPrice">上限 (To)</label>
-                                        <label style="float: right;" id="highPrice">Please provide a unit price.</label>
-                                        <input class="form-control" id="hightUnitPrice" type="text" placeholder="">                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="department-name" style="padding-top:1px;">グレード(Grade) <span class="text-danger">*</span></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <input class="form-control" id="gradePoints" type="text" placeholder="">
-                                    <div class="salary_error_msg" id="salaryGradePoints">
-                                        Please provide a grade.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                                                             
-                    </form>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="cutom_button_group_salary">
-                    <a href="javascript:void(0);" id="salary_cancel">取消(undo)</a>
-                    <a href="javascript:void(0);" id="salary_registration" onclick="UpdateInsertGrade();">保存（save）</a>
-                </div>
-            </div>
-            <br><br>
-        }
-
     </div>
-<input type="hidden" id="salary_warning_text" />
-<input type="hidden" id="onchange_gradeId" />
+</div>
+
+
 <!-- Inactive Salary Modal -->
 <div class="modal custom-modal fade" id="inactive_salary_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">

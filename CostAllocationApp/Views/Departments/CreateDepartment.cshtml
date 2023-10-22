@@ -5,61 +5,18 @@
 
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />    
+    <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />   
+    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" /> 
 }
 
     <div class="content container-fluid">
-        <!-----------------Department Master: Department Registration Form----------------->
-        @if (Convert.ToBoolean(ViewBag.linkFlag))
-        {
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label id="input_master">
-                                新規登録する場合は、「新規部署名をここに入力」テキストボックスに部署名を記載し、該当する区分を選択し、保存ボタンをクリックしてください。 
-                            </label>
-                            <table id="dept_reg_tbl">
-                                <thead style="border:none;">
-                                    <tr></tr>
-                                    <tr>
-                                        <th class="department_th">部署 (Dept Name)</th>
-                                        <th class="department_th">区分 (Section)</th>
-                                        <th class="department_th">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="dept_reg_frm_td">
-                                            <input type="text" value="" placeholder="新規部署名をここに入力" id="department_name">                                            
-                                        </td>
-                                        <td id="dept_reg_frm_td">
-                                            <select id="section_list" class="" style=""></select>                                           
-                                        </td>
-                                        <td id="dept_reg_frm_td">
-                                            <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                            <a href="javascript:void(0);" class="" id="dept_reg_save_btn" onclick="InsertDepartment();">保存（save）</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br /><br />
-        }
-
-
         <!-----------------Department Master: Department list are showing on this part----------------->
         <div id="department_list" style="display: block;">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="table-responsive">
                         <label id="list_master">
-                            登録した部署を消去するには、チェックボックスにチェックを入れ、 
-                        <br>
-                            削除ボタンをクリックしてください。
+                            登録した部署を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。
                         </label>
                         <table class="" id="dept_list_tbl">
                             <thead>
@@ -74,21 +31,126 @@
                             </thead>
                             <tbody id="department_list_tbody"></tbody>
                         </table>
-                        @if (Convert.ToBoolean(ViewBag.linkFlag))
-                        {
-                            <label id="dept_delete_btn">
-                                <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_department_modal" onClick="onDepartmentInactiveClick()">削除 (delete)</a>
-                            </label>
-                        }
-
                     </div>
                 </div>
             </div>
+
+            @if (Convert.ToBoolean(ViewBag.linkFlag))
+            {
+                
+                <div class="add_edit_delete_btn_section" style="display: block;">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3" >
+                                    <button class="btn add_dept_btn" type="button">追加 (add)</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn edit_dept_btn" type="button">編集​ (edit)​</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn delete_dept_btn" type="button">削除 (delete)​</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
         <br />
     </div>
 
 <input type="hidden" id="department_warning_text" />
+<input type="hidden" id="department_id_for_edit_modal" />
+
+<!-----------------Modal: Add Section----------------->
+<div class="modal custom-modal fade" id="add_department_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='add_modal_header'>追加 部署 (add department)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- <label id='add_modal_body_title'>新規登録する場合は、「新規区分をここに入力」テキストボックスに区分名を記載し、保存ボタンをクリックしてください。</label> -->
+                    <label id="input_master">
+                        新規登録する場合は、「新規部署名をここに入力」テキストボックスに部署名を記載し、該当する区分を選択し、保存ボタンをクリックしてください。 
+                    </label>
+                    <table id="sub_item_input_tbl">
+                        <thead style="border: none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="department_th">部署 (Dept Name)</th>
+                                <th class="department_th">区分 (Section)</th>
+                                <th class="department_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="dept_reg_frm_td">
+                                    <input type="text" value="" placeholder="新規部署名をここに入力" id="department_name">                                            
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <select id="section_list" class="" style=""></select>                                           
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="undo_add_frm">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="dept_add_btn">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit Section----------------->
+<div class="modal custom-modal fade" id="edit_department_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">                    
+                <div class="form-header">
+                    <h3 id='add_modal_header'>編集​ 部署 (edit department)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
+                    <table id="sub_item_input_tbl">
+                        <thead style="border: none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="department_th">部署 (Dept Name)</th>
+                                <th class="department_th">区分 (Section)</th>
+                                <th class="department_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="dept_reg_frm_td">
+                                    <input type="text" value="" placeholder="新規部署名をここに入力" id="department_name_edit">                                            
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <select id="section_list_edit" class="" style=""></select>                                           
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="undo_edit_frm">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="dept_edit_btn">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                       
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-----------------Modal: Delete department----------------->
 <div class="modal custom-modal fade" id="inactive_department_modal" role="dialog">

@@ -28,7 +28,7 @@ body {
     text-align: center;
     width: 57%;
 }
-#section-name{
+#section-name,#section_name_edit{
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -37,7 +37,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#section_reg_cancel_btn {
+#undo_edit_sec,#sec_undo_btn {
     line-height: 1;
 	background-color: red;
     color: white;
@@ -49,7 +49,8 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-#section_reg_save_btn {
+
+#edit_sec_from_modal,#sec_add_btn {
     line-height:1;
     background-color: green;
 	border: none;
@@ -184,4 +185,8 @@ body {
 #add_modal_header{
     text-align: left;
     margin-left: 25px;
+}
+.custom-modal .modal-body{
+    padding: 22px !important;
+    margin-top: 1px !important;
 }

@@ -11737,5 +11737,71 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok(returnGradeId);
             }
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetSectionNameBySectionId/")]
+        public IHttpActionResult GetSectionNameBySectionId(string sectionIds)
+        {
+            Section section = new Section();
+            if (!string.IsNullOrEmpty(sectionIds))
+            {
+                var arrSectionId = sectionIds.Split(',');
+                section = sectionBLL.GetSectionBySectionId(Convert.ToInt32(arrSectionId[0]));
+            }
+            
+            return Ok(section);                            
+        }
+        [HttpGet]
+        [Route("api/utilities/GetDepartmentByDepartemntId/")]
+        public IHttpActionResult GetDepartmentByDepartemntId(string departmentId)
+        {
+            Department department = new Department();
+            if (!string.IsNullOrEmpty(departmentId))
+            {
+                var arrDeptId = departmentId.Split(',');
+                department = departmentBLL.GetDepartmentByDepartemntId(Convert.ToInt32(arrDeptId[0]));
+            }
+
+            return Ok(department);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetInchargeNameByInchargeId/")]
+        public IHttpActionResult GetInchargeNameByInchargeId(string inchargeId)
+        {
+            InCharge inCharge = new InCharge();
+            if (!string.IsNullOrEmpty(inchargeId))
+            {
+                var arrInchargeId = inchargeId.Split(',');
+                inCharge = inChargeBLL.GetInChargeByInChargeId(Convert.ToInt32(arrInchargeId[0]));
+            }
+
+            return Ok(inCharge);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetRoleNameByRoleId/")]
+        public IHttpActionResult GetRoleNameByRoleId(string roleId)
+        {
+            Role role = new Role();
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                var arrRoleId = roleId.Split(',');
+                role = roleBLL.GetRoleByRoleId(Convert.ToInt32(arrRoleId[0]));
+            }
+
+            return Ok(role);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetExplanationNameByExplanationId/")]
+        public IHttpActionResult GetExplanationNameByExplanationId(string explanationId)
+        {
+            Explanation explanation = new Explanation();
+            if (!string.IsNullOrEmpty(explanationId))
+            {
+                var arrExplanationId = explanationId.Split(',');
+                explanation = explanationsBLL.GetExplanationByExplanationId(Convert.ToInt32(arrExplanationId[0]));
+            }
+
+            return Ok(explanation);
+        }
     }
 }

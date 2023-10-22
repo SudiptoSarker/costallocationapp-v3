@@ -21,6 +21,55 @@ function onInchargeInactiveClick() {
 }
 
 $(document).ready(function () {  
+    
+    $(".add_inchar_btn").on("click",function(event){        
+        $('#add_incharge_modal').modal('show');
+    })
+
+    $("#incharge_reg_save_btn").on("click",function(event){         
+        let inchargeName = $("#in_charge_name").val().trim();        
+        if (inchargeName == "") {
+            alert("please enter incharge!");
+            return false;
+        }
+
+        UpdateInsertInCharge(inchargeName,0,false);
+    })
+    //edit incharge
+    $(".edit_inchar_btn").on("click",function(event){          
+        let id = GetCheckedIds("incharge_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_incharge_modal').modal('show');
+        }        
+    })
+    //get section details by section id
+    function FillTheEditModal(inchargeId){            
+        var apiurl = `/api/utilities/GetInchargeNameByInchargeId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "inchargeId=" + inchargeId,
+            success: function (data) { 
+                $("#in_charge_name_edit").val(data.InChargeName);   
+                $("#edit_incharge_id").val(data.Id);   
+            }
+        });            
+    }
     /***************************\                           
         Show In-Charge list on page load           
     \***************************/	   
@@ -53,14 +102,16 @@ $(document).ready(function () {
     /***************************\                           
         Check if the In-Charge is checked for delete/remove
     \***************************/
-    $('#incharge_inactive_btn').on('click', function (event) {
+    $('.delete_inchar_btn').on('click', function (event) {
 
         let id = GetCheckedIds("incharge_list_tbody");
         if (id == "") {
             alert("ファイルが削除されたことを確認してください");
             return false;
-        } else {
-
+        } 
+        else{
+            onInchargeInactiveClick();
+            $('#del_incharge_modal').modal('show');
         }
     });
 });
@@ -68,41 +119,32 @@ $(document).ready(function () {
 /***************************\                           
     In-Charge Insertion function. 
 \***************************/
-function InsertInCharge() {
+function UpdateInsertInCharge(in_charge_name,incharegeId,isUpdate) {
     var apiurl = "/api/incharges/";
-    let in_charge_name = $("#in_charge_name").val().trim();
 
-    /***************************\                           
-        check In-Charge input field is empty or not. if empty then show error message.
-    \***************************/
-    if (in_charge_name == "") {
-        $(".incharge_name_err").show();
-        return false;
-    }
-    else {
-        $(".incharge_name_err").hide();
-        var data = {
-            InChargeName: in_charge_name
-        };
+    var data = {
+        Id:incharegeId,
+        InChargeName: in_charge_name,
+        IsUpdate:isUpdate
+    };
 
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#in_charge_name").val('');
-                ToastMessageSuccess(data)
-                $('#section-name').val('');
+    $.ajax({
+        url: apiurl,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            $("#page_load_after_modal_close").val("yes");
+            $("#in_charge_name").val('');
+            ToastMessageSuccess(data)
+            $('#section-name').val('');
 
-                GetInchargeList();
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
+            GetInchargeList();
+        },
+        error: function (data) {
+            alert(data.responseJSON.Message);
+        }
+    });
 }
 
 /***************************\                           
@@ -117,3 +159,17 @@ function GetInchargeList(){
         });
     });
 }
+
+//edit from modal
+$("#incharge_reg_save_btn_edit").on("click",function(event){        
+    var inchargeName = $("#in_charge_name_edit").val();   
+    var incharegeId= $("#edit_incharge_id").val();   
+
+    if (inchargeName == '' || inchargeName == null || inchargeName == undefined){
+        alert("please enter incharge name!");
+        return false;
+    }
+    else{
+        UpdateInsertInCharge(inchargeName,incharegeId,true);
+    }        
+})

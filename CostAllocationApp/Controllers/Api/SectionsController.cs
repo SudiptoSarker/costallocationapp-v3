@@ -24,24 +24,36 @@ namespace CostAllocationApp.Controllers.Api
         public IHttpActionResult CreateSection(Section section)
         {
             var session = System.Web.HttpContext.Current.Session;
-
             if (String.IsNullOrEmpty(section.SectionName))
             {
-                return BadRequest("Section Name Required");
+                return BadRequest("セクション名は必須です!");
             }
             else
-            {
-                section.CreatedBy = session["userName"].ToString();
-                section.CreatedDate = DateTime.Now;
-                section.IsActive = true;
-
+            {                
                 if (sectionBLL.CheckSection(section.SectionName))
                 {
-                    return BadRequest("区分は登録済みです!!!");
+                    return BadRequest("区分は登録済みです!");
                 }
                 else
                 {
-                    int result = sectionBLL.CreateSection(section);
+                    int result = 0;
+                    if (section.IsUpdate)
+                    {
+                        section.UpdatedBy = session["userName"].ToString();
+                        section.UpdatedDate = DateTime.Now;
+                        section.IsActive = true;
+
+                        result = sectionBLL.UpdateSection(section);
+                    }
+                    else
+                    {
+                        section.CreatedBy = session["userName"].ToString();
+                        section.CreatedDate = DateTime.Now;
+                        section.IsActive = true;
+
+                        result = sectionBLL.CreateSection(section);
+                    }
+
                     if (result > 0)
                     {
                         return Ok("データが保存されました!");
@@ -50,14 +62,12 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         return BadRequest("Something Went Wrong!!!");
                     }
-
-                }
-               
+                }                
             }
 
 
 
-            
+
         }
 
         /***************************\                           

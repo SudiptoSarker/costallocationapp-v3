@@ -1,4 +1,68 @@
 ﻿$(document).ready(function () {
+    $(".add_salary_btn").on("click",function(event){        
+        $('#add_salary_modal').modal('show');
+    })
+   
+    $("#exp_reg_save_btn").on("click",function(event){       
+        let explanation_name = $("#explanation_name").val().trim();        
+        if (explanation_name == "") {
+            alert("please enter explanation name!");
+            return false;
+        }
+
+        UpdateInsertExplanations(explanation_name,0,false);
+    })
+
+    //edit incharge
+    $(".edit_explanation_btn").on("click",function(event){          
+        let id = GetCheckedIds("explanations_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_explanation_modal').modal('show');
+        }        
+    })
+    function FillTheEditModal(explanationId){            
+        var apiurl = `/api/utilities/GetExplanationNameByExplanationId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "explanationId=" + explanationId,
+            success: function (data) { 
+                $("#explanation_name_edit").val(data.ExplanationName);   
+                $("#hid_explanation_id").val(data.Id);   
+            }
+        });            
+    }
+    //edit from modal
+    $("#exp_reg_save_btn_edit").on("click",function(event){   
+        
+        var explanation_name = $("#explanation_name_edit").val();   
+        var explanation_id= $("#hid_explanation_id").val();   
+
+        if (explanation_name == '' || explanation_name == null || explanation_name == undefined){
+            alert("please enter explanation name!");
+            return false;
+        }
+        else{
+            UpdateInsertExplanations(explanation_name,explanation_id,true);
+        }        
+    })
+
+
     GetSalaries();
 
     $('#salary_inactive_confirm_btn').on('click', function (event) {

@@ -24,18 +24,29 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                role.CreatedBy = session["userName"].ToString();
-                role.CreatedDate = DateTime.Now;
-                role.IsActive = true;
-
-
                 if (roleBLL.CheckRole(role.RoleName))
                 {
                     return BadRequest("役割は登録済みです!!!");
                 }
                 else
                 {
-                    int result = roleBLL.CreateRole(role);
+                    int result =0;
+                    if (role.IsUpdate)
+                    {
+                        role.UpdatedBy = session["userName"].ToString();
+                        role.UpdatedDate = DateTime.Now;
+                        role.IsActive = true;
+                        result = roleBLL.UpdateRole(role);
+
+                   }
+                    else
+                    {
+                        role.CreatedBy = session["userName"].ToString();
+                        role.CreatedDate = DateTime.Now;
+                        role.IsActive = true;
+                        result = roleBLL.CreateRole(role);
+                    }
+
                     if (result > 0)
                     {
                         return Ok("データが保存されました!");

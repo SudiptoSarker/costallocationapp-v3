@@ -52,52 +52,91 @@
     /***************************\                           
     Check if the section is checked for delete/remove
     \***************************/
-    $('#section_inactive_btn').on('click', function (event) {
+    //$('#section_inactive_btn').on('click', function (event) {
+    $('.delete_sec_btn').on('click', function (event) {
         let id = GetCheckedIds("section_list_tbody");
         if (id == "") {
             alert("ファイルが削除されたことを確認してください");
             return false;
         }
+        else{
+            onSectionInactiveClick();
+            $('#delete_section').modal('show');
+        }
     });
 
-    $("#section_reg_save_btn").on("click",function(event){
-        InsertSection();
+    //add from modal
+    $("#sec_add_btn").on("click",function(event){
+        let sectionName = $("#section-name").val().trim();        
+        if (sectionName == "") {
+            alert("please enter section!");
+            return false;
+        }
+
+        UpdateInsertSection(sectionName,0,false);
+    })    
+    //edit from modal
+    $("#edit_sec_from_modal").on("click",function(event){        
+        var sectionName = $("#section_name_edit").val();   
+        var sectionId= $("#edit_section_id").val();   
+
+        if (sectionName == '' || sectionName == null || sectionName == undefined){
+            alert("please enter section name!");
+            return false;
+        }
+        else{
+            UpdateInsertSection(sectionName,sectionId,true);
+        }        
     })
     /***************************\                           
         Section Insertion is done by this function. 
     \***************************/
-    function InsertSection() {
-        var apiurl = "/api/sections/";
-        let sectionName = $("#section-name").val().trim();
+    function UpdateInsertSection(sectionName,sectionId,isUpdate) {
+        var apiurl = "/api/sections/";        
         
-        if (sectionName == "") {
-            $(".section_name_err").show();
-            return false;
-        } else {
-            $(".section_name_err").hide();
-            var data = {
-                SectionName: sectionName
-            };
+        var data = {
+            Id:sectionId,
+            SectionName: sectionName,
+            IsUpdate:isUpdate
+        };
 
-            $.ajax({
-                url: apiurl,
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (data) {
-                    $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess(data);
-
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                $("#page_load_after_modal_close").val("yes");
+                ToastMessageSuccess(data);
+                if(isUpdate){
+                    //$('#section-name').val('');
+                }else{
                     $('#section-name').val('');
-                    GetSectionList();
-                },
-                error: function (data) {
-                    alert(data.responseJSON.Message);
-                }
-            });
-        }
+                }                
+                GetSectionList();
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
     }
-
+        
+    //get section details by section id
+    function FillTheSectionEditModal(sectionId){            
+        var apiurl = `/api/utilities/GetSectionNameBySectionId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "sectionIds=" + sectionId,
+            success: function (data) { 
+                $("#section_name_edit").val(data.SectionName);   
+                $("#edit_section_id").val(data.Id);   
+            }
+        });            
+    }
     /***************************\                           
     Get all the section list from database.
     \***************************/
@@ -105,10 +144,12 @@
         $.getJSON('/api/sections/')
             .done(function (data) {
                 //SectionList_Datatable(data);
-                $('#section_list_tbody').empty();
-                $.each(data, function (key, item) {                
-                    $('#section_list_tbody').append(`<tr><td><input type="checkbox" class="section_list_chk" onclick="GetCheckedIds(${item.Id});" data-id='${item.Id}' /></td><td>${item.SectionName}</td></tr>`);
-                });
+                if (data != '' && data != null && data != undefined){
+                    $('#section_list_tbody').empty();
+                    $.each(data, function (key, item) {                
+                        $('#section_list_tbody').append(`<tr><td><input type="checkbox" class="section_list_chk" onclick="GetCheckedIds(${item.Id});" data-id='${item.Id}' /></td><td>${item.SectionName}</td></tr>`);
+                    });
+                }                
             });
     }
 
@@ -137,6 +178,31 @@
     }
     $(".add_sec_btn").on("click",function(event){        
         $('#add_section_modal').modal('show');
+    })
+    $("#sec_undo_btn").on("click",function(event){        
+        $("#section-name").val('');
+    })
+    $("#undo_edit_sec").on("click",function(event){        
+        $("#section_name_edit").val('');
+    })
+    $(".edit_sec_btn").on("click",function(event){   
+       
+        let id = GetCheckedIds("section_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheSectionEditModal(arrIds[0]);
+
+            $('#edit_section_modal').modal('show');
+        }        
     })
 });
 

@@ -1238,15 +1238,12 @@ namespace CostAllocationApp.DAL
                 }
             }
             where += $" ea.CompanyId In ({tempCompanyIds}) and ";
-            where += $" ea.Year={year} and ";
+            where += $" ea.Year={year}";
 
-            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
-
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
-                            from EmployeeeFinalBudgets ea left join Sections sec on ea.SectionId = sec.Id
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive
+                            from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
                             left join Roles rl on ea.RoleId = rl.Id
@@ -1294,18 +1291,8 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
                             forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
-                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
-                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
-                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+                            
 
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
@@ -1923,6 +1910,40 @@ namespace CostAllocationApp.DAL
                 return result;
             }
 
+        }
+
+        public List<ForecastDto> GetBudgetByAssignmentId(int assignmentId, string year)
+        {
+            List<ForecastDto> budgets = new List<ForecastDto>();
+            string query = "select * from BudgetCosts where EmployeeBudgetId=" + assignmentId + " and Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto budget = new ForecastDto();
+                            budget.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            budget.Year = Convert.ToInt32(rdr["Year"]);
+                            budget.Month = Convert.ToInt32(rdr["MonthId"]);
+                            budget.Points = Convert.ToDecimal(rdr["Points"]);
+
+                            budgets.Add(budget);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return budgets;
         }
 
         public List<ForecastDto> GetForecastsByAssignmentId(int assignmentId,string year)

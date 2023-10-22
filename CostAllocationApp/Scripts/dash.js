@@ -20,7 +20,6 @@
         async: false,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             totalCostChartData = data["chartData"];
             year = data["Year"];
             totalCost = data["totalCost"];
@@ -64,7 +63,7 @@
         async: false,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
+            monthlyBudgetHeadCountData = data["monthlyBudgetHeadcount"];
         }
     });
 
@@ -151,7 +150,7 @@
 
         let i = 10;
         do {
-            monthlyHeadCountData.push([i + "月", monthlyForecastHeadCountData[i], 0]);
+            monthlyHeadCountData.push([i + "月", monthlyForecastHeadCountData[i], monthlyBudgetHeadCountData[i]]);
             i = (i == 12) ? 1 : i + 1;
         } while (i !== 10);
 
@@ -171,44 +170,4 @@
         chart.draw(data, new google.charts.Bar.convertOptions(options));
     }
 
-
-
-    //$.ajax({
-    //    url: `/api/utilities/GetTotal?companiIds=1`,
-    //    contentType: 'application/json',
-    //    type: 'GET',
-    //    async: false,
-    //    dataType: 'json',
-    //    success: function (data) {
-    //        totalList = data;
-    //        differenceTable = structuredClone(totalList);
-    //        //differenceTable = totalList.map(function (arr) {
-    //        //    return arr.slice();
-    //        //});
-    //        console.log(totalList);
-    //    }
-    //});
-
-    //$.ajax({
-    //    url: `/api/Companies/`,
-    //    contentType: 'application/json',
-    //    type: 'GET',
-    //    async: false,
-    //    dataType: 'json',
-    //    success: function (data) {
-    //        console.log(data);
-    //    }
-    //});
-
-    //$.ajax({
-    //    url: `/api/Departments`,
-    //    contentType: 'application/json',
-    //    type: 'GET',
-    //    async: false,
-    //    dataType: 'json',
-    //    success: function (data) {
-
-    //        console.log(data);
-    //    }
-    //});
 });

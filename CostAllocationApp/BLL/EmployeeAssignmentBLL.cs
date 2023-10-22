@@ -118,6 +118,36 @@ namespace CostAllocationApp.BLL
             }
             return employees;
         }
+
+        public List<ForecastAssignmentViewModel> GetEmployeesBudgetByDepartments_Company(int departmentId, string companyIds, int year)
+        {
+            List<ForecastAssignmentViewModel> budgetAssignments = employeeAssignmentDAL.GetEmployeesBudgetByDepartments_Company(departmentId, companyIds, year);
+            
+            if (budgetAssignments.Count > 0)
+            {
+                foreach (var budgetAssignment in budgetAssignments)
+                {
+                    budgetAssignment.forecasts = employeeAssignmentDAL.GetBudgetByAssignmentId(budgetAssignment.Id, year.ToString());
+                    if (budgetAssignment.forecasts.Count > 0)
+                    {
+                        budgetAssignment.OctPoints = budgetAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
+                        budgetAssignment.NovPoints = budgetAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
+                        budgetAssignment.DecPoints = budgetAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
+                        budgetAssignment.JanPoints = budgetAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
+                        budgetAssignment.FebPoints = budgetAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
+                        budgetAssignment.MarPoints = budgetAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
+                        budgetAssignment.AprPoints = budgetAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
+                        budgetAssignment.MayPoints = budgetAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
+                        budgetAssignment.JunPoints = budgetAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
+                        budgetAssignment.JulPoints = budgetAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
+                        budgetAssignment.AugPoints = budgetAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
+                        budgetAssignment.SepPoints = budgetAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
+                    }                   
+                }
+            }
+            return budgetAssignments;
+        }
+
         public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
         {
             List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByDepartments_Company(departmentId, companyIds, year);

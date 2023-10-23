@@ -1,82 +1,145 @@
-﻿ 
+﻿
 @{
+    /**/
+
+    /**/
+
     ViewBag.Title = "QA Proportion";
 }
 
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/Content/multi_select_dynamic_table.css" />
     <link href="/Content/qa_proportion.css" rel="stylesheet" type="text/css" />
+
 }
 
-<div class="content container-fluid" style="position:relative;margin-top: -38px;">
-    <!-----------------Show Loader----------------->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="forecast">
-                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                    <center>
-                        <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
-                        <br>
-                        <strong>しばらくお待ちください...</strong>
-                        <br>
-                        <br>
-                    </center>
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
+        <!-----------------Show Loader----------------->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="forecast">
+                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                        <center>
+                            <img src="/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader">
+                            <br>
+                            <strong>しばらくお待ちください...</strong>
+                            <br>
+                            <br>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div id="actual_cost_table_header"><span id="nav1">按分 (Proration) </span>><span id="nav2"> 按分</span></div>
+
+        <div class="row" id="actual_cost_search">
+            <div class="col-3">
+                <select id="assignment_year" class=""></select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="actual_cost">表示</button>
+            </div>
+        </div>
+        <br>
+
+        <div id="qa_proration_tables">
+            @*<div class="row" id="actual_cost_search">
+                <div class="col-3">
+                    <select id="merged_employee_from_qc" class="" multiple="multiple"></select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-light mb-2" id="add_button">追加 (Add)</button>
+                </div>
+            </div>*@
+            <br />
+            <div class="row" id="actual_cost_list">
+                <div class="col-md-12">
+                    <div id="hider"></div>
+                    <div>要員毎の品証の按分 (Employee Wise QA Proportion)</div>
+                    <div id="jspreadsheet"></div>
+
+                    <button type="submit" class="btn btn-light mb-2" id="select_employee_btn">Select</button>
+                    <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">保存（save）</button>
+                </div>
+            </div>
+            <br /><br />
+            @*<div class="row" id="actual_cost_search">
+                <div class="col-3">
+                    <select id="department_list" class="" multiple="multiple"></select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-light mb-2" id="department_list_add_button">追加 (Add)</button>
+                </div>
+            </div>*@
+            <br>
+            <div class="row" id="actual_cost_list1">
+                <div class="col-md-12">
+                    <div>部門毎の品証の按分 (Department Wise QA Proportion)</div>
+                    <div id="jspreadsheet_1"></div>
+                    <button type="submit" class="btn btn-light mb-2" id="select_department_btn">Select</button>
+                    <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">保存（save）</button>
+                </div>
+            </div>
+        </div>
+
+        @*MODAL FOR SELECT EMPLOYEE*@
+        <div class="modal custom-modal fade" id="slect_employee_modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h4>要員毎の品証の按分 (Employee Wise QA Proportion)</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <select multiple='multiple' id='employee_from_qc'></select>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" id="add_employee_button">追加 (Add)</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <button class="btn modal_return_btn">戻る</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*MODAL FOR SELECT DEPARTMENT*@
+        <div class="modal custom-modal fade" id="slect_department_modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h4>部門毎の品証の按分 (Department Wise QA Proportion)</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <select multiple='multiple' id='department_from_qc'></select>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" id="department_list_add_button">追加 (Add)</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <button class="btn modal_return_btn">戻る</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <br/>
-    <div id="actual_cost_table_header"><span id="nav1">按分 (Proration) </span>><span id="nav2"> 按分</span></div>  
-
-    <div class="row" id="actual_cost_search">
-        <div class="col-3">
-            <select id="assignment_year" class=""></select>
-        </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-light mb-2" id="actual_cost">表示</button>
-        </div>
-    </div>
-    <br>
-    
-    <div id="qa_proration_tables">
-        <div class="row" id="actual_cost_search">
-            <div class="col-3">
-                <select id="merged_employee_from_qc" class="" multiple="multiple"></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="add_button">追加 (Add)</button>
-            </div>
-        </div>
-        <br />
-        <div class="row" id="actual_cost_list">
-            <div class="col-md-12">
-                <div id="hider"></div>
-                <div>要員毎の品証の按分 (Employee Wise QA Proportion)</div>
-                <div id="jspreadsheet"></div>
-                <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">保存（save）</button>
-            </div>
-        </div>
-        <br /><br />
-        <div class="row" id="actual_cost_search">
-            <div class="col-3">
-                <select id="department_list" class="" multiple="multiple"></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="department_list_add_button">追加 (Add)</button>
-            </div>
-        </div>
-        <br>
-        <div class="row" id="actual_cost_list1">
-            <div class="col-md-12">
-                <div>部門毎の品証の按分 (Department Wise QA Proportion)</div>
-                <div id="jspreadsheet_1"></div>
-                <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">保存（save）</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
 
@@ -85,7 +148,7 @@
     <script src="/Scripts/common.js"></script>
     @*<script src="/Scripts/forecast_ver04.js"></script>*@
     <script src="~/Scripts/qa_proportion.js"></script>
-    <script src="/Scripts/bootstrap-multiselect.js"></script>
+    <script src="/Scripts/multi_select_dynamic_table.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
         $.connection.hub.disconnected(function () {
@@ -150,39 +213,39 @@
             }, 5000);
             //$("table1").DataTable();
         });
-            //function bs_input_file() {
-            //    $(".input-file").before(
-            //        function () {
-            //            if (!$(this).prev().hasClass('input-ghost')) {
-            //                var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
-            //                element.attr("name", $(this).attr("name"));
-            //                element.change(function () {
-            //                    element.next(element).find('input').val((element.val()).split('\\').pop());
-            //                });
-            //                $(this).find("button.btn-choose").click(function () {
-            //                    element.click();
-            //                });
-            //                $(this).find("button.btn-reset").click(function () {
-            //                    element.val(null);
-            //                    $(this).parents(".input-file").find('input').val('');
-            //                });
-            //                $(this).find('input').css("cursor", "pointer");
-            //                $(this).find('input').mousedown(function () {
-            //                    $(this).parents('.input-file').prev().click();
-            //                    return false;
-            //                });
-            //                return element;
-            //            }
-            //        }
-            //    );
-            //}
+                            //function bs_input_file() {
+                            //    $(".input-file").before(
+                            //        function () {
+                            //            if (!$(this).prev().hasClass('input-ghost')) {
+                            //                var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
+                            //                element.attr("name", $(this).attr("name"));
+                            //                element.change(function () {
+                            //                    element.next(element).find('input').val((element.val()).split('\\').pop());
+                            //                });
+                            //                $(this).find("button.btn-choose").click(function () {
+                            //                    element.click();
+                            //                });
+                            //                $(this).find("button.btn-reset").click(function () {
+                            //                    element.val(null);
+                            //                    $(this).parents(".input-file").find('input').val('');
+                            //                });
+                            //                $(this).find('input').css("cursor", "pointer");
+                            //                $(this).find('input').mousedown(function () {
+                            //                    $(this).parents('.input-file').prev().click();
+                            //                    return false;
+                            //                });
+                            //                return element;
+                            //            }
+                            //        }
+                            //    );
+                            //}
 
-            //function clear() {
-            //    var input = $("#dataFile").val('');
-            //};
-            //$(function () {
-            //    clear();
-            //    bs_input_file();
-            //});
+                            //function clear() {
+                            //    var input = $("#dataFile").val('');
+                            //};
+                            //$(function () {
+                            //    clear();
+                            //    bs_input_file();
+                            //});
     </script>
 }

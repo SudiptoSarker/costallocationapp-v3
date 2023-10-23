@@ -140,6 +140,41 @@ body {
     border: 1px solid #ccc !important;
     text-align: center;
 }
+.btn-group, .btn-group-vertical {
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 100%;
+    height: 38px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+    border-radius: 10px;
+}
+#employee_from_qc {
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+}
+#department_from_qc {
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+}
+#department_from_qc + .btn-group .multiselect-container {
+    transform: translate3d(0px, 38px, 0px) !important;
+    width: inherit;
+}
 #department_list {
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
@@ -150,9 +185,7 @@ body {
     border: 1px solid #ccc !important;
     text-align: center;
 }
-#add_button {
-    margin-left: -11px;
-    margin-top: -1px;
+#select_employee_btn {
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
@@ -160,15 +193,24 @@ body {
     height: 30px;
     border: 1px solid #ccc !important;
 }
-#department_list_add_button {
-    margin-left: -11px;
-    margin-top: -1px;
+#select_department_btn {
     transition: all 0.2s ease-in-out 0s;
     display: inline-block;
     white-space: nowrap;
     font-size: 12px;
     height: 30px;
     border: 1px solid #ccc !important;
+}
+
+.modal_return_btn {
+    line-height: 1;
+    background-color: #d9d9d9;
+    border: none;
+    color: black;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 5px;
+    margin-bottom: -25px;
 }
 
 #nav1, #nav2 {

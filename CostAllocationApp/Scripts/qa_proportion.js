@@ -987,9 +987,67 @@ $(document).ready(function () {
         GetQAProrationByYear(year);                                 
     });
 
-    $('#add_button').on('click', function () {
+    $('.modal_return_btn').on('click', function () {
+        $('#slect_employee_modal').modal('hide');
+        $('#slect_department_modal').modal('hide');
+    });
+
+    $('#select_employee_btn').on('click', function () {
+        $('#slect_employee_modal').modal('show');
+        var year = $('#assignment_year').val();
+        _retriveddata = [];
+        
+        $('#employee_from_qc').multiselect({
+            allSelectedText: 'All Employee Selected',
+            maxHeight: 200,
+            includeSelectAllOption: true
+        });
+
+        $.ajax({
+            url: `/api/utilities/QaProportion?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                isLoaderShow = false;
+                $('#employee_from_qc').empty();
+                $.each(data, function (index, element) {
+                    $('#employee_from_qc').append(`<option value='${element.EmployeeId}_${element.EmployeeName}'>${element.EmployeeName}</option>`);
+                });
+
+                $("#employee_from_qc").multiselect('destroy');
+                $('#employee_from_qc').multiselect({
+                    allSelectedText: 'All',
+                    maxHeight: 200,
+                    includeSelectAllOption: true
+                });
+            }
+        });
+
+        $.ajax({
+            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, element) {
+                    _retriveddata.push(`${element.EmployeeId}_${element.EmployeeName}`);
+                });
+            }
+        });
+
+        $("#employee_from_qc").multiselect('select', _retriveddata);
+        $("#employee_from_qc").multiselect('updateButtonText');
+
+
+    });
+
+    $('#add_employee_button').on('click', function () {
+        $('#slect_employee_modal').modal('hide');
         var duplicateEmployees = [];
-        var datas = $('#merged_employee_from_qc').val();
+        var datas = $('#employee_from_qc').val();
         var year = $('#assignment_year').val();
         if (loadFlag==0) {
             _retriveddata = [];
@@ -1037,12 +1095,8 @@ $(document).ready(function () {
                     AugPercentage: 0,
                     SepPercentage: 0,
                     Id: 0
-
-
                 });
-            }
-
-              
+            }              
         });
 
         if (duplicateEmployees.length > 0) {
@@ -1051,14 +1105,67 @@ $(document).ready(function () {
                 duplicateMessege += duplicateValue + '\n';
             });
             duplicateMessege += 'employee\'s are already exists!';
-            alert(duplicateMessege);
+            //This alert message is commented as per requirement
+            //alert(duplicateMessege);
         }
         LoadJexcel();
     });
+
+    $('#select_department_btn').on('click', function () {
+        $('#slect_department_modal').modal('show');
+        var year = $('#assignment_year').val();
+        _retriveddata = [];
+
+        $('#department_from_qc').multiselect({
+            allSelectedText: 'All Departments Selected',
+            maxHeight: 200,
+            includeSelectAllOption: true
+        });
+
+        $.ajax({
+            url: `/api/utilities/GetFilteredDepartments`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#department_from_qc').empty();
+                $.each(data, function (index, element) {
+                    $('#department_from_qc').append(`<option value='${element.Id}_${element.DepartmentName}'>${element.DepartmentName}</option>`);
+                });
+
+                $("#department_from_qc").multiselect('destroy');
+                $('#department_from_qc').multiselect({
+                    allSelectedText: 'All',
+                    maxHeight: 200,
+                    includeSelectAllOption: true
+                });
+            }
+        });
+
+        $.ajax({
+            url: `/api/utilities/CreateApportionment?year=${year}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, element) {
+                    _retriveddata.push(`${element.DepartmentId}_${element.DepartmentName}`);
+                });
+            }
+        });
+
+        $("#department_from_qc").multiselect('select', _retriveddata);
+        $("#department_from_qc").multiselect('updateButtonText');
+
+    });
     
     $('#department_list_add_button').on('click', function () {
+        $('#slect_department_modal').modal('hide');
         var duplicateDepartments = [];
-        var departmentList = $('#department_list').val();
+        var departmentList = $('#department_from_qc').val();
         var year = $('#assignment_year').val();
         if (loadFlag1==0) {
             _retriveddata_1 = [];
@@ -1104,8 +1211,6 @@ $(document).ready(function () {
                     AugPercentage: 0,
                     SepPercentage: 0,
                     Id: 0
-
-
                 });
             }
 
@@ -1116,7 +1221,8 @@ $(document).ready(function () {
                 duplicateMessege += duplicateValue+'\n'; 
             });
             duplicateMessege += 'department\'s are already exists!';
-            alert(duplicateMessege);
+            //This alert is removed as per requirement
+            //alert(duplicateMessege);
         }
         LoadJexcel1();
     });

@@ -62,8 +62,13 @@ namespace CostAllocationApp.BLL
                 var augPOriginal = item.AugPoints;
                 var sepPOriginal = item.SepPoints;
 
+                var duplicateFrom = item.DuplicateFrom;
+                var duplicateCount = item.DuplicateCount;
+                var roleChanged = item.RoleChanged;
+                var unitPriceChanged = item.UnitPriceChanged;
+
                 //deleted,added row and approval and not approval cells color
-                
+
                 string sectionNameReceived = GetApprovedOrOriginalVlaue("3", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, sectionName);
                 sheet.Cells["A" + count].Value = sectionNameReceived;
                 sheet.Cells["A" + count].AutoFitColumns();                
@@ -105,78 +110,103 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["J" + count].Style.Numberformat.Format = "#,#";
                 sheet.Cells["J" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 sheet.Cells["J" + count].AutoFitColumns();
-
-                string octPOriginalReceived = GetApprovedOrOriginalVlaue("11", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, octPOriginal);                
-                sheet.Cells["K" + count].Value = Convert.ToDecimal(octPOriginalReceived);
+                // db id
+                sheet.Cells["K" + count].Value = item.AssignmentId.ToString();
                 sheet.Cells["K" + count].Style.Numberformat.Format = "0.00";
-                sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
-                sheet.Cells["K" + count].AutoFitColumns();                
-
-                string novPOriginalReceived = GetApprovedOrOriginalVlaue("12", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, novPOriginal);                
-                sheet.Cells["L" + count].Value = Convert.ToDecimal(novPOriginalReceived);
+                sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["K" + count].AutoFitColumns();
+                // duplicate from
+                sheet.Cells["L" + count].Value = duplicateFrom;
                 sheet.Cells["L" + count].Style.Numberformat.Format = "0.00";
-                sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
+                sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["L" + count].AutoFitColumns();
-
-                string decPOriginalReceived = GetApprovedOrOriginalVlaue("13", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, decPOriginal);                
-                sheet.Cells["M" + count].Value = Convert.ToDecimal(decPOriginalReceived);
+                //duplicate count
+                sheet.Cells["M" + count].Value = duplicateCount;
                 sheet.Cells["M" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["M" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["M" + count].AutoFitColumns();
-
-                string janPOriginalReceived = GetApprovedOrOriginalVlaue("14", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, janPOriginal);
-                sheet.Cells["N" + count].Value = Convert.ToDecimal(janPOriginalReceived);
+                //role changed
+                sheet.Cells["N" + count].Value = roleChanged;
                 sheet.Cells["N" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["N" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["N" + count].AutoFitColumns();
-
-                string febPOriginalReceived = GetApprovedOrOriginalVlaue("15", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, febPOriginal);
-                sheet.Cells["O" + count].Value = Convert.ToDecimal(febPOriginalReceived);
+                // unitprice changed
+                sheet.Cells["O" + count].Value = unitPriceChanged;
                 sheet.Cells["O" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["O" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["O" + count].AutoFitColumns();
 
-                string marPOriginalReceived = GetApprovedOrOriginalVlaue("16", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, marPOriginal);
-                sheet.Cells["P" + count].Value = Convert.ToDecimal(marPOriginalReceived);
+                string octPOriginalReceived = GetApprovedOrOriginalVlaue("16", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, octPOriginal);                
+                sheet.Cells["P" + count].Value = Convert.ToDecimal(octPOriginalReceived);
                 sheet.Cells["P" + count].Style.Numberformat.Format = "0.00";
-                sheet.Cells["P" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                sheet.Cells["P" + count].AutoFitColumns();
+                sheet.Cells["P" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
+                sheet.Cells["P" + count].AutoFitColumns();                
 
-                string aprPOriginalReceived = GetApprovedOrOriginalVlaue("17", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, aprPOriginal);
-                sheet.Cells["Q" + count].Value = Convert.ToDecimal(aprPOriginalReceived);
+                string novPOriginalReceived = GetApprovedOrOriginalVlaue("17", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, novPOriginal);                
+                sheet.Cells["Q" + count].Value = Convert.ToDecimal(novPOriginalReceived);
                 sheet.Cells["Q" + count].Style.Numberformat.Format = "0.00";
-                sheet.Cells["Q" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["Q" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;                
                 sheet.Cells["Q" + count].AutoFitColumns();
 
-                string mayPOriginalReceived = GetApprovedOrOriginalVlaue("18", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, mayPOriginal);
-                sheet.Cells["R" + count].Value = Convert.ToDecimal(mayPOriginalReceived);
+                string decPOriginalReceived = GetApprovedOrOriginalVlaue("18", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, decPOriginal);                
+                sheet.Cells["R" + count].Value = Convert.ToDecimal(decPOriginalReceived);
                 sheet.Cells["R" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["R" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["R" + count].AutoFitColumns();
 
-                string junPOriginalReceived = GetApprovedOrOriginalVlaue("19", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, junPOriginal);
-                sheet.Cells["S" + count].Value = Convert.ToDecimal(junPOriginalReceived);
+                string janPOriginalReceived = GetApprovedOrOriginalVlaue("19", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, janPOriginal);
+                sheet.Cells["S" + count].Value = Convert.ToDecimal(janPOriginalReceived);
                 sheet.Cells["S" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["S" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["S" + count].AutoFitColumns();
 
-                string julPOriginalReceived = GetApprovedOrOriginalVlaue("20", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, julPOriginal);
-                sheet.Cells["T" + count].Value = Convert.ToDecimal(julPOriginalReceived);
+                string febPOriginalReceived = GetApprovedOrOriginalVlaue("20", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, febPOriginal);
+                sheet.Cells["T" + count].Value = Convert.ToDecimal(febPOriginalReceived);
                 sheet.Cells["T" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["T" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["T" + count].AutoFitColumns();
 
-                string augPOriginalReceived = GetApprovedOrOriginalVlaue("21", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, augPOriginal);
-                sheet.Cells["U" + count].Value = Convert.ToDecimal(augPOriginalReceived);
+                string marPOriginalReceived = GetApprovedOrOriginalVlaue("21", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, marPOriginal);
+                sheet.Cells["U" + count].Value = Convert.ToDecimal(marPOriginalReceived);
                 sheet.Cells["U" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["U" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["U" + count].AutoFitColumns();
 
-                string sepPOriginalReceived = GetApprovedOrOriginalVlaue("22", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, sepPOriginal);
-                sheet.Cells["V" + count].Value = Convert.ToDecimal(sepPOriginalReceived);
+                string aprPOriginalReceived = GetApprovedOrOriginalVlaue("22", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, aprPOriginal);
+                sheet.Cells["V" + count].Value = Convert.ToDecimal(aprPOriginalReceived);
                 sheet.Cells["V" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["V" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["V" + count].AutoFitColumns();
+
+                string mayPOriginalReceived = GetApprovedOrOriginalVlaue("23", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, mayPOriginal);
+                sheet.Cells["W" + count].Value = Convert.ToDecimal(mayPOriginalReceived);
+                sheet.Cells["W" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["W" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["W" + count].AutoFitColumns();
+
+                string junPOriginalReceived = GetApprovedOrOriginalVlaue("24", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, junPOriginal);
+                sheet.Cells["X" + count].Value = Convert.ToDecimal(junPOriginalReceived);
+                sheet.Cells["X" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["X" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["X" + count].AutoFitColumns();
+
+                string julPOriginalReceived = GetApprovedOrOriginalVlaue("25", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, julPOriginal);
+                sheet.Cells["Y" + count].Value = Convert.ToDecimal(julPOriginalReceived);
+                sheet.Cells["Y" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["Y" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["Y" + count].AutoFitColumns();
+
+                string augPOriginalReceived = GetApprovedOrOriginalVlaue("26", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, augPOriginal);
+                sheet.Cells["Z" + count].Value = Convert.ToDecimal(augPOriginalReceived);
+                sheet.Cells["Z" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["Z" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["Z" + count].AutoFitColumns();
+
+                string sepPOriginalReceived = GetApprovedOrOriginalVlaue("27", approvedCells, bCYRCellPending, employeeAssignmentIdOrg, sepPOriginal);
+                sheet.Cells["AA" + count].Value = Convert.ToDecimal(sepPOriginalReceived);
+                sheet.Cells["AA" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["AA" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                sheet.Cells["AA" + count].AutoFitColumns();
 
                 if (isAddRow)
                 {
@@ -1979,108 +2009,108 @@ namespace CostAllocationApp.BLL
                         }
                     }
                 }
-                else if (cellType == "11")
+                else if (cellType == "16")
                 {
-                    bool isOctPending = IsCellPending("11", bCYRCellPending);
+                    bool isOctPending = IsCellPending("16", bCYRCellPending);
                     if (isOctPending)
                     {
                         decimal octOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "10");
                         returnValue = octOriginalP.ToString();
                     }
                 }
-                else if (cellType == "12")
+                else if (cellType == "17")
                 {
-                    bool isNovPending = IsCellPending("12", bCYRCellPending);
+                    bool isNovPending = IsCellPending("17", bCYRCellPending);
                     if (isNovPending)
                     {
                         decimal novOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "11");
                         returnValue = novOriginalP.ToString();
                     }
                 }
-                else if (cellType == "13")
+                else if (cellType == "18")
                 {
-                    bool isDecPending = IsCellPending("13", bCYRCellPending);
+                    bool isDecPending = IsCellPending("18", bCYRCellPending);
                     if (isDecPending)
                     {
                         decimal decOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "12");
                         returnValue = decOriginalP.ToString();
                     }
                 }
-                else if (cellType == "14")
+                else if (cellType == "19")
                 {
-                    bool isJanPending = IsCellPending("14", bCYRCellPending);
+                    bool isJanPending = IsCellPending("19", bCYRCellPending);
                     if (isJanPending)
                     {
                         decimal janOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "1");
                         returnValue = janOriginalP.ToString();
                     }
                 }
-                else if (cellType == "15")
+                else if (cellType == "20")
                 {
-                    bool isFebPending = IsCellPending("15", bCYRCellPending);
+                    bool isFebPending = IsCellPending("20", bCYRCellPending);
                     if (isFebPending)
                     {
                         decimal febOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "2");
                         returnValue = febOriginalP.ToString();
                     }
                 }
-                else if (cellType == "16")
+                else if (cellType == "21")
                 {
-                    bool isMarPending = IsCellPending("16", bCYRCellPending);
+                    bool isMarPending = IsCellPending("21", bCYRCellPending);
                     if (isMarPending)
                     {
                         decimal marOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "3");
                         returnValue = marOriginalP.ToString();
                     }
                 }
-                else if (cellType == "17")
+                else if (cellType == "22")
                 {
-                    bool isAprPending = IsCellPending("17", bCYRCellPending);
+                    bool isAprPending = IsCellPending("22", bCYRCellPending);
                     if (isAprPending)
                     {
                         decimal aprOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "4");
                         returnValue = aprOriginalP.ToString();
                     }
                 }
-                else if (cellType == "18")
+                else if (cellType == "23")
                 {
-                    bool isMayPending = IsCellPending("18", bCYRCellPending);
+                    bool isMayPending = IsCellPending("23", bCYRCellPending);
                     if (isMayPending)
                     {
                         decimal mayOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "5");
                         returnValue = mayOriginalP.ToString();
                     }
                 }
-                else if (cellType == "19")
+                else if (cellType == "24")
                 {
-                    bool isJunPending = IsCellPending("19", bCYRCellPending);
+                    bool isJunPending = IsCellPending("24", bCYRCellPending);
                     if (isJunPending)
                     {
                         decimal junOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "6");
                         returnValue = junOriginalP.ToString();
                     }
                 }
-                else if (cellType == "20")
+                else if (cellType == "25")
                 {
-                    bool isJulPending = IsCellPending("20", bCYRCellPending);
+                    bool isJulPending = IsCellPending("25", bCYRCellPending);
                     if (isJulPending)
                     {
                         decimal julOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "7");
                         returnValue = julOriginalP.ToString();
                     }
                 }
-                else if (cellType == "21")
+                else if (cellType == "26")
                 {
-                    bool isAugPending = IsCellPending("21", bCYRCellPending);
+                    bool isAugPending = IsCellPending("26", bCYRCellPending);
                     if (isAugPending)
                     {
                         decimal augOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "8");
                         returnValue = augOriginalP.ToString();
                     }
                 }
-                else if (cellType == "22")
+                else if (cellType == "27")
                 {
-                    bool isSepPending = IsCellPending("21", bCYRCellPending);
+                    bool isSepPending = IsCellPending("27", bCYRCellPending);
                     if (isSepPending)
                     {
                         decimal sepOriginalP = employeeAssignmentBLL.GetMonthWiseOriginalForecastData(employeeAssignmentIdOrg, "9");
@@ -2305,78 +2335,107 @@ namespace CostAllocationApp.BLL
             sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["J1"].AutoFitColumns();
 
-
-            sheet.Cells["K1"].Value = "10月";
+            sheet.Cells["K1"].Value = "Db Id";
             sheet.Cells["K1"].Style.Font.Bold = true;
             sheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["K1"].AutoFitColumns();
 
-            sheet.Cells["L1"].Value = "11月";
+            sheet.Cells["L1"].Value = "Duplicate From";
             sheet.Cells["L1"].Style.Font.Bold = true;
             sheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["L1"].AutoFitColumns();
 
-            sheet.Cells["M1"].Value = "12月";
+            sheet.Cells["M1"].Value = "Duplicate Count";
             sheet.Cells["M1"].Style.Font.Bold = true;
             sheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["M1"].AutoFitColumns();
 
-            sheet.Cells["N1"].Value = "1月";
+            sheet.Cells["N1"].Value = "Role Changed";
             sheet.Cells["N1"].Style.Font.Bold = true;
             sheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["N1"].AutoFitColumns();
 
-            sheet.Cells["O1"].Value = "2月";
+            sheet.Cells["O1"].Value = "UnitPrice Changed";
             sheet.Cells["O1"].Style.Font.Bold = true;
             sheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["O1"].AutoFitColumns();
 
-            sheet.Cells["P1"].Value = "3月";
+            sheet.Cells["P1"].Value = "10月";
             sheet.Cells["P1"].Style.Font.Bold = true;
             sheet.Cells["P1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["P1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["P1"].AutoFitColumns();
 
-            sheet.Cells["Q1"].Value = "4月";
+            sheet.Cells["Q1"].Value = "11月";
             sheet.Cells["Q1"].Style.Font.Bold = true;
             sheet.Cells["Q1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["Q1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["Q1"].AutoFitColumns();
 
-            sheet.Cells["R1"].Value = "5月";
+            sheet.Cells["R1"].Value = "12月";
             sheet.Cells["R1"].Style.Font.Bold = true;
             sheet.Cells["R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["R1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["R1"].AutoFitColumns();
 
-            sheet.Cells["S1"].Value = "6月";
+            sheet.Cells["S1"].Value = "1月";
             sheet.Cells["S1"].Style.Font.Bold = true;
             sheet.Cells["S1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["S1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["S1"].AutoFitColumns();
 
-            sheet.Cells["T1"].Value = "7月";
+            sheet.Cells["T1"].Value = "2月";
             sheet.Cells["T1"].Style.Font.Bold = true;
             sheet.Cells["T1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["T1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["T1"].AutoFitColumns();
 
-            sheet.Cells["U1"].Value = "8月";
+            sheet.Cells["U1"].Value = "3月";
             sheet.Cells["U1"].Style.Font.Bold = true;
             sheet.Cells["U1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["U1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["U1"].AutoFitColumns();
 
-            sheet.Cells["V1"].Value = "9月";
+            sheet.Cells["V1"].Value = "4月";
             sheet.Cells["V1"].Style.Font.Bold = true;
             sheet.Cells["V1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["V1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["V1"].AutoFitColumns();
+
+            sheet.Cells["W1"].Value = "5月";
+            sheet.Cells["W1"].Style.Font.Bold = true;
+            sheet.Cells["W1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["W1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["W1"].AutoFitColumns();
+
+            sheet.Cells["X1"].Value = "6月";
+            sheet.Cells["X1"].Style.Font.Bold = true;
+            sheet.Cells["X1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["X1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["X1"].AutoFitColumns();
+
+            sheet.Cells["Y1"].Value = "7月";
+            sheet.Cells["Y1"].Style.Font.Bold = true;
+            sheet.Cells["Y1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Y1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["Y1"].AutoFitColumns();
+
+            sheet.Cells["Z1"].Value = "8月";
+            sheet.Cells["Z1"].Style.Font.Bold = true;
+            sheet.Cells["Z1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Z1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["Z1"].AutoFitColumns();
+
+            sheet.Cells["AA1"].Value = "9月";
+            sheet.Cells["AA1"].Style.Font.Bold = true;
+            sheet.Cells["AA1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AA1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            sheet.Cells["AA1"].AutoFitColumns();
 
             return sheet;
         }

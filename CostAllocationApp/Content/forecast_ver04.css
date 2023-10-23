@@ -228,13 +228,13 @@ body {
 }
 
 /*totla man month column*/
-.jexcel tbody tr td:nth-of-type(25) {
+.jexcel tbody tr td:nth-of-type(30) {
     text-align:center !important;
     background-color: #eab676;
     color: black;
 }
 /*totla man month column*/
-.jexcel tbody tr td:nth-of-type(38) {
+.jexcel tbody tr td:nth-of-type(43) {
     text-align:right !important;
     background-color: #eab676;
     color: black;
@@ -403,9 +403,12 @@ body {
     background-color: #d0e0e3;   
 }
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6) {
-    background-color: #fce5cd;   
+    background-color: #d0e0e3;
 }
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
+    background-color: #fce5cd;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8) {
     background-color: #fce5cd;   
 }
 /* 

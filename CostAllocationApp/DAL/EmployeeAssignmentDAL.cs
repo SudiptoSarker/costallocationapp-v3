@@ -3186,11 +3186,11 @@ namespace CostAllocationApp.DAL
             }
             where += " 1=1 and (ema.IsRowPending is null or ema.IsRowPending =0)";
 
-            string query = $@"select ea.Id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.Id,ea.AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
                             ,ea.IsRowPending,ea.IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
-                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg',ema.IsRowPending 'PendingRowAfterApprove'
+                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg',ema.IsRowPending 'PendingRowAfterApprove', ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged,ea.UnitPriceChanged 
                             from ApprovedEmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -3217,7 +3217,8 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
-                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["Id"]);
+                            forecastEmployeeAssignmentViewModel.AssignmentId = Convert.ToInt32(rdr["AssignmentId"]);
                             //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
@@ -3257,6 +3258,10 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();                            
                             forecastEmployeeAssignmentViewModel.EmployeeAssignmentIdOrg = rdr["EmployeeAssignmentIdOrg"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeAssignmentIdOrg"]);
                             forecastEmployeeAssignmentViewModel.RootEmployeeName = rdr["RootEmployeeName"] is DBNull ? "" : rdr["RootEmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            forecastEmployeeAssignmentViewModel.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
 
                             forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
                         }
@@ -3946,12 +3951,12 @@ namespace CostAllocationApp.DAL
                                 INSERT INTO ApprovedEmployeesAssignments
 	                                (
 		                                ApprovedTimeStampId,AssignmentId,EmployeeId,SectionId,DepartmentId,InChargeId,RoleId,ExplanationId
-		                                ,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,EmployeeName,IsDeleted,BCYRCellPending
+		                                ,CompanyId,UnitPrice,GradeId,CreatedBy,CreatedDate,IsActive,Remarks,SubCode,Year,EmployeeName,IsDeleted,BCYRCellPending, DuplicateFrom, DuplicateCount, RoleChanged, UnitPriceChanged
 	                                ) 
                                 values
 	                                (
 		                                @approvedTimeStampId,@assignmentId,@employeeId,@sectionId,@departmentId,@inChargeId,@roleId,@explanationId
-		                                ,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@employeeName,@isDeleted,@bCYRCellPending
+		                                ,@companyId,@unitPrice,@gradeId,@createdBy,@createdDate,@isActive,@remarks,@subCode,@year,@employeeName,@isDeleted,@bCYRCellPending, @duplicateFrom, @duplicateCount, @roleChanged, @unitPriceChanged
 	                                )
                             ";
             using (SqlConnection sqlConnection = this.GetConnection())
@@ -4080,6 +4085,39 @@ namespace CostAllocationApp.DAL
                 }
                 
                 cmd.Parameters.AddWithValue("@isDeleted", employeeAssignment.IsDeleted);
+
+                if (String.IsNullOrEmpty(employeeAssignment.DuplicateFrom))
+                {
+                    cmd.Parameters.AddWithValue("@duplicateFrom", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@duplicateFrom", employeeAssignment.DuplicateFrom);
+                }
+                if (String.IsNullOrEmpty(employeeAssignment.DuplicateCount))
+                {
+                    cmd.Parameters.AddWithValue("@duplicateCount", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@duplicateCount", employeeAssignment.DuplicateCount);
+                }
+                if (String.IsNullOrEmpty(employeeAssignment.RoleChanged))
+                {
+                    cmd.Parameters.AddWithValue("@roleChanged", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@roleChanged", employeeAssignment.RoleChanged);
+                }
+                if (String.IsNullOrEmpty(employeeAssignment.UnitPriceChanged))
+                {
+                    cmd.Parameters.AddWithValue("@unitPriceChanged", DBNull.Value);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@unitPriceChanged", employeeAssignment.UnitPriceChanged);
+                }
 
                 try
                 {

@@ -26,10 +26,6 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                company.CreatedBy = session["userName"].ToString();
-                company.CreatedDate = DateTime.Now;
-                company.IsActive = true;
-
                 // checking existing company
                 if (companyBLL.CheckComany(company.CompanyName))
                 {
@@ -37,8 +33,22 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    // create a company
-                    int result = companyBLL.CreateCompany(company);
+                    int result = 0;
+                    if (company.IsUpdate)
+                    {
+                        company.UpdatedBy = session["userName"].ToString();
+                        company.UpdatedDate = DateTime.Now;
+                        company.IsActive = true;
+                        result = companyBLL.UpdateCompany(company);
+                    }
+                    else
+                    {
+                        company.CreatedBy = session["userName"].ToString();
+                        company.CreatedDate = DateTime.Now;
+                        company.IsActive = true;
+                        result = companyBLL.CreateCompany(company);
+                    }
+                    
                     if (result > 0)
                     {
                         return Ok("データが保存されました!");

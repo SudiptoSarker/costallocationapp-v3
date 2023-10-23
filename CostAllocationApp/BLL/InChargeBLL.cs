@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return inChargeDAL.CreateInCharge(inCharge);
         }
+        public int UpdateIncharge(InCharge inCharge)
+        {
+            return inChargeDAL.UpdateIncharge(inCharge);
+        }
         public List<InCharge> GetAllInCharges()
         {
             return inChargeDAL.GetAllInCharges();

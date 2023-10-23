@@ -35,6 +35,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateSection(Section section)
+        {
+            int result = 0;
+            string query = "";
+            query = query + "UPDATE Sections ";
+            query = query + "SET Name = N'"+ section.SectionName+ "',UpdatedBy=N'"+ section.UpdatedBy+ "',UpdatedDate='" + section.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = "+section.Id+" ";
+            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return result = 0;
+                }
+
+                return result;
+            }
+
+        }
         public List<Section> GetAllSections()
         {
             List<Section> sections = new List<Section>();
@@ -72,7 +97,9 @@ namespace CostAllocationApp.DAL
         public int RemoveSection(int sectionId)
         {
             int result = 0;
-            string query = $@"update sections set isactive=0 where id=@id";
+            //string query = $@"update sections set isactive=0 where id=@id";
+            string query = $@"DELETE FROM Sections WHERE id = @id ";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

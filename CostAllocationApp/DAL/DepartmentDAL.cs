@@ -35,6 +35,32 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateDepartment(Department department)
+        {
+            int result = 0;            
+            string query = "";
+            query = query + "UPDATE Departments ";
+            query = query + "SET Name = N'" + department.DepartmentName + "',SectionId="+ department .SectionId+ ",UpdatedBy=N'" + department.UpdatedBy + "',UpdatedDate='" + department.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = " + department.Id + " ";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);                
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
         public List<Department> GetAllDepartments()
         {
             List<Department> departments = new List<Department>();
@@ -228,8 +254,9 @@ namespace CostAllocationApp.DAL
 
         public int RemoveDepartment(int departmentId)
         {
-            int result = 0;
-            string query = $@"update Departments set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM Departments WHERE id = @id ";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -321,6 +348,7 @@ namespace CostAllocationApp.DAL
                             department = new Department();
                             department.DepartmentName = rdr["Name"].ToString();
                             department.Id = Convert.ToInt32(rdr["Id"]);
+                            department.SectionId = Convert.ToInt32(rdr["SectionId"]);
                         }
                     }
                 }

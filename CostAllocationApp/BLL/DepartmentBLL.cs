@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.CreateDepartment(department);
         }
+        public int UpdateDepartment(Department department)
+        {
+            return departmentDAL.UpdateDepartment(department);
+        }
         public List<Department> GetAllDepartments()
         {
             return departmentDAL.GetAllDepartments();

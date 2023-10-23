@@ -48,7 +48,7 @@
     padding: 0px !important;
 }
 #salary_table {
-    width: 47%;
+    width: 100%;
     border-collapse: collapse;
     font-size: 14px;
     border: 1px solid;
@@ -107,4 +107,131 @@
     margin-top: 0.25rem;
     font-size: 100%;
     color: #dc3545;
+}
+
+
+/*add,edit and delete button */
+.add_edit_delete_btn_section{
+    margin-top: 6px;
+}
+.add_salary_btn{   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1;    
+}
+.edit_explanation_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1.3;
+    margin-left: -89px;
+    float: left;
+}
+.delete_role_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: white;
+    color: red;
+    line-height: 1.2;
+    margin-left: -171px;
+    border: 2px solid red !important;
+}
+
+
+/*modal*/
+#add_modal_body_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+#add_modal_header{
+    text-align: left;
+    margin-left: 25px;
+}
+.custom-modal .modal-body{
+    padding: 22px !important;
+    margin-top: 1px !important;
+}
+
+#unit_price_from{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#unit_price_to{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#grae_point{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#salary_from_td,#salary_to_td{
+    height: 7px !important;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 22%;
+}
+#salary_grade_point_td{
+    height: 7px !important;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 18%;
+}
+#salary_action_td{
+    height: 7px !important;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 55%;
+}
+
+
+#exp_reg_cancel_btn {
+    line-height: 1;
+	background-color: red;
+    color: white;
+	border: none;
+
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#exp_reg_save_btn,#exp_reg_save_btn_edit {
+    line-height:1;
+    background-color: green;
+	border: none;
+
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
 }

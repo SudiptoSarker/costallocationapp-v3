@@ -34,6 +34,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateCompany(Company company)
+        {
+            int result = 0;
+            string query = "";
+            query = query + "UPDATE Categories ";
+            query = query + "SET Name = N'" + company.CompanyName + "',UpdatedBy=N'" + company.UpdatedBy + "',UpdatedDate='" + company.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = " + company.Id + " ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return result = 0;
+                }
+
+                return result;
+            }
+
+        }
         public List<Company> GetAllCompanies()
         {
             List<Company> companies = new List<Company>();
@@ -70,8 +95,8 @@ namespace CostAllocationApp.DAL
         }
         public int RemoveCompanies(int companyIds)
         {
-            int result = 0;
-            string query = $@"update Companies set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM Companies WHERE id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

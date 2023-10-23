@@ -28,7 +28,7 @@ body {
     text-align: center;
     width: 57%;
 }
-#in_charge_name{
+#in_charge_name,#in_charge_name_edit{
     width: 100% !important;
     height: 100% !important;
     border: none;
@@ -49,7 +49,7 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-#incharge_reg_save_btn {
+#incharge_reg_save_btn,#incharge_reg_save_btn_edit {
     line-height:1;
     background-color: green;
 	border: none;
@@ -138,4 +138,49 @@ body {
 }
 .incharge_th{
     border: 1px solid black !important;
+}
+
+/*add,edit and delete button */
+.add_edit_delete_btn_section{
+    margin-top: 6px;
+}
+.add_inchar_btn{   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1;    
+}
+.edit_inchar_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1.3;
+    margin-left: -89px;
+    float: left;
+}
+.delete_inchar_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: white;
+    color: red;
+    line-height: 1.2;
+    margin-left: -171px;
+    border: 2px solid red !important;
+}
+
+
+/*modal*/
+#add_modal_body_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+#add_modal_header{
+    text-align: left;
+    margin-left: 25px;
+}
+.custom-modal .modal-body{
+    padding: 22px !important;
+    margin-top: 1px !important;
 }

@@ -14,5 +14,6 @@ namespace CostAllocationApp.Models
         public bool IsActive { get; set; }
         public string SalaryLowPointWithComma { get; set; }
         public string SalaryHighPointWithComma { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

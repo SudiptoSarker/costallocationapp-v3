@@ -24,10 +24,7 @@ namespace CostAllocationApp.Controllers.Api
                 return BadRequest("InCharge Name Required");
             }
             else
-            {
-                inCharge.CreatedBy = session["userName"].ToString();
-                inCharge.CreatedDate = DateTime.Now;
-                inCharge.IsActive = true;
+            {                
 
                 if (inChargeBLL.CheckInCharge(inCharge.InChargeName))
                 {
@@ -35,7 +32,24 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    int result = inChargeBLL.CreateInCharge(inCharge);
+                    int result = 0;
+                    if (inCharge.IsUpdate)
+                    {
+                        inCharge.UpdatedBy = session["userName"].ToString();
+                        inCharge.UpdatedDate = DateTime.Now;
+                        inCharge.IsActive = true;
+
+                        result = inChargeBLL.UpdateIncharge(inCharge);
+                    }
+                    else
+                    {
+                        inCharge.CreatedBy = session["userName"].ToString();
+                        inCharge.CreatedDate = DateTime.Now;
+                        inCharge.IsActive = true;
+
+                        result = inChargeBLL.CreateInCharge(inCharge);
+                    }
+                    
                     if (result > 0)
                     {
                         return Ok("データが保存されました!");

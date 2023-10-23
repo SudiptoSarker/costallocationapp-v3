@@ -17,6 +17,10 @@ namespace CostAllocationApp.BLL
         {
             return roleDAL.CreateRole(role);
         }
+        public int UpdateRole(Role role)
+        {
+            return roleDAL.UpdateRole(role);
+        }
         public List<Role> GetAllRoles()
         {
             return roleDAL.GetAllRoles();

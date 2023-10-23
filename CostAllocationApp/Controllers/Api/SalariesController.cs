@@ -27,30 +27,38 @@ namespace CostAllocationApp.Controllers.Api
             }
             else
             {
-                salary.CreatedBy = session["userName"].ToString();
-                salary.CreatedDate = DateTime.Now;
-                salary.IsActive = true;
+                int result = 0;
 
-                // checking existing salary
-                if (salaryBLL.CheckGrade(salary))
+                if (salary.IsUpdate)
                 {
-                    return BadRequest("同一データが登録済みです!!!");
+                    salary.UpdatedBy = session["userName"].ToString();
+                    salary.UpdatedDate = DateTime.Now;
+
+                    result = salaryBLL.UpdateSalary(salary);
                 }
                 else
                 {
-                    // create salary
-                    int result = salaryBLL.CreateSalary(salary);
-                    if (result > 0)
+                    if (salaryBLL.CheckGrade(salary))
                     {
-                        return Ok("データが保存されました!");
+                        return BadRequest("同一データが登録済みです!!!");
                     }
                     else
                     {
-                        return BadRequest("Something Went Wrong!!!");
-                    }
-                }
+                        salary.CreatedBy = session["userName"].ToString();
+                        salary.CreatedDate = DateTime.Now;
+                        salary.IsActive = true;
 
-                
+                        result = salaryBLL.CreateSalary(salary);
+                    }                    
+                }
+                if (result > 0)
+                {
+                    return Ok("データが保存されました!");
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong!!!");
+                }
             }
         }
         // get all the salaries

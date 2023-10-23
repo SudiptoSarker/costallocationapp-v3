@@ -19,7 +19,10 @@ namespace CostAllocationApp.BLL
         {
             return sectionDAL.CreateSection(section);
         }
-
+        public int UpdateSection(Section section)
+        {
+            return sectionDAL.UpdateSection(section);
+        }
         public List<Section> GetAllSections()
         {
             return sectionDAL.GetAllSections();

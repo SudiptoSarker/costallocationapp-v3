@@ -6,56 +6,17 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/incharge_ver02.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />
 }
 
-    <div class="content container-fluid">
-        <!-----------------In-Charge Master: In-Charge Registration Form----------------->
-        @if (Convert.ToBoolean(ViewBag.linkFlag))
-        {
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label id="input_master">
-                                新規登録する場合は、「新規担当をここに入力」テキストボックスに担当名を記載し、保存ボタンをクリックしてください。 
-                            </label>
-                            <table id="incharge_reg_tbl">
-                                <thead style="border:none;">
-                                    <tr></tr>
-                                    <tr>
-                                        <th class="incharge_th">担当 (In-Charge Name)</th>
-                                        <th class="incharge_th">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="incharge_reg_frm_td">
-                                            <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name">                                            
-                                        </td>
-                                        <td id="incharge_reg_frm_td">
-                                            <a href="javascript:void(0);" class="" id="incharge_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                            <a href="javascript:void(0);" class="" id="incharge_reg_save_btn" onclick="InsertInCharge();">保存（save）</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br /><br />
-        }
-
-
+    <div class="content container-fluid">        
         <!-----------------In-Charge Master: In-Charge list are showing on this part----------------->
         <div id="incharge_list" style="display: block;">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="table-responsive">
                         <label id="list_master">
-                            登録した担当を消去するには、チェックボックスにチェックを入れ、
-                        <br>
-                            削除ボタンをクリックしてください。 
+                            登録した担当を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。                        
                         </label>
                         <table class="" id="incharge_list_tbl">
                             <thead>
@@ -68,23 +29,117 @@
                                 </tr>
                             </thead>
                             <tbody id="incharge_list_tbody"></tbody>
-                        </table>
-                        @if (Convert.ToBoolean(ViewBag.linkFlag))
-                        {
-                            <label id="incharge_delete_btn">
-                                <a id="incharge_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#del_incharge_modal" onClick="onInchargeInactiveClick()">削除 (delete)</a>
-                            </label>
-                        }
-
+                        </table>                        
                     </div>
                 </div>
             </div>
+
+            @if (Convert.ToBoolean(ViewBag.linkFlag))
+            {
+                
+                <div class="add_edit_delete_btn_section" style="display: block;">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3" >
+                                    <button class="btn add_inchar_btn" type="button">追加 (add)</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn edit_inchar_btn" type="button">編集​ (edit)​</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn delete_inchar_btn" type="button">削除 (delete)​</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
         <br />
     </div>
 <br><br>
 
 <input type="hidden" id="incharge_warning_text" />
+<input type="hidden" id="edit_incharge_id" />
+
+<!-----------------Modal: Add Section----------------->
+<div class="modal custom-modal fade" id="add_incharge_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='add_modal_header'>追加 担当 (add Incharge)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規担当をここに入力」テキストボックスに担当名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="incharge_reg_tbl">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="incharge_th">担当 (In-Charge Name)</th>
+                                <th class="incharge_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="incharge_reg_frm_td">
+                                    <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name">                                            
+                                </td>
+                                <td id="incharge_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit Section----------------->
+<div class="modal custom-modal fade" id="edit_incharge_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='add_modal_header'>編集​ 担当 (edit Incharge)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規担当をここに入力」テキストボックスに担当名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="incharge_reg_tbl">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="incharge_th">担当 (In-Charge Name)</th>
+                                <th class="incharge_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="incharge_reg_frm_td">
+                                    <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name_edit">                                            
+                                </td>
+                                <td id="incharge_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn_edit">更新​ (Update)</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-----------------Modal: Delete In-Charge----------------->
 <div class="modal custom-modal fade" id="del_incharge_modal" role="dialog">

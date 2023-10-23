@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return companyDAL.CreateCompany(company);
         }
+        public int UpdateCompany(Company company)
+        {
+            return companyDAL.UpdateCompany(company);
+        }
         public List<Company> GetAllCompanies()
         {
             return companyDAL.GetAllCompanies();

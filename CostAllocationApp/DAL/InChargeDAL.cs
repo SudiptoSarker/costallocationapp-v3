@@ -34,6 +34,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateIncharge(InCharge inCharge)
+        {
+            int result = 0;
+            string query = "";
+            query = query + "UPDATE InCharges ";
+            query = query + "SET Name = N'" + inCharge.InChargeName + "',UpdatedBy=N'" + inCharge.UpdatedBy + "',UpdatedDate='" + inCharge.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = " + inCharge.Id + " ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return result = 0;
+                }
+
+                return result;
+            }
+
+        }
         public List<InCharge> GetAllInCharges()
         {
             List<InCharge> inCharges = new List<InCharge>();
@@ -70,8 +95,8 @@ namespace CostAllocationApp.DAL
         }
         public int RemoveInCharge(int inChargeIds)
         {
-            int result = 0;
-            string query = $@"update InCharges set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM InCharges WHERE id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

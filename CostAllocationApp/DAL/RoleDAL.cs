@@ -34,6 +34,31 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int UpdateRole(Role role)
+        {
+            int result = 0;
+            string query = "";
+            query = query + "UPDATE Roles ";
+            query = query + "SET Name = N'" + role.RoleName + "',UpdatedBy=N'" + role.UpdatedBy + "',UpdatedDate='" + role.UpdatedDate + "',IsActive=1";
+            query = query + "WHERE Id = " + role.Id + " ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return result = 0;
+                }
+
+                return result;
+            }
+
+        }
         public List<Role> GetAllRoles()
         {
             List<Role> roles = new List<Role>();
@@ -70,8 +95,8 @@ namespace CostAllocationApp.DAL
         }
         public int RemoveRoles(int roleIds)
         {
-            int result = 0;
-            string query = $@"update Roles set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM Roles WHERE id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

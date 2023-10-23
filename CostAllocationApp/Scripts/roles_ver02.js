@@ -21,6 +21,71 @@ function onRoleInactiveClick() {
 }
 
 $(document).ready(function () {
+    $(".add_role_btn").on("click",function(event){        
+        $('#add_role_modal').modal('show');
+    })
+
+    $("#roles_reg_save_btn").on("click",function(event){       
+        let role_name = $("#role_name").val().trim();        
+        if (role_name == "") {
+            alert("please enter role!");
+            return false;
+        }
+
+        UpdateInsertRoles(role_name,0,false);
+    })
+    //edit incharge
+    $(".edit_role_btn").on("click",function(event){          
+        let id = GetCheckedIds("role_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_role_modal').modal('show');
+        }        
+    })
+    //edit from modal
+    $("#roles_reg_save_btn_edit").on("click",function(event){   
+        
+        var roleName = $("#role_name_edit").val();   
+        var roleId= $("#edit_role_id").val();   
+
+        if (roleName == '' || roleName == null || roleName == undefined){
+            alert("please enter role name!");
+            return false;
+        }
+        else{
+            alert("roleName"+roleName);
+            alert("roleId"+roleId);
+
+            UpdateInsertRoles(roleName,roleId,true);
+        }        
+    })
+    //get section details by section id
+    function FillTheEditModal(roleId){            
+        var apiurl = `/api/utilities/GetRoleNameByRoleId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "roleId=" + roleId,
+            success: function (data) { 
+                $("#role_name_edit").val(data.RoleName);   
+                $("#edit_role_id").val(data.Id);   
+            }
+        });            
+    }
     /***************************\                           
         Show Roles list on page load           
     \***************************/
@@ -53,12 +118,15 @@ $(document).ready(function () {
     /***************************\                           
         Check if the Roles is checked for delete/remove
     \***************************/
-    $('#role_inactive_btn').on('click', function (event) {
+    $('.delete_role_btn').on('click', function (event) {
 
         let id = GetCheckedIds("role_list_tbody");
         if (id == "") {
             alert("ファイルが削除されたことを確認してください");
             return false;
+        }else{
+            onRoleInactiveClick();
+            $('#inactive_role_modal').modal('show');
         }
     });
 });
@@ -66,39 +134,31 @@ $(document).ready(function () {
 /***************************\                           
     Roles Insertion function. 
 \***************************/                                    
-function InsertRoles() {
+function UpdateInsertRoles(roleName,roleId,isUpdate){        
     var apiurl = "/api/Roles/";
-    let roleName = $("#role_name").val().trim();
-    /***************************\                           
-        check roles input field is empty or not. if empty then show error message.
-    \***************************/
-    if (roleName == "") {
-        $(".role_name_err").show();
-        return false;
-    }
-    else {
-        $(".role_name_err").hide();
-        var data = {
-            RoleName: roleName
-        };
+    var data = {
+        Id:roleId,
+        RoleName: roleName,
+        IsUpdate:isUpdate
+    };
 
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#role_name").val('');
-                ToastMessageSuccess(data);                
-                $('#section-name').val('');
-                GetRoleList();                
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
+    $.ajax({
+        url: apiurl,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            $("#page_load_after_modal_close").val("yes");
+            $("#role_name").val('');
+            ToastMessageSuccess(data);                
+            $('#section-name').val('');
+            GetRoleList();                
+        },
+        error: function (data) {
+            alert(data.responseJSON.Message);
+        }
+    });
+
 }
 
 /***************************\                           

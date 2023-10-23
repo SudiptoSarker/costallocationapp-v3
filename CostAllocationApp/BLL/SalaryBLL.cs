@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return salaryDAL.CreateSalary(salary);
         }
+        public int UpdateSalary(Salary salary)
+        {
+            return salaryDAL.UpdateSalary(salary);
+        }
         public List<Salary> GetAllSalaryPoints()
         {
             return salaryDAL.GetAllSalaryPoints();
@@ -65,6 +69,10 @@ namespace CostAllocationApp.BLL
         private bool BetweenRanges(decimal a, decimal b, decimal number)
         {
             return (a <= number && number <= b);
+        }
+        public int GetGradeIdByGradePoint(string gradePoint)
+        {
+            return salaryDAL.GetGradeIdByGradePoint(gradePoint);
         }
     }
 }

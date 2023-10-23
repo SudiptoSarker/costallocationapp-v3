@@ -18,6 +18,10 @@ namespace CostAllocationApp.BLL
         {
             return explanationDAL.CreateExplanation(explanation);
         }
+        public int UpdateExplanations(Explanation explanation)
+        {
+            return explanationDAL.UpdateExplanations(explanation);
+        }
         public List<Explanation> GetAllExplanations()
         {
             return explanationDAL.GetAllExplanations();

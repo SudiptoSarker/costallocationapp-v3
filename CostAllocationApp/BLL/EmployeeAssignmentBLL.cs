@@ -1757,79 +1757,79 @@ namespace CostAllocationApp.BLL
                     foreach (var forecast in item.forecasts)
                     {
                         string manmonthSum = "";
-                        manmonthSum = $"=L{count}+M{count}+N{count}+O{count}+P{count}+Q{count}+R{count}+S{count}+T{count}+U{count}+V{count}+W{count}";
-                        string costTotal = $"=Y{count}+Z{count}+AA{count}+AB{count}+AC{count}+AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}";
+                        manmonthSum = $"=Q{count}+R{count}+S{count}+T{count}+U{count}+V{count}+W{count}+X{count}+Y{count}+Z{count}+AA{count}+AB{count}";
+                        string costTotal = $"=AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}+AK{count}+AL{count}+AM{count}+AN{count}+AO{count}";
                         if (innerCount == 1)
                         {
                             //l-w
-                            forecast.Total = $"=K{count}*L{count}";
+                            forecast.Total = $"=K{count}*Q{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
 
                         }
                         if (innerCount == 2)
                         {
-                            forecast.Total = $"=K{count}*M{count}";   
+                            forecast.Total = $"=K{count}*R{count}";   
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 3)
                         {
-                            forecast.Total = $"=K{count}*N{count}";
+                            forecast.Total = $"=K{count}*S{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 4)
                         {
-                            forecast.Total = $"=K{count}*O{count}";
+                            forecast.Total = $"=K{count}*T{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 5)
                         {
-                            forecast.Total = $"=K{count}*P{count}";
+                            forecast.Total = $"=K{count}*U{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 6)
                         {
-                            forecast.Total = $"=K{count}*Q{count}";
+                            forecast.Total = $"=K{count}*V{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 7)
                         {
-                            forecast.Total = $"=K{count}*R{count}";
+                            forecast.Total = $"=K{count}*W{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 8)
                         {
-                            forecast.Total = $"=K{count}*S{count}";
+                            forecast.Total = $"=K{count}*X{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 9)
                         {
-                            forecast.Total = $"=K{count}*T{count}";
+                            forecast.Total = $"=K{count}*Y{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 10)
                         {
-                            forecast.Total = $"=K{count}*U{count}";
+                            forecast.Total = $"=K{count}*Z{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 11)
                         {
-                            forecast.Total = $"=K{count}*V{count}";
+                            forecast.Total = $"=K{count}*AA{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 12)
                         {
-                            forecast.Total = $"=K{count}*W{count}";
+                            forecast.Total = $"=K{count}*AB{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
@@ -2000,79 +2000,79 @@ namespace CostAllocationApp.BLL
                     foreach (var forecast in item.forecasts)
                     {
                         string manmonthSum = "";
-                        manmonthSum = $"=L{count}+M{count}+N{count}+O{count}+P{count}+Q{count}+R{count}+S{count}+T{count}+U{count}+V{count}+W{count}";
-                        string costTotal = $"=Y{count}+Z{count}+AA{count}+AB{count}+AC{count}+AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}";
+                        manmonthSum = $"=Q{count}+R{count}+S{count}+T{count}+U{count}+V{count}+W{count}+X{count}+Y{count}+Z{count}+AA{count}+AB{count}";
+                        string costTotal = $"=AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}+AK{count}+AL{count}+AM{count}+AN{count}+AO{count}";
                         if (innerCount == 1)
                         {
                             //l-w
-                            forecast.Total = $"=K{count}*L{count}";
+                            forecast.Total = $"=K{count}*Q{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
 
                         }
                         if (innerCount == 2)
                         {
-                            forecast.Total = $"=K{count}*M{count}";
+                            forecast.Total = $"=K{count}*R{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 3)
                         {
-                            forecast.Total = $"=K{count}*N{count}";
+                            forecast.Total = $"=K{count}*S{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 4)
                         {
-                            forecast.Total = $"=K{count}*O{count}";
+                            forecast.Total = $"=K{count}*T{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 5)
                         {
-                            forecast.Total = $"=K{count}*P{count}";
+                            forecast.Total = $"=K{count}*U{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 6)
                         {
-                            forecast.Total = $"=K{count}*Q{count}";
+                            forecast.Total = $"=K{count}*V{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 7)
                         {
-                            forecast.Total = $"=K{count}*R{count}";
+                            forecast.Total = $"=K{count}*W{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 8)
                         {
-                            forecast.Total = $"=K{count}*S{count}";
+                            forecast.Total = $"=K{count}*X{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 9)
                         {
-                            forecast.Total = $"=K{count}*T{count}";
+                            forecast.Total = $"=K{count}*Y{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 10)
                         {
-                            forecast.Total = $"=K{count}*U{count}";
+                            forecast.Total = $"=K{count}*Z{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 11)
                         {
-                            forecast.Total = $"=K{count}*V{count}";
+                            forecast.Total = $"=K{count}*AA{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }
                         if (innerCount == 12)
                         {
-                            forecast.Total = $"=K{count}*W{count}";
+                            forecast.Total = $"=K{count}*AB{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
                         }

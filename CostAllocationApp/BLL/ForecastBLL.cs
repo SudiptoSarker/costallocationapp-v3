@@ -552,6 +552,10 @@ namespace CostAllocationApp.BLL
                         employeeAssignment.IsDeleted = item.IsDeleted;
                         employeeAssignment.Year = item.Year;
                         employeeAssignment.BCYRCellPending = item.BCYRCellPending;
+                        employeeAssignment.DuplicateFrom = item.DuplicateFrom;
+                        employeeAssignment.DuplicateCount = item.DuplicateCount;
+                        employeeAssignment.RoleChanged = item.RoleChanged;
+                        employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
 
                         int result = employeeAssignmentBLL.CreateApprovedAssignmentByTimestampId(employeeAssignment, approvedTimestampId);
 

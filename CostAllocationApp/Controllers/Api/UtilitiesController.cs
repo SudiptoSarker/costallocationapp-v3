@@ -9698,58 +9698,101 @@ namespace CostAllocationApp.Controllers.Api
 
                     List<EmployeeBudget> _employeeAssignments = new List<EmployeeBudget>();
                     _employeeAssignments = employeeAssignmentBLL.GetFinalizedBudgetData(Convert.ToInt32(arrYear[0]), Convert.ToInt32(arrYear[1]));
+                    
+
                     if (_employeeAssignments.Count > 0)
                     {
+
+                        List<string> uniqueEmployeeNameList = new List<string>();
+
+                        // get unique employee names
                         foreach (var assignmentItem in _employeeAssignments)
                         {
-                            EmployeeAssignment _assignmentData = new EmployeeAssignment();
-                            _assignmentData.Id = assignmentItem.Id;
-                            _assignmentData.EmployeeId = assignmentItem.EmployeeId;
-                            _assignmentData.SectionId = assignmentItem.SectionId;
-                            _assignmentData.SectionId = assignmentItem.SectionId;
-                            _assignmentData.DepartmentId = assignmentItem.DepartmentId;
-                            _assignmentData.DepartmentId = assignmentItem.DepartmentId;
-                            _assignmentData.InchargeId = assignmentItem.InchargeId;
-                            _assignmentData.RoleId = assignmentItem.RoleId;
-                            _assignmentData.ExplanationId = assignmentItem.ExplanationId;
-                            _assignmentData.CompanyId = assignmentItem.CompanyId;
-                            _assignmentData.GradeId = assignmentItem.GradeId;
-                            _assignmentData.GradeId = assignmentItem.GradeId;
-                            _assignmentData.UnitPrice = assignmentItem.UnitPrice;
-                            _assignmentData.CreatedBy = assignmentItem.CreatedBy;
-                            _assignmentData.CreatedDate = DateTime.Now;
-                            _assignmentData.Remarks = assignmentItem.Remarks;
-                            _assignmentData.SubCode = assignmentItem.SubCode;
-                            _assignmentData.Year = assignmentItem.Year;
-                            _assignmentData.BCYR = assignmentItem.BCYR;
-                            _assignmentData.BCYRCell = assignmentItem.BCYRCell;
-                            _assignmentData.EmployeeName = assignmentItem.EmployeeName;
-                            _assignmentData.DuplicateFrom = assignmentItem.DuplicateFrom;
-                            _assignmentData.DuplicateCount = assignmentItem.DuplicateCount;
-                            _assignmentData.RoleChanged = assignmentItem.RoleChanged;
-                            _assignmentData.UnitPriceChanged = assignmentItem.UnitPriceChanged;
-
-                            int finalBudgetAssignments = employeeAssignmentBLL.CreateFinalBudgetAssignment(_assignmentData);
-
-                            int assignmentCreateResults = employeeAssignmentBLL.CreateAssignment(_assignmentData);
-                            if (assignmentCreateResults == 1)
+                            if (!uniqueEmployeeNameList.Contains(assignmentItem.EmployeeName))
                             {
-                                int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
-                                //int updateActualCostResults = actualCostBLL.UpdateAssignmentIds(_assignmentData.Id, employeeAssignmentLastId);
-                                int finalAssignmentId = employeeAssignmentBLL.GetFinalBudgetLastId();
+                                uniqueEmployeeNameList.Add(assignmentItem.EmployeeName);
+                            }
+                        }
+                        List<string> assignedEmployeeName = new List<string>();
 
-                                List<Forecast> forecasts = new List<Forecast>();
-                                forecasts = forecastBLL.GetBudgetForecastsByAssignmentId(_assignmentData.Id);
-                                foreach (var forecastItem in forecasts)
+                        foreach (string employeeName in uniqueEmployeeNameList)
+                        {
+                            if (!assignedEmployeeName.Contains(employeeName))
+                            {
+                                var _tempAssignmentItemList = _employeeAssignments.Where(emp=>emp.EmployeeName== employeeName).ToList();
+                                List<string> _matchedItems = new List<string>();
+                                foreach (var assignmentItem in _tempAssignmentItemList)
                                 {
-                                    forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
-                                    forecastItem.CreatedBy = session["userName"].ToString();
-                                    results = forecastBLL.CreateForecast(forecastItem);
+                                    EmployeeAssignment _assignmentData = new EmployeeAssignment();
+                                    _assignmentData.Id = assignmentItem.Id;
+                                    _assignmentData.EmployeeId = assignmentItem.EmployeeId;
+                                    _assignmentData.SectionId = assignmentItem.SectionId;
+                                    _assignmentData.SectionId = assignmentItem.SectionId;
+                                    _assignmentData.DepartmentId = assignmentItem.DepartmentId;
+                                    _assignmentData.DepartmentId = assignmentItem.DepartmentId;
+                                    _assignmentData.InchargeId = assignmentItem.InchargeId;
+                                    _assignmentData.RoleId = assignmentItem.RoleId;
+                                    _assignmentData.ExplanationId = assignmentItem.ExplanationId;
+                                    _assignmentData.CompanyId = assignmentItem.CompanyId;
+                                    _assignmentData.GradeId = assignmentItem.GradeId;
+                                    _assignmentData.GradeId = assignmentItem.GradeId;
+                                    _assignmentData.UnitPrice = assignmentItem.UnitPrice;
+                                    _assignmentData.CreatedBy = assignmentItem.CreatedBy;
+                                    _assignmentData.CreatedDate = DateTime.Now;
+                                    _assignmentData.Remarks = assignmentItem.Remarks;
+                                    _assignmentData.SubCode = assignmentItem.SubCode;
+                                    _assignmentData.Year = assignmentItem.Year;
+                                    _assignmentData.BCYR = assignmentItem.BCYR;
+                                    _assignmentData.BCYRCell = assignmentItem.BCYRCell;
+                                    _assignmentData.EmployeeName = assignmentItem.EmployeeName;
+                                    if (_matchedItems.Count > 0)
+                                    {
+                                        foreach (var item in _matchedItems)
+                                        {
+                                            var splittedString = item.Split('_');
+                                            if (Convert.ToInt32(splittedString[0]) == Convert.ToInt32(assignmentItem.DuplicateFrom))
+                                            {
+                                                _assignmentData.DuplicateFrom = splittedString[1];
+                                                break;
+                                            }
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        _assignmentData.DuplicateFrom = 0.ToString();
+                                        
+                                    }
+                                    
+                                    _assignmentData.DuplicateCount = assignmentItem.DuplicateCount;
+                                    _assignmentData.RoleChanged = assignmentItem.RoleChanged;
+                                    _assignmentData.UnitPriceChanged = assignmentItem.UnitPriceChanged;
 
-                                    forecastItem.EmployeeAssignmentId = finalAssignmentId;
-                                    results = forecastBLL.CreateFinalBudgetForecast(forecastItem);
+                                    int finalBudgetAssignments = employeeAssignmentBLL.CreateFinalBudgetAssignment(_assignmentData);
+
+                                    int assignmentCreateResults = employeeAssignmentBLL.CreateAssignment(_assignmentData);
+
+                                    if (assignmentCreateResults == 1)
+                                    {
+                                        int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                                        int finalAssignmentId = employeeAssignmentBLL.GetFinalBudgetLastId();
+                                        _matchedItems.Add(_assignmentData.Id.ToString()+"_"+ employeeAssignmentLastId);
+                                        List<Forecast> forecasts = new List<Forecast>();
+                                        forecasts = forecastBLL.GetBudgetForecastsByAssignmentId(_assignmentData.Id);
+                                        foreach (var forecastItem in forecasts)
+                                        {
+                                            forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
+                                            forecastItem.CreatedBy = session["userName"].ToString();
+                                            results = forecastBLL.CreateForecast(forecastItem);
+
+                                            forecastItem.EmployeeAssignmentId = finalAssignmentId;
+                                            results = forecastBLL.CreateFinalBudgetForecast(forecastItem);
+                                        }
+                                    }
                                 }
                             }
+
+                            assignedEmployeeName.Add(employeeName);
                         }
                     }
 

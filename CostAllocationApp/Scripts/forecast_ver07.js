@@ -16,6 +16,64 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
+var jssTableDefinition = {
+    assignmentId: { index: 0, cellName: 'A' },
+    employeeName: { index: 1, cellName: 'B' },
+    remarks: { index: 2, cellName: 'C' },
+    section: { index: 3, cellName: 'D' },
+    department: { index: 4, cellName: 'E' },
+    incharge: { index: 5, cellName: 'F' },
+    role: { index: 6, cellName: 'G' },
+    explanation: { index: 7, cellName: 'H' },
+    company: { index: 8, cellName: 'I' },
+    grade: { index: 9, cellName: 'J' },
+    unitPrice: { index: 10, cellName: 'K' },
+    dbId: { index: 11, cellName: 'L' },
+    duplicateFrom: { index: 12, cellName: 'M' },
+    duplicateCount: { index: 13, cellName: 'N' },
+    roleChanged: { index: 14, cellName: 'O' },
+    unitPriceChanged: { index: 15, cellName: 'P' },
+    octM: { index: 16, cellName: 'Q' },
+    novM: { index: 17, cellName: 'R' },
+    decM: { index: 18, cellName: 'S' },
+    janM: { index: 19, cellName: 'T' },
+    febM: { index: 20, cellName: 'U' },
+    marM: { index: 21, cellName: 'V' },
+    aprM: { index: 22, cellName: 'W' },
+    mayM: { index: 23, cellName: 'X' },
+    junM: { index: 24, cellName: 'Y' },
+    julM: { index: 25, cellName: 'Z' },
+    augM: { index: 26, cellName: 'AA' },
+    sepM: { index: 27, cellName: 'AB' },
+    totalM: { index: 28, cellName: 'AC' },
+    octT: { index: 29, cellName: 'AD' },
+    novT: { index: 30, cellName: 'AE' },
+    decT: { index: 31, cellName: 'AF' },
+    janT: { index: 32, cellName: 'AG' },
+    febT: { index: 33, cellName: 'AH' },
+    marT: { index: 34, cellName: 'AI' },
+    aprT: { index: 35, cellName: 'AJ' },
+    mayT: { index: 36, cellName: 'AK' },
+    junT: { index: 37, cellName: 'AL' },
+    julT: { index: 38, cellName: 'AM' },
+    augT: { index: 39, cellName: 'AN' },
+    sepT: { index: 40, cellName: 'AO' },
+    totalCost: { index: 41, cellName: 'AP' },
+    employeeId: { index: 42, cellName: 'AQ' },
+    bcyr: { index: 43, cellName: 'AR' },
+    bcyrCell: { index: 44, cellName: 'AS' },
+    isActive: { index: 45, cellName: 'AT' },
+    bcyrApproved: { index: 46, cellName: 'AU' },
+    bcyrCellApproved: { index: 47, cellName: 'AV' },
+    isApproved: { index: 48, cellName: 'AW' },
+    bcyrCellPending: { index: 49, cellName: 'AX' },
+    isRowPending: { index: 50, cellName: 'AY' },
+    isDeletePending: { index: 51, cellName: 'AZ' },
+    rowType: { index: 52, cellName: 'BA' },
+
+};
+
+
 function ClearnAllJexcelData(){
     globalSearchObject = '';
     globalPreviousValue = '0.0';
@@ -252,40 +310,40 @@ $(document).ready(function () {
                  for (var j = 0; j < _allData.length; j++) {
                      if (parseInt(_distinctAssignmentIds[i]) == parseInt(_allData[j][0])) {
                          tempUpdateData.push({
-                             assignmentId: _allData[j][0],
-                             employeeName: _allData[j][1],
-                             remarks: _allData[j][2],
-                             sectionId: _allData[j][3],
-                             departmentId: _allData[j][4],
-                             inchargeId: _allData[j][5],
-                             roleId: _allData[j][6],
-                             explanationId: _allData[j][7],
-                             companyId: _allData[j][8],
-                             gradeId: _allData[j][9],
-                             unitPrice: _allData[j][10],
-                             octPoint: _allData[j][11],
-                             novPoint: _allData[j][12],
-                             decPoint: _allData[j][13],
-                             janPoint: _allData[j][14],
-                             febPoint: _allData[j][15],
-                             marPoint: _allData[j][16],
-                             aprPoint: _allData[j][17],
-                             mayPoint: _allData[j][18],
-                             junPoint: _allData[j][19],
-                             julPoint: _allData[j][20],
-                             augPoint: _allData[j][21],
-                             sepPoint: _allData[j][22],
-                             bCYRApproved: _allData[j][41],
-                             bCYRCell: _allData[j][39],
-                             bCYRCellApproved: _allData[j][42],
-                             bCYRCellPending: _allData[j][44],
-                             bcyr: _allData[j][38],
-                             employeeId: _allData[j][37],
-                             isActive: _allData[j][40],
-                             isApproved: _allData[j][43],
-                             isDeletePending: _allData[j][46],
-                             isRowPending: _allData[j][45],
-                             rowType: _allData[j][47],
+                             assignmentId: _allData[j][jssTableDefinition.assignmentId.index],
+                             employeeName: _allData[j][jssTableDefinition.employeeName.index],
+                             remarks: _allData[j][jssTableDefinition.remarks.index],
+                             sectionId: _allData[j][jssTableDefinition.section.index],
+                             departmentId: _allData[j][jssTableDefinition.department.index],
+                             inchargeId: _allData[j][jssTableDefinition.incharge.index],
+                             roleId: _allData[j][jssTableDefinition.role.index],
+                             explanationId: _allData[j][jssTableDefinition.explanation.index],
+                             companyId: _allData[j][jssTableDefinition.company.index],
+                             gradeId: _allData[j][jssTableDefinition.grade.index],
+                             unitPrice: _allData[j][jssTableDefinition.unitPrice.index],
+                             octPoint: _allData[j][jssTableDefinition.octM.index],
+                             novPoint: _allData[j][jssTableDefinition.novM.index],
+                             decPoint: _allData[j][jssTableDefinition.decM.index],
+                             janPoint: _allData[j][jssTableDefinition.janM.index],
+                             febPoint: _allData[j][jssTableDefinition.febM.index],
+                             marPoint: _allData[j][jssTableDefinition.marM.index],
+                             aprPoint: _allData[j][jssTableDefinition.aprM.index],
+                             mayPoint: _allData[j][jssTableDefinition.mayM.index],
+                             junPoint: _allData[j][jssTableDefinition.junM.index],
+                             julPoint: _allData[j][jssTableDefinition.julM.index],
+                             augPoint: _allData[j][jssTableDefinition.augM.index],
+                             sepPoint: _allData[j][jssTableDefinition.sepM.index],
+                             bCYRApproved: _allData[j][jssTableDefinition.bcyrApproved.index],
+                             bCYRCell: _allData[j][jssTableDefinition.bcyrCell.index],
+                             bCYRCellApproved: _allData[j][jssTableDefinition.bcyrCellApproved.index],
+                             bCYRCellPending: _allData[j][jssTableDefinition.bcyrCellPending.index],
+                             bcyr: _allData[j][jssTableDefinition.bcyr.index],
+                             employeeId: _allData[j][jssTableDefinition.employeeId.index],
+                             isActive: _allData[j][jssTableDefinition.isActive.index],
+                             isApproved: _allData[j][jssTableDefinition.isApproved.index],
+                             isDeletePending: _allData[j][jssTableDefinition.isDeletePending.index],
+                             isRowPending: _allData[j][jssTableDefinition.isRowPending.index],
+                             rowType: _allData[j][jssTableDefinition.rowType.index],
                              year: $('#assignment_year_list').val(),
                          });
                      }
@@ -332,7 +390,7 @@ $(document).ready(function () {
             var tempArrayCopy=[];
             for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
                 for (var j = 0; j < allTableData.length; j++) {
-                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][jssTableDefinition.employeeId.index].toString()) {
                         tempArray.push(allTableData[j]);
                     } 
                 }
@@ -381,7 +439,7 @@ $(document).ready(function () {
                             singleRowDuplicationCount++;
                         }
                         //employee id
-                        if (tempArray[i][37] == tempArrayCopy[k][37]) {
+                        if (tempArray[i][42] == tempArrayCopy[k][42]) {
                             singleRowDuplicationCount++;
                         }
 
@@ -453,7 +511,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_unitPrice[b] == _allData[k][jssTableDefinition.isRowPending.index]) {
                                             newUnitPriceList.push(_allData[k]);
                                         }
                                     }
@@ -468,8 +526,8 @@ $(document).ready(function () {
                                                 rowCount = 0;
 
                                                 //oct point
-                                                if (parseFloat(newUnitPriceList[l][11]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.octM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.octM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -478,8 +536,8 @@ $(document).ready(function () {
                                                 }
 
                                                 //nov point
-                                                if (parseFloat(newUnitPriceList[l][12]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.novM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.novM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -487,8 +545,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //dec point
-                                                if (parseFloat(newUnitPriceList[l][13]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.decM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.decM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -496,8 +554,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jan point
-                                                if (parseFloat(newUnitPriceList[l][14]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.janM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.janM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -505,8 +563,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //feb point
-                                                if (parseFloat(newUnitPriceList[l][15]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.febM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.febM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -514,8 +572,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //mar point
-                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.marM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.marM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -523,8 +581,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //apr point
-                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.aprM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.aprM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -532,8 +590,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //may point
-                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.mayM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.mayM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -541,8 +599,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jun point
-                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.junM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.junM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -550,8 +608,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jul point
-                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.julM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.julM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -559,8 +617,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //aug point
-                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.augM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.augM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -568,8 +626,8 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //sep point
-                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
-                                                    if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][jssTableDefinition.sepM.index]) > 0) {
+                                                    if (parseFloat(newUnitPriceListCopy[m][jssTableDefinition.sepM.index]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
                                                         alert('duplicate (unit price) row(s) found for ' + newUnitPriceList[l][1]);
@@ -625,7 +683,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_role[b] == _allData[k][jssTableDefinition.isRowPending.index]) {
                                             newRoleList.push(_allData[k]);
                                         }
                                     }
@@ -711,7 +769,7 @@ $(document).ready(function () {
 
 
                                     for (let k = 0; k < _allData.length; k++) {
-                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][45]) {
+                                        if (insertedUniqueEmployeeData_both[b] == _allData[k][jssTableDefinition.isRowPending.index]) {
                                             newBothList.push(_allData[k]);
                                         }
                                     }
@@ -1106,7 +1164,7 @@ function ShowForecastResults(year) {
             [
                 {
                     title: '',
-                    colspan: '10',
+                    colspan: '15',
                 },
                 //month wise total points
                 {
@@ -1304,6 +1362,10 @@ function ShowForecastResults(year) {
                     colspan: '1',
                 },
                 {
+                    title: '',
+                    colspan: '5',
+                },
+                {
                     title: yearHeaderTitleForPoints,
                     colspan: '12',
                 },
@@ -1354,6 +1416,13 @@ function ShowForecastResults(year) {
                 },
             },
             { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
+
+            { title: "Db Id", type: 'text', name: "Id" },
+            { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
+            { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
+            { title: "RoleChanged", type: 'text', name: "RoleChanged" },
+            { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
+
             {
                 title: "10月",
                 type: "decimal",
@@ -1575,46 +1644,46 @@ function ShowForecastResults(year) {
         onbeforechange: function (instance, cell, x, y, value) {
             console.log("onbeforechange");
             //alert(value);
-            if (x == 11) {
+            if (x == jssTableDefinition.octM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 12) {
+            if (x == jssTableDefinition.novM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 13) {
+            if (x == jssTableDefinition.decM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 14) {
+            if (x == jssTableDefinition.janM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 15) {
+            if (x == jssTableDefinition.febM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 16) {
+            if (x == jssTableDefinition.marM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 17) {
+            if (x == jssTableDefinition.aprM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 18) {
+            if (x == jssTableDefinition.mayM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 19) {
+            if (x == jssTableDefinition.junM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 20) {
+            if (x == jssTableDefinition.julM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 21) {
+            if (x == jssTableDefinition.augM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
-            if (x == 22) {
+            if (x == jssTableDefinition.sepM.index) {
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
         },
-        onchange: function (instance, cell, x, y, value) {            
-            var checkId = jss.getValueFromCoords(0, y);
-            var employeeId = jss.getValueFromCoords(37, y);            
+        onchange: function (instance, cell, x, y, value) {
+            var checkId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
+            var employeeId = jss.getValueFromCoords(jssTableDefinition.employeeId.index, y);            
 
             if (checkId == null || checkId == '' || checkId == undefined) {
 
@@ -1623,22 +1692,21 @@ function ShowForecastResults(year) {
 
                 jssInsertedData.push(retrivedData);
                 newRowCount++;
-                jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-                jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.assignmentId.index, y, retrivedData.assignmentId, false);
+                jss.setValueFromCoords(jssTableDefinition.octT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.octM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.novT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.novM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.decT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.decM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.janT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.janM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.febT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.febM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.marT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.marM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.aprT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.mayT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.junT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.junM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.julT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.julM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.augT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.augM.cellName}${parseInt(y) + 1}`, false);
+                jss.setValueFromCoords(jssTableDefinition.sepT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(y) + 1}`, false);
             }
             else {
-                console.log("changed");
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 if (retrivedData.assignmentId.toString().includes('new')) {
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
@@ -1654,12 +1722,12 @@ function ShowForecastResults(year) {
                     
                     if(isUnapprovedDeletedRow){
                         var isCellAlreadyChanged = false;
-                        if(!isCellAlreadyChanged){                                
-                            SetColorForCells("white","black","B"+(parseInt(y)+1))                                
+                        if (!isCellAlreadyChanged) {
+                            SetColorForCells("white", "black", jssTableDefinition.employeeId.cellName + (parseInt(y) + 1))                                
                         }
                     }
 
-                    if (x == 2) {
+                    if (x == jssTableDefinition.remarks.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1676,14 +1744,14 @@ function ShowForecastResults(year) {
                     else{                         
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(2,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","C"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.remarks.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.remarks.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 3) {
+                    if (x == jssTableDefinition.section.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1700,14 +1768,14 @@ function ShowForecastResults(year) {
                     else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(3,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","D"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.section.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.section.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 4) {
+                    if (x == jssTableDefinition.department.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1723,14 +1791,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(4,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","E"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.department.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.department.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
                     
-                    if (x == 5) {
+                    if (x == jssTableDefinition.incharge.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1746,14 +1814,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(5,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","F"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.incharge.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.incharge.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 6) {
+                    if (x == jssTableDefinition.role.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1769,14 +1837,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(6,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","G"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.role.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.role.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 7) {
+                    if (x == jssTableDefinition.explanation.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1792,14 +1860,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(7,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","H"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.explanation.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.explanation.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
                     // for company
-                    if (x == 8) {                        ;
+                    if (x == jssTableDefinition.company.index) {                        ;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1807,25 +1875,23 @@ function ShowForecastResults(year) {
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         console.log(element);
                         var companyName = element[0].cells[9].innerText;
-                        console.log('copany ' + companyName);
                         if (companyName.toLowerCase() !== 'mw') {
                             element[0].cells[10].innerText = '';
-                            $(jss.getCell("J" + rowNumber)).addClass('readonly');
-                            $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                            $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
-                            jss.setValueFromCoords(10, parseInt(y), 0, false);
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).addClass('readonly');
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('color', 'black');
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('background-color', 'white');
+                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
                             
                         }
                         else {
-                            $(jss.getCell("J" + rowNumber)).removeClass('readonly');
-                            $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                            $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
-                            jss.setValueFromCoords(10, parseInt(y), 0, false);
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).removeClass('readonly');
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('color', 'black');
+                            $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('background-color', 'white'); 
+                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
                         }
 
                         if (dataCheck.length == 0) {
                             jssUpdatedData.push(retrivedData);
-                            console.log('clouser');
                         }
                         else {
                             updateArray(jssUpdatedData, retrivedData);
@@ -1836,14 +1902,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(8,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","I"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.company.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.company.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
                     // for grade
-                    if (x == 9) {
+                    if (x == jssTableDefinition.grade.index) {
                         debugger;
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -1853,7 +1919,7 @@ function ShowForecastResults(year) {
                         }
 
 
-                        var cellValue = jss.getValueFromCoords(8, y);
+                        var cellValue = jss.getValueFromCoords(jssTableDefinition.company.index, y);
                         if (companyName.toLowerCase() == 'mw') {
                             $.ajax({
                                 url: '/api/Salaries?salaryGradeId=' + value,
@@ -1862,7 +1928,7 @@ function ShowForecastResults(year) {
                                 async: false,
                                 dataType: 'json',
                                 success: function (salary) {
-                                    jss.setValueFromCoords(10, parseInt(y), salary.SalaryLowPoint, false);
+                                    jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), salary.SalaryLowPoint, false);
                                 }
                             });
                         }
@@ -1881,15 +1947,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(9,retrivedData.assignmentId)
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.grade.index,retrivedData.assignmentId)
                             if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","J"+(parseInt(y)+1))                                
+                                SetColorForCells("white", "black", jssTableDefinition.grade.cellName+(parseInt(y)+1))                                
                             }
                         }
                     }
                     // for unit price
-                    if (x == 10) {
-                                debugger;
+                    if (x == jssTableDefinition.unitPrice.index) {
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1905,15 +1970,15 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(10,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","K"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.unitPrice.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.unitPrice.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
                     
 
-                    if (x == 11) {
+                    if (x == jssTableDefinition.octM.index) {
                         var octPointsSum = 0;
                         var octCostSum = 0;
 
@@ -1922,15 +1987,15 @@ function ShowForecastResults(year) {
                         }
                         var octSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {  
-                            if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
+                            if (dataValue[jssTableDefinition.octM.index] != "" && dataValue[jssTableDefinition.octM.index] != null && dataValue[jssTableDefinition.octM.index] != undefined) {
                                 var octPointPerRow = 0.0;
-                                octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
+                                octPointPerRow = parseFloat(dataValue[jssTableDefinition.octM.index]).toFixed(1);
                                 octPointsSum += parseFloat(octPointPerRow);                            
-                                octCostSum = parseFloat(octCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[11]);     
+                                octCostSum = parseFloat(octCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.octM.index]);     
                             }
 
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                octSum += parseFloat(parseFloat(dataValue[11]));
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                octSum += parseFloat(parseFloat(dataValue[jssTableDefinition.octM.index]));
                             }
                         });       
 
@@ -1961,14 +2026,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(11,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","L"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.octM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.octM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 12) {
+                    if (x == jssTableDefinition.novM.index) {
                         var novPointsSum = 0;
                         var novCostSum = 0;
 
@@ -1978,15 +2043,15 @@ function ShowForecastResults(year) {
                         var novSum = 0;
 
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[12] != "" && dataValue[12] != null && dataValue[12] != undefined) {
+                            if (dataValue[jssTableDefinition.novM.index] != "" && dataValue[jssTableDefinition.novM.index] != null && dataValue[jssTableDefinition.novM.index] != undefined) {
                                 var novPointPerRow = 0.0;
-                                novPointPerRow = parseFloat(dataValue[12]).toFixed(1);
+                                novPointPerRow = parseFloat(dataValue[jssTableDefinition.novM.index]).toFixed(1);
                                 novPointsSum += parseFloat(novPointPerRow);   
 
-                                novCostSum = parseFloat(novCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[12]);   
+                                novCostSum = parseFloat(novCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.novM.index]);   
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                novSum += parseFloat(dataValue[12]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                novSum += parseFloat(dataValue[jssTableDefinition.novM.index]);
                             }
 
                         });
@@ -2016,14 +2081,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(12,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","M"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.novM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.novM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 13) {
+                    if (x == jssTableDefinition.decM.index) {
                         var decPointsSum = 0;
                         var decCostSum = 0;
 
@@ -2032,15 +2097,15 @@ function ShowForecastResults(year) {
                         }
                         var decSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[13] != "" && dataValue[13] != null && dataValue[13] != undefined){
+                            if (dataValue[jssTableDefinition.decM.index] != "" && dataValue[jssTableDefinition.decM.index] != null && dataValue[jssTableDefinition.decM.index] != undefined){
                                 var decPointPerRow = 0.0;
-                                decPointPerRow = parseFloat(dataValue[13]).toFixed(1);
+                                decPointPerRow = parseFloat(dataValue[jssTableDefinition.decM.index]).toFixed(1);
                                 decPointsSum += parseFloat(decPointPerRow); 
                                 
-                                decCostSum = parseFloat(decCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[13]);   
+                                decCostSum = parseFloat(decCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.decM.index]);   
                             }                            
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                decSum += parseFloat(dataValue[13]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                decSum += parseFloat(dataValue[jssTableDefinition.decM.index]);
                             }
 
                         });
@@ -2071,14 +2136,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(13,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","N"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.decM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.decM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 14) {
+                    if (x == jssTableDefinition.janM.index) {
                         var janPointsSum = 0;
                         var janCostSum = 0;
 
@@ -2087,15 +2152,15 @@ function ShowForecastResults(year) {
                         }
                         var janSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[14] != "" && dataValue[14] != null && dataValue[14] != undefined){
+                            if (dataValue[jssTableDefinition.janM.index] != "" && dataValue[jssTableDefinition.janM.index] != null && dataValue[jssTableDefinition.janM.index] != undefined){
                                 var janPointPerRow = 0.0;
-                                janPointPerRow = parseFloat(dataValue[14]).toFixed(1);
+                                janPointPerRow = parseFloat(dataValue[jssTableDefinition.janM.index]).toFixed(1);
                                 janPointsSum += parseFloat(janPointPerRow); 
 
-                                janCostSum = parseFloat(janCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[14]);   
+                                janCostSum = parseFloat(janCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.janM.index]);   
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                janSum += parseFloat(dataValue[14]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                janSum += parseFloat(dataValue[jssTableDefinition.janM.index]);
                             }
                         });
                         var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
@@ -2124,14 +2189,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(14,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","O"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.janM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.janM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 15) {
+                    if (x == jssTableDefinition.febM.index) {
                         var febPointsSum = 0;
                         var febCostSum = 0;
 
@@ -2140,16 +2205,16 @@ function ShowForecastResults(year) {
                         }
                         var febSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[15] != "" && dataValue[15] != null && dataValue[15] != undefined){
+                            if (dataValue[jssTableDefinition.febM.index] != "" && dataValue[jssTableDefinition.febM.index] != null && dataValue[jssTableDefinition.febM.index] != undefined){
                                 var febPointPerRow = 0.0;
-                                febPointPerRow = parseFloat(dataValue[15]).toFixed(1);
+                                febPointPerRow = parseFloat(dataValue[jssTableDefinition.febM.index]).toFixed(1);
                                 febPointsSum += parseFloat(febPointPerRow); 
                                 
-                                febCostSum = parseFloat(febCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[15]);   
+                                febCostSum = parseFloat(febCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.febM.index]);   
                             }
                             
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                febSum += parseFloat(dataValue[15]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                febSum += parseFloat(dataValue[jssTableDefinition.febM.index]);
                             }
 
                         });
@@ -2179,14 +2244,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(15,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","P"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.febM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.febM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 16) {
+                    if (x == jssTableDefinition.marM.index) {
                         var marPointsSum = 0;
                         var marCostSum = 0;
 
@@ -2195,15 +2260,15 @@ function ShowForecastResults(year) {
                         }
                         var marSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[16] != "" && dataValue[16] != null && dataValue[16] != undefined){
+                            if (dataValue[jssTableDefinition.marM.index] != "" && dataValue[jssTableDefinition.marM.index] != null && dataValue[jssTableDefinition.marM.index] != undefined){
                                 var marPointPerRow = 0.0;
-                                marPointPerRow = parseFloat(dataValue[16]).toFixed(1);
+                                marPointPerRow = parseFloat(dataValue[jssTableDefinition.marM.index]).toFixed(1);
                                 marPointsSum += parseFloat(marPointPerRow); 
                                 
-                                marCostSum = parseFloat(marCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[16]);   
+                                marCostSum = parseFloat(marCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.marM.index]);   
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                marSum += parseFloat(dataValue[16]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                marSum += parseFloat(dataValue[jssTableDefinition.marM.index]);
                             }
 
                         });
@@ -2233,14 +2298,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(16,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","Q"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.marM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.marM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 17) {
+                    if (x == jssTableDefinition.aprM.index) {
                         var aprPointsSum = 0;
                         var aprCostSum = 0;
 
@@ -2249,15 +2314,15 @@ function ShowForecastResults(year) {
                         }
                         var aprSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[17] != "" && dataValue[17] != null && dataValue[17] != undefined){
+                            if (dataValue[jssTableDefinition.aprM.index] != "" && dataValue[jssTableDefinition.aprM.index] != null && dataValue[jssTableDefinition.aprM.index] != undefined){
                                 var aprPointPerRow = 0.0;
-                                aprPointPerRow = parseFloat(dataValue[17]).toFixed(1);
+                                aprPointPerRow = parseFloat(dataValue[jssTableDefinition.aprM.index]).toFixed(1);
                                 aprPointsSum += parseFloat(aprPointPerRow); 
                                 
-                                aprCostSum = parseFloat(aprCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[17]);
+                                aprCostSum = parseFloat(aprCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.aprM.index]);
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                aprSum += parseFloat(dataValue[17]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                aprSum += parseFloat(dataValue[jssTableDefinition.aprM.index]);
                             }
 
                         });
@@ -2287,14 +2352,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(17,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","R"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.aprM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.aprM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 18) {
+                    if (x == jssTableDefinition.mayM.index) {
                         var mayPointsSum = 0;
                         var mayCostSum = 0;
 
@@ -2303,15 +2368,15 @@ function ShowForecastResults(year) {
                         }
                         var maySum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[18] != "" && dataValue[18] != null && dataValue[18] != undefined){
+                            if (dataValue[jssTableDefinition.mayM.index] != "" && dataValue[jssTableDefinition.mayM.index] != null && dataValue[jssTableDefinition.mayM.index] != undefined){
                                 var mayPointPerRow = 0.0;
-                                mayPointPerRow = parseFloat(dataValue[18]).toFixed(1);
+                                mayPointPerRow = parseFloat(dataValue[jssTableDefinition.mayM.index]).toFixed(1);
                                 mayPointsSum += parseFloat(mayPointPerRow); 
 
-                                mayCostSum = parseFloat(mayCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[18]); 
+                                mayCostSum = parseFloat(mayCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.mayM.index]); 
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                maySum += parseFloat(dataValue[18]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                maySum += parseFloat(dataValue[jssTableDefinition.mayM.index]);
                             }
 
                         });
@@ -2340,14 +2405,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(18,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","S"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.mayM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.mayM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 19) {
+                    if (x == jssTableDefinition.junM.index) {
                         var junPointsSum = 0;
                         var junCostSum = 0;
 
@@ -2356,15 +2421,15 @@ function ShowForecastResults(year) {
                         }
                         var junSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[19] != "" && dataValue[19] != null && dataValue[19] != undefined){
+                            if (dataValue[jssTableDefinition.junM.index] != "" && dataValue[jssTableDefinition.junM.index] != null && dataValue[jssTableDefinition.junM.index] != undefined){
                                 var junPointPerRow = 0.0;
-                                junPointPerRow = parseFloat(dataValue[19]).toFixed(1);
+                                junPointPerRow = parseFloat(dataValue[jssTableDefinition.junM.index]).toFixed(1);
                                 junPointsSum += parseFloat(junPointPerRow); 
 
-                                junCostSum = parseFloat(junCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[19]); 
+                                junCostSum = parseFloat(junCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.junM.index]); 
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                junSum += parseFloat(dataValue[19]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                junSum += parseFloat(dataValue[jssTableDefinition.junM.index]);
                             }
 
                         });
@@ -2394,14 +2459,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(19,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","T"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.junM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.junM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 20) {
+                    if (x == jssTableDefinition.julM.index) {
                         var julPointsSum = 0;
                         var julCostSum = 0;
 
@@ -2410,15 +2475,15 @@ function ShowForecastResults(year) {
                         }
                         var julSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[20] != "" && dataValue[20] != null && dataValue[20] != undefined){
+                            if (dataValue[jssTableDefinition.julM.index] != "" && dataValue[jssTableDefinition.julM.index] != null && dataValue[jssTableDefinition.julM.index] != undefined){
                                 var julPointPerRow = 0.0;
-                                julPointPerRow = parseFloat(dataValue[20]).toFixed(1);
+                                julPointPerRow = parseFloat(dataValue[jssTableDefinition.julM.index]).toFixed(1);
                                 julPointsSum += parseFloat(julPointPerRow); 
 
-                                julCostSum = parseFloat(julCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[20]); 
+                                julCostSum = parseFloat(julCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.julM.index]); 
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                julSum += parseFloat(dataValue[20]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                julSum += parseFloat(dataValue[jssTableDefinition.julM.index]);
                             }
 
                         });
@@ -2447,14 +2512,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(20,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","U"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.julM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.julM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 21) {
+                    if (x == jssTableDefinition.augM.index) {
                         var augPointsSum = 0;
                         var augCostSum = 0;
 
@@ -2463,15 +2528,15 @@ function ShowForecastResults(year) {
                         }
                         var augSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[21] != "" && dataValue[21] != null && dataValue[21] != undefined){
+                            if (dataValue[jssTableDefinition.augM.index] != "" && dataValue[jssTableDefinition.augM.index] != null && dataValue[jssTableDefinition.augM.index] != undefined){
                                 var augPointPerRow = 0.0;
-                                augPointPerRow = parseFloat(dataValue[21]).toFixed(1);
+                                augPointPerRow = parseFloat(dataValue[jssTableDefinition.augM.index]).toFixed(1);
                                 augPointsSum += parseFloat(augPointPerRow); 
 
-                                augCostSum = parseFloat(augCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[21]); 
+                                augCostSum = parseFloat(augCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.augM.index]); 
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                augSum += parseFloat(dataValue[21]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                augSum += parseFloat(dataValue[jssTableDefinition.augM.index]);
                             }
 
                         });
@@ -2501,14 +2566,14 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(21,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","V"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.augM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.augM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
 
-                    if (x == 22) {
+                    if (x == jssTableDefinition.sepM.index) {
                         var sepPointsSum = 0;
                         var sepCostSum = 0;
 
@@ -2517,15 +2582,15 @@ function ShowForecastResults(year) {
                         }
                         var sepSum = 0;
                         $.each(jss.getData(), (index, dataValue) => {
-                            if (dataValue[22] != "" && dataValue[22] != null && dataValue[22] != undefined){
+                            if (dataValue[jssTableDefinition.sepM.index] != "" && dataValue[jssTableDefinition.sepM.index] != null && dataValue[jssTableDefinition.sepM.index] != undefined){
                                 var sepPointPerRow = 0.0;
-                                sepPointPerRow = parseFloat(dataValue[22]).toFixed(1);
+                                sepPointPerRow = parseFloat(dataValue[jssTableDefinition.sepM.index]).toFixed(1);
                                 sepPointsSum += parseFloat(sepPointPerRow); 
 
-                                sepCostSum = parseFloat(sepCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[22]); 
+                                sepCostSum = parseFloat(sepCostSum)+parseFloat(dataValue[jssTableDefinition.unitPrice.index])*parseFloat(dataValue[jssTableDefinition.sepM.index]); 
                             }
-                            if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                sepSum += parseFloat(dataValue[22]);
+                            if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                sepSum += parseFloat(dataValue[jssTableDefinition.sepM.index]);
                             }
 
                         });  
@@ -2554,28 +2619,28 @@ function ShowForecastResults(year) {
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
-                            isCellAlreadyChanged = CheckIfAlreadyExists(22,retrivedData.assignmentId)
-                            if(!isCellAlreadyChanged){                                
-                                SetColorForCells("white","black","W"+(parseInt(y)+1))                                
+                            isCellAlreadyChanged = CheckIfAlreadyExists(jssTableDefinition.sepM.index,retrivedData.assignmentId)
+                            if (!isCellAlreadyChanged) {
+                                SetColorForCells("white", "black", jssTableDefinition.sepM.cellName + (parseInt(y) + 1))                                
                             }
                         }
                     }
                     
                     if(isUnapprovedDeletedRow){
                         var isCellAlreadyChanged = false;
-                        if(!isCellAlreadyChanged){                                
-                            SetColorForCostsCells("white","black","X"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","Y"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","Z"+(parseInt(y)+1));                               
-                            SetColorForCostsCells("white","black","AA"+(parseInt(y)+1));    
-                            SetColorForCostsCells("white","black","AB"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AC"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AD"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AE"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AF"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AG"+(parseInt(y)+1));                                
-                            SetColorForCostsCells("white","black","AH"+(parseInt(y)+1));                                                            
-                            SetColorForCostsCells("white","black","AI"+(parseInt(y)+1));                                
+                        if (!isCellAlreadyChanged) {
+                            SetColorForCostsCells("white", "black", jssTableDefinition.octT.cellName+(parseInt(y)+1));                               
+                            SetColorForCostsCells("white", "black", jssTableDefinition.novT.cellName+(parseInt(y)+1));                               
+                            SetColorForCostsCells("white", "black", jssTableDefinition.decT.cellName+(parseInt(y)+1));
+                            SetColorForCostsCells("white", "black", jssTableDefinition.janT.cellName+(parseInt(y)+1));    
+                            SetColorForCostsCells("white", "black", jssTableDefinition.febT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.marT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.aprT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.mayT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.junT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.julT.cellName+(parseInt(y)+1));                                
+                            SetColorForCostsCells("white","black",  jssTableDefinition.augT.cellName+(parseInt(y)+1));                                                            
+                            SetColorForCostsCells("white","black",  jssTableDefinition.sepT.cellName+(parseInt(y)+1));                                
                         }
                     }
                 }
@@ -2593,8 +2658,8 @@ function ShowForecastResults(year) {
                     var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                     
                     setTimeout(function () {
-                        SetColorCommonRow(parseInt(y)+2,"yellow","red","newrow");  
-                        jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
+                        SetColorCommonRow(parseInt(y) + 2, "yellow", "red", "newrow");
+                        jss.setValueFromCoords(jssTableDefinition.bcyr.index, (insertedRowNumber - 1), true, false);
 
                         $('#jexcel_add_employee_modal').modal('show');
                         globalY = parseInt(y) + 1;
@@ -2731,72 +2796,73 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
-                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
-                    obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
 
                     // color row....
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("J" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("K" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
 
                     // disable section....
-                    $(obj.getCell("D" + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell(jssTableDefinition.section.cellName + (nextRow + 1))).addClass('readonly');
                     // disable department....
-                    $(obj.getCell("E" + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell(jssTableDefinition.department.cellName + (nextRow + 1))).addClass('readonly');
                     // disable incharge....
-                    $(obj.getCell("F" + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell(jssTableDefinition.incharge.cellName + (nextRow + 1))).addClass('readonly');
                     // disable role....
-                    $(obj.getCell("G" + (nextRow + 1))).addClass('readonly');
-                    // disable role....
-                    $(obj.getCell("I" + (nextRow + 1))).addClass('readonly');
-                    
-                    obj.setValueFromCoords(38, nextRow, false, false);
-                    obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    obj.setValueFromCoords(40, nextRow, true, false);
-                    obj.setValueFromCoords(47, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
+                    $(obj.getCell(jssTableDefinition.role.cellName + (nextRow + 1))).addClass('readonly');
+                    // disable company....
+                    $(obj.getCell(jssTableDefinition.company.cellName + (nextRow + 1))).addClass('readonly');
 
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
+                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
 
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
+
+
+                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
                 
                     newRowCount++;
                     newRowChangeEventFlag = false;
@@ -2927,78 +2993,80 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];                   
 
-                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
-                    obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+
+                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
 
 
                     // color row....
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName, nextRow + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("D" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
 
 
-                    jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("E" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("F" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("G" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("I" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
 
 
                     // disable grade and unit price....
-                    $(obj.getCell("J" + (nextRow + 1))).addClass('readonly');
-                    $(obj.getCell("K" + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell(jssTableDefinition.grade.cellName + (nextRow + 1))).addClass('readonly');
+                    $(obj.getCell(jssTableDefinition.unitPrice.cellName + (nextRow + 1))).addClass('readonly');
 
-                    obj.setValueFromCoords(38, nextRow, false, false);
-                    obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                    obj.setValueFromCoords(40, nextRow, true, false);
-                    obj.setValueFromCoords(47, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
 
 
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
 
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+
+                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
 
                     newRowCount++;
                     newRowChangeEventFlag = false;
@@ -3126,77 +3194,78 @@ function ShowForecastResults(year) {
                     obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
-                    jss.setStyle("B" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("B" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("D" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("D" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.section.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.section.cellName  + (nextRow + 1), "color", "red");
 
 
-                    jss.setStyle("E" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("E" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.department.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.department.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("F" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("F" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.incharge.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.incharge.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("G" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("G" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.role.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.role.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("I" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("I" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.company.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.company.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("J" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("J" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.grade.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.grade.cellName  + (nextRow + 1), "color", "red");
 
-                    jss.setStyle("K" + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle("K" + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName  + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName  + (nextRow + 1), "color", "red");
 
-                    obj.setValueFromCoords(48, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(49, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(50, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(51, nextRow, _unitPriceChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
 
-                    obj.setValueFromCoords(37, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(2, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(3, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(4, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(5, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(6, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(7, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(8, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(9, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(10, nextRow, retrivedData.unitPrice, false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
 
-                    obj.setValueFromCoords(38, nextRow, false, false);
-                    obj.setValueFromCoords(39, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    obj.setValueFromCoords(40, nextRow, true, false);
-                    obj.setValueFromCoords(47, nextRow, `both_${retrivedData.assignmentId}_${y}`, false);
+                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
 
-                    obj.setValueFromCoords(11, nextRow, '0.0', false);
-                    obj.setValueFromCoords(12, nextRow, '0.0', false);
-                    obj.setValueFromCoords(13, nextRow, '0.0', false);
-                    obj.setValueFromCoords(14, nextRow, '0.0', false);
-                    obj.setValueFromCoords(15, nextRow, '0.0', false);
-                    obj.setValueFromCoords(16, nextRow, '0.0', false);
-                    obj.setValueFromCoords(17, nextRow, '0.0', false);
-                    obj.setValueFromCoords(18, nextRow, '0.0', false);
-                    obj.setValueFromCoords(19, nextRow, '0.0', false);
-                    obj.setValueFromCoords(20, nextRow, '0.0', false);
-                    obj.setValueFromCoords(21, nextRow, '0.0', false);
-                    obj.setValueFromCoords(22, nextRow, '0.0', false);
 
-                    jss.setValueFromCoords(23, nextRow, `=K${nextRow + 1}*L${nextRow + 1}`, false);
-                    jss.setValueFromCoords(24, nextRow, `=K${nextRow + 1}*M${nextRow + 1}`, false);
-                    jss.setValueFromCoords(25, nextRow, `=K${nextRow + 1}*N${nextRow + 1}`, false);
-                    jss.setValueFromCoords(26, nextRow, `=K${nextRow + 1}*O${nextRow + 1}`, false);
-                    jss.setValueFromCoords(27, nextRow, `=K${nextRow + 1}*P${nextRow + 1}`, false);
-                    jss.setValueFromCoords(28, nextRow, `=K${nextRow + 1}*Q${nextRow + 1}`, false);
-                    jss.setValueFromCoords(29, nextRow, `=K${nextRow + 1}*R${nextRow + 1}`, false);
-                    jss.setValueFromCoords(30, nextRow, `=K${nextRow + 1}*S${nextRow + 1}`, false);
-                    jss.setValueFromCoords(31, nextRow, `=K${nextRow + 1}*T${nextRow + 1}`, false);
-                    jss.setValueFromCoords(32, nextRow, `=K${nextRow + 1}*U${nextRow + 1}`, false);
-                    jss.setValueFromCoords(33, nextRow, `=K${nextRow + 1}*V${nextRow + 1}`, false);
-                    jss.setValueFromCoords(34, nextRow, `=K${nextRow + 1}*W${nextRow + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
+
 
                     newRowCount++;
                     newRowChangeEventFlag = false;
@@ -3205,9 +3274,9 @@ function ShowForecastResults(year) {
             items.push({
                 title: '選択した要員の削除 (delete)',                
                 onclick: function () {                    
-                    var value = obj.getSelectedRows();                    
-                    var assignementId = jss.getValueFromCoords(0, y);
-                    var name = jss.getValueFromCoords(1, y);                                       
+                    var value = obj.getSelectedRows();
+                    var assignementId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
+                    var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);                                       
                     if(parseInt(assignementId) >0){
                         deletedExistingRowIds.push(assignementId);                                
                         SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
@@ -3311,335 +3380,335 @@ function ShowForecastResults(year) {
         }
         else {
             var isApprovedCells = value['43'];            
-            var columnInfo = value['39'];
+            var columnInfo = value['jssTableDefinition.bcyrCell.index'];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
-                
-                if (parseInt(nestedValue) == 1) {
-                    jss.setStyle("B" + count, "background-color", "yellow");
-                    jss.setStyle("B" + count, "color", "red");                               
+
+                if (parseInt(nestedValue) == jssTableDefinition.employeeName.index) {
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "color", "red");                               
                 }
-                
-                if (parseInt(nestedValue) == 2) {
-                    jss.setStyle("C" + count, "background-color", "yellow");
-                    jss.setStyle("C" + count, "color", "red"); 
+
+                if (parseInt(nestedValue) == jssTableDefinition.remarks.index) {
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "color", "red"); 
                 }
-                
-                if (parseInt(nestedValue) == 3) {
-                    jss.setStyle("D" + count, "background-color", "yellow");
-                    jss.setStyle("D" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.section.index) {
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 4) {
-                    jss.setStyle("E" + count, "background-color", "yellow");
-                    jss.setStyle("E" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.department.index) {
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 5) {
-                    jss.setStyle("F" + count, "background-color", "yellow");
-                    jss.setStyle("F" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.incharge.index) {
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 6) {
-                    jss.setStyle("G" + count, "background-color", "yellow");
-                    jss.setStyle("G" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.role.index) {
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 7) {
-                    jss.setStyle("H" + count, "background-color", "yellow");
-                    jss.setStyle("H" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.explanation.index) {
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 8) {
-                    jss.setStyle("I" + count, "background-color", "yellow");
-                    jss.setStyle("I" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.company.index) {
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 9) {
-                    jss.setStyle("J" + count, "background-color", "yellow");
-                    jss.setStyle("J" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.grade.index) {
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 10) {
-                    jss.setStyle("K" + count, "background-color", "yellow");
-                    jss.setStyle("K" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.unitPrice.index) {
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 11) {
-                    jss.setStyle("L" + count, "background-color", "yellow");
-                    jss.setStyle("L" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.octM.index) {
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 12) {
-                    jss.setStyle("M" + count, "background-color", "yellow");
-                    jss.setStyle("M" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.novM.index) {
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "color", "red");                   
                 }
-                
-                if (parseInt(nestedValue) == 13) {
-                    jss.setStyle("N" + count, "background-color", "yellow");
-                    jss.setStyle("N" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.decM.index) {
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 14) {
-                    jss.setStyle("O" + count, "background-color", "yellow");
-                    jss.setStyle("O" + count, "color", "red");                
+
+                if (parseInt(nestedValue) == jssTableDefinition.janM.index) {
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "color", "red");                
                 }  
-                          
-                if (parseInt(nestedValue) == 15) {
-                    jss.setStyle("P" + count, "background-color", "yellow");
-                    jss.setStyle("P" + count, "color", "red");                     
+
+                if (parseInt(nestedValue) == jssTableDefinition.febM.index) {
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "color", "red");                     
                 }
-                
-                if (parseInt(nestedValue) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "yellow");
-                    jss.setStyle("Q" + count, "color", "red");                
+
+                if (parseInt(nestedValue) == jssTableDefinition.marM.index) {
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "color", "red");                
                 }
-                
-                if (parseInt(nestedValue) == 17) {
-                    jss.setStyle("R" + count, "background-color", "yellow");
-                    jss.setStyle("R" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.aprM.index) {
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 18) {
-                    jss.setStyle("S" + count, "background-color", "yellow");
-                    jss.setStyle("S" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.mayM.index) {
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 19) {
-                    jss.setStyle("T" + count, "background-color", "yellow");
-                    jss.setStyle("T" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.junM.index) {
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 20) {
-                    jss.setStyle("U" + count, "background-color", "yellow");
-                    jss.setStyle("U" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.julM.index) {
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "color", "red");                   
                 }
-                
-                if (parseInt(nestedValue) == 21) {
-                    jss.setStyle("V" + count, "background-color", "yellow");
-                    jss.setStyle("V" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.augM.index) {
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 22) {
-                    jss.setStyle("W" + count, "background-color", "yellow");
-                    jss.setStyle("W" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.sepM.index) {
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 23) {
-                    jss.setStyle("X" + count, "background-color", "yellow");
-                    jss.setStyle("X" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.totalM.index) {
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "color", "red");                   
                 }
-               
-                if (parseInt(nestedValue) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "yellow");
-                    jss.setStyle("Y" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.octT.index) {
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "color", "red");                   
                 }
-                
-                if (parseInt(nestedValue) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "yellow");
-                    jss.setStyle("Z" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.novT.index) {
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "color", "red");                    
                 }
-                
-                if (parseInt(nestedValue) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "yellow");
-                    jss.setStyle("AA" + count, "color", "red");                
+
+                if (parseInt(nestedValue) == jssTableDefinition.decT.index) {
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "color", "red");                
                 }
-               
-                if (parseInt(nestedValue) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "yellow");
-                    jss.setStyle("AB" + count, "color", "red");                  
+
+                if (parseInt(nestedValue) == jssTableDefinition.janT.index) {
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "color", "red");                  
                 }
-               
-                if (parseInt(nestedValue) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "yellow");
-                    jss.setStyle("AC" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.febT.index) {
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "color", "red");                   
                 }
-                
-                if (parseInt(nestedValue) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "yellow");
-                    jss.setStyle("AD" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.marT.index) {
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "color", "red");                    
                 }
-               
-                if (parseInt(nestedValue) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "yellow");
-                    jss.setStyle("AE" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.aprT.index) {
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "color", "red");                   
                 }
-                
-                if (parseInt(nestedValue) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "yellow");
-                    jss.setStyle("AF" + count, "color", "red");
+
+                if (parseInt(nestedValue) == jssTableDefinition.mayT.index) {
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "color", "red");
                 }
-                
-                if (parseInt(nestedValue) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "yellow");
-                    jss.setStyle("AG" + count, "color", "red");                
+
+                if (parseInt(nestedValue) == jssTableDefinition.junT.index) {
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "color", "red");                
                 }
-               
-                if (parseInt(nestedValue) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "yellow");
-                    jss.setStyle("AH" + count, "color", "red");                   
+
+                if (parseInt(nestedValue) == jssTableDefinition.julT.index) {
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "color", "red");                   
                 }
-               
-                if (parseInt(nestedValue) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "yellow");
-                    jss.setStyle("AI" + count, "color", "red");                                     
+
+                if (parseInt(nestedValue) == jssTableDefinition.augT.index) {
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "color", "red");                                     
                 }
-                
-                if (parseInt(nestedValue) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "yellow");
-                    jss.setStyle("AJ" + count, "color", "red");                    
+
+                if (parseInt(nestedValue) == jssTableDefinition.sepT.index) {
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "red");                    
                 }
             });
 
             var approvedCells = value['42'];
             var arrApprovedCells = approvedCells.split(',');
             $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "LightBlue");
-                    jss.setStyle("B" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.employeeName.index) {
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "LightBlue");
-                    jss.setStyle("C" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.remarks.index) {
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "color", "red");
                 }
 
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "LightBlue");
-                    jss.setStyle("D" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.section.index) {
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "LightBlue");
-                    jss.setStyle("E" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.department.index) {
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "color", "red");
                 }
  
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "LightBlue");
-                    jss.setStyle("F" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.incharge.index) {
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "LightBlue");
-                    jss.setStyle("G" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.role.index) {
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "color", "red");
                 }
 
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "LightBlue");
-                    jss.setStyle("H" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.explanation.index) {
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "color", "red");
                 }
              
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "LightBlue");
-                    jss.setStyle("I" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.company.index) {
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "LightBlue");
-                    jss.setStyle("J" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.grade.index) {
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "LightBlue");
-                    jss.setStyle("K" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.unitPrice.index) {
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "LightBlue");
-                    jss.setStyle("L" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.octM.index) {
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "LightBlue");
-                    jss.setStyle("M" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.novM.index) {
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "LightBlue");
-                    jss.setStyle("N" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.decM.index) {
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "LightBlue");
-                    jss.setStyle("O" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.janM.index) {
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "color", "red");
                 }
              
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "LightBlue");
-                    jss.setStyle("P" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.febM.index) {
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "LightBlue");
-                    jss.setStyle("Q" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.marM.index) {
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "LightBlue");
-                    jss.setStyle("R" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.aprM.index) {
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "LightBlue");
-                    jss.setStyle("S" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.mayM.index) {
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "LightBlue");
-                    jss.setStyle("T" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.junM.index) {
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "LightBlue");
-                    jss.setStyle("U" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.julM.index) {
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "LightBlue");
-                    jss.setStyle("V" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.augM.index) {
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "LightBlue");
-                    jss.setStyle("W" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.sepM.index) {
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "LightBlue");
-                    jss.setStyle("X" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.totalM.index) {
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "LightBlue");
-                    jss.setStyle("Y" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.octT.index) {
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "LightBlue");
-                    jss.setStyle("Z" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.novT.index) {
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "LightBlue");
-                    jss.setStyle("AA" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.decT.index) {
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "LightBlue");
-                    jss.setStyle("AB" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.janT.index) {
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "LightBlue");
-                    jss.setStyle("AC" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.febT.index) {
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "LightBlue");
-                    jss.setStyle("AD" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.marT.index) {
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "LightBlue");
-                    jss.setStyle("AE" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.aprT.index) {
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "color", "red");
                 }
                 
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "LightBlue");
-                    jss.setStyle("AF" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.mayT.index) {
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "LightBlue");
-                    jss.setStyle("AG" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.junT.index) {
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "color", "red");
                 }
               
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "LightBlue");
-                    jss.setStyle("AH" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.julT.index) {
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "LightBlue");
-                    jss.setStyle("AI" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.augT.index) {
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "color", "red");
                 }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "LightBlue");
-                    jss.setStyle("AJ" + count, "color", "red");
+                if (parseInt(nestedValue2) == jssTableDefinition.sepT.index) {
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "background-color", "LightBlue");
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "red");
                 }
             });
             
@@ -3647,152 +3716,152 @@ function ShowForecastResults(year) {
             var bCYRCellPending = value['44'];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "red");
-                    jss.setStyle("B" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.employeeName.index) {
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "red");
-                    jss.setStyle("C" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.remarks.index) {
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.remarks.cellName + count, "color", "black");
                 }
 
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "red");
-                    jss.setStyle("D" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.section.index) {
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.section.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "red");
-                    jss.setStyle("E" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.department.index) {
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.department.cellName + count, "color", "black");
                 }
  
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "red");
-                    jss.setStyle("F" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.incharge.index) {
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "red");
-                    jss.setStyle("G" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.role.index) {
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.role.cellName + count, "color", "black");
                 }
 
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "red");
-                    jss.setStyle("H" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.explanation.index) {
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.explanation.cellName + count, "color", "black");
                 }
              
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "red");
-                    jss.setStyle("I" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.company.index) {
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.company.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "red");
-                    jss.setStyle("J" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.grade.index) {
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.grade.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "red");
-                    jss.setStyle("K" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.unitPrice.index) {
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "red");
-                    jss.setStyle("L" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.octM.index) {
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.octM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "red");
-                    jss.setStyle("M" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.novM.index) {
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.novM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "red");
-                    jss.setStyle("N" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.decM.index) {
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.decM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "red");
-                    jss.setStyle("O" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.janM.index) {
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.janM.cellName + count, "color", "black");
                 }
              
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "red");
-                    jss.setStyle("P" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.febM.index) {
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.febM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "red");
-                    jss.setStyle("Q" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.marM.index) {
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.marM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "red");
-                    jss.setStyle("R" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.aprM.index) {
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.aprM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "red");
-                    jss.setStyle("S" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.mayM.index) {
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.mayM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "red");
-                    jss.setStyle("T" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.junM.index) {
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.junM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "red");
-                    jss.setStyle("U" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.julM.index) {
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.julM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "red");
-                    jss.setStyle("V" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.augM.index) {
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.augM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "red");
-                    jss.setStyle("W" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.sepM.index) {
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.sepM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "red");
-                    jss.setStyle("X" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.totalM.index) {
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.totalM.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "red");
-                    jss.setStyle("Y" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.octT.index) {
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.octT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "red");
-                    jss.setStyle("Z" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.novT.index) {
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.novT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "red");
-                    jss.setStyle("AA" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.decT.index) {
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.decT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "red");
-                    jss.setStyle("AB" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.janT.index) {
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.janT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "red");
-                    jss.setStyle("AC" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.febT.index) {
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.febT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "red");
-                    jss.setStyle("AD" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.marT.index) {
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.marT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "red");
-                    jss.setStyle("AE" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.aprT.index) {
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.aprT.cellName + count, "color", "black");
                 }
                 
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "red");
-                    jss.setStyle("AF" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.mayT.index) {
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.mayT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "red");
-                    jss.setStyle("AG" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.junT.index) {
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.junT.cellName + count, "color", "black");
                 }
               
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "red");
-                    jss.setStyle("AH" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.julT.index) {
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.julT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "red");
-                    jss.setStyle("AI" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.augT.index) {
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.augT.cellName + count, "color", "black");
                 }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "red");
-                    jss.setStyle("AJ" + count, "color", "black");
+                if (parseInt(nestedValue2) == jssTableDefinition.sepT.index) {
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "background-color", "red");
+                    jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "black");
                 }
             });
         }       
@@ -3879,31 +3948,31 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     array[index].gradeId = retrivedData.gradeId;
     array[index].unitPrice = retrivedData.unitPrice;
     array[index].rowType = retrivedData.rowType;
-    if (x == 2) {
+    if (x == jssTableDefinition.remarks.index) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
     }
-    if (x == 7) {
+    if (x == jssTableDefinition.explanation.index) {
         array[index].explanationId = retrivedData.explanationId;
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
     }
-    if (x == 11) {
+    if (x == jssTableDefinition.octM.index) {
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                octSum += parseFloat(dataValue[11]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                octSum += parseFloat(dataValue[jssTableDefinition.octM.index]);
             }
 
         });
@@ -3920,19 +3989,19 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39,y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
 
     }
 
-    if (x == 12) {
+    if (x == jssTableDefinition.novM.index) {
         var novSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                novSum += parseFloat(dataValue[12]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                novSum += parseFloat(dataValue[jssTableDefinition.novM.index]);
             }
 
         });
@@ -3948,18 +4017,18 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
 
     }
-    if (x == 13) {
+    if (x == jssTableDefinition.decM.index) {
         var decSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                decSum += parseFloat(dataValue[13]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                decSum += parseFloat(dataValue[jssTableDefinition.decM.index]);
             }
 
         });
@@ -3975,17 +4044,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 14) {
+    if (x == jssTableDefinition.janM.index) {
         var janSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                janSum += parseFloat(dataValue[14]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                janSum += parseFloat(dataValue[jssTableDefinition.janM.index]);
             }
 
         });
@@ -4001,17 +4070,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 15) {
+    if (x == jssTableDefinition.febM.index) {
         var febSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                febSum += parseFloat(dataValue[15]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                febSum += parseFloat(dataValue[jssTableDefinition.febM.index]);
             }
 
         });
@@ -4027,18 +4096,18 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
     
-    if (x == 16) {
+    if (x == jssTableDefinition.marM.index) {
         var marSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                marSum += parseFloat(dataValue[16]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                marSum += parseFloat(dataValue[jssTableDefinition.marM.index]);
             }
 
         });
@@ -4054,17 +4123,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 17) {
+    if (x == jssTableDefinition.aprM.index) {
         var aprSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                aprSum += parseFloat(dataValue[17]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                aprSum += parseFloat(dataValue[jssTableDefinition.aprM.index]);
             }
 
         });
@@ -4080,17 +4149,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 18) {
+    if (x == jssTableDefinition.mayM.index) {
         var maySum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                maySum += parseFloat(dataValue[18]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                maySum += parseFloat(dataValue[jssTableDefinition.mayM.index]);
             }
 
         });
@@ -4105,17 +4174,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 19) {
+    if (x == jssTableDefinition.junM.index) {
         var junSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                junSum += parseFloat(dataValue[19]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                junSum += parseFloat(dataValue[jssTableDefinition.junM.index]);
             }
 
         });
@@ -4131,17 +4200,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 20) {
+    if (x == jssTableDefinition.julM.index) {
         var julSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                julSum += parseFloat(dataValue[20]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                julSum += parseFloat(dataValue[jssTableDefinition.julM.index]);
             }
 
         });
@@ -4156,17 +4225,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 21) {
+    if (x == jssTableDefinition.augM.index) {
         var augSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                augSum += parseFloat(dataValue[21]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                augSum += parseFloat(dataValue[jssTableDefinition.augM.index]);
             }
 
         });
@@ -4182,16 +4251,16 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
     }
-    if (x == 22) {
+    if (x == jssTableDefinition.sepM.index) {
         var sepSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                sepSum += parseFloat(dataValue[22]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                sepSum += parseFloat(dataValue[jssTableDefinition.sepM.index]);
             }
 
         });
@@ -4207,9 +4276,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         if (!newRowChangeEventFlag) {
             $(cell).css('color', 'red');
             $(cell).css('background-color', 'yellow');
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
@@ -4230,45 +4299,45 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 
 function retrivedObject(rowData) {
     return {
-        assignmentId: rowData[0],
-        employeeName: rowData[1],
-        remarks: rowData[2],
-        employeeId: rowData[37],
-        sectionId: rowData[3],
-        departmentId: rowData[4],
-        inchargeId: rowData[5],
-        roleId: rowData[6],
-        explanationId: rowData[7],
-        companyId: rowData[8],
-        gradeId: rowData[9],
-        unitPrice: parseFloat(rowData[10]),
-        octPoint: parseFloat(rowData[11]),
-        novPoint: parseFloat(rowData[12]),
-        decPoint: parseFloat(rowData[13]),
-        janPoint: parseFloat(rowData[14]),
-        febPoint: parseFloat(rowData[15]),
-        marPoint: parseFloat(rowData[16]),
-        aprPoint: parseFloat(rowData[17]),
-        mayPoint: parseFloat(rowData[18]),
-        junPoint: parseFloat(rowData[19]),
-        julPoint: parseFloat(rowData[20]),
-        augPoint: parseFloat(rowData[21]),
-        sepPoint: parseFloat(rowData[22]),
+        assignmentId: rowData[jssTableDefinition.assignmentId.index],
+        employeeName: rowData[jssTableDefinition.employeeName.index],
+        remarks: rowData[jssTableDefinition.remarks.index],
+        employeeId: rowData[jssTableDefinition.employeeId.index],
+        sectionId: rowData[jssTableDefinition.section.index],
+        departmentId: rowData[jssTableDefinition.department.index],
+        inchargeId: rowData[jssTableDefinition.incharge.index],
+        roleId: rowData[jssTableDefinition.role.index],
+        explanationId: rowData[jssTableDefinition.explanation.index],
+        companyId: rowData[jssTableDefinition.company.index],
+        gradeId: rowData[jssTableDefinition.grade.index],
+        unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
+        octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
+        novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
+        decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
+        janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
+        febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
+        marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
+        aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
+        mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
+        junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
+        julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
+        augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
+        sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
         year: document.getElementById('assignment_year_list').value,
-        bcyr: rowData[38],
-        bCYRCell: rowData[39],
-        isActive: rowData[40],
-        bCYRApproved: rowData[41],
-        bCYRCellApproved: rowData[42],
-        isApproved: rowData[43],
-        bCYRCellPending: rowData[44],
-        isRowPending: rowData[45],
-        isDeletePending: rowData[46],
-        rowType: rowData[47],
-        duplicateFrom: rowData[48],
-        duplicateCount: rowData[49],
-        roleChanged: rowData[50],
-        unitPriceChanged: rowData[51],
+        bcyr: rowData[jssTableDefinition.bcyr.index],
+        bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+        isActive: rowData[jssTableDefinition.isActive.index],
+        bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
+        bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],
+        isApproved: rowData[jssTableDefinition.isApproved.index],
+        bCYRCellPending: rowData[jssTableDefinition.bcyrCellPending.index],
+        isRowPending: rowData[jssTableDefinition.isRowPending.index],
+        isDeletePending: rowData[jssTableDefinition.isDeletePending.index],
+        rowType: rowData[jssTableDefinition.rowType.index],
+        duplicateFrom: rowData[jssTableDefinition.duplicateFrom.index],
+        duplicateCount: rowData[jssTableDefinition.duplicateCount.index],
+        roleChanged: rowData[jssTableDefinition.roleChanged.index],
+        unitPriceChanged: rowData[jssTableDefinition.unitPriceChanged.index],
         
     };
 }
@@ -4672,277 +4741,277 @@ $('#frm_import_year_data').submit(validate);
 */
 function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
     if(requestType != "deleted"){
-        $(jss.getCell("A" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowNumber))).removeClass('readonly');
     }    
-    jss.setStyle("A"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("A"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.assignmentId.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.assignmentId.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("A" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowNumber))).addClass('readonly');
     }    
 
     if(requestType != "deleted"){
-        $(jss.getCell("B" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.employeeName.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("B"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("B"+rowNumber,"color", textColor);    
+    jss.setStyle(jssTableDefinition.employeeName.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.employeeName.cellName+rowNumber,"color", textColor);    
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("B" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.employeeName.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("C" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.remarks.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("C"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("C"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.remarks.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.remarks.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("C" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.remarks.cellName + (rowNumber))).addClass('readonly');
     }
 
 
     if(requestType != "deleted"){
-        $(jss.getCell("D" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.section.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("D"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("D"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.section.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.section.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("D" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.section.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("E" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.department.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("E"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("E"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.department.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.department.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("E" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.department.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("F" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.incharge.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("F"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("F"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.incharge.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.incharge.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("F" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.incharge.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("G" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.role.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("G"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("G"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.role.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.role.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("G" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.role.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("H" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.explanation.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("H"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("H"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.explanation.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.explanation.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("H" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.explanation.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("I" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.company.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("I"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("I"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.company.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.company.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("I" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.company.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("J" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.grade.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("J"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("J"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.grade.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.grade.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("J" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.grade.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("K" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("K"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("K"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.unitPrice.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.unitPrice.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("K" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("L" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.octM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("L"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("L"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.octM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.octM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("L" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.octM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("M" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.novM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("M"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("M"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.novM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.novM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("M" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.novM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("N" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.decM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("N"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("N"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.decM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.decM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("N" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.decM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("O" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.janM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("O"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("O"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.janM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.janM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("O" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.janM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("P" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.febM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("P"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("P"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.febM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.febM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("P" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.febM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("Q" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.marM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("Q"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Q"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.marM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.marM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("Q" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.marM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("R" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.aprM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("R"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("R"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.aprM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.aprM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("R" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.aprM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("S" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.mayM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("S"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("S"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.mayM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.mayM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("S" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.mayM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("T" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.junM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("T"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("T"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.junM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.junM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("T" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.junM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("U" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.julM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("U"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("U"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.julM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.julM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("U" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.julM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("V" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.augM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("V"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("V"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.augM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.augM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("V" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.augM.cellName + (rowNumber))).addClass('readonly');
     }
 
     if(requestType != "deleted"){
-        $(jss.getCell("W" + (rowNumber))).removeClass('readonly');
+        $(jss.getCell(jssTableDefinition.sepM.cellName + (rowNumber))).removeClass('readonly');
     }  
-    jss.setStyle("W"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("W"+rowNumber,"color", textColor);
+    jss.setStyle(jssTableDefinition.sepM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.sepM.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
-        $(jss.getCell("W" + (rowNumber))).addClass('readonly');
+        $(jss.getCell(jssTableDefinition.sepM.cellName + (rowNumber))).addClass('readonly');
     }
 
-    $(jss.getCell("X" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("X"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("X"+rowNumber,"color", textColor);
-    $(jss.getCell("X" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.totalM.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.totalM.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.totalM.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.totalM.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("Y" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("Y"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Y"+rowNumber,"color", textColor);
-    $(jss.getCell("Y" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.octT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.octT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.octT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.octT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("Z" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("Z"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("Z"+rowNumber,"color", textColor);
-    $(jss.getCell("Z" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.novT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.novT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.novT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.novT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AA" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AA"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AA"+rowNumber,"color", textColor);
-    $(jss.getCell("AA" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.decT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.decT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.decT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.decT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AB" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AB"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AB"+rowNumber,"color", textColor);
-    $(jss.getCell("AB" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.janT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.janT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.janT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.janT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AC" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AC"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AC"+rowNumber,"color", textColor);
-    $(jss.getCell("AC" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.febT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.febT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.febT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.febT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AD" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AD"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AD"+rowNumber,"color", textColor);
-    $(jss.getCell("AD" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.marT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.marT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.marT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.marT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AE" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AE"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AE"+rowNumber,"color", textColor);
-    $(jss.getCell("AE" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.aprT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.aprT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.aprT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.aprT.cellName + (rowNumber))).addClass('readonly');
     
-    $(jss.getCell("AF" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AF"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AF"+rowNumber,"color", textColor);
-    $(jss.getCell("AF" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AG" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AG"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AG"+rowNumber,"color", textColor);
-    $(jss.getCell("AG" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.junT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.junT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.junT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.junT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AH" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AH"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AH"+rowNumber,"color", textColor);
-    $(jss.getCell("AH" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.julT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.julT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.julT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.julT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AI" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AI"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AI"+rowNumber,"color", textColor);
-    $(jss.getCell("AI" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.augT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.augT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.augT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.augT.cellName + (rowNumber))).addClass('readonly');
 
-    $(jss.getCell("AJ" + (rowNumber))).removeClass('readonly');
-    jss.setStyle("AJ"+rowNumber,"background-color", backgroundColor);
-    jss.setStyle("AJ"+rowNumber,"color", textColor);
-    $(jss.getCell("AJ" + (rowNumber))).addClass('readonly');
+    $(jss.getCell(jssTableDefinition.sepT.cellName + (rowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.sepT.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.sepT.cellName+rowNumber,"color", textColor);
+    $(jss.getCell(jssTableDefinition.sepT.cellName + (rowNumber))).addClass('readonly');
 
     $(jss.getCell("AK" + (rowNumber))).removeClass('readonly');
     jss.setStyle("AK"+rowNumber,"background-color", backgroundColor);

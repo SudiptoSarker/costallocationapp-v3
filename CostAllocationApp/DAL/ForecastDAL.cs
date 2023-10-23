@@ -2594,7 +2594,7 @@ namespace CostAllocationApp.DAL
             string query = $@"
                                 SELECT	ea.Id as AssignmentId,ea.EmployeeId,ea.SectionId,ea.DepartmentId,ea.InChargeId,ea.RoleId,ea.ExplanationId,ea.CompanyId,ea.UnitPrice,ea.GradeId
 		                                ,ea.CreatedBy,ea.UpdatedBy,ea.CreatedDate,ea.UpdatedDate,ea.IsActive, ea.Remarks,ea.SubCode,ea.Year,ea.EmployeeName 'EmployeeModifiedName',ea.IsDeleted
-		                                ,emp.FullName 'EmployeeRootName',sec.Name as SectionName, dep.Name as DepartmentName, inc.Name as InchargeName,rl.Name as RoleName, com.Name as CompanyName,gd.GradePoints,ea.BCYRCellPending, ea.IsRowPending
+		                                ,emp.FullName 'EmployeeRootName',sec.Name as SectionName, dep.Name as DepartmentName, inc.Name as InchargeName,rl.Name as RoleName, com.Name as CompanyName,gd.GradePoints,ea.BCYRCellPending, ea.IsRowPending, ea.DuplicateFrom,ea.DuplicateCount,ea.RoleChanged,ea.UnitPriceChanged 
                                 FROM EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
 	                                LEFT JOIN Departments dep on ea.DepartmentId = dep.Id
 	                                LEFT JOIN Companies com on ea.CompanyId = com.Id
@@ -2639,6 +2639,10 @@ namespace CostAllocationApp.DAL
                             excelAssignmentDto.Year = rdr["Year"] is DBNull ? "" : rdr["Year"].ToString();
                             excelAssignmentDto.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
                             excelAssignmentDto.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            excelAssignmentDto.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            excelAssignmentDto.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            excelAssignmentDto.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            excelAssignmentDto.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
                             excelAssignmentDtos.Add(excelAssignmentDto);
                         }
                     }

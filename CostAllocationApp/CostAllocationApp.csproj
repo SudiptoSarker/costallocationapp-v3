@@ -50,13 +50,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\backup\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\backup\EPPlus.Interfaces.dll</HintPath>
+    <Reference Include="EPPlus.Interfaces">
+      <HintPath>..\..\..\Users\chandra_shekhar\Downloads\EPPlus.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\backup\EPPlus.System.Drawing.dll</HintPath>
+    <Reference Include="EPPlus.System.Drawing">
+      <HintPath>..\..\..\Users\chandra_shekhar\Downloads\EPPlus.System.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

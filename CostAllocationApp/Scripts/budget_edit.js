@@ -16,6 +16,69 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
+
+var jssTableDefinition = {
+    assignmentId: { index: 0, cellName: 'A' },
+    employeeName: { index: 1, cellName: 'B' },
+    remarks: { index: 2, cellName: 'C' },
+    section: { index: 3, cellName: 'D' },
+    department: { index: 4, cellName: 'E' },
+    incharge: { index: 5, cellName: 'F' },
+    role: { index: 6, cellName: 'G' },
+    explanation: { index: 7, cellName: 'H' },
+    company: { index: 8, cellName: 'I' },
+    grade: { index: 9, cellName: 'J' },
+    unitPrice: { index: 10, cellName: 'K' },
+    dbId: { index: 11, cellName: 'L' },
+    duplicateFrom: { index: 12, cellName: 'M' },
+    duplicateCount: { index: 13, cellName: 'N' },
+    roleChanged: { index: 14, cellName: 'O' },
+    unitPriceChanged: { index: 15, cellName: 'P' },
+    octM: { index: 16, cellName: 'Q' },
+    novM: { index: 17, cellName: 'R' },
+    decM: { index: 18, cellName: 'S' },
+    janM: { index: 19, cellName: 'T' },
+    febM: { index: 20, cellName: 'U' },
+    marM: { index: 21, cellName: 'V' },
+    aprM: { index: 22, cellName: 'W' },
+    mayM: { index: 23, cellName: 'X' },
+    junM: { index: 24, cellName: 'Y' },
+    julM: { index: 25, cellName: 'Z' },
+    augM: { index: 26, cellName: 'AA' },
+    sepM: { index: 27, cellName: 'AB' },
+    totalM: { index: 28, cellName: 'AC' },
+    octT: { index: 29, cellName: 'AD' },
+    novT: { index: 30, cellName: 'AE' },
+    decT: { index: 31, cellName: 'AF' },
+    janT: { index: 32, cellName: 'AG' },
+    febT: { index: 33, cellName: 'AH' },
+    marT: { index: 34, cellName: 'AI' },
+    aprT: { index: 35, cellName: 'AJ' },
+    mayT: { index: 36, cellName: 'AK' },
+    junT: { index: 37, cellName: 'AL' },
+    julT: { index: 38, cellName: 'AM' },
+    augT: { index: 39, cellName: 'AN' },
+    sepT: { index: 40, cellName: 'AO' },
+    totalCost: { index: 41, cellName: 'AP' },
+    employeeId: { index: 42, cellName: 'AQ' },
+    bcyr: { index: 43, cellName: 'AR' },
+    bcyrCell: { index: 44, cellName: 'AS' },
+    isActive: { index: 45, cellName: 'AT' },
+    bcyrApproved: { index: 46, cellName: 'AU' },
+    bcyrCellApproved: { index: 47, cellName: 'AV' },
+    isApproved: { index: 48, cellName: 'AW' },
+    bcyrCellPending: { index: 49, cellName: 'AX' },
+    isRowPending: { index: 50, cellName: 'AY' },
+    isDeletePending: { index: 51, cellName: 'AZ' },
+    rowType: { index: 52, cellName: 'BA' },
+
+};
+
+
+
+
+
+
 function ClearnAllJexcelData(){
     globalSearchObject = '';
     globalPreviousValue = '0.0';
@@ -470,7 +533,7 @@ $(document).ready(function () {
                             singleRowDuplicationCount++;
                         }                        
                         //employee id
-                        if (tempArray[i][37] == tempArrayCopy[k][37]) {
+                        if (tempArray[i][42] == tempArrayCopy[k][42]) {
                             singleRowDuplicationCount++;
                         }
 
@@ -557,7 +620,7 @@ $(document).ready(function () {
                                                 rowCount = 0;
 
                                                 //oct point
-                                                if (parseFloat(newUnitPriceList[l][11]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][11]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -567,7 +630,7 @@ $(document).ready(function () {
                                                 }
 
                                                 //nov point
-                                                if (parseFloat(newUnitPriceList[l][12]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][12]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -576,7 +639,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //dec point
-                                                if (parseFloat(newUnitPriceList[l][13]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][13]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -585,7 +648,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jan point
-                                                if (parseFloat(newUnitPriceList[l][14]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][14]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -594,7 +657,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //feb point
-                                                if (parseFloat(newUnitPriceList[l][15]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][15]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -603,7 +666,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //mar point
-                                                if (parseFloat(newUnitPriceList[l][16]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][16]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -612,7 +675,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //apr point
-                                                if (parseFloat(newUnitPriceList[l][17]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][17]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -621,7 +684,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //may point
-                                                if (parseFloat(newUnitPriceList[l][18]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][23]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][18]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -630,7 +693,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jun point
-                                                if (parseFloat(newUnitPriceList[l][19]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][24]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][19]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -639,7 +702,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //jul point
-                                                if (parseFloat(newUnitPriceList[l][20]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][25]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][20]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -648,7 +711,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //aug point
-                                                if (parseFloat(newUnitPriceList[l][21]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][26]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][21]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -657,7 +720,7 @@ $(document).ready(function () {
                                                     }
                                                 }
                                                 //sep point
-                                                if (parseFloat(newUnitPriceList[l][22]) > 0) {
+                                                if (parseFloat(newUnitPriceList[l][27]) > 0) {
                                                     if (parseFloat(newUnitPriceListCopy[m][22]) > 0) {
                                                         rowCount++;
                                                         _unitPriceFlag = true;
@@ -1227,7 +1290,7 @@ function ShowBedgetResults(year) {
                 [
                     {
                         title: '',
-                        colspan: '10',
+                        colspan: '15',
                     },
                     //month wise total points
                     {
@@ -1426,6 +1489,10 @@ function ShowBedgetResults(year) {
                         colspan: '1',
                     },
                     {
+                        title: '',
+                        colspan: '5',
+                    },
+                    {
                         title: yearHeaderTitleForPoints,
                         colspan: '12',
                     },
@@ -1475,6 +1542,11 @@ function ShowBedgetResults(year) {
                     },
                 },
                 { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
+                { title: "Db Id", type: 'text', name: "Id" },
+                { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
+                { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
+                { title: "RoleChanged", type: 'text', name: "RoleChanged" },
+                { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
                 {
                     title: "10月",
                     type: "decimal",
@@ -1686,10 +1758,7 @@ function ShowBedgetResults(year) {
                 { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
                 { title: "RowType", type: 'hidden', name: "RowType" }, 
 
-                { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
-                { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
-                { title: "RoleChanged", type: 'text', name: "RoleChanged" },
-                { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
+
 
 
             ],
@@ -1698,48 +1767,48 @@ function ShowBedgetResults(year) {
             onbeforechange: function (instance, cell, x, y, value) {
 
                 //alert(value);
-                if (x == 11) {
+                if (x == jssTableDefinition.octM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 12) {
+                if (x == jssTableDefinition.novM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 13) {
+                if (x == jssTableDefinition.decM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 14) {
+                if (x == jssTableDefinition.janM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 15) {
+                if (x == jssTableDefinition.febM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 16) {
+                if (x == jssTableDefinition.marM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 17) {
+                if (x == jssTableDefinition.aprM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 18) {
+                if (x == jssTableDefinition.mayM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 19) {
+                if (x == jssTableDefinition.junM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 20) {
+                if (x == jssTableDefinition.julM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 21) {
+                if (x == jssTableDefinition.augM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
-                if (x == 22) {
+                if (x == jssTableDefinition.sepM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
             },
             //onafterchanges: function () {
             //},
-            onchange: function (instance, cell, x, y, value) {            
-                var checkId = jss.getValueFromCoords(0, y);
-                var employeeId = jss.getValueFromCoords(37, y);
+            onchange: function (instance, cell, x, y, value) {
+                var checkId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
+                var employeeId = jss.getValueFromCoords(jssTableDefinition.employeeId.index, y);
                 
                 if (checkId == null || checkId == '' || checkId == undefined) {
                     //get data for new employee
@@ -1770,8 +1839,8 @@ function ShowBedgetResults(year) {
                     }
                     else {
                         var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
-                    
-                        if (x == 2) {                        
+
+                        if (x == jssTableDefinition.remarks.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1780,8 +1849,8 @@ function ShowBedgetResults(year) {
                             }                        
                             cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                         }
-                        
-                        if (x == 3) {                        
+
+                        if (x == jssTableDefinition.section.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1791,7 +1860,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }                    
 
-                        if (x == 4) {                        
+                        if (x == jssTableDefinition.department.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1801,7 +1870,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
                         
-                        if (x == 5) {                        
+                        if (x == jssTableDefinition.incharge.index) {
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1811,7 +1880,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 6) {                        
+                        if (x == jssTableDefinition.role.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1821,7 +1890,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 7) {                        
+                        if (x == jssTableDefinition.explanation.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1831,7 +1900,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 8) {                    
+                        if (x == jssTableDefinition.company.index) {                    
                             var rowNumber = parseInt(y) + 1;
                             if (parseInt(value) !== 3) {
                                 var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -1851,7 +1920,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                         }
 
-                        if (x == 9) {                        
+                        if (x == jssTableDefinition.grade.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1861,7 +1930,7 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 10) {                        
+                        if (x == jssTableDefinition.unitPrice.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
                             }
@@ -1871,21 +1940,21 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 11) {                        
+                        if (x == jssTableDefinition.octM.index) {                        
                             var octSum = 0;
                             var octPointsSum = 0;
                             var octCostSum = 0;
 
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[11] != "" && dataValue[11] != null && dataValue[11] != undefined) {
+                                if (dataValue[jssTableDefinition.octM.index] != "" && dataValue[jssTableDefinition.octM.index] != null && dataValue[jssTableDefinition.octM.index] != undefined) {
                                     var octPointPerRow = 0.0;
-                                    octPointPerRow = parseFloat(dataValue[11]).toFixed(1);
-                                    octPointsSum += parseFloat(octPointPerRow);                            
-                                    octCostSum = parseFloat(octCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[11]);     
+                                    octPointPerRow = parseFloat(dataValue[jssTableDefinition.octM.index]).toFixed(1);
+                                    octPointsSum += parseFloat(octPointPerRow);
+                                    octCostSum = parseFloat(octCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.octM.index]);     
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    octSum += parseFloat(parseFloat(dataValue[11]));
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    octSum += parseFloat(parseFloat(dataValue[jssTableDefinition.octM.index]));
                                 }
 
                             });
@@ -1913,23 +1982,23 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }                    
 
-                        if (x == 12) {  
+                        if (x == jssTableDefinition.novM.index) {  
                             var novPointsSum = 0;
                             var novCostSum = 0;
 
                             var novSum = 0;
 
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[12] != "" && dataValue[12] != null && dataValue[12] != undefined) {
+                                if (dataValue[jssTableDefinition.novM.index] != "" && dataValue[jssTableDefinition.novM.index] != null && dataValue[jssTableDefinition.novM.index] != undefined) {
                                     var novPointPerRow = 0.0;
-                                    novPointPerRow = parseFloat(dataValue[12]).toFixed(1);
+                                    novPointPerRow = parseFloat(dataValue[jssTableDefinition.novM.index]).toFixed(1);
                                     novPointsSum += parseFloat(novPointPerRow);   
-    
-                                    novCostSum = parseFloat(novCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[12]);   
+
+                                    novCostSum = parseFloat(novCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.novM.index]);   
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    novSum += parseFloat(dataValue[12]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    novSum += parseFloat(dataValue[jssTableDefinition.novM.index]);
                                 }
 
                             });
@@ -1956,22 +2025,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 13) {
+                        if (x == jssTableDefinition.decM.index) {
                             var decPointsSum = 0;
                             var decCostSum = 0;
 
                             var decSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[13] != "" && dataValue[13] != null && dataValue[13] != undefined){
+                                if (dataValue[jssTableDefinition.decM.index] != "" && dataValue[jssTableDefinition.decM.index] != null && dataValue[jssTableDefinition.decM.index] != undefined){
                                     var decPointPerRow = 0.0;
-                                    decPointPerRow = parseFloat(dataValue[13]).toFixed(1);
+                                    decPointPerRow = parseFloat(dataValue[jssTableDefinition.decM.index]).toFixed(1);
                                     decPointsSum += parseFloat(decPointPerRow); 
-                                    
-                                    decCostSum = parseFloat(decCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[13]);   
+
+                                    decCostSum = parseFloat(decCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.decM.index]);   
                                 } 
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    decSum += parseFloat(dataValue[13]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    decSum += parseFloat(dataValue[jssTableDefinition.decM.index]);
                                 }
 
                             });
@@ -1998,22 +2067,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 14) {        
+                        if (x == jssTableDefinition.janM.index) {        
                             var janPointsSum = 0;
                             var janCostSum = 0;                
 
                             var janSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[14] != "" && dataValue[14] != null && dataValue[14] != undefined){
+                                if (dataValue[jssTableDefinition.janM.index] != "" && dataValue[jssTableDefinition.janM.index] != null && dataValue[jssTableDefinition.janM.index] != undefined){
                                     var janPointPerRow = 0.0;
-                                    janPointPerRow = parseFloat(dataValue[14]).toFixed(1);
+                                    janPointPerRow = parseFloat(dataValue[jssTableDefinition.janM.index]).toFixed(1);
                                     janPointsSum += parseFloat(janPointPerRow); 
-    
-                                    janCostSum = parseFloat(janCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[14]);   
+
+                                    janCostSum = parseFloat(janCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.janM.index]);   
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    janSum += parseFloat(dataValue[14]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    janSum += parseFloat(dataValue[jssTableDefinition.janM.index]);
                                 }
                             });
                             var element = $(`.jexcel > thead > tr:nth-of-type(1)`);
@@ -2039,22 +2108,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 15) {
+                        if (x == jssTableDefinition.febM.index) {
                             var febPointsSum = 0;
                             var febCostSum = 0;
 
                             var febSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[15] != "" && dataValue[15] != null && dataValue[15] != undefined){
+                                if (dataValue[jssTableDefinition.febM.index] != "" && dataValue[jssTableDefinition.febM.index] != null && dataValue[jssTableDefinition.febM.index] != undefined){
                                     var febPointPerRow = 0.0;
-                                    febPointPerRow = parseFloat(dataValue[15]).toFixed(1);
+                                    febPointPerRow = parseFloat(dataValue[jssTableDefinition.febM.index]).toFixed(1);
                                     febPointsSum += parseFloat(febPointPerRow); 
-                                    
-                                    febCostSum = parseFloat(febCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[15]);   
+
+                                    febCostSum = parseFloat(febCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.febM.index]);   
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    febSum += parseFloat(dataValue[15]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    febSum += parseFloat(dataValue[jssTableDefinition.febM.index]);
                                 }
 
                             });
@@ -2081,22 +2150,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 16) {  
+                        if (x == jssTableDefinition.marM.index) {  
                             var marPointsSum = 0;
                             var marCostSum = 0;
 
                             var marSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[16] != "" && dataValue[16] != null && dataValue[16] != undefined){
+                                if (dataValue[jssTableDefinition.marM.index] != "" && dataValue[jssTableDefinition.marM.index] != null && dataValue[jssTableDefinition.marM.index] != undefined){
                                     var marPointPerRow = 0.0;
-                                    marPointPerRow = parseFloat(dataValue[16]).toFixed(1);
+                                    marPointPerRow = parseFloat(dataValue[jssTableDefinition.marM.index]).toFixed(1);
                                     marPointsSum += parseFloat(marPointPerRow); 
-                                    
-                                    marCostSum = parseFloat(marCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[16]);   
+
+                                    marCostSum = parseFloat(marCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.marM.index]);   
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    marSum += parseFloat(dataValue[16]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    marSum += parseFloat(dataValue[jssTableDefinition.marM.index]);
                                 }
 
                             });
@@ -2123,22 +2192,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 17) {  
+                        if (x == jssTableDefinition.aprM.index) {  
                             var aprPointsSum = 0;
                             var aprCostSum = 0;
 
                             var aprSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[17] != "" && dataValue[17] != null && dataValue[17] != undefined){
+                                if (dataValue[jssTableDefinition.aprM.index] != "" && dataValue[jssTableDefinition.aprM.index] != null && dataValue[jssTableDefinition.aprM.index] != undefined){
                                     var aprPointPerRow = 0.0;
-                                    aprPointPerRow = parseFloat(dataValue[17]).toFixed(1);
+                                    aprPointPerRow = parseFloat(dataValue[jssTableDefinition.aprM.index]).toFixed(1);
                                     aprPointsSum += parseFloat(aprPointPerRow); 
-                                    
-                                    aprCostSum = parseFloat(aprCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[17]);
+
+                                    aprCostSum = parseFloat(aprCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.aprM.index]);
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    aprSum += parseFloat(dataValue[17]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    aprSum += parseFloat(dataValue[jssTableDefinition.aprM.index]);
                                 }
 
                             });
@@ -2165,22 +2234,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 18) {   
+                        if (x == jssTableDefinition.mayM.index) {   
                             var mayPointsSum = 0;
                             var mayCostSum = 0;
 
                             var maySum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[18] != "" && dataValue[18] != null && dataValue[18] != undefined){
+                                if (dataValue[jssTableDefinition.mayM.index] != "" && dataValue[jssTableDefinition.mayM.index] != null && dataValue[jssTableDefinition.mayM.index] != undefined){
                                     var mayPointPerRow = 0.0;
-                                    mayPointPerRow = parseFloat(dataValue[18]).toFixed(1);
+                                    mayPointPerRow = parseFloat(dataValue[jssTableDefinition.mayM.index]).toFixed(1);
                                     mayPointsSum += parseFloat(mayPointPerRow); 
-    
-                                    mayCostSum = parseFloat(mayCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[18]); 
+
+                                    mayCostSum = parseFloat(mayCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.mayM.index]); 
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    maySum += parseFloat(dataValue[18]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    maySum += parseFloat(dataValue[jssTableDefinition.mayM.index]);
                                 }
 
                             });
@@ -2206,22 +2275,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 19) {      
+                        if (x == jssTableDefinition.junM.index) {      
                             var junPointsSum = 0;
                             var junCostSum = 0;
 
                             var junSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[19] != "" && dataValue[19] != null && dataValue[19] != undefined){
+                                if (dataValue[jssTableDefinition.junM.index] != "" && dataValue[jssTableDefinition.junM.index] != null && dataValue[jssTableDefinition.junM.index] != undefined){
                                     var junPointPerRow = 0.0;
-                                    junPointPerRow = parseFloat(dataValue[19]).toFixed(1);
+                                    junPointPerRow = parseFloat(dataValue[jssTableDefinition.junM.index]).toFixed(1);
                                     junPointsSum += parseFloat(junPointPerRow); 
-    
-                                    junCostSum = parseFloat(junCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[19]); 
+
+                                    junCostSum = parseFloat(junCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.junM.index]); 
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    junSum += parseFloat(dataValue[19]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    junSum += parseFloat(dataValue[jssTableDefinition.junM.index]);
                                 }
 
                             });
@@ -2248,22 +2317,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 20) {    
+                        if (x == jssTableDefinition.julM.index) {    
                             var julPointsSum = 0;
                             var julCostSum = 0;                    
 
                             var julSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[20] != "" && dataValue[20] != null && dataValue[20] != undefined){
+                                if (dataValue[jssTableDefinition.julM.index] != "" && dataValue[jssTableDefinition.julM.index] != null && dataValue[jssTableDefinition.julM.index] != undefined){
                                     var julPointPerRow = 0.0;
-                                    julPointPerRow = parseFloat(dataValue[20]).toFixed(1);
+                                    julPointPerRow = parseFloat(dataValue[jssTableDefinition.julM.index]).toFixed(1);
                                     julPointsSum += parseFloat(julPointPerRow); 
-    
-                                    julCostSum = parseFloat(julCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[20]); 
+
+                                    julCostSum = parseFloat(julCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.julM.index]); 
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    julSum += parseFloat(dataValue[20]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    julSum += parseFloat(dataValue[jssTableDefinition.julM.index]);
                                 }
 
                             });
@@ -2288,23 +2357,23 @@ function ShowBedgetResults(year) {
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
-                        
-                        if (x == 21) {  
+
+                        if (x == jssTableDefinition.augM.index) {  
                             var augPointsSum = 0;
                             var augCostSum = 0;                      
 
                             var augSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[21] != "" && dataValue[21] != null && dataValue[21] != undefined){
+                                if (dataValue[jssTableDefinition.augM.index] != "" && dataValue[jssTableDefinition.augM.index] != null && dataValue[jssTableDefinition.augM.index] != undefined){
                                     var augPointPerRow = 0.0;
-                                    augPointPerRow = parseFloat(dataValue[21]).toFixed(1);
+                                    augPointPerRow = parseFloat(dataValue[jssTableDefinition.augM.index]).toFixed(1);
                                     augPointsSum += parseFloat(augPointPerRow); 
-    
-                                    augCostSum = parseFloat(augCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[21]); 
+
+                                    augCostSum = parseFloat(augCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.augM.index]); 
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    augSum += parseFloat(dataValue[21]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    augSum += parseFloat(dataValue[jssTableDefinition.augM.index]);
                                 }
 
                             });
@@ -2331,22 +2400,22 @@ function ShowBedgetResults(year) {
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
-                        if (x == 22) {    
+                        if (x == jssTableDefinition.sepM.index) {    
                             var sepPointsSum = 0;
                             var sepCostSum = 0;                    
 
                             var sepSum = 0;
                             $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[22] != "" && dataValue[22] != null && dataValue[22] != undefined){
+                                if (dataValue[jssTableDefinition.sepM.index] != "" && dataValue[jssTableDefinition.sepM.index] != null && dataValue[jssTableDefinition.sepM.index] != undefined){
                                     var sepPointPerRow = 0.0;
-                                    sepPointPerRow = parseFloat(dataValue[22]).toFixed(1);
+                                    sepPointPerRow = parseFloat(dataValue[jssTableDefinition.sepM.index]).toFixed(1);
                                     sepPointsSum += parseFloat(sepPointPerRow); 
-    
-                                    sepCostSum = parseFloat(sepCostSum)+parseFloat(dataValue[10])*parseFloat(dataValue[22]); 
+
+                                    sepCostSum = parseFloat(sepCostSum) + parseFloat(dataValue[jssTableDefinition.unitPrice.index]) * parseFloat(dataValue[jssTableDefinition.sepM.index]); 
                                 }
 
-                                if (dataValue[37].toString() == employeeId.toString() && dataValue[40] == true) {
-                                    sepSum += parseFloat(dataValue[22]);
+                                if (dataValue[jssTableDefinition.employeeId.index].toString() == employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                                    sepSum += parseFloat(dataValue[jssTableDefinition.sepM.index]);
                                 }
 
                             });
@@ -2394,7 +2463,7 @@ function ShowBedgetResults(year) {
                             var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
                             
                             setTimeout(function () {
-                                jss.setValueFromCoords(38, (insertedRowNumber - 1), true, false);
+                                jss.setValueFromCoords(jssTableDefinition.bcyr.index, (insertedRowNumber - 1), true, false);
         
                                 $('#jexcel_add_employee_modal').modal('show');
                                 globalY = parseInt(y) + 1;
@@ -2410,10 +2479,10 @@ function ShowBedgetResults(year) {
                         onclick: function () {     
                             var assignmentIds = [];
                                            
-                            var value = obj.getSelectedRows();                    
-                            var assignementId = jss.getValueFromCoords(0, y);
+                            var value = obj.getSelectedRows();
+                            var assignementId = jss.getValueFromCoords(jssTableDefinition.assignementId.index, y);
                             assignmentIds.push(assignementId);
-                            var name = jss.getValueFromCoords(1, y);   
+                            var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);   
                             
                             if (parseInt(assignementId) > 0) {                       
                                $.ajax({
@@ -2579,6 +2648,10 @@ function updateArray(array, retrivedData) {
     array[index].augPoint = retrivedData.augPoint;
     array[index].sepPoint = retrivedData.sepPoint;
     array[index].year = retrivedData.year;
+    array[index].duplicateFrom = retrivedData.duplicateFrom;
+    array[index].duplicateCount = retrivedData.duplicateCount;
+    array[index].roleChanged = retrivedData.roleChanged;
+    array[index].unitPriceChanged = retrivedData.unitPriceChanged;
 }
 
 //update the array for add new employee 
@@ -2597,27 +2670,27 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     array[index].gradeId = retrivedData.gradeId;
     array[index].unitPrice = retrivedData.unitPrice;
     array[index].rowType = retrivedData.rowType;
-    if (x == 2) {
+    if (x == jssTableDefinition.remarks.index) {
         array[index].remarks = retrivedData.remarks;
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
     }
-    if (x == 7) {
+    if (x == jssTableDefinition.explanation.index) {
         array[index].explanationId = retrivedData.explanationId;
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
     }
-    if (x == 11) {
+    if (x == jssTableDefinition.octM.index) {
         var octSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                octSum += parseFloat(dataValue[11]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                octSum += parseFloat(dataValue[jssTableDefinition.octM.index]);
             }
 
         });
@@ -2632,19 +2705,19 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39,y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index,y);
             currentValue += ',new-x_'+x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
 
     }
 
-    if (x == 12) {
+    if (x == jssTableDefinition.novM.index) {
         var novSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                novSum += parseFloat(dataValue[12]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                novSum += parseFloat(dataValue[jssTableDefinition.novM.index]);
             }
 
         });
@@ -2658,18 +2731,18 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
 
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
 
     }
-    if (x == 13) {
+    if (x == jssTableDefinition.decM.index) {
         var decSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                decSum += parseFloat(dataValue[13]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                decSum += parseFloat(dataValue[jssTableDefinition.decM.index]);
             }
 
         });
@@ -2683,17 +2756,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 14) {
+    if (x == jssTableDefinition.janM.index) {
         var janSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                janSum += parseFloat(dataValue[14]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                janSum += parseFloat(dataValue[jssTableDefinition.janM.index]);
             }
 
         });
@@ -2707,17 +2780,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 15) {
+    if (x == jssTableDefinition.febM.index) {
         var febSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                febSum += parseFloat(dataValue[15]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                febSum += parseFloat(dataValue[jssTableDefinition.febM.index]);
             }
 
         });
@@ -2731,18 +2804,18 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    
-    if (x == 16) {
+
+    if (x == jssTableDefinition.marM.index) {
         var marSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                marSum += parseFloat(dataValue[16]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                marSum += parseFloat(dataValue[jssTableDefinition.marM.index]);
             }
 
         });
@@ -2756,17 +2829,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 17) {
+    if (x == jssTableDefinition.aprM.index) {
         var aprSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                aprSum += parseFloat(dataValue[17]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                aprSum += parseFloat(dataValue[jssTableDefinition.aprM.index]);
             }
 
         });
@@ -2780,17 +2853,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 18) {
+    if (x == jssTableDefinition.mayM.index) {
         var maySum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                maySum += parseFloat(dataValue[18]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                maySum += parseFloat(dataValue[jssTableDefinition.mayM.index]);
             }
 
         });
@@ -2803,17 +2876,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 19) {
+    if (x == jssTableDefinition.junM.index) {
         var junSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                junSum += parseFloat(dataValue[19]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                junSum += parseFloat(dataValue[jssTableDefinition.junM.index]);
             }
 
         });
@@ -2827,17 +2900,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 20) {
+    if (x == jssTableDefinition.julM.index) {
         var julSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                julSum += parseFloat(dataValue[20]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                julSum += parseFloat(dataValue[jssTableDefinition.julM.index]);
             }
 
         });
@@ -2850,17 +2923,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 21) {
+    if (x == jssTableDefinition.augM.index) {
         var augSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                augSum += parseFloat(dataValue[21]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                augSum += parseFloat(dataValue[jssTableDefinition.augM.index]);
             }
 
         });
@@ -2874,17 +2947,17 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
-    if (x == 22) {
+    if (x == jssTableDefinition.sepM.index) {
         var sepSum = 0;
         $.each(jss.getData(), (index, dataValue) => {
-            if (dataValue[37].toString() == retrivedData.employeeId.toString() && dataValue[40] == true) {
-                sepSum += parseFloat(dataValue[22]);
+            if (dataValue[jssTableDefinition.employeeId.index].toString() == retrivedData.employeeId.toString() && dataValue[jssTableDefinition.isActive.index] == true) {
+                sepSum += parseFloat(dataValue[jssTableDefinition.sepM.index]);
             }
 
         });
@@ -2898,9 +2971,9 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
         }
         
         if (!newRowChangeEventFlag) {            
-            var currentValue = jss.getValueFromCoords(39, y);
+            var currentValue = jss.getValueFromCoords(jssTableDefinition.bcyrCell.index, y);
             currentValue += ',new-x_' + x;
-            jss.setValueFromCoords(39, y, currentValue, false);
+            jss.setValueFromCoords(jssTableDefinition.bcyrCell.index, y, currentValue, false);
         }
 
     }
@@ -2921,47 +2994,47 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 //set value and get value from the objects
 function retrivedObject(rowData) {
     return {
-        assignmentId: rowData[0],
-        employeeName: rowData[1],
-        remarks: rowData[2],
-        employeeId: rowData[37],
-        sectionId: rowData[3],
-        departmentId: rowData[4],
-        inchargeId: rowData[5],
-        roleId: rowData[6],
-        explanationId: rowData[7],
-        companyId: rowData[8],
-        gradeId: rowData[9],
-        unitPrice: parseFloat(rowData[10]),
-        octPoint: parseFloat(rowData[11]),
-        novPoint: parseFloat(rowData[12]),
-        decPoint: parseFloat(rowData[13]),
-        janPoint: parseFloat(rowData[14]),
-        febPoint: parseFloat(rowData[15]),
-        marPoint: parseFloat(rowData[16]),
-        aprPoint: parseFloat(rowData[17]),
-        mayPoint: parseFloat(rowData[18]),
-        junPoint: parseFloat(rowData[19]),
-        julPoint: parseFloat(rowData[20]),
-        augPoint: parseFloat(rowData[21]),
-        sepPoint: parseFloat(rowData[22]),
+        assignmentId: rowData[jssTableDefinition.assignmentId.index],
+        employeeName: rowData[jssTableDefinition.employeeName.index],
+        remarks: rowData[jssTableDefinition.remarks.index],
+        employeeId: rowData[jssTableDefinition.employeeId.index],
+        sectionId: rowData[jssTableDefinition.section.index],
+        departmentId: rowData[jssTableDefinition.department.index],
+        inchargeId: rowData[jssTableDefinition.incharge.index],
+        roleId: rowData[jssTableDefinition.role.index],
+        explanationId: rowData[jssTableDefinition.explanation.index],
+        companyId: rowData[jssTableDefinition.company.index],
+        gradeId: rowData[jssTableDefinition.grade.index],
+        unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
+        octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
+        novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
+        decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
+        janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
+        febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
+        marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
+        aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
+        mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
+        junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
+        julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
+        augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
+        sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
         year: document.getElementById('selected_budget_year').value,
 
-        bcyr: rowData[38],
-        bCYRCell: rowData[39],
-        isActive: rowData[40],
-        bCYRApproved: rowData[41],
-        bCYRCellApproved: rowData[42],
-        isApproved: rowData[43],
-        bCYRCellPending: rowData[44],
-        isRowPending: rowData[45],
-        isDeletePending: rowData[46],
-        rowType: rowData[47],
+        bcyr: rowData[jssTableDefinition.bcyr.index],
+        bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+        isActive: rowData[jssTableDefinition.isActive.index],
+        bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
+        bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],
+        isApproved: rowData[jssTableDefinition.isApproved.index],
+        bCYRCellPending: rowData[jssTableDefinition.bcyrCellPending.index],
+        isRowPending: rowData[jssTableDefinition.isRowPending.index],
+        isDeletePending: rowData[jssTableDefinition.isDeletePending.index],
+        rowType: rowData[jssTableDefinition.rowType.index],
 
-        duplicateFrom: rowData[48],
-        duplicateCount: rowData[49],
-        roleChanged: rowData[50],
-        unitPriceChanged: rowData[51],
+        duplicateFrom: rowData[jssTableDefinition.duplicateFrom.index],
+        duplicateCount: rowData[jssTableDefinition.duplicateCount.index],
+        roleChanged: rowData[jssTableDefinition.roleChanged.index],
+        unitPriceChanged: rowData[jssTableDefinition.unitPriceChanged.index],
     };
 }
 

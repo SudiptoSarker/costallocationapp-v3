@@ -392,6 +392,56 @@ namespace CostAllocationApp.DAL
                 return fullName;
             }
         }
+        public int RemoveEmployees(int employeeId)
+        {
+            int result = 0;
+            string query = $@"DELETE FROM Employees WHERE id = @id ";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", employeeId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
 
+                }
+
+                return result;
+            }
+
+        }
+        public Employee GetEmployeeById(int employeeId)
+        {
+            Employee employee = null;
+            string query = "select * from Employees where Id = " + employeeId;            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            employee = new Employee();
+                            employee.Id = Convert.ToInt32(rdr["Id"]);
+                            employee.FullName = rdr["FullName"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    employee = null;
+                }
+
+                return employee;
+            }
+        }
     }
 }

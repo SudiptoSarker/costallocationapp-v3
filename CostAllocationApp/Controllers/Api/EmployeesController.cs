@@ -527,6 +527,38 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        // remove employee
+        [HttpDelete]
+        public IHttpActionResult RemoveEmployees([FromUri] string employeeIds)
+        {
+            int result = 0;
+            EmployeeBLL employeeBLL = new EmployeeBLL();
+            // checking salaries ID null or empty
+            if (!String.IsNullOrEmpty(employeeIds))
+            {
+                string[] ids = employeeIds.Split(',');
+
+                foreach (var item in ids)
+                {
+                    // remove salary
+                    result += employeeBLL.RemoveEmployees(Convert.ToInt32(item));
+                }
+
+                if (result == ids.Length)
+                {
+                    return Ok("正常に削除がされました!");
+                }
+                else
+                {
+                    return BadRequest("Something Went Wrong!!!");
+                }
+            }
+            else
+            {
+                return BadRequest("Select Grade Points!");
+            }
+
+        }
 
 
 

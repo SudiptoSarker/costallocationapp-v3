@@ -104,5 +104,13 @@ namespace CostAllocationApp.BLL
             }
             return employeeName;
         }
+        public int RemoveEmployees(int employeeId)
+        {
+            return employeeDAL.RemoveEmployees(employeeId);
+        }
+        public Employee GetEmployeeById(int employeeId)
+        {
+            return employeeDAL.GetEmployeeById(employeeId);
+        }
     }
 }

@@ -64,9 +64,6 @@ $(document).ready(function () {
             return false;
         }
         else{
-            alert("roleName"+roleName);
-            alert("roleId"+roleId);
-
             UpdateInsertRoles(roleName,roleId,true);
         }        
     })

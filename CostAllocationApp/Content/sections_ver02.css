@@ -151,12 +151,21 @@ body {
 .add_edit_delete_btn_section{
     margin-top: 6px;
 }
+.delete_sec_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: white;
+    color: red;
+    line-height: 1.2;    
+    border: 2px solid red !important;
+}
 .add_sec_btn{   
     font-size: 10px;
     font-family: Yu Gothic;
     background: #4472c4;
     color: white;
     line-height: 1;    
+    margin-left: -171px;
 }
 .edit_sec_btn{
     font-size: 10px;
@@ -166,15 +175,6 @@ body {
     line-height: 1.3;
     margin-left: -89px;
     float: left;
-}
-.delete_sec_btn{
-    font-size: 10px;
-    font-family: Yu Gothic;
-    background: white;
-    color: red;
-    line-height: 1.2;
-    margin-left: -171px;
-    border: 2px solid red !important;
 }
 
 /*modal*/

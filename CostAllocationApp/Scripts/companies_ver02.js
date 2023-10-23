@@ -20,6 +20,95 @@ function onCompanyInactiveClick() {
 }
 
 $(document).ready(function () {
+    $(".add_master_btn").on("click",function(event){        
+        $('#add_master_modal').modal('show');
+    })
+    $("#company_reg_save_btn").on("click",function(event){       
+        let company_name = $("#company_name").val().trim();        
+        if (company_name == "") {
+            alert("please enter company!");
+            return false;
+        }
+
+        UpdateInsertCompanies(company_name,0,false);
+    })
+    //edit incharge
+    $(".edit_master_btn").on("click",function(event){          
+        let id = GetCheckedIds("company_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_master_modal').modal('show');
+        }        
+    })
+    function FillTheEditModal(companyId){            
+        var apiurl = `/api/utilities/GetCompanyByCompanyId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "companyId=" + companyId,
+            success: function (data) { 
+                $("#company_name_edit").val(data.CompanyName);   
+                $("#edit_role_id").val(data.Id);   
+            }
+        });            
+    }
+    //edit from modal
+    $("#company_reg_save_btn_edit").on("click",function(event){   
+        
+        var roleName = $("#company_name_edit").val();   
+        var roleId= $("#edit_role_id").val();   
+
+        if (roleName == '' || roleName == null || roleName == undefined){
+            alert("please enter role name!");
+            return false;
+        }
+        else{            
+            UpdateInsertCompanies(roleName,roleId,true);
+        }        
+    })
+
+    /***************************\                           
+        Company Insertion function. 
+    \***************************/ 
+    function UpdateInsertCompanies(companyName,companyId,isUpdate) {
+        
+        var apiurl = "/api/Companies/";
+        var data = {
+            Id:companyId,
+            CompanyName: companyName,
+            IsUpdate:isUpdate
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                $("#page_load_after_modal_close").val("yes");
+                $("#company_name_edit").val('');
+                ToastMessageSuccess(data);
+                GetCompanyList();
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+    }
     /***************************\                           
         Show Company list on page load           
     \***************************/
@@ -45,59 +134,25 @@ $(document).ready(function () {
             }
         });
 
-        $('#inactive_company_modal').modal('toggle');
+        $('#delete_master_modal').modal('toggle');
 
     });
 
     /***************************\                           
         Check if the Company is checked for delete/remove
     \***************************/
-    $('#company_inactive_btn').on('click', function (event) {
+    $('.delete_master_btn').on('click', function (event) {
         let id = GetCheckedIds("company_list_tbody");
         if (id == "") {
             alert("ファイルが削除されたことを確認してください");
             return false;
+        }else{
+            onCompanyInactiveClick();
+            $('#delete_master_modal').modal('show');
         }
     });
-
+    
 });
-
-/***************************\                           
-    Company Insertion function. 
-\***************************/ 
-function InsertCompanies() {
-    var apiurl = "/api/Companies/";
-    let companyName = $("#companyName").val().trim();
-    /***************************\                           
-        check Company input field is empty or not. if empty then show error message.
-    \***************************/
-    if (companyName == "") {
-        $(".company_name_err").show();
-        return false;
-    }
-    else {
-        $(".company_name_err").hide();
-        var data = {
-            CompanyName: companyName
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#companyName").val('');
-                ToastMessageSuccess(data);
-                GetCompanyList();
-            },
-            error: function (data) {
-                ToastMessageFailed(data);
-            }
-        });
-    }
-}
 
 /***************************\                           
     Get all the Company list from database.

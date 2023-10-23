@@ -4,9 +4,10 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/salaries.css" />
-    <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />  
-    <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/salaries_ver02.css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="/Content/create_dynamic_table.css" />  
+    <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" /> -->
 }
 <div class="content container-fluid">
     <!--Salaries List-->
@@ -30,20 +31,21 @@
                 </div>
             </div>
         </div>    
+
         @if (Convert.ToBoolean(ViewBag.linkFlag))
         {            
             <div class="add_edit_delete_btn_section" style="display: block;">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn delete_master_btn" type="button">削除 (delete)​</button>
+                            </div>                            
+                            <div class="col-md-3">
+                                <button class="btn edit_master_btn" type="button">編集​ (edit)​</button>
+                            </div>
                             <div class="col-md-3" >
-                                <button class="btn add_salary_btn" type="button">追加 (add)</button>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn edit_explanation_btn" type="button">編集​ (edit)​</button>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
+                                <button class="btn add_master_btn" type="button">追加 (add)</button>
                             </div>
                         </div>
                     </div>
@@ -55,10 +57,11 @@
 
 <input type="hidden" id="salary_warning_text" />
 <input type="hidden" id="onchange_gradeId" />
+<input type="hidden" id="gradeId_edit" />
 
 
 <!-----------------Modal: Add salary----------------->
-<div class="modal custom-modal fade" id="add_salary_modal" role="dialog">
+<div class="modal custom-modal fade" id="add_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
@@ -70,14 +73,14 @@
 
                 <div class="modal-body">
                     <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
-                    <table id="exp_reg_tbl">
+                    <table id="salary_add_table">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="explanation_th">From</th>
-                                <th class="explanation_th">To</th>
-                                <th class="explanation_th">Grade</th>
-                                <th class="explanation_th">操作</th>
+                                <th class="salary_add_th">From</th>
+                                <th class="salary_add_th">To</th>
+                                <th class="salary_add_th">Grade</th>
+                                <th class="salary_add_th">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,8 +95,8 @@
                                     <input type="text" value="" placeholder="新規説明をここに入力" id="grae_point">                                           
                                 </td>
                                 <td id="salary_action_td">
-                                    <a href="javascript:void(0);" class="" id="exp_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="salary_undo_btn" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="salary_save_btn">保存（save）</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -104,6 +107,52 @@
     </div>
 </div>
 
+<!-----------------Modal: Edit salary----------------->
+<div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='add_modal_header'>編集​ 説明 (edit salary)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="salary_edit_table">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="salary_edit_th">From</th>
+                                <th class="salary_edit_th">To</th>
+                                <th class="salary_edit_th">Grade</th>
+                                <th class="salary_edit_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="salary_from_td_edit">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_from_edit">                                           
+                                </td>
+                                <td id="salary_to_td_edit">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_to_edit">                                           
+                                </td>
+                                <td id="salary_grade_point_td_edit">
+                                    <input type="text" value="" placeholder="新規説明をここに入力" id="grae_point_edit">                                           
+                                </td>
+                                <td id="salary_action_td">
+                                    <a href="javascript:void(0);" class="" id="salary_edit_undo_btn" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="salary_edit_btn">保存（update）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>          
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Inactive Salary Modal -->
 <div class="modal custom-modal fade" id="inactive_salary_modal" role="dialog">
@@ -132,7 +181,7 @@
 
 @section Scripts{
     <script src="/Scripts/common.js"></script> 
-    <script src="/Scripts/salaries.js"></script>     
+    <script src="/Scripts/salaries_ver02.js"></script>     
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">

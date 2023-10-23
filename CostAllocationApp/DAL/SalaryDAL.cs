@@ -40,12 +40,13 @@ namespace CostAllocationApp.DAL
         public int UpdateSalary(Salary salary)
         {
             int result = 0;
-            string query = $@"update Grades set GradeLowPoints=@gradeLowPoints,GradeHighPoints=@gradeHighPoints,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where id=@id";
+            string query = $@"update Grades set GradePoints=@gradePoints,GradeLowPoints=@gradeLowPoints,GradeHighPoints=@gradeHighPoints,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
                 cmd.Parameters.AddWithValue("@id", salary.Id);
+                cmd.Parameters.AddWithValue("@gradePoints", salary.SalaryGrade);
                 cmd.Parameters.AddWithValue("@gradeLowPoints", salary.SalaryLowPoint);
                 cmd.Parameters.AddWithValue("@gradeHighPoints", salary.SalaryHighPoint);
                 cmd.Parameters.AddWithValue("@updatedBy", salary.UpdatedBy);
@@ -102,8 +103,8 @@ namespace CostAllocationApp.DAL
         }
         public int RemoveSalary(int salaryIds)
         {
-            int result = 0;
-            string query = $@"update Grades set isactive=0 where id=@id";
+            int result = 0;            
+            string query = $@"DELETE FROM Grades WHERE id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -192,8 +193,12 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             salary = new Salary();
-                            salary.SalaryGrade = rdr["GradePoints"].ToString();
                             salary.Id = Convert.ToInt32(rdr["Id"]);
+                            salary.SalaryLowPoint = Convert.ToDecimal(rdr["GradeLowPoints"]);
+                            salary.SalaryHighPoint = Convert.ToDecimal(rdr["GradeHighPoints"]);
+
+                            salary.SalaryGrade = rdr["GradePoints"].ToString();
+
                         }
                     }
                 }

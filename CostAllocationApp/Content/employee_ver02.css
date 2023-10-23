@@ -227,3 +227,117 @@ body {
 .employee_th{
     border: 1px solid black !important;
 }  
+
+
+/*add,edit and delete button */
+/*add,edit and delete button */
+.add_edit_delete_btn_section{
+    margin-top: 6px;
+}
+.add_master_btn{   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1;    
+    margin-left: -204px; 
+}
+.edit_master_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1.3;
+    margin-left: -97px;
+    float: left;
+}
+.delete_master_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: white;
+    color: red;
+    line-height: 1.2;    
+    border: 2px solid red !important;
+}
+
+
+/*modal*/
+#add_modal_body_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+#add_modal_header{
+    text-align: left;
+    margin-left: 25px;
+}
+.custom-modal .modal-body{
+    padding: 22px !important;
+    margin-top: 1px !important;
+}
+
+/*modal design*/
+#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+.main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
+    height: 26px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 61%;
+}
+#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+/*grade new design*/
+#salary_add_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#salary_add_table thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.salary_add_th{
+    border: 1px solid black !important;
+}
+
+#salary_edit_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#salary_edit_table thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.salary_edit_th{
+    border: 1px solid black !important;
+}
+#roles_reg_frm_td{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 57%;
+}

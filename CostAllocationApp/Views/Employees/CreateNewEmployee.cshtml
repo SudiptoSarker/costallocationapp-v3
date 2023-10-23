@@ -5,120 +5,119 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/employee_ver02.css" />
+
 }
 
-<div class="content container-fluid">
-    <!-----------------Employee Master: Employee Registration Form----------------->
-    @if (Convert.ToBoolean(ViewBag.linkFlag))
-    {
+<div class="content container-fluid">  
+    <div id="" style="display: block;">        
+        <!-----------------Employee Master: Employee list are showing on this part----------------->   
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-5">
-                        <label id="input_master">
-                            新規登録する場合は、「新規要員の氏名をここに入力」テキストボックスに会社名を記載し、保存ボタンをクリックしてください。 
-                        </label>
-                        <table id="employee_reg_tbl">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th class="employee_th">要員 氏名 (Name)</th>
-                                    <th class="employee_th">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="employee_reg_frm_td">
-                                        <input type="text" value="" placeholder="新規要員の氏名をここに入力" id="employee-name">                                        
-                                    </td>
-                                    <td id="employee_reg_frm_td">
-                                        <a href="javascript:void(0);" class="" id="employee_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                        <a href="javascript:void(0);" class="" id="employee_reg_save_btn" onclick="InsertEmployee();">保存（save）</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="col-md-10">
+                <div class="table-responsive">
+                    <label id="list_master">
+                        登録した会社を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
+                    </label>                  
+                    <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%">
+                        <thead id="employeelist_thead">
+                            <tr>
+                                <th colspan="6">氏名リスト (Employeee List)</th>
+                            </tr>
+                            <tr>
+                                <th class="employee_list_theader">ＩＤ</th>
+                                <th class="employee_list_theader">氏名 (Name)</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="name_search"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeelist_tbody"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <br /><br />
-    }
 
-
-    <!-----------------Employee Master: Employee list are showing on this part----------------->   
-    <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:60%">
-        <thead id="employeelist_thead">
-            <tr>
-                <th colspan="6">氏名リスト (Employeee List)</th>
-            </tr>
-            <tr>
-                <th class="employee_list_theader">ＩＤ</th>
-                <th class="employee_list_theader">氏名 (Name)</th>
-            </tr>
-            <tr>
-                <th></th>
-                <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="name_search"></th>
-            </tr>
-        </thead>
-        <tbody id="employeelist_tbody"></tbody>
-    </table>
-    <br />
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {                
+            <div class="add_edit_delete_btn_section" style="display: block;">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn delete_master_btn" type="button">削除 (delete)​</button>
+                            </div>                                
+                            <div class="col-md-3">
+                                <button class="btn edit_master_btn" type="button">編集​ (edit)​</button>
+                            </div>
+                            <div class="col-md-3" >
+                                <button class="btn add_master_btn" type="button">追加 (add)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-<br><br>
-<br><br>
-
 <input type="hidden" id="employee_id_hidden" />
+<input type="hidden" id="employee_id_for_edit" />
 
-<!-----------------Modal: Edit Employee----------------->
-<div class="modal custom-modal fade" id="edit_employee_modal" role="dialog">
+<!-----------------Modal: Edit Role----------------->
+<!-- <div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
+                
                 <div class="form-header">
-                    <h3>Edit 要員 氏名(Name)</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-
-                    </button>
+                    <h3 id='add_modal_header'>編集​ 役割 (edit role)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="employee_name_edit">要員 氏名 (Name)</label>
-                        <input type="text" class="form-control" id="employee_name_edit" placeholder="要員 氏名 (employee name)">
-                        <div class="employee_err_edit">
-                            Please provide 要員 氏名 (Name).
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">キャンセル</a>
-                            <a href="javascript:void(0);" class="employee_update" onclick="UpdateEmployee();">更新</a>
-                        </div>
-                    </div>
 
+                <div class="modal-body">
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="company_reg_tbl">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="company_th">役割 (Roles Name)</th>
+                                <th class="company_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="company_reg_frm_td">
+                                    <input type="text" value="" placeholder="新規役割をここに入力" id="company_name_edit">                                            
+                                </td>
+                                <td id="company_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="company_reg_cancel_btn_edit" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn_edit">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                    
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<!-----------------Modal: Delete Employee----------------->
-<div class="modal custom-modal fade" id="inactive_employee_modal" role="dialog">
+<!-----------------Modal: Delete Company----------------->
+<div class="modal custom-modal fade" id="delete_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Inactive 要員(Employee)</h3>
+                    <h3>Delete Employees</h3>
+                    <ol class="company_count" style="text-align:left;"></ol>
                     <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary cancel-btn" data-dismiss="modal">キャンセル</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" onclick="InactiveEmployee();">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="modal_delete_btn">削除</a>
                         </div>
                     </div>
                 </div>
@@ -126,15 +125,6 @@
         </div>
     </div>
 </div>
-@if (Convert.ToBoolean(ViewBag.linkFlag))
-{
-    <div id="employeeContextMenu" class="dropdown clearfix">
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-            <li><a tabindex="-1" href="#">Edit</a></li>
-            <li><a tabindex="-1" href="#">Inactive</a></li>
-        </ul>
-    </div>
-}
 
 
 @section Scripts{

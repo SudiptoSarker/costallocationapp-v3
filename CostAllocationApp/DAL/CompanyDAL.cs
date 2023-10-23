@@ -38,7 +38,7 @@ namespace CostAllocationApp.DAL
         {
             int result = 0;
             string query = "";
-            query = query + "UPDATE Categories ";
+            query = query + "UPDATE Companies ";
             query = query + "SET Name = N'" + company.CompanyName + "',UpdatedBy=N'" + company.UpdatedBy + "',UpdatedDate='" + company.UpdatedDate + "',IsActive=1";
             query = query + "WHERE Id = " + company.Id + " ";
 

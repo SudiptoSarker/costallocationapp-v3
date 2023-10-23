@@ -1,5 +1,87 @@
 ﻿
 $(document).ready(function () {
+    /***************************\                           
+        Check if the employee is checked for delete/remove
+    \***************************/
+    $('.delete_master_btn').on('click', function (event) {        
+        var checkedVals = $('.employee_id:checkbox:checked').map(function() {
+            return this.value;
+        }).get();
+        var id  = checkedVals.join(",");
+        
+        if (id == "") {
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }else{
+            $('#delete_master_modal').modal('show');
+        }
+    });
+
+    /***************************\                           
+        Employee Delete/Remove Confirm Button           
+    \***************************/	
+    $('#modal_delete_btn').on('click', function (event) {
+        event.preventDefault();
+        var checkedVals = $('.employee_id:checkbox:checked').map(function() {
+            return this.value;
+        }).get();
+        var id  = checkedVals.join(",");
+
+        $.ajax({
+            url: '/api/Employees?employeeIds=' + id,
+            type: 'DELETE',
+            success: function (data) {
+                ToastMessageSuccess(data);
+                GetEmployeeList();
+            },
+            error: function (data) {
+                ToastMessageFailed(data);
+            }
+        });
+
+        $('#delete_master_modal').modal('toggle');
+
+    });
+
+    //edit employee
+    $(".edit_master_btn").on("click",function(event){   
+
+        var checkedVals = $('.employee_id:checkbox:checked').map(function() {
+            return this.value;
+        }).get();
+        var id  = checkedVals.join(",");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("ファイルが削除されたことを確認してください");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集するセクションにチェックを入れてください");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_master_modal').modal('show');
+        }        
+    })
+    function FillTheEditModal(employeeId){            
+        var apiurl = `/api/utilities/GetEmployeeById`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "employeeId=" + employeeId,
+            success: function (data) { 
+                $("#company_name_edit").val(data.FullName);   
+                $("#employee_id_for_edit").val(data.Id);   
+            }
+        });            
+    }
+
     $('#example').DataTable();
     //------------------Employee Master----------------------//
     //show employee list on page load
@@ -77,15 +159,21 @@ function ShowNameList_Datatable(data){
         //ordering: false,
         ordering: true,
         orderCellsTop: true,
-        pageLength: 100,
+        pageLength: 10,
         searching: false,
         //searching: true,
         // bLengthChange: false,    
         //dom: 'lifrtip',
         columns: [            
-            {
-                data: 'Id'
-            },
+            // {
+            //     data: 'Id'
+                
+            // },
+            { data: "Id",
+                      render: function (data,type,row) {
+                        return '<input type="checkbox" value="'+data+'" class="employee_id">';                        
+                      } 
+                    },
             {
                 data: 'FullName'
             }
@@ -93,39 +181,39 @@ function ShowNameList_Datatable(data){
     });
 }
 
-$(function () {
+// $(function () {
 
-    var employeeContextMenu = $("#employeeContextMenu");
+//     var employeeContextMenu = $("#employeeContextMenu");
 
-    $("body").on("contextmenu", "#employeeList_datatable tbody tr", function (e) {
-        employeeContextMenu.css({
-            display:'block',
-            left: e.pageX-230,
-            top: e.pageY-25
-        });
-        $('#employee_id_hidden').val($(this)[0].cells[0].innerText);
-        $('#employee_name_edit').val($(this)[0].cells[1].innerText);
-        //debugger;
-        return false;
-    });
+//     $("body").on("contextmenu", "#employeeList_datatable tbody tr", function (e) {
+//         employeeContextMenu.css({
+//             display:'block',
+//             left: e.pageX-230,
+//             top: e.pageY-25
+//         });
+//         $('#employee_id_hidden').val($(this)[0].cells[0].innerText);
+//         $('#employee_name_edit').val($(this)[0].cells[1].innerText);
+//         //debugger;
+//         return false;
+//     });
 
-    $('html').click(function () {
-        employeeContextMenu.hide();
-    });
+//     $('html').click(function () {
+//         employeeContextMenu.hide();
+//     });
 
-    $("#employeeContextMenu li a").click(function (e) {
-        var f = $(this);
-        var elementText = f[0].innerText;
-        if (elementText.toLowerCase() == 'edit') {
-            $('#edit_employee_modal').modal();
-        }
-        if (elementText.toLowerCase() == 'inactive') {
-            $('#inactive_employee_modal').modal();
-        }
+//     $("#employeeContextMenu li a").click(function (e) {
+//         var f = $(this);
+//         var elementText = f[0].innerText;
+//         if (elementText.toLowerCase() == 'edit') {
+//             $('#edit_employee_modal').modal();
+//         }
+//         if (elementText.toLowerCase() == 'inactive') {
+//             $('#inactive_employee_modal').modal();
+//         }
         
-        //debugger;
-    });
-});
+//         //debugger;
+//     });
+// });
 
 //employee update
 function UpdateEmployee() {

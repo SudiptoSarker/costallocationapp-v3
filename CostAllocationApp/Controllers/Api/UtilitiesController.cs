@@ -11803,5 +11803,47 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(explanation);
         }
+        [HttpGet]
+        [Route("api/utilities/GetCompanyByCompanyId/")]
+        public IHttpActionResult GetCompanyByCompanyId(string companyId)
+        {
+            Company company = new Company();
+            if (!string.IsNullOrEmpty(companyId))
+            {
+                var arrCompanyIds = companyId.Split(',');
+                company = companyBLL.GetCompanyByCompanyId(Convert.ToInt32(arrCompanyIds[0]));
+            }
+
+            return Ok(company);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetSalaryBySalaryId/")]
+        public IHttpActionResult GetSalaryBySalaryId(string salaryId)
+        {
+            Salary salary = new Salary();
+            if (!string.IsNullOrEmpty(salaryId))
+            {
+                var arrSalaryIds = salaryId.Split(',');
+                salary = salaryBLL.GetSalaryBySalaryId(Convert.ToInt32(arrSalaryIds[0]));
+            }
+
+            return Ok(salary);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetEmployeeById/")]
+        public IHttpActionResult GetEmployeeById(string employeeId)
+        {
+            Employee employee = new Employee();
+
+            if (!string.IsNullOrEmpty(employeeId))
+            {
+                var arrEmployeeId = employeeId.Split(',');
+
+                employee = employeeBLL.GetEmployeeById(Convert.ToInt32(arrEmployeeId[0]));
+            }
+
+            return Ok(employee);
+        }
     }
 }

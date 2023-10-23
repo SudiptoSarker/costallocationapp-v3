@@ -6,6 +6,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+# Config file for the system
+CostAllocationApp/Web.config
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -260,5 +262,3 @@ paket-files/
 __pycache__/
 *.pyc
 
-# Config file for the system
-CostAllocationApp/Web.config

@@ -33,7 +33,7 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/dash/GetTotalCost/")]
         public IHttpActionResult GetTotalCost()
         {
-            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "その他" };
+            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "新課程対応", "その他" };
             var year = 0;
             var companyIds = "";
             double totalCost = 0;
@@ -943,7 +943,7 @@ namespace CostAllocationApp.Controllers.Api
             response.Add("totalHeadcount", totalHeadCount);
             response.Add("monthlyHeadcount", monthlyHeadCount);
 
-            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "その他" };
+            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "新課程対応", "その他" };
             double listedDeptHeadCount = 0;
             double otherDeptHeadCount = 0;
             var data = new ArrayList();

@@ -2678,7 +2678,7 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
-                    var activeEmployeeCount =0;
+                    var activeEmployeeCount = 0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
                     var _duplicateFrom = "";
@@ -2690,15 +2690,15 @@ function ShowForecastResults(year) {
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
                     _duplicateFrom = retrivedData.assignmentId.toString();
-                    if (retrivedData.assignmentId.toString().includes('new')) {                        
+                    if (retrivedData.assignmentId.toString().includes('new')) {
                         newEmployeeId = "new-" + newRowCount;
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
-                                if (isNaN(x[0])) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
+                                if (isNaN(x[jssTableDefinition.assignmentId.index])) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
 
                             }
@@ -2708,12 +2708,12 @@ function ShowForecastResults(year) {
                             var singleNewEmployeeId = allSameEmployeeId[i].split('-');
                             allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
                         }
-                       
+
 
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-'+minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -2726,8 +2726,8 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if (x[0] == 'new-'+minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})`;
+                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})`;
                                 break;
                             }
                         }
@@ -2740,10 +2740,10 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
+                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
 
                             }
@@ -2752,7 +2752,7 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -2763,10 +2763,10 @@ function ShowForecastResults(year) {
                         retrivedData.bcyr = false;
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
 
-                        for (let x of allData) {                            
-                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
-                                activeEmployeeCount = activeEmployeeCount+1;
-                            }                          
+                        for (let x of allData) {
+                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                activeEmployeeCount = activeEmployeeCount + 1;
+                            }
                         }
 
                         $.ajax({
@@ -2775,20 +2775,20 @@ function ShowForecastResults(year) {
                             type: 'GET',
                             async: false,
                             dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                            success: function (data) { 
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                            success: function (data) {
                                 masterEmployeeName = data.EmployeeName;
                                 inactiveEmployeeCount = data.EmployeeCount;
                             }
-                        });                        
-                    }    
+                        });
+                    }
 
 
                     _unitPriceChanged = '1';
                     _roleChanged = '0';
                     _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
                     //newCountedEmployeeName = masterEmployeeName + " (" + (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1) + ")";
-                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
                     obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
@@ -2858,13 +2858,12 @@ function ShowForecastResults(year) {
                     jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
                     jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
                     jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
-                
+
                     newRowCount++;
                     newRowChangeEventFlag = false;
                 }
-               
-            });
 
+            });
             items.push({
                 title: '要員のコピー（役割変更）(role)',
                 onclick: function () {
@@ -2878,7 +2877,7 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
-                    var activeEmployeeCount =0;
+                    var activeEmployeeCount = 0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
                     var _duplicateFrom = "";
@@ -2895,11 +2894,11 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
 
                             }
@@ -2914,7 +2913,7 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -2927,8 +2926,8 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if (x[0] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})*`;
+                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})*`;
                                 break;
                             }
                         }
@@ -2938,10 +2937,10 @@ function ShowForecastResults(year) {
 
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
+                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
                             }
                         }
@@ -2950,7 +2949,7 @@ function ShowForecastResults(year) {
 
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -2962,9 +2961,9 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
 
                         for (let x of allData) {
-                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
-                                activeEmployeeCount = activeEmployeeCount+1;
-                            }  
+                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                activeEmployeeCount = activeEmployeeCount + 1;
+                            }
                         }
 
                         $.ajax({
@@ -2973,8 +2972,8 @@ function ShowForecastResults(year) {
                             type: 'GET',
                             async: false,
                             dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                            success: function (data) { 
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                            success: function (data) {
                                 masterEmployeeName = data.EmployeeName;
                                 inactiveEmployeeCount = data.EmployeeCount;
                             }
@@ -2985,8 +2984,8 @@ function ShowForecastResults(year) {
                     _roleChanged = '1';
                     _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
                     //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
-                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
-                    allSameEmployeeId = [];                   
+                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
+                    allSameEmployeeId = [];
 
 
                     obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
@@ -3081,14 +3080,14 @@ function ShowForecastResults(year) {
                     var allSameEmployeeId = [];
                     var newCountedEmployeeName = '';
                     var newEmployeeId = "";
-                    var activeEmployeeCount =0;
+                    var activeEmployeeCount = 0;
                     var masterEmployeeName = "";
                     var inactiveEmployeeCount = 0;
                     var _duplicateFrom = "";
                     var _duplicateCount = "";
                     var _roleChanged = "";
                     var _unitPriceChanged = "";
-                    
+
                     obj.insertRow(1, parseInt(y));
 
                     var retrivedData = retrivedObject(jss.getRowData(y));
@@ -3099,11 +3098,11 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[0]);
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
 
                             }
@@ -3118,7 +3117,7 @@ function ShowForecastResults(year) {
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == 'new-' + minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -3131,8 +3130,8 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if (x[0] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[1] + ` (${allSpecificObjectsCount + 1})**`;
+                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})**`;
                                 break;
                             }
                         }
@@ -3141,17 +3140,17 @@ function ShowForecastResults(year) {
 
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            if (x[42] == retrivedData.employeeId) {
+                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
-                                if (!isNaN(x[0])) {
-                                    allSameEmployeeId.push(x[0]);
+                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
                                 }
                             }
                         }
                         var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
 
                         for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][0] == minAssignmentNumber) {
+                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
 
                                 retrivedData = retrivedObject(jss.getRowData(x));
 
@@ -3164,9 +3163,9 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
-                                activeEmployeeCount = activeEmployeeCount+1;
-                            }  
+                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                activeEmployeeCount = activeEmployeeCount + 1;
+                            }
                         }
                         $.ajax({
                             url: `/api/utilities/GetEmployeeNameForMenuChange`,
@@ -3174,8 +3173,8 @@ function ShowForecastResults(year) {
                             type: 'GET',
                             async: false,
                             dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId+"&employeeId="+retrivedData.employeeId+"&menuType=unit"+"&year="+retrivedData.year,
-                            success: function (data) { 
+                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                            success: function (data) {
                                 masterEmployeeName = data.EmployeeName;
                                 inactiveEmployeeCount = data.EmployeeCount;
                             }
@@ -3186,33 +3185,33 @@ function ShowForecastResults(year) {
                     _roleChanged = '1';
                     _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
                     //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
-                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
                     allSameEmployeeId = [];
 
-                    jss.setStyle(jssTableDefinition.employeeName.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.employeeName.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.section.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.section.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
 
 
-                    jss.setStyle(jssTableDefinition.department.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.department.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.incharge.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.incharge.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.role.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.role.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.company.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.company.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.grade.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.grade.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
 
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName  + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName  + (nextRow + 1), "color", "red");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
 
                     obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
                     obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);

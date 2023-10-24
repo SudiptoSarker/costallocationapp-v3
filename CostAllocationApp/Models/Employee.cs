@@ -17,5 +17,6 @@ namespace CostAllocationApp.Models
         public string PresentAddress { get; set; }
         public string PermanentAddress { get; set; }
         public bool IsActive { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

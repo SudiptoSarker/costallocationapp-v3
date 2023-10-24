@@ -142,10 +142,14 @@ function UpdateInsertExplanations(explanationName,explanationId,isUpdate) {
         dataType: 'json',
         data: data,
         success: function (data) {
-            $("#page_load_after_modal_close").val("yes");
-            $("#explanation_name").val('');
             ToastMessageSuccess(data);
             GetExplanationList();     
+            
+            if(isUpdate){
+                $("#edit_explanation_modal").modal('hide');
+            }else{
+                $("#add_explanation_modal").modal('hide');
+            }            
         },
         error: function (data) {
             ToastMessageFailed(data);

@@ -1,5 +1,66 @@
 ﻿
 $(document).ready(function () {
+    $(".add_master_btn").on("click",function(event){        
+        $('#add_master_modal').modal('show');
+    })
+    $("#employee_add_save").on("click",function(event){       
+        var roleName = $("#employee_name_add").val();           
+
+        if (roleName == '' || roleName == null || roleName == undefined){
+            alert("please enter role name!");
+            return false;
+        }
+        else{            
+            UpdateInsertEmployee(roleName,0,false);
+        }   
+    })
+    //edit from modal
+    $("#employee_edit_save").on("click",function(event){   
+        
+        var roleName = $("#employee_name_edit").val();   
+        var roleId= $("#employee_id_for_edit").val();   
+
+        if (roleName == '' || roleName == null || roleName == undefined){
+            alert("please enter role name!");
+            return false;
+        }
+        else{            
+            UpdateInsertEmployee(roleName,roleId,true);
+        }        
+    })
+    //employee insert
+    function UpdateInsertEmployee(employeeName,employeeId,isUpdate) {
+        var apiurl = "/api/utilities/CreateEmployee/";
+        var data = {
+            Id:employeeId,
+            FullName: employeeName,
+            IsUpdate:isUpdate
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (result) {
+                if (result > 0) {
+                    ToastMessageSuccess('データが保存されました!');
+                    GetEmployeeList();
+                    
+                    if(isUpdate){
+                        $('#edit_master_modal').modal('hide');
+                    }else{
+                        $('#add_master_modal').modal('hide');
+                    }
+                }
+
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    }
+
     /***************************\                           
         Check if the employee is checked for delete/remove
     \***************************/
@@ -76,7 +137,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: "employeeId=" + employeeId,
             success: function (data) { 
-                $("#company_name_edit").val(data.FullName);   
+                $("#employee_name_edit").val(data.FullName);   
                 $("#employee_id_for_edit").val(data.Id);   
             }
         });            
@@ -104,40 +165,6 @@ $(document).on('change', '#name_search', function () {
     GetEmployeeSearchResults();
 });
 
-//employee insert
-function InsertEmployee() {
-    var apiurl = "/api/utilities/CreateEmployee/";
-    let employeeName = $("#employee-name").val().trim();
-    if (employeeName == "") {
-        $(".employee_err").show();
-        return false;
-    } else {
-        $(".employee_err").hide();
-        var data = {
-            FullName: employeeName
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (result) {
-                if (result > 0) {
-                    $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('データが保存されました!');
-
-                    $('#employee-name').val('');
-                    GetEmployeeList();
-                }
-
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
-}
 
 //Get employee list
 function GetEmployeeList() {

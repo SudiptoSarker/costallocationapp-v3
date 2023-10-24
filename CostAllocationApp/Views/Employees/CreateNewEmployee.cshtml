@@ -62,44 +62,89 @@
 <input type="hidden" id="employee_id_hidden" />
 <input type="hidden" id="employee_id_for_edit" />
 
-<!-----------------Modal: Edit Role----------------->
-<!-- <div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
+<!-----------------Modal: Add Employee----------------->
+<div class="modal custom-modal fade" id="add_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>編集​ 役割 (edit role)</h3>
+                    <h3 id='add_modal_header'>追加 氏名 (add employee)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
                     <label id='add_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
-                    <table id="company_reg_tbl">
+                    <table id="employee_add_table">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="company_th">役割 (Roles Name)</th>
-                                <th class="company_th">操作</th>
+                                <th class="employee_add_th">役割 (Roles Name)</th>
+                                <th class="employee_add_th">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="company_reg_frm_td">
-                                    <input type="text" value="" placeholder="新規役割をここに入力" id="company_name_edit">                                            
+                                <td id="employee_add_td">
+                                    <input type="text" value="" placeholder="新規役割をここに入力" id="employee_name_add">                                            
                                 </td>
-                                <td id="company_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="company_reg_cancel_btn_edit" data-dismiss="modal">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn_edit">保存（save）</a>
+                                <td id="employee_add_td">
+                                    <a href="javascript:void(0);" class="" id="employee_add_undo" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="employee_add_save">保存（save）</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>                    
                 </div>
+                <div class="modal-footer">                        
+                    <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
+                </div>
             </div>
         </div>
     </div>
-</div> -->
+</div>
+
+<!-----------------Modal: Edit Role----------------->
+<div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 id='edit_modal_header'>編集​ 氏名 (edit employee)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label id='edit_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <table id="employee_edit_table">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="employee_edit_th">役割 (Roles Name)</th>
+                                <th class="employee_edit_th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="employee_edti_td">
+                                    <input type="text" value="" placeholder="新規役割をここに入力" id="employee_name_edit">                                            
+                                </td>
+                                <td id="employee_edti_td">
+                                    <a href="javascript:void(0);" class="" id="employee_edit_undo" data-dismiss="modal">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="employee_edit_save">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                    
+                </div>
+                <div class="modal-footer">                        
+                    <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-----------------Modal: Delete Company----------------->
 <div class="modal custom-modal fade" id="delete_master_modal" role="dialog">

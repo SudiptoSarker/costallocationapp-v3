@@ -2366,10 +2366,22 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    employee.IsActive = true;
-                    employee.CreatedBy = session["userName"].ToString();
-                    employee.CreatedDate = DateTime.Now;
-                    int result = employeeBLL.CreateEmployee(employee);
+                    int result = 0;
+                    if (employee.IsUpdate)
+                    {
+                        employee.IsActive = true;
+                        employee.UpdatedBy = session["userName"].ToString();
+                        employee.UpdatedDate = DateTime.Now;
+                        result = employeeBLL.UpdateEmployee(employee);
+                    }
+                    else
+                    {
+                        employee.IsActive = true;
+                        employee.CreatedBy = session["userName"].ToString();
+                        employee.CreatedDate = DateTime.Now;
+                        result = employeeBLL.CreateEmployee(employee);
+                    }
+                    
                     if (result > 0)
                     {
                         return Ok(result);

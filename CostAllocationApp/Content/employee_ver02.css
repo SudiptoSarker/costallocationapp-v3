@@ -262,17 +262,13 @@ body {
 
 
 /*modal*/
-#add_modal_body_title{
+#add_modal_body_title,#edit_modal_body_title{
     font-size: 10px !important;
     font-family: Yu Gothic;
 }
-#add_modal_header{
+#add_modal_header,#edit_modal_header{
     text-align: left;
     margin-left: 25px;
-}
-.custom-modal .modal-body{
-    padding: 22px !important;
-    margin-top: 1px !important;
 }
 
 /*modal design*/
@@ -340,4 +336,97 @@ body {
     border-spacing: 4px;
     text-align: center;
     width: 57%;
+}
+
+.employee_edit_th,.employee_add_th{
+    border: 1px solid black !important;
+}
+#employee_edti_td,#employee_add_td{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 57%;
+}
+
+#employee_name_add,#employee_name_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+
+#company_reg_cancel_btn,#employee_edit_undo,#employee_add_undo {
+    line-height: 1;
+	background-color: red;
+    color: white;
+	border: none;
+
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#company_reg_save_btn,#employee_edit_save,#employee_add_save {
+    line-height:1;
+    background-color: green;
+	border: none;
+
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#employee_edit_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#employee_edit_table thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#employee_add_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#employee_add_table thead {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+/*common modal design*/
+.modal_return_btn{
+    margin-top: 40px !important;
+    line-height: 1 !important;
+    margin-right: -12px  !important;
+}
+.modal-footer{
+    margin-top: -38px !important;
+}
+.custom-modal .modal-footer {
+    border: 0;
+    justify-content: right;
+    /* padding: 0 30px 30px;*/
+}
+.custom-modal .modal-body{
+    padding: 15px !important;
+    margin-top: 1px !important;
 }

@@ -206,7 +206,11 @@ function UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,gradeId,isUpda
         success: function (data) {
             ToastMessageSuccess(data);
             GetSalaries();    
-            $("#add_master_modal").modal("hide");
+            if(isUpdate){
+                $("#edit_master_modal").modal("hide");
+            }else{
+                $("#add_master_modal").modal("hide");
+            }            
         },
         error: function (data) {
             ToastMessageFailed(data);

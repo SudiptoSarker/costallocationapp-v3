@@ -99,10 +99,14 @@ $(document).ready(function () {
             dataType: 'json',
             data: data,
             success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#company_name_edit").val('');
                 ToastMessageSuccess(data);
                 GetCompanyList();
+
+                if(isUpdate){
+                    $("#edit_master_modal").modal("hide");
+                }else{
+                    $("#add_master_modal").modal("hide");                    
+                }
             },
             error: function (data) {
                 ToastMessageFailed(data);

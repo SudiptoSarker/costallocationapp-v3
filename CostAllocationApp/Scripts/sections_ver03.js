@@ -109,9 +109,11 @@
                 $("#page_load_after_modal_close").val("yes");
                 ToastMessageSuccess(data);
                 if(isUpdate){
-                    //$('#section-name').val('');
+                    $('#section_name_edit').val('');
+                    $("#edit_section_modal").modal("hide");
                 }else{
                     $('#section-name').val('');
+                    $("#add_section_modal").modal("hide");
                 }                
                 GetSectionList();
             },

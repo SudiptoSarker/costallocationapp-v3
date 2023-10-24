@@ -484,7 +484,7 @@ $(document).ready(function () {
             var tempArrayCopy=[];
             for (var i = 0; i < _uniqueEmployeeIds.length; i++) {
                 for (var j = 0; j < allTableData.length; j++) {
-                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][37].toString()) {
+                    if (_uniqueEmployeeIds[i].toString() == allTableData[j][42].toString()) {
                         tempArray.push(allTableData[j]);
                     }
                 }
@@ -1817,19 +1817,33 @@ function ShowBedgetResults(year) {
 
                     jssInsertedData.push(retrivedData);
                     newRowCount++;
-                    jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-                    jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+                    //jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);                    
+                    // jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
+                    // jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+
+                    jss.setValueFromCoords(jssTableDefinition.assignmentId.index, y, retrivedData.assignmentId, false);
+                    jss.setValueFromCoords(jssTableDefinition.octT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.octM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.novT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.novM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.decT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.decM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.janT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.janM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.febT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.febM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.marT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.marM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.aprT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.mayT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.junT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.junM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.julT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.julM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.augT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.augM.cellName}${parseInt(y) + 1}`, false);
+                    jss.setValueFromCoords(jssTableDefinition.sepT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(y) + 1}`, false);
                 }
                 else {
                     //get data for existing employee
@@ -2480,7 +2494,7 @@ function ShowBedgetResults(year) {
                             var assignmentIds = [];
                                            
                             var value = obj.getSelectedRows();
-                            var assignementId = jss.getValueFromCoords(jssTableDefinition.assignementId.index, y);
+                            var assignementId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
                             assignmentIds.push(assignementId);
                             var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);   
                             
@@ -2523,7 +2537,9 @@ function ShowBedgetResults(year) {
     $("#budget_finalize").css("display", "block");
 
     //create a row for search in each column
-    jss.deleteColumn(52, 23);
+    //jss.deleteColumn(52, 23);
+    jss.deleteColumn(53, 23);
+
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(3) > td');
@@ -3069,7 +3085,7 @@ function InsertEmployee() {
                     console.log("result: "+result);
                     console.log("globalY: "+globalY);
 
-                    jss.setValueFromCoords(37, globalY, result, false);
+                    jss.setValueFromCoords(42, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
@@ -3102,7 +3118,7 @@ function AddEmployee() {
     var employeeId = $('#employee_list').val();
     var employeeName = $('#employee_list').find("option:selected").text();
     jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(37, globalY, employeeId, false);
+    jss.setValueFromCoords(42, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
 

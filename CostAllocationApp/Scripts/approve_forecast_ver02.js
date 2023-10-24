@@ -1100,511 +1100,17 @@ function ShowForecastResults(year) {
             { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
             { title: "BCYR", type: 'hidden', name: "BCYR" },
             { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
-            { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
             { title: "IsActive", type: 'hidden', name: "IsActive" },
+            { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
             { title: "BCYRCellApproved", type: 'hidden', name: "BCYRCellApproved" },
             { title: "IsApproved", type: 'hidden', name: "IsApproved" },
             { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
 
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-
-
         ],
         minDimensions: [6, 10],
         columnSorting: true,
-        // onbeforechange: function (instance, cell, x, y, value) {
-
-        //     //alert(value);
-        //     if (x == 11) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 12) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 13) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 14) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 15) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 16) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 17) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 18) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 19) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 20) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 21) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        //     if (x == 22) {
-        //         beforeChangedValue = jss.getValueFromCoords(x, y);
-        //     }
-        // },
-        
-        // onchange: function (instance, cell, x, y, value) {
-        //     //debugger;
-        //     var checkId = jss.getValueFromCoords(0, y);
-        //     var employeeId = jss.getValueFromCoords(35, y);
-
-        //     if (checkId == null || checkId == '' || checkId == undefined) {
-
-        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-        //         retrivedData.assignmentId = "new-" + newRowCount;
-
-        //         jssInsertedData.push(retrivedData);
-        //         newRowCount++;
-        //         jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-        //         jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-        //         jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
-        //     }
-        //     else {
-        //         var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-        //         if (retrivedData.assignmentId.toString().includes('new')) {
-        //             updateArrayForInsert(jssInsertedData, retrivedData);
-        //         }
-        //         else {
-        //             var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
-        //             if (x == 2) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
-        //             }
-        //             if (x == 3) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 4) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 5) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 6) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 7) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 8) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 9) {
-        //                 if (dataCheck.length == 0) {
-        //                     jssUpdatedData.push(retrivedData);
-        //                 }
-        //                 else {
-        //                     updateArray(jssUpdatedData, retrivedData);
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 11) {
-        //                 var octSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         octSum += parseFloat(value.childNodes[12].innerText);
-        //                     }
-
-        //                 });
-
-        //                 if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-        //                     octSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-        //                 }
-        //                 else {
-
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-        //                         updateArray(jssUpdatedData, retrivedData);
-        //                     }
-
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-
-        //             }
-        //             if (x == 12) {
-        //                 var novSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         novSum += parseFloat(value.childNodes[13].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
-        //                     novSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 13) {
-        //                 var decSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         decSum += parseFloat(value.childNodes[14].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
-        //                     decSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 14) {
-        //                 var janSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         janSum += parseFloat(value.childNodes[15].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
-        //                     janSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 15) {
-        //                 var febSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         febSum += parseFloat(value.childNodes[16].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
-        //                     febSum = 1;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 16) {
-        //                 var marSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         marSum += parseFloat(value.childNodes[17].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
-        //                     marSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 17) {
-        //                 var aprSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         aprSum += parseFloat(value.childNodes[18].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
-        //                     aprSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 18) {
-        //                 var maySum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         maySum += parseFloat(value.childNodes[19].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 19) {
-        //                 var junSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         junSum += parseFloat(value.childNodes[20].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
-        //                     junSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 20) {
-        //                 var julSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         julSum += parseFloat(value.childNodes[21].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 21) {
-        //                 var augSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         augSum += parseFloat(value.childNodes[22].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
-        //                     augSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //             if (x == 22) {
-        //                 var sepSum = 0;
-        //                 $.each(jss.rows, (index, value) => {
-        //                     if (value.childNodes[36].innerText == employeeId.toString()) {
-        //                         sepSum += parseFloat(value.childNodes[23].innerText);
-        //                     }
-
-        //                 });
-        //                 if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
-        //                     sepSum = 0;
-        //                     alert('入力値が不正です');
-        //                     jss.setValueFromCoords(x, y, beforeChangedValue, false);
-        //                 }
-        //                 else {
-        //                     if (dataCheck.length == 0) {
-        //                         jssUpdatedData.push(retrivedData);
-        //                     }
-        //                     else {
-
-        //                         updateArray(jssUpdatedData, retrivedData);
-
-        //                     }
-        //                 }
-        //                 $(cell).css('color', 'red');
-        //                 $(cell).css('background-color', 'yellow');
-        //                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-        //             }
-        //         }
-
-        //     }
-
-        // },
         oninsertrow: newRowInserted,
         ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {            
@@ -1618,7 +1124,9 @@ function ShowForecastResults(year) {
     $("#approve_forecast_data").css("display", "block");
     $("#unapprove_forecast_data").css("display", "block");
 
-    jss.deleteColumn(52, 43);
+    //jss.deleteColumn(52, 43);
+    jss.deleteColumn(53, 23);
+    
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
     var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
@@ -1704,6 +1212,7 @@ function ShowForecastResults(year) {
         if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == true) {
             SetRowColor_ApprovedRow(count);
         } else if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == false) {
+            alert("test")
             SetRowColor(count);
         }
         else {
@@ -2950,33 +2459,73 @@ function updateArrayForInsert(array, retrivedData) {
 
 function retrivedObject(rowData) {
     return {
-        assignmentId: rowData[0],
-        employeeName: rowData[1],
-        remarks: rowData[2],
-        employeeId: rowData[35],
-        sectionId: rowData[3],
-        departmentId: rowData[4],
-        inchargeId: rowData[5],
-        roleId: rowData[6],
-        explanationId: rowData[7],
-        companyId: rowData[8],
-        gradeId: rowData[9],
-        unitPrice: parseFloat(rowData[10]),
-        octPoint: parseFloat(rowData[11]),
-        novPoint: parseFloat(rowData[12]),
-        decPoint: parseFloat(rowData[13]),
-        janPoint: parseFloat(rowData[14]),
-        febPoint: parseFloat(rowData[15]),
-        marPoint: parseFloat(rowData[16]),
-        aprPoint: parseFloat(rowData[17]),
-        mayPoint: parseFloat(rowData[18]),
-        junPoint: parseFloat(rowData[19]),
-        julPoint: parseFloat(rowData[20]),
-        augPoint: parseFloat(rowData[21]),
-        sepPoint: parseFloat(rowData[22]),
+        // assignmentId: rowData[0],
+        // employeeName: rowData[1],
+        // remarks: rowData[2],
+        // employeeId: rowData[42],
+        // sectionId: rowData[3],
+        // departmentId: rowData[4],
+        // inchargeId: rowData[5],
+        // roleId: rowData[6],
+        // explanationId: rowData[7],
+        // companyId: rowData[8],
+        // gradeId: rowData[9],
+        // unitPrice: parseFloat(rowData[10]),
+        // octPoint: parseFloat(rowData[11]),
+        // novPoint: parseFloat(rowData[12]),
+        // decPoint: parseFloat(rowData[13]),
+        // janPoint: parseFloat(rowData[14]),
+        // febPoint: parseFloat(rowData[15]),
+        // marPoint: parseFloat(rowData[16]),
+        // aprPoint: parseFloat(rowData[17]),
+        // mayPoint: parseFloat(rowData[18]),
+        // junPoint: parseFloat(rowData[19]),
+        // julPoint: parseFloat(rowData[20]),
+        // augPoint: parseFloat(rowData[21]),
+        // sepPoint: parseFloat(rowData[22]),
+        // year: document.getElementById('assignment_year_list').value,
+        // bcyr: rowData[43],
+        // bCYRApproved: rowData[46]
+
+        assignmentId: rowData[jssTableDefinition.assignmentId.index],
+        employeeName: rowData[jssTableDefinition.employeeName.index],
+        remarks: rowData[jssTableDefinition.remarks.index],
+        employeeId: rowData[jssTableDefinition.employeeId.index],
+        sectionId: rowData[jssTableDefinition.section.index],
+        departmentId: rowData[jssTableDefinition.department.index],
+        inchargeId: rowData[jssTableDefinition.incharge.index],
+        roleId: rowData[jssTableDefinition.role.index],
+        explanationId: rowData[jssTableDefinition.explanation.index],
+        companyId: rowData[jssTableDefinition.company.index],
+        gradeId: rowData[jssTableDefinition.grade.index],
+        unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
+        octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
+        novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
+        decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
+        janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
+        febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
+        marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
+        aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
+        mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
+        junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
+        julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
+        augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
+        sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
         year: document.getElementById('assignment_year_list').value,
-        bcyr: rowData[36],
-        bCYRApproved: rowData[37]
+        bcyr: rowData[jssTableDefinition.bcyr.index],
+        bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+        isActive: rowData[jssTableDefinition.isActive.index],
+        bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
+        bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],
+        isApproved: rowData[jssTableDefinition.isApproved.index],
+        bCYRCellPending: rowData[jssTableDefinition.bcyrCellPending.index],
+        isRowPending: rowData[jssTableDefinition.isRowPending.index],
+        isDeletePending: rowData[jssTableDefinition.isDeletePending.index],
+        rowType: rowData[jssTableDefinition.rowType.index],
+        duplicateFrom: rowData[jssTableDefinition.duplicateFrom.index],
+        duplicateCount: rowData[jssTableDefinition.duplicateCount.index],
+        roleChanged: rowData[jssTableDefinition.roleChanged.index],
+        unitPriceChanged: rowData[jssTableDefinition.unitPriceChanged.index],
 
     };
 }
@@ -2984,39 +2533,90 @@ function retrivedObject(rowData) {
 function retrivedObject_ApprovalData(rowData) {
     if(typeof rowData != "undefined"){
         return {
-            assignmentId: rowData[0],
-            employeeName: rowData[1],
-            remarks: rowData[2],
-            employeeId: rowData[35],
-            sectionId: rowData[3],
-            departmentId: rowData[4],
-            inchargeId: rowData[5],
-            roleId: rowData[6],
-            explanationId: rowData[7],
-            companyId: rowData[8],
-            gradeId: rowData[9],
-            unitPrice: parseFloat(rowData[10]),
-            octPoint: parseFloat(rowData[11]),
-            novPoint: parseFloat(rowData[12]),
-            decPoint: parseFloat(rowData[13]),
-            janPoint: parseFloat(rowData[14]),
-            febPoint: parseFloat(rowData[15]),
-            marPoint: parseFloat(rowData[16]),
-            aprPoint: parseFloat(rowData[17]),
-            mayPoint: parseFloat(rowData[18]),
-            junPoint: parseFloat(rowData[19]),
-            julPoint: parseFloat(rowData[20]),
-            augPoint: parseFloat(rowData[21]),
-            sepPoint: parseFloat(rowData[22]),
+            // assignmentId: rowData[0],
+            // employeeName: rowData[1],
+            // remarks: rowData[2],
+            // employeeId: rowData[42],
+            // sectionId: rowData[3],
+            // departmentId: rowData[4],
+            // inchargeId: rowData[5],
+            // roleId: rowData[6],
+            // explanationId: rowData[7],
+            // companyId: rowData[8],
+            // gradeId: rowData[9],
+            // unitPrice: parseFloat(rowData[10]),
+
+            // octPoint: parseFloat(rowData[11]),
+            // novPoint: parseFloat(rowData[12]),
+            // decPoint: parseFloat(rowData[13]),
+            // janPoint: parseFloat(rowData[14]),
+            // febPoint: parseFloat(rowData[15]),
+            // marPoint: parseFloat(rowData[16]),
+            // aprPoint: parseFloat(rowData[17]),
+            // mayPoint: parseFloat(rowData[18]),
+            // junPoint: parseFloat(rowData[19]),
+            // julPoint: parseFloat(rowData[20]),
+            // augPoint: parseFloat(rowData[21]),
+            // sepPoint: parseFloat(rowData[22]),
+            // year: document.getElementById('assignment_year_list').value,
+            
+            // // bcyr: rowData[36],
+            // // bCYRApproved: rowData[37],
+            // // isActive: rowData[39],
+            // // BCYRCellApproved: rowData[40],
+            // // isApproved: rowData[41],
+            // // bCYRCellPending: rowData[42],
+            // // isRowPending: rowData[43],
+            // // isDeletePending: rowData[44]
+
+            // bcyr: rowData[43],
+            // bCYRApproved: rowData[46],
+            // isActive: rowData[45],
+            // BCYRCellApproved: rowData[47],
+            // isApproved: rowData[48],
+            // bCYRCellPending: rowData[49],
+            // isRowPending: rowData[50],
+            // isDeletePending: rowData[51]
+
+            assignmentId: rowData[jssTableDefinition.assignmentId.index],
+            employeeName: rowData[jssTableDefinition.employeeName.index],
+            remarks: rowData[jssTableDefinition.remarks.index],
+            employeeId: rowData[jssTableDefinition.employeeId.index],
+            sectionId: rowData[jssTableDefinition.section.index],
+            departmentId: rowData[jssTableDefinition.department.index],
+            inchargeId: rowData[jssTableDefinition.incharge.index],
+            roleId: rowData[jssTableDefinition.role.index],
+            explanationId: rowData[jssTableDefinition.explanation.index],
+            companyId: rowData[jssTableDefinition.company.index],
+            gradeId: rowData[jssTableDefinition.grade.index],
+            unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
+            octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
+            novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
+            decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
+            janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
+            febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
+            marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
+            aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
+            mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
+            junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
+            julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
+            augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
+            sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
             year: document.getElementById('assignment_year_list').value,
-            bcyr: rowData[36],
-            bCYRApproved: rowData[37],
-            isActive: rowData[39],
-            BCYRCellApproved: rowData[40],
-            isApproved: rowData[41],
-            bCYRCellPending: rowData[42],
-            isRowPending: rowData[43],
-            isDeletePending: rowData[44]
+            bcyr: rowData[jssTableDefinition.bcyr.index],
+            bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+            isActive: rowData[jssTableDefinition.isActive.index],
+            bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
+            bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],
+            isApproved: rowData[jssTableDefinition.isApproved.index],
+            bCYRCellPending: rowData[jssTableDefinition.bcyrCellPending.index],
+            isRowPending: rowData[jssTableDefinition.isRowPending.index],
+            isDeletePending: rowData[jssTableDefinition.isDeletePending.index],
+            rowType: rowData[jssTableDefinition.rowType.index],
+            duplicateFrom: rowData[jssTableDefinition.duplicateFrom.index],
+            duplicateCount: rowData[jssTableDefinition.duplicateCount.index],
+            roleChanged: rowData[jssTableDefinition.roleChanged.index],
+            unitPriceChanged: rowData[jssTableDefinition.unitPriceChanged.index],
         };
     }
     
@@ -3399,7 +2999,20 @@ function SetRowColor(insertedRowNumber){
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "yellow");
-    jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
+    jss.setStyle(jssTableDefinition.unitPrice.cellName + insertedRowNumber, "color", "red");
+    // 5 columns.
+    jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + insertedRowNumber, "color", "red");
+
+
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "yellow");
@@ -4379,6 +3992,29 @@ function DisableRow(rowNumber) {
     jss.setStyle(jssTableDefinition.unitPrice.cellName + rowNumber, "background-color", "gray");
     jss.setStyle(jssTableDefinition.unitPrice.cellName + rowNumber, "color", "black");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
+
+    // 5 columns.
+    jss.setStyle(jssTableDefinition.dbId.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.dbId.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).addClass('readonly');
+
+
 
     jss.setStyle(jssTableDefinition.octM.cellName + rowNumber, "background-color", "gray");
     jss.setStyle(jssTableDefinition.octM.cellName + rowNumber, "color", "black");

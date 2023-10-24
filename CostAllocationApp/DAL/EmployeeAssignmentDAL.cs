@@ -314,7 +314,8 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@createdDate", DateTime.Now);
                 cmd.Parameters.AddWithValue("@isActive", 1);
                 cmd.Parameters.AddWithValue("@remarks", employeeAssignment.Remarks);                
-                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeModifiedName);
+                //cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeModifiedName);
+                cmd.Parameters.AddWithValue("@employeeName", employeeAssignment.EmployeeName);
                 cmd.Parameters.AddWithValue("@year", employeeAssignment.Year);
 
                 cmd.Parameters.AddWithValue("@firstHalfBudget", employeeAssignment.FirstHalfBudget);

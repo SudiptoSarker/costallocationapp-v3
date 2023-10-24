@@ -2695,7 +2695,7 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
                                     allSameEmployeeId.push(x[0]);
@@ -2740,7 +2740,7 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
                                     allSameEmployeeId.push(x[0]);
@@ -2764,7 +2764,7 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
 
                         for (let x of allData) {                            
-                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
                                 activeEmployeeCount = activeEmployeeCount+1;
                             }                          
                         }
@@ -2895,7 +2895,7 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
@@ -2938,7 +2938,7 @@ function ShowForecastResults(year) {
 
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
                                     allSameEmployeeId.push(x[0]);
@@ -2962,7 +2962,7 @@ function ShowForecastResults(year) {
                         retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
 
                         for (let x of allData) {
-                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
                                 activeEmployeeCount = activeEmployeeCount+1;
                             }  
                         }
@@ -3099,7 +3099,7 @@ function ShowForecastResults(year) {
                         var allSpecificObjectsCount = 0;
 
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
 
                                 if (isNaN(x[0])) {
                                     allSpecificObjectsCount++;
@@ -3141,7 +3141,7 @@ function ShowForecastResults(year) {
 
                         var allSpecificObjectsCount = 0;
                         for (let x of allData) {
-                            if (x[37] == retrivedData.employeeId) {
+                            if (x[42] == retrivedData.employeeId) {
                                 allSpecificObjectsCount++;
                                 if (!isNaN(x[0])) {
                                     allSameEmployeeId.push(x[0]);
@@ -3164,7 +3164,7 @@ function ShowForecastResults(year) {
 
 
                         for (let x of allData) {
-                            if(parseInt(x[37]) == parseInt(retrivedData.employeeId)){
+                            if(parseInt(x[42]) == parseInt(retrivedData.employeeId)){
                                 activeEmployeeCount = activeEmployeeCount+1;
                             }  
                         }
@@ -3290,6 +3290,7 @@ function ShowForecastResults(year) {
 
     //delete unwanted column from jexcel table
     jss.deleteColumn(53, 23);
+    //jss.deleteColumn(52, 43);
 
     //get the header for shorting the column wise 
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
@@ -4364,7 +4365,7 @@ function InsertEmployee() {
             success: function (result) {
                 if (result > 0) {
                     jss.setValueFromCoords(1, globalY, data.FullName, false);
-                    jss.setValueFromCoords(37, globalY, result, false);
+                    jss.setValueFromCoords(42, globalY, result, false);
                     $("#page_load_after_modal_close").val("yes");
                     ToastMessageSuccess('データが保存されました!');
                     $('#employee_name').val('');
@@ -4408,7 +4409,7 @@ function AddEmployee() {
     for (let x of allTableData) {            
         console.log("x: "+x);                
         console.log("retrivedData.employeeId: "+employeeId);                
-		if(parseInt(x[37]) == parseInt(employeeId)){
+		if(parseInt(x[42]) == parseInt(employeeId)){
 			activeEmployeeCountForAddEmployee = activeEmployeeCountForAddEmployee+1;
 		}                          
 	}
@@ -4429,7 +4430,7 @@ function AddEmployee() {
     employeeNameForAddEmployee =   masterEmployeeNameForAddEmployee +" ("+(parseInt(activeEmployeeCountForAddEmployee)+parseInt(inactiveEmployeeCountForAddEmployee)+1)+")";
 
     jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(37, globalY, employeeId, false);
+    jss.setValueFromCoords(42, globalY, employeeId, false);
     $('#jexcel_add_employee_modal').modal('hide');
 }
 

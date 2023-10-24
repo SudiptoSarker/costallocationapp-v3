@@ -23,11 +23,7 @@ namespace CostAllocationApp.BLL
 
             int count = 2;
             foreach (var item in forecastAssignmentViewModels)
-            {
-                if (item.EmployeeAssignmentIdOrg == 112)
-                {
-                    //test
-                }
+            {                
                 var assignmentId = item.Id;
                 var employeeName = item.EmployeeName;
                 var rootEmployeeName = item.RootEmployeeName;
@@ -2193,6 +2189,21 @@ namespace CostAllocationApp.BLL
             sheet.Cells["V" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["V" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
 
+            sheet.Cells["W" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["W" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
+            sheet.Cells["X" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["X" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
+            sheet.Cells["Y" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Y" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
+            sheet.Cells["Z" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Z" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
+            sheet.Cells["AA" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AA" + count].Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+
             return sheet;
         }
 
@@ -2263,6 +2274,21 @@ namespace CostAllocationApp.BLL
 
             sheet.Cells["V" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["V" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
+
+            sheet.Cells["W" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["W" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
+
+            sheet.Cells["X" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["X" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
+
+            sheet.Cells["Y" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Y" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
+
+            sheet.Cells["Z" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["Z" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
+
+            sheet.Cells["AA" + count].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            sheet.Cells["AA" + count].Style.Fill.BackgroundColor.SetColor(Color.Gray);
 
             return sheet;
         }

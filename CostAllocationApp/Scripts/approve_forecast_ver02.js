@@ -1125,7 +1125,7 @@ function ShowForecastResults(year) {
     $("#unapprove_forecast_data").css("display", "block");
 
     //jss.deleteColumn(52, 43);
-    jss.deleteColumn(53, 23);
+    jss.deleteColumn(52, 25);
     
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -1212,7 +1212,6 @@ function ShowForecastResults(year) {
         if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == true) {
             SetRowColor_ApprovedRow(count);
         } else if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == false) {
-            alert("test")
             SetRowColor(count);
         }
         else {
@@ -2391,7 +2390,7 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
 
     if(typeof retrivedData != "undefined"){        
-        if(x2==34){
+        if(x2==40){
             //row approval
             CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
         }else{
@@ -3122,6 +3121,33 @@ function SetRowColor_AfterApproved(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "LightBlue");
     //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
+    
+    // 5 columns.
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "LightBlue");
+    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "LightBlue");
+    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "LightBlue");
+    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
+    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
+    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
 
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "LightBlue");
@@ -3307,6 +3333,32 @@ function SetRowColor_AfterUnApproved(insertedRowNumber){
     //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "yellow");
+    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "yellow");
     //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
@@ -3491,6 +3543,34 @@ function SetRowColor_AfterUnApproved_Delete(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "gray");
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "gray");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "gray");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+
+
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "gray");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "black");
@@ -3672,6 +3752,33 @@ function SetRowColor_ForDeletedRow(insertedRowNumber){
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
 
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "black");
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "black");
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "black");
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "#ffcccc");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "black");
+
+
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "#ffcccc");
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).addClass('readonly');
@@ -3821,6 +3928,23 @@ function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "black");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "white");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
+    
+    //5 column
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "white");
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
+
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "white");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "black");
+
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "white");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "black");
+
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "white");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "black");
+
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "white");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "black");
+
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "white");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "black");
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "white");
@@ -3896,6 +4020,24 @@ function SetRowColor_ApprovedRow(insertedRowNumber){
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "LightBlue");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
+
+    //5 column
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
+
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
+
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
+
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
+
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
+
+
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "LightBlue");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "LightBlue");
@@ -4151,6 +4293,32 @@ function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "red");
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "red");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "red");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "red");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "red");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "black");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "red");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "black");
@@ -4343,6 +4511,33 @@ function SetRowColor_MultiRowSelect(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "lightyellow");
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "lightyellow");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "lightyellow");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+    
+
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "lightyellow");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "red");
@@ -4526,6 +4721,33 @@ function SetRowColor_OnlyLightYellow(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "lightyellow");
     //jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
+
+    //5 column
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "lightyellow");
+    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "lightyellow");
+    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "lightyellow");
+    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
+    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
+    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
+
 
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "lightyellow");
@@ -4779,6 +5001,53 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     if(requestType == "readonly" || requestType == "deleted"){
         $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
     }
+
+    //5 column
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.dbId.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.dbId.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).addClass('readonly');
+    }
+
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).addClass('readonly');
+    }
+
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).addClass('readonly');
+    }
+
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).addClass('readonly');
+    }
+
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).addClass('readonly');
+    }
+
 
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.octM.cellName + (rowNumber))).removeClass('readonly');

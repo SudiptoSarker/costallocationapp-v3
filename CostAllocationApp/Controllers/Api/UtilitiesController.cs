@@ -4147,7 +4147,7 @@ namespace CostAllocationApp.Controllers.Api
                         var octOrg = _originalManMonthForecast.Where(p => p.Month == 10).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            oct_Cell = forecastBLL.GetApproveForecastCellData(11, octPrevious, octOrg, approvedCells);
+                            oct_Cell = forecastBLL.GetApproveForecastCellData(16, octPrevious, octOrg, approvedCells);
                         }
                         else
                         {
@@ -4159,7 +4159,7 @@ namespace CostAllocationApp.Controllers.Api
                         var novOrg = _originalManMonthForecast.Where(p => p.Month == 11).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            nov_Cell = forecastBLL.GetApproveForecastCellData(12, novPrevious, novOrg, approvedCells);
+                            nov_Cell = forecastBLL.GetApproveForecastCellData(17, novPrevious, novOrg, approvedCells);
                         }
                         else
                         {
@@ -4171,7 +4171,7 @@ namespace CostAllocationApp.Controllers.Api
                         var decOrg = _originalManMonthForecast.Where(p => p.Month == 12).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            dec_Cell = forecastBLL.GetApproveForecastCellData(13, decPrevious, decOrg, approvedCells);
+                            dec_Cell = forecastBLL.GetApproveForecastCellData(18, decPrevious, decOrg, approvedCells);
                         }
                         else
                         {
@@ -4183,7 +4183,7 @@ namespace CostAllocationApp.Controllers.Api
                         var janOrg = _originalManMonthForecast.Where(p => p.Month == 1).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            jan_Cell = forecastBLL.GetApproveForecastCellData(14, janPrevious, janOrg, approvedCells);
+                            jan_Cell = forecastBLL.GetApproveForecastCellData(19, janPrevious, janOrg, approvedCells);
                         }
                         else
                         {
@@ -4195,7 +4195,7 @@ namespace CostAllocationApp.Controllers.Api
                         var febOrg = _originalManMonthForecast.Where(p => p.Month == 2).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            feb_Cell = forecastBLL.GetApproveForecastCellData(15, febPrevious, febOrg, approvedCells);
+                            feb_Cell = forecastBLL.GetApproveForecastCellData(20, febPrevious, febOrg, approvedCells);
                         }
                         else
                         {
@@ -4207,7 +4207,7 @@ namespace CostAllocationApp.Controllers.Api
                         var marOrg = _originalManMonthForecast.Where(p => p.Month == 3).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            mar_Cell = forecastBLL.GetApproveForecastCellData(16, marPrevious, marOrg, approvedCells);
+                            mar_Cell = forecastBLL.GetApproveForecastCellData(21, marPrevious, marOrg, approvedCells);
                         }
                         else
                         {
@@ -4219,7 +4219,7 @@ namespace CostAllocationApp.Controllers.Api
                         var aprOrg = _originalManMonthForecast.Where(p => p.Month == 4).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            apr_Cell = forecastBLL.GetApproveForecastCellData(17, aprPrevious, aprOrg, approvedCells);
+                            apr_Cell = forecastBLL.GetApproveForecastCellData(22, aprPrevious, aprOrg, approvedCells);
                         }
                         else
                         {
@@ -4231,7 +4231,7 @@ namespace CostAllocationApp.Controllers.Api
                         var mayOrg = _originalManMonthForecast.Where(p => p.Month == 5).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            may_Cell = forecastBLL.GetApproveForecastCellData(18, mayPrevious, mayOrg, approvedCells);
+                            may_Cell = forecastBLL.GetApproveForecastCellData(23, mayPrevious, mayOrg, approvedCells);
                         }
                         else
                         {
@@ -4243,7 +4243,7 @@ namespace CostAllocationApp.Controllers.Api
                         var junOrg = _originalManMonthForecast.Where(p => p.Month == 6).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            jun_Cell = forecastBLL.GetApproveForecastCellData(19, junPrevious, junOrg, approvedCells);
+                            jun_Cell = forecastBLL.GetApproveForecastCellData(24, junPrevious, junOrg, approvedCells);
                         }
                         else
                         {
@@ -4255,7 +4255,7 @@ namespace CostAllocationApp.Controllers.Api
                         var julOrg = _originalManMonthForecast.Where(p => p.Month == 7).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            jul_Cell = forecastBLL.GetApproveForecastCellData(20, julPrevious, julOrg, approvedCells);
+                            jul_Cell = forecastBLL.GetApproveForecastCellData(25, julPrevious, julOrg, approvedCells);
                         }
                         else
                         {
@@ -4267,7 +4267,7 @@ namespace CostAllocationApp.Controllers.Api
                         var augOrg = _originalManMonthForecast.Where(p => p.Month == 8).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            aug_Cell = forecastBLL.GetApproveForecastCellData(21, augPrevious, augOrg, approvedCells);
+                            aug_Cell = forecastBLL.GetApproveForecastCellData(26, augPrevious, augOrg, approvedCells);
                         }
                         else
                         {
@@ -4279,7 +4279,7 @@ namespace CostAllocationApp.Controllers.Api
                         var sepOrg = _originalManMonthForecast.Where(p => p.Month == 9).SingleOrDefault().Points;
                         if (!string.IsNullOrEmpty(approvedCells))
                         {
-                            sep_Cell = forecastBLL.GetApproveForecastCellData(22, sepPrevious, sepOrg, approvedCells);
+                            sep_Cell = forecastBLL.GetApproveForecastCellData(27, sepPrevious, sepOrg, approvedCells);
                         }
                         else
                         {
@@ -8907,9 +8907,8 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.IsActive = "";
             }
-            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllAssignmentData(employeeAssignment);
-            List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
+            
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }

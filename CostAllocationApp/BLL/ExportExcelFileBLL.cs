@@ -111,28 +111,28 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["J" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 sheet.Cells["J" + count].AutoFitColumns();
                 // db id
-                sheet.Cells["K" + count].Value = item.AssignmentId.ToString();
-                sheet.Cells["K" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["K" + count].Value = item.AssignmentId;
+                //sheet.Cells["K" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["K" + count].AutoFitColumns();
                 // duplicate from
-                sheet.Cells["L" + count].Value = duplicateFrom;
-                sheet.Cells["L" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["L" + count].Value = Convert.ToInt32(duplicateFrom);
+                //sheet.Cells["L" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["L" + count].AutoFitColumns();
                 //duplicate count
-                sheet.Cells["M" + count].Value = duplicateCount;
-                sheet.Cells["M" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["M" + count].Value = Convert.ToInt32(duplicateCount);
+                //sheet.Cells["M" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["M" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["M" + count].AutoFitColumns();
                 //role changed
-                sheet.Cells["N" + count].Value = roleChanged;
-                sheet.Cells["N" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["N" + count].Value = Convert.ToInt32(roleChanged);
+                //sheet.Cells["N" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["N" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["N" + count].AutoFitColumns();
                 // unitprice changed
-                sheet.Cells["O" + count].Value = unitPriceChanged;
-                sheet.Cells["O" + count].Style.Numberformat.Format = "0.00";
+                sheet.Cells["O" + count].Value = Convert.ToInt32(unitPriceChanged);
+                //sheet.Cells["O" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["O" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["O" + count].AutoFitColumns();
 
@@ -2838,7 +2838,7 @@ namespace CostAllocationApp.BLL
         public ExcelWorksheet ExportBudgetExcelSheetHeader(ExcelWorksheet sheet)
         {
             /******** Budget Assignment Header ********/
-                sheet.Cells["A1"].Value = "要員(Employee)";
+            sheet.Cells["A1"].Value = "要員(Employee)";
             sheet.Cells["A1"].Style.Font.Bold = true;
             sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);

@@ -2229,51 +2229,51 @@ namespace CostAllocationApp.BLL
             {
                 results = employeeAssignmentDAL.RemoveAssignmentDataFromOrgTable(assignmentId, "UnitPrice");
             }
-            else if (cellNo == 11)
+            else if (cellNo == 16)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 10);
             }
-            else if (cellNo == 12)
+            else if (cellNo == 17)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 11);
             }
-            else if (cellNo == 13)
+            else if (cellNo == 18)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 12);
             }
-            else if (cellNo == 14)
+            else if (cellNo == 19)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 1);
             }
-            else if (cellNo == 15)
+            else if (cellNo == 20)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 2);
             }
-            else if (cellNo == 16)
+            else if (cellNo == 21)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 3);
             }
-            else if (cellNo == 17)
+            else if (cellNo == 22)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 4);
             }
-            else if (cellNo == 18)
+            else if (cellNo == 23)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 5);
             }
-            else if (cellNo == 19)
+            else if (cellNo == 24)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 6);
             }
-            else if (cellNo == 20)
+            else if (cellNo == 25)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 7);
             }
-            else if (cellNo == 21)
+            else if (cellNo == 26)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 8);
             }
-            else if (cellNo == 22)
+            else if (cellNo == 27)
             {
                 employeeAssignmentDAL.RemoveForecastedDataFromOrgTable(assignmentId, 9);
             }

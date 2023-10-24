@@ -1632,11 +1632,6 @@ function ShowForecastResults(year) {
             { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
             { title: "RowType", type: 'hidden', name: "RowType" },
-
-            { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
-            { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
-            { title: "RoleChanged", type: 'text', name: "RoleChanged" },
-            { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
             
             
         ],        
@@ -3294,7 +3289,7 @@ function ShowForecastResults(year) {
     $("#cancel_forecast_history").css("display", "block");
 
     //delete unwanted column from jexcel table
-    jss.deleteColumn(52, 23);
+    jss.deleteColumn(53, 23);
 
     //get the header for shorting the column wise 
     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
@@ -3374,13 +3369,13 @@ function ShowForecastResults(year) {
     
     var allRows = jss.getData();
     var count = 1;
-    $.each(allRows, function (index,value) {
-        if (value['38'] == true && value['41'] == false) {            
+    $.each(allRows, function (index, value) {
+        if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == false) {            
             SetColorCommonRow(count,"yellow","red","newrow");
         }
         else {
-            var isApprovedCells = value['43'];            
-            var columnInfo = value['jssTableDefinition.bcyrCell.index'];
+            var isApprovedCells = value[jssTableDefinition.isApproved.index];
+            var columnInfo = value[jssTableDefinition.bcyrCell.index.toString()];
             var infoArray = columnInfo.split(',');
             $.each(infoArray, function (nextedIndex, nestedValue) {        
 
@@ -3560,7 +3555,7 @@ function ShowForecastResults(year) {
                 }
             });
 
-            var approvedCells = value['42'];
+            var approvedCells = value[jssTableDefinition.bcyrCellApproved.index.toString()];
             var arrApprovedCells = approvedCells.split(',');
             $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == jssTableDefinition.employeeName.index) {
@@ -3713,7 +3708,7 @@ function ShowForecastResults(year) {
             });
             
             //pending cells color
-            var bCYRCellPending = value['44'];
+            var bCYRCellPending = value[jssTableDefinition.bcyrCellPending.index.toString()];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
                 if (parseInt(nestedValue2) == jssTableDefinition.employeeName.index) {
@@ -3864,11 +3859,11 @@ function ShowForecastResults(year) {
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "black");
                 }
             });
-        }       
-        if (value['40'] == false && value['41'] == false && value['46'] == false) {
+        }
+        if (value[jssTableDefinition.isActive.index.toString()] == false && value[jssTableDefinition.bcyrApproved.index.toString()] == false && value[jssTableDefinition.isDeletePending.index.toString()] == false) {
             SetColorCommonRow(count,"gray","black","deleted");
         }
-        else if(value['45'] == true || value['46'] == true){
+        else if (value[jssTableDefinition.isRowPending.index.toString()] == true || value[jssTableDefinition.isDeletePending.index.toString()] == true) {
             SetColorCommonRow(count,"red","black","editable");
         }        
         count++;

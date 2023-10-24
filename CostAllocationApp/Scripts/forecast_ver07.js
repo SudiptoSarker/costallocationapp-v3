@@ -4738,7 +4738,7 @@ $('#frm_import_year_data').submit(validate);
 function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowNumber))).removeClass('readonly');
-    }    
+    }   
     jss.setStyle(jssTableDefinition.assignmentId.cellName+rowNumber,"background-color", backgroundColor);
     jss.setStyle(jssTableDefinition.assignmentId.cellName+rowNumber,"color", textColor);
     if(requestType == "readonly" || requestType == "deleted"){
@@ -4835,6 +4835,54 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     if(requestType == "readonly" || requestType == "deleted"){
         $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
     }
+
+    //for 5 column delete color:start  
+    //db id color 
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.dbId.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.dbId.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).addClass('readonly');
+    }
+    //duplicateFrom color
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).addClass('readonly');
+    }
+    //duplicateCount
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).addClass('readonly');
+    }
+    // roleChanged    
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.roleChanged.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).addClass('readonly');
+    }
+    //unitPriceChanged color 
+    if(requestType != "deleted"){
+        $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).removeClass('readonly');
+    }  
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+rowNumber,"background-color", backgroundColor);
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+rowNumber,"color", textColor);
+    if(requestType == "readonly" || requestType == "deleted"){
+        $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).addClass('readonly');
+    }
+    //for 5 column delete color:end
 
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.octM.cellName + (rowNumber))).removeClass('readonly');
@@ -4984,10 +5032,10 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle(jssTableDefinition.aprT.cellName+rowNumber,"color", textColor);
     $(jss.getCell(jssTableDefinition.aprT.cellName + (rowNumber))).addClass('readonly');
     
-    $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).removeClass('readonly');
-    jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"background-color", backgroundColor);
-    jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"color", textColor);
-    $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).addClass('readonly');
+    // $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).removeClass('readonly');
+    // jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"background-color", backgroundColor);
+    // jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"color", textColor);
+    // $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.junT.cellName + (rowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junT.cellName+rowNumber,"background-color", backgroundColor);

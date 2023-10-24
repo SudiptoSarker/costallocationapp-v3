@@ -3140,7 +3140,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 ForecastHisory forecastHisory = new ForecastHisory();
                 forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                forecastHisory.Year = forecastHistoryDto.Year; //forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
                 //forecastHisory.Forecasts = forecastsPrevious;
                 forecastHisory.CreatedBy = session["userName"].ToString();
                 forecastHisory.CreatedDate = DateTime.Now;

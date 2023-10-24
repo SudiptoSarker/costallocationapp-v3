@@ -516,3 +516,7 @@ body {
     font-size: 14px !important;
     height: 29px !important;
 }
+
+.jexcel > tbody > tr > td.readonly{
+    color: rgba(0,0,0,1) !important;
+}

@@ -523,14 +523,14 @@ namespace CostAllocationApp.Controllers.Api
             //Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             foreach (var department in departments)
             {
-                var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
+                //var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
 
                 _headCountList.Add(new HeadCountInner
                 {
                     DepartmentId = department.Id,
                     DepartmentName = department.DepartmentName,
-                    CategoryName = subCategory.CategoryName,
-                    SubCategoryName = subCategory.SubCategoryName,
+                    CategoryName = "",
+                    SubCategoryName = "",
                     OctCount = 0,
                     NovCount = 0,
                     DecCount = 0,

@@ -2999,7 +2999,20 @@ function SetRowColor(insertedRowNumber){
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "yellow");
-    jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
+    jss.setStyle(jssTableDefinition.unitPrice.cellName + insertedRowNumber, "color", "red");
+    // 5 columns.
+    jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + insertedRowNumber, "color", "red");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + insertedRowNumber, "background-color", "yellow");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + insertedRowNumber, "color", "red");
+
+
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "yellow");
@@ -3979,6 +3992,29 @@ function DisableRow(rowNumber) {
     jss.setStyle(jssTableDefinition.unitPrice.cellName + rowNumber, "background-color", "gray");
     jss.setStyle(jssTableDefinition.unitPrice.cellName + rowNumber, "color", "black");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
+
+    // 5 columns.
+    jss.setStyle(jssTableDefinition.dbId.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.dbId.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateFrom.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.duplicateCount.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.roleChanged.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.roleChanged.cellName + (rowNumber))).addClass('readonly');
+
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + rowNumber, "background-color", "gray");
+    jss.setStyle(jssTableDefinition.unitPriceChanged.cellName + rowNumber, "color", "black");
+    $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).addClass('readonly');
+
+
 
     jss.setStyle(jssTableDefinition.octM.cellName + rowNumber, "background-color", "gray");
     jss.setStyle(jssTableDefinition.octM.cellName + rowNumber, "color", "black");

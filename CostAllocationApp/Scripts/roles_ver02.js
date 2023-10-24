@@ -145,11 +145,14 @@ function UpdateInsertRoles(roleName,roleId,isUpdate){
         dataType: 'json',
         data: data,
         success: function (data) {
-            $("#page_load_after_modal_close").val("yes");
-            $("#role_name").val('');
             ToastMessageSuccess(data);                
-            $('#section-name').val('');
             GetRoleList();                
+
+            if(isUpdate){
+                $("#edit_role_modal").modal("hide");
+            }else{
+                $("#add_role_modal").modal("hide");                
+            }            
         },
         error: function (data) {
             alert(data.responseJSON.Message);

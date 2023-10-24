@@ -132,13 +132,19 @@
             dataType: 'json',
             data: data,
             success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#department_name").val('');
-                $("#section_list").val('');
-
                 ToastMessageSuccess(data);
-                $('#section-name').val('');
                 GetDepartments();
+                if(isUpdate){
+                    $("#edit_department_modal").modal("hide");
+                    $("#department_name").val('');
+                    $("#section_list").val('');                
+                    $('#section-name').val('');
+                }else{
+                    $("#add_department_modal").modal("hide");
+                    $("#department_name").val('');
+                    $("#section_list").val('');                
+                    $('#section-name').val('');
+                }            
             },
             error: function (data) {
                 alert(data.responseJSON.Message);

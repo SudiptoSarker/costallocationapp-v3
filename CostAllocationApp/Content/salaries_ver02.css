@@ -150,10 +150,6 @@
     text-align: left;
     margin-left: 25px;
 }
-.custom-modal .modal-body{
-    padding: 22px !important;
-    margin-top: 1px !important;
-}
 
 #unit_price_from,#unit_price_from_edit{
     width: 100% !important;
@@ -269,10 +265,6 @@
     text-align: left;
     margin-left: 25px;
 }
-.custom-modal .modal-body{
-    padding: 22px !important;
-    margin-top: 1px !important;
-}
 
 /*modal design*/
 #main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
@@ -339,4 +331,22 @@
     border-spacing: 4px;
     text-align: center;
     width: 57%;
+}
+/*common modal design*/
+.modal_return_btn{
+    margin-top: 40px !important;
+    line-height: 1 !important;
+    margin-right: -12px  !important;
+}
+.modal-footer{
+    margin-top: -38px !important;
+}
+.custom-modal .modal-footer {
+    border: 0;
+    justify-content: right;
+    /* padding: 0 30px 30px;*/
+}
+.custom-modal .modal-body{
+    padding: 15px !important;
+    margin-top: 1px !important;
 }

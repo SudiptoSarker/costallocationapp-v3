@@ -134,12 +134,14 @@ function UpdateInsertInCharge(in_charge_name,incharegeId,isUpdate) {
         dataType: 'json',
         data: data,
         success: function (data) {
-            $("#page_load_after_modal_close").val("yes");
-            $("#in_charge_name").val('');
             ToastMessageSuccess(data)
-            $('#section-name').val('');
-
             GetInchargeList();
+            
+            if(isUpdate){
+                $("#edit_incharge_modal").modal("hide");
+            }else{
+                $("#add_incharge_modal").modal("hide");                
+            }
         },
         error: function (data) {
             alert(data.responseJSON.Message);

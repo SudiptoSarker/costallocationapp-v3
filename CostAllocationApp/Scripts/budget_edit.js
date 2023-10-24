@@ -2494,7 +2494,7 @@ function ShowBedgetResults(year) {
                             var assignmentIds = [];
                                            
                             var value = obj.getSelectedRows();
-                            var assignementId = jss.getValueFromCoords(jssTableDefinition.assignementId.index, y);
+                            var assignementId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
                             assignmentIds.push(assignementId);
                             var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);   
                             

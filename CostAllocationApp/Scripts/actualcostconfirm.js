@@ -184,6 +184,11 @@ $(document).ready(function () {
                             { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
                             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },
                             //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
+                            { title: "Db Id", type: 'text', name: "Id", width: 100, readOnly: true },
+                            { title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true  },
+                            { title: "Duplicate Count", type: 'text', name: "DuplicateCount",width: 100,readOnly: true  },
+                            { title: "Role Changed", type: 'text', name: "RoleChanged",width: 100,readOnly: true  },
+                            { title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged",width: 100,readOnly: true  },
                             {
                                 title: `${queryStrings['month']}月単価(uc)`,
                                 type: "decimal",
@@ -236,7 +241,7 @@ $(document).ready(function () {
 
                         }
                     });
-                    jss.deleteColumn(14, 20);
+                    jss.deleteColumn(19, 25);
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -247,11 +252,6 @@ $(document).ready(function () {
                     jexcelSecondHeaderRow.css('position', 'sticky');
                     jexcelSecondHeaderRow.css('top', '20px');
 
-                    //var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-                    //octElement.append('<input type="checkbox" id="oct_chk"  style="display:inline-block;margin-left: 10px;"/>');
-
-                    //var ActualCostAmountElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
-                    //ActualCostAmountElement.append('<input type="checkbox" id="ActualCostAmount_chk"  style="display:inline-block;margin-left: 10px;"/>');
 
                     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
                         $('.search_p').css('display', 'block');
@@ -278,8 +278,8 @@ $(document).ready(function () {
             $.each(data, function (index, value) {
                 var obj = {
                     assignmentId: value[0],
-                    manHour: parseFloat(value[12]),
-                    actualCostAmount :  parseFloat(value[13])
+                    manHour: parseFloat(value[17]),
+                    actualCostAmount :  parseFloat(value[18])
                 };
 
                 dataToSend.push(obj);

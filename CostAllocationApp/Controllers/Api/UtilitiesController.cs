@@ -4450,9 +4450,6 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetActualCostConfirmData/")]
         public IHttpActionResult GetActualCostConfirmData(int year, int monthId)
         {
-            List<ActualCostViewModel> actualCostViewModels = new List<ActualCostViewModel>();
-
-            //List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetAssignmentsByYear(year);
 
             List<EmployeeAssignmentViewModel> employeeAssignments = employeeAssignmentBLL.GetSpecificAssignmentDataData(year, monthId);
             foreach (var item in employeeAssignments)

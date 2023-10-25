@@ -38,5 +38,10 @@ namespace CostAllocationApp.ViewModels
         public decimal ForecastedTotal { get; set; }
         public decimal ManMonth { get; set; }
         public decimal ActualCostAmount { get; set; }
+
+        public string DuplicateFrom { get; set; }
+        public string DuplicateCount { get; set; }
+        public string RoleChanged { get; set; }
+        public string UnitPriceChanged { get; set; }
     }
 }

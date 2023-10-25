@@ -2271,7 +2271,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total,ea.EmployeeName 'DuplicateName'
+                            ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total,ea.EmployeeName 'DuplicateName', ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged 
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -2323,6 +2323,11 @@ namespace CostAllocationApp.DAL
                             employeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             employeeAssignmentViewModel.ForecastedPoints = Convert.ToDecimal(rdr["Points"]);
                             employeeAssignmentViewModel.ForecastedTotal = Convert.ToDecimal(rdr["Total"]);
+
+                            employeeAssignmentViewModel.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            employeeAssignmentViewModel.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            employeeAssignmentViewModel.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            employeeAssignmentViewModel.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
 
                             employeeAssignments.Add(employeeAssignmentViewModel);
                         }

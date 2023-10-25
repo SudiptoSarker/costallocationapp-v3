@@ -72,13 +72,136 @@
             //difference table: end
 
             //headcount table: start     
-            var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount',timeStampId);
+            // var strHeadCountTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'headcount',timeStampId);
+            //var headCountHeaderHtml = GetHeadCount_Headerpart(selected_compannies,selected_year,'headcount',timeStampId);
             var headCountTableTitle = GetDynamicTableTitleByPosition(4);
-            $('#p-headcount').remove();            
-            $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
-            $('#headcount_table').empty();
-            $('#headcount_table').append(strHeadCountTableHeaderPart);
+            // $('#p-headcount').remove();            
+            // $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
+            // $('#headcount_table').empty();
+            // $('#headcount_table').append(strHeadCountTableHeaderPart);
             //headcount table: end
+
+            //old code:start
+            //get headcount data
+            $.ajax({
+                url: `/api/utilities/GetHeadCount?companiIds=${selected_compannies}`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    headCountList = data;
+                }
+            });
+
+            //get latest year data: this api will change later. selected year value will show now. 
+            $.ajax({
+                url: `/api/utilities/LatestFiscalYear`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    latestFiscalYear = data;
+                }
+            });
+            // code for head count table
+            {
+                // get all the unique categories
+                for (var g = 0; g < headCountList.length; g++) {
+                    if (uniqueCategoryList.length == 0) {
+                        uniqueCategoryList.push(headCountList[g].CategoryName.toString());
+                    }
+                    else {
+                        if (!uniqueCategoryList.includes(headCountList[g].CategoryName.toString())) {
+                            uniqueCategoryList.push(headCountList[g].CategoryName.toString());
+                        }
+                    }
+        
+                }
+
+                console.log(uniqueCategoryList);
+                var _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
+                var _octCountTotal = 0, _novCountTotal = 0, _decCountTotal = 0, _janCountTotal = 0, _febCountTotal = 0, _marCountTotal = 0, _aprCountTotal = 0, _mayCountTotal = 0, _junCountTotal = 0, _julCountTotal = 0, _augCountTotal = 0, _sepCountTotal = 0;
+
+                $('#p-headcount').remove();
+                // $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount"><u>要員数 (Head Count):</u></p>');
+                $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
+                $('#headcount_table').empty();
+                // $('#headcount_table').append(`${headCountHeaderHtml}`);
+                $('#headcount_table').append(`<thead><tr><th>departments</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th></tr></thead>`);
+                $('#headcount_table').append('<tbody>');
+                for (var f = 0; f < uniqueCategoryList.length; f++) {
+                    _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
+                    for (var h = 0; h < headCountList.length; h++) {
+                        if (headCountList[h].CategoryName.toString() == uniqueCategoryList[f]) {
+                            _octCount += parseFloat(headCountList[h].OctCount);
+                            _novCount += parseFloat(headCountList[h].NovCount);
+                            _decCount += parseFloat(headCountList[h].DecCount);
+                            _janCount += parseFloat(headCountList[h].JanCount);
+                            _febCount += parseFloat(headCountList[h].FebCount);
+                            _marCount += parseFloat(headCountList[h].MarCount);
+                            _aprCount += parseFloat(headCountList[h].AprCount);
+                            _mayCount += parseFloat(headCountList[h].MayCount);
+                            _junCount += parseFloat(headCountList[h].JunCount);
+                            _julCount += parseFloat(headCountList[h].JulCount);
+                            _augCount += parseFloat(headCountList[h].AugCount);
+                            _sepCount += parseFloat(headCountList[h].SepCount);
+                        }
+                    }
+
+                    // sum of all head counts
+                    _octCountTotal += _octCount;
+                    _novCountTotal += _novCount;
+                    _decCountTotal += _decCount;
+                    _janCountTotal += _janCount;
+                    _febCountTotal += _febCount;
+                    _marCountTotal += _marCount;
+                    _aprCountTotal += _aprCount;
+                    _mayCountTotal += _mayCount;
+                    _junCountTotal += _junCount;
+                    _julCountTotal += _julCount;
+                    _augCountTotal += _augCount;
+                    _sepCountTotal += _sepCount;
+
+                    $('#headcount_table').append(`
+                                    <tr data-category='${uniqueCategoryList[f]}'>
+                                    <td><i class="fa fa-plus expand-count" aria-hidden="true"></i> ${uniqueCategoryList[f]}</th>
+                                    <td class="text-right">${_octCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_novCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_decCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_janCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_febCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_marCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_aprCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_mayCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_junCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_julCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_augCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_sepCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    </tr>`);
+                }
+
+                $('#headcount_table').append(`
+                                    <tr>
+                                    <td class="text-center">Total</th>
+                                    <td class="text-right">${_octCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_novCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_decCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_janCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_febCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_marCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_aprCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_mayCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_junCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_julCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_augCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${_sepCountTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    </tr>`);
+
+                $('#headcount_table').append('</tbody>');
+            }
+            //old code:end
             return false;
 
             //defined variables: global
@@ -386,7 +509,6 @@
                             <td class="text-right">${_firstHalf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                             <td class="text-right">${_secondHalf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                             </tr>`);
-
             $('#total_table').append('</tbody>');
 
             // code for total budget table
@@ -1020,6 +1142,31 @@
         return strTotalTalbe
     }
 
+    function GetHeadCount_Headerpart(selected_compannies,selected_year,strTableType,timeStampId){        
+        var strTotalTalbe = "";    
+        if (strTableType == "" || strTableType == null || strTableType == undefined) {
+            alert("invalid request!");
+        }else{
+            var apiurl = "";
+            apiurl = "/api/Utilities/GetHeadCount_Headerpart?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timeStampId;
+                        
+            $.ajax({                
+                url: apiurl,                
+                type: 'GET',
+                async: false,
+                dataType: 'html',
+                success: function (data) {
+                    if (data == "" || data == null || data == undefined) {
+                        alert("table not found")
+                    }else{
+                        strTotalTalbe = data;
+                    }
+                }
+            });
+        } 
+        
+        return strTotalTalbe
+    }
     function GetTotalTableHeaderPart(main_header,sub_header,detial_header,tableTitle,year){
         var strTableHeader = "";            
         //strTableHeader = "<p class'font-weight-bold' id='p-total' style='margin-top:20px;'><u>" + tableTitle + ":</u></p>";

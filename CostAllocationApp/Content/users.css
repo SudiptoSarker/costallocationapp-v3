@@ -229,3 +229,8 @@ div.dataTables_wrapper div.dataTables_filter{
     text-align: right !important;
     display: none !important;
 }
+
+/*edit user modal*/
+.edit_user_header{
+    text-align: left;
+}

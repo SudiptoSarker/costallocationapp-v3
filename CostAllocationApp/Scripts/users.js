@@ -1,6 +1,26 @@
 ﻿
 $(document).ready(function () {
+    //edit user modal: start
+    //$('#user_role_edit').select2(); 
+    // $('#user_department_edit').select2(); 
+    // $('#user_status_edit').select2(); 
+    // $('#employee_list').select2(); 
 
+    //Get employee list
+    $('#employee_list').select2(); 
+    //Get employee list
+    function GetEmployeeList() {
+        var budget_year = $("#budget_years").val();
+        $('#employee_list').empty();    
+        $.getJSON(`/api/utilities/EmployeeListBudgetEditFiltered/${budget_year}`)
+            .done(function (data) {
+                $.each(data, function (key, item) {
+                    $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
+                });
+            });
+    }
+
+    //edit user modal: end
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
             console.log(data);

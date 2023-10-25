@@ -10783,24 +10783,24 @@ namespace CostAllocationApp.Controllers.Api
                                         if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
                                         {
                                             totalRowTd = totalRowTd + "<td></td>";
-                                        }                                        
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+                                        }    
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
                                         totalRowTd = totalRowTd + "</tr>";
                                     
                                         if (string.IsNullOrEmpty(multiTotalBody))
@@ -11002,23 +11002,23 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             totalRowTd = totalRowTd + "<td></td>";
                                         }
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                                        totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
                                         totalRowTd = totalRowTd + "</tr>";
 
                                         if (string.IsNullOrEmpty(multiTotalBody))
@@ -11239,23 +11239,128 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             totalRowTd = totalRowTd + "<td></td>";
                                         }
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + octTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + novTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + decTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + janTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + febTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + marTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + aprTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + mayTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + junTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + julTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + augTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + sepTotalSum + "</td>";
+                                        if (Convert.ToInt32(octTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(novTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(decTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(janTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(febTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(marTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(aprTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(mayTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(junTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(julTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(augTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(sepTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        if (Convert.ToInt32(yearCostTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
+                                        }
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + yearCostTotalSum + "</td>";
+                                        if (Convert.ToInt32(firstHalfTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                                        }
 
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + firstHalfTotalSum + "</td>";
-                                        totalRowTd = totalRowTd + "<td class='text-right'>" + secondHalfTotalSum + "</td>";
+                                        if (Convert.ToInt32(secondHalfTotalSum) < 0)
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
+                                        }
+                                        else
+                                        {
+                                            totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
+                                        }                                        
                                         totalRowTd = totalRowTd + "</tr>";
 
                                         if (string.IsNullOrEmpty(multiTotalBody))

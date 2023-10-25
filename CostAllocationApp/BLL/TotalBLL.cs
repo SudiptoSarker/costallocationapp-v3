@@ -450,23 +450,23 @@ namespace CostAllocationApp.BLL
                 dynamicTableViewModal = GetTotalCostWithoutQA(settingItem, companyIds, year, timestampsId);
                 //_totalCost = GetAllCostSum(dynamicTableViewModal);
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.OctTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.NovTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.DecTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JanTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FebTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MarTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AprTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MayTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JunTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JulTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AugTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SepTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.YearTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FirstHalfTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SecondHalfTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";
 
             }
             //2: Cost for department from QA prorationt
@@ -478,23 +478,23 @@ namespace CostAllocationApp.BLL
                 dynamicTableViewModal = GetTotalCostFromQA(settingItem, companyIds, year, timestampsId);
                 //_totalCost = GetAllCostSum(dynamicTableViewModal);
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.OctTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.NovTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.DecTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JanTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FebTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MarTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AprTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MayTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JunTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JulTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AugTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SepTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.YearTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FirstHalfTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SecondHalfTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";
             }
             //3: Cost for department with QA proration
             else if (Convert.ToInt32(settingItem.MethodId) == 3)
@@ -504,23 +504,23 @@ namespace CostAllocationApp.BLL
                 dynamicTableViewModal = GetTotalCostWithQA(settingItem, companyIds, year, timestampsId);
                 //_totalCost = GetAllCostSum(dynamicTableViewModal);
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.OctTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.NovTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.DecTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JanTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FebTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MarTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AprTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MayTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JunTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JulTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AugTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SepTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.YearTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FirstHalfTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SecondHalfTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";
             }
 
             return totalTableTd;
@@ -650,23 +650,23 @@ namespace CostAllocationApp.BLL
                 dynamicTableViewModal = GetBudgetCostWithoutQA(settingItem, companyIds, year, timestampsId);
                 //_totalCost = GetAllCostSum(dynamicTableViewModal);
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.OctTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.NovTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.DecTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JanTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FebTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MarTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AprTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MayTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JunTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JulTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AugTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SepTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.YearTotalCost + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FirstHalfTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SecondHalfTotalCost + "</td>";                
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";                
             }
             singleTotalBody = totalTableTrStart + "" + totalTableTd + "" + totalTableTrEnd;
 
@@ -745,23 +745,129 @@ namespace CostAllocationApp.BLL
                 dynamicTableViewModal.SecondHalfTotalCost = costWithQAProportion.SecondHalfTotalCost - budgetWithQAProportion.SecondHalfTotalCost;
                 dynamicTableViewModal.YearTotalCost = costWithQAProportion.YearTotalCost - budgetWithQAProportion.YearTotalCost;
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.OctTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.NovTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.DecTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JanTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FebTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MarTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AprTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.MayTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JunTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.JulTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.AugTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SepTotalCost + "</td>";
+                if(Convert.ToInt32(dynamicTableViewModal.OctTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.OctTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.NovTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'  style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.NovTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.DecTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.DecTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.JanTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JanTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.FebTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FebTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.MarTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MarTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.AprTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AprTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.MayTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.MayTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.JunTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JunTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.JulTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.JulTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.AugTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.AugTotalCost).ToString("N0") + "</td>";
+                }
+                if (Convert.ToInt32(dynamicTableViewModal.SepTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SepTotalCost).ToString("N0") + "</td>";
+                }
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.YearTotalCost + "</td>";
+                if (Convert.ToInt32(dynamicTableViewModal.YearTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.YearTotalCost).ToString("N0") + "</td>";
+                }
 
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.FirstHalfTotalCost + "</td>";
-                totalTableTd = totalTableTd + "<td class='text-right'>" + dynamicTableViewModal.SecondHalfTotalCost + "</td>";
+                if (Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.FirstHalfTotalCost).ToString("N0") + "</td>";
+                }
+
+                if (Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost) < 0)
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right' style='color:red;'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";
+                }
+                else
+                {
+                    totalTableTd = totalTableTd + "<td class='text-right'>" + Convert.ToInt32(dynamicTableViewModal.SecondHalfTotalCost).ToString("N0") + "</td>";
+                }                
             }
             singleTotalBody = totalTableTrStart + "" + totalTableTd + "" + totalTableTrEnd;
 

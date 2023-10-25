@@ -26,7 +26,7 @@
                     maxHeight: 200,
                     includeSelectAllOption: true
                 })
-                .multiselect('selectAll', true).multiselect('updateButtonText');
+                // .multiselect('selectAll', true).multiselect('updateButtonText');
             }
         });
     }

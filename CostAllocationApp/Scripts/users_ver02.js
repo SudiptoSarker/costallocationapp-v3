@@ -1,4 +1,152 @@
-﻿var changeUserName = "";
+﻿$(document).ready(function () {    
+    $('#user_role_list').select2();       
+    $('#user_department_edit').select2();  
+    $('#user_status_edit').select2();  
+
+    LoadModalDynamicValues();
+
+    $(document).on('click', '.user_edit_button', function () {    
+        var userName = $(this).attr("user_name");
+        var user_status = $(this).attr("user_status");
+
+        if(user_status=="active"){        
+            $('#user_status_edit').val(1);
+        }else if(user_status=="inactive"){
+            $('#user_status_edit').val(0);
+        }else{
+            $('#user_status_edit').val(3);
+        }
+
+        $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
+            .done(function (data) {
+                $('#user_id_hidden').val(data.Id);
+                $('#edit_user_name').val(data.UserName);
+                $('#edit_user_title').val(data.UserTitle);
+                //$('#user_role_list').val(data.UserRoleId);                
+                $('#user_department_edit').val(data.DepartmentId);                
+                $('#user_role_list').select2();     
+                if(user_status=="waiting"){
+                    $('#user_role_list').val(-1);
+                }else{                    
+                    $('#user_role_list').val(data.UserRoleId);
+                }
+
+                $('#edit_user_email').val(data.Email);                
+                $('#edit_user_pass').val(data.Password);
+            }); 
+    
+        $('#modal_update_user').modal('show');
+    });
+      
+    function LoadModalDynamicValues(){
+        $.getJSON('/api/Departments/')
+        .done(function(data) {
+            $('#user_department_edit').append(`<option value=''>部署を選択</option>`);
+            $.each(data, function(key, item) {                    
+                $('#user_department_edit').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
+            });
+            });   
+
+        // $.getJSON('/api/utilities/GetAllUserRoles/')
+        // .done(function (data) {
+        //     $('#user_role_list').append(`<option value='-1'>Select Role</option>`);
+        //     $.each(data, function (key, item) {
+        //         $('#user_role_list').append(`<option value='${item.Id}'>${item.Role}</option>`)
+        //     });
+        // }); 
+    }
+
+    $(document).on('click', '.user_edit_update_btn', function () {    
+        
+
+        let userId = $("#user_id_hidden").val().trim();
+        let userName = $("#edit_user_name").val().trim();        
+        let userTitle = $("#edit_user_title").val().trim();
+        let departmentId = $("#user_department_edit").val().trim();
+        let userEmail = $("#edit_user_email").val().trim();
+        let userPass = $("#edit_user_pass").val().trim();
+        let userRoleId = $("#user_role_list").val().trim();
+        let userStatus = $("#user_status_edit").val().trim();
+        let isActive = true;
+
+        if (userName == "") {
+            alert("please enter user name")
+            return false;
+        }
+        if (userTitle == "") {
+            alert("please enter title")
+            return false;
+        }
+        if (userPass == "") {
+            alert("please enter user password")
+            return false;
+        }
+        if (userRoleId == "" || userRoleId == "-1") {
+            alert("please select user role")
+            return false;
+        }
+        if (userStatus == "" || userStatus == "-1") {
+            alert("please select user status")
+            return false;
+        }
+        if(userStatus==3){
+            userRoleId = 0;
+        }else if(userStatus==0){
+            isActive = false;
+        }
+
+        var data = {
+            Id: userId,
+            UserName: userName,
+            UserTitle: userTitle,
+            DepartmentId: departmentId,
+            Email: userEmail,
+            Password: userPass,
+            UserRoleId: userRoleId,
+            IsActive: isActive,
+        };
+        var apiurl = "/api/utilities/UpdateUserName/";
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (result) {
+                if (result > 0) {
+                    $("#page_load_after_modal_close").val("yes");
+                    ToastMessageSuccess('データが保存されました!');
+                    $('#modal_update_user').modal('hide');
+                    $('#userName').val('');
+                    GetUserList();
+
+                    $.getJSON('/api/utilities/GetOnlyAdmin/')
+                        .done(function (data) {
+                            //UserRoleId: "1"
+                            //IsActive: true
+                            var user_status;
+                            if((data.UserRoleId ==1 || data.UserRoleId ==2 || data.UserRoleId ==3 ) && data.IsActive){
+                                user_status = "active";
+                            }
+                            else if((data.UserRoleId ==1 || data.UserRoleId ==2 || data.UserRoleId ==3 ) && !data.IsActive){
+                                user_status = "inactive";
+                            }else{
+                                user_status = "waiting";
+                            }
+                            $('#admin_table tbody').empty();
+                            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}','${user_status}')">編集</button></td></tr>`);
+                        }); 
+                }
+                location.reload();
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    });    
+});
+
+var changeUserName = "";
 var changeUserRole = "";
 var changeUserStatus = "";
 
@@ -23,92 +171,6 @@ $(document).on('click', '#btn_status_change', function () {
         }); 
 });
 
-//employee update
-function UpdateUserName() {
-    let userId = $("#user_id_hidden").val().trim();
-    let userName = $("#userName").val().trim();
-    let userTitle = $("#userTitle").val().trim();
-    let departmentId = $("#userDepartment").val().trim();
-    let userEmail = $("#userEmail").val().trim();
-    let userPass = $("#userPass").val().trim();
-    let userRoleId = $("#userRole").val().trim();
-    let userStatus = $("#userStatus").val().trim();
-    let isActive = true;
-    if (userName == "") {
-        alert("please enter user name")
-        return false;
-    }
-    if (userTitle == "") {
-        alert("please enter title")
-        return false;
-    }
-    if (userPass == "") {
-        alert("please enter user password")
-        return false;
-    }
-    if (userRoleId == "" || userRoleId == "-1") {
-        alert("please select user role")
-        return false;
-    }
-    if (userStatus == "" || userStatus == "-1") {
-        alert("please select user status")
-        return false;
-    }
-    if(userStatus==3){
-        userRoleId = 0;
-    }else if(userStatus==0){
-        isActive = false;
-    }
-
-    var data = {
-        Id: userId,
-        UserName: userName,
-        UserTitle: userTitle,
-        DepartmentId: departmentId,
-        Email: userEmail,
-        Password: userPass,
-        UserRoleId: userRoleId,
-        IsActive: isActive,
-    };
-    var apiurl = "/api/utilities/UpdateUserName/";
-
-    $.ajax({
-        url: apiurl,
-        type: 'POST',
-        dataType: 'json',
-        data: data,
-        success: function (result) {
-            if (result > 0) {
-                $("#page_load_after_modal_close").val("yes");
-                ToastMessageSuccess('データが保存されました!');
-                $('#modal_update_user').modal('hide');
-                $('#userName').val('');
-                GetUserList();
-
-                $.getJSON('/api/utilities/GetOnlyAdmin/')
-                    .done(function (data) {
-                        //UserRoleId: "1"
-                        //IsActive: true
-                        var user_status;
-                        if((data.UserRoleId ==1 || data.UserRoleId ==2 || data.UserRoleId ==3 ) && data.IsActive){
-                            user_status = "active";
-                        }
-                        else if((data.UserRoleId ==1 || data.UserRoleId ==2 || data.UserRoleId ==3 ) && !data.IsActive){
-                            user_status = "inactive";
-                        }else{
-                            user_status = "waiting";
-                        }
-                        $('#admin_table tbody').empty();
-                        $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}','${user_status}')">編集</button></td></tr>`);
-                    }); 
-            }
-            location.reload();
-        },
-        error: function (data) {
-            alert(data.responseJSON.Message);
-        }
-    });
-}
 //Get employee list
 function GetUserList() {
     $.getJSON('/api/utilities/GetUserList/')
@@ -198,7 +260,7 @@ function ShowUserList_Datatable(data) {
         data: data,
         ordering: true,
         orderCellsTop: false,
-        pageLength: 100,
+        pageLength: 5,
         searching: true,
         //bLengthChange: false,  
         columns: [  
@@ -446,24 +508,10 @@ $(document).ready(function () {
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
             $('#admin_table tbody').empty();
-            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}','active')">編集</button></td></tr>`);
+            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" user_name='${data.UserName}' user_status='active' >編集</button></td></tr>`);
         }); 
 
-    $.getJSON('/api/Departments/')
-    .done(function(data) {
-        $('#userDepartment').append(`<option value=''>部署を選択</option>`);
-        $.each(data, function(key, item) {                    
-            $('#userDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
-        });
-        });   
-
-    $.getJSON('/api/utilities/GetAllUserRoles/')
-        .done(function (data) {
-            $('#userRole').append(`<option value='-1'>Select Role</option>`);
-            $.each(data, function (key, item) {
-                $('#userRole').append(`<option value='${item.Id}'>${item.Role}</option>`)
-            });
-        }); 
+    
     // ("#userDepartment").select2();
 
     //------------------Employee Master----------------------//

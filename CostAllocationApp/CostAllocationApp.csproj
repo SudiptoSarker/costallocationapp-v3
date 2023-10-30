@@ -382,6 +382,7 @@
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\users.css" />
+    <Content Include="Content\users_ver02.css" />
     <Content Include="Content\user_registration.css" />
     <Content Include="favicon.ico" />
     <Content Include="img\arrow_down.png" />

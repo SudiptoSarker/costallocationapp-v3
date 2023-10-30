@@ -6,9 +6,9 @@ using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.Models;
 using CostAllocationApp.ViewModels;
-using ExcelNumberFormat;
+//using ExcelNumberFormat;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
+using OfficeOpenXml. Style;
 
 namespace CostAllocationApp.BLL
 {

@@ -5,6 +5,7 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/users.css" />
+    <link href="/Content/budget_edit.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="content container-fluid">
@@ -80,82 +81,65 @@
 
 @if (Convert.ToBoolean(ViewBag.linkFlag))
 {
-    <!-- Modal Update User -->
-    <div class="modal fade" id="modal_update_user">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+    
+
+    <!-----------------Modal: Admin Level user update----------------->
+    <div class="modal custom-modal fade" id="modal_update_user" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_change_history_label">
-                        ユーザーの更新
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
-                    <div class="container">
+                    <div class="form-header edit_user_header">
+                        <h3>Edit Users</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                
+                    <div class="modal-body">
+                        <label id="input_master"></label>
+
                         <div class="row">
-                            <div class="col-12">
-                                <input type="hidden" value="" id="user_id_hidden" />
-                                <table id="users_reg_tbl">
-                                    <thead style="border: none;">
-                                        <tr></tr>
-                                        <tr>
-                                            <th>ユーザーID (User Id)</th>
-                                            <th>役職 (Title)</th>
-                                            <th>部署 (Department)</th>
-                                            <th>役割 (User Role)</th>
-                                            <th>メアド (Email)</th>
-                                            <th>Status</th>
-                                            <th>パスワー (Password)</th>
-                                            <th>編集 (Edit)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td id="create_users_tbody_td">
-                                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <select id="userDepartment" name="userDepartment"></select>
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <select id="userRole" name="userRole"></select>
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <select id="userStatus" name="userStatus">
-                                                    <option value='1'>有効(Active)</option>
-                                                    <option value='3'>承認待ち(waiting)</option>
-                                                    <option value='0'>無効(Inactive)</option>
-                                                </select>
-                                                @* <select class='change_status'>
-                                                    <option selected='selected' value='1'>有効(Active)</option>
-                                                    <option value='3'>承認待ち(waiting)</option>
-                                                    <option value='0'>無効(Inactive)</option>
-                                                </select>                                                 *@
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
-                                            </td>
-                                            <td id="create_users_tbody_td">
-                                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div class="col-md-3"><label>User ID</label></div>
+                            <div class="col-md-8"><input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)"></div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"><label>Title</label></div>
+                            <div class="col-md-8"><input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)"></div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"><label>Role</label></div>
+                            <div class="col-md-8">
+                                <select id="employee_list" style="">
+                                    <option value='-1'>select role</option>
+                                    <option value='1'>Admin</option>
+                                </select>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"><label>Department</label></div>
+                            <div class="col-md-8">
+                                <select id="user_department_edit" style=""></select>
+                            </div>  
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"><label>Email Address</label></div>
+                            <div class="col-md-8"><input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)"></div>                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"><label>Status</label></div>
+                            <div class="col-md-8">
+                                <select id="user_status_edit" style=""></select>
+                            </div>  
+                        </div>                       
+                    </div>
+                    <div class="modal-footer">
+                        <label for="employee_list" style="display:block;width:100%;">名前一覧から選択</label>
+                        <select id="employee_list" style=""></select>
+
+                        <div class="custom_button_group_employee_list">
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
+                            <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">追加(Add）</a>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -169,7 +153,7 @@ else
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal_change_history_label">
-                        ユーザーの更新
+                        ユーザーの更新 ->2
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -269,6 +253,7 @@ else
 
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/users_ver02.js"></script>
+    <!-- <script src="/Scripts/budget_edit.js"></script> -->
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">

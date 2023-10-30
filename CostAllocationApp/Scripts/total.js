@@ -129,7 +129,7 @@
                 $('#headcount_table').before('<p class="font-weight-bold" id="p-headcount" style="margin-top:20px;"><u>'+headCountTableTitle+'</u></p>');            
                 $('#headcount_table').empty();
                 // $('#headcount_table').append(`${headCountHeaderHtml}`);
-                $('#headcount_table').append(`<thead><tr><th>departments</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th></tr></thead>`);
+                $('#headcount_table').append(`<thead><tr><th>大項目</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th></tr></thead>`);
                 $('#headcount_table').append('<tbody>');
                 for (var f = 0; f < uniqueCategoryList.length; f++) {
                     _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;

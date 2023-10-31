@@ -1,4 +1,305 @@
-﻿var globalSearchObject = '';
+﻿$(document).ready(function () {    
+    //import budget selction menu
+    $('#select_import_year').on('change', function() {
+        var selectedBudgetYear = this.value;
+        if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
+            //check the selected year is valid for import the excel.
+            CheckIsValidYearForImport(selectedBudgetYear);       
+        }    
+    });
+
+    //check import year validation
+    function CheckIsValidYearForImport(selectedBudgetYear){
+        $.ajax({
+            url: `/api/utilities/CheckIsValidYearForImport/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "select_year_type=" + selectedBudgetYear,
+            success: function (data) {
+                if(data == true){
+                    CreateBudgetTypeWithYear(selectedBudgetYear);              
+                }else{
+                    $('#select_budget_type').empty();
+                    $('#select_import_year').val('');
+                    alert("selected year is not valid to import!");
+                }
+            }
+        });
+    }
+
+    //check replicate year validation
+    function CheckIsValidYearForReplicate(selectedBudgetYear){
+        $.ajax({
+            url: `/api/utilities/CheckIsValidYearForImport/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "select_year_type=" + selectedBudgetYear,
+            success: function (data) {
+                if(data == true){
+                    ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
+                }else{
+                    $('#select_duplicate_budget_type').empty();
+                    $('#duplciateYear').val('');
+                    alert("selected year is not valid to replicate!");
+                }
+            }
+        });
+    }
+
+    //create budget type dropdown and set as html
+    function CreateBudgetTypeWithYear(selectedBudgetYear){
+        $.ajax({
+            url: `/api/utilities/CheckBudgetWithYear/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "BudgetYear=" + selectedBudgetYear,
+            success: function (data) {
+                $('#select_budget_type').empty();
+                                               
+                $('#select_budget_type').append(`<option value="">select type</option>`);
+                //create fist half budget dropdown                    
+                if(data.FirstHalfFinalize){
+                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
+                }else if(data.FirstHalfBudget){
+                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
+                }else if(!data.FirstHalfBudget){
+                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
+                }  
+
+                //create second half budget dropdown
+                if(data.SecondHalfFinalize){
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
+                }else if(data.SecondHalfBudget){
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
+                }else if(!data.SecondHalfBudget){
+                    if(data.FirstHalfBudget){
+                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
+                    }else{
+                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
+                    }                                               
+                }  
+            }
+        });
+    }
+
+    //replicate budget from selected year
+    function ReplicateBudgetFromPreviousYearData(selectedBudgetYear){
+        //get budget initial and 2nd half data if exists
+        $.ajax({
+            url: `/api/utilities/CheckBudgetWithYear/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "BudgetYear=" + selectedBudgetYear,
+            success: function (data) {
+                $('#select_duplicate_budget_type').empty();
+                                               
+                $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);
+                //create fist half budget dropdown                    
+                if(data.FirstHalfFinalize){
+                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
+                }else if(data.FirstHalfBudget){
+                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
+                }else if(!data.FirstHalfBudget){
+                    $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
+                }  
+
+                //create second half budget dropdown
+                if(data.SecondHalfFinalize){
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
+                }else if(data.SecondHalfBudget){
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
+                }else if(!data.SecondHalfBudget){                         
+                    if(data.FirstHalfBudget){
+                        $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
+                    }else{
+                        $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
+                    }                        
+                }  
+            }
+        });
+    }
+
+    //duplicate budget selction menu
+    $('#duplciateYear').on('change', function() {
+        var selectedBudgetYear = this.value;
+    
+        if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
+            //check the selected year is valid for replicate data
+	        CheckIsValidYearForReplicate(selectedBudgetYear);             
+        }    
+    });
+
+    //From date on change
+    $('#duplicate_from').on('change', function() {
+        var selectedBudgetYear = this.value;
+        if (selectedBudgetYear != '' && selectedBudgetYear != null && selectedBudgetYear != undefined) {
+            $("#duplciateYear").prop('disabled', false);
+            $('#select_duplicate_budget_type').empty();
+            $('#approval_timestamps').empty();
+            GetApprovalTimestampListByYear(selectedBudgetYear);            
+            SelectDuplicateBudgetYearAndType();            
+        }        
+        else{
+            $("#duplciateYear").prop('disabled', true);
+            $('#select_duplicate_budget_type').empty();
+        }
+    });
+
+    GetAllBudgetYear();
+    GetAllFinalizeYear();
+
+    var year = $('#hidForecastYear').val();
+    $("#jspreadsheet").hide();      
+    var count = 1;
+
+    $('#employee_list').select2();    
+
+    //finalize the budget data.
+    $('#budget_finalize').on('click', function () {
+        var selected_year_for_finalize_budget = $("#budget_years").val();
+
+        if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
+            alert("please 年度を選択してください!");
+        }
+        else{
+            $.ajax({
+                url: `/api/utilities/FinalizeBudgetAssignment`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                data: "year=" + selected_year_for_finalize_budget,
+                success: function (data) {        
+                    alert("保存されました");
+                    $("#save_bedget").prop("disabled",true);
+                    $("#budget_finalize").prop("disabled",true); 
+                }
+            });
+        }       
+    });
+
+    //search for section1
+    $(document).on('change', '#section_search', function () {
+        var sectionId = $(this).val();
+        $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
+            .done(function (data) {
+                $('#department_search').empty();
+                $('#department_search').append(`<option value=''>部署を選択</option>`);
+                $.each(data, function (key, item) {
+                    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
+                });
+            });
+    });
+    
+    //show budget data.
+    $(document).on('click', '#search_budget ', function () {           
+        var assignmentYear = $('#budget_years').val();        
+        if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
+            alert('年度を選択してください!!!');
+            return false;
+        }     
+        
+        LoaderShowJexcel();
+            
+        setTimeout(function () {                                
+            ShowBedgetResults(assignmentYear);
+        }, 3000);
+    });
+
+    //refresh the page table data
+    $(document).on('click', '#cancele_all_changed_budget ', function () {    
+        var assignmentYear = $('#budget_years').val();          
+        if(assignmentYear==''){
+            assignmentYear = 2023;
+        }
+
+        deletedExistingRowIds = [];
+        LoaderShowJexcel();            
+        setTimeout(function () {                               
+            ShowBedgetResults(assignmentYear);
+        }, 3000);
+        
+    });
+    
+    $(document).ajaxComplete(function(){
+        LoaderHideJexcel();
+    });
+
+    /*
+        author: sudipto.
+        replicate the budget data from previous year budget.
+    */
+    $('#create_duplicate_of_previous_year').on('click',function(){
+        $("#validation_message").html("");
+
+        var fromDate = $('#duplicate_from').val();
+        var toDate  = $('#duplciateYear').val();
+        var budgetType  = $('#select_duplicate_budget_type').val();
+        var approve_timestamp  = $('#approval_timestamps').val();
+    
+        if (fromDate == null || fromDate == undefined || fromDate == "") {
+            alert("Please select from date!")
+            return false;
+        } 
+        if (approve_timestamp == null || approve_timestamp == undefined || approve_timestamp == "") {
+            alert("Please select timestamp!")
+            return false;
+        }
+        if (toDate == null || toDate == undefined || toDate == "") {
+            alert("Please select to date!")
+            return false;
+        }
+        if (budgetType == null || budgetType == undefined || budgetType == "") {
+            alert("Please select to budget type!")
+            return false;
+        }
+        
+        if(fromDate!="" && toDate!=""){
+            $("#replicate_from_previous_year").modal("hide");
+            $("#loading").css("display", "block");
+            $.ajax({
+                url: `/api/utilities/DuplicateForecastYear`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: true,
+                dataType: 'json',
+                data: "copyYear=" + fromDate+"&insertYear="+toDate+"&budgetType="+budgetType,
+                success: function (data) {                       
+                    if(parseInt(data)==5){
+                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + toDate + ".Please chooose another year to import data..</span>");                        
+                    }
+                    else if(parseInt(data)==6){
+                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
+                    }
+                    else{
+                        $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully replicated to "+toDate+".</span>");                        
+                        // if(parseInt(data)>0){
+                        //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
+                        // }else{
+                        //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
+                        // }
+                    }
+                    LoaderHide();
+                    //window.location.reload();                
+                }
+            });
+        }else{
+            $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
+            return false;
+        }
+    });
+});
+
+
+var globalSearchObject = '';
 var globalPreviousValue = '0.0';
 var globalPreviousId = '';
 var jss;
@@ -183,241 +484,6 @@ $(function () {
         // Add the message to the page.
         $('#save_notifications').append(`<li>${name} ${message}</li>`);
     };
-
-});
-
-$(document).ready(function () {    
-    //import budget selction menu
-    $('#select_import_year').on('change', function() {
-        var selectedBudgetYear = this.value;
-        if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
-            //check the selected year is valid for import the excel.
-            CheckIsValidYearForImport(selectedBudgetYear);       
-        }    
-    });
-
-    //check import year validation
-    function CheckIsValidYearForImport(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckIsValidYearForImport/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "select_year_type=" + selectedBudgetYear,
-            success: function (data) {
-                if(data == true){
-                    CreateBudgetTypeWithYear(selectedBudgetYear);              
-                }else{
-                    $('#select_budget_type').empty();
-                    $('#select_import_year').val('');
-                    alert("selected year is not valid to import!");
-                }
-            }
-        });
-    }
-
-    //check replicate year validation
-    function CheckIsValidYearForReplicate(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckIsValidYearForImport/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "select_year_type=" + selectedBudgetYear,
-            success: function (data) {
-                if(data == true){
-                    ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
-                }else{
-                    $('#select_duplicate_budget_type').empty();
-                    $('#duplciateYear').val('');
-                    alert("selected year is not valid to replicate!");
-                }
-            }
-        });
-    }
-
-    //create budget type dropdown and set as html
-    function CreateBudgetTypeWithYear(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckBudgetWithYear/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "BudgetYear=" + selectedBudgetYear,
-            success: function (data) {
-                $('#select_budget_type').empty();
-                                               
-                $('#select_budget_type').append(`<option value="">select type</option>`);
-                //create fist half budget dropdown                    
-                if(data.FirstHalfFinalize){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
-                }else if(data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
-                }else if(!data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
-                }  
-
-                //create second half budget dropdown
-                if(data.SecondHalfFinalize){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
-                }else if(data.SecondHalfBudget){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
-                }else if(!data.SecondHalfBudget){
-                    if(data.FirstHalfBudget){
-                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }else{
-                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }                                               
-                }  
-            }
-        });
-    }
-
-    //replicate budget from selected year
-    function ReplicateBudgetFromPreviousYearData(selectedBudgetYear){
-        //get budget initial and 2nd half data if exists
-        $.ajax({
-            url: `/api/utilities/CheckBudgetWithYear/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "BudgetYear=" + selectedBudgetYear,
-            success: function (data) {
-                $('#select_duplicate_budget_type').empty();
-                                               
-                $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);
-                //create fist half budget dropdown                    
-                if(data.FirstHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
-                }else if(data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
-                }else if(!data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
-                }  
-
-                //create second half budget dropdown
-                if(data.SecondHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
-                }else if(data.SecondHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
-                }else if(!data.SecondHalfBudget){                         
-                    if(data.FirstHalfBudget){
-                        $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }else{
-                        $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
-                    }                        
-                }  
-            }
-        });
-    }
-
-    //duplicate budget selction menu
-    $('#duplciateYear').on('change', function() {
-        var selectedBudgetYear = this.value;
-    
-        if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
-            //check the selected year is valid for replicate data
-	        CheckIsValidYearForReplicate(selectedBudgetYear);             
-        }    
-    });
-
-    //From date on change
-    $('#duplicate_from').on('change', function() {
-        var selectedBudgetYear = this.value;
-        if (selectedBudgetYear != '' && selectedBudgetYear != null && selectedBudgetYear != undefined) {
-            $("#duplciateYear").prop('disabled', false);
-            $('#select_duplicate_budget_type').empty();
-            SelectDuplicateBudgetYearAndType();            
-        }        
-        else{
-            $("#duplciateYear").prop('disabled', true);
-            $('#select_duplicate_budget_type').empty();
-        }
-    });
-
-    GetAllBudgetYear();
-    GetAllFinalizeYear();
-
-    var year = $('#hidForecastYear').val();
-    $("#jspreadsheet").hide();      
-    var count = 1;
-
-    $('#employee_list').select2();    
-
-    //finalize the budget data.
-    $('#budget_finalize').on('click', function () {
-        var selected_year_for_finalize_budget = $("#budget_years").val();
-
-        if (selected_year_for_finalize_budget == null || selected_year_for_finalize_budget == undefined || selected_year_for_finalize_budget == "") {
-            alert("please 年度を選択してください!");
-        }
-        else{
-            $.ajax({
-                url: `/api/utilities/FinalizeBudgetAssignment`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: true,
-                dataType: 'json',
-                data: "year=" + selected_year_for_finalize_budget,
-                success: function (data) {        
-                    alert("保存されました");
-                    $("#save_bedget").prop("disabled",true);
-                    $("#budget_finalize").prop("disabled",true); 
-                }
-            });
-        }       
-    });
-
-    //search for section1
-    $(document).on('change', '#section_search', function () {
-        var sectionId = $(this).val();
-        $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
-            .done(function (data) {
-                $('#department_search').empty();
-                $('#department_search').append(`<option value=''>部署を選択</option>`);
-                $.each(data, function (key, item) {
-                    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-                });
-            });
-    });
-    
-    //show budget data.
-    $(document).on('click', '#search_budget ', function () {           
-        var assignmentYear = $('#budget_years').val();        
-        if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('年度を選択してください!!!');
-            return false;
-        }     
-        
-        LoaderShowJexcel();
-            
-        setTimeout(function () {                                
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
-    });
-
-    //refresh the page table data
-    $(document).on('click', '#cancele_all_changed_budget ', function () {    
-        var assignmentYear = $('#budget_years').val();          
-        if(assignmentYear==''){
-            assignmentYear = 2023;
-        }
-
-        deletedExistingRowIds = [];
-        LoaderShowJexcel();            
-        setTimeout(function () {                               
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
-        
-    });
-    
-    $(document).ajaxComplete(function(){
-        LoaderHideJexcel();
-    });
 
 });
 
@@ -3041,6 +3107,31 @@ function SelectDuplicateBudgetYearAndType(){
     });
 }
 
+//get approval list by year 
+function GetApprovalTimestampListByYear(year){
+    $.ajax({
+        url: `/api/utilities/GetApprovalTimeStamps`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: { year: year },
+        success: function (data) {
+            if (data != 0){
+                $('#approval_timestamps').empty();
+                $('#approval_timestamps').append(`<option value="">タイムスタンプの選択</option>`);
+                $('#approval_timestamps').append(`<option value="${year}" selected>最新の予算確定 (latest finalize budget)</option>`);
+                $.each(data, function (index, element) {                
+                    $('#approval_timestamps').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);              
+                });
+            }else{
+                $('#approval_timestamps').empty();
+                $('#approval_timestamps').append(`<option value="">タイムスタンプの選択</option>`);
+                $('#approval_timestamps').append(`<option value="${year}" selected>最新の予算確定 (latest finalize budget)</option>`);                
+            }  
+        }
+    });
+}
 /*
     author: sudipto.
     validate replicate data. 
@@ -3053,65 +3144,6 @@ function CheckDuplicateYear(){
     }else{
         // $('#duplciateYear').val('');
         $('#replicate_from').val('');
-    }
-}
-
-/*
-    author: sudipto.
-    replicate the budget data from previous year budget.
-*/
-function DuplicateBudget(){    
-    $("#validation_message").html("");
-
-    var fromDate = $('#duplicate_from').val();
-    var toDate  = $('#duplciateYear').val();
-    var budgetType  = $('#select_duplicate_budget_type').val();
- 
-    if (fromDate == null || fromDate == undefined || fromDate == "") {
-        alert("Please select from date!")
-        return false;
-    }
-    if (toDate == null || toDate == undefined || toDate == "") {
-        alert("Please select to date!")
-        return false;
-    }
-    if (budgetType == null || budgetType == undefined || budgetType == "") {
-        alert("Please select to budget type!")
-        return false;
-    }
-    
-    if(fromDate!="" && toDate!=""){
-        $("#replicate_from_previous_year").modal("hide");
-        $("#loading").css("display", "block");
-        $.ajax({
-            url: `/api/utilities/DuplicateForecastYear`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: "copyYear=" + fromDate+"&insertYear="+toDate+"&budgetType="+budgetType,
-            success: function (data) {                       
-                if(parseInt(data)==5){
-                    $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + toDate + ".Please chooose another year to import data..</span>");                        
-                }
-                else if(parseInt(data)==6){
-                    $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
-                }
-                else{
-                    $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully replicated to "+toDate+".</span>");                        
-                    // if(parseInt(data)>0){
-                    //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
-                    // }else{
-                    //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
-                    // }
-                }
-                LoaderHide();
-                //window.location.reload();                
-            }
-        });
-    }else{
-        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
-        return false;
     }
 }
 

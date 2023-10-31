@@ -210,3 +210,50 @@ label {
     padding-top: 1px;
     padding-bottom: 1px;
 }
+/*input form*/
+.username-error {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+
+.password-error {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+.nav-item.dropdown.has-arrow.main-drop {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+
+/*new input form*/
+.input_title{
+    text-align: left !important;
+    margin-left: 36px;
+}
+.user_registration_form{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+.form-control{
+    margin-left: -79px !important;
+    width: 80% !important;
+}
+
+.select2-container{
+    margin-left: -79px !important;
+    width: 80% !important;
+}
+.select2-container--open .select2-dropdown--below{
+    margin-left: 79px !important;
+}

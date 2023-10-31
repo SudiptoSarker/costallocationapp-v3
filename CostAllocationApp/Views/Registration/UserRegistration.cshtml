@@ -5,79 +5,86 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/user_registration.css" />
+
+    <link rel="stylesheet" type="text/css" href="/Content/users_ver02.css" />
+    <!-- <link href="/Content/budget_edit.css" rel="stylesheet" type="text/css" /> -->
 }
-<style>
 
-    .username-error {
-        display: none;
-        width: 100%;
-        margin-top: 0.25rem;
-        font-size: 100%;
-        color: #dc3545;
-    }
-
-    .password-error {
-        display: none;
-        width: 100%;
-        margin-top: 0.25rem;
-        font-size: 100%;
-        color: #dc3545;
-    }
-    .nav-item.dropdown.has-arrow.main-drop {
-        display: none;
-        width: 100%;
-        margin-top: 0.25rem;
-        font-size: 100%;
-        color: #dc3545;
-    }
-</style>
 <div class="content container-fluid">
     <!-----------------User Registration Form----------------->
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <input type="hidden" value="" id="user_id_hidden"/>
-                <table id="users_reg_tbl">
-                    <thead style="border: none;">
-                        <tr></tr>
-                        <tr>
-                            <th>ユーザーID (User Id)</th>
-                            <th>役職 (Title)</th>
-                            <th>部署 (Department)</th>
-                            <th>メアド (Email)</th>
-                            <th>パスワー (Password)</th>
-                            <th>行動 (Action)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="create_users_tbody_td">
-                                <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
-                            </td>
-                            <td id="create_users_tbody_td">
-                                <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
-                            </td>
-                            <td id="create_users_tbody_td">
-                                <select id="userDepartment" name="userDepartment"></select>
-                            </td>                            
-                            <td id="create_users_tbody_td">
-                                <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
-                            </td>
-                            <td id="create_users_tbody_td">
-                                <input type="password" id="userPass" minlength="" placeholder="パスワー (Password)" required>
-                            </td>
-                            <td id="create_users_tbody_td">
-                                <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal" onclick="ClearEntry();">取消(undo)</a>                                
-                                <a href="javascript:void(0);" class="" id="users_reg_save_btn" data-toggle="modal" data-target="#register_modal">保存（save）</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a href="/registration/login" style="text-decoration: underline;color: black;">戻る (Back)</a>
-            </div>
-        </div>
-    </div>    
+    
+    <div class='row' >
+        <div class="col-md-9">
+            <!-- <div class='user_registration_form'> -->                
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>User ID</label></div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="edit_user_name" placeholder="名前 (User Name)">                 
+                    </div>
+                </div>
+
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Title</label></div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="edit_user_title" placeholder="役職 (Title)">
+                    </div>
+                </div>
+
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Role</label></div>
+                    <div class="col-md-7">                       
+                        <select id="user_role_list" class=''>
+                            <option value='-1'>select role</option>
+                            <option value='1'>Admin</option>
+                            <option value='2'>Editor</option>
+                            <option value='3'>Visitor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Department</label></div>
+                    <div class="col-md-7">
+                        <select id="user_department_edit" class='user_dropdown'></select>
+                    </div>
+                </div>
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Email</label></div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="edit_user_email" placeholder="メアド (Email)">
+                    </div>
+                </div>
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Status</label></div>
+                    <div class="col-md-7">
+                        <select id="user_status_edit" class='user_dropdown'>                                        
+                            <option value='1'>有効(Active)</option>
+                            <option value='3'>承認待ち(waiting)</option>
+                            <option value='0'>無効(Inactive)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">        
+                    <div class="col-md-5"><label class='input_title'>Password</label></div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="edit_user_pass" placeholder="パスワー (Password)">
+                    </div>
+                </div>
+                <div class="row">        
+                    <div class="col-md-5"></div>
+                    <div class="col-md-7">
+                        <div class="edit_user_action">
+                        <a href="javascript:void(0);" class="user_edit_undo_btn" data-dismiss="modal">取消(Undo）</a>
+                        <a href="javascript:void(0);" class="user_edit_update_btn">更新​ (Update)</a>
+                    </div>
+                </div>    
+                <br>
+            <!-- </div>    -->
+        </div>        
+    </div>        
 </div>
+<!-- </div> -->
+
 <input type="hidden" id="hid_userRole" value="0">
 
 <!-----------------Modal: Update Forecast Confirm Dialog box----------------->

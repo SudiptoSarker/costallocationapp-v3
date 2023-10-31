@@ -1,3 +1,9 @@
+$(document).ready(function () {    
+    $('#user_role_list').select2();       
+    $('#user_department_edit').select2();  
+    $('#user_status_edit').select2();  
+});
+
 $.getJSON('/api/Departments/')
 .done(function(data) {
     $('#userDepartment').append(`<option value=''>部署を選択</option>`);

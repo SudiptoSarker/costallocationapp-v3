@@ -385,3 +385,22 @@ CSS.g-6,
   display: block;
   margin-top: -11px;
 }
+
+/*duplicate modal*/
+#replicate_modal_header{
+  text-align: left;    
+  font-size: 19px;
+  width: 100%;
+}
+#duplicate_from_title,#approval_timestamp_title,#duplicate_to_title,#duplicate_budget_type_title{
+  /* margin-right: 32px; */
+  float: left;
+  font-size: 14px;
+}
+
+#duplicate_from,#approval_timestamps,#duplciateYear,#select_duplicate_budget_type{
+  border-color: #e3e3e3 !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  height: 44px !important;
+}

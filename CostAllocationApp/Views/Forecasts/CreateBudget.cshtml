@@ -136,33 +136,40 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>策定する年度を選択 (Replicate Data)</h3>
+                    <h3 id='replicate_modal_header'>策定する年度を選択 (Replicate Data)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
-
+                    <br>
                     <div class="row">
-                        <div class="col-4">
-                            <label style="margin-right: 14px;">策定する予算のベースとなる年度を選択</label>
-                            <select id="duplicate_from" class="form-control" name="duplicate_from"></select>
-                            @* <input type="text" id="replicate_from" class="form-control" name="upload_year"/>  *@
+                        <div class="col-5">
+                            <label id='duplicate_from_title'>策定する予算のベースとなる年度を選択</label>
+                            <select id="duplicate_from" class="form-control" name="duplicate_from"></select>                            
                         </div>
-                        <div class="col-4">
-                            <label style="margin-right: 101px;">策定する予算の年度を選択</label>
+                        <div class="col-5">
+                            <label id='approval_timestamp_title'>承認履歴 (Approval History)</label>
+                            <select id="approval_timestamps" class="form-control" name="approval_timestamps">                               
+                            </select>                            
+                        </div>                        
+                    </div>
+                    <br>
+                    <div class="row">                        
+                        <div class="col-5">
+                            <label id='duplicate_to_title'>策定する予算の年度を選択</label>
                             <input type="text" id="duplciateYear" class="form-control" name="upload_year" />
                         </div>
-                        <div class="col-3">
-                            <label style="margin-right: 87px;">予算時期を選択</label>
+                        <div class="col-5">
+                            <label id='duplicate_budget_type_title'>予算時期を選択</label>
                             <select id="select_duplicate_budget_type" class="form-control" name="select_duplicate_budget_type"></select>
                         </div>
                     </div>
-
+                    <br>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-5">
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
                         </div>
-                        <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year" onclick="DuplicateBudget();">作成 (Create)</a>
+                        <div class="col-5">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year">作成 (Create)</a>
                         </div>
                     </div>
                 </div>
@@ -171,93 +178,6 @@
     </div>
 </div>
 <input type="hidden" id="selected_budget_year" value="" />
-
-
-<!--shorting columns-->
-<div class="search_p">
-    <ul id="search_p_asc_desc">
-        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">昇順</span></li>
-        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
-    </div>
-</div>
-
-<div class="search_section">
-    <ul id="search_section_asc_desc">
-        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">昇順</span></li>
-        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
-    </div>
-</div>
-
-<div class="search_department">
-    <ul id="search_department_asc_desc">
-        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">昇順</span></li>
-        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
-    </div>
-</div>
-<div class="search_incharge">
-    <ul id="search_incharge_asc_desc">
-        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">昇順</span></li>
-        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
-    </div>
-</div>
-<div class="search_role">
-    <ul id="search_role_asc_desc">
-        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">昇順</span></li>
-        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_role">Close</button>
-    </div>
-</div>
-
-<div class="search_explanation">
-    <ul id="search_explanation_asc_desc">
-        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">昇順</span></li>
-        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_explanation">Close</button>
-    </div>
-</div>
-<div class="search_company">
-    <ul id="search_company_asc_desc">
-        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">昇順</span></li>
-        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
-    </div>
-</div>
-<div class="search_grade">
-    <ul id="search_grade_asc_desc">
-        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">昇順</span></li>
-        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
-    </div>
-</div>
-<div class="search_unit_price">
-    <ul id="search_unit_price_asc_desc">
-        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">昇順</span></li>
-        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">降順</span></li>
-    </ul>
-    <div class="search_p_footer">
-        <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>
-    </div>
-</div>
 
 @section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>

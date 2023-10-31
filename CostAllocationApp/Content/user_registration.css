@@ -245,15 +245,29 @@ label {
     font-size: 14px;
     border: 1px solid;
 }
+
 .form-control{
     margin-left: -79px !important;
     width: 80% !important;
 }
-
+.user_registration_action {
+    float: left;    
+    margin-left: -79px !important;
+    width: 80% !important;
+    font-size: 13px;
+}
 .select2-container{
     margin-left: -79px !important;
     width: 80% !important;
 }
 .select2-container--open .select2-dropdown--below{
     margin-left: 79px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: #676767;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    font-weight: normal;
+    /* line-height: 42px; */
+    line-height: 25px
 }

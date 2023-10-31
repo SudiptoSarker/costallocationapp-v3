@@ -1,33 +1,33 @@
 $(document).ready(function () {    
-    $('#user_role_list').select2();       
-    $('#user_department_edit').select2();  
-    $('#user_status_edit').select2();  
+    $('#userDepartment').select2();      
+
+    $.getJSON('/api/Departments/')
+        .done(function(data) {
+            $('#userDepartment').append(`<option value=''>部署を選択</option>`);
+            $.each(data, function(key, item) {                    
+                $('#userDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
+            });
+            });  
 });
 
-$.getJSON('/api/Departments/')
-.done(function(data) {
-    $('#userDepartment').append(`<option value=''>部署を選択</option>`);
-    $.each(data, function(key, item) {                    
-        $('#userDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
-    });
-    });  
+
 
 //clear entry field
 function ClearEntry(){
-    $("#userName").val('');
-    $("#userTitle").val('');
+    $("#user_name_reg").val('');
+    $("#reg_user_title").val('');
     $("#userDepartment").val('');
-    $("#userEmail").val('');
-    $("#userPass").val('');
+    $("#reg_user_email").val('');
+    $("#reg_user_pass").val('');
 }
 
 //user create
 function UserRegistration() {
-    let userName = $("#userName").val().trim();
-    let userTitle = $("#userTitle").val().trim();
+    let userName = $("#user_name_reg").val().trim();
+    let userTitle = $("#reg_user_title").val().trim();
     let departmentId = $("#userDepartment").val().trim();
-    let userEmail = $("#userEmail").val().trim();
-    let userPass = $("#userPass").val().trim();
+    let userEmail = $("#reg_user_email").val().trim();
+    let userPass = $("#reg_user_pass").val().trim();
     let userRoleId = $("#hid_userRole").val().trim();
 
     if (userName == "") {
@@ -69,7 +69,7 @@ function UserRegistration() {
             if (result > 0) {
                 ClearEntry();
                 //ToastMessageSuccess('Registration is completed, please wait for the approval!');                
-                $('#userName').val('');
+                $('#user_name_reg').val('');
                 //GetUserList();
                 $('#register_modal').modal('hide');
                 $('#register_modal').on('hidden.bs.modal', function () {

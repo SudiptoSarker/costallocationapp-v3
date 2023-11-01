@@ -237,7 +237,7 @@ label {
 /*new input form*/
 .input_title{
     text-align: left !important;
-    margin-left: 36px;
+    margin-left: 46px;
 }
 .user_registration_form{
     width: 100%;
@@ -248,17 +248,16 @@ label {
 
 .form-control{
     margin-left: -79px !important;
-    width: 80% !important;
+    width: 90% !important;
 }
 .user_registration_action {
-    float: left;    
-    margin-left: -79px !important;
-    width: 80% !important;
+    float: right;
+    width: 77% !important;
     font-size: 13px;
 }
 .select2-container{
     margin-left: -79px !important;
-    width: 80% !important;
+    width: 90% !important;
 }
 .select2-container--open .select2-dropdown--below{
     margin-left: 79px !important;

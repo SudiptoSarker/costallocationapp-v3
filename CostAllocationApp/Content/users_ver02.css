@@ -277,3 +277,7 @@ div.dataTables_wrapper div.dataTables_filter{
     right: 3px !important;
     margin-top: 10px !important;
 }
+.input_title{
+    text-align: left !important;
+    margin-left: 46px;
+}

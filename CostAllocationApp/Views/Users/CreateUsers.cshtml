@@ -85,7 +85,8 @@
     {        
         //user update modal
         <div class="modal custom-modal fade" id="modal_update_user" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
+            @* <div class="modal-dialog modal-dialog-centered"> *@
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-header edit_user_header">
@@ -98,19 +99,19 @@
                             <label id="input_master"></label>
 
                             <div class="row">
-                                <div class="col-md-3"><label>User ID</label></div>
+                                <div class="col-md-4"><label class="input_title">ユーザーID (User)</label></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="edit_user_name" placeholder="名前 (User Name)">                 
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3"><label>Title</label></div>
+                                <div class="col-md-4"><label class="input_title">役職 (Title)</label></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="edit_user_title" placeholder="役職 (Title)">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3"><label>Role</label></div>
+                                <div class="col-md-4"><label class="input_title">役職 (Title)</label></div>
                                 <div class="col-md-8">
                                     <select id="user_role_list" style="">
                                         <option value='-1'>select role</option>
@@ -121,19 +122,19 @@
                                 </div>
                             </div>                            
                             <div class="row">
-                                <div class="col-md-3"><label>Department</label></div>
+                                <div class="col-md-4"><label class="input_title">部署 (Dept)</label></div>
                                 <div class="col-md-8">
                                     <select id="user_department_edit" style=""></select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3"><label>Email</label></div>
+                                <div class="col-md-4"><label class="input_title">メアド (Email)</label></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="edit_user_email" placeholder="メアド (Email)">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3"><label>Status</label></div>
+                                <div class="col-md-4"><label class="input_title">状態 (Status)</label></div>
                                 <div class="col-md-8">
                                     <select id="user_status_edit" style="">                                        
                                         <option value='1'>有効(Active)</option>
@@ -143,16 +144,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3"><label>Password </label></div>
+                                <div class="col-md-4"><label class="input_title">パスワー (Pass)</label></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="edit_user_pass" placeholder="パスワー (Password)">
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="edit_user_action">
-                                <a href="javascript:void(0);" class="user_edit_undo_btn" data-dismiss="modal">取消(Undo）</a>
-                                <a href="javascript:void(0);" class="user_edit_update_btn">更新​ (Update)</a>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-8">
+                                    <div class="edit_user_action">
+                                        <a href="javascript:void(0);" class="user_edit_undo_btn" data-dismiss="modal">取消(Undo）</a>
+                                        <a href="javascript:void(0);" class="user_edit_update_btn">更新​ (Update)</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

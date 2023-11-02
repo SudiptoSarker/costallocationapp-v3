@@ -2137,6 +2137,101 @@ namespace CostAllocationApp.DAL
 
             return forecasts;
         }
+        public List<Forecast> GetApprovedForecastdDataForReplicateBudget(int assignmentId, string year)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            string query = "select * from ApprovedCosts where ApprovedEmployeeAssignmentsId=" + assignmentId + " and Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Forecast forecast = new Forecast();
+                            forecast.Id = Convert.ToInt32(rdr["Id"]);
+                            if (rdr["ApprovedEmployeeAssignmentsId"] == DBNull.Value)
+                            {
+                                forecast.EmployeeAssignmentId = 0;
+                            }
+                            else
+                            {
+                                forecast.EmployeeAssignmentId = Convert.ToInt32(rdr["ApprovedEmployeeAssignmentsId"]);
+                            }
+                            if (rdr["Year"] == DBNull.Value)
+                            {
+                                forecast.Year = 0;
+                            }
+                            else
+                            {
+                                forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            }
+                            if (rdr["MonthId"] == DBNull.Value)
+                            {
+                                forecast.Month = 0;
+                            }
+                            else
+                            {
+                                forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            }
+                            if (rdr["Points"] == DBNull.Value)
+                            {
+                                forecast.Points = 0;
+                            }
+                            else
+                            {
+                                forecast.Points = Convert.ToInt32(rdr["Points"]);
+                            }
+                            if (rdr["Total"] == DBNull.Value)
+                            {
+                                forecast.Total = 0;
+                            }
+                            else
+                            {
+                                forecast.Total = Convert.ToInt32(rdr["Total"]);
+                            }
+                            if (rdr["CreatedBy"] == DBNull.Value)
+                            {
+                                forecast.CreatedBy = null;
+                            }
+                            else
+                            {
+                                forecast.CreatedBy = rdr["CreatedBy"].ToString();
+                            }
+
+                            if (rdr["CreatedDate"] == DBNull.Value)
+                            {
+                                forecast.CreatedDate = DateTime.Now;
+                            }
+                            else
+                            {
+                                forecast.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            }
+                            if (rdr["UpdatedDate"] == DBNull.Value)
+                            {
+                                forecast.UpdatedDate = DateTime.Now; ;
+                            }
+                            else
+                            {
+                                forecast.UpdatedDate = Convert.ToDateTime(rdr["UpdatedDate"]);
+                            }
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
 
         public bool CheckEmployeeName(string employeeName)
         {
@@ -3558,6 +3653,150 @@ namespace CostAllocationApp.DAL
             }
 
             return forecastEmployeeAssignments;
+        }
+
+        public List<ExcelAssignmentDto> GetAllOriginalDataForReplciateBudget(string year, int approvedTimestampid)
+        {
+            string where = "";
+
+            if (!string.IsNullOrEmpty(year))
+            {
+                where += $" ea.Year={year} and ";
+            }
+            if (!string.IsNullOrEmpty(approvedTimestampid.ToString()))
+            {
+                where += $" ea.ApprovedTimeStampId={approvedTimestampid} and ";
+            }
+            where += " 1=1 and (ema.IsRowPending is null or ema.IsRowPending =0)";
+
+            string query = $@"select ea.Id,ea.AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
+                            ,ea.IsRowPending,ea.IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
+                            ,ea.IsDeleted,ea.AssignmentId 'EmployeeAssignmentIdOrg',ema.IsRowPending 'PendingRowAfterApprove'
+                            , ema.DuplicateFrom, ema.DuplicateCount, ema.RoleChanged,ema.UnitPriceChanged 
+                            from ApprovedEmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            left join EmployeesAssignments ema on ea.AssignmentId = ema.Id
+                            where {where}
+                            order by emp.Id asc";
+
+
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ExcelAssignmentDto excelAssignmentDto = new ExcelAssignmentDto();
+                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            if (rdr["EmployeeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeId = rdr["EmployeeId"].ToString();
+                            }
+                            if (rdr["SectionId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.SectionId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.SectionId = Convert.ToInt32(rdr["SectionId"]);
+                            }
+                            if (rdr["DepartmentId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.DepartmentId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                            }
+                            if (rdr["InchargeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.InchargeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.InchargeId = Convert.ToInt32(rdr["InchargeId"]);
+                            }
+                            if (rdr["RoleId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.RoleId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.RoleId = Convert.ToInt32(rdr["RoleId"]);
+                            }
+
+                            if (rdr["ExplanationId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.ExplanationId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.ExplanationId = Convert.ToInt32(rdr["ExplanationId"]);
+                            }
+                            if (rdr["CompanyId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.CompanyId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.CompanyId = Convert.ToInt32(rdr["CompanyId"]);
+                            }
+                            excelAssignmentDto.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]);
+
+                            if (rdr["GradeId"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.GradeId = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.GradeId = Convert.ToInt32(rdr["GradeId"]);
+                            }
+                            if (rdr["RootEmployeeName"] == DBNull.Value)
+                            {
+                                excelAssignmentDto.EmployeeName = null;
+                            }
+                            else
+                            {
+                                excelAssignmentDto.EmployeeName = rdr["RootEmployeeName"].ToString();
+                            }
+                            excelAssignmentDto.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            excelAssignmentDto.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            excelAssignmentDto.EmployeeModifiedName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+
+                            excelAssignmentDto.DuplicateFrom = rdr["DuplicateFrom"] is DBNull ? "" : rdr["DuplicateFrom"].ToString();
+                            excelAssignmentDto.DuplicateCount = rdr["DuplicateCount"] is DBNull ? "" : rdr["DuplicateCount"].ToString();
+                            excelAssignmentDto.RoleChanged = rdr["RoleChanged"] is DBNull ? "" : rdr["RoleChanged"].ToString();
+                            excelAssignmentDto.UnitPriceChanged = rdr["UnitPriceChanged"] is DBNull ? "" : rdr["UnitPriceChanged"].ToString();
+
+                            excelAssignmentDtos.Add(excelAssignmentDto);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return excelAssignmentDtos;
         }
 
         public List<ForecastDistributdViewModal> GetQCAssignemntsPercentage(int assignmentId)

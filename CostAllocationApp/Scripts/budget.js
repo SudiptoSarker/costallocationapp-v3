@@ -271,7 +271,7 @@
                 type: 'GET',
                 async: true,
                 dataType: 'json',
-                data: "copyYear=" + fromDate+"&insertYear="+toDate+"&budgetType="+budgetType,
+                data: "copyYear=" + fromDate+"&insertYear="+toDate+"&budgetType="+budgetType+"&approve_timestamp="+approve_timestamp,
                 success: function (data) {                       
                     if(parseInt(data)==5){
                         $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + toDate + ".Please chooose another year to import data..</span>");                        

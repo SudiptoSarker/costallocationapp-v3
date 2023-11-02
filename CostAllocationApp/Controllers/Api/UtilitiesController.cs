@@ -3521,7 +3521,7 @@ namespace CostAllocationApp.Controllers.Api
         }
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
-        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear, string budgetType)
+        public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear, string budgetType,string approve_timestamp)
         {
             var session = System.Web.HttpContext.Current.Session;
             int results = 0;
@@ -3532,7 +3532,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 fromDate = Convert.ToInt32(copyYear);
                 toDate = Convert.ToInt32(insertYear);
-                results = forecastBLL.DuplicateBudget(fromDate, toDate, Convert.ToInt32(budgetType));
+                results = forecastBLL.DuplicateBudget(fromDate, toDate, Convert.ToInt32(budgetType), approve_timestamp);
 
             }
 

@@ -122,7 +122,7 @@ namespace CostAllocationApp.BLL
         public List<ForecastAssignmentViewModel> GetEmployeesBudgetByDepartments_Company(int departmentId, string companyIds, int year)
         {
             List<ForecastAssignmentViewModel> budgetAssignments = employeeAssignmentDAL.GetEmployeesBudgetByDepartments_Company(departmentId, companyIds, year);
-            
+
             if (budgetAssignments.Count > 0)
             {
                 foreach (var budgetAssignment in budgetAssignments)
@@ -142,7 +142,7 @@ namespace CostAllocationApp.BLL
                         budgetAssignment.JulPoints = budgetAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
                         budgetAssignment.AugPoints = budgetAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
                         budgetAssignment.SepPoints = budgetAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
-                    }                   
+                    }
                 }
             }
             return budgetAssignments;
@@ -197,7 +197,7 @@ namespace CostAllocationApp.BLL
             return forecastAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company_Timestamps(int departmentId, string companyIds, int year,string timestampsId)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company_Timestamps(int departmentId, string companyIds, int year, string timestampsId)
         {
             List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByDepartments_Company_Timestamps(departmentId, companyIds, year, timestampsId);
             if (forecastAssignments.Count > 0)
@@ -1024,7 +1024,7 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateBCYRCellByAssignmentId(assignmentId, cell);
         }
-        public int UpdateBCYRCellBCYRPendingCellByAssignmentId(int assignmentId, string cell,string pendingCells)
+        public int UpdateBCYRCellBCYRPendingCellByAssignmentId(int assignmentId, string cell, string pendingCells)
         {
             return employeeAssignmentDAL.UpdateBCYRCellBCYRPendingCellByAssignmentId(assignmentId, cell, pendingCells);
         }
@@ -1657,6 +1657,18 @@ namespace CostAllocationApp.BLL
 
 
             return employees;
+        }
+
+        public List<ExcelAssignmentDto> GetAllOriginalDataForReplciateBudget(string year, int approvedTimestampid) {
+            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
+            excelAssignmentDtos = employeeAssignmentDAL.GetAllOriginalDataForReplciateBudget(year, approvedTimestampid);
+            return excelAssignmentDtos;
+        }
+        public List<Forecast> GetApprovedForecastdDataForReplicateBudget(int assignmentId, string year)
+        {
+            List<Forecast> forecasts = new List<Forecast>();
+            forecasts = employeeAssignmentDAL.GetApprovedForecastdDataForReplicateBudget(assignmentId, year);
+            return forecasts;
         }
         public bool IsApprovedCellsForDownloadExcel(string cellNumber, string approvedCells)
         {

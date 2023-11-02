@@ -143,7 +143,7 @@
                                 user_status = "waiting";
                             }
                             $('#admin_table tbody').empty();
-                            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}','${user_status}')">編集</button></td></tr>`);
+                            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" user_name='${data.UserName}' user_status='${user_status}'>編集</button></td></tr>`);
                         }); 
                 }
                 location.reload();
@@ -339,7 +339,7 @@ function ShowUserList_Datatable(data) {
             },
             {
                 render: function () {
-                    return `<button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${user_name}','${user_status}')">編集</button>`;
+                    return `<button class="btn btn-info user_edit_button" user_name='${user_name}' user_status='${user_status}'>編集</button>`;
                 }
             }
         ]

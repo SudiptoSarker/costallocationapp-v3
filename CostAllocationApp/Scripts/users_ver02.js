@@ -6,30 +6,33 @@
     LoadModalDynamicValues();
 
     $(document).on('click', '.user_edit_button', function () {    
+        $('#user_role_list').select2();
+        $('#user_status_edit').select2();
+
         var userName = $(this).attr("user_name");
-        var user_status = $(this).attr("user_status");
+        var user_status = $(this).attr("user_status");        
+
 
         if(user_status=="active"){        
-            $('#user_status_edit').val(1);
-        }else if(user_status=="inactive"){
-            $('#user_status_edit').val(0);
+            $("#user_status_edit").val(1);             
+        }else if(user_status=="inactive"){            
+            $("#user_status_edit").val(0);                         
         }else{
-            $('#user_status_edit').val(3);
+            $("#user_status_edit").val(3);                                     
         }
+
 
         $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
             .done(function (data) {
                 $('#user_id_hidden').val(data.Id);
                 $('#edit_user_name').val(data.UserName);
-                $('#edit_user_title').val(data.UserTitle);
-                //$('#user_role_list').val(data.UserRoleId);                
-                $('#user_department_edit').val(data.DepartmentId);                
-                $('#user_role_list').select2();     
-                if(user_status=="waiting"){
-                    $('#user_role_list').val(-1);
+                $('#edit_user_title').val(data.UserTitle);                
+                $("#user_department_edit").select2("val", data.DepartmentId);            
+                if(user_status=="waiting"){                    
+                    $("#user_role_list").select2("val", -1);
                 }else{                    
-                    $('#user_role_list').val(data.UserRoleId);
-                }
+                    $("#user_role_list").select2("val", data.UserRoleId);                
+                }                
 
                 $('#edit_user_email').val(data.Email);                
                 $('#edit_user_pass').val(data.Password);
@@ -47,13 +50,19 @@
             });
             });   
 
-        // $.getJSON('/api/utilities/GetAllUserRoles/')
-        // .done(function (data) {
-        //     $('#user_role_list').append(`<option value='-1'>Select Role</option>`);
-        //     $.each(data, function (key, item) {
-        //         $('#user_role_list').append(`<option value='${item.Id}'>${item.Role}</option>`)
-        //     });
-        // }); 
+        $.getJSON('/api/utilities/GetAllUserRoles/')
+        .done(function (data) {
+            $('#user_role_list').append(`<option value=''>Select Role</option>`);
+            $.each(data, function (key, item) {
+                $('#user_role_list').append(`<option value='${item.Id}'>${item.Role}</option>`);
+            });
+
+
+            // $('#user_status_edit').append(`<option value=''>select status</option>`);
+            // $('#user_status_edit').append(`<option value='1'>有効(Active)</option>`);
+            // $('#user_status_edit').append(`<option value='3'>承認待ち(waiting)</option>`);
+            // $('#user_status_edit').append(`<option value='0'>無効(Inactive)</option>`);
+        });         
     }
 
     $(document).on('click', '.user_edit_update_btn', function () {    
@@ -260,7 +269,7 @@ function ShowUserList_Datatable(data) {
         data: data,
         ordering: true,
         orderCellsTop: false,
-        pageLength: 5,
+        pageLength: 10,
         searching: true,
         //bLengthChange: false,  
         columns: [  

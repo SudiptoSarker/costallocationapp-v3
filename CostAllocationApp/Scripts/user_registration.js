@@ -16,7 +16,7 @@ $(document).ready(function () {
 function ClearEntry(){
     $("#user_name_reg").val('');
     $("#reg_user_title").val('');
-    $("#userDepartment").val('');
+    $("#userDepartment").select2("val", "");
     $("#reg_user_email").val('');
     $("#reg_user_pass").val('');
 }

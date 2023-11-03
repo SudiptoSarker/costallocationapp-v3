@@ -269,7 +269,23 @@ $(document).ready(function () {
         var approvedCells = $("#approved_selected_cells").val(); 
         var approvedRows = $("#approved_selected_rows").val();
         
+        var isValidRequest = false;
+        var isApprove = false;
         if ((approvedCells != null && approvedCells != undefined && approvedCells != "") || (approvedRows != null && approvedRows != undefined && approvedRows != "")){
+            isValidRequest = true;
+            isApprove = true;
+        }else{
+            if (confirm("承認はありません。 保存しますか?") == true) {
+                isValidRequest = true;
+                isApprove = false;                   
+            } else {
+                isValidRequest = false;   
+                return false;             
+            } 
+            
+        }
+
+        if (isValidRequest){
             var approvePromptValue = prompt("承認履歴ファイル保存名", '');
             //$("#timeStamp_ForUpdateData").val('');
             if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
@@ -290,13 +306,14 @@ $(document).ready(function () {
                     type: 'GET',
                     async: true,
                     dataType: 'json',
-                    data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows,
+                    data: "assignmentYear=" + assignmentYear+"&historyName="+timestamp+approvePromptValue+"&approvalCellsWithAssignmentId="+approvedCells+"&approvedRows="+approvedRows+"&isApprove="+isApprove,
                     success: function (data) {
                         if(data==1){
                             $("#approved_selected_cells").val(''); 
                             $("#approved_selected_rows").val('');
                                   
                             ShowForecastResults(assignmentYear);
+                            ToastMessageSuccess('データが保存されました');                            
                         }else{
                             LoaderHide();
                             alert("There is no approved data to save!")
@@ -325,7 +342,7 @@ $(document).ready(function () {
         }
 
         if(!isRowApprovalRequest && !isCellApprovalRequest) {
-            alert("承認するデータがありません");
+            alert("承認するデータがありません ");
         }else{
             if(isRowApprovalRequest){
 

@@ -1588,6 +1588,7 @@ namespace CostAllocationApp.DAL
             return forecasts;
         }
 
+
         public List<int> GetYearFromHistory()
         {
             List<int> years = new List<int>();
@@ -3071,6 +3072,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public bool GetReplicateYearForecastType(int year)
         {
             bool results = false;

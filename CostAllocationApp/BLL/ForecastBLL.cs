@@ -212,12 +212,20 @@ namespace CostAllocationApp.BLL
                 return 1;
             }            
         }
-        public int DuplicateBudget(int copyYear, int insertYear,int budgetType)
+        public int DuplicateBudget(int copyYear, int insertYear,int budgetType,string approve_timestamp)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
             int replicateYearBudgetType = GetReplicateYearForecastType(copyYear);
 
-            excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear, replicateYearBudgetType);
+            if (Convert.ToInt32(approve_timestamp) == copyYear)
+            {
+                excelAssignmentDtos = forecastDAL.GetEmployeesBudgetByYear(copyYear, replicateYearBudgetType);
+            }
+            else
+            {
+                excelAssignmentDtos = employeeAssignmentBLL.GetAllOriginalDataForReplciateBudget(copyYear.ToString(), Convert.ToInt32(approve_timestamp));                
+            }
+
 
             int resultSave = 0;
             if (excelAssignmentDtos.Count > 0)
@@ -279,7 +287,15 @@ namespace CostAllocationApp.BLL
                         int employeeAssignmentLastId = employeeAssignmentBLL.GetBudgetLastId();
                         List<Forecast> forecasts = new List<Forecast>();
                       
-                        forecasts = forecastDAL.GetBudgetForecastDetails(employeeAssignment.Id, copyYear);
+                        if (Convert.ToInt32(approve_timestamp) == copyYear)
+                        {
+                            forecasts = forecastDAL.GetBudgetForecastDetails(employeeAssignment.Id, copyYear);
+                        }
+                        else
+                        {
+                            forecasts = employeeAssignmentBLL.GetApprovedForecastdDataForReplicateBudget(employeeAssignment.Id, copyYear.ToString());
+                        }                        
+
                         foreach (var forecastItem in forecasts)
                         {
                             forecastItem.Year = insertYear;
@@ -518,7 +534,7 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(assignmentHistory); 
         }
-        public int InsertApprovedForecastedDataByYear(int approvedTimestampId,int year,string userName)
+        public int InsertApprovedForecastedDataByYear(int approvedTimestampId,int year,string userName,bool isApproval)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
 
@@ -529,7 +545,7 @@ namespace CostAllocationApp.BLL
             {
                 foreach (var item in excelAssignmentDtos)
                 {
-                    if (!item.IsRowPending) {
+                    if (!item.IsRowPending || !isApproval) {
                         //insert forecast assignment here
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.Id;

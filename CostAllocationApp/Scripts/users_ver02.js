@@ -5,34 +5,35 @@
 
     LoadModalDynamicValues();
 
-    $(document).on('click', '.user_edit_button', function () {    
-        $('#user_role_list').select2();
-        $('#user_status_edit').select2();
-
+    $(document).on('click', '.user_edit_button', function () {            
         var userName = $(this).attr("user_name");
         var user_status = $(this).attr("user_status");        
-
-
+        
+        var user_status_val = 0;
         if(user_status=="active"){        
-            $("#user_status_edit").val(1);             
+            user_status_val =1;
         }else if(user_status=="inactive"){            
-            $("#user_status_edit").val(0);                         
+            user_status_val =0;
         }else{
-            $("#user_status_edit").val(3);                                     
+            user_status_val =3;
         }
-
 
         $.getJSON('/api/utilities/GetSingleUserInfo?userName=' + userName)
             .done(function (data) {
                 $('#user_id_hidden').val(data.Id);
                 $('#edit_user_name').val(data.UserName);
-                $('#edit_user_title').val(data.UserTitle);                
-                $("#user_department_edit").select2("val", data.DepartmentId);            
-                if(user_status=="waiting"){                    
-                    $("#user_role_list").select2("val", -1);
-                }else{                    
-                    $("#user_role_list").select2("val", data.UserRoleId);                
-                }                
+                $('#edit_user_title').val(data.UserTitle);                                
+                $("#user_department_edit").val(data.DepartmentId).trigger('change');   
+                
+                if(user_status=="waiting"){                                        
+                    $("#user_role_list").val(-1).trigger('change');   
+                }else{                                        
+                    $("#user_role_list").val(data.UserRoleId).trigger('change');   
+                } 
+
+                $('#edit_user_email').val(data.Email); 
+                 
+                $("#user_status_edit").val(user_status_val).trigger('change');                   
 
                 $('#edit_user_email').val(data.Email);                
                 $('#edit_user_pass').val(data.Password);
@@ -143,7 +144,7 @@
                                 user_status = "waiting";
                             }
                             $('#admin_table tbody').empty();
-                            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${data.UserName}','${user_status}')">編集</button></td></tr>`);
+                            $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" user_name='${data.UserName}' user_status='${user_status}'>編集</button></td></tr>`);
                         }); 
                 }
                 location.reload();
@@ -339,7 +340,7 @@ function ShowUserList_Datatable(data) {
             },
             {
                 render: function () {
-                    return `<button class="btn btn-info user_edit_button" onclick="UpdateUserModal('${user_name}','${user_status}')">編集</button>`;
+                    return `<button class="btn btn-info user_edit_button" user_name='${user_name}' user_status='${user_status}'>編集</button>`;
                 }
             }
         ]

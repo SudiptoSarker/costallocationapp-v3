@@ -84,8 +84,7 @@
     if (Convert.ToBoolean(ViewBag.linkFlag))
     {        
         //user update modal
-        <div class="modal custom-modal fade" id="modal_update_user" role="dialog">
-            @* <div class="modal-dialog modal-dialog-centered"> *@
+        <div class="modal custom-modal fade" id="modal_update_user" role="dialog">            
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -131,7 +130,8 @@
                             <div class="row">
                                 <div class="col-md-4"><label class="input_title">状態 (Status)</label></div>
                                 <div class="col-md-8">
-                                    <select id="user_status_edit" style="">                                                                                
+                                    <select id="user_status_edit" style="">   
+                                        <option value=''>select status</option>                                                                             
                                         <option value='1'>有効(Active)</option>
                                         <option value='3'>承認待ち(waiting)</option>
                                         <option value='0'>無効(Inactive)</option>
@@ -161,8 +161,8 @@
     }
     else 
     {                
-        <div class="modal fade" id="modal_update_user">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal fade" id="modal_update_user">            
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modal_change_history_label">
@@ -173,65 +173,86 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <input type="hidden" value="" id="user_id_hidden" />
-                                    <table id="users_reg_tbl">
-                                        <thead style="border: none;">
-                                            <tr></tr>
-                                            <tr>
-                                                <th>ユーザーID (User Id)</th>
-                                                <th>役職 (Title)</th>
-                                                <th>部署 (Department)</th>
-                                                <th>役割 (User Role)</th>
-                                                <th>メアド (Email)</th>
-                                                <th>Status</th>
-                                                <th>パスワー (Password)</th>
-                                                <th>編集 (Edit)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td id="create_users_tbody_td">
-                                                    <input type="text" value="" placeholder="名前 (User Name)" id="userName" required>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <select id="userDepartment" name="userDepartment"></select>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <select id="userRole" name="userRole" disabled></select>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <input type="text" value="" placeholder="メアド (Email)" id="userEmail">
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <select id="userStatus" name="userStatus" disabled>
-                                                        <option value='1'>有効(Active)</option>
-                                                        <option value='3'>承認待ち(waiting)</option>
-                                                        <option value='0'>無効(Inactive)</option>
-                                                    </select>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required>
-                                                </td>
-                                                <td id="create_users_tbody_td">
-                                                    <a href="javascript:void(0);" class="" id="users_reg_cancel_btn" data-dismiss="modal">取消(undo)</a>
-                                                    <a href="javascript:void(0);" class="" id="users_reg_save_btn" onclick="UpdateUserName();">保存 (Save)</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        <label id="input_master"></label>
+                        <input type="hidden" value="" id="user_id_hidden" />
+                        
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">ユーザーID (User)</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="edit_user_name" placeholder="名前 (User Name)">                 
+                                @* <input type="text" value="" placeholder="名前 (User Name)" id="userName" required> *@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">役職 (Title)</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="edit_user_title" placeholder="役職 (Title)">
+                                @* <input type="text" value="" placeholder="役職 (Title)" id="userTitle" required> *@
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">役割 (Role)</label></div>
+                            <div class="col-md-8">
+                                <select id="user_role_list" name="user_role_list" style=""></select>
+                                @* <select id="userRole" name="userRole" disabled></select> *@
+                            </div>
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">部署 (Dept)</label></div>
+                            <div class="col-md-8">
+                                <select id="user_department_edit" style=""></select>
+                                @* <select id="userDepartment" name="userDepartment"></select> *@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">メアド (Email)</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="edit_user_email" placeholder="メアド (Email)">
+                                @* <input type="text" value="" placeholder="メアド (Email)" id="userEmail"> *@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">状態 (Status)</label></div>
+                            <div class="col-md-8">
+                                <select id="user_status_edit" style="">     
+                                    <option value=''>select status</option>                                                                           
+                                    <option value='1'>有効(Active)</option>
+                                    <option value='3'>承認待ち(waiting)</option>
+                                    <option value='0'>無効(Inactive)</option>
+                                </select>
+
+                                @* <select id="userStatus" name="userStatus" disabled>
+                                    <option value='1'>有効(Active)</option>
+                                    <option value='3'>承認待ち(waiting)</option>
+                                    <option value='0'>無効(Inactive)</option>
+                                </select> *@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><label class="input_title">パスワー (Pass)</label></div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="edit_user_pass" placeholder="パスワー (Password)">
+                                @* <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required> *@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <div class="edit_user_action">
+                                    <a href="javascript:void(0);" class="user_edit_undo_btn" data-dismiss="modal">取消(Undo）</a>
+                                    <a href="javascript:void(0);" class="user_edit_update_btn">更新​ (Update)</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+
+                    </div>                    
                 </div>
             </div>
         </div>

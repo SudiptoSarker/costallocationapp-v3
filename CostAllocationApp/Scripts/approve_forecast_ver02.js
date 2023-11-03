@@ -313,6 +313,7 @@ $(document).ready(function () {
                             $("#approved_selected_rows").val('');
                                   
                             ShowForecastResults(assignmentYear);
+                            ToastMessageSuccess('データが保存されました');                            
                         }else{
                             LoaderHide();
                             alert("There is no approved data to save!")
@@ -321,7 +322,7 @@ $(document).ready(function () {
                 });  
             }       
         }else{
-            alert("承認するデータがありません 1");
+            alert("承認するデータがありません");
         }        
     });
 
@@ -341,7 +342,7 @@ $(document).ready(function () {
         }
 
         if(!isRowApprovalRequest && !isCellApprovalRequest) {
-            alert("承認するデータがありません 2");
+            alert("承認するデータがありません ");
         }else{
             if(isRowApprovalRequest){
 

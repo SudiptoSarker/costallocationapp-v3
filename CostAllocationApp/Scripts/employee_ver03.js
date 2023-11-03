@@ -162,8 +162,35 @@ $(document).ready(function () {
 
 //search by employee name
 $(document).on('change', '#name_search', function () {
-    GetEmployeeSearchResults();
+    var employeeName = $('#name_search').val();
+    GetEmployeeSearchResults(employeeName);
 });
+
+//filter by emoloyee name
+$(document).on('click', '#filterEmp', function () {
+    var enableSearch = $("input[name='searchEmp']:checked");
+    if (enableSearch.length > 0 && enableSearch.val() == "searchEmp") {
+        var employeeName = $('#inputEmpName').val();
+        GetEmployeeSearchResults(employeeName);
+    }
+});
+
+//order the employee list
+$(document).on('click', '#orderEmp', function () {
+    var selectOrder = $("input[name='sortEmp']:checked");
+    if (selectOrder.length > 0) {
+        let orderBy = selectOrder.val();
+        GetOrderedEmployeeList(orderBy);
+    }
+});
+
+//Get ordered Employee list
+function GetOrderedEmployeeList(orderBy) {
+    $.getJSON('/api/utilities/EmployeeList/')
+        .done(function (data) {
+            ShowNameList_Datatable(data);
+        });
+}
 
 
 //Get employee list
@@ -183,24 +210,22 @@ function ShowNameList_Datatable(data){
     $('#employeeList_datatable').DataTable({
         destroy: true,
         data: data,
-        //ordering: false,
-        ordering: true,
+        ordering: false,
         orderCellsTop: true,
         pageLength: 10,
         searching: false,
         //searching: true,
         // bLengthChange: false,    
         //dom: 'lifrtip',
-        columns: [            
-            // {
-            //     data: 'Id'
-                
-            // },
+        columns: [
             { data: "Id",
-                      render: function (data,type,row) {
-                        return '<input type="checkbox" value="'+data+'" class="employee_id">';                        
-                      } 
-                    },
+                render: function (data,type,row) {
+                return '<input type="checkbox" value="'+data+'" class="employee_id">';                        
+                } 
+            },
+            {
+                data: 'Id',                
+            },
             {
                 data: 'FullName'
             }
@@ -301,8 +326,8 @@ function InactiveEmployee() {
         }
     });
 }
-function GetEmployeeSearchResults() {
-    var employeeName = $('#name_search').val();
+function GetEmployeeSearchResults(employeeName = "") {
+    //var employeeName = $('#name_search').val();
     if (employeeName == '') {
         employeeName = 'all';
     }

@@ -62,7 +62,7 @@ body {
     margin-bottom: 20px;
 }
 #name_search {
-    width: 79% !important;
+    width: 100% !important;
     text-indent: 1em;
     float: left;
 }
@@ -429,4 +429,14 @@ body {
 .custom-modal .modal-body{
     padding: 15px !important;
     margin-top: 1px !important;
+}
+
+/*filter search css*/
+#inputEmpName {
+    width: 96%;
+    height: 25px;
+}
+
+.sidebar_filterSearch {
+    background-color: #ccc;
 }

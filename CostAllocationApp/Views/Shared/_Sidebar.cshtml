@@ -1,69 +1,112 @@
 ﻿
-    <header id="header">
-		<nav>
-            <ul>
-                @{
-                    string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
-                    string url = System.IO.Path.GetFileName(fullPath);
-                    if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url))
-                    {
-                        <li class="parent_li"><a href="/Registration/Login" class="active"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a></li>
-                        <li class="parent_li"><a href="/Registration/userregistration"><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a></li>
-                    }
-                    else if (url.ToLower().Contains("userregistration"))
-                    {
-                        <li><a href="/Registration/Login"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a></li>
-                        <li><a href="/Registration/userregistration" class="active"><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a></li>
-                    }
-                    else
-                    {
-                        <li class="has-child parent_li"><a href="javascript:void();">予算 (Budget)</a>
-                            <ul>
-                                <li><a href="/Forecasts/CreateBudget" title="予算・策定 (Create)">策定 (Create)</a></li>
-                                <li><a href="/Forecasts/EditBudget" title="予算・編集 (Edit)">編集 (Edit)</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-child parent_li"><a href="javascript:void();">年度データ (Yearly Data)</a>
-                            <ul>
-                                <li><a href="/Forecasts/CreateForecast?forecastType=edit" title="年度データの編集 (Edit)">編集 (Edit)</a></li>
-                                <li><a href="/Forecasts/GetHistories" title="変更履歴 (Edit History)">変更履歴 (Edit History)</a></li>
-                                <li><a href="/Forecasts/ApproveForecast" title="承認 (Approval)">承認 (Approval)</a></li>                                
-                                <li><a href="/Forecasts/ApproveHistories" title="承認履歴 (承認履歴ファイル保存名 (History))">承認履歴 (承認履歴ファイル保存名 (History))</a></li>                                                          
-                            </ul>
-                        </li>                                           
-                        <li class="parent_li"><a href="/Forecasts/ActualCosts" title="実績（Actual Cost）">実績（Actual Cost）</a></li>
-                        
-                        <li class="has-child parent_li"><a href="javascript:void();"title="合計 (Total Cost)">合計 (Total Cost)</a>
-                            <ul>
-                                <li><a href="/Forecasts/Total" title="Cost Table">Cost Table</a></li>
-                                <li><a href="/Forecasts/CreateDynamicTable" title="Table Format">Table Format</a></li>
-                                <li><a href="/Forecasts/DynamicTableView" title="View Format">View Format</a></li>
-                            </ul>
-                        </li> 
-                        
-
-                        <li class="parent_li"><a href="/Forecasts/QaProportion" title="按分 (Proration)">按分 (Proration)</a></li>              
-                     
-                        <li class="has-child parent_li"><a href="javascript:void();">マスター設定 (Mast Setting)</a>
-                            <ul>
-                                <li><a href="/Sections/CreateSection" title="区分マスター (Section Mast)">区分マスター (Section)</a></li>
-                                <li><a href="/Departments/CreateDepartment" title="部署バスター (Dept. Mast)">部署バスター (Dept.)</a></li>
-                                <li><a href="/InCharges/CreateInCharge" title="担当マスター (Inchg Mast)">担当マスター (Inchg)</a></li>
-                                <li><a href="/Roles/CreateRoles" title="役割マスター (Role Mast)">役割マスター (Role)</a></li>
-                                <li><a href="/Explanations/CreateExplanation" title="説明マスター(Expl Mast)">説明マスター (Expl)</a></li>
-                                <li><a href="/Companies/CreateCompany" title="会社マスター (Company Mast)">会社マスター (Company)</a></li>
-                                <li><a href="/Salaries/CreateSalary" title="グレードマスター (Grade Mast)">グレードマスター (Grade)</a></li>
-                                <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Employee)">人員マスター (Employee)</a></li>                                
-                                <li><a href="/Users/CreateUsers" title="利用者マスター（User)">利用者マスター(User)</a></li>
-
-                                <!-- <li><a href="/Category/CreateCategory" title="カテゴリー (Category)">カテゴリー (Category)</a></li>
-                                <li><a href="/Category/CreateSubCategory" title="Sub-Category">サブカテゴリー (Sub-Category)</a></li>
-                                <li><a href="/Category/DepartmentsWithSubCategory" title="Departments With Sub-Category">Departments With Sub-Category</a></li> -->
-                            </ul>
-                        </li>   
-                    }
+<header id="header">
+    <nav>
+        <ul>
+            @{
+                string fullPath = HttpContext.Current.Request.Url.AbsolutePath;
+                string url = System.IO.Path.GetFileName(fullPath);
+                if (url.ToLower().Contains("login") || string.IsNullOrEmpty(url))
+                {
+                    <li class="parent_li"><a href="/Registration/Login" class="active"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a></li>
+                    <li class="parent_li"><a href="/Registration/userregistration"><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a></li>
                 }
-            </ul>
-		</nav>
-		
-	</header>
+                else if (url.ToLower().Contains("userregistration"))
+                {
+                    <li><a href="/Registration/Login"><i class="la la-user"></i> <span title="ログイン (Login)">ログイン (Login)</span></a></li>
+                    <li><a href="/Registration/userregistration" class="active"><i class="la la-user"></i> <span title="登録 (Registration)">登録 (Registration)</span></a></li>
+                }
+                else
+                {
+                    <li class="has-child parent_li">
+                        <a href="javascript:void();">予算 (Budget)</a>
+                        <ul>
+                            <li><a href="/Forecasts/CreateBudget" title="予算・策定 (Create)">策定 (Create)</a></li>
+                            <li><a href="/Forecasts/EditBudget" title="予算・編集 (Edit)">編集 (Edit)</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-child parent_li">
+                        <a href="javascript:void();">年度データ (Yearly Data)</a>
+                        <ul>
+                            <li><a href="/Forecasts/CreateForecast?forecastType=edit" title="年度データの編集 (Edit)">編集 (Edit)</a></li>
+                            <li><a href="/Forecasts/GetHistories" title="変更履歴 (Edit History)">変更履歴 (Edit History)</a></li>
+                            <li><a href="/Forecasts/ApproveForecast" title="承認 (Approval)">承認 (Approval)</a></li>
+                            <li><a href="/Forecasts/ApproveHistories" title="承認履歴 (承認履歴ファイル保存名 (History))">承認履歴 (承認履歴ファイル保存名 (History))</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent_li"><a href="/Forecasts/ActualCosts" title="実績（Actual Cost）">実績（Actual Cost）</a></li>
+
+                    <li class="has-child parent_li">
+                        <a href="javascript:void();" title="合計 (Total Cost)">合計 (Total Cost)</a>
+                        <ul>
+                            <li><a href="/Forecasts/Total" title="Cost Table">Cost Table</a></li>
+                            <li><a href="/Forecasts/CreateDynamicTable" title="Table Format">Table Format</a></li>
+                            <li><a href="/Forecasts/DynamicTableView" title="View Format">View Format</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="parent_li"><a href="/Forecasts/QaProportion" title="按分 (Proration)">按分 (Proration)</a></li>
+
+                    <li class="has-child parent_li">
+                        <a href="javascript:void();">マスター設定 (Mast Setting)</a>
+                        <ul>
+                            <li><a href="/Sections/CreateSection" title="区分マスター (Section Mast)">区分マスター (Section)</a></li>
+                            <li><a href="/Departments/CreateDepartment" title="部署バスター (Dept. Mast)">部署バスター (Dept.)</a></li>
+                            <li><a href="/InCharges/CreateInCharge" title="担当マスター (Inchg Mast)">担当マスター (Inchg)</a></li>
+                            <li><a href="/Roles/CreateRoles" title="役割マスター (Role Mast)">役割マスター (Role)</a></li>
+                            <li><a href="/Explanations/CreateExplanation" title="説明マスター(Expl Mast)">説明マスター (Expl)</a></li>
+                            <li><a href="/Companies/CreateCompany" title="会社マスター (Company Mast)">会社マスター (Company)</a></li>
+                            <li><a href="/Salaries/CreateSalary" title="グレードマスター (Grade Mast)">グレードマスター (Grade)</a></li>
+                            <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Employee)">人員マスター (Employee)</a></li>
+                            <li><a href="/Users/CreateUsers" title="利用者マスター（User)">利用者マスター(User)</a></li>
+
+                            <!-- <li><a href="/Category/CreateCategory" title="カテゴリー (Category)">カテゴリー (Category)</a></li>
+                            <li><a href="/Category/CreateSubCategory" title="Sub-Category">サブカテゴリー (Sub-Category)</a></li>
+                            <li><a href="/Category/DepartmentsWithSubCategory" title="Departments With Sub-Category">Departments With Sub-Category</a></li> -->
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+
+@{        
+    if (url.ToLower().Contains("createnewemployee"))
+    {
+    <div class="sidebar_filterSearch pl-4 pt-2 pb-2 mt-2">
+        <div class="row"><h4>絞り込み</h4></div>
+        <div class="row"><label>キーワードから探す</label></div>
+        <div class="row pl-2">
+            <input type="radio" id="searchEmp" name="searchEmp" value="searchEmp" />
+            <label class="m-1">要員名</label>
+        </div>
+        <div class="row pl-2">
+            <div class="col-md-8 p-0"><input type="text" id="inputEmpName" name="inputEmpName" class="rounded" placeholder="" /></div>
+            <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded" id="filterEmp">検索</button></div>
+        </div>
+
+        <div class="row  mt-2"><label>並べ替え</label></div>
+        <div class="row">
+            <div class="col-md-4 p-0">
+                <input type="radio" id="sortEmp" name="sortEmp" value="sortEmp" />
+                <label class="m-1">要員名</label>
+            </div>
+            <div class="col-md-4 p-0">
+                <input type="radio" id="sortEmp" name="sortEmp" value="sortTd" />
+                <span class="m-1">ID</span>
+            </div>
+            <div class="col-md-4 p-0">
+                <button class="btn-xs btn-danger p-1 rounded" id="orderEmp">並べ替え</button>
+            </div>
+        </div>
+    </div>
+    }
+    else if (url.ToLower().Contains("createusers"))
+    {
+            
+    }
+}
+
+
+</header>
+    

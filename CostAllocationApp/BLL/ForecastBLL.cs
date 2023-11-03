@@ -534,7 +534,7 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(assignmentHistory); 
         }
-        public int InsertApprovedForecastedDataByYear(int approvedTimestampId,int year,string userName)
+        public int InsertApprovedForecastedDataByYear(int approvedTimestampId,int year,string userName,bool isApproval)
         {
             List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
 
@@ -545,7 +545,7 @@ namespace CostAllocationApp.BLL
             {
                 foreach (var item in excelAssignmentDtos)
                 {
-                    if (!item.IsRowPending) {
+                    if (!item.IsRowPending || !isApproval) {
                         //insert forecast assignment here
                         EmployeeAssignment employeeAssignment = new EmployeeAssignment();
                         employeeAssignment.Id = item.Id;

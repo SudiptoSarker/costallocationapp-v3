@@ -2787,216 +2787,257 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
-                if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
-                {
-                    ForecastHisory forecastHisory = new ForecastHisory();
-                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                    forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                    //forecastHisory.Forecasts = forecastsPrevious;
-                    forecastHisory.CreatedBy = session["userName"].ToString();
-                    forecastHisory.CreatedDate = DateTime.Now;
-                    yearlyDataTimeStampId = forecastHistoryDto.TimeStampId;
-                    int timestampId_add_employee = 0;
-                    bool isOnlyAdd = false;
-
-                    if (string.IsNullOrEmpty(yearlyDataTimeStampId))
+                if (forecastHistoryDto.IsUpdateInsertDelete) {                     
+                    if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
                     {
-                        isOnlyAdd = true;
-                        timestampId_add_employee = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
-                        yearlyDataTimeStampId = timestampId_add_employee.ToString();
-                    }
-                    //int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+                        ForecastHisory forecastHisory = new ForecastHisory();
+                        forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                        forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                        //forecastHisory.Forecasts = forecastsPrevious;
+                        forecastHisory.CreatedBy = session["userName"].ToString();
+                        forecastHisory.CreatedDate = DateTime.Now;
+                        yearlyDataTimeStampId = forecastHistoryDto.TimeStampId;
+                        int timestampId_add_employee = 0;
+                        bool isOnlyAdd = false;
 
-                    foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
-                    {
-                        EmployeeAssignment employeeAssignment = new EmployeeAssignment();
-
-                        //tempTimeStampId = forecastHistoryDto.TimeStampId;
-
-                        if (item.EmployeeId == "" || item.EmployeeId == null)
+                        if (string.IsNullOrEmpty(yearlyDataTimeStampId))
                         {
-                            continue;
+                            isOnlyAdd = true;
+                            timestampId_add_employee = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+                            yearlyDataTimeStampId = timestampId_add_employee.ToString();
                         }
+                        //int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
 
-                        employeeAssignment.EmployeeId = item.EmployeeId;
-                        employeeAssignment.SectionId = item.SectionId;
-                        employeeAssignment.DepartmentId = item.DepartmentId;
-                        employeeAssignment.InchargeId = item.InchargeId;
-                        employeeAssignment.RoleId = item.RoleId;
-                        employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
-                        employeeAssignment.CompanyId = item.CompanyId;
-                        selected_year = item.Year;
-
-                        if (item.CompanyId != null)
+                        foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                         {
-                            if (item.CompanyId.Value != 3)
+                            EmployeeAssignment employeeAssignment = new EmployeeAssignment();
+
+                            //tempTimeStampId = forecastHistoryDto.TimeStampId;
+
+                            if (item.EmployeeId == "" || item.EmployeeId == null)
                             {
-                                employeeAssignment.GradeId = null;
+                                continue;
+                            }
+
+                            employeeAssignment.EmployeeId = item.EmployeeId;
+                            employeeAssignment.SectionId = item.SectionId;
+                            employeeAssignment.DepartmentId = item.DepartmentId;
+                            employeeAssignment.InchargeId = item.InchargeId;
+                            employeeAssignment.RoleId = item.RoleId;
+                            employeeAssignment.ExplanationId = item.ExplanationId == null ? null : item.ExplanationId.ToString();
+                            employeeAssignment.CompanyId = item.CompanyId;
+                            selected_year = item.Year;
+
+                            if (item.CompanyId != null)
+                            {
+                                if (item.CompanyId.Value != 3)
+                                {
+                                    employeeAssignment.GradeId = null;
+                                }
+                                else
+                                {
+                                    employeeAssignment.GradeId = item.GradeId;
+                                }
                             }
                             else
                             {
-                                employeeAssignment.GradeId = item.GradeId;
+                                employeeAssignment.GradeId = null;
+                            }
+                            employeeAssignment.UnitPrice = item.UnitPrice;
+                            employeeAssignment.Year = item.Year.ToString();
+                            employeeAssignment.IsActive = true.ToString();
+                            employeeAssignment.SubCode = 1;
+                            employeeAssignment.CreatedBy = session["userName"].ToString();
+                            employeeAssignment.CreatedDate = DateTime.Now;
+                            employeeAssignment.Remarks = item.Remarks;
+
+                            //check for bcyr value
+                            employeeAssignment.BCYR = item.BCYR;
+                            employeeAssignment.BCYRCell = "";
+                            employeeAssignment.EmployeeName = item.EmployeeName;
+
+
+                            employeeAssignment.EmployeeName = item.EmployeeName;
+                            employeeAssignment.DuplicateFrom = item.DuplicateFrom;
+                            employeeAssignment.DuplicateCount = item.DuplicateCount;
+                            employeeAssignment.RoleChanged = item.RoleChanged;
+                            employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
+
+                            int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
+                            int return_assignmentIdWithTimeStamp = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, Convert.ToInt32(yearlyDataTimeStampId));
+                            int latestAssignmentIdForTimeStamps = 0;
+                            if (return_assignmentIdWithTimeStamp > 0)
+                            {
+                                latestAssignmentIdForTimeStamps = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
+                            }
+                            if (result == 1)
+                            {
+                                int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
+                                if (string.IsNullOrEmpty(strUpdatedAssignmentIds))
+                                {
+                                    strUpdatedAssignmentIds = employeeAssignmentLastId.ToString();
+                                }
+                                else
+                                {
+                                    strUpdatedAssignmentIds = strUpdatedAssignmentIds + "," + employeeAssignmentLastId;
+                                }
+                                returnedIdList.Add(new
+                                {
+                                    assignmentId = item.AssignmentId,
+                                    returnedId = employeeAssignmentLastId
+                                });
+                                List<Forecast> forecasts = new List<Forecast>();
+
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+                                forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
+
+                                foreach (var forecastItem in forecasts)
+                                {
+                                    int resultSave = forecastBLL.CreateForecast(forecastItem);
+                                    forecastItem.EmployeeAssignmentId = latestAssignmentIdForTimeStamps;
+                                    forecastBLL.InsertForecastWithTimeStamp(forecastItem);
+                                }
+                            }
+                            int lastAssignmentId = employeeAssignmentBLL.GetLastId();
+                            if (!item.BCYR)
+                            {
+                                var getDataBySplit = item.BCYRCell.Split(',');
+
+                                foreach (var splittedData in getDataBySplit)
+                                {
+                                    var cells = employeeAssignmentBLL.GetBCYRCellByAssignmentId(lastAssignmentId);
+                                    var nestedSplittedData = splittedData.Split('_');
+                                    if (String.IsNullOrEmpty(cells))
+                                    {
+                                        cells = nestedSplittedData[1];
+                                    }
+                                    else
+                                    {
+                                        cells += "," + nestedSplittedData[1];
+                                    }
+                                    employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(lastAssignmentId, cells);
+
+                                }
+                            }
+
+                            AssignmentHistory _assignmentHistory = new AssignmentHistory();
+                            _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(lastAssignmentId);
+
+                            _assignmentHistory.CreatedBy = session["userName"].ToString();
+                            _assignmentHistory.CreatedDate = DateTime.Now;
+                            assignmentHistories.Add(_assignmentHistory);
+                        }
+
+                        bool isUpdate = false;
+                        bool isDeleted = false;
+
+                        if (!string.IsNullOrEmpty(yearlyDataTimeStampId))
+                        {
+                            foreach (var item in assignmentHistories)
+                            {
+                                forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(yearlyDataTimeStampId), isUpdate, isDeleted, false);
                             }
                         }
                         else
                         {
-                            employeeAssignment.GradeId = null;
+                            //ForecastHisory forecastHisory = new ForecastHisory();
+                            //forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                            //forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
+                            ////forecastHisory.Forecasts = forecastsPrevious;
+                            //forecastHisory.CreatedBy = session["userName"].ToString();
+                            //forecastHisory.CreatedDate = DateTime.Now;
+
+                            //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
+                            var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, Convert.ToInt32(yearlyDataTimeStampId));
                         }
-                        employeeAssignment.UnitPrice = item.UnitPrice;
-                        employeeAssignment.Year = item.Year.ToString();
-                        employeeAssignment.IsActive = true.ToString();
-                        employeeAssignment.SubCode = 1;
-                        employeeAssignment.CreatedBy = session["userName"].ToString();
-                        employeeAssignment.CreatedDate = DateTime.Now;
-                        employeeAssignment.Remarks = item.Remarks;
 
-                        //check for bcyr value
-                        employeeAssignment.BCYR = item.BCYR;
-                        employeeAssignment.BCYRCell = "";
-                        employeeAssignment.EmployeeName = item.EmployeeName;
-
-
-                        employeeAssignment.EmployeeName = item.EmployeeName;
-                        employeeAssignment.DuplicateFrom = item.DuplicateFrom;
-                        employeeAssignment.DuplicateCount = item.DuplicateCount;
-                        employeeAssignment.RoleChanged = item.RoleChanged;
-                        employeeAssignment.UnitPriceChanged = item.UnitPriceChanged;
-
-                        int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
-                        int return_assignmentIdWithTimeStamp = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, Convert.ToInt32(yearlyDataTimeStampId));
-                        int latestAssignmentIdForTimeStamps = 0;
-                        if (return_assignmentIdWithTimeStamp > 0)
+                        if (isOnlyAdd)
                         {
-                            latestAssignmentIdForTimeStamps = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
-                        }
-                        if (result == 1)
-                        {
-                            int employeeAssignmentLastId = employeeAssignmentBLL.GetLastId();
-                            if (string.IsNullOrEmpty(strUpdatedAssignmentIds))
-                            {
-                                strUpdatedAssignmentIds = employeeAssignmentLastId.ToString();
-                            }
-                            else
-                            {
-                                strUpdatedAssignmentIds = strUpdatedAssignmentIds + "," + employeeAssignmentLastId;
-                            }
-                            returnedIdList.Add(new
-                            {
-                                assignmentId = item.AssignmentId,
-                                returnedId = employeeAssignmentLastId
-                            });
-                            List<Forecast> forecasts = new List<Forecast>();
+                            //assignment aganist timestamps store all other data with year
+                            int update_results = 0;
+                            List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
+                            List<ForecastDto> forecastWithTimeStamps = new List<ForecastDto>();
 
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-                            forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(item.Year) });
-
-                            foreach (var forecastItem in forecasts)
+                            employeeAssignments = employeeAssignmentBLL.GetEmployeesAssignmentsByYear(selected_year, strUpdatedAssignmentIds);
+                            if (employeeAssignments.Count > 0)
                             {
-                                int resultSave = forecastBLL.CreateForecast(forecastItem);
-                                forecastItem.EmployeeAssignmentId = latestAssignmentIdForTimeStamps;
-                                forecastBLL.InsertForecastWithTimeStamp(forecastItem);
-                            }
-                        }
-                        int lastAssignmentId = employeeAssignmentBLL.GetLastId();
-                        if (!item.BCYR)
-                        {
-                            var getDataBySplit = item.BCYRCell.Split(',');
-
-                            foreach (var splittedData in getDataBySplit)
-                            {
-                                var cells = employeeAssignmentBLL.GetBCYRCellByAssignmentId(lastAssignmentId);
-                                var nestedSplittedData = splittedData.Split('_');
-                                if (String.IsNullOrEmpty(cells))
+                                foreach (var assignmentItem in employeeAssignments)
                                 {
-                                    cells = nestedSplittedData[1];
-                                }
-                                else
-                                {
-                                    cells += "," + nestedSplittedData[1];
-                                }
-                                employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(lastAssignmentId, cells);
+                                    var forecastList = employeeAssignmentBLL.GetAssignmentForecastByYearAndAssignmentId(assignmentItem.Id, selected_year);
+                                    update_results = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(assignmentItem, Convert.ToInt32(yearlyDataTimeStampId));
 
-                            }
-                        }
-
-                        AssignmentHistory _assignmentHistory = new AssignmentHistory();
-                        _assignmentHistory = forecastBLL.GetPreviousAssignmentDataById(lastAssignmentId);
-
-                        _assignmentHistory.CreatedBy = session["userName"].ToString();
-                        _assignmentHistory.CreatedDate = DateTime.Now;
-                        assignmentHistories.Add(_assignmentHistory);
-                    }
-
-                    bool isUpdate = false;
-                    bool isDeleted = false;
-
-                    if (!string.IsNullOrEmpty(yearlyDataTimeStampId))
-                    {
-                        foreach (var item in assignmentHistories)
-                        {
-                            forecastBLL.CreateAssignmenttHistory(item, Convert.ToInt32(yearlyDataTimeStampId), isUpdate, isDeleted, false);
-                        }
-                    }
-                    else
-                    {
-                        //ForecastHisory forecastHisory = new ForecastHisory();
-                        //forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                        //forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                        ////forecastHisory.Forecasts = forecastsPrevious;
-                        //forecastHisory.CreatedBy = session["userName"].ToString();
-                        //forecastHisory.CreatedDate = DateTime.Now;
-
-                        //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-                        var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, Convert.ToInt32(yearlyDataTimeStampId));
-                    }
-
-                    if (isOnlyAdd)
-                    {
-                        //assignment aganist timestamps store all other data with year
-                        int update_results = 0;
-                        List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
-                        List<ForecastDto> forecastWithTimeStamps = new List<ForecastDto>();
-
-                        employeeAssignments = employeeAssignmentBLL.GetEmployeesAssignmentsByYear(selected_year, strUpdatedAssignmentIds);
-                        if (employeeAssignments.Count > 0)
-                        {
-                            foreach (var assignmentItem in employeeAssignments)
-                            {
-                                var forecastList = employeeAssignmentBLL.GetAssignmentForecastByYearAndAssignmentId(assignmentItem.Id, selected_year);
-                                update_results = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(assignmentItem, Convert.ToInt32(yearlyDataTimeStampId));
-
-                                int latestAssignmentId = 0;
-                                if (update_results > 0)
-                                {
-                                    latestAssignmentId = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
-                                }
-
-                                if (forecastList.Count > 0)
-                                {
-                                    foreach (var forecast in forecastList)
+                                    int latestAssignmentId = 0;
+                                    if (update_results > 0)
                                     {
-                                        //forecastBLL.UpdateForecast(forecast);
-                                        forecast.EmployeeAssignmentId = latestAssignmentId;
-                                        forecast.CreatedBy = session["userName"].ToString();
-                                        forecastBLL.InsertForecastWithTimeStamp(forecast);
+                                        latestAssignmentId = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
                                     }
-                                    //forecasts = new List<Forecast>();
+
+                                    if (forecastList.Count > 0)
+                                    {
+                                        foreach (var forecast in forecastList)
+                                        {
+                                            //forecastBLL.UpdateForecast(forecast);
+                                            forecast.EmployeeAssignmentId = latestAssignmentId;
+                                            forecast.CreatedBy = session["userName"].ToString();
+                                            forecastBLL.InsertForecastWithTimeStamp(forecast);
+                                        }
+                                        //forecasts = new List<Forecast>();
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+                else{
+                    ForecastHisory forecastHisory = new ForecastHisory();
+                    forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
+                    forecastHisory.Year = forecastHistoryDto.Year;
+                    forecastHisory.CreatedBy = session["userName"].ToString();
+                    forecastHisory.CreatedDate = DateTime.Now;                    
+
+                    int timestampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+
+                    List<EmployeeAssignment> employeeAssignments = new List<EmployeeAssignment>();
+                    employeeAssignments = employeeAssignmentBLL.GetEmployeesAssignmentsByYear(forecastHisory.Year, "0");
+
+                    if (employeeAssignments.Count > 0)
+                    {
+                        foreach (var assignmentItem in employeeAssignments)
+                        {
+                            var forecastList = employeeAssignmentBLL.GetAssignmentForecastByYearAndAssignmentId(assignmentItem.Id, forecastHisory.Year);
+                            int results = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(assignmentItem, timestampId);
+
+                            int latestAssignmentId = 0;
+                            if (results > 0)
+                            {
+                                latestAssignmentId = employeeAssignmentBLL.GetAssignmentTimeStampsLastId();
+                            }
+
+                            if (forecastList.Count > 0)
+                            {
+                                foreach (var forecast in forecastList)
+                                {
+                                    //forecastBLL.UpdateForecast(forecast);
+                                    forecast.EmployeeAssignmentId = latestAssignmentId;
+                                    forecast.CreatedBy = session["userName"].ToString();
+                                    forecastBLL.InsertForecastWithTimeStamp(forecast);
+                                }                                
+                            }
+                        }
+                    }                    
+                }
+            }   
+            
             return Ok(returnedIdList);
         }
 
@@ -8924,310 +8965,338 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/UpdateApprovedData/")]
-        public IHttpActionResult UpdateApprovedData(string assignmentYear, string historyName, string approvalCellsWithAssignmentId, string approvedRows)
+        public IHttpActionResult UpdateApprovedData(string assignmentYear, string historyName, string approvalCellsWithAssignmentId, string approvedRows,bool isApprove)
         {
             int results = 0;
             int updateResults = 0;
+            var cleanResults = 0;
+            var insertResults = 0;
 
-            //approve history: start
-            var session = System.Web.HttpContext.Current.Session;
-            string createdBy = session["userName"].ToString();
-            DateTime createdDate = DateTime.Now;
-            int approveTimeStampId = 0;
-
-            List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
-
-            List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
-
-            //Add Employee And Delete Employee Approve: Start   
-            if (!string.IsNullOrEmpty(approvedRows))
+            if (isApprove)
             {
-                var arrApprovalRowIds = approvedRows.Split(',');
-                foreach (var approvedRowId in arrApprovalRowIds)
+                //approve history: start
+                var session = System.Web.HttpContext.Current.Session;
+                string createdBy = session["userName"].ToString();
+                DateTime createdDate = DateTime.Now;
+                int approveTimeStampId = 0;
+
+                List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
+
+                List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
+
+                //Add Employee And Delete Employee Approve: Start   
+                if (!string.IsNullOrEmpty(approvedRows))
                 {
-                    if (!string.IsNullOrEmpty(approvedRowId))
+                    var arrApprovalRowIds = approvedRows.Split(',');
+                    foreach (var approvedRowId in arrApprovalRowIds)
                     {
-                        EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(approvedRowId), Convert.ToInt32(assignmentYear));
-                        AssignmentHistory assignmentHistory_add = new AssignmentHistory();
-                        AssignmentHistory assignmentHistory_delete = new AssignmentHistory();
-
-                        //new row approved and deleted row approved: start
-                        if ((employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive)) || employeeAssignment.IsRowPending)
+                        if (!string.IsNullOrEmpty(approvedRowId))
                         {
-                            updateResults = employeeAssignmentBLL.UpdateApprovedRowByAssignmentId(Convert.ToInt32(approvedRowId));
-                            assignmentHistory_add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(approvedRowId));
-                            _assignmentHistories_Add.Add(assignmentHistory_add);
+                            EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(approvedRowId), Convert.ToInt32(assignmentYear));
+                            AssignmentHistory assignmentHistory_add = new AssignmentHistory();
+                            AssignmentHistory assignmentHistory_delete = new AssignmentHistory();
 
-                        }
-                        else if ((!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted) || employeeAssignment.IsDeletePending)
-                        {
-                            updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
-                            assignmentHistory_delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(approvedRowId));
-                            _assignmentHistorys_Delete.Add(assignmentHistory_delete);
-
-                        }
-                        //new row approved and deleted row approved: end   
-                    }
-                }
-            }
-            //Add Employee And Delete Employee Approve: End
-
-            //Cell Wise Approve: Start
-            string approvedCellAssignmentId = "";
-            string approvedCellNo = "";
-            List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
-
-            //update cells: start            
-            if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
-            {
-                var arrCellWithAssignmentids = approvalCellsWithAssignmentId.Split(',');
-                foreach (var cellAndAssignmentIdItem in arrCellWithAssignmentids)
-                {
-                    var arrCellAndAssignmentId = cellAndAssignmentIdItem.Split('_');
-                    if (!string.IsNullOrEmpty(arrCellAndAssignmentId[0].ToString()))
-                    {
-                        string updatedApprovedCells = "";
-                        string updatePendingCells = "";
-                        int removeResults = employeeAssignmentBLL.RemoveApprovedDataFromOriginalTable(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(arrCellAndAssignmentId[1]));
-
-                        EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear));
-
-                        //cell wise history
-                        AssignmentHistory assignmentHistory_cell = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear), Convert.ToInt32(arrCellAndAssignmentId[1]));
-
-                        if (_assignmentHistorys_CellWise.Count > 0)
-                        {
-                            string tempCellNo = "";
-
-                            foreach (var checkSameAssignmentId in _assignmentHistorys_CellWise)
+                            //new row approved and deleted row approved: start
+                            if ((employeeAssignment.BCYR && Convert.ToBoolean(employeeAssignment.IsActive)) || employeeAssignment.IsRowPending)
                             {
-                                if (checkSameAssignmentId.Id == assignmentHistory_cell.Id)
-                                {
-                                    if (!string.IsNullOrEmpty(checkSameAssignmentId.ApprovedCells))
-                                    {
-                                        tempCellNo = checkSameAssignmentId.ApprovedCells + "," + assignmentHistory_cell.ApprovedCells;
-                                        checkSameAssignmentId.ApprovedCells = tempCellNo;
-                                    }
-                                }
+                                updateResults = employeeAssignmentBLL.UpdateApprovedRowByAssignmentId(Convert.ToInt32(approvedRowId));
+                                assignmentHistory_add = forecastBLL.GetAddEmployeeApprovedData(Convert.ToInt32(approvedRowId));
+                                _assignmentHistories_Add.Add(assignmentHistory_add);
+
                             }
-                            if (string.IsNullOrEmpty(tempCellNo))
+                            else if ((!Convert.ToBoolean(employeeAssignment.IsActive) && !employeeAssignment.IsDeleted) || employeeAssignment.IsDeletePending)
                             {
-                                _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
+                                updateResults = employeeAssignmentBLL.UpdateDeletedRowByAssignmentId(Convert.ToInt32(approvedRowId));
+                                assignmentHistory_delete = forecastBLL.GetDeleteEmployeeApprovedData(Convert.ToInt32(approvedRowId));
+                                _assignmentHistorys_Delete.Add(assignmentHistory_delete);
+
                             }
-                        }
-                        else
-                        {
-                            _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
-                        }
-
-                        if (string.IsNullOrEmpty(approvedCellAssignmentId))
-                        {
-                            approvedCellAssignmentId = arrCellAndAssignmentId[0];
-                        }
-                        else
-                        {
-
-                        }
-                        if (string.IsNullOrEmpty(approvedCellNo))
-                        {
-
-                        }
-
-                        if (!string.IsNullOrEmpty((employeeAssignment.BCYRCell)))
-                        {
-                            var arrPendingCells = employeeAssignment.BCYRCell.Split(',');
-                            foreach (var item in arrPendingCells)
-                            {
-                                if (item != arrCellAndAssignmentId[1])
-                                {
-                                    if (string.IsNullOrEmpty(updatedApprovedCells))
-                                    {
-                                        updatedApprovedCells = item;
-                                    }
-                                    else
-                                    {
-                                        updatedApprovedCells = updatedApprovedCells + "," + item;
-                                    }
-                                }
-                            }
-                        }
-                        if (!string.IsNullOrEmpty((employeeAssignment.BCYRCellPending)))
-                        {
-                            var arrPendingCells = employeeAssignment.BCYRCellPending.Split(',');
-                            foreach (var item in arrPendingCells)
-                            {
-                                if (item != arrCellAndAssignmentId[1])
-                                {
-                                    if (string.IsNullOrEmpty(updatePendingCells))
-                                    {
-                                        updatePendingCells = item;
-                                    }
-                                    else
-                                    {
-                                        updatePendingCells = updatePendingCells + "," + item;
-                                    }
-                                }
-                            }
-                            //int updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid(updatedApprovedCells, Convert.ToInt32(arrCellAndAssignmentId[0]));
-                        }
-
-                        updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid(updatedApprovedCells, updatePendingCells, Convert.ToInt32(arrCellAndAssignmentId[0]));
-                        if (updateResults > 0)
-                        {
-                            results = 1;
+                            //new row approved and deleted row approved: end   
                         }
                     }
                 }
-            }
-            //update cells: end
+                //Add Employee And Delete Employee Approve: End
 
-            //cells and row/delete pending data update
-            if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId) || !string.IsNullOrEmpty(approvedRows))
-            {
-                //update all the un-approved row data.
-                int unapprovedRowResults = employeeAssignmentBLL.UpdateUnapprovedPendingRows(Convert.ToInt32(assignmentYear));
-                //update all the un-approved deleted data.
-                int unapprovedDeleteResults = employeeAssignmentBLL.UpdateUnapprovedPendingDeleteRows(Convert.ToInt32(assignmentYear));
-                //row wise update: end
+                //Cell Wise Approve: Start
+                string approvedCellAssignmentId = "";
+                string approvedCellNo = "";
+                List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
 
-                //pending cell update
-                List<EmployeeAssignment> employeeAssignments = forecastBLL.GetAllUnapprovalDataForCells(Convert.ToInt32(assignmentYear));
-                if (employeeAssignments.Count > 0)
+                //update cells: start            
+                if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
                 {
-                    foreach (var updateItem in employeeAssignments)
+                    var arrCellWithAssignmentids = approvalCellsWithAssignmentId.Split(',');
+                    foreach (var cellAndAssignmentIdItem in arrCellWithAssignmentids)
                     {
-                        string udpatePendingCellsAfterSave = "";
-                        if (!string.IsNullOrEmpty(updateItem.BCYRCell))
+                        var arrCellAndAssignmentId = cellAndAssignmentIdItem.Split('_');
+                        if (!string.IsNullOrEmpty(arrCellAndAssignmentId[0].ToString()))
                         {
-                            if (!string.IsNullOrEmpty(updateItem.BCYRCellPending))
+                            string updatedApprovedCells = "";
+                            string updatePendingCells = "";
+                            int removeResults = employeeAssignmentBLL.RemoveApprovedDataFromOriginalTable(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(arrCellAndAssignmentId[1]));
+
+                            EmployeeAssignment employeeAssignment = forecastBLL.GetAssignmentDetailsById(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear));
+
+                            //cell wise history
+                            AssignmentHistory assignmentHistory_cell = forecastBLL.GetCellWiseEmployeeApprovedData(Convert.ToInt32(arrCellAndAssignmentId[0]), Convert.ToInt32(assignmentYear), Convert.ToInt32(arrCellAndAssignmentId[1]));
+
+                            if (_assignmentHistorys_CellWise.Count > 0)
                             {
-                                //bool isCellAlreadyExists = false;
+                                string tempCellNo = "";
 
-                                //var arrBCYRCellPending = updateItem.BCYRCellPending.Split(',');
-                                //foreach(var pendingItem in arrBCYRCellPending)
-                                //{
-
-                                //}
-
-                                udpatePendingCellsAfterSave = updateItem.BCYRCellPending + "," + updateItem.BCYRCell;
+                                foreach (var checkSameAssignmentId in _assignmentHistorys_CellWise)
+                                {
+                                    if (checkSameAssignmentId.Id == assignmentHistory_cell.Id)
+                                    {
+                                        if (!string.IsNullOrEmpty(checkSameAssignmentId.ApprovedCells))
+                                        {
+                                            tempCellNo = checkSameAssignmentId.ApprovedCells + "," + assignmentHistory_cell.ApprovedCells;
+                                            checkSameAssignmentId.ApprovedCells = tempCellNo;
+                                        }
+                                    }
+                                }
+                                if (string.IsNullOrEmpty(tempCellNo))
+                                {
+                                    _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
+                                }
                             }
                             else
                             {
-                                udpatePendingCellsAfterSave = updateItem.BCYRCell;
+                                _assignmentHistorys_CellWise.Add(assignmentHistory_cell);
                             }
-                            updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid("", udpatePendingCellsAfterSave, updateItem.Id);
-                        }
-                    }
-                }
 
-            }
-
-            if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
-            {
-                approveTimeStampId = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
-                if (approveTimeStampId > 0)
-                {
-                    int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStampId, Convert.ToInt32(assignmentYear), createdBy, _assignmentHistories_Add, _assignmentHistorys_Delete, _assignmentHistorys_CellWise);
-                }
-                //store approved row for download excel
-                if (_assignmentHistories_Add.Count > 0)
-                {
-                    foreach (var addRowItem in _assignmentHistories_Add)
-                    {
-                        int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(addRowItem);
-                    }
-                }
-
-                //store approved cell for download excel 
-                if (_assignmentHistorys_CellWise.Count > 0)
-                {
-                    foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
-                    {
-                        string tempApprovedCells = forecastBLL.GetApprovedCellsByAssignmentId(cellWiseEmployeeItem.EmployeeAssignmentId);
-                        cellWiseEmployeeItem.ApprovedCells = cellWiseEmployeeItem.ApprovedCells + "," + tempApprovedCells;
-                        var storeApprovedCells = "";
-                        if (!string.IsNullOrEmpty(cellWiseEmployeeItem.ApprovedCells))
-                        {
-                            var arrApprovedCells = cellWiseEmployeeItem.ApprovedCells.Split(',');
-                            foreach (var approvedCellItem in arrApprovedCells)
+                            if (string.IsNullOrEmpty(approvedCellAssignmentId))
                             {
-                                if (string.IsNullOrEmpty(storeApprovedCells))
+                                approvedCellAssignmentId = arrCellAndAssignmentId[0];
+                            }
+                            else
+                            {
+
+                            }
+                            if (string.IsNullOrEmpty(approvedCellNo))
+                            {
+
+                            }
+
+                            if (!string.IsNullOrEmpty((employeeAssignment.BCYRCell)))
+                            {
+                                var arrPendingCells = employeeAssignment.BCYRCell.Split(',');
+                                foreach (var item in arrPendingCells)
                                 {
-                                    storeApprovedCells = approvedCellItem;
-                                }
-                                else
-                                {
-                                    var arrCheckIfTheCellsAlreadyExists = storeApprovedCells.Split(',');
-                                    foreach (var indexItem in arrCheckIfTheCellsAlreadyExists)
+                                    if (item != arrCellAndAssignmentId[1])
                                     {
-                                        if (indexItem != approvedCellItem)
+                                        if (string.IsNullOrEmpty(updatedApprovedCells))
                                         {
-                                            storeApprovedCells = storeApprovedCells + "," + approvedCellItem;
+                                            updatedApprovedCells = item;
+                                        }
+                                        else
+                                        {
+                                            updatedApprovedCells = updatedApprovedCells + "," + item;
                                         }
                                     }
                                 }
                             }
+                            if (!string.IsNullOrEmpty((employeeAssignment.BCYRCellPending)))
+                            {
+                                var arrPendingCells = employeeAssignment.BCYRCellPending.Split(',');
+                                foreach (var item in arrPendingCells)
+                                {
+                                    if (item != arrCellAndAssignmentId[1])
+                                    {
+                                        if (string.IsNullOrEmpty(updatePendingCells))
+                                        {
+                                            updatePendingCells = item;
+                                        }
+                                        else
+                                        {
+                                            updatePendingCells = updatePendingCells + "," + item;
+                                        }
+                                    }
+                                }
+                                //int updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid(updatedApprovedCells, Convert.ToInt32(arrCellAndAssignmentId[0]));
+                            }
+
+                            updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid(updatedApprovedCells, updatePendingCells, Convert.ToInt32(arrCellAndAssignmentId[0]));
+                            if (updateResults > 0)
+                            {
+                                results = 1;
+                            }
                         }
-                        cellWiseEmployeeItem.ApprovedCells = storeApprovedCells;
-                        int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(cellWiseEmployeeItem);
                     }
                 }
-            }
-            //approve history: end
-            var insertResults = 0;
-            var cleanResults = 0;
-            if (approveTimeStampId > 0)
-            {
-                insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId, Convert.ToInt32(assignmentYear), session["userName"].ToString());
-                if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
+                //update cells: end
+
+                //cells and row/delete pending data update
+                if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId) || !string.IsNullOrEmpty(approvedRows))
                 {
-                    //approved row
-                    if (_assignmentHistories_Add.Count > 0)
-                    {
-                        foreach (var addRowItem in _assignmentHistories_Add)
-                        {
-                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_AddRow(addRowItem, approveTimeStampId, assignmentYear);
-                        }
-                    }
+                    //update all the un-approved row data.
+                    int unapprovedRowResults = employeeAssignmentBLL.UpdateUnapprovedPendingRows(Convert.ToInt32(assignmentYear));
+                    //update all the un-approved deleted data.
+                    int unapprovedDeleteResults = employeeAssignmentBLL.UpdateUnapprovedPendingDeleteRows(Convert.ToInt32(assignmentYear));
+                    //row wise update: end
 
-                    //approved delete
-                    if (_assignmentHistorys_Delete.Count > 0)
+                    //pending cell update
+                    List<EmployeeAssignment> employeeAssignments = forecastBLL.GetAllUnapprovalDataForCells(Convert.ToInt32(assignmentYear));
+                    if (employeeAssignments.Count > 0)
                     {
-                        foreach (var addRowItem in _assignmentHistorys_Delete)
+                        foreach (var updateItem in employeeAssignments)
                         {
-                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_DeleteRow(addRowItem, approveTimeStampId, assignmentYear);
-                        }
-                    }
-
-                    //approved cells
-                    if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
-                    {
-                        var arrApprovalCellsWithAssignmentId = approvalCellsWithAssignmentId.Split(',');
-                        foreach (var cellWithIdItem in arrApprovalCellsWithAssignmentId)
-                        {
-                            var arrCellWithId = cellWithIdItem.Split('_');
-                            if (!string.IsNullOrEmpty(arrCellWithId[0].ToString()))
+                            string udpatePendingCellsAfterSave = "";
+                            if (!string.IsNullOrEmpty(updateItem.BCYRCell))
                             {
-                                //get just updated cell if has
-                                //update approved cell
-                                var assignmentId = Convert.ToInt32(arrCellWithId[0]);
-                                var approvedCells = Convert.ToInt32(arrCellWithId[1]);
-                                var tempApprovedCells = approvedCells.ToString();
-
-                                string justUpdatedApprovedCells = forecastBLL.GetApprovedCellsByTimestampId(assignmentId, approvedCells, approveTimeStampId, assignmentYear);
-                                if (!string.IsNullOrEmpty(justUpdatedApprovedCells))
+                                if (!string.IsNullOrEmpty(updateItem.BCYRCellPending))
                                 {
-                                    tempApprovedCells = tempApprovedCells + "," + justUpdatedApprovedCells;
-                                }
+                                    //bool isCellAlreadyExists = false;
 
-                                int tempResults = forecastBLL.UpdateApprovedCells(assignmentId, tempApprovedCells, approveTimeStampId, Convert.ToInt32(assignmentYear));
+                                    //var arrBCYRCellPending = updateItem.BCYRCellPending.Split(',');
+                                    //foreach(var pendingItem in arrBCYRCellPending)
+                                    //{
+
+                                    //}
+
+                                    udpatePendingCellsAfterSave = updateItem.BCYRCellPending + "," + updateItem.BCYRCell;
+                                }
+                                else
+                                {
+                                    udpatePendingCellsAfterSave = updateItem.BCYRCell;
+                                }
+                                updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid("", udpatePendingCellsAfterSave, updateItem.Id);
                             }
                         }
                     }
 
-                    cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear), approveTimeStampId);
+                }
+
+                if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
+                {
+                    approveTimeStampId = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
+                    if (approveTimeStampId > 0)
+                    {
+                        int approveResults = forecastBLL.CreateApprovetHistory(approveTimeStampId, Convert.ToInt32(assignmentYear), createdBy, _assignmentHistories_Add, _assignmentHistorys_Delete, _assignmentHistorys_CellWise);
+                    }
+                    //store approved row for download excel
+                    if (_assignmentHistories_Add.Count > 0)
+                    {
+                        foreach (var addRowItem in _assignmentHistories_Add)
+                        {
+                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedRowByAssignmentId(addRowItem);
+                        }
+                    }
+
+                    //store approved cell for download excel 
+                    if (_assignmentHistorys_CellWise.Count > 0)
+                    {
+                        foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
+                        {
+                            string tempApprovedCells = forecastBLL.GetApprovedCellsByAssignmentId(cellWiseEmployeeItem.EmployeeAssignmentId);
+                            cellWiseEmployeeItem.ApprovedCells = cellWiseEmployeeItem.ApprovedCells + "," + tempApprovedCells;
+                            var storeApprovedCells = "";
+                            if (!string.IsNullOrEmpty(cellWiseEmployeeItem.ApprovedCells))
+                            {
+                                var arrApprovedCells = cellWiseEmployeeItem.ApprovedCells.Split(',');
+                                foreach (var approvedCellItem in arrApprovedCells)
+                                {
+                                    if (string.IsNullOrEmpty(storeApprovedCells))
+                                    {
+                                        storeApprovedCells = approvedCellItem;
+                                    }
+                                    else
+                                    {
+                                        var arrCheckIfTheCellsAlreadyExists = storeApprovedCells.Split(',');
+                                        foreach (var indexItem in arrCheckIfTheCellsAlreadyExists)
+                                        {
+                                            if (indexItem != approvedCellItem)
+                                            {
+                                                storeApprovedCells = storeApprovedCells + "," + approvedCellItem;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            cellWiseEmployeeItem.ApprovedCells = storeApprovedCells;
+                            int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(cellWiseEmployeeItem);
+                        }
+                    }
+                }
+                //approve history: end                
+                if (approveTimeStampId > 0)
+                {
+                    insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId, Convert.ToInt32(assignmentYear), session["userName"].ToString(), isApprove);
+                    if (_assignmentHistories_Add.Count > 0 || _assignmentHistorys_Delete.Count > 0 || _assignmentHistorys_CellWise.Count > 0)
+                    {
+                        //approved row
+                        if (_assignmentHistories_Add.Count > 0)
+                        {
+                            foreach (var addRowItem in _assignmentHistories_Add)
+                            {
+                                int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_AddRow(addRowItem, approveTimeStampId, assignmentYear);
+                            }
+                        }
+
+                        //approved delete
+                        if (_assignmentHistorys_Delete.Count > 0)
+                        {
+                            foreach (var addRowItem in _assignmentHistorys_Delete)
+                            {
+                                int updateEmployeeAssignmentApprovedCellsResults = forecastBLL.UpdateApprovedData_DeleteRow(addRowItem, approveTimeStampId, assignmentYear);
+                            }
+                        }
+
+                        //approved cells
+                        if (!string.IsNullOrEmpty(approvalCellsWithAssignmentId))
+                        {
+                            var arrApprovalCellsWithAssignmentId = approvalCellsWithAssignmentId.Split(',');
+                            foreach (var cellWithIdItem in arrApprovalCellsWithAssignmentId)
+                            {
+                                var arrCellWithId = cellWithIdItem.Split('_');
+                                if (!string.IsNullOrEmpty(arrCellWithId[0].ToString()))
+                                {
+                                    //get just updated cell if has
+                                    //update approved cell
+                                    var assignmentId = Convert.ToInt32(arrCellWithId[0]);
+                                    var approvedCells = Convert.ToInt32(arrCellWithId[1]);
+                                    var tempApprovedCells = approvedCells.ToString();
+
+                                    string justUpdatedApprovedCells = forecastBLL.GetApprovedCellsByTimestampId(assignmentId, approvedCells, approveTimeStampId, assignmentYear);
+                                    if (!string.IsNullOrEmpty(justUpdatedApprovedCells))
+                                    {
+                                        tempApprovedCells = tempApprovedCells + "," + justUpdatedApprovedCells;
+                                    }
+
+                                    int tempResults = forecastBLL.UpdateApprovedCells(assignmentId, tempApprovedCells, approveTimeStampId, Convert.ToInt32(assignmentYear));
+                                }
+                            }
+                        }
+
+                        cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear), approveTimeStampId);
+                    }
                 }
             }
+            else
+            {
+                //when no approval data, only timestamps!
+
+                //approve history: start
+                var session = System.Web.HttpContext.Current.Session;
+                string createdBy = session["userName"].ToString();
+                DateTime createdDate = DateTime.Now;
+                int approveTimeStampId = 0;
+
+                List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
+                List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
+
+                //create approve time stamps
+                approveTimeStampId = forecastBLL.CreateApproveTimeStamp(historyName, Convert.ToInt32(assignmentYear), createdBy, createdDate);
+                
+                if (approveTimeStampId > 0)
+                {
+                    insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId, Convert.ToInt32(assignmentYear), session["userName"].ToString(), isApprove);
+                }
+                //cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear), approveTimeStampId);                
+            }
+            
+
+            
 
             if (results > 0 || updateResults > 0 || cleanResults > 0)
             {
@@ -9237,6 +9306,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 results = 0;
             }
+
             return Ok(results);
         }
 

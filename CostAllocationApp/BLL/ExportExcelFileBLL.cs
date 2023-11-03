@@ -112,22 +112,53 @@ namespace CostAllocationApp.BLL
                 sheet.Cells["K" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["K" + count].AutoFitColumns();
                 // duplicate from
-                sheet.Cells["L" + count].Value = Convert.ToInt32(duplicateFrom);
+                if (string.IsNullOrEmpty(duplicateFrom))
+                {
+                    sheet.Cells["L" + count].Value = 0;
+                }
+                else
+                {
+                    sheet.Cells["L" + count].Value = Convert.ToInt32(duplicateFrom);
+                }                
                 //sheet.Cells["L" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["L" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["L" + count].AutoFitColumns();
+
                 //duplicate count
-                sheet.Cells["M" + count].Value = Convert.ToInt32(duplicateCount);
+                if (string.IsNullOrEmpty(duplicateCount))
+                {
+                    sheet.Cells["M" + count].Value = 0;
+                }
+                else
+                {
+                    sheet.Cells["M" + count].Value = Convert.ToInt32(duplicateCount);
+                }                
                 //sheet.Cells["M" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["M" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["M" + count].AutoFitColumns();
+
                 //role changed
-                sheet.Cells["N" + count].Value = Convert.ToInt32(roleChanged);
+                if (string.IsNullOrEmpty(roleChanged))
+                {
+                    sheet.Cells["N" + count].Value = 0;
+                }
+                else
+                {
+                    sheet.Cells["N" + count].Value = Convert.ToInt32(roleChanged);
+                }                
                 //sheet.Cells["N" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["N" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["N" + count].AutoFitColumns();
+
                 // unitprice changed
-                sheet.Cells["O" + count].Value = Convert.ToInt32(unitPriceChanged);
+                if (string.IsNullOrEmpty(unitPriceChanged))
+                {
+                    sheet.Cells["O" + count].Value = 0;
+                }
+                else
+                {
+                    sheet.Cells["O" + count].Value = Convert.ToInt32(unitPriceChanged);
+                }                
                 //sheet.Cells["O" + count].Style.Numberformat.Format = "0.00";
                 sheet.Cells["O" + count].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 sheet.Cells["O" + count].AutoFitColumns();

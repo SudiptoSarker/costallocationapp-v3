@@ -13,5 +13,6 @@ namespace CostAllocationApp.Dtos
         public string TimeStampId { get; set; }
         public int[] DeletedRowIds { get; set; }
         public int Year { get; set; }
+        public bool IsUpdateInsertDelete { get; set; }
     }
 }

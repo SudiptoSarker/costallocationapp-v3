@@ -32,7 +32,7 @@
                 <div class="row">        
                     <div class="col-md-5"><label class='input_title'>部署 (Dept)</label></div>
                     <div class="col-md-7">
-                        <select id="userDepartment" name="userDepartment" class='user_dropdown'></select>
+                        <select id="department_list" name="department_list" class='user_dropdown'></select>
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                     <div class="col-md-5"></div>
                     <div class="col-md-7">
                         <div class='user_registration_action'>
-                            <a href="javascript:void(0);" class="user_edit_undo_btn" onclick="ClearEntry();">取消(Undo）</a>
+                            <a href="javascript:void(0);" class="user_edit_undo_btn">取消(Undo）</a>
                             <a href="javascript:void(0);" class="user_edit_update_btn" data-toggle="modal" data-target="#register_modal">保存（save）</a>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                              <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="" onclick="UserRegistration();">保存(Save)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="register_user">保存(Save)</a>
                         </div>
                     </div>
                 </div>

@@ -46,15 +46,28 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#userName, #userTitle, #userDepartment, #userEmail, #userPass, #userRole {
-    width: 100% !important;
+#userName, #userTitle, #userEmail, #userPass, #userRole {
+    width: 90% !important;
     height: 100% !important;
     border: none;
     border: 1px solid #ccc !important;
     border-collapse: separate;
     border-spacing: 4px;
     text-align: center;
+    margin-left: -79px !important;
 }
+ #department_list{
+    width: 90% !important;
+    height: 29px !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    margin-left: -79px !important;
+    /* line-height: 25px */
+}
+
 
 #users_reg_cancel_btn {
     background-color: red;

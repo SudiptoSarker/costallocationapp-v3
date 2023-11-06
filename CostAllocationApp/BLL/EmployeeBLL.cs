@@ -22,9 +22,9 @@ namespace CostAllocationApp.BLL
         {
             return employeeDAL.CheckForEmployeeName(employeeName);
         }
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees(string orderby = "")
         {
-            return employeeDAL.GetAllEmployees();
+            return employeeDAL.GetAllEmployees(orderby);
         }
         public List<Employee> GetEmployeeListForBudgetEdit(int year,int budgetType)
         {

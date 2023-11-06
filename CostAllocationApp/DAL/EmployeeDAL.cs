@@ -88,10 +88,11 @@ namespace CostAllocationApp.DAL
             return result;
         }
 
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees(string orderby = "")
         {
+            orderby = string.IsNullOrEmpty(orderby) ? "FullName" : orderby;
             List<Employee> employees = new List<Employee>();
-            string query = "select * from employees where IsActive = 1 order by FullName asc";
+            string query = "select * from employees where IsActive = 1 order by "+orderby+" asc";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {

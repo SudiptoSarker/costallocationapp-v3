@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -2485,7 +2486,9 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/EmployeeList/")]
         public IHttpActionResult GetEmployeeList()
         {
-            List<Employee> employees = employeeBLL.GetAllEmployees();
+            string orderby = HttpContext.Current.Request.QueryString["orderby"];
+            orderby = string.IsNullOrEmpty(orderby) ? "FullName" : orderby;
+            List<Employee> employees = employeeBLL.GetAllEmployees(orderby);
             if (employees.Count > 0)
             {
                 return Ok(employees);

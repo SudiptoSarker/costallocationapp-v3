@@ -168,16 +168,14 @@ $(document).on('change', '#name_search', function () {
 
 //filter by emoloyee name
 $(document).on('click', '#filterEmp', function () {
-    var enableSearch = $("input[name='searchEmp']:checked");
-    if (enableSearch.length > 0 && enableSearch.val() == "searchEmp") {
-        var employeeName = $('#inputEmpName').val();
-        GetEmployeeSearchResults(employeeName);
-    }
+    var employeeName = $('#inputEmpName').val();
+    GetEmployeeSearchResults(employeeName);    
 });
 
 //order the employee list
 $(document).on('click', '#orderEmp', function () {
     var selectOrder = $("input[name='sortEmp']:checked");
+    console.log(selectOrder.val());
     if (selectOrder.length > 0) {
         let orderBy = selectOrder.val();
         GetOrderedEmployeeList(orderBy);
@@ -186,7 +184,7 @@ $(document).on('click', '#orderEmp', function () {
 
 //Get ordered Employee list
 function GetOrderedEmployeeList(orderBy) {
-    $.getJSON('/api/utilities/EmployeeList/')
+    $.getJSON('/api/utilities/EmployeeList?orderby=' + orderBy)
         .done(function (data) {
             ShowNameList_Datatable(data);
         });

@@ -46,16 +46,20 @@
         $.getJSON('/api/Departments/')
         .done(function(data) {
             $('#user_department_edit').append(`<option value=''>部署を選択</option>`);
+            $('#searchDepartment').append(`<option value=''>部署を選択</option>`);
             $.each(data, function(key, item) {                    
                 $('#user_department_edit').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
+                $('#searchDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
             });
             });   
 
         $.getJSON('/api/utilities/GetAllUserRoles/')
         .done(function (data) {
             $('#user_role_list').append(`<option value=''>Select Role</option>`);
+            $('#searchRole').append(`<option value=''>役割の選択</option>`);
             $.each(data, function (key, item) {
                 $('#user_role_list').append(`<option value='${item.Id}'>${item.Role}</option>`);
+                $('#searchRole').append(`<option value='${item.Id}'>${item.Role}</option>`);
             });
 
 

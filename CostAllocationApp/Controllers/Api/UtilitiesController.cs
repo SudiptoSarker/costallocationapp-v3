@@ -4921,6 +4921,14 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         [HttpGet]
+        [Route("api/utilities/GetAllUserStatus/")]
+        public IHttpActionResult GetAllUserStatus()
+        {
+            var roles = userRoleBLL.GetAllUserRoles();
+            return Ok(roles);
+        }
+
+        [HttpGet]
         [Route("api/utilities/GetSukeyData/")]
         public IHttpActionResult GetSukeyData(int year)
         {

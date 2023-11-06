@@ -70,41 +70,146 @@
         </ul>
     </nav>
 
-@{        
-    if (url.ToLower().Contains("createnewemployee"))
-    {
-    <div class="sidebar_filterSearch pl-4 pt-2 pb-2 mt-2">
-        <div class="row"><h4>絞り込み</h4></div>
-        <div class="row"><label>キーワードから探す</label></div>
-        <div class="row pl-2">
-            <label class="m-1">要員名</label>
-        </div>
-        <div class="row pl-2">
-            <div class="col-md-8 p-0"><input type="text" id="inputEmpName" name="inputEmpName" class="rounded" placeholder="" /></div>
-            <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="filterEmp">検索</button></div>
-        </div>
+    @{
+        if (url.ToLower().Contains("createnewemployee"))
+        {
+            <div class="sidebar_filterSearch pl-4 pt-2 pb-2 mt-2">
+                <div class="row"><h4>絞り込み</h4></div>
+                <div class="row"><label>キーワードから探す</label></div>
+                <div class="row pl-2">
+                    <label class="m-1">要員名</label>
+                </div>
+                <div class="row pl-2">
+                    <div class="col-md-8 p-0"><input type="text" id="inputEmpName" name="inputEmpName" class="rounded" placeholder="" /></div>
+                    <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="filterEmp">検索</button></div>
+                </div>
 
-        <div class="row  mt-2"><label>並べ替え</label></div>
-        <div class="row">
-            <div class="col-md-4 p-0">
-                <input type="radio" id="sortEmp" name="sortEmp" value="FullName" />
-                <label class="m-1">要員名</label>
+                <div class="row  mt-2"><label>並べ替え</label></div>
+                <div class="row">
+                    <div class="col-md-4 p-0">
+                        <input type="radio" id="sortEmp" name="sortEmp" value="FullName" />
+                        <label class="m-1">要員名</label>
+                    </div>
+                    <div class="col-md-4 p-0">
+                        <input type="radio" id="sortEmp" name="sortEmp" value="id" />
+                        <span class="m-1">ID</span>
+                    </div>
+                    <div class="col-md-4 p-0">
+                        <button class="btn-xs btn-danger p-1 rounded  w-75" id="orderEmp">並べ替え</button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 p-0">
-                <input type="radio" id="sortEmp" name="sortEmp" value="id" />
-                <span class="m-1">ID</span>
+        }
+        else if (url.ToLower().Contains("createusers"))
+        {
+            <div class="row pl-4 pt-1 mt-1"><h4>絞り込み</h4></div>
+            <div class="sidebar_filterSearch pl-4 pb-2 mt-1">
+                <div class="row"><label class="m-0">キーワードから探す</label></div>
+                <div class="row mb-2">
+                    <div class="col-md-4 p-0">
+                        <input type="radio" id="searchUser" name="searchUser" value="" />
+                        <strong class="m-1">ユーザID</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="radio" id="searchUser" name="searchUser" value="" />
+                        <strong class="m-1">メアド(mail)</strong>
+                    </div>
+                </div>
+                <div class="row pl-1">
+                    <div class="col-md-8 p-0"><input type="text" id="inputEmpName" name="inputEmpName" class="rounded" placeholder="" /></div>
+                    <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="filterEmp">検索</button></div>
+                </div>                
             </div>
-            <div class="col-md-4 p-0">
-                <button class="btn-xs btn-danger p-1 rounded  w-75" id="orderEmp">並べ替え</button>
+            <div class="sidebar_filterSearch pl-4 pb-2 mt-1">
+                <div class="row mb-1"><label class="m-0">登録情報から探す</label></div>
+                <div class="row">
+                    <div class="col-md-4 p-0">
+                        <strong class="m-1">
+                            役割
+                        </strong>
+                        
+                    </div>
+                    <div class="col-md-8 p-0">
+                        <select id="searchRole" name="searchRole" class="w-75" style=""></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 p-0">
+                        <strong class="m-1">
+                            役職
+                        </strong>
+                        
+                    </div>
+                    <div class="col-md-8 p-0">
+                        <select id="searchPost" name="searchPost" class="w-75" style=""></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 p-0">
+                        <strong class="m-1">
+                            部署
+                        </strong>
+                        
+                    </div>
+                    <div class="col-md-8 p-0">
+                        <select id="searchDepartment" name="searchDepartment" class="w-75" style=""></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 p-0">
+                        <strong class="m-1">
+                            ステータス
+                        </strong>
+                        
+                    </div>
+                    <div class="col-md-8 p-0">
+                        <select id="searchStatus" name="searchStatus" class="w-75" style=""></select>
+                    </div>
+                </div>
+                <div class="row pl-1 mt-2">
+                    <div class="col-md-8 p-0"></div>
+                    <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="filterUserBtn">検索</button></div>
+                </div>
             </div>
-        </div>
-    </div>
+
+            //Filter Sort Section
+            <div class="sidebar_filterSearch pl-4 pb-2 mt-1">
+                <div class="row mb-1"><label class="m-0">並べ替え</label></div>
+                <div class="row p-0">
+                    <div class="col-md-4 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="">ユーザID</strong>
+                    </div>
+                    <div class="col-md-3 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="m-1">メアド</strong>
+                    </div>
+                    <div class="col-md-3 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="m-1">役割</strong>
+                    </div>
+                </div>
+                <div class="row p-0">
+                    <div class="col-md-4 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="">役職</strong>
+                    </div>
+                    <div class="col-md-3 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="m-1">部署</strong>
+                    </div>
+                    <div class="col-md-3 pl-0">
+                        <input type="radio" id="orderUser" name="orderUser" value="" />
+                        <strong class="m-1">ステータス</strong>
+                    </div>
+                </div>
+                <div class="row pl-1 mt-2">
+                    <div class="col-md-8 p-0"></div>
+                    <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="sortUserBtn">並べ替え</button></div>
+                </div>
+            </div>
+        }
     }
-    else if (url.ToLower().Contains("createusers"))
-    {
-            
-    }
-}
 
 
 </header>

@@ -3,6 +3,12 @@ $(document).ready(function () {
     $(".add_master_btn").on("click",function(event){        
         $('#add_master_modal').modal('show');
     })
+    $("#employee_add_undo").on("click",function(event){        
+        $("#employee_name_add").val('');        
+    })
+    $("#employee_edit_undo").on("click",function(event){        
+        $("#employee_name_edit").val('');
+    })
     $("#employee_add_save").on("click",function(event){       
         var roleName = $("#employee_name_add").val();           
 

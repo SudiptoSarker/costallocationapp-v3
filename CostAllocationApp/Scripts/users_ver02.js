@@ -170,7 +170,20 @@
                 alert(data.responseJSON.Message);
             }
         });
-    });    
+    });   
+    
+    $(document).on('click', '.user_edit_undo_btn', function (){
+        ClearEntry();
+    });
+    function ClearEntry(){
+        $("#edit_user_name").val('');
+        $("#edit_user_title").val('');        
+        $("#user_department_edit").val('').trigger('change');  
+        $("#edit_user_email").val('');
+        $("#edit_user_pass").val('');
+        $("#user_role_list").val('').trigger('change');  
+        $("#user_status_edit").val('').trigger('change');  
+    }
 });
 
 var changeUserName = "";

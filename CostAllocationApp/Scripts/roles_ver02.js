@@ -24,7 +24,12 @@ $(document).ready(function () {
     $(".add_role_btn").on("click",function(event){        
         $('#add_role_modal').modal('show');
     })
-
+    $("#undo_role_add_btn").on("click",function(event){        
+        $('#role_name').val('');
+    })
+    $("#undo_role_edit_btn").on("click",function(event){        
+        $('#role_name_edit').val('');
+    })
     $("#roles_reg_save_btn").on("click",function(event){       
         let role_name = $("#role_name").val().trim();        
         if (role_name == "") {

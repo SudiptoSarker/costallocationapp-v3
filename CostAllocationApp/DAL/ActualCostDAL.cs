@@ -44,6 +44,18 @@ namespace CostAllocationApp.DAL
                             actualCost.AugCost = Convert.ToDouble(rdr["AugCost"]);
                             actualCost.SepCost = Convert.ToDouble(rdr["SepCost"]);
 
+                            actualCost.OctPoint = Convert.ToDouble(rdr["OctPoint"]);
+                            actualCost.NovPoint = Convert.ToDouble(rdr["NovPoint"]);
+                            actualCost.DecPoint = Convert.ToDouble(rdr["DecPoint"]);
+                            actualCost.JanPoint = Convert.ToDouble(rdr["JanPoint"]);
+                            actualCost.FebPoint = Convert.ToDouble(rdr["FebPoint"]);
+                            actualCost.MarPoint = Convert.ToDouble(rdr["MarPoint"]);
+                            actualCost.AprPoint = Convert.ToDouble(rdr["AprPoint"]);
+                            actualCost.MayPoint = Convert.ToDouble(rdr["MayPoint"]);
+                            actualCost.JunPoint = Convert.ToDouble(rdr["JunPoint"]);
+                            actualCost.JulPoint = Convert.ToDouble(rdr["JulPoint"]);
+                            actualCost.AugPoint = Convert.ToDouble(rdr["AugPoint"]);
+                            actualCost.SepPoint = Convert.ToDouble(rdr["SepPoint"]);
 
 
                             actualCosts.Add(actualCost);

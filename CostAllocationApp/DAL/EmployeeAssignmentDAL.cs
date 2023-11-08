@@ -2199,7 +2199,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.EmployeeName 'DuplicateName'
+                            ,gd.GradePoints,ea.IsActive,ea.EmployeeName 'DuplicateName' 
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -2224,7 +2224,6 @@ namespace CostAllocationApp.DAL
                         {
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            //employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -2269,7 +2268,7 @@ namespace CostAllocationApp.DAL
         {
             List<EmployeeAssignmentViewModel> employeeAssignments = new List<EmployeeAssignmentViewModel>();
 
-            string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.id as AssignmentId,ep.FullName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId, ea.EmployeeId, 
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive, cst.Points, cst.Total,ea.EmployeeName 'DuplicateName', ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged 
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
@@ -2297,7 +2296,7 @@ namespace CostAllocationApp.DAL
                         {
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            //employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
+                            employeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();

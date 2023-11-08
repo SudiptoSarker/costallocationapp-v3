@@ -15,6 +15,8 @@ var cellwiseColorCodeForInsert = [];
 var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
+var insertedOnChangeList = [];
+var previousRowDataToDetech = [];
 
 
 var jssTableDefinition = {
@@ -425,7 +427,7 @@ $(document).ready(function () {
         var _uniqueEmployeeIds=[];
         var employeeCount = 0;
         var rowCount = 0;
-        
+
         //get user information
         $.ajax({
             url: `/api/utilities/GetUserLogs/`,
@@ -1767,6 +1769,123 @@ function ShowBedgetResults(year) {
             onbeforechange: function (instance, cell, x, y, value) {
 
                 //alert(value);
+                var retrivedData = retrivedObject(jss.getRowData(y));
+
+                if (x == jssTableDefinition.section.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                    
+
+                }
+                if (x == jssTableDefinition.department.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+                if (x == jssTableDefinition.incharge.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+                if (x == jssTableDefinition.role.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+                if (x == jssTableDefinition.explanation.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+                if (x == jssTableDefinition.company.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+                if (x == jssTableDefinition.unitPrice.index) {
+                    var flag = true;
+                    if (previousRowDataToDetech.length > 0) {
+                        for (var i = 0; i < previousRowDataToDetech.length; i++) {
+                            if (parseInt(previousRowDataToDetech[i].assignementId) == parseInt(retrivedData.assignementId)) {
+                                flag == false;
+                            }
+                        }
+                        if (flag) {
+                            previousRowDataToDetech.push(retrivedData);
+                        }
+                    }
+                    else {
+                        previousRowDataToDetech.push(retrivedData);
+                    }
+                }
+
                 if (x == jssTableDefinition.octM.index) {
                     beforeChangedValue = jss.getValueFromCoords(x, y);
                 }
@@ -1817,19 +1936,7 @@ function ShowBedgetResults(year) {
 
                     jssInsertedData.push(retrivedData);
                     newRowCount++;
-                    //jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);                    
-                    // jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                    // jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
+               
 
                     jss.setValueFromCoords(jssTableDefinition.assignmentId.index, y, retrivedData.assignmentId, false);
                     jss.setValueFromCoords(jssTableDefinition.octT.index, y, `=${jssTableDefinition.unitPrice.cellName}${parseInt(y) + 1}*${jssTableDefinition.octM.cellName}${parseInt(y) + 1}`, false);
@@ -1848,6 +1955,8 @@ function ShowBedgetResults(year) {
                 else {
                     //get data for existing employee
                     var retrivedData = retrivedObject(jss.getRowData(y));
+                    var retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
+                    console.log(retrivedObjectForOnChangeInsert);
                     if (retrivedData.assignmentId.toString().includes('new')) {
                         updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                     }
@@ -1857,9 +1966,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.remarks.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }                        
                             cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                         }
@@ -1867,9 +1978,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.section.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }                    
@@ -1877,9 +1990,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.department.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -1887,9 +2002,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.incharge.index) {
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }                        
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -1897,9 +2014,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.role.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -1907,9 +2026,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.explanation.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -1927,9 +2048,11 @@ function ShowBedgetResults(year) {
 
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                         }
@@ -1937,9 +2060,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.grade.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -1947,9 +2072,11 @@ function ShowBedgetResults(year) {
                         if (x == jssTableDefinition.unitPrice.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
+                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
+                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -2670,6 +2797,125 @@ function updateArray(array, retrivedData) {
     array[index].unitPriceChanged = retrivedData.unitPriceChanged;
 }
 
+function updateArrayForInsertOnChange(array, retrivedData) {
+    var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
+
+    array[index].employeeId = retrivedData.employeeId;
+    array[index].sectionId = retrivedData.sectionId;
+    array[index].departmentId = retrivedData.departmentId;
+    array[index].inchargeId = retrivedData.inchargeId;
+    array[index].roleId = retrivedData.roleId;
+    array[index].explanationId = retrivedData.explanationId;
+    array[index].companyId = retrivedData.companyId;
+    array[index].gradeId = retrivedData.gradeId;
+    array[index].unitPrice = retrivedData.unitPrice;
+    array[index].octPoint = retrivedData.octPoint;
+    array[index].novPoint = retrivedData.novPoint;
+    array[index].decPoint = retrivedData.decPoint;
+    array[index].janPoint = retrivedData.janPoint;
+    array[index].febPoint = retrivedData.febPoint;
+    array[index].marPoint = retrivedData.marPoint;
+    array[index].aprPoint = retrivedData.aprPoint;
+    array[index].mayPoint = retrivedData.mayPoint;
+    array[index].junPoint = retrivedData.junPoint;
+    array[index].julPoint = retrivedData.julPoint;
+    array[index].augPoint = retrivedData.augPoint;
+    array[index].sepPoint = retrivedData.sepPoint;
+    array[index].year = retrivedData.year;
+    array[index].duplicateFrom = retrivedData.duplicateFrom;
+    array[index].duplicateCount = retrivedData.duplicateCount;
+    array[index].roleChanged = retrivedData.roleChanged;
+    array[index].unitPriceChanged = retrivedData.unitPriceChanged;
+}
+
+function retrivedObjectForInsertOnChange(rowData) {
+
+    var allData = jss.getData();
+    var _unitPriceChanged = 0;
+    var _roleChanged = 0;
+    var _duplicateCount = 0;
+    for (let x of allData) {
+        if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(rowData[jssTableDefinition.employeeId.index])) {
+            _duplicateCount++;
+
+        }
+    }
+
+    for (var i = 0; i < previousRowDataToDetech.length; i++) {
+        if (previousRowDataToDetech[i].assignmentId == rowData[jssTableDefinition.assignmentId.index]) {
+
+            if (previousRowDataToDetech[i].sectionId != rowData[jssTableDefinition.section.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].departmentId != rowData[jssTableDefinition.department.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].inchargeId != rowData[jssTableDefinition.incharge.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].roleId != rowData[jssTableDefinition.role.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].explanationId != rowData[jssTableDefinition.explanation.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].companyId != rowData[jssTableDefinition.company.index]) {
+                _roleChanged = 1;
+            }
+            if (previousRowDataToDetech[i].gradeId != rowData[jssTableDefinition.grade.index]) {
+                _unitPriceChanged = 1;
+            }
+            if (previousRowDataToDetech[i].unitPrice != rowData[jssTableDefinition.unitPrice.index]) {
+                _unitPriceChanged = 1;
+            }
+        }
+    }
+
+    return {
+        assignmentId: rowData[jssTableDefinition.assignmentId.index],
+        employeeName: rowData[jssTableDefinition.employeeName.index],
+        remarks: rowData[jssTableDefinition.remarks.index],
+        employeeId: rowData[jssTableDefinition.employeeId.index],
+        sectionId: rowData[jssTableDefinition.section.index],
+        departmentId: rowData[jssTableDefinition.department.index],
+        inchargeId: rowData[jssTableDefinition.incharge.index],
+        roleId: rowData[jssTableDefinition.role.index],
+        explanationId: rowData[jssTableDefinition.explanation.index],
+        companyId: rowData[jssTableDefinition.company.index],
+        gradeId: rowData[jssTableDefinition.grade.index],
+        unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
+        octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
+        novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
+        decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
+        janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
+        febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
+        marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
+        aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
+        mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
+        junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
+        julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
+        augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
+        sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
+        year: document.getElementById('selected_budget_year').value,
+
+        bcyr: rowData[jssTableDefinition.bcyr.index],
+        bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+        isActive: rowData[jssTableDefinition.isActive.index],
+        bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
+        bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],
+        isApproved: rowData[jssTableDefinition.isApproved.index],
+        bCYRCellPending: rowData[jssTableDefinition.bcyrCellPending.index],
+        isRowPending: rowData[jssTableDefinition.isRowPending.index],
+        isDeletePending: rowData[jssTableDefinition.isDeletePending.index],
+        rowType: rowData[jssTableDefinition.rowType.index],
+
+        duplicateFrom: rowData[jssTableDefinition.assignmentId.index],
+        duplicateCount: _duplicateCount,
+        roleChanged: _roleChanged,
+        unitPriceChanged: _unitPriceChanged,
+    };
+}
+
 //update the array for add new employee 
 function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChangedValue) {
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
@@ -3223,6 +3469,35 @@ function UpdateBudget() {
         jssInsertedData = [];
         newRowCount = 1;
 
+    }
+
+    if (insertedOnChangeList.length > 0) {
+        var add_employee_budget_year = $("#budget_years").val();
+        $.ajax({
+            url: `/api/utilities/ExcelAssignmentBudget/`,
+            contentType: 'application/json',
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            data: JSON.stringify({ ForecastUpdateHistoryDtos: insertedOnChangeList, HistoryName: timestamp, CellInfo: '', YearWithBudgetType: add_employee_budget_year }),
+            success: function (data) {
+                var year = $("#budget_years").val();
+                ShowBedgetResults(year);
+
+                $("#timeStamp_ForUpdateData").val(data);
+                var chat = $.connection.chatHub;
+                $.connection.hub.start();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    chat.server.send('data has been updated by ', userName);
+                });
+                $("#jspreadsheet").show();
+                $("#export_budget").show();
+            }
+        });
+
+        insertedOnChangeList = [];
+        previousRowDataToDetech = [];
     }
 
     if (deletedExistingRowIds.length > 0) {

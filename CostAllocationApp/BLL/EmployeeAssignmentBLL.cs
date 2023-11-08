@@ -1700,6 +1700,9 @@ namespace CostAllocationApp.BLL
         {
             var employees = employeeAssignmentDAL.GetAllAssignmentData(employeeAssignment);
 
+            // pull data from actual cost table...
+            List<ActualCost> actualCosts = actualCostDAL.GetActualCostsByYear(Convert.ToInt32(employeeAssignment.Year));
+
             if (employees.Count > 0)
             {
                 int count = 1;
@@ -1765,6 +1768,9 @@ namespace CostAllocationApp.BLL
                         item.forecasts.Add(new ForecastDto { Month = 9, Points = 0, Total = "" });
 
                     }
+
+                    ActualCost actualCost = actualCosts.Where(ac => ac.Id == item.Id).SingleOrDefault();
+
                     int innerCount = 1;
                     foreach (var forecast in item.forecasts)
                     {
@@ -1773,77 +1779,315 @@ namespace CostAllocationApp.BLL
                         string costTotal = $"=AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}+AK{count}+AL{count}+AM{count}+AN{count}+AO{count}";
                         if (innerCount == 1)
                         {
-                            //l-w
-                            forecast.Total = $"=K{count}*Q{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost==null)
+                            {
+                                forecast.Total = $"=K{count}*Q{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.OctCost > 0)
+                                {
+                                    forecast.Total = actualCost.OctCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.OctPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*Q{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                           
 
                         }
                         if (innerCount == 2)
                         {
-                            forecast.Total = $"=K{count}*R{count}";   
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*R{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.NovCost > 0)
+                                {
+                                    forecast.Total = actualCost.NovCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.NovPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*R{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                         
                         }
                         if (innerCount == 3)
                         {
-                            forecast.Total = $"=K{count}*S{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*S{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.DecCost > 0)
+                                {
+                                    forecast.Total = actualCost.DecCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.DecPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*S{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         if (innerCount == 4)
                         {
-                            forecast.Total = $"=K{count}*T{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*T{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.JanCost > 0)
+                                {
+                                    forecast.Total = actualCost.JanCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.JanPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*T{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                           
                         }
                         if (innerCount == 5)
                         {
-                            forecast.Total = $"=K{count}*U{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*U{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.FebCost > 0)
+                                {
+                                    forecast.Total = actualCost.FebCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.FebPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*U{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         if (innerCount == 6)
                         {
-                            forecast.Total = $"=K{count}*V{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost==null)
+                            {
+                                forecast.Total = $"=K{count}*V{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.MarCost > 0)
+                                {
+                                    forecast.Total = actualCost.MarCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.MarPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*V{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                           
                         }
                         if (innerCount == 7)
                         {
-                            forecast.Total = $"=K{count}*W{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*V{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.AprCost > 0)
+                                {
+                                    forecast.Total = actualCost.AprCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.AprPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*V{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
                         }
                         if (innerCount == 8)
                         {
-                            forecast.Total = $"=K{count}*X{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*X{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.MayCost > 0)
+                                {
+                                    forecast.Total = actualCost.MayCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.MayPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*X{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         if (innerCount == 9)
                         {
-                            forecast.Total = $"=K{count}*Y{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*Y{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.JunCost > 0)
+                                {
+                                    forecast.Total = actualCost.JunCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.JunPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*Y{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         if (innerCount == 10)
                         {
-                            forecast.Total = $"=K{count}*Z{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*Z{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.JulCost > 0)
+                                {
+                                    forecast.Total = actualCost.JulCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.JulPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*Z{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                          
                         }
                         if (innerCount == 11)
                         {
-                            forecast.Total = $"=K{count}*AA{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*AA{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.AugCost > 0)
+                                {
+                                    forecast.Total = actualCost.AugCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.AugPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*AA{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         if (innerCount == 12)
                         {
-                            forecast.Total = $"=K{count}*AB{count}";
-                            forecast.TotalPoints = manmonthSum;
-                            forecast.TotalCosts = costTotal;
+                            if (actualCost == null)
+                            {
+                                forecast.Total = $"=K{count}*AB{count}";
+                                forecast.TotalPoints = manmonthSum;
+                                forecast.TotalCosts = costTotal;
+                            }
+                            else
+                            {
+                                if (actualCost.SepCost > 0)
+                                {
+                                    forecast.Total = actualCost.SepCost.ToString();
+                                    //forecast.Points = Convert.ToDecimal(actualCost.SepPoint);
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                                else
+                                {
+                                    forecast.Total = $"=K{count}*AB{count}";
+                                    forecast.TotalPoints = manmonthSum;
+                                    forecast.TotalCosts = costTotal;
+                                }
+                            }
+                            
                         }
                         innerCount++;
                     }

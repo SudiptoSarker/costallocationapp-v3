@@ -21,7 +21,8 @@ function onRoleInactiveClick() {
 }
 
 $(document).ready(function () {
-    $(".add_role_btn").on("click",function(event){        
+    $(".add_role_btn").on("click",function(event){     
+        $('#role_name').val('');   
         $('#add_role_modal').modal('show');
     })
     $("#undo_role_add_btn").on("click",function(event){        

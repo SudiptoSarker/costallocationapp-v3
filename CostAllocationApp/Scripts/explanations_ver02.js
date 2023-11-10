@@ -20,7 +20,8 @@ function onExplanationInactiveClick() {
 }
 
 $(document).ready(function () {
-    $(".add_explanation_btn").on("click",function(event){        
+    $(".add_explanation_btn").on("click",function(event){      
+        $("#explanation_name").val('');  
         $('#add_explanation_modal').modal('show');
     })
     $("#undo_explation_add_btn").on("click",function(event){        

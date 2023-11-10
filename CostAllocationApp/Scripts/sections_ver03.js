@@ -178,7 +178,8 @@
             ]            
         });
     }
-    $(".add_sec_btn").on("click",function(event){        
+    $(".add_sec_btn").on("click",function(event){   
+        $("#section-name").val('');     
         $('#add_section_modal').modal('show');
     })
     $("#sec_undo_btn").on("click",function(event){        

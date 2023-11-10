@@ -186,14 +186,3 @@ body {
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     padding: 2px 4px !important;    
 }
-
-/*select2 dropdown arrow icon*/
-.select2-selection--multiple:before {
-    content: "";
-    position: absolute;
-    right: 7px;
-    top: 42%;
-    border-top: 5px solid #888;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-}

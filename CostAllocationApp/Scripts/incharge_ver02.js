@@ -23,6 +23,7 @@ function onInchargeInactiveClick() {
 $(document).ready(function () {  
     
     $(".add_inchar_btn").on("click",function(event){        
+        $("#in_charge_name").val('');
         $('#add_incharge_modal').modal('show');
     })
 

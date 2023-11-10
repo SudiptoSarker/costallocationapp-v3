@@ -3154,15 +3154,21 @@ function CheckDuplicateYear(){
 function validate(){
     // var selectedYear = $('#select_import_year').find(":selected").val();
     var selectedYear = $('#select_import_year').val();
+    var budgetType = $('#select_budget_type').val();
     var import_file = $('#import_file_excel').val();
-   
+
     if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please 年度を選択してください!");
+        alert("年度を選択してください!");
         return false;
-    }else if(import_file =="" || typeof import_file === "undefined"){
+    }else if(budgetType =="" || typeof budgetType === "undefined"){
+        alert("please select budget type!");
+        return false;
+    }
+    else if(import_file =="" || typeof import_file === "undefined"){
         alert("please select import file!");
         return false;
-    }else { return true; }
+    }
+    else { return true; }
 }
 
 $('#frm_import_year_data').submit(validate);

@@ -47,15 +47,19 @@
     //show table details
     $(document).on('click', '#search_dynamic_table ', function () {
         var tableId = $("#table_list").val();
+
         if (tableId == '' || tableId == null || tableId == undefined) {
             $(".total_menu_list_tbl").hide();  
             alert('テーブルを選択してください!!!');        
             return false;
         }else{ 
+            $('.dynamic_table_list_action').hide(); 
+            $('#total_menu_list_thead').empty();    
             $('#total_menu_list_tbody').empty();    
-            var resultsItem = GetDynamicTablesByTableId(tableId);            
-            GetDynamicSettings(tableId,resultsItem);
-            $('.data_for_dropdown').select2();
+            var resultsItem = GetDynamicTablesByTableId(tableId);              
+            
+            GetDynamicSettings(tableId,resultsItem);            
+            // $('.data_for_dropdown').select2();
             $(".total_menu_list_tbl").show();              
         }
     });
@@ -255,6 +259,7 @@
                     $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
                     $(".data_for_dropdown").select2();                                                                                                    
                 }
+                $('.dynamic_table_list_action').show();  
             },
             error: function (data) {
             }
@@ -578,20 +583,7 @@
         $newRow.find(".detail_item_dropdown").val('');
         $newRow.find(".method_dropdown").val('');
         $lastRow.after($newRow);
-
-
-
-
-        // var $tr = $(this).closest('.item_row');
-        // var $clone = $tr.clone();
-        // $($clone[0].cells[4]).empty();
-        // $($clone[0].cells[4]).append(`<select class="data_for_dropdown" name="data_for_list_dropdown_for_setting" id="data_for_list_dropdown_for_setting${++globalCount}" multiple="multiple"></select>`);
-        // $clone[0].dataset.count = ++globalCount;
-        // $clone.find(':text').val('');
-        // $tr.after($clone);
-
-        // if(parseInt($lastRow.length)>0){            
-        // }     
+        $(".data_for_dropdown").select2(); 
     });
 
     //delete button clicked event
@@ -644,7 +636,11 @@
                 dataType: 'json',
                 success: function (data) {                
                     ToastMessageSuccess(data);                                
-                    $('#total_menu_list_tbody').empty();      
+                    
+                    $('.dynamic_table_list_action').hide(); 
+                    $('#total_menu_list_thead').empty();    
+                    $('#total_menu_list_tbody').empty();    
+
                     GetDynamicSettings(tableId,resultsItem);
                     $("#delete_settings_table").modal("hide");
                 },
@@ -654,7 +650,9 @@
             });
         }else{
             ToastMessageSuccess("設定が削除されました");                                
-            $('#total_menu_list_tbody').empty();      
+            $('.dynamic_table_list_action').hide(); 
+            $('#total_menu_list_thead').empty();    
+            $('#total_menu_list_tbody').empty();          
             GetDynamicSettings(tableId,resultsItem);
             $("#delete_settings_table").modal("hide"); 
         }        
@@ -756,7 +754,9 @@
                 dataType: 'json',
                 success: function (data) {                
                     ToastMessageSuccess(data);                                
-                    $('#total_menu_list_tbody').empty();      
+                    $('.dynamic_table_list_action').hide(); 
+                    $('#total_menu_list_thead').empty();    
+                    $('#total_menu_list_tbody').empty();        
                     GetDynamicSettings(tableId,resultsItem);
                     $("#delete_settings_table").modal("hide");
                 },

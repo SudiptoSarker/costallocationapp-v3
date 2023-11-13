@@ -6,6 +6,9 @@
     
     $(".add_dept_btn").on("click",function(event){    
         GetSections("add",0);    
+        $("#department_name").val('');
+        $("#section_list").val(-1);
+        
         $('#add_department_modal').modal('show');
     })
 
@@ -55,7 +58,6 @@
                 $("#department_id_for_edit_modal").val(data.Id);
                 $("#department_name_edit").val(data.DepartmentName);
                 GetSections("edit",data.SectionId);   
-                //$("#section_list_edit").val(data.SectionId);
             }
         });            
     }
@@ -76,7 +78,7 @@
                 $('#section_list_edit').append(`<option value='-1'>Select Section</option>`);
                 $.each(data, function (key, item) {
                     if(parseInt(sectionId) == parseInt(item.Id)){
-                        $('#section_list_edit').append(`<option value='${item.Id}' select>${item.SectionName}</option>`)
+                        $('#section_list_edit').append(`<option value='${item.Id}' selected>${item.SectionName}</option>`)
                     }else{
                         $('#section_list_edit').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
                     }                    

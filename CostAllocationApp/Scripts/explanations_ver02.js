@@ -20,8 +20,15 @@ function onExplanationInactiveClick() {
 }
 
 $(document).ready(function () {
-    $(".add_explanation_btn").on("click",function(event){        
+    $(".add_explanation_btn").on("click",function(event){      
+        $("#explanation_name").val('');  
         $('#add_explanation_modal').modal('show');
+    })
+    $("#undo_explation_add_btn").on("click",function(event){        
+        $("#explanation_name").val('');
+    })
+    $("#undo_explation_edit_btn").on("click",function(event){        
+        $("#explanation_name_edit").val('');
     })
    
     $("#exp_reg_save_btn").on("click",function(event){       

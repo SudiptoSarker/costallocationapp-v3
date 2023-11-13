@@ -37,7 +37,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#exp_reg_cancel_btn {
+#undo_explation_add_btn,#undo_explation_edit_btn {
     line-height: 1;
 	background-color: red;
     color: white;

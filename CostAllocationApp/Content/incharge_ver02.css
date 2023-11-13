@@ -37,7 +37,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#incharge_reg_cancel_btn {
+#undo_incharge_btn_add,#undo_incharge_btn_edit {
     line-height: 1;
 	background-color: red;
     color: white;

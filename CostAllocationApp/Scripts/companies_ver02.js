@@ -23,6 +23,12 @@ $(document).ready(function () {
     $(".add_master_btn").on("click",function(event){        
         $('#add_master_modal').modal('show');
     })
+    $("#undo_company_add_btn").on("click",function(event){        
+        $("#company_name").val('');
+    })
+    $("#undo_company_edit_btn").on("click",function(event){        
+        $("#company_name_edit").val('');
+    })
     $("#company_reg_save_btn").on("click",function(event){       
         let company_name = $("#company_name").val().trim();        
         if (company_name == "") {

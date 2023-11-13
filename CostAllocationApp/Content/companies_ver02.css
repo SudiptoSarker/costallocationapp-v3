@@ -37,7 +37,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#company_reg_cancel_btn,#company_reg_cancel_btn_edit {
+#undo_company_add_btn,#undo_company_edit_btn {
     line-height: 1;
 	background-color: red;
     color: white;

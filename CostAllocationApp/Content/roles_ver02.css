@@ -37,7 +37,7 @@ body {
     border-spacing: 4px;
     text-align: center;
 }
-#roles_reg_cancel_btn {
+#undo_role_edit_btn,#undo_role_add_btn {
     line-height: 1;
 	background-color: red;
     color: white;

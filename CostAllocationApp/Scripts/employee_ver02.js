@@ -5,6 +5,12 @@ $(document).ready(function () {
     //show employee list on page load
     GetEmployeeList();
 
+    $("#employee_add_undo").on("click",function(event){        
+        $("#employee_name_add").val('');        
+    })
+    $("#employee_edit_undo").on("click",function(event){        
+        $("#employee_name_edit").val('');
+    })
 });
 
 //employee insert

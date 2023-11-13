@@ -23,7 +23,15 @@ function onInchargeInactiveClick() {
 $(document).ready(function () {  
     
     $(".add_inchar_btn").on("click",function(event){        
+        $("#in_charge_name").val('');
         $('#add_incharge_modal').modal('show');
+    })
+
+    $("#undo_incharge_btn_edit").on("click",function(event){        
+        $("#in_charge_name_edit").val('');
+    })
+    $("#undo_incharge_btn_add").on("click",function(event){        
+        $("#in_charge_name").val('');
     })
 
     $("#incharge_reg_save_btn").on("click",function(event){         

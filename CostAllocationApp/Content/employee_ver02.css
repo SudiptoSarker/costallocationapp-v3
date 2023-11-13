@@ -361,7 +361,7 @@ body {
     text-align: center;
 }
 
-#company_reg_cancel_btn,#employee_edit_undo,#employee_add_undo {
+#employee_edit_undo,#employee_add_undo {
     line-height: 1;
 	background-color: red;
     color: white;

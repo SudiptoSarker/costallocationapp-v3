@@ -3,6 +3,7 @@ var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
+var distributeFlag = false;
 
 const channel = new BroadcastChannel("actualCost");
 
@@ -19,6 +20,73 @@ function LoaderHide() {
 
 
 $(document).ready(function () {
+
+    $('#distribute').on('click', function () {
+        var _newEmployeeGroupList = [];
+        var _uniqueEmnployeeIdList = [];
+        var _actualCostCount = 0;
+        var _actualCostAmount = 0;
+        var allData = jss.getData();
+        var _allRows = $(`.jexcel > tbody > tr`);
+
+        for (var i = 0; i < allData.length; i++) {
+            if (_uniqueEmnployeeIdList.length > 0) {
+                if (!_uniqueEmnployeeIdList.includes(allData[i][19])) {
+                    _uniqueEmnployeeIdList.push(allData[i][19]);
+                }
+            }
+            else {
+                _uniqueEmnployeeIdList.push(allData[i][19]);
+            }
+        }
+
+        if (_uniqueEmnployeeIdList.length > 0) {
+            for (var j = 0; j < _uniqueEmnployeeIdList.length; j++) {
+                _actualCostCount = 0;
+                _actualCostAmount =0;
+                for (var k = 0; k < allData.length; k++) {
+                    if (allData[k][19] == _uniqueEmnployeeIdList[j]) {
+
+                        if (allData[k][18] > 0) {
+                            _actualCostAmount = parseFloat(allData[k][18]);
+                            _actualCostCount++;
+                        }
+                        if (_actualCostCount > 1) {
+                            alert('Duplicate actual cost found!');
+                            return;
+                        }
+                        _newEmployeeGroupList.push({
+                            assignmentId: allData[k][0],
+                            manMonth: allData[k][17],
+                            actualCost: allData[k][18]
+                        });
+
+
+                    }
+                }
+                debugger;
+                //console.log(jss.options.rows);
+                console.log(_allRows);
+                for (var l = 0; l < _newEmployeeGroupList.length; l++) {
+
+                    var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
+                    var ac = _actualCostAmount;
+                    var newCost = mm * ac;
+
+                    for (var m = 0; m < _allRows.length; m++) {
+                        if (parseInt(_newEmployeeGroupList[l].assignmentId) ==  parseInt(_allRows[m].cells[1].innerText)) {
+                            jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                        }
+                    }
+
+                }
+
+                _newEmployeeGroupList = [];
+            }
+        }
+        
+
+    });
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
         contentType: 'application/json',
@@ -233,7 +301,8 @@ $(document).ready(function () {
                                 //decimal: '.',
                                 width: 100,
                                 //readOnly: userRoleflag
-                            }
+                            },
+                            { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
                         ],
                         minDimensions: [6, 10],
                         columnSorting: true,
@@ -241,7 +310,7 @@ $(document).ready(function () {
 
                         }
                     });
-                    jss.deleteColumn(19, 25);
+                    jss.deleteColumn(20, 26);
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -269,6 +338,12 @@ $(document).ready(function () {
 
 
     $('#create_actual_cost').on('click', function () {
+
+        if (distributeFlag==false) {
+            alert("Please distribute first!");
+            return false;
+        }
+
         var queryStrings = getUrlVars();
         var dataToSend = [];
         //var year = $('#assignment_year').val();

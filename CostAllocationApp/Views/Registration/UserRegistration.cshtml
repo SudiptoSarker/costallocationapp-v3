@@ -18,7 +18,8 @@
                 <div class="row">        
                     <div class="col-md-5"><label class='input_title'>ユーザーID (User)</label></div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" id="user_name_reg" placeholder="名前 (User Name)">                 
+                        <input type="text" class="form-control" id="user_name_reg" placeholder="名前 (User Name)">   
+                        <label class="reg_error_message" id="name_lbl">please enter user name</label>              
                     </div>
                 </div>
 
@@ -26,6 +27,7 @@
                     <div class="col-md-5"><label class='input_title'>役職 (Title)</label></div>
                     <div class="col-md-7">
                         <input type="text" class="form-control" id="reg_user_title" placeholder="役職 (Title)">
+                        <label class="reg_error_message" id="title_lbl">please enter title</label>         
                     </div>
                 </div>                
                 
@@ -33,21 +35,25 @@
                     <div class="col-md-5"><label class='input_title'>部署 (Dept)</label></div>
                     <div class="col-md-7">
                         <select id="department_list" name="department_list" class='user_dropdown'></select>
+                        <label class="reg_error_message" id="department_lbl">please select departmnet</label>         
                     </div>
                 </div>
 
                 <div class="row">        
                     <div class="col-md-5"><label class='input_title'>メアド (Email)</label></div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" id="reg_user_email" placeholder="メアド (Email)">
+                        <input type="email" class="form-control" id="reg_user_email" placeholder="メアド (Email)" pattern=".com" size="30" required>                        
+                        <label class="reg_error_message" id="email_lbl">please enter email</label>         
                     </div>
                 </div>
                 
                 <div class="row">        
                     <div class="col-md-5"><label class='input_title'>パスワー (Pass)</label></div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" id="reg_user_pass" placeholder="パスワー (Pass)">
-                    </div>
+                        <input type="password" class="form-control" id="reg_user_pass" placeholder="パスワー (Pass)">
+                        <span toggle="#reg_user_pass" class="fa fa-fw fa-eye field-icon toggle-password" id="show_password"></span>
+                        <label class="reg_error_message" id="pass_lbl">please enter user password</label>         
+                    </div>                    
                 </div>
                 
                 <div class="row">        
@@ -55,7 +61,7 @@
                     <div class="col-md-7">
                         <div class='user_registration_action'>
                             <a href="javascript:void(0);" class="user_edit_undo_btn">取消(Undo）</a>
-                            <a href="javascript:void(0);" class="user_edit_update_btn" data-toggle="modal" data-target="#register_modal">保存（save）</a>
+                            <a href="javascript:void(0);" class="user_edit_update_btn">保存（save）</a>
                         </div>
                     </div>
                 </div>    

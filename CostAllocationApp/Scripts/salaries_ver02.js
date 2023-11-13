@@ -2,6 +2,16 @@
     $(".add_master_btn").on("click",function(event){        
         $('#add_master_modal').modal('show');
     })
+    $("#salary_undo_btn").on("click",function(event){        
+        $("#unit_price_from").val('');
+        $("#unit_price_to").val('');
+        $("#grae_point").val(''); 
+    })
+    $("#salary_edit_undo_btn").on("click",function(event){        
+        $("#unit_price_from_edit").val('');
+        $("#unit_price_to_edit").val('');
+        $("#grae_point_edit").val(''); 
+    })
    
     $("#salary_save_btn").on("click",function(event){ 
         let lowUnitPrice = $("#unit_price_from").val().trim();

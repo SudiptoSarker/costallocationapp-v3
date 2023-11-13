@@ -283,3 +283,23 @@ label {
     /* line-height: 42px; */
     line-height: 25px
 }
+
+/*error message*/
+.reg_error_message{
+    margin-left: -79px !important;
+    width: 90% !important;
+    color: red;
+    display: none;
+}
+/*password validation*/
+.field-icon {
+    float: right;
+    margin-right: 157px;
+    margin-top: -21px;
+    position: relative;
+    z-index: 2;
+}
+.container{
+    padding-top:50px;
+    margin: auto;
+}

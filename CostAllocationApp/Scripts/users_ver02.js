@@ -73,36 +73,53 @@
     $(document).on('click', '.user_edit_update_btn', function () {    
         
 
-        let userId = $("#user_id_hidden").val().trim();
-        let userName = $("#edit_user_name").val().trim();        
-        let userTitle = $("#edit_user_title").val().trim();
-        let departmentId = $("#user_department_edit").val().trim();
-        let userEmail = $("#edit_user_email").val().trim();
-        let userPass = $("#edit_user_pass").val().trim();
-        let userRoleId = $("#user_role_list").val().trim();
-        let userStatus = $("#user_status_edit").val().trim();
+        let userId = $("#user_id_hidden").val();
+        let userName = $("#edit_user_name").val();        
+        let userTitle = $("#edit_user_title").val();
+        let departmentId = $("#user_department_edit").val();
+        let userEmail = $("#edit_user_email").val();
+        let userPass = $("#edit_user_pass").val();
+        let userRoleId = $("#user_role_list").val();
+        let userStatus = $("#user_status_edit").val();
         let isActive = true;
 
-        if (userName == "") {
+        if (userId == '' || userId == null || userId == undefined){
+            alert("user id is empty!")
+            return false;
+        }else{
+            userId = userId.trim();
+        }        
+        if (userName == '' || userName == null || userName == undefined){
             alert("please enter user name")
             return false;
+        }else{
+            userName = userName.trim();
         }
-        if (userTitle == "") {
-            alert("please enter title")
+        if (userTitle == '' || userTitle == null || userTitle == undefined){
+            alert("please enter title");
             return false;
+        }else{
+            userTitle = userTitle.trim();
         }
-        if (userPass == "") {
-            alert("please enter user password")
+        if (userPass == '' || userPass == null || userPass == undefined){
+            alert("please enter user password");
             return false;
+        }else{
+            userPass = userPass.trim();
         }
-        if (userRoleId == "" || userRoleId == "-1") {
-            alert("please select user role")
+        if (userRoleId == '' || userRoleId == null || userRoleId == undefined || userRoleId == "-1"){
+            alert("please select user role");
             return false;
+        }else{
+            userRoleId = userRoleId.trim();
         }
-        if (userStatus == "" || userStatus == "-1") {
-            alert("please select user status")
+        if (userStatus == '' || userStatus == null || userStatus == undefined || userStatus == "-1"){
+            alert("please select user status");
             return false;
+        }else{
+            userStatus = userStatus.trim();
         }
+        
         if(userStatus==3){
             userRoleId = 0;
         }else if(userStatus==0){
@@ -157,7 +174,20 @@
                 alert(data.responseJSON.Message);
             }
         });
-    });    
+    });   
+    
+    $(document).on('click', '.user_edit_undo_btn', function (){
+        ClearEntry();
+    });
+    function ClearEntry(){
+        $("#edit_user_name").val('');
+        $("#edit_user_title").val('');        
+        $("#user_department_edit").val('').trigger('change');  
+        $("#edit_user_email").val('');
+        $("#edit_user_pass").val('');
+        $("#user_role_list").val('').trigger('change');  
+        $("#user_status_edit").val('').trigger('change');  
+    }
 });
 
 var changeUserName = "";

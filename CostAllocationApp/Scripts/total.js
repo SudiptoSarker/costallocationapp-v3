@@ -31,6 +31,9 @@
         });
     }
     
+    function GetDynamicTables() {
+        
+    } 
 
     $('#show_dynamic_tables').on('click', () => {        
         var selected_compannies = $("#company_list").val();
@@ -43,7 +46,59 @@
             alert("年を選択してください");
         }
         else{
-                   
+            // var apiurl = "";
+            // apiurl = "/api/Utilities/GetDynamicCostTalbes?companiIds=" + selected_compannies+"&year="+selected_year+"&strTableType="+strTableType+"&timestampsId="+timeStampId;
+                        
+            // $.ajax({                
+            //     url: apiurl,                
+            //     type: 'GET',
+            //     async: false,
+            //     dataType: 'html',
+            //     success: function (data) {
+            //         if (data == "" || data == null || data == undefined) {
+            //             alert("table not found")
+            //         }else{
+            //             strTotalTalbe = data;
+            //         }
+            //     }
+            // });
+            
+            //create total tables with dynamic table settings
+            var strTotalTablesWithCalculationHtml = "";
+            var apiurl = "";
+            apiurl = "/api/Utilities/CreateDynamicTotalTables?companiIds=" + selected_compannies+"&year="+selected_year+"&timestampsId="+timeStampId;                       
+            $.ajax({                
+                url: apiurl,                
+                type: 'GET',
+                async: false,
+                dataType: 'html',
+                success: function (data) {
+                    if (data == "" || data == null || data == undefined) {
+                        alert("table not found")
+                    }else{
+                        //strTotalTablesWithCalculationHtml = data;
+                        $('#dynamic_tables').append(data);
+                    }
+                }
+            });
+            alert(strTotalTablesWithCalculationHtml);
+            // //$.getJSON('/api/Utilities/GetDynamicTables')
+            // $.getJSON('/api/Utilities/CreateDynamicTotalTables')
+            // .done(function (data) {                           
+            //     $.each(data, function (key, item) {
+            //         //total table: start     
+            //         //var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total',timeStampId);
+            //         var totalTableTitle = GetDynamicTableTitle(item.Id);
+            //         $('#p-total').remove();
+            //         $('#total_table').before('<p class="font-weight-bold" id="p-total" style="margin-top:20px;"><u>'+totalTableTitle+'</u></p>');            
+            //         // $('#total_table').empty();
+            //         // $('#total_table').append(strTotalTableHeaderPart);
+            //         //total table: end
+
+            //         //$('#table_list').append(`<option value='${item.Id}'>${item.TableName}</option>`);
+            //     });
+            // });
+            return false;
             //total table: start     
             var strTotalTableHeaderPart = GetDynamicCostTables(selected_compannies,selected_year,'total',timeStampId);
             var totalTableTitle = GetDynamicTableTitleByPosition(1);
@@ -1212,6 +1267,26 @@
 
         $.ajax({            
             url: "/api/Utilities/GetDynamicTableTitleByPosition?tablePosition=" + tablePosition,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data == "" || data == null || data == undefined) {
+                    alert("table not found")
+                }else{
+                    strTotalTalbe = data;                    
+                }
+            }
+        });
+        return strTotalTalbe
+    }
+    //get table title
+    function GetDynamicTableTitle(tableId){
+        var strTotalTalbe = "";        
+
+        $.ajax({            
+            url: "/api/Utilities/GetDynamicTableTitle?tableId=" + tableId,
             contentType: 'application/json',
             type: 'GET',
             async: false,

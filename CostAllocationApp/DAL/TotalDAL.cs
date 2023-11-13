@@ -530,6 +530,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public string GetDynamicTableTitleByPosition(string tablePosition)
         {
             //
@@ -538,6 +539,38 @@ namespace CostAllocationApp.DAL
             string strTableTitle = "";
 
             query = "select Id,Tabletitle from DynamicTables where TablePosition="+ tablePosition;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            strTableTitle = rdr["Tabletitle"] == DBNull.Value ? "" : rdr["Tabletitle"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return strTableTitle;
+            }
+        }
+
+        public string GetDynamicTableTitle(string tableId)
+        {
+            //
+            DynamicTable dynamicTable = new DynamicTable();
+            string query = "";
+            string strTableTitle = "";
+
+            query = "select * from DynamicTables where Id=" + tableId;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

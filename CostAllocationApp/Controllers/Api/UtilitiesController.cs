@@ -10106,6 +10106,318 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        //get all the tables with calculations
+        [HttpGet]
+        [Route("api/utilities/CreateDynamicTotalTables/")]
+        public IHttpActionResult CreateDynamicTotalTables(string companiIds, string year,string timestampsId)
+        {
+            string strTotalTalbe = "";
+            string dynamicTables = "";
+            var result = totalBLL.GetAllDynamicTables();
+            int tableCount = 1;
+            foreach(var tableItem in result)
+            {
+                dynamicTables = dynamicTables + "<div class='col-md-12'>";
+                dynamicTables = dynamicTables + "<div id='total_table_container'>";
+
+                //string tableStart = "";
+                //string tableEnd = "";
+                //string tableTitle = "";
+                //string tableHeader = "";
+
+                dynamicTables = dynamicTables + "<table id='dynamic_table_" + tableCount + "' class='table'>";
+                dynamicTables = dynamicTables + "<p class='font-weight-bold' id='p-total' style='margin-top:20px;'><u>"+ tableItem.TableTitle + "</u></p>";
+
+                //get dynamic settings
+                List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+
+                if (dynamicSettings.Count > 0)
+                {
+                    string strTotalTableHeader = "";
+                    string strTotalTableBody = "";
+                    string tableTitle = "";
+                    string strTotalTableBodyStart = "<tbody>";
+                    string strTotalTableBodyEnd = "</tbody>";
+
+                    tableTitle = tableItem.TableTitle;
+
+                    strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+                    int totalTableIndexCount = 0;
+                    string multiTotalBody = "";
+                    DynamicTableViewModal _totalCost = new DynamicTableViewModal();
+                    double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
+
+                    foreach (var settingItem in dynamicSettings)
+                    {
+                        string singleTotalBody = "";
+                        singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId, companiIds);
+
+                        //total row calculation
+                        {
+                            DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                            dynamicTableViewModal = totalBLL.GetTotalCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                            if (octTotalSum > 0)
+                            {
+                                octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                            }
+                            else
+                            {
+                                octTotalSum = dynamicTableViewModal.OctTotalCost;
+                            }
+                            if (novTotalSum > 0)
+                            {
+                                novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                            }
+                            else
+                            {
+                                novTotalSum = dynamicTableViewModal.NovTotalCost;
+                            }
+                            if (decTotalSum > 0)
+                            {
+                                decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                            }
+                            else
+                            {
+                                decTotalSum = dynamicTableViewModal.DecTotalCost;
+                            }
+                            if (janTotalSum > 0)
+                            {
+                                janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                            }
+                            else
+                            {
+                                janTotalSum = dynamicTableViewModal.JanTotalCost;
+                            }
+                            if (febTotalSum > 0)
+                            {
+                                febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                            }
+                            else
+                            {
+                                febTotalSum = dynamicTableViewModal.FebTotalCost;
+                            }
+                            if (marTotalSum > 0)
+                            {
+                                marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                            }
+                            else
+                            {
+                                marTotalSum = dynamicTableViewModal.MarTotalCost;
+                            }
+                            if (aprTotalSum > 0)
+                            {
+                                aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                            }
+                            else
+                            {
+                                aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                            }
+                            if (mayTotalSum > 0)
+                            {
+                                mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                            }
+                            else
+                            {
+                                mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                            }
+                            if (junTotalSum > 0)
+                            {
+                                junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                            }
+                            else
+                            {
+                                junTotalSum = dynamicTableViewModal.JunTotalCost;
+                            }
+                            if (julTotalSum > 0)
+                            {
+                                julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                            }
+                            else
+                            {
+                                julTotalSum = dynamicTableViewModal.JulTotalCost;
+                            }
+                            if (augTotalSum > 0)
+                            {
+                                augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                            }
+                            else
+                            {
+                                augTotalSum = dynamicTableViewModal.AugTotalCost;
+                            }
+                            if (sepTotalSum > 0)
+                            {
+                                sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                            }
+                            else
+                            {
+                                sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                            }
+                            if (firstHalfTotalSum > 0)
+                            {
+                                firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                            }
+                            else
+                            {
+                                firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                            }
+                            if (secondHalfTotalSum > 0)
+                            {
+                                secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                            }
+                            else
+                            {
+                                secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                            }
+                            if (yearCostTotalSum > 0)
+                            {
+                                yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                            }
+                            else
+                            {
+                                yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(multiTotalBody))
+                        {
+                            multiTotalBody = singleTotalBody;
+                        }
+                        else
+                        {
+                            multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                        }
+                    }
+
+                    string totalRowTd = "";
+                    totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
+                    totalRowTd = totalRowTd + "<td>Total</td>";
+                    if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                    {
+                        totalRowTd = totalRowTd + "<td></td>";
+                    }
+                    if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                    {
+                        totalRowTd = totalRowTd + "<td></td>";
+                    }
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
+
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
+
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
+                    totalRowTd = totalRowTd + "</tr>";
+
+                    if (string.IsNullOrEmpty(multiTotalBody))
+                    {
+                        multiTotalBody = totalRowTd;
+                    }
+                    else
+                    {
+                        multiTotalBody = multiTotalBody + "" + totalRowTd;
+                    }
+
+                    strTotalTableBody = strTotalTableBodyStart + "" + multiTotalBody + "" + strTotalTableBodyEnd;
+
+                    if (string.IsNullOrEmpty(strTotalTalbe))
+                    {
+                        strTotalTalbe = strTotalTableHeader + "" + strTotalTableBody;
+                    }
+                    else
+                    {
+                        strTotalTalbe = strTotalTalbe + "" + strTotalTableHeader + "" + strTotalTableBody;
+                    }
+                }
+
+                dynamicTables = dynamicTables + "</table>";                
+                dynamicTables = dynamicTables + "</div>";
+                dynamicTables = dynamicTables + "</div>";
+
+                tableCount++;
+                //<div class='col-md-12'>
+                //    <div id='total_table_container'>
+                //        <table id='total_budget_table' class='table'></table>
+                //    </div>
+                //</div>
+                //<div class='col-md-12'>
+                //    <div id='total_table_container'>
+                //        <table id='difference_table' class='table'></table>
+                //    </div>
+                //</div>
+                //<div class='col-md-12'>
+                //    <div id='total_table_container'>
+                //        <table id='headcount_table' class='table'></table>
+                //    </div>
+                //</div>
+
+            }
+            string totalTableStartDiv = "";
+            string totalTableEndDiv = "";
+
+            totalTableStartDiv = totalTableStartDiv + "<div class='row'> ";            
+            totalTableEndDiv = totalTableEndDiv + "</div> ";
+            strTotalTalbe = totalTableStartDiv + "" + dynamicTables + "" + totalTableEndDiv;
+            return Ok(strTotalTalbe);
+            //List<DynamicTable> dynamicTables = new List<DynamicTable>();
+
+
+            //dynamicTables = totalBLL.GetAllDynamicTables();
+            //if (dynamicTables.Count > 0)
+            //{
+            //    string strTotalTalbe = "";
+            //    foreach (var tableItem in dynamicTables)
+            //    {
+            //        if (!string.IsNullOrEmpty(tableItem.TablePosition.ToString()))
+            //        {
+            //            //total table
+            //            if (!string.IsNullOrEmpty(strTableType))
+            //            {
+            //                if (strTableType == "headcount")
+            //                {
+            //                    //headcount table
+            //                    if (Convert.ToInt32(tableItem.TablePosition) == 4)
+            //                    {
+            //                        List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+            //                        dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableItem.Id);
+            //                        if (dynamicSettings.Count > 0)
+            //                        {
+            //                            string strTotalTableHeader = "";
+            //                            string tableTitle = "";
+
+            //                            tableTitle = tableItem.TableTitle;
+
+            //                            strTotalTableHeader = totalBLL.GetCostTableHeaderPart(tableItem.CategoryTitle, tableItem.SubCategoryTitle, tableItem.DetailsTitle, tableTitle, year);
+
+
+            //                            strTotalTalbe = strTotalTalbe + strTotalTableHeader;
+
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+
+            //    }
+            //    return Ok(strTotalTalbe);
+            //}
+            //else
+            //{
+            //    return Ok("Table not created!");
+            //}            
+        }
+
         [HttpPost]
         [Route("api/utilities/UpdateDynamicTable/")]
         public IHttpActionResult UpdateDynamicTable(DynamicTable dynamicTable)
@@ -11935,7 +12247,7 @@ namespace CostAllocationApp.Controllers.Api
             //}
             //return Ok(sukeyQADtos);
         }
-
+       
         [HttpGet]
         [Route("api/utilities/GetDynamicTableTitleByPosition/")]
         public IHttpActionResult GetDynamicTableTitleByPosition(string tablePosition)
@@ -11944,6 +12256,22 @@ namespace CostAllocationApp.Controllers.Api
             if (!string.IsNullOrEmpty(tablePosition))
             {
                 retunTitle = totalBLL.GetDynamicTableTitleByPosition(tablePosition);
+                return Ok(retunTitle);
+            }
+            else
+            {
+                return Ok("");
+            }
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDynamicTableTitle/")]
+        public IHttpActionResult GetDynamicTableTitle(string tableId)
+        {
+            string retunTitle = "";
+            if (!string.IsNullOrEmpty(tableId))
+            {
+                retunTitle = totalBLL.GetDynamicTableTitle(tableId);
                 return Ok(retunTitle);
             }
             else

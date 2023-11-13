@@ -10146,179 +10146,179 @@ namespace CostAllocationApp.Controllers.Api
 
                     int totalTableIndexCount = 0;
                     string multiTotalBody = "";
-                    DynamicTableViewModal _totalCost = new DynamicTableViewModal();
-                    double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
+                    //DynamicTableViewModal _totalCost = new DynamicTableViewModal();
+                    //double octTotalSum = 0, novTotalSum = 0, decTotalSum = 0, janTotalSum = 0, febTotalSum = 0, marTotalSum = 0, aprTotalSum = 0, mayTotalSum = 0, junTotalSum = 0, julTotalSum = 0, augTotalSum = 0, sepTotalSum = 0, firstHalfTotalSum = 0, secondHalfTotalSum = 0, yearCostTotalSum = 0;
 
-                    foreach (var settingItem in dynamicSettings)
-                    {
-                        string singleTotalBody = "";
-                        singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId, companiIds);
+                    //foreach (var settingItem in dynamicSettings)
+                    //{
+                    //    string singleTotalBody = "";
+                    //    singleTotalBody = totalBLL.GetTotalCostTableBody(settingItem, totalTableIndexCount, year, timestampsId, companiIds);
 
-                        //total row calculation
-                        {
-                            DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
-                            dynamicTableViewModal = totalBLL.GetTotalCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
-                            if (octTotalSum > 0)
-                            {
-                                octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
-                            }
-                            else
-                            {
-                                octTotalSum = dynamicTableViewModal.OctTotalCost;
-                            }
-                            if (novTotalSum > 0)
-                            {
-                                novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
-                            }
-                            else
-                            {
-                                novTotalSum = dynamicTableViewModal.NovTotalCost;
-                            }
-                            if (decTotalSum > 0)
-                            {
-                                decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
-                            }
-                            else
-                            {
-                                decTotalSum = dynamicTableViewModal.DecTotalCost;
-                            }
-                            if (janTotalSum > 0)
-                            {
-                                janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
-                            }
-                            else
-                            {
-                                janTotalSum = dynamicTableViewModal.JanTotalCost;
-                            }
-                            if (febTotalSum > 0)
-                            {
-                                febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
-                            }
-                            else
-                            {
-                                febTotalSum = dynamicTableViewModal.FebTotalCost;
-                            }
-                            if (marTotalSum > 0)
-                            {
-                                marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
-                            }
-                            else
-                            {
-                                marTotalSum = dynamicTableViewModal.MarTotalCost;
-                            }
-                            if (aprTotalSum > 0)
-                            {
-                                aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
-                            }
-                            else
-                            {
-                                aprTotalSum = dynamicTableViewModal.AprTotalCost;
-                            }
-                            if (mayTotalSum > 0)
-                            {
-                                mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
-                            }
-                            else
-                            {
-                                mayTotalSum = dynamicTableViewModal.MayTotalCost;
-                            }
-                            if (junTotalSum > 0)
-                            {
-                                junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
-                            }
-                            else
-                            {
-                                junTotalSum = dynamicTableViewModal.JunTotalCost;
-                            }
-                            if (julTotalSum > 0)
-                            {
-                                julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
-                            }
-                            else
-                            {
-                                julTotalSum = dynamicTableViewModal.JulTotalCost;
-                            }
-                            if (augTotalSum > 0)
-                            {
-                                augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
-                            }
-                            else
-                            {
-                                augTotalSum = dynamicTableViewModal.AugTotalCost;
-                            }
-                            if (sepTotalSum > 0)
-                            {
-                                sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
-                            }
-                            else
-                            {
-                                sepTotalSum = dynamicTableViewModal.SepTotalCost;
-                            }
-                            if (firstHalfTotalSum > 0)
-                            {
-                                firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
-                            }
-                            else
-                            {
-                                firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
-                            }
-                            if (secondHalfTotalSum > 0)
-                            {
-                                secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
-                            }
-                            else
-                            {
-                                secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
-                            }
-                            if (yearCostTotalSum > 0)
-                            {
-                                yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
-                            }
-                            else
-                            {
-                                yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
-                            }
-                        }
+                    //    //total row calculation
+                    //    {
+                    //        DynamicTableViewModal dynamicTableViewModal = new DynamicTableViewModal();
+                    //        dynamicTableViewModal = totalBLL.GetTotalCostWithoutQA(settingItem, companiIds, Convert.ToInt32(year), timestampsId);
+                    //        if (octTotalSum > 0)
+                    //        {
+                    //            octTotalSum = octTotalSum + dynamicTableViewModal.OctTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            octTotalSum = dynamicTableViewModal.OctTotalCost;
+                    //        }
+                    //        if (novTotalSum > 0)
+                    //        {
+                    //            novTotalSum = novTotalSum + dynamicTableViewModal.NovTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            novTotalSum = dynamicTableViewModal.NovTotalCost;
+                    //        }
+                    //        if (decTotalSum > 0)
+                    //        {
+                    //            decTotalSum = decTotalSum + dynamicTableViewModal.DecTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            decTotalSum = dynamicTableViewModal.DecTotalCost;
+                    //        }
+                    //        if (janTotalSum > 0)
+                    //        {
+                    //            janTotalSum = janTotalSum + dynamicTableViewModal.JanTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            janTotalSum = dynamicTableViewModal.JanTotalCost;
+                    //        }
+                    //        if (febTotalSum > 0)
+                    //        {
+                    //            febTotalSum = febTotalSum + dynamicTableViewModal.FebTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            febTotalSum = dynamicTableViewModal.FebTotalCost;
+                    //        }
+                    //        if (marTotalSum > 0)
+                    //        {
+                    //            marTotalSum = marTotalSum + dynamicTableViewModal.MarTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            marTotalSum = dynamicTableViewModal.MarTotalCost;
+                    //        }
+                    //        if (aprTotalSum > 0)
+                    //        {
+                    //            aprTotalSum = aprTotalSum + dynamicTableViewModal.AprTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            aprTotalSum = dynamicTableViewModal.AprTotalCost;
+                    //        }
+                    //        if (mayTotalSum > 0)
+                    //        {
+                    //            mayTotalSum = mayTotalSum + dynamicTableViewModal.MayTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            mayTotalSum = dynamicTableViewModal.MayTotalCost;
+                    //        }
+                    //        if (junTotalSum > 0)
+                    //        {
+                    //            junTotalSum = junTotalSum + dynamicTableViewModal.JunTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            junTotalSum = dynamicTableViewModal.JunTotalCost;
+                    //        }
+                    //        if (julTotalSum > 0)
+                    //        {
+                    //            julTotalSum = julTotalSum + dynamicTableViewModal.JulTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            julTotalSum = dynamicTableViewModal.JulTotalCost;
+                    //        }
+                    //        if (augTotalSum > 0)
+                    //        {
+                    //            augTotalSum = augTotalSum + dynamicTableViewModal.AugTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            augTotalSum = dynamicTableViewModal.AugTotalCost;
+                    //        }
+                    //        if (sepTotalSum > 0)
+                    //        {
+                    //            sepTotalSum = sepTotalSum + dynamicTableViewModal.SepTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            sepTotalSum = dynamicTableViewModal.SepTotalCost;
+                    //        }
+                    //        if (firstHalfTotalSum > 0)
+                    //        {
+                    //            firstHalfTotalSum = firstHalfTotalSum + dynamicTableViewModal.FirstHalfTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            firstHalfTotalSum = dynamicTableViewModal.FirstHalfTotalCost;
+                    //        }
+                    //        if (secondHalfTotalSum > 0)
+                    //        {
+                    //            secondHalfTotalSum = secondHalfTotalSum + dynamicTableViewModal.SecondHalfTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            secondHalfTotalSum = dynamicTableViewModal.SecondHalfTotalCost;
+                    //        }
+                    //        if (yearCostTotalSum > 0)
+                    //        {
+                    //            yearCostTotalSum = yearCostTotalSum + dynamicTableViewModal.YearTotalCost;
+                    //        }
+                    //        else
+                    //        {
+                    //            yearCostTotalSum = dynamicTableViewModal.YearTotalCost;
+                    //        }
+                    //    }
 
-                        if (string.IsNullOrEmpty(multiTotalBody))
-                        {
-                            multiTotalBody = singleTotalBody;
-                        }
-                        else
-                        {
-                            multiTotalBody = multiTotalBody + "" + singleTotalBody;
-                        }
-                    }
+                    //    if (string.IsNullOrEmpty(multiTotalBody))
+                    //    {
+                    //        multiTotalBody = singleTotalBody;
+                    //    }
+                    //    else
+                    //    {
+                    //        multiTotalBody = multiTotalBody + "" + singleTotalBody;
+                    //    }
+                    //}
 
                     string totalRowTd = "";
-                    totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
-                    totalRowTd = totalRowTd + "<td>Total</td>";
-                    if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
-                    {
-                        totalRowTd = totalRowTd + "<td></td>";
-                    }
-                    if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
-                    {
-                        totalRowTd = totalRowTd + "<td></td>";
-                    }
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<tr data-indentity='" + totalTableIndexCount + "'>";
+                    //totalRowTd = totalRowTd + "<td>Total</td>";
+                    //if (!string.IsNullOrEmpty(tableItem.SubCategoryTitle))
+                    //{
+                    //    totalRowTd = totalRowTd + "<td></td>";
+                    //}
+                    //if (!string.IsNullOrEmpty(tableItem.DetailsTitle))
+                    //{
+                    //    totalRowTd = totalRowTd + "<td></td>";
+                    //}
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(octTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(novTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(decTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(janTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(febTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(marTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(aprTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(mayTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(junTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(julTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(augTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(sepTotalSum).ToString("N0") + "</td>";
 
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(yearCostTotalSum).ToString("N0") + "</td>";
 
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
-                    totalRowTd = totalRowTd + "</tr>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(firstHalfTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "<td class='text-right'>" + Convert.ToInt32(secondHalfTotalSum).ToString("N0") + "</td>";
+                    //totalRowTd = totalRowTd + "</tr>";
 
                     if (string.IsNullOrEmpty(multiTotalBody))
                     {

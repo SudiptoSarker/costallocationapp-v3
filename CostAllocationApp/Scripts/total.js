@@ -81,7 +81,7 @@
                     }
                 }
             });
-            alert(strTotalTablesWithCalculationHtml);
+            //alert(strTotalTablesWithCalculationHtml);
             // //$.getJSON('/api/Utilities/GetDynamicTables')
             // $.getJSON('/api/Utilities/CreateDynamicTotalTables')
             // .done(function (data) {                           

@@ -36,5 +36,6 @@ namespace CostAllocationApp.Models
         public string CommaSeperatedParameterName { get; set; }        
         // for receive data from client
         public List<DynamicSetting> DynamicSettings { get; set; }
+        public string ParameterType { get; set; }
     }
 }

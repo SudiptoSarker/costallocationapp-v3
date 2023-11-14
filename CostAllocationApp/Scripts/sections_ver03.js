@@ -4,13 +4,9 @@
     GetSectionList();
     
     //Section Delete/Remove Confirm Button           
-    $('#section_inactive_confirm_btn').on('click', function (event) {
+    $('#sec_del_confirm').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("section_list_tbody");
-
-        var sectionWarningTxt = $("#section_warning_text").val();
-        $("#section_warning").html(sectionWarningTxt);
-        var tempVal = $("#section_warning").html();
 
         id = id.slice(0, -1);
         $.ajax({
@@ -24,14 +20,14 @@
                 ToastMessageFailed(data);
             }
         });
-        $('#delete_section').modal('toggle');
+        $('#delete_section_modal').modal('toggle');
     });
     
     /***************************\                           
     Section In-Active/Remove 
-    Also,shows that in how many projec that section is assigned                
+    Also,shows that in how many projec in that specific section is assigned for             
     \***************************/	
-    function onSectionInactiveClick() {
+    function SectionWithAssignment() {
         let sectionIds = GetCheckedIds("section_list_tbody");
         var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
         $.ajax({
@@ -39,9 +35,9 @@
             type: 'Get',
             dataType: 'json',
             success: function (data) {
-                $('.section_count').empty();
+                $('.del_confirm_warning').empty();
                 $.each(data, function (key, item) {
-                    $('.section_count').append(`<li class='text-info'>${item}</li>`);
+                    $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
                 });
             },
             error: function (data) {
@@ -51,8 +47,7 @@
 
     /***************************\                           
     Check if the section is checked for delete/remove
-    \***************************/
-    //$('#section_inactive_btn').on('click', function (event) {
+    \***************************/    
     $('.delete_sec_btn').on('click', function (event) {
         let id = GetCheckedIds("section_list_tbody");
         if (id == "") {
@@ -60,8 +55,8 @@
             return false;
         }
         else{
-            onSectionInactiveClick();
-            $('#delete_section').modal('show');
+            SectionWithAssignment();
+            $('#delete_section_modal').modal('show');
         }
     });
 
@@ -75,6 +70,7 @@
 
         UpdateInsertSection(sectionName,0,false);
     })    
+
     //edit from modal
     $("#edit_sec_from_modal").on("click",function(event){        
         var sectionName = $("#section_name_edit").val();   
@@ -88,6 +84,7 @@
             UpdateInsertSection(sectionName,sectionId,true);
         }        
     })
+
     /***************************\                           
         Section Insertion is done by this function. 
     \***************************/
@@ -139,13 +136,13 @@
             }
         });            
     }
+
     /***************************\                           
     Get all the section list from database.
     \***************************/
     function GetSectionList() {
         $.getJSON('/api/sections/')
-            .done(function (data) {
-                //SectionList_Datatable(data);
+            .done(function (data) {                
                 if (data != '' && data != null && data != undefined){
                     $('#section_list_tbody').empty();
                     $.each(data, function (key, item) {                
@@ -155,39 +152,19 @@
             });
     }
 
-    function SectionList_Datatable(data){
-        $('#section_list_tbl').DataTable({
-            destroy: true,
-            data: data,
-            //ordering: false,
-            ordering: true,
-            orderCellsTop: true,
-            pageLength: 5,
-            searching: false,
-            searching: true,
-            bLengthChange: false,    
-            dom: 'lifrtip',
-            columns: [            
-                {
-                    data: 'Id',
-                    //className: 'select-checkbox',                    
-                },
-                {
-                    data: 'SectionName'
-                }
-            ]            
-        });
-    }
     $(".add_sec_btn").on("click",function(event){   
         $("#section-name").val('');     
         $('#add_section_modal').modal('show');
     })
+
     $("#sec_undo_btn").on("click",function(event){        
         $("#section-name").val('');
     })
+
     $("#undo_edit_sec").on("click",function(event){        
         $("#section_name_edit").val('');
     })
+    
     $(".edit_sec_btn").on("click",function(event){   
        
         let id = GetCheckedIds("section_list_tbody");

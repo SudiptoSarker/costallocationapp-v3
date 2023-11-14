@@ -2682,12 +2682,10 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetUserList/")]
         public IHttpActionResult GetUserList()
         {
-            var orderBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderBy"]) ? "" : HttpContext.Current.Request.QueryString["orderBy"];
-            var orderType = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderType"]) ? "" : HttpContext.Current.Request.QueryString["orderType"];
             var session = System.Web.HttpContext.Current.Session;
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
             List<User> filteredUsers = new List<User>();
-            List<User> users = userBLL.GetAllUsers(orderBy, orderType);
+            List<User> users = userBLL.GetAllUsers();
             if (user.UserRoleId == "1")
             {
                 if (users.Count > 0)
@@ -2729,120 +2727,6 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
-        [HttpGet]
-        [Route("api/utilities/GetSearchUserList/")]
-        public IHttpActionResult GetSearchUserList()
-        {
-            string searchOption = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["searchOption"]) ? "" : HttpContext.Current.Request.QueryString["searchOption"];
-            string searchBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["searchBy"]) ? "" : HttpContext.Current.Request.QueryString["searchBy"];
-            //string filterRole = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterRole"]) ? "" : HttpContext.Current.Request.QueryString["filterRole"];
-            //string filterTitle = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterTitle"]) ? "" : HttpContext.Current.Request.QueryString["filterTitle"];
-            //string filterDept = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterDept"]) ? "" : HttpContext.Current.Request.QueryString["filterDept"];
-            //string filterStatus = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterStatus"]) ? "" : HttpContext.Current.Request.QueryString["filterStatus"];
-            //string orderBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderBy"]) ? "" : HttpContext.Current.Request.QueryString["orderBy"];
-
-            var session = System.Web.HttpContext.Current.Session;
-            var user = userBLL.GetUserByUserName(session["userName"].ToString());
-            List<User> searchedUsers = new List<User>();
-            List<User> users = userBLL.GetSearchedUsers(searchOption, searchBy);
-            if (user.UserRoleId == "1")
-            {
-                if (users.Count > 0)
-                {
-                    foreach (var item in users)
-                    {
-                        if (item.Id == user.Id)
-                        {
-                            continue;
-                        }
-                        item.Password = "***";
-                        searchedUsers.Add(item);
-                    }
-                    return Ok(searchedUsers);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                if (users.Count > 0)
-                {
-                    foreach (var item in users)
-                    {
-                        if (item.Id == user.Id)
-                        {
-                            item.Password = "***";
-                            searchedUsers.Add(item);
-                        }
-
-                    }
-                    return Ok(searchedUsers);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }           
-        }
-
-        [HttpGet]
-        [Route("api/utilities/GetFilterUserList/")]
-        public IHttpActionResult GetFilterUserList()
-        {
-            string filterRole = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterRole"]) ? "" : HttpContext.Current.Request.QueryString["filterRole"];
-            string filterTitle = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterTitle"]) ? "" : HttpContext.Current.Request.QueryString["filterTitle"];
-            string filterDept = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterDepartment"]) ? "" : HttpContext.Current.Request.QueryString["filterDepartment"];
-            string filterStatus = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterStatus"]) ? "" : HttpContext.Current.Request.QueryString["filterStatus"];
-            //string orderBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderBy"]) ? "" : HttpContext.Current.Request.QueryString["orderBy"];
-
-            var session = System.Web.HttpContext.Current.Session;
-            var user = userBLL.GetUserByUserName(session["userName"].ToString());
-            List<User> filteredUsers = new List<User>();
-            List<User> users = userBLL.GetFilteredUsers(filterRole, filterTitle, filterDept, filterStatus);
-            if (user.UserRoleId == "1")
-            {
-                if (users.Count > 0)
-                {
-                    foreach (var item in users)
-                    {
-                        if (item.Id == user.Id)
-                        {
-                            continue;
-                        }
-                        item.Password = "***";
-                        filteredUsers.Add(item);
-                    }
-                    return Ok(filteredUsers);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                if (users.Count > 0)
-                {
-                    foreach (var item in users)
-                    {
-                        if (item.Id == user.Id)
-                        {
-                            item.Password = "***";
-                            filteredUsers.Add(item);
-                        }
-
-                    }
-                    return Ok(filteredUsers);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-        }
-
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]
         public IHttpActionResult UpdateEmployee(Employee employee)
@@ -5031,14 +4915,6 @@ namespace CostAllocationApp.Controllers.Api
         [HttpGet]
         [Route("api/utilities/GetAllUserRoles/")]
         public IHttpActionResult GetAllUserRoles()
-        {
-            var roles = userRoleBLL.GetAllUserRoles();
-            return Ok(roles);
-        }
-
-        [HttpGet]
-        [Route("api/utilities/GetAllUserStatus/")]
-        public IHttpActionResult GetAllUserStatus()
         {
             var roles = userRoleBLL.GetAllUserRoles();
             return Ok(roles);

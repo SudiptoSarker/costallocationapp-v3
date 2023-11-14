@@ -8,94 +8,90 @@
     <link rel="stylesheet" type="text/css" href="/Content/departments_ver02.css" />   
 }
 
-    <div class="content container-fluid">
-        <!-----------------Department Master: Department list are showing on this part----------------->
-        <div id="department_list" style="display: block;">
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="table-responsive">
-                        <label id="list_master">
-                            登録した部署を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。
-                        </label>
-                        <table class="" id="dept_list_tbl">
-                            <thead>
-                                <tr>
-                                    <th colspan="6" class="department_th">部署 リスト(Dept List)</th>
-                                </tr>
-                                <tr>
-                                    <th class="dept_list_theader department_th">複数選択</th>
-                                    <th class="dept_list_theader department_th">部署 (Dept Name)</th>
-                                    <th class="dept_list_theader department_th">区分 (Section)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="department_list_tbody"></tbody>
-                        </table>
-                    </div>
+<div class="content container-fluid">
+    <!-----------------Department Master: Department list are showing on this part----------------->
+    <div id="department_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="table-responsive">
+                    <label id="list_master">
+                        登録した部署を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。
+                    </label>
+                    <table id="dept_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6" class="dept_header">部署 リスト(Dept List)</th>
+                            </tr>
+                            <tr>
+                                <th class="dept_list_theader dept_header">複数選択</th>
+                                <th class="dept_list_theader dept_header">部署 (Dept Name)</th>
+                                <th class="dept_list_theader dept_header">区分 (Section)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="department_list_tbody"></tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            @if (Convert.ToBoolean(ViewBag.linkFlag))
-            {
-                
-                <div class="add_edit_delete_btn_section" style="display: block;">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button class="btn delete_dept_btn" type="button">削除 (delete)​</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn edit_dept_btn" type="button">編集​ (edit)​</button>
-                                </div>                                
-                                <div class="col-md-3" >
-                                    <button class="btn add_dept_btn" type="button">追加 (add)</button>
-                                </div>
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
+            
+            <div class="add_edit_del_dept" style="display: block;">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn delete_dept_btn" type="button">削除 (delete)​</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn edit_dept_btn" type="button">編集​ (edit)​</button>
+                            </div>                                
+                            <div class="col-md-3" >
+                                <button class="btn add_dept_btn" type="button">追加 (add)</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
-        <br />
+            </div>
+        }
     </div>
+    
+    <input type="hidden" id="department_id_for_edit_modal" />    
+</div>
 
-<input type="hidden" id="department_warning_text" />
-<input type="hidden" id="department_id_for_edit_modal" />
-
-<!-----------------Modal: Add Section----------------->
+<!-----------------Modal: Add Department----------------->
 <div class="modal custom-modal fade" id="add_department_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-body">
-                
+            <div class="modal-body">                
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加 部署 (add department)</h3>
+                    <h3 class='add_edit_del_header'>追加 部署 (add department)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
-                <div class="modal-body">
-                    <!-- <label id='add_modal_body_title'>新規登録する場合は、「新規区分をここに入力」テキストボックスに区分名を記載し、保存ボタンをクリックしてください。</label> -->
+                <div class="modal-body">                    
                     <label id="input_master">
                         新規登録する場合は、「新規部署名をここに入力」テキストボックスに部署名を記載し、該当する区分を選択し、保存ボタンをクリックしてください。 
                     </label>
-                    <table id="sub_item_input_tbl">
+                    <table class="add_edit_dept_tbl">
                         <thead style="border: none;">
                             <tr></tr>
                             <tr>
-                                <th class="department_th">部署 (Dept Name)</th>
-                                <th class="department_th">区分 (Section)</th>
-                                <th class="department_th">操作</th>
+                                <th class="dept_header">部署 (Dept Name)</th>
+                                <th class="dept_header">区分 (Section)</th>
+                                <th class="dept_header">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="dept_reg_frm_td">
+                                <td class="department_body">
                                     <input type="text" value="" placeholder="新規部署名をここに入力" id="department_name">                                            
                                 </td>
-                                <td id="dept_reg_frm_td">
-                                    <select id="section_list" class="" style=""></select>                                           
+                                <td class="department_body">
+                                    <select id="sec_list_for_dept_add" class="" style=""></select>                                           
                                 </td>
-                                <td id="dept_reg_frm_td">
+                                <td class="department_body">
                                     <a href="javascript:void(0);" class="" id="undo_add_frm">取消(undo)</a>
                                     <a href="javascript:void(0);" class="" id="dept_add_btn">保存（save）</a>
                                 </td>
@@ -113,36 +109,36 @@
     </div>
 </div>
 
-<!-----------------Modal: Edit Section----------------->
+<!-----------------Modal: Edit Department----------------->
 <div class="modal custom-modal fade" id="edit_department_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">                    
                 <div class="form-header">
-                    <h3 id='add_modal_header'>編集​ 部署 (edit department)</h3>
+                    <h3 class='add_edit_del_header'>編集​ 部署 (edit department)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
-                    <table id="sub_item_input_tbl">
+                    <label class='add_edit_modal_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
+                    <table class="add_edit_dept_tbl">
                         <thead style="border: none;">
                             <tr></tr>
                             <tr>
-                                <th class="department_th">部署 (Dept Name)</th>
-                                <th class="department_th">区分 (Section)</th>
-                                <th class="department_th">操作</th>
+                                <th class="dept_header">部署 (Dept Name)</th>
+                                <th class="dept_header">区分 (Section)</th>
+                                <th class="dept_header">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="dept_reg_frm_td">
+                                <td class="department_body">
                                     <input type="text" value="" placeholder="新規部署名をここに入力" id="department_name_edit">                                            
                                 </td>
-                                <td id="dept_reg_frm_td">
-                                    <select id="section_list_edit" class="" style=""></select>                                           
+                                <td class="department_body">
+                                    <select id="sec_list_for_dept_edit" class="" style=""></select>                                           
                                 </td>
-                                <td id="dept_reg_frm_td">
+                                <td class="department_body">
                                     <a href="javascript:void(0);" class="" id="undo_edit_frm">取消(undo)</a>
                                     <a href="javascript:void(0);" class="" id="dept_edit_btn">更新​ (Update)</a>
                                 </td>
@@ -160,13 +156,13 @@
 
 
 <!-----------------Modal: Delete department----------------->
-<div class="modal custom-modal fade" id="inactive_department_modal" role="dialog">
+<div class="modal custom-modal fade" id="delete_department_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>部門削除 (Delete Department)</h3>
-                    <ol class="department_count" style="text-align:left;"></ol>
+                    <h3 class='add_edit_del_header'>部門削除 (Delete Department)</h3>
+                    <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>
                 <div class="modal-btn delete-action">
@@ -175,7 +171,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="department_inactive_confirm_btn">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="dept_del_confirm">削除</a>
                         </div>
                     </div>
                 </div>
@@ -187,87 +183,8 @@
 @section Scripts{
     <script src="/Scripts/common.js"></script>   
     <script src="/Scripts/departments_ver02.js"></script>   
+    
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-
-    <script type="text/javascript">
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-
-        $.connection.hub.start();
-
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-
-        $(document).ready(function () {
-            
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName =  $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data, (index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                        
-                    });
-
-                }
-            });
-                    
-        });
-    </script>      
+    <script src="/Scripts/user_notifications.js"></script>       
 }

@@ -6,259 +6,174 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/sections_ver03.css" />
 }
-    <div class="content container-fluid">
-        <!-----------------Section Master: Section list are showing on this part----------------->
-        <div id="section_list" style="display: block;">
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="table-responsive">
-                        <label id="list_master">
-                            登録した区分を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
-                            <br>
-                            
-                        </label>
-                        <table class="" id="section_list_tbl">
-                            <thead>
-                                <tr >
-                                    <th colspan="6" class="section_th">区分リスト(Secttion List)</th>
-                                </tr>
-                                <tr>
-                                    <th class="section_list_theader section_th">複数選択</th>
-                                    <th class="section_list_theader section_th">区分 (Section)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="section_list_tbody"></tbody>
-                        </table>                        
-                    </div>
+
+<div class="content container-fluid">
+    <!-----------------Section Master: Section list will be showing----------------->
+    <div id="section_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="table-responsive">
+                    <label id="list_master">
+                        登録した区分を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
+                        <br>                        
+                    </label>
+                    <table id="section_list_tbl">
+                        <thead>
+                            <tr >
+                                <th colspan="6" class="section_header">区分リスト(Secttion List)</th>
+                            </tr>
+                            <tr>
+                                <th class="section_list_theader section_header">複数選択</th>
+                                <th class="section_list_theader section_header">区分 (Section)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="section_list_tbody"></tbody>
+                    </table>                        
                 </div>
             </div>
-        
-            @if (Convert.ToBoolean(ViewBag.linkFlag))
-            {
-                
-                <div class="add_edit_delete_btn_section" style="display: block;">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button class="btn delete_sec_btn" type="button">削除 (delete)​</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="btn edit_sec_btn" type="button">編集​ (edit)​</button>
-                                </div>   
-                                <div class="col-md-3" >
-                                    <button class="btn add_sec_btn" type="button">追加 (add)</button>
-                                </div>                                                             
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
         </div>
-        <br />
-    </div>
-    <br><br>
-    <br><br>
     
-    <input type="hidden" id="section_warning_text" />
-    <input type="hidden" id="section_chk_ids" />
-
-    <!-----------------Modal: Add Section----------------->
-    <div class="modal custom-modal fade" id="add_section_modal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    
-                    <div class="form-header">
-                        <h3 id='add_modal_header'>追加 区分 (add section)</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <label id='add_modal_body_title'>新規登録する場合は、「新規区分をここに入力」テキストボックスに区分名を記載し、保存ボタンをクリックしてください。</label>
-                        <table id="sub_item_input_tbl">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th class="section_th">区分 (Section)</th>
-                                    <th class="section_th">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="section_reg_frm_td">
-                                        <input type="text" value="" placeholder="新規区分をここに入力" id="section-name">                                            
-                                    </td>
-                                    <td class="sub_item_input_td">
-                                        <!-- <a href="javascript:void(0);" class="sub_item_add_btn" id="">追加​ (add)</a> -->
-                                        <a href="javascript:void(0);" class="" id="sec_undo_btn">取消(undo)</a>
-                                        <a href="javascript:void(0);" class="" id="sec_add_btn">保存（save）</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>                        
-                    </div>
-                     <div class="modal-footer">                        
-                        <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-----------------Modal: Edit Section----------------->
-    <div class="modal custom-modal fade" id="edit_section_modal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">                    
-                    <div class="form-header">
-                        <h3 id='add_modal_header'>編集​ 区分 (edit section)</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <label id='add_modal_body_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
-                        <table id="sub_item_input_tbl">
-                            <thead style="border: none;">
-                                <tr></tr>
-                                <tr>
-                                    <th class="section_th">区分 (Section)</th>
-                                    <th class="section_th">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="section_reg_frm_td">
-                                        <input type="text" value="" placeholder="新規区分をここに入力" id="section_name_edit">                                            
-                                        <input type="hidden" value="" id="edit_section_id" >
-                                    </td>
-                                    <td class="sub_item_input_td">                                        
-                                        <a href="javascript:void(0);" class="" id="undo_edit_sec">取消(undo)</a>
-                                        <a href="javascript:void(0);" class="" id="edit_sec_from_modal">更新​ (Update)</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>                        
-                    </div>
-                    <div class="modal-footer">                        
-                        <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-     <!-----------------Modal: Delete sections----------------->
-    <div class="modal custom-modal fade" id="delete_section" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-header">
-                        <h3>区分の削除 (Delete Section)</h3>
-                        <p id="section_warning" style="display:none;"></p>
-                        <ol class="section_count" style="text-align:left;"></ol>
-                        <p>本当に削除しますか？</p>
-                    </div>
-                    <div class="modal-btn delete-action">
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {
+            
+            <div class="add_edit_delete_btn_section" style="display: block;">
+                <div class="row">
+                    <div class="col-md-10">
                         <div class="row">
-                            <div class="col-6">
-                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                            <div class="col-md-3">
+                                <button class="btn delete_sec_btn" type="button">削除 (delete)​</button>
                             </div>
-                            <div class="col-6">
-                                <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="section_inactive_confirm_btn">削除</a>
-                            </div>
+                            <div class="col-md-3">
+                                <button class="btn edit_sec_btn" type="button">編集​ (edit)​</button>
+                            </div>   
+                            <div class="col-md-3" >
+                                <button class="btn add_sec_btn" type="button">追加 (add)</button>
+                            </div>                                                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>        
+</div>
+
+<br><br>
+<br><br>
+        
+<!-----------------Modal: Add Section----------------->
+<div class="modal custom-modal fade" id="add_section_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                <div class="form-header">
+                    <h3 class='add_edit_del_header'>追加 区分 (add section)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label class='add_update_modal_body_title'>新規登録する場合は、「新規区分をここに入力」テキストボックスに区分名を記載し、保存ボタンをクリックしてください。</label>
+                    <table class="add_update_section_tbl">
+                        <thead style="border: none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="section_header">区分 (Section)</th>
+                                <th class="section_header">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="section_body">
+                                    <input type="text" value="" placeholder="新規区分をここに入力" id="section-name">                                            
+                                </td>
+                                <td class="section_body_action">                                    
+                                    <a href="javascript:void(0);" class="" id="sec_undo_btn">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="sec_add_btn">保存（save）</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                        
+                </div>
+                    <div class="modal-footer">                        
+                    <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Edit Section----------------->
+<div class="modal custom-modal fade" id="edit_section_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">                    
+                <div class="form-header">
+                    <h3 class='add_edit_del_header'>編集​ 区分 (edit section)</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <label class='add_update_modal_body_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
+                    <table class="add_update_section_tbl">
+                        <thead style="border: none;">
+                            <tr></tr>
+                            <tr>
+                                <th class="section_header">区分 (Section)</th>
+                                <th class="section_header">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="section_body">
+                                    <input type="text" value="" placeholder="新規区分をここに入力" id="section_name_edit">                                            
+                                    <input type="hidden" value="" id="edit_section_id" >
+                                </td>
+                                <td class="section_body_action">                                        
+                                    <a href="javascript:void(0);" class="" id="undo_edit_sec">取消(undo)</a>
+                                    <a href="javascript:void(0);" class="" id="edit_sec_from_modal">更新​ (Update)</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                        
+                </div>
+                <div class="modal-footer">                        
+                    <button type="button" class="btn btn-secondary modal_return_btn" data-dismiss="modal" >戻る</button>                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------Modal: Delete sections----------------->
+<div class="modal custom-modal fade" id="delete_section_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3 class='add_edit_del_header'>区分の削除 (Delete Section)</h3>                    
+                    <ol class="del_confirm_warning"></ol>
+                    <p>本当に削除しますか？</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="sec_del_confirm">削除</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+@section Scripts{
+    <script src="/Scripts/common.js"></script>
+    <script src="/Scripts/sections_ver03.js"></script>
 
-    @section Scripts{
-        <script src="/Scripts/common.js"></script>
-        <script src="/Scripts/sections_ver03.js"></script>
-        <script src="~/signalr/hubs"></script>
-        <script type="text/javascript">
-
-
-
-            $.connection.hub.disconnected(function () {
-                setTimeout(function () {
-                    $.connection.hub.start();
-                }, 5000); // Restart connection after 5 seconds.
-            });
-            $.connection.hub.start();
-            $(function () {
-
-                var chat = $.connection.chatHub;
-
-                chat.client.addNewMessageToPage = function (name, message) {
-                    alert(name + message);
-                    $.ajax({
-                        url: `/api/utilities/GetUserLogs/`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        dataType: 'json',
-                        success: function (data) {
-                            var userName = $('#user_name').text();
-                            $('#user_log').empty();
-                            $.each(data, (index, value) => {
-                                if (userName !== value.UserName) {
-                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                                }
-                            });
-
-                        }
-                    });
-                };
-            });
-
-            $(document).ready(function () {
-
-
-                setInterval(() => {
-                    $.ajax({
-                        url: `/api/utilities/GetUserLogs/`,
-                        contentType: 'application/json',
-                        type: 'GET',
-                        async: false,
-                        dataType: 'json',
-                        success: function (data) {
-                            var userName = $('#user_name').text();
-                            $('#user_log').empty();
-                            $.each(data, (index, value) => {
-                                if (userName !== value.UserName) {
-                                    $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                                }
-                            });
-
-                        }
-                    });
-                }, 5000);
-
-                $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data,(index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-                    
-        });
-
-
-            
-    </script>
-    }
+    <!-- user login/logout notifications script -->
+    <script src="~/signalr/hubs"></script>
+    <script src="/Scripts/user_notifications.js"></script>        
+}

@@ -1,82 +1,19 @@
-﻿/*-----------------Department Master-----------------------*/
-body {
-    overflow-x: auto;
-}
-
-/***************************\                           
-	Department Registration Form
-\***************************/ 
-#dept_reg_tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    border: 1px solid;
-    font-family: Yu Gothic;
-}
-
-#dept_reg_tbl thead {
-    background-color: #3c4b5d;
-    color: white;
-    text-align: center;
-}
-#dept_reg_frm_td{
-    height: 25px;
-    border: none;
-    border: 1px solid black !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-}
-#department_name,#department_name_edit{
-    width: 100% !important;
-    height: 100% !important;
-    border: none;
-    border: 1px solid #ccc !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-}
-#undo_add_frm,#undo_edit_frm {
-    line-height: 1;
-	background-color: red;
-    color: white;
-	border: none;
-
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-#dept_add_btn,#dept_edit_btn {
-    line-height:1;
-    background-color: green;
-	border: none;
-
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-/***************************\                           
-	Department List Show
+﻿/***************************\                           
+	List: ALL Department Show: Start
 \***************************/ 
 #dept_list_tbl{
     width: 85%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 14px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
+    border: 1px solid;
 }
 #dept_list_tbl td, th {
     border: 1px solid;
     padding: 0px !important;
     text-align: center;
 }
-
 #dept_list_tbl td, th:nth-of-type(9) {
     text-align: center;
     width: 20px;
@@ -87,12 +24,6 @@ body {
     padding: 2px !important;
     text-align: left;
     text-indent: 1em;
-}
-#dept_list_tbl {
-    width: 85%;
-    border-collapse: collapse;
-    font-size: 14px;
-    border: 1px solid;
 }
 
 #dept_list_tbl thead tr:nth-of-type(1) {
@@ -117,34 +48,14 @@ body {
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
-
 /***************************\                           
-	Department List Delete Button
+	List: ALL Department Show: End
 \***************************/ 
-#department_inactive_btn {
-    width: 117%;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    background: indianred;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    display: inline-block;
-    margin-left: -10px !important;
-}
-#dept_delete_btn {
-    padding-left: 341px;
-}
-#section_list,#section_list_edit{
-    border: none;
-}
-.department_th{
-    border: 1px solid black !important;
-}
 
-/*add,edit and delete button */
-.add_edit_delete_btn_section{
+/**************
+    Action: Add,Edit,Delete Button:Start
+**************/
+.add_edit_del_dept{
     margin-top: 6px;
 }
 .delete_dept_btn{
@@ -172,19 +83,57 @@ body {
     margin-left: -97px;
     float: left;
 }
+/**************
+    Action: Add,Edit,Delete Button:End
+**************/
 
-
-/*modal*/
-#add_modal_body_title{
-    font-size: 10px !important;
-    font-family: Yu Gothic;
-}
-#add_modal_header{
+/******************
+    Modal: Add,Edit,Delete: Start
+*******************/
+.add_edit_del_header{
     text-align: left;
     margin-left: 25px;
 }
-/*edit form*/
-#undo_edit_dept,#sec_undo_btn {
+.add_edit_modal_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+.add_edit_dept_tbl{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+.add_edit_dept_tbl thead{ 
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+.dept_header{
+    border: 1px solid black !important;
+}
+.department_body{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#department_name,#department_name_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#sec_list_for_dept_add,#sec_list_for_dept_edit{
+    border: none;
+}
+#undo_add_frm,#undo_edit_frm {
     line-height: 1;
 	background-color: red;
     color: white;
@@ -196,7 +145,8 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-#edit_dept_from_modal,#sec_add_btn {
+
+#dept_add_btn,#dept_edit_btn {
     line-height:1;
     background-color: green;
 	border: none;
@@ -208,43 +158,6 @@ body {
     display: inline-block;
     margin-bottom: 20px;
 }
-/*modal design*/
-#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    border: 1px solid;
-    font-family: Yu Gothic;
-}
-.main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
-    height: 26px;
-    border: none;
-    border: 1px solid black !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-    width: 61%;
-}
-#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
-    background-color: #3c4b5d;
-    color: white;
-    text-align: center;
-}
-/*common modal design*/
-.modal_return_btn{
-    margin-top: 40px !important;
-    line-height: 1 !important;
-    margin-right: -12px  !important;
-}
-.modal-footer{
-    margin-top: -38px !important;
-}
-.custom-modal .modal-footer {
-    border: 0;
-    justify-content: right;
-    /* padding: 0 30px 30px;*/
-}
-.custom-modal .modal-body{
-    padding: 15px !important;
-    margin-top: 1px !important;
-}
+/******************
+    Modal: Add,Edit,Delete: End
+*******************/

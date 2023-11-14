@@ -156,6 +156,7 @@ namespace CostAllocationApp.BLL
                         string[] parameterNames = dynamicSetting.ParameterId.Split(',');
                         if (dynamicMethodDefinition.Dependency == "dp")
                         {
+                            dynamicSetting.ParameterType = "department";
                             foreach (var item in parameterNames)
                             {
                                 dependencyNames += departmentBLL.GetDepartmentByDepartemntId(Convert.ToInt32(item)).DepartmentName + ", ";
@@ -163,6 +164,7 @@ namespace CostAllocationApp.BLL
                         }
                         if (dynamicMethodDefinition.Dependency == "in")
                         {
+                            dynamicSetting.ParameterType = "incharge";
                             foreach (var item in parameterNames)
                             {
                                 dependencyNames += inchargeBLL.GetInChargeByInChargeId(Convert.ToInt32(item)).InChargeName + ", ";
@@ -237,6 +239,10 @@ namespace CostAllocationApp.BLL
         public string GetDynamicTableTitleByPosition(string tablePosition)
         {
             return totalDAL.GetDynamicTableTitleByPosition(tablePosition);
+        }
+        public string GetDynamicTableTitle(string tableId)
+        {
+            return totalDAL.GetDynamicTableTitle(tableId);
         }
         public string GetTotalCostTableBody(DynamicSetting settingItem, int totalTableIndexCount, string year, string timestampsId, string companiIds)
         {

@@ -62,8 +62,9 @@ body {
     margin-bottom: 20px;
 }
 
+
 /***************************\                           
-	Explanation List Show
+	List: Show All Explanation: Start
 \***************************/ 
 #exp_list_tbl{
     width: 85%;
@@ -118,6 +119,13 @@ body {
     border: 1px solid #ccc !important;
     border-spacing: 4px;
 }
+.explanation_th{
+    border: 1px solid black !important;
+}
+/***************************\                           
+	List: Show All Explanation: End
+\***************************/ 
+
 /***************************\                           
 	Explanation List Delete Button
 \***************************/ 
@@ -135,14 +143,11 @@ body {
 #explanation_delete_btn {
     padding-left: 740px;
 }
-.explanation_th{
-    border: 1px solid black !important;
-}
 
-
-
-/*add,edit and delete button */
-.add_edit_delete_btn_section{
+/**************
+    Action: Add,Edit,Delete Button:Start
+**************/
+.add_edit_delete_explanation{
     margin-top: 6px;
 }
 .add_explanation_btn{   
@@ -170,7 +175,9 @@ body {
     line-height: 1.2;    
     border: 2px solid red !important;
 }
-
+/**************
+    Action: Add,Edit,Delete Button:End
+**************/
 
 /*modal*/
 #add_modal_body_title{

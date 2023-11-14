@@ -28,22 +28,22 @@
 }
 
 /*style for total table*/
-.dynamic_tables_tbl {
+#total_table {
     font-size: 10px;
     margin-top: 20px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
 
-.dynamic_tables_tbl thead {
+#total_table thead {
     background-color: #B8DAFF;
     text-align:center;
 }
-.dynamic_tables_tbl tr{
+#total_table tr{
     white-space:nowrap;
     
 }
-    .dynamic_tables_tbl
+    #total_table
     td:nth-of-type(3),
     td:nth-of-type(4),
     td:nth-of-type(5),
@@ -61,13 +61,13 @@
     td:nth-of-type(17) {
         min-width: 100px;
     }
-.dynamic_tables_tbl, tr, th, td {
+#total_table, tr, th, td {
     border: 1px solid black !important;
 }
-.dynamic_tables_tbl tr{
+#total_table tr{
     line-height:0px !important;
 }
-.dynamic_tables_tbl td{
+#total_table td{
     padding: 7px !important;
 }
 .expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {

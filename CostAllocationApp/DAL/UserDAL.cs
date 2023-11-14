@@ -150,13 +150,20 @@ namespace CostAllocationApp.DAL
             }
 
         }
-        public List<User> GetAllUsers()
+        public List<User> GetAllUsers(string orderBy = "", string orderType = "")
         {
             List<User> users = new List<User>();
             string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
             query = query + "from users u ";
             //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
             query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
+
+            if(orderBy != "")
+            {
+                string orderQuery = "order by " + orderBy;
+                orderQuery += orderType != "" ? " " + orderType : " asc";
+                query += orderQuery;
+            }
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -202,6 +209,141 @@ namespace CostAllocationApp.DAL
 
                 }
 
+                return users;
+            }
+        }
+
+        public List<User> GetSearchedUsers(string searchOption = "", string searchBy = "")
+        {
+            string whereQuery = "";
+            if (searchOption != "" || searchBy != "")
+            {
+                whereQuery = "where ";
+                whereQuery += (searchOption != "" && searchBy != "") ? searchOption + "='" + searchBy + "'" : "";
+            }
+            List<User> users = new List<User>();
+            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
+            query = query + "from users u ";
+            //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
+            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
+            query = query + whereQuery;
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            User user = new User();
+                            user.Id = Convert.ToInt32(rdr["Id"]);
+                            user.UserName = rdr["UserName"].ToString();
+                            user.UserTitle = rdr["Title"].ToString();
+                            user.DepartmentId = rdr["DepartmentId"].ToString();
+                            user.DepartmentName = rdr["DepartmentName"].ToString();
+                            user.Email = rdr["Email"].ToString();
+                            user.Password = rdr["Password"].ToString();
+                            user.UserRoleName = rdr["role"].ToString();
+
+                            //user.CreatedBy = rdr["CreatedBy"].ToString();
+                            //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
+                            user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
+                            {
+                                user.UserRoleId = "0";
+                                user.Status = "Invalid_" + user.IsActive;
+                            }
+                            else
+                            {
+                                user.UserRoleId = rdr["RoleId"].ToString();
+                                user.Status = "Valid_" + user.IsActive;
+                            }
+                            users.Add(user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return users;
+            }
+        }
+
+        public List<User> GetFilteredUsers(string filterRole = "", string filterTitle = "", string filterDept = "", string filterStatus = "")
+        {
+            string whereQuery = "";
+            List<string> queryList = new List<string>();
+            if (filterRole != "" || filterTitle != "" || filterDept != "" || filterStatus != "")
+            {
+                whereQuery = "where ";
+                if (filterRole != "") queryList.Add("UserRoleId="+filterRole);
+                if (filterTitle != "") queryList.Add("Title='" + filterTitle + "'");
+                if (filterDept != "") queryList.Add("DepartmentId=" + filterDept);
+                if (filterStatus != "")
+                {
+                    string statusQuery = filterStatus == "3" ? "UserRoleId=0" : "u.Isactive=" + filterStatus;
+                    queryList.Add(statusQuery);
+                }
+                string queryString = string.Join(" and ", queryList);
+                whereQuery += queryString;
+            }
+
+            string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
+            query = query + "from users u ";
+            query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
+            query = query + whereQuery;
+
+            List<User> users = new List<User>();
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            User user = new User();
+                            user.Id = Convert.ToInt32(rdr["Id"]);
+                            user.UserName = rdr["UserName"].ToString();
+                            user.UserTitle = rdr["Title"].ToString();
+                            user.DepartmentId = rdr["DepartmentId"].ToString();
+                            user.DepartmentName = rdr["DepartmentName"].ToString();
+                            user.Email = rdr["Email"].ToString();
+                            user.Password = rdr["Password"].ToString();
+                            user.UserRoleName = rdr["role"].ToString();
+
+                            //user.CreatedBy = rdr["CreatedBy"].ToString();
+                            //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
+                            user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
+                            {
+                                user.UserRoleId = "0";
+                                user.Status = "Invalid_" + user.IsActive;
+                            }
+                            else
+                            {
+                                user.UserRoleId = rdr["RoleId"].ToString();
+                                user.Status = "Valid_" + user.IsActive;
+                            }
+                            users.Add(user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
                 return users;
             }
         }

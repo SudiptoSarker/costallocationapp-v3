@@ -210,13 +210,16 @@ function GetEmployeeList() {
 /***************************\                           
  Showing namelist using datatable.                        
 \***************************/
-function ShowNameList_Datatable(data){	
+function ShowNameList_Datatable(data) {	
+    var selectPageLength = $("select[name='employeeList_datatable_length']").val();
+    selectPageLength = selectPageLength != null ? selectPageLength : 10;
+
     $('#employeeList_datatable').DataTable({
         destroy: true,
         data: data,
         ordering: false,
         orderCellsTop: true,
-        pageLength: 10,
+        pageLength: selectPageLength,
         searching: false,
         //searching: true,
         // bLengthChange: false,    

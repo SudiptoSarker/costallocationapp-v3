@@ -32,9 +32,17 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.CreateUserName(user);
         }
-        public List<User> GetAllUsers()
+        public List<User> GetAllUsers(string orderBy = "", string orderType = "")
         {
-            return userDAL.GetAllUsers();
+            return userDAL.GetAllUsers(orderBy, orderType);
+        }
+        public List<User> GetSearchedUsers(string searchOption="", string searchBy="")
+        {
+            return userDAL.GetSearchedUsers(searchOption, searchBy);
+        }
+        public List<User> GetFilteredUsers(string filterRole = "", string filterTitle = "", string filterDept = "", string filterStatus = "")
+        {
+            return userDAL.GetFilteredUsers(filterRole, filterTitle, filterDept, filterStatus);
         }
         public int RemoveUser(string userName)
         {

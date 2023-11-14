@@ -51,7 +51,7 @@
                 $('#user_department_edit').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
                 $('#searchDepartment').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`)
             });
-            });   
+        });   
 
         $.getJSON('/api/utilities/GetAllUserRoles/')
         .done(function (data) {
@@ -67,7 +67,29 @@
             // $('#user_status_edit').append(`<option value='1'>有効(Active)</option>`);
             // $('#user_status_edit').append(`<option value='3'>承認待ち(waiting)</option>`);
             // $('#user_status_edit').append(`<option value='0'>無効(Inactive)</option>`);
-        });         
+        }); 
+
+        $.getJSON('/api/utilities/GetUserList/')
+            .done(function (data) {
+                let userTitleList = [];
+                $('#searchTitle').append(`<option value=''>役職の選択</option>`);
+                $.each(data, function (key, value) {
+                    userTitleList.push(value.UserTitle);
+                });
+                newUserTitleList = userTitleList.filter(function (elem, index, self) {
+                                    return index === self.indexOf(elem);
+                                });
+                $.each(newUserTitleList, function (key, value) {
+                    if (value !== "") {
+                        $('#searchTitle').append(`<option value='${value}'>${value}</option>`);
+                    }                    
+                });
+
+                $('#searchStatus').append(`<option value=''>ステータスの選択</option>`);
+                $('#searchStatus').append(`<option value='1'>有効(Active)</option>`);
+                $('#searchStatus').append(`<option value='3'>承認待ち(waiting)</option>`);
+                $('#searchStatus').append(`<option value='0'>無効(Inactive)</option>`);
+        }); 
     }
 
     $(document).on('click', '.user_edit_update_btn', function () {    
@@ -215,6 +237,58 @@ $(document).on('click', '#btn_status_change', function () {
         }); 
 });
 
+$(document).on('click', '#filterEmp', function () {
+    var selectSearchOption = $("input[name='searchUser']:checked");
+    if (selectSearchOption.length > 0) {
+        let searchOption = selectSearchOption.val();
+        let searchBy = $('#inputEmpName').val();
+        GetSearchUserList(searchOption, searchBy);
+    }
+});
+
+$(document).on('click', '#sortUserBtn', function () {
+    var selectOrderOption = $("input[name='orderUser']:checked");
+    if (selectOrderOption.length > 0) {
+        let orderOption = selectOrderOption.val();
+        $.getJSON('/api/utilities/GetUserList?orderBy=' + orderOption + "&orderType=" + "asc")
+            .done(function (data) {
+                ShowUserList_Datatable(data);
+            }); 
+    }
+});
+
+$(document).on('click', '#filterUserBtn', function () {
+    var selectedFilterRole = $('#searchRole').val();
+    var selectedFilterTitle = $('#searchTitle').val();
+    var selectedFilterDepartment = $('#searchDepartment').val();
+    var selectedFilterStatus = $('#searchStatus').val();
+    let filterArray = [];
+    if (selectedFilterRole != '') filterArray.push("filterRole="+selectedFilterRole);
+    if (selectedFilterTitle != '') filterArray.push("filterTitle=" +selectedFilterTitle);
+    if (selectedFilterDepartment != '') filterArray.push("filterDepartment=" +selectedFilterDepartment);
+    if (selectedFilterStatus != '') filterArray.push("filterStatus=" + selectedFilterStatus);
+    let filterString = filterArray.join("&");
+
+    $.getJSON('/api/utilities/GetFilterUserList?' + filterString)
+        .done(function (data) {
+            ShowUserList_Datatable(data);
+        })
+        .fail(function () {
+            ToastMessage_Warning("No Data Found");
+            console.log("error");
+        });
+
+    
+});
+
+//Get searched user list
+function GetSearchUserList(searchOption, searchBy) {
+    $.getJSON('/api/utilities/GetSearchUserList?searchOption=' + searchOption + "&searchBy=" + searchBy)
+        .done(function (data) {
+            ShowUserList_Datatable(data);
+        }); 
+}
+
 //Get employee list
 function GetUserList() {
     $.getJSON('/api/utilities/GetUserList/')
@@ -225,86 +299,20 @@ function GetUserList() {
 /***************************\                           
  Showing namelist using datatable.                        
 \***************************/
-function ShowUserList_Datatable(data) {
-    // var table = $('#employeeList_datatable').DataTable({ 
-    //     initComplete: function () {
-    //         this.api().columns().every( function () {
-    //             var column = this;
-    //             var select = $('<select><option value=""></option></select>')
-    //                 .appendTo( $(column.footer()).empty() )
-    //                 .on( 'change', function () {
-    //                     var val = $.fn.dataTable.util.escapeRegex(
-    //                         $(this).val()
-    //                     );
-
-    //                     column
-    //                         .search( val ? '^'+val+'$' : '', true, false )
-    //                         .draw();
-    //                 } );
-
-    //             column.data().unique().sort().each( function ( d, j ) {
-    //                 select.append( '<option value="'+d+'">'+d+'</option>' )
-    //             } );
-    //         } );
-    //     },
-    //     responsive: true,
-    //     "processing": true,
-    //     "pageLength": 25,
-    //     "bFilter":   false,
-
-    //     "columnDefs": [
-    //         {
-    //             "targets": [ -1 ],
-    //             "visible": false,
-    //             "searchable": false
-    //         }
-
-    //     ],
-
-
-    //     //This adds the Bootstrap alert class, if there is one in the last column
-    //     "createdRow": function( row, data, dataIndex ) {
-
-    //         /*console.log(data);*/
-
-    //         if ( data[data.length-1] != '' ) {
-    //             $(row).addClass( data[data.length-1] );
-    //         }
-    //     }
-
-
-
-
-    // });
-
-    // new $.fn.dataTable.FixedHeader( table );
-    // $('#loader').hide();
-    // $('#lookupTable').show();
+function ShowUserList_Datatable(data) {   
 
     var user_name;
     var user_status;
 
-    //var custome_table = $('#employeeList_datatable').DataTable();
-    
-    // #myInput is a <input type="text"> element    
+    var selectPageLength = $("select[name='employeeList_datatable_length']").val();
+    selectPageLength = selectPageLength != null ? selectPageLength : 10;
 
-    var custome_table = $('#employeeList_datatable').DataTable({                               
-        // destroy: true,
-        // data: data,
-        // ordering: true,
-        // orderCellsTop: true,
-        // pageLength: 100,
-        // filter: true,
-        // bLengthChange: true,    
-        // searching: true, 
-        // paging: true, 
-        // info: false,
-
+    var custome_table = $('#employeeList_datatable').DataTable({                             
         destroy: true,
         data: data,
-        ordering: true,
+        ordering: false,
         orderCellsTop: false,
-        pageLength: 10,
+        pageLength: selectPageLength,
         searching: true,
         //bLengthChange: false,  
         columns: [  
@@ -526,28 +534,28 @@ function ShowUserList_Datatable(data) {
 }
 
 $(document).ready(function () {  
-    $('#employeeList_datatable tfoot th').each(function () {
-        var title = $(this).text();
-        if(title == 'user name'){
-            $(this).html('<input class="user_search" id="search_user_name" type="text"  placeholder="Search ' + title + '" />');
-        }
-        if(title == 'role'){
-            $(this).html('<input class="user_search" id="search_user_role" type="text"  placeholder="Search ' + title + '" />');
-        }
-        if(title == 'title'){
-            $(this).html('<input class="user_search" id="search_user_title" type="text"  placeholder="Search ' + title + '" />');
-        }
-        if(title == 'department'){
-            $(this).html('<input class="user_search" id="search_user_department" type="text"  placeholder="Search ' + title + '" />');
-        }
-        if(title == 'email'){
-            $(this).html('<input class="user_search" id="search_user_email" type="text"  placeholder="Search ' + title + '" />');
-        }
-        if(title == 'status'){
-            $(this).html('<input class="user_search" id="search_user_status" type="text"  placeholder="Search ' + title + '" />');
-        }
-        //$(this).html('<input class="user_search" id="" type="text"  placeholder="Search ' + title + '" />');
-    });
+    //$('#employeeList_datatable tfoot th').each(function () {
+    //    var title = $(this).text();
+    //    if(title == 'user name'){
+    //        $(this).html('<input class="user_search" id="search_user_name" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    if(title == 'role'){
+    //        $(this).html('<input class="user_search" id="search_user_role" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    if(title == 'title'){
+    //        $(this).html('<input class="user_search" id="search_user_title" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    if(title == 'department'){
+    //        $(this).html('<input class="user_search" id="search_user_department" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    if(title == 'email'){
+    //        $(this).html('<input class="user_search" id="search_user_email" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    if(title == 'status'){
+    //        $(this).html('<input class="user_search" id="search_user_status" type="text"  placeholder="Search ' + title + '" />');
+    //    }
+    //    //$(this).html('<input class="user_search" id="" type="text"  placeholder="Search ' + title + '" />');
+    //});
 
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {

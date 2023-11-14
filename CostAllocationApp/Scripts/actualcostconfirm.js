@@ -53,18 +53,19 @@ $(document).ready(function () {
                         }
                         if (_actualCostCount > 1) {
                             alert('Duplicate actual cost found!');
+                            distributeFlag = false;
                             return;
                         }
                         _newEmployeeGroupList.push({
                             assignmentId: allData[k][0],
-                            manMonth: allData[k][17],
+                            manMonth: allData[k][15],
                             actualCost: allData[k][18]
                         });
 
 
                     }
                 }
-                debugger;
+                //debugger;
                 //console.log(jss.options.rows);
                 console.log(_allRows);
                 for (var l = 0; l < _newEmployeeGroupList.length; l++) {
@@ -251,7 +252,6 @@ $(document).ready(function () {
                             { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60,readOnly: true },
                             { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
                             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },
-                            //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
                             { title: "Db Id", type: 'text', name: "Id", width: 100, readOnly: true },
                             { title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true  },
                             { title: "Duplicate Count", type: 'text', name: "DuplicateCount",width: 100,readOnly: true  },
@@ -262,7 +262,6 @@ $(document).ready(function () {
                                 type: "decimal",
                                 name: "UnitPrice",
                                 mask: "#,##0",
-                                //decimal:'.',
                                 width: 100,
                                 readOnly: true
                             },
@@ -270,8 +269,6 @@ $(document).ready(function () {
                                 title: `${queryStrings['month']}月工数(mm)`,
                                 type: "decimal",
                                 name: "ForecastedPoints",
-                                //mask: "#,##0",
-                                //decimal: '.',
                                 width: 100,
                                 readOnly: true
                             },
@@ -280,7 +277,6 @@ $(document).ready(function () {
                                 type: "decimal",
                                 name: "ForecastedTotal",
                                 mask: "#,##0",
-                                //decimal: '.',
                                 width: 100,
                                 readOnly: true
                             },
@@ -288,19 +284,14 @@ $(document).ready(function () {
                                 title: `${queryStrings['month']}月実工数(amm)`,
                                 type: "decimal",
                                 name: "ManMonth",
-                                //mask: "#,##0",
-                                //decimal: '.',
                                 width: 100,
-                                //readOnly: true
                             },
                              {
-                                 title: `${queryStrings['month']}月実績(ac)`,
+                                title: `${queryStrings['month']}月実績(ac)`,
                                 type: "decimal",
-                                 name: "ActualCostAmount",
+                                name: "ActualCostAmount",
                                 mask: "#,##0",
-                                //decimal: '.',
                                 width: 100,
-                                //readOnly: userRoleflag
                             },
                             { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
                         ],

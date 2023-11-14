@@ -1,83 +1,13 @@
-﻿/*-----------------Section Master-----------------------*/
-body {
-    overflow-x: auto;
-}
-
-/***************************\                           
-	Section Registration Form
-\***************************/ 
-#section_reg_tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    border: 1px solid;
-    font-family: Yu Gothic;
-}
-
-#section_reg_tbl thead {
-    background-color: #3c4b5d;
-    color: white;
-    text-align: center;
-}
-#section_reg_frm_td{
-    height: 25px;
-    border: none;
-    border: 1px solid black !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-    width: 57%;
-}
-#section-name,#section_name_edit{
-    width: 100% !important;
-    height: 100% !important;
-    border: none;
-    border: 1px solid #ccc !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-}
-#undo_edit_sec,#sec_undo_btn {
-    line-height: 1;
-	background-color: red;
-    color: white;
-	border: none;
-
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-#edit_sec_from_modal,#sec_add_btn {
-    line-height:1;
-    background-color: green;
-	border: none;
-
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-/* #section_name_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-} */
-/***************************\                           
-	Section List Show
+﻿/***************************\                           
+	Section List Show: Start
 \***************************/ 
 #section_list_tbl{
     width: 85%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 14px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
+    border: 1px solid;
 }
 #section_list_tbl td, th {
     border: 1px solid;
@@ -96,29 +26,18 @@ body {
     text-align: left;
     text-indent: 1em;
 }
-#section_list_tbl {
-    width: 85%;
-    border-collapse: collapse;
-    font-size: 14px;
-    border: 1px solid;
-}
-
 #section_list_tbl thead tr:nth-of-type(1) {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-
 #section_list_tbl thead th:nth-of-type(2) {
     width: 200px
 }
-
 #section_list_tbl thead th:nth-of-type(3) {
     width: 100px
 }
-
 #section_list_tbl thead th:nth-of-type(1) {
-    /* width: 45px; */
     width: 10%;
 }
 .section_list_theader{
@@ -126,28 +45,12 @@ body {
     border-spacing: 4px;
 }
 /***************************\                           
-	Section List Delete Button
+	Section List Show: End
 \***************************/ 
-#section_inactive_btn {
-    width: 117%;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    background: indianred;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    display: inline-block;
-    margin-left: -10px !important;
-}
-#section_delete_btn {
-    padding-left: 332px;
-}
-.section_th{
-    border: 1px solid black !important;
-}
 
-/*add,edit and delete button */
+/***********
+    Action: Add,Edit,Delete: Start
+***********/
 .add_edit_delete_btn_section{
     margin-top: 6px;
 }
@@ -176,32 +79,55 @@ body {
     margin-left: -97px;
     float: left;
 }
+/***********
+    Action: Add,Edit,Delete: End
+***********/
 
-/*modal*/
-#add_modal_body_title{
-    font-size: 10px !important;
-    font-family: Yu Gothic;
-}
-#add_modal_header{
+/******************
+    Modal: Add,Edit,Delete: Start
+*******************/
+.add_edit_del_header{
     text-align: left;
     margin-left: 25px;
 }
-
-/*modal design*/
-#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
+.add_update_modal_body_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+.add_update_section_tbl{
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
     border: 1px solid;
     font-family: Yu Gothic;
 }
-#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
+.add_update_section_tbl thead{
     background-color: #3c4b5d;
     color: white;
+    text-align: center;  
+}
+.section_header{
+    border: 1px solid black !important;
+}
+.section_body{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 57%;
+}
+#section-name,#section_name_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
     text-align: center;
 }
-
-.main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
+.section_body_action{
     height: 26px;
     border: none;
     border: 1px solid black !important;
@@ -210,22 +136,30 @@ body {
     text-align: center;
     width: 61%;
 }
+#undo_edit_sec,#sec_undo_btn {
+    line-height: 1;
+	background-color: red;
+    color: white;
+	border: none;
 
-/*common modal design*/
-.modal_return_btn{
-    margin-top: 40px !important;
-    line-height: 1 !important;
-    margin-right: -12px  !important;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
 }
-.modal-footer{
-    margin-top: -38px !important;
+#edit_sec_from_modal,#sec_add_btn {
+    line-height:1;
+    background-color: green;
+	border: none;
+
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
 }
-.custom-modal .modal-footer {
-    border: 0;
-    justify-content: right;
-    /* padding: 0 30px 30px;*/
-}
-.custom-modal .modal-body{
-    padding: 15px !important;
-    margin-top: 1px !important;
-}
+/******************
+    Modal: Add,Edit,Delete: End
+*******************/

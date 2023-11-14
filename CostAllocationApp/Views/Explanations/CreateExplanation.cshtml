@@ -6,59 +6,57 @@
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/explanations_ver02.css" />    
 }
-    <div class="content container-fluid">
-        <!-----------------Explanation Master: Explanation list are showing on this part----------------->
-        <div id="exp_list" style="display: block;">
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="table-responsive">
-                        <label id="list_master">
-                            登録した説明を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
-                        </label>
-                        <table class="" id="exp_list_tbl">
-                            <thead>
-                                <tr>
-                                    <th colspan="6" class="explanation_th">説明 リスト(Explanation List)</th>
-                                </tr>
-                                <tr>
-                                    <th class="exp_list_theader explanation_th" >複数選択</th>
-                                    <th class="exp_list_theader explanation_th">説明 (Explanation Name)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="explanations_list_tbody"></tbody>
-                        </table>
-                    </div>
+
+<div class="content container-fluid">
+    <!-----------------Explanation Master: Explanation list are showing on this part----------------->
+    <div id="exp_list" style="display: block;">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="table-responsive">
+                    <label id="list_master">
+                        登録した説明を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
+                    </label>
+                    <table class="" id="exp_list_tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="6" class="explanation_th">説明 リスト(Explanation List)</th>
+                            </tr>
+                            <tr>
+                                <th class="exp_list_theader explanation_th" >複数選択</th>
+                                <th class="exp_list_theader explanation_th">説明 (Explanation Name)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="explanations_list_tbody"></tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            @if (Convert.ToBoolean(ViewBag.linkFlag))
-            {            
-                <div class="add_edit_delete_btn_section" style="display: block;">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
-                                </div>
-                                
-                                <div class="col-md-3">
-                                    <button class="btn edit_explanation_btn" type="button">編集​ (edit)​</button>
-                                </div>
-                                <div class="col-md-3" >
-                                    <button class="btn add_explanation_btn" type="button">追加 (add)</button>
-                                </div>
+        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        {            
+            <div class="add_edit_delete_explanation" style="display: block;">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <button class="btn edit_explanation_btn" type="button">編集​ (edit)​</button>
+                            </div>
+                            <div class="col-md-3" >
+                                <button class="btn add_explanation_btn" type="button">追加 (add)</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
-        <br />
+            </div>
+        }
     </div>
-<br><br>
-
-<input type="hidden" id="explanation_warning_text" />
-<input type="hidden" id="hid_explanation_id" />
+    
+    <input type="hidden" id="hid_explanation_id" />
+</div>
 
 <!-----------------Modal: Add Role----------------->
 <div class="modal custom-modal fade" id="add_explanation_modal" role="dialog">
@@ -172,88 +170,8 @@
 @section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/explanations_ver02.js"></script>
+    
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-
-    <script type="text/javascript">
-
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-
-        $.connection.hub.start();
-
-
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-
-        $(document).ready(function () {
-
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data, (index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-
-        });
-    </script>   
+    <script src="/Scripts/user_notifications.js"></script>    
 }

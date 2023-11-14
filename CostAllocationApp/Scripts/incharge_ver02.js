@@ -1,27 +1,10 @@
-﻿/***************************\                           
-    In-Charge In-Active/Remove 
-    Also,shows that in how many projec that In-Charge is assigned                
-\***************************/
-function onInchargeInactiveClick() {
-    let inChargeIds = GetCheckedIds("incharge_list_tbody");    
-    var apiurl = '/api/utilities/InChargeCount?inChargeIds=' + inChargeIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $('.incharge_count').empty();
-            $.each(data, function (key, item) {
-                $('.incharge_count').append(`<li class='text-info'>${item}</li>`);
-            });
-        },
-        error: function (data) {
-        }
-    });
-}
+﻿$(document).ready(function () {  
+    /***************************\                           
+        Show In-Charge list on page load           
+    \***************************/	   
+    GetInchargeList();
 
-$(document).ready(function () {  
-    
+    //clear input fields
     $(".add_inchar_btn").on("click",function(event){        
         $("#in_charge_name").val('');
         $('#add_incharge_modal').modal('show');
@@ -30,10 +13,12 @@ $(document).ready(function () {
     $("#undo_incharge_btn_edit").on("click",function(event){        
         $("#in_charge_name_edit").val('');
     })
+
     $("#undo_incharge_btn_add").on("click",function(event){        
         $("#in_charge_name").val('');
     })
 
+    //add incharge from add modal
     $("#incharge_reg_save_btn").on("click",function(event){         
         let inchargeName = $("#in_charge_name").val().trim();        
         if (inchargeName == "") {
@@ -43,6 +28,7 @@ $(document).ready(function () {
 
         UpdateInsertInCharge(inchargeName,0,false);
     })
+
     //edit incharge
     $(".edit_inchar_btn").on("click",function(event){          
         let id = GetCheckedIds("incharge_list_tbody");
@@ -62,6 +48,7 @@ $(document).ready(function () {
             $('#edit_incharge_modal').modal('show');
         }        
     })
+
     //get section details by section id
     function FillTheEditModal(inchargeId){            
         var apiurl = `/api/utilities/GetInchargeNameByInchargeId`;
@@ -78,15 +65,11 @@ $(document).ready(function () {
             }
         });            
     }
-    /***************************\                           
-        Show In-Charge list on page load           
-    \***************************/	   
-    GetInchargeList();
 
     /***************************\                           
         In-Charge Delete/Remove Confirm Button           
     \***************************/	
-    $('#incharge_inactive_confirm_btn').on('click', function (event) {
+    $('#incharge_del_confirm').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("incharge_list_tbody");
 
@@ -103,7 +86,7 @@ $(document).ready(function () {
             }
         });
 
-        $('#del_incharge_modal').modal('toggle');
+        $('#delete_incharge_modal').modal('toggle');
 
     });
 
@@ -118,68 +101,96 @@ $(document).ready(function () {
             return false;
         } 
         else{
-            onInchargeInactiveClick();
-            $('#del_incharge_modal').modal('show');
+            InchargeWithAssignment();
+            $('#delete_incharge_modal').modal('show');
         }
     });
+
+    /***************************\                           
+        In-Charge In-Active/Remove 
+        Also,shows that in how many projec that In-Charge is assigned                
+    \***************************/
+    function InchargeWithAssignment() {
+        let inChargeIds = GetCheckedIds("incharge_list_tbody");    
+        var apiurl = '/api/utilities/InChargeCount?inChargeIds=' + inChargeIds;
+        $.ajax({
+            url: apiurl,
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('.del_confirm_warning').empty();
+                $.each(data, function (key, item) {
+                    $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
+                });
+            },
+            error: function (data) {
+            }
+        });
+    }
+
+    /***************************\                           
+    In-Charge Insertion function. 
+    \***************************/
+    function UpdateInsertInCharge(in_charge_name,incharegeId,isUpdate) {
+        var apiurl = "/api/incharges/";
+
+        var data = {
+            Id:incharegeId,
+            InChargeName: in_charge_name,
+            IsUpdate:isUpdate
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                ToastMessageSuccess(data)
+                GetInchargeList();
+                
+                if(isUpdate){
+                    $("#edit_incharge_modal").modal("hide");
+                }else{
+                    $("#add_incharge_modal").modal("hide");                
+                }
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    }
+
+    /***************************\                           
+        Get all the In-Charge list from database.
+    \***************************/
+    function GetInchargeList(){
+        $.getJSON('/api/InCharges/')
+        .done(function (data) {
+            $('#incharge_list_tbody').empty();
+            $.each(data, function (key, item) {
+                $('#incharge_list_tbody').append(`<tr><td><input type="checkbox" class="in_charge_list_chk" data-id='${item.Id}' /></td><td>${item.InChargeName}</td></tr>`);
+            });
+        });
+    }
+
+    //edit from modal
+    $("#incharge_reg_save_btn_edit").on("click",function(event){        
+        var inchargeName = $("#in_charge_name_edit").val();   
+        var incharegeId= $("#edit_incharge_id").val();   
+
+        if (inchargeName == '' || inchargeName == null || inchargeName == undefined){
+            alert("please enter incharge name!");
+            return false;
+        }
+        else{
+            UpdateInsertInCharge(inchargeName,incharegeId,true);
+        }        
+    })
 });
 
-/***************************\                           
-    In-Charge Insertion function. 
-\***************************/
-function UpdateInsertInCharge(in_charge_name,incharegeId,isUpdate) {
-    var apiurl = "/api/incharges/";
 
-    var data = {
-        Id:incharegeId,
-        InChargeName: in_charge_name,
-        IsUpdate:isUpdate
-    };
 
-    $.ajax({
-        url: apiurl,
-        type: 'POST',
-        dataType: 'json',
-        data: data,
-        success: function (data) {
-            ToastMessageSuccess(data)
-            GetInchargeList();
-            
-            if(isUpdate){
-                $("#edit_incharge_modal").modal("hide");
-            }else{
-                $("#add_incharge_modal").modal("hide");                
-            }
-        },
-        error: function (data) {
-            alert(data.responseJSON.Message);
-        }
-    });
-}
 
-/***************************\                           
-    Get all the In-Charge list from database.
-\***************************/
-function GetInchargeList(){
-    $.getJSON('/api/InCharges/')
-    .done(function (data) {
-        $('#incharge_list_tbody').empty();
-        $.each(data, function (key, item) {
-            $('#incharge_list_tbody').append(`<tr><td><input type="checkbox" class="in_charge_list_chk" data-id='${item.Id}' /></td><td>${item.InChargeName}</td></tr>`);
-        });
-    });
-}
 
-//edit from modal
-$("#incharge_reg_save_btn_edit").on("click",function(event){        
-    var inchargeName = $("#in_charge_name_edit").val();   
-    var incharegeId= $("#edit_incharge_id").val();   
 
-    if (inchargeName == '' || inchargeName == null || inchargeName == undefined){
-        alert("please enter incharge name!");
-        return false;
-    }
-    else{
-        UpdateInsertInCharge(inchargeName,incharegeId,true);
-    }        
-})

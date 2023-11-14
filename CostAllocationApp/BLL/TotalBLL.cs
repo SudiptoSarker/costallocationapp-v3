@@ -141,6 +141,11 @@ namespace CostAllocationApp.BLL
             return totalDAL.GetDynamicTableById(tableId);
         }
 
+        public List<DynamicSetting> GetDynamicSettings()
+        {
+            return totalDAL.GetDynamicSettings();
+        }
+
         public List<DynamicSetting> GetDynamicSettingsByDynamicTableId(int dynamicTableId)
         {
             List<DynamicSetting> dynamicSettings = totalDAL.GetDynamicSettingsByDynamicTableId(dynamicTableId);

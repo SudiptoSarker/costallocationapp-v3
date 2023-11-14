@@ -12,17 +12,24 @@ namespace CostAllocationApp.Models
         public int Id { get; set; }
         public string MethodName { get; set; }
         public string Dependency { get; set; }
+        public string Syntex { get; set; }
 
         public static List<DynamicMethodDefinition> GetMethods()
         {
             DynamicMethodDefinition dynamicMethod = new DynamicMethodDefinition();
 
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 1, MethodName = "Cost for department without QA proration", Dependency = "dp" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 2, MethodName = "Cost for department from QA prorationt", Dependency = "dp" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 3, MethodName = "Cost for department with QA proration", Dependency = "dp" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 4, MethodName = "Cost for department from budget table", Dependency = "dp" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 5, MethodName = "Difference between yearly data and budget table of cost for departement with QA proration", Dependency = "dp" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 6, MethodName = "Headcount for department", Dependency = "dp" });            
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 1, MethodName = "Cost for department without QA proration", Dependency = "dp",Syntex= "GetTotalWithoutQA" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 2, MethodName = "Cost for department with QA proration", Dependency = "dp", Syntex = "GetTotalWithQA" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 3, MethodName = "Cost by Incharge", Dependency = "in", Syntex = "GetTotalByIncharge" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 4, MethodName = "Cost by department from budget table", Dependency = "dp", Syntex = "GetInitialBudgetForTotal" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 5, MethodName = "Manmonth by Department", Dependency = "dp", Syntex = "GetManmonthByDepartment" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 6, MethodName = "Manmonth by Incharge", Dependency = "in", Syntex = "GetManmonthByIncharges" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 7, MethodName = "Get Head Count by Department", Dependency = "dp", Syntex = "GetHeadCount" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 8, MethodName = "Get Head Count by Incharge", Dependency = "in", Syntex = "GetHeadCountByIncharges" });
+
+            //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 4, MethodName = "Cost for department from budget table", Dependency = "dp", Syntex="" });
+            //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 5, MethodName = "Difference between yearly data and budget table of cost for departement with QA proration", Dependency = "dp", Syntex = "" });
+            //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 6, MethodName = "Headcount for department", Dependency = "dp" });            
 
             //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 1, MethodName = "Headcount for department", Dependency="dp" });
             //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 2, MethodName = "Headcount for in chg", Dependency = "in" });

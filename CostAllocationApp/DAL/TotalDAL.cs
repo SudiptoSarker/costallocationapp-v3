@@ -388,6 +388,55 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        public List<DynamicSetting> GetDynamicSettings()
+        {
+            List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+            string query = $@"select ds.Id,c.CategoryName,sc.SubCategoryName,di.DetailsItemName,dt.TableName,ds.MethodId,ds.ParameterId,ds.IsActive
+                            ,c.Id 'CategoryId',sc.Id 'SubCategoryId',di.Id 'DetailId',ds.DynamicTableId, dt.TableTitle 
+                            from DynamicSettings ds left join DynamicTables dt on ds.DynamicTableId=dt.Id
+                            left join Categories c on ds.CategoryId = c.Id 
+                            left join SubCategories sc on ds.SubCategoryId = sc.Id
+                            left join DetailsItems di on di.Id = ds.DetailsId where ds.IsActive=1 order by dt.TablePosition";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            DynamicSetting dynamicSetting = new DynamicSetting();
+                            dynamicSetting.Id = Convert.ToInt32(rdr["Id"]);
+                            dynamicSetting.CategoryName = rdr["CategoryName"] is DBNull ? "" : rdr["CategoryName"].ToString();
+                            dynamicSetting.CategoryId = rdr["CategoryId"] is DBNull ? "" : rdr["CategoryId"].ToString();
+                            dynamicSetting.SubCategoryName = rdr["SubCategoryName"] is DBNull ? "" : rdr["SubCategoryName"].ToString();
+                            dynamicSetting.SubCategoryId = rdr["SubCategoryId"] is DBNull ? "" : rdr["SubCategoryId"].ToString();
+                            dynamicSetting.DetailsItemName = rdr["DetailsItemName"] is DBNull ? "" : rdr["DetailsItemName"].ToString();
+                            dynamicSetting.DetailsId = rdr["DetailId"] is DBNull ? "" : rdr["DetailId"].ToString();
+                            dynamicSetting.DynamicTableName = rdr["TableName"].ToString();
+                            dynamicSetting.MethodId = rdr["MethodId"].ToString();
+                            dynamicSetting.ParameterId = rdr["ParameterId"].ToString();
+                            dynamicSetting.DynamicTableId = rdr["DynamicTableId"].ToString();
+                            dynamicSetting.DynamicTableTitle = rdr["TableTitle"].ToString();
+
+
+                            dynamicSettings.Add(dynamicSetting);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return dynamicSettings;
+            }
+        }
+
+
         public List<DynamicSetting> GetDynamicSettingsByDynamicTableId(int dynamicTableId)
         {
             List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();

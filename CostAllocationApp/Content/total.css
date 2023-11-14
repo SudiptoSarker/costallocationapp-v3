@@ -28,22 +28,22 @@
 }
 
 /*style for total table*/
-#total_table {
+.generated_table {
     font-size: 10px;
     margin-top: 20px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
 
-#total_table thead {
+.generated_table thead {
     background-color: #B8DAFF;
     text-align:center;
 }
-#total_table tr{
+.generated_table tr{
     white-space:nowrap;
     
 }
-    #total_table
+.generated_table
     td:nth-of-type(3),
     td:nth-of-type(4),
     td:nth-of-type(5),
@@ -61,13 +61,10 @@
     td:nth-of-type(17) {
         min-width: 100px;
     }
-#total_table, tr, th, td {
+.generated_table, tr, th, td {
     border: 1px solid black !important;
 }
-#total_table tr{
-    line-height:0px !important;
-}
-#total_table td{
+.generated_table td{
     padding: 7px !important;
 }
 .expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {
@@ -229,6 +226,10 @@
     td:nth-of-type(13) {
         min-width: 100px;
     }
+
+
+
+
     /*filters*/
     #total_year_list{
         transition: all 0.2s ease-in-out 0s;

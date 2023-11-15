@@ -67,7 +67,7 @@ $(document).ready(function () {
                 }
                 //debugger;
                 //console.log(jss.options.rows);
-                console.log(_allRows);
+                //console.log(_allRows);
                 for (var l = 0; l < _newEmployeeGroupList.length; l++) {
 
                     var mm = parseFloat(_newEmployeeGroupList[l].manMonth);

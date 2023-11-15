@@ -9027,14 +9027,9 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(sukeyQADtos);
         }
 
-
-
-        #endregion
-
-
         [HttpGet]
         [Route("api/utilities/GetQaByDepartment/")]
-        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds)
+        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds, int year)
         {
             List<string> departmentIdList = departmentIds.Split(',').ToList();
             if (departmentIdList.Count == 0)
@@ -9042,7 +9037,7 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
-            int year = 0;
+            //int year = 0;
             double _octHinsho = 0;
             double _novHinsho = 0;
             double _decHinsho = 0;
@@ -9055,9 +9050,9 @@ namespace CostAllocationApp.Controllers.Api
             double _julHinsho = 0;
             double _augHinsho = 0;
             double _sepHinsho = 0;
-            int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            //int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
             //int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
-            year = forecastLeatestYear;
+            //year = forecastLeatestYear;
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(8, companiIds, year);
             if (hinsoData.Count > 0)
             {
@@ -9497,9 +9492,7 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(sukeyQADtos);
         }
 
-
-
-
+        #endregion
 
 
 

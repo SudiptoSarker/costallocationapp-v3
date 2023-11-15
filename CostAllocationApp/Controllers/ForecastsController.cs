@@ -1528,16 +1528,16 @@ namespace CostAllocationApp.Controllers
         }
         public ActionResult CreateDynamicTable()
         {
-            //if (Session["token"] == null)
-            //{
-            //    return RedirectToAction("Login", "Registration");
-            //}
-            //if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            //{
-            //    Session["token"] = null;
-            //    Session["userName"] = null;
-            //    return RedirectToAction("Login", "Registration");
-            //}
+            if (Session["token"] == null)
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            {
+                Session["token"] = null;
+                Session["userName"] = null;
+                return RedirectToAction("Login", "Registration");
+            }
             return View();
         }
         public ActionResult DynamicTableView()

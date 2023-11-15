@@ -26,6 +26,10 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.GetAllDepartments();
         }
+        public List<InCharge> GetAllIncharge()
+        {
+            return departmentDAL.GetAllIncharge();
+        }
         public bool CheckForBudgetInitialDataExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetInitialDataExists(budgetYear);
@@ -62,7 +66,14 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.GetDepartmentByDepartemntId(departmentId);
         }
-
+        public List<Department> GetDepartmentByIds(string departmentIds)
+        {
+            return departmentDAL.GetDepartmentByIds(departmentIds);
+        }
+        public List<InCharge> GetInchargeByInchargeIds(string inchargeIds)
+        {
+            return departmentDAL.GetInchargeByInchargeIds(inchargeIds);
+        }
         public List<Category> GetAllCategories()
         {
             return departmentDAL.GetAllCategories();

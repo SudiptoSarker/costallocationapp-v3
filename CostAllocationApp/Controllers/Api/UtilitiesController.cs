@@ -13049,7 +13049,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetDifferenceWithQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, int departmentIds, int year)
+        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 
@@ -13083,7 +13083,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetDifferenceCostByIncharge/")]
-        public IHttpActionResult GetDifferenceCostByIncharge(string companiIds, int inchargeIds, int year)
+        public IHttpActionResult GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 

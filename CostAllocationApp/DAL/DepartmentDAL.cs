@@ -61,6 +61,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<Department> GetAllDepartments()
         {
             List<Department> departments = new List<Department>();
@@ -100,6 +101,44 @@ namespace CostAllocationApp.DAL
                 }
 
                 return departments;
+            }
+        }
+
+        public List<InCharge> GetAllIncharge()
+        {
+            List<InCharge> inCharges = new List<InCharge>();
+            string query = "";
+            query = query + "SELECT inch.Id 'InchargeId',inch.Name 'InchargeName',inch.CreatedDate,inch.CreatedBy ";
+            query = query + "FROM InCharges inch ";
+            query = query + "WHERE inch.isactive = 1 ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            InCharge inCharge = new InCharge();
+                            inCharge.Id = Convert.ToInt32(rdr["InchargeId"]);                            
+                            inCharge.InChargeName = rdr["InchargeName"].ToString();                            
+                            inCharge.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
+                            inCharge.CreatedBy = rdr["CreatedBy"].ToString();
+
+                            inCharges.Add(inCharge);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return inCharges;
             }
         }
 
@@ -360,6 +399,74 @@ namespace CostAllocationApp.DAL
                 return department;
             }
         }
+
+        public List<Department> GetDepartmentByIds(string departmentIds)
+        {
+            List<Department> departments = new List<Department>();
+            string query = "select * from Departments where Id in (" + departmentIds+")";            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Department department = new Department();
+                            department.DepartmentName = rdr["Name"].ToString();
+                            department.Id = Convert.ToInt32(rdr["Id"]);
+                            department.SectionId = Convert.ToInt32(rdr["SectionId"]);
+
+                            departments.Add(department);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    departments = null;
+                }
+
+                return departments;
+            }
+        }
+
+
+        public List<InCharge> GetInchargeByInchargeIds(string inchargeIds)
+        {
+            List<InCharge> inCharges = new List<InCharge>();
+            string query = "select * from InCharges where Id in ("+ inchargeIds + ")";
+            
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            InCharge inCharge = new InCharge();
+                            
+                            inCharge.InChargeName = rdr["Name"].ToString();
+                            inCharge.Id = Convert.ToInt32(rdr["Id"]);                            
+                            inCharges.Add(inCharge);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    inCharges = null;
+                }
+
+                return inCharges;
+            }
+        }
+
 
         public List<Category> GetAllCategories()
         {

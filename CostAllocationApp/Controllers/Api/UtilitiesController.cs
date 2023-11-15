@@ -13063,6 +13063,7 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(_objDifferenceTotals);
         }
+
         [HttpGet]
         [Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
         public IHttpActionResult GetDifferenceWithoutQAByDepartment(string companiIds, int departmentIds, int year)
@@ -13078,6 +13079,39 @@ namespace CostAllocationApp.Controllers.Api
             _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithoutQA, _objTotalBudgetCost);
 
             return Ok(_objDifferenceTotals);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetDifferenceCostByIncharge/")]
+        public IHttpActionResult GetDifferenceCostByIncharge(string companiIds, int departmentIds, int year)
+        {
+            List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
+
+            List<SukeyQADto> _objTotalCostByIncharge = new List<SukeyQADto>();
+            _objTotalCostByIncharge = totalBLL.GetTotalCostForDifferenceByIncharge(companiIds, departmentIds.ToString(), year);
+
+            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+            _objTotalBudgetCost = totalBLL.GetTotalBudgetCost(companiIds, departmentIds, year);
+
+            _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostByIncharge, _objTotalBudgetCost);
+
+            return Ok(_objDifferenceTotals);
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetDifferenceManmonthByDepartment/")]
+        public IHttpActionResult GetDifferenceManmonthByDepartment(string companiIds, int departmentIds, int year)
+        {
+            List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
+
+            List<SukeyQADto> _objTotalManmonthByDepartment = new List<SukeyQADto>();
+            _objTotalManmonthByDepartment = totalBLL.GetTotalManmonthForDifferenceByDepartment(companiIds, departmentIds.ToString(), year);
+
+            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+            _objTotalBudgetCost = totalBLL.GetTotalBudgetCost(companiIds, departmentIds, year);
+
+            _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
+
+            return Ok(_objDifferenceTotalsManmonth);
         }
     }
 }

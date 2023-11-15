@@ -3660,6 +3660,128 @@ namespace CostAllocationApp.BLL
             return sukeyQADtos;
         }
 
+        public List<SukeyQADto> GetTotalManmonthForDifferenceByIncharge(string companiIds, string inchargeId, int year)
+        {
+            //List<string> inchargeIdList = inchargeIds.Split(',').ToList();
+            //if (inchargeIdList.Count == 0)
+            //{
+            //    return NotFound();
+            //}
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            //int year = 0;
+
+            //int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            //year = forecastLeatestYear;
+
+            //foreach (var inchargeId in inchargeIdList)
+            //{
+            InCharge inCharge = inChargeBLL.GetInChargeByInChargeId(Convert.ToInt32(inchargeId));
+            double rowTotal = 0;
+            double firstSlot = 0;
+            double secondSlot = 0;
+            SukeyQADto sukeyDto = new SukeyQADto();
+            sukeyDto.InchargeId = inCharge.Id.ToString();
+            sukeyDto.DependencyName = inCharge.InChargeName;
+
+
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inCharge.Id, companiIds, year);
+            if (forecastAssignmentViewModels.Count > 0)
+            {
+
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.OctPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.OctPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.OctPoints));
+
+
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.NovPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.NovPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.NovPoints));
+
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.DecPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.DecPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.DecPoints));
+
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JanPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JanPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JanPoints));
+
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.FebPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.FebPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.FebPoints));
+
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MarPoints)));
+                firstSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MarPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MarPoints));
+
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AprPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AprPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AprPoints));
+
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MayPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MayPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.MayPoints));
+
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JunPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JunPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JunPoints));
+
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JulPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JulPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.JulPoints));
+
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AugPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AugPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.AugPoints));
+
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.SepPoints)));
+                secondSlot += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.SepPoints));
+                rowTotal += forecastAssignmentViewModels.Sum(f => Convert.ToDouble(f.SepPoints));
+
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(rowTotal);
+
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(firstSlot);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(secondSlot);
+            }
+
+
+
+            sukeyQADtos.Add(sukeyDto);
+            //}
+            //}
+            return sukeyQADtos;
+        }
+
 
     }
 }

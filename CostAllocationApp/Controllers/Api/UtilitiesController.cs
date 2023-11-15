@@ -13113,5 +13113,22 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(_objDifferenceTotalsManmonth);
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetDifferenceManmonthByIncharge/")]
+        public IHttpActionResult GetDifferenceManmonthByIncharge(string companiIds, int inchargeIds, int year)
+        {
+            List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
+
+            List<SukeyQADto> _objTotalManmonthByDepartment = new List<SukeyQADto>();
+            _objTotalManmonthByDepartment = totalBLL.GetTotalManmonthForDifferenceByIncharge(companiIds, inchargeIds.ToString(), year);
+
+            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+            _objTotalBudgetCost = totalBLL.GetTotalBudgetCost(companiIds, inchargeIds, year);
+
+            _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
+
+            return Ok(_objDifferenceTotalsManmonth);
+        }
     }
 }

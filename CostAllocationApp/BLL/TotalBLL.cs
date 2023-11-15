@@ -17,6 +17,21 @@ namespace CostAllocationApp.BLL
         CategoryBLL categoryBLL = null;
         SubCategoryBLL subCategoryBLL = null;
         DetailsItemBLL detailsItemBLL = null;
+
+        EmployeeAssignmentBLL employeeAssignmentBLL = null;
+        SalaryBLL salaryBLL = null;
+        SectionBLL sectionBLL = null;
+        CompanyBLL companyBLL = null;
+        RoleBLL roleBLL = null;
+        ExplanationsBLL explanationsBLL = null;
+        ForecastBLL forecastBLL = null;
+        EmployeeBLL employeeBLL = null;
+        UserBLL userBLL = null;
+        ActualCostBLL actualCostBLL = null;
+        UserRoleBLL userRoleBLL = null;
+        QaProportionBLL qaProportionBLL = null;   
+
+
         public TotalBLL()
         {
             totalDAL = new TotalDAL();
@@ -25,6 +40,19 @@ namespace CostAllocationApp.BLL
             categoryBLL = new CategoryBLL();
             subCategoryBLL = new SubCategoryBLL();
             detailsItemBLL = new DetailsItemBLL();
+
+            employeeAssignmentBLL = new EmployeeAssignmentBLL();
+            salaryBLL = new SalaryBLL();
+            sectionBLL = new SectionBLL();
+            companyBLL = new CompanyBLL();
+            roleBLL = new RoleBLL();
+            explanationsBLL = new ExplanationsBLL();
+            forecastBLL = new ForecastBLL();
+            employeeBLL = new EmployeeBLL();
+            userBLL = new UserBLL();
+            actualCostBLL = new ActualCostBLL();
+            userRoleBLL = new UserRoleBLL();
+            qaProportionBLL = new QaProportionBLL();
         }
 
         public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
@@ -1963,7 +1991,1162 @@ namespace CostAllocationApp.BLL
 
             return dynamicTableViewModal;
         }
+        public List<SukeyQADto> GetTotalCostForDifferenceWithQA(string companiIds, int departmentId, int year)
+        {
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            //int year = 0;
+            double _octHinsho = 0;
+            double _novHinsho = 0;
+            double _decHinsho = 0;
+            double _janHinsho = 0;
+            double _febHinsho = 0;
+            double _marHinsho = 0;
+            double _aprHinsho = 0;
+            double _mayHinsho = 0;
+            double _junHinsho = 0;
+            double _julHinsho = 0;
+            double _augHinsho = 0;
+            double _sepHinsho = 0;
+            //int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
+            //int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
+            //year = forecastLeatestYear;
+            Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
+            if (qaDepartmentByName == null)
+            {
+                return sukeyQADtos;
+            }
+            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
+            if (hinsoData.Count > 0)
+            {
+                _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                _novHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                _decHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                _janHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                _febHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                _marHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                _aprHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                _mayHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                _junHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
+            }
+            List<Department> departments = departmentBLL.GetAllDepartments();
+            foreach (var department in departments)
+            {
+                double rowTotal = 0;
+                double rowTotalQa = 0;
+                double rowTotalDept = 0;
+                double deptFirstSlot = 0;
+                double qaFirstSlot = 0;
+                double totalFirstSlot = 0;
+                SukeyQADto sukeyDto = new SukeyQADto();
+                sukeyDto.DepartmentId = department.Id.ToString();
+                sukeyDto.DependencyName = department.DepartmentName;
+                if (department.Id == departmentId)
+                {
+                    var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == departmentId).SingleOrDefault();
+                    if (apportionmentByDepartment == null)
+                    {
+                        apportionmentByDepartment = new Apportionment();
+                    }
+
+                    // update hinso variables by percentage.
+                    {
+                        _octHinsho = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
+                        _novHinsho = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
+                        _decHinsho = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
+                        _janHinsho = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
+                        _febHinsho = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
+                        _marHinsho = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
+                        _aprHinsho = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
+                        _mayHinsho = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
+                        _junHinsho = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
+                        _julHinsho = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
+                        _augHinsho = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
+                        _sepHinsho = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
+                    }
 
 
+                    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
+                    if (forecastAssignmentViewModels.Count > 0)
+                    {
+                        double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                        double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                        double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                        double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                        double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                        double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                        double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                        double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                        double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                        double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                        double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                        double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
+
+                        double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
+                        double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
+                        double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
+                        double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
+                        double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
+                        double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
+                        double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
+                        double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
+                        double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
+                        double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
+                        double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
+                        double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
+
+
+                        if (_octActualCostTotal > 0)
+                        {
+                            //var tempQa = _octActualCostTotal * (apportionmentByDepartment.OctPercentage / 100);
+                            sukeyDto.OctCost.Add(_octActualCostTotal);
+                            sukeyDto.OctCost.Add(Math.Round(_octHinsho, 2));
+                            sukeyDto.OctCost.Add(_octActualCostTotal + _octHinsho);
+
+                            rowTotalDept += _octActualCostTotal;
+                            rowTotalQa += _octHinsho;
+                            rowTotal += _octActualCostTotal + _octHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _octTotal * (apportionmentByDepartment.OctPercentage / 100);
+                            sukeyDto.OctCost.Add(_octTotal);
+                            sukeyDto.OctCost.Add(Math.Round(_octHinsho, 2));
+                            sukeyDto.OctCost.Add(_octTotal + _octHinsho);
+
+                            rowTotalDept += _octTotal;
+                            rowTotalQa += _octHinsho;
+                            rowTotal += _octTotal + _octHinsho;
+                        }
+                        if (_novActualCostTotal > 0)
+                        {
+                            //var tempQa = _novActualCostTotal * (apportionmentByDepartment.NovPercentage / 100);
+                            sukeyDto.NovCost.Add(_novActualCostTotal);
+                            sukeyDto.NovCost.Add(Math.Round(_novHinsho, 2));
+                            sukeyDto.NovCost.Add(_novActualCostTotal + _novHinsho);
+
+                            rowTotalDept += _novActualCostTotal;
+                            rowTotalQa += _novHinsho;
+                            rowTotal += _novActualCostTotal + _novHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _novTotal * (apportionmentByDepartment.NovPercentage / 100);
+                            sukeyDto.NovCost.Add(_novTotal);
+                            sukeyDto.NovCost.Add(Math.Round(_novHinsho, 2));
+                            sukeyDto.NovCost.Add(_novTotal + _novHinsho);
+
+                            rowTotalDept += _novTotal;
+                            rowTotalQa += _novHinsho;
+                            rowTotal += _novTotal + _novHinsho;
+                        }
+                        if (_decActualCostTotal > 0)
+                        {
+                            //var tempQa = _decActualCostTotal * (apportionmentByDepartment.DecPercentage / 100);
+                            sukeyDto.DecCost.Add(_decActualCostTotal);
+                            sukeyDto.DecCost.Add(Math.Round(_decHinsho, 2));
+                            sukeyDto.DecCost.Add(_decActualCostTotal + _decHinsho);
+
+                            rowTotalDept += _decActualCostTotal;
+                            rowTotalQa += _decHinsho;
+                            rowTotal += _decActualCostTotal + _decHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _decTotal * (apportionmentByDepartment.DecPercentage / 100);
+                            sukeyDto.DecCost.Add(_decTotal);
+                            sukeyDto.DecCost.Add(Math.Round(_decHinsho, 2));
+                            sukeyDto.DecCost.Add(_decTotal + _decHinsho);
+
+                            rowTotalDept += _decTotal;
+                            rowTotalQa += _decHinsho;
+                            rowTotal += _decTotal + _decHinsho;
+                        }
+                        if (_janActualCostTotal > 0)
+                        {
+                            //var tempQa = _janActualCostTotal * (apportionmentByDepartment.JanPercentage / 100);
+                            sukeyDto.JanCost.Add(_janActualCostTotal);
+                            sukeyDto.JanCost.Add(Math.Round(_janHinsho, 2));
+                            sukeyDto.JanCost.Add(_janActualCostTotal + _janHinsho);
+
+                            rowTotalDept += _janActualCostTotal;
+                            rowTotalQa += _janHinsho;
+                            rowTotal += _janActualCostTotal + _janHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _janTotal * (apportionmentByDepartment.JanPercentage / 100);
+                            sukeyDto.JanCost.Add(_janTotal);
+                            sukeyDto.JanCost.Add(Math.Round(_janHinsho, 2));
+                            sukeyDto.JanCost.Add(_janTotal + _janHinsho);
+
+                            rowTotalDept += _janTotal;
+                            rowTotalQa += _janHinsho;
+                            rowTotal += _janTotal + _janHinsho;
+                        }
+                        if (_febActualCostTotal > 0)
+                        {
+                            //var tempQa = _febActualCostTotal * (apportionmentByDepartment.FebPercentage / 100);
+                            sukeyDto.FebCost.Add(_febActualCostTotal);
+                            sukeyDto.FebCost.Add(Math.Round(_febHinsho, 2));
+                            sukeyDto.FebCost.Add(_febActualCostTotal + _febHinsho);
+
+                            rowTotalDept += _febActualCostTotal;
+                            rowTotalQa += _febHinsho;
+                            rowTotal += _febActualCostTotal + _febHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _febTotal * (apportionmentByDepartment.FebPercentage / 100);
+                            sukeyDto.FebCost.Add(_febTotal);
+                            sukeyDto.FebCost.Add(Math.Round(_febHinsho, 2));
+                            sukeyDto.FebCost.Add(_febTotal + _febHinsho);
+
+                            rowTotalDept += _febTotal;
+                            rowTotalQa += _febHinsho;
+                            rowTotal += _febTotal + _febHinsho;
+                        }
+                        if (_marActualCostTotal > 0)
+                        {
+                            //var tempQa = _marActualCostTotal * (apportionmentByDepartment.MarPercentage / 100);
+                            sukeyDto.MarCost.Add(_marActualCostTotal);
+                            sukeyDto.MarCost.Add(Math.Round(_marHinsho, 2));
+                            sukeyDto.MarCost.Add(_marActualCostTotal + _marHinsho);
+
+                            rowTotalDept += _marActualCostTotal;
+                            rowTotalQa += _marHinsho;
+                            rowTotal += _marActualCostTotal + _marHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _marTotal * (apportionmentByDepartment.MarPercentage / 100);
+                            sukeyDto.MarCost.Add(_marTotal);
+                            sukeyDto.MarCost.Add(Math.Round(_marHinsho, 2));
+                            sukeyDto.MarCost.Add(_marTotal + _marHinsho);
+
+                            rowTotalDept += _marTotal;
+                            rowTotalQa += _marHinsho;
+                            rowTotal += _marTotal + _marHinsho;
+                        }
+
+                        deptFirstSlot = rowTotalDept;
+                        qaFirstSlot = rowTotalQa;
+                        totalFirstSlot = rowTotal;
+
+
+                        if (_aprActualCostTotal > 0)
+                        {
+                            //var tempQa = _aprActualCostTotal * (apportionmentByDepartment.AprPercentage / 100);
+                            sukeyDto.AprCost.Add(_aprActualCostTotal);
+                            sukeyDto.AprCost.Add(Math.Round(_aprHinsho, 2));
+                            sukeyDto.AprCost.Add(_aprActualCostTotal + _aprHinsho);
+
+                            rowTotalDept += _aprActualCostTotal;
+                            rowTotalQa += _aprHinsho;
+                            rowTotal += _aprActualCostTotal + _aprHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _aprTotal * (apportionmentByDepartment.AprPercentage / 100);
+                            sukeyDto.AprCost.Add(_aprTotal);
+                            sukeyDto.AprCost.Add(Math.Round(_aprHinsho, 2));
+                            sukeyDto.AprCost.Add(_aprTotal + _aprHinsho);
+
+
+                            rowTotalDept += _aprTotal;
+                            rowTotalQa += _aprHinsho;
+                            rowTotal += _aprTotal + _aprHinsho;
+                        }
+                        if (_mayActualCostTotal > 0)
+                        {
+                            //var tempQa = _mayActualCostTotal * (apportionmentByDepartment.MayPercentage / 100);
+                            sukeyDto.MayCost.Add(_mayActualCostTotal);
+                            sukeyDto.MayCost.Add(Math.Round(_mayHinsho, 2));
+                            sukeyDto.MayCost.Add(_mayActualCostTotal + _mayHinsho);
+
+                            rowTotalDept += _mayActualCostTotal;
+                            rowTotalQa += _mayHinsho;
+                            rowTotal += _mayActualCostTotal + _mayHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _mayTotal * (apportionmentByDepartment.MayPercentage / 100);
+                            sukeyDto.MayCost.Add(_mayTotal);
+                            sukeyDto.MayCost.Add(Math.Round(_mayHinsho, 2));
+                            sukeyDto.MayCost.Add(_mayTotal + _mayHinsho);
+
+                            rowTotalDept += _mayTotal;
+                            rowTotalQa += _mayHinsho;
+                            rowTotal += _mayTotal + _mayHinsho;
+                        }
+                        if (_junActualCostTotal > 0)
+                        {
+                            //var tempQa = _junActualCostTotal * (apportionmentByDepartment.JunPercentage / 100);
+                            sukeyDto.JunCost.Add(_junActualCostTotal);
+                            sukeyDto.JunCost.Add(Math.Round(_junHinsho, 2));
+                            sukeyDto.JunCost.Add(_junActualCostTotal + _junHinsho);
+
+                            rowTotalDept += _junActualCostTotal;
+                            rowTotalQa += _junHinsho;
+                            rowTotal += _junActualCostTotal + _junHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _junTotal * (apportionmentByDepartment.JunPercentage / 100);
+                            sukeyDto.JunCost.Add(_junTotal);
+                            sukeyDto.JunCost.Add(Math.Round(_junHinsho, 2));
+                            sukeyDto.JunCost.Add(_junTotal + _junHinsho);
+
+                            rowTotalDept += _junTotal;
+                            rowTotalQa += _junHinsho;
+                            rowTotal += _junTotal + _junHinsho;
+                        }
+                        if (_julActualCostTotal > 0)
+                        {
+                            //var tempQa = _julActualCostTotal * (apportionmentByDepartment.JulPercentage / 100);
+                            sukeyDto.JulCost.Add(_julActualCostTotal);
+                            sukeyDto.JulCost.Add(Math.Round(_julHinsho, 2));
+                            sukeyDto.JulCost.Add(_julActualCostTotal + _julHinsho);
+
+                            rowTotalDept += _julActualCostTotal;
+                            rowTotalQa += _julHinsho;
+                            rowTotal += _julActualCostTotal + _julHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _julTotal * (apportionmentByDepartment.JulPercentage / 100);
+                            sukeyDto.JulCost.Add(_julTotal);
+                            sukeyDto.JulCost.Add(Math.Round(_julHinsho, 2));
+                            sukeyDto.JulCost.Add(_julTotal + _julHinsho);
+
+                            rowTotalDept += _julTotal;
+                            rowTotalQa += _julHinsho;
+                            rowTotal += _julTotal + _julHinsho;
+                        }
+                        if (_augActualCostTotal > 0)
+                        {
+                            //var tempQa = _augActualCostTotal * (apportionmentByDepartment.AugPercentage / 100);
+                            sukeyDto.AugCost.Add(_augActualCostTotal);
+                            sukeyDto.AugCost.Add(Math.Round(_augHinsho, 2));
+                            sukeyDto.AugCost.Add(_augActualCostTotal + _augHinsho);
+
+                            rowTotalDept += _augActualCostTotal;
+                            rowTotalQa += _augHinsho;
+                            rowTotal += _augActualCostTotal + _augHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _augTotal * (apportionmentByDepartment.AugPercentage / 100);
+                            sukeyDto.AugCost.Add(_augTotal);
+                            sukeyDto.AugCost.Add(Math.Round(_augHinsho, 2));
+                            sukeyDto.AugCost.Add(_augTotal + _augHinsho);
+
+                            rowTotalDept += _augTotal;
+                            rowTotalQa += _augHinsho;
+                            rowTotal += _augTotal + _augHinsho;
+                        }
+                        if (_sepActualCostTotal > 0)
+                        {
+                            //var tempQa = _sepActualCostTotal * (apportionmentByDepartment.SepPercentage / 100);
+                            sukeyDto.SepCost.Add(_sepActualCostTotal);
+                            sukeyDto.SepCost.Add(Math.Round(_sepHinsho, 2));
+                            sukeyDto.SepCost.Add(_sepActualCostTotal + _sepHinsho);
+
+                            rowTotalDept += _sepActualCostTotal;
+                            rowTotalQa += _sepHinsho;
+                            rowTotal += _sepActualCostTotal + _sepHinsho;
+                        }
+                        else
+                        {
+                            //var tempQa = _sepTotal * (apportionmentByDepartment.SepPercentage / 100);
+                            sukeyDto.SepCost.Add(_sepTotal);
+                            sukeyDto.SepCost.Add(Math.Round(_sepHinsho, 2));
+                            sukeyDto.SepCost.Add(_sepTotal + _sepHinsho);
+
+                            rowTotalDept += _sepTotal;
+                            rowTotalQa += _sepHinsho;
+                            rowTotal += _sepTotal + _sepHinsho;
+                        }
+
+                        sukeyDto.RowTotal.Add(rowTotalDept);
+                        sukeyDto.RowTotal.Add(rowTotalQa);
+                        sukeyDto.RowTotal.Add(rowTotal);
+
+                        sukeyDto.FirstSlot.Add(deptFirstSlot);
+                        sukeyDto.FirstSlot.Add(qaFirstSlot);
+                        sukeyDto.FirstSlot.Add(totalFirstSlot);
+
+                        sukeyDto.SecondSlot.Add(rowTotalDept - deptFirstSlot);
+                        sukeyDto.SecondSlot.Add(rowTotalQa - qaFirstSlot);
+                        sukeyDto.SecondSlot.Add(rowTotal - totalFirstSlot);
+                    }
+                    else
+                    {
+                        sukeyDto.OctCost.Add(0);
+                        sukeyDto.OctCost.Add(0);
+                        sukeyDto.OctCost.Add(0);
+
+                        sukeyDto.NovCost.Add(0);
+                        sukeyDto.NovCost.Add(0);
+                        sukeyDto.NovCost.Add(0);
+
+                        sukeyDto.DecCost.Add(0);
+                        sukeyDto.DecCost.Add(0);
+                        sukeyDto.DecCost.Add(0);
+
+                        sukeyDto.JanCost.Add(0);
+                        sukeyDto.JanCost.Add(0);
+                        sukeyDto.JanCost.Add(0);
+
+                        sukeyDto.FebCost.Add(0);
+                        sukeyDto.FebCost.Add(0);
+                        sukeyDto.FebCost.Add(0);
+
+                        sukeyDto.MarCost.Add(0);
+                        sukeyDto.MarCost.Add(0);
+                        sukeyDto.MarCost.Add(0);
+
+                        sukeyDto.AprCost.Add(0);
+                        sukeyDto.AprCost.Add(0);
+                        sukeyDto.AprCost.Add(0);
+
+                        sukeyDto.MayCost.Add(0);
+                        sukeyDto.MayCost.Add(0);
+                        sukeyDto.MayCost.Add(0);
+
+                        sukeyDto.JunCost.Add(0);
+                        sukeyDto.JunCost.Add(0);
+                        sukeyDto.JunCost.Add(0);
+
+                        sukeyDto.JulCost.Add(0);
+                        sukeyDto.JulCost.Add(0);
+                        sukeyDto.JulCost.Add(0);
+
+                        sukeyDto.AugCost.Add(0);
+                        sukeyDto.AugCost.Add(0);
+                        sukeyDto.AugCost.Add(0);
+
+                        sukeyDto.SepCost.Add(0);
+                        sukeyDto.SepCost.Add(0);
+                        sukeyDto.SepCost.Add(0);
+
+                        sukeyDto.RowTotal.Add(0);
+                        sukeyDto.RowTotal.Add(0);
+                        sukeyDto.RowTotal.Add(0);
+
+                        sukeyDto.FirstSlot.Add(0);
+                        sukeyDto.FirstSlot.Add(0);
+                        sukeyDto.FirstSlot.Add(0);
+
+                        sukeyDto.SecondSlot.Add(0);
+                        sukeyDto.SecondSlot.Add(0);
+                        sukeyDto.SecondSlot.Add(0);
+                    }
+
+
+
+                    sukeyQADtos.Add(sukeyDto);
+                }
+            }
+            return sukeyQADtos;
+        }
+
+        public List<SukeyQADto> GetTotalBudgetCost(string companiIds, int departmentId, int year)
+        {
+            double _octHinsho = 0;
+            double _novHinsho = 0;
+            double _decHinsho = 0;
+            double _janHinsho = 0;
+            double _febHinsho = 0;
+            double _marHinsho = 0;
+            double _aprHinsho = 0;
+            double _mayHinsho = 0;
+            double _junHinsho = 0;
+            double _julHinsho = 0;
+            double _augHinsho = 0;
+            double _sepHinsho = 0;
+
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            List<Department> departments = departmentBLL.GetAllDepartments();            
+           
+            double rowTotal = 0;
+            double firstSlot = 0;
+            Department department = departmentBLL.GetDepartmentByDepartemntId(departmentId);
+            SukeyQADto sukeyDto = new SukeyQADto();
+            sukeyDto.DepartmentId = department.Id.ToString();
+            sukeyDto.DependencyName = department.DepartmentName;
+            //if (department.Id == qaDepartmentByName.Id)
+            //{
+            //    continue;
+            //}
+            var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
+            if (apportionmentByDepartment == null)
+            {
+                apportionmentByDepartment = new Apportionment();
+            }
+
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
+            if (forecastAssignmentViewModels.Count > 0)
+            {
+                double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
+
+                var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
+                {
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(_octTotal + _octCalculation);
+                    rowTotal += _octTotal + _octCalculation;
+                }
+                var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
+
+                {
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(_novTotal + _novCalculation);
+                    rowTotal += _novTotal + _novCalculation;
+                }
+                var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
+
+                {
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(_decTotal + _decCalculation);
+                    rowTotal += _decTotal + _decCalculation;
+                }
+                var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
+
+                {
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(_janTotal + _janCalculation);
+                    rowTotal += _janTotal + _janCalculation;
+                }
+                var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
+
+                {
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(_febTotal + _febCalculation);
+                    rowTotal += _febTotal + _febCalculation;
+                }
+                var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
+
+                {
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(_marTotal + _marCalculation);
+                    rowTotal += _marTotal + _marCalculation;
+                }
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(rowTotal);
+                firstSlot = rowTotal;
+
+                var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
+
+                {
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(_aprTotal + _aprCalculation);
+                    rowTotal += _aprTotal + _aprCalculation;
+                }
+                var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
+
+                {
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(_mayTotal + _mayCalculation);
+                    rowTotal += _mayTotal + _mayCalculation;
+                }
+                var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
+
+                {
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(_junTotal + _junCalculation);
+                    rowTotal += _junTotal + _junCalculation;
+                }
+                var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
+
+                {
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(_julTotal + _julCalculation);
+                    rowTotal += _julTotal + _julCalculation;
+                }
+                var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
+
+                {
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(_augTotal + _augCalculation);
+                    rowTotal += _augTotal + _augCalculation;
+                }
+                var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
+
+                {
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(_sepTotal + _sepCalculation);
+                    rowTotal += _sepTotal + _sepCalculation;
+                }
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(rowTotal);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(rowTotal - firstSlot);
+
+            }
+            else
+            {
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+            }
+            
+            sukeyQADtos.Add(sukeyDto);            
+
+            return sukeyQADtos;
+        }
+
+        public List<SukeyQADto> GetDifferenceCostByDepartments(List<SukeyQADto> _objYearDataCost, List<SukeyQADto> _objTotalBudgetCost)
+        {
+            //year data-budget
+            List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
+            foreach(var itemYearly in _objYearDataCost)
+            {
+                foreach (var itemBudget in _objTotalBudgetCost)
+                {
+                    SukeyQADto _objDifferenceTotal = new SukeyQADto();
+                    
+                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[0]) - Convert.ToDouble(itemBudget.OctCost[0]));
+                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[1]) - Convert.ToDouble(itemBudget.OctCost[1]));
+                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[2]) - Convert.ToDouble(itemBudget.OctCost[2]));
+
+                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[0]) - Convert.ToDouble(itemBudget.NovCost[0]));
+                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[1]) - Convert.ToDouble(itemBudget.NovCost[1]));
+                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[2]) - Convert.ToDouble(itemBudget.NovCost[2]));
+
+                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[0]) - Convert.ToDouble(itemBudget.DecCost[0]));
+                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[1]) - Convert.ToDouble(itemBudget.DecCost[1]));
+                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[2]) - Convert.ToDouble(itemBudget.DecCost[2]));
+
+                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[0]) - Convert.ToDouble(itemBudget.JanCost[0]));
+                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[1]) - Convert.ToDouble(itemBudget.JanCost[1]));
+                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[2]) - Convert.ToDouble(itemBudget.JanCost[2]));
+
+                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[0]) - Convert.ToDouble(itemBudget.FebCost[0]));
+                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[1]) - Convert.ToDouble(itemBudget.FebCost[1]));
+                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[2]) - Convert.ToDouble(itemBudget.FebCost[2]));
+
+                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[0]) - Convert.ToDouble(itemBudget.MarCost[0]));
+                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[1]) - Convert.ToDouble(itemBudget.MarCost[1]));
+                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[2]) - Convert.ToDouble(itemBudget.MarCost[2]));
+
+                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[0]) - Convert.ToDouble(itemBudget.AprCost[0]));
+                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[1]) - Convert.ToDouble(itemBudget.AprCost[1]));
+                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[2]) - Convert.ToDouble(itemBudget.AprCost[2]));
+
+                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[0]) - Convert.ToDouble(itemBudget.MayCost[0]));
+                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[1]) - Convert.ToDouble(itemBudget.MayCost[1]));
+                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[2]) - Convert.ToDouble(itemBudget.MayCost[2]));
+
+                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[0]) - Convert.ToDouble(itemBudget.JunCost[0]));
+                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[1]) - Convert.ToDouble(itemBudget.JunCost[1]));
+                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[2]) - Convert.ToDouble(itemBudget.JunCost[2]));
+
+                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[0]) - Convert.ToDouble(itemBudget.JulCost[0]));
+                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[1]) - Convert.ToDouble(itemBudget.JulCost[1]));
+                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[2]) - Convert.ToDouble(itemBudget.JulCost[2]));
+
+                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[0]) - Convert.ToDouble(itemBudget.AugCost[0]));
+                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[1]) - Convert.ToDouble(itemBudget.AugCost[1]));
+                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[2]) - Convert.ToDouble(itemBudget.AugCost[2]));
+
+                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[0]) - Convert.ToDouble(itemBudget.SepCost[0]));
+                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[1]) - Convert.ToDouble(itemBudget.SepCost[1]));
+                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[2]) - Convert.ToDouble(itemBudget.SepCost[2]));
+
+                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[0]) - Convert.ToDouble(itemBudget.RowTotal[0]));
+                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[1]) - Convert.ToDouble(itemBudget.RowTotal[1]));
+                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[2]) - Convert.ToDouble(itemBudget.RowTotal[2]));
+
+                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[0]) - Convert.ToDouble(itemBudget.FirstSlot[0]));
+                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[1]) - Convert.ToDouble(itemBudget.FirstSlot[1]));
+                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[2]) - Convert.ToDouble(itemBudget.FirstSlot[2]));
+
+                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[0]) - Convert.ToDouble(itemBudget.SecondSlot[0]));
+                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[1]) - Convert.ToDouble(itemBudget.SecondSlot[1]));
+                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[2]) - Convert.ToDouble(itemBudget.SecondSlot[2]));
+
+                    _objDifferenceTotals.Add(_objDifferenceTotal);
+                }
+            }
+
+            return _objDifferenceTotals;
+        }
+        public List<SukeyQADto> GetTotalCostForDifferenceWithoutQA(string companiIds, int departmentIds, int year)
+        {
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            double rowTotal = 0;
+            double rowTotalQa = 0;
+            double rowTotalDept = 0;
+            double deptFirstSlot = 0;
+            double qaFirstSlot = 0;
+            double totalFirstSlot = 0;
+            SukeyQADto sukeyDto = new SukeyQADto();
+
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+            if (forecastAssignmentViewModels.Count > 0)
+            {
+                double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
+
+                double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
+                double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
+                double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
+                double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
+                double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
+                double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
+                double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
+                double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
+                double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
+                double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
+                double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
+                double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
+
+
+                if (_octActualCostTotal > 0)
+                {
+                    //var tempQa = _octActualCostTotal * (apportionmentByDepartment.OctPercentage / 100);
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(_octActualCostTotal);
+
+                    rowTotalDept += _octActualCostTotal;
+                    //rowTotalQa += _octHinsho;
+                    rowTotal += _octActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _octTotal * (apportionmentByDepartment.OctPercentage / 100);
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(0);
+                    sukeyDto.OctCost.Add(_octTotal);
+
+                    rowTotalDept += _octTotal;
+                    //rowTotalQa += _octHinsho;
+                    rowTotal += _octTotal;
+                }
+                if (_novActualCostTotal > 0)
+                {
+                    //var tempQa = _novActualCostTotal * (apportionmentByDepartment.NovPercentage / 100);
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(_novActualCostTotal);
+
+                    rowTotalDept += _novActualCostTotal;
+                    //rowTotalQa += _novHinsho;
+                    rowTotal += _novActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _novTotal * (apportionmentByDepartment.NovPercentage / 100);
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(0);
+                    sukeyDto.NovCost.Add(_novTotal);
+
+                    rowTotalDept += _novTotal;
+                    //rowTotalQa += _novHinsho;
+                    rowTotal += _novTotal;
+                }
+                if (_decActualCostTotal > 0)
+                {
+                    //var tempQa = _decActualCostTotal * (apportionmentByDepartment.DecPercentage / 100);
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(_decActualCostTotal);
+
+                    rowTotalDept += _decActualCostTotal;
+                    //rowTotalQa += _decHinsho;
+                    rowTotal += _decActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _decTotal * (apportionmentByDepartment.DecPercentage / 100);
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(0);
+                    sukeyDto.DecCost.Add(_decTotal);
+
+                    rowTotalDept += _decTotal;
+                    //rowTotalQa += _decHinsho;
+                    rowTotal += _decTotal;
+                }
+                if (_janActualCostTotal > 0)
+                {
+                    //var tempQa = _janActualCostTotal * (apportionmentByDepartment.JanPercentage / 100);
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(_janActualCostTotal);
+
+                    rowTotalDept += _janActualCostTotal;
+                    //rowTotalQa += _janHinsho;
+                    rowTotal += _janActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _janTotal * (apportionmentByDepartment.JanPercentage / 100);
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(0);
+                    sukeyDto.JanCost.Add(_janTotal);
+
+                    rowTotalDept += _janTotal;
+                    //rowTotalQa += _janHinsho;
+                    rowTotal += _janTotal;
+                }
+                if (_febActualCostTotal > 0)
+                {
+                    //var tempQa = _febActualCostTotal * (apportionmentByDepartment.FebPercentage / 100);
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(_febActualCostTotal);
+
+                    rowTotalDept += _febActualCostTotal;
+                    //rowTotalQa += _febHinsho;
+                    rowTotal += _febActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _febTotal * (apportionmentByDepartment.FebPercentage / 100);
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(0);
+                    sukeyDto.FebCost.Add(_febTotal);
+
+                    rowTotalDept += _febTotal;
+                    //rowTotalQa += _febHinsho;
+                    rowTotal += _febTotal;
+                }
+                if (_marActualCostTotal > 0)
+                {
+                    //var tempQa = _marActualCostTotal * (apportionmentByDepartment.MarPercentage / 100);
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(_marActualCostTotal);
+
+                    rowTotalDept += _marActualCostTotal;
+                    //rowTotalQa += _marHinsho;
+                    rowTotal += _marActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _marTotal * (apportionmentByDepartment.MarPercentage / 100);
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(0);
+                    sukeyDto.MarCost.Add(_marTotal);
+
+                    rowTotalDept += _marTotal;
+                    //rowTotalQa += _marHinsho;
+                    rowTotal += _marTotal;
+                }
+
+                deptFirstSlot = rowTotalDept;
+                //qaFirstSlot = rowTotalQa;
+                totalFirstSlot = rowTotal;
+
+
+                if (_aprActualCostTotal > 0)
+                {
+                    //var tempQa = _aprActualCostTotal * (apportionmentByDepartment.AprPercentage / 100);
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(_aprActualCostTotal);
+
+                    rowTotalDept += _aprActualCostTotal;
+                    //rowTotalQa += _aprHinsho;
+                    rowTotal += _aprActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _aprTotal * (apportionmentByDepartment.AprPercentage / 100);
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(0);
+                    sukeyDto.AprCost.Add(_aprTotal);
+
+
+                    rowTotalDept += _aprTotal;
+                    //rowTotalQa += _aprHinsho;
+                    rowTotal += _aprTotal;
+                }
+                if (_mayActualCostTotal > 0)
+                {
+                    //var tempQa = _mayActualCostTotal * (apportionmentByDepartment.MayPercentage / 100);
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(_mayActualCostTotal);
+
+                    rowTotalDept += _mayActualCostTotal;
+                    //rowTotalQa += _mayHinsho;
+                    rowTotal += _mayActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _mayTotal * (apportionmentByDepartment.MayPercentage / 100);
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(0);
+                    sukeyDto.MayCost.Add(_mayTotal);
+
+                    rowTotalDept += _mayTotal;
+                    //rowTotalQa += _mayHinsho;
+                    rowTotal += _mayTotal;
+                }
+                if (_junActualCostTotal > 0)
+                {
+                    //var tempQa = _junActualCostTotal * (apportionmentByDepartment.JunPercentage / 100);
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(_junActualCostTotal);
+
+                    rowTotalDept += _junActualCostTotal;
+                    //rowTotalQa += _junHinsho;
+                    rowTotal += _junActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _junTotal * (apportionmentByDepartment.JunPercentage / 100);
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(0);
+                    sukeyDto.JunCost.Add(_junTotal);
+
+                    rowTotalDept += _junTotal;
+                    //rowTotalQa += _junHinsho;
+                    rowTotal += _junTotal;
+                }
+                if (_julActualCostTotal > 0)
+                {
+                    //var tempQa = _julActualCostTotal * (apportionmentByDepartment.JulPercentage / 100);
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(_julActualCostTotal);
+
+                    rowTotalDept += _julActualCostTotal;
+                    //rowTotalQa += _julHinsho;
+                    rowTotal += _julActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _julTotal * (apportionmentByDepartment.JulPercentage / 100);
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(0);
+                    sukeyDto.JulCost.Add(_julTotal);
+
+                    rowTotalDept += _julTotal;
+                    //rowTotalQa += _julHinsho;
+                    rowTotal += _julTotal;
+                }
+                if (_augActualCostTotal > 0)
+                {
+                    //var tempQa = _augActualCostTotal * (apportionmentByDepartment.AugPercentage / 100);
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(_augActualCostTotal);
+
+                    rowTotalDept += _augActualCostTotal;
+                    //rowTotalQa += _augHinsho;
+                    rowTotal += _augActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _augTotal * (apportionmentByDepartment.AugPercentage / 100);
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(0);
+                    sukeyDto.AugCost.Add(_augTotal);
+
+                    rowTotalDept += _augTotal;
+                    //rowTotalQa += _augHinsho;
+                    rowTotal += _augTotal;
+                }
+                if (_sepActualCostTotal > 0)
+                {
+                    //var tempQa = _sepActualCostTotal * (apportionmentByDepartment.SepPercentage / 100);
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(_sepActualCostTotal);
+
+                    rowTotalDept += _sepActualCostTotal;
+                    //rowTotalQa += _sepHinsho;
+                    rowTotal += _sepActualCostTotal;
+                }
+                else
+                {
+                    //var tempQa = _sepTotal * (apportionmentByDepartment.SepPercentage / 100);
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(0);
+                    sukeyDto.SepCost.Add(_sepTotal);
+
+                    rowTotalDept += _sepTotal;
+                    //rowTotalQa += _sepHinsho;
+                    rowTotal += _sepTotal;
+                }
+
+                sukeyDto.RowTotal.Add(rowTotalDept);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(rowTotal);
+
+                sukeyDto.FirstSlot.Add(deptFirstSlot);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(totalFirstSlot);
+
+                sukeyDto.SecondSlot.Add(rowTotalDept - deptFirstSlot);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(rowTotal - totalFirstSlot);
+            }
+            else
+            {
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+            }
+
+            sukeyQADtos.Add(sukeyDto);
+
+            return sukeyQADtos;
+        }
     }
 }

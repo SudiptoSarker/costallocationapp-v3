@@ -13046,5 +13046,38 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(employee);
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetDifferenceWithQAByDepartment/")]
+        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, int departmentIds, int year)
+        {
+            List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
+
+            List<SukeyQADto> _objTotalCostWithQA = new List<SukeyQADto>();
+            _objTotalCostWithQA = totalBLL.GetTotalCostForDifferenceWithQA(companiIds, departmentIds, year);            
+
+            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+            _objTotalBudgetCost = totalBLL.GetTotalBudgetCost(companiIds, departmentIds, year);
+
+            _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithQA, _objTotalBudgetCost);
+
+            return Ok(_objDifferenceTotals);
+        }
+        [HttpGet]
+        [Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
+        public IHttpActionResult GetDifferenceWithoutQAByDepartment(string companiIds, int departmentIds, int year)
+        {
+            List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
+
+            List<SukeyQADto> _objTotalCostWithoutQA = new List<SukeyQADto>();
+            _objTotalCostWithoutQA = totalBLL.GetTotalCostForDifferenceWithoutQA(companiIds, departmentIds, year);            
+
+            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+            _objTotalBudgetCost = totalBLL.GetTotalBudgetCost(companiIds, departmentIds, year);
+
+            _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithoutQA, _objTotalBudgetCost);
+
+            return Ok(_objDifferenceTotals);
+        }
     }
 }

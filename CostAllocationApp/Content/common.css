@@ -396,26 +396,6 @@
 }
 
 /*************
-    Modal Footer
-************/
-.modal_return_btn{
-    margin-top: 40px !important;
-    line-height: 1 !important;
-    margin-right: -12px  !important;
-}
-.modal-footer{
-    margin-top: -38px !important;
-}
-.custom-modal .modal-footer {
-    border: 0;
-    justify-content: right;    
-}
-.custom-modal .modal-body{
-    padding: 15px !important;
-    margin-top: 1px !important;
-}
-
-/*************
     Delete Modal: master setting value assignment warning
 ************/
 .del_confirm_warning{

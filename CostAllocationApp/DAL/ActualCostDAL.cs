@@ -434,6 +434,56 @@ namespace CostAllocationApp.DAL
             return apportionments;
         }
 
+        public List<Apportionment> GetAllApportionmentDataByDepartments_Year(int year, string departmentIds)
+        {
+            List<Apportionment> apportionments = new List<Apportionment>();
+
+            string query = $@"select * from Apportionments where Year={year} and DepartmentId in ({departmentIds})";
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Apportionment apportionment = new Apportionment();
+                            apportionment.Id = Convert.ToInt32(rdr["Id"]);
+                            apportionment.Year = Convert.ToInt32(rdr["Year"]);
+                            apportionment.DepartmentId = Convert.ToInt32(rdr["DepartmentId"]);
+                            apportionment.OctPercentage = Convert.ToDouble(rdr["OctPercentage"]);
+                            apportionment.NovPercentage = Convert.ToDouble(rdr["NovPercentage"]);
+                            apportionment.DecPercentage = Convert.ToDouble(rdr["DecPercentage"]);
+                            apportionment.JanPercentage = Convert.ToDouble(rdr["JanPercentage"]);
+                            apportionment.FebPercentage = Convert.ToDouble(rdr["FebPercentage"]);
+                            apportionment.MarPercentage = Convert.ToDouble(rdr["MarPercentage"]);
+                            apportionment.AprPercentage = Convert.ToDouble(rdr["AprPercentage"]);
+                            apportionment.MayPercentage = Convert.ToDouble(rdr["MayPercentage"]);
+                            apportionment.JunPercentage = Convert.ToDouble(rdr["JunPercentage"]);
+                            apportionment.JulPercentage = Convert.ToDouble(rdr["JulPercentage"]);
+                            apportionment.AugPercentage = Convert.ToDouble(rdr["AugPercentage"]);
+                            apportionment.SepPercentage = Convert.ToDouble(rdr["SepPercentage"]);
+
+
+
+                            apportionments.Add(apportionment);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return apportionments;
+        }
+
         public int CreateApportionment(Apportionment apportionment)
         {
             int result = 0;

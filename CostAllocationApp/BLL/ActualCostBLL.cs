@@ -95,6 +95,10 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.GetAllApportionmentData(year);
         }
+        public List<Apportionment> GetAllApportionmentDataByDepartments_Year(int year, string departmentIds)
+        {
+            return actualCostDAL.GetAllApportionmentDataByDepartments_Year(year, departmentIds);
+        }
         public int CreateApportionment(Apportionment apportionment)
         {
             return actualCostDAL.CreateApportionment(apportionment);

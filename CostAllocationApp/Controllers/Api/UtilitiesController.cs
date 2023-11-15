@@ -7476,7 +7476,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetHeadCount/")]
-        public IHttpActionResult GetHeadCount(string companiIds, int departmentIds, int year)
+        public IHttpActionResult GetHeadCount(string companiIds, string departmentIds, int year)
         {
 
             //int year = 0;
@@ -7497,26 +7497,30 @@ namespace CostAllocationApp.Controllers.Api
             //}
 
             //var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
-
-            _headCountList.Add(new HeadCountInner
+            var splittedDepartmentIdList = departmentIds.Split(',');
+            foreach (var item in splittedDepartmentIdList)
             {
-                //DepartmentId = department.Id,
-                //DepartmentName = department.DepartmentName,
-                //CategoryName = subCategory.CategoryName,
-                //SubCategoryName = subCategory.SubCategoryName,
-                OctCount = 0,
-                NovCount = 0,
-                DecCount = 0,
-                JanCount = 0,
-                FebCount = 0,
-                MarCount = 0,
-                AprCount = 0,
-                MayCount = 0,
-                JunCount = 0,
-                JulCount = 0,
-                AugCount = 0,
-                SepCount = 0
-            });
+                _headCountList.Add(new HeadCountInner
+                {
+                    DepartmentId = Convert.ToInt32(item),
+                    //DepartmentName = department.DepartmentName,
+                    //CategoryName = subCategory.CategoryName,
+                    //SubCategoryName = subCategory.SubCategoryName,
+                    OctCount = 0,
+                    NovCount = 0,
+                    DecCount = 0,
+                    JanCount = 0,
+                    FebCount = 0,
+                    MarCount = 0,
+                    AprCount = 0,
+                    MayCount = 0,
+                    JunCount = 0,
+                    JulCount = 0,
+                    AugCount = 0,
+                    SepCount = 0
+                });
+            }
+            
 
             List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
             if (forecastAssignmentViewModels.Count > 0)
@@ -8352,7 +8356,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetHeadCountByIncharges/")]
-        public IHttpActionResult GetHeadCountByIncharges(string companiIds, int inchargeIds, int year)
+        public IHttpActionResult GetHeadCountByIncharges(string companiIds, string inchargeIds, int year)
         {
 
             //int year = 0;
@@ -8367,16 +8371,18 @@ namespace CostAllocationApp.Controllers.Api
             //InCharge inCharge = inChargeBLL.GetInChargeByInChargeId(inchargeId);
             //foreach (var incharge in inCharges)
             //{
-                //if (department.Id == 8)
-                //{
-                //    continue;
-                //}
+            //if (department.Id == 8)
+            //{
+            //    continue;
+            //}
 
-                //var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
-
+            //var subCategory = subCategories.Where(sc => sc.Id == Convert.ToInt32(department.SubCategoryId)).SingleOrDefault();
+            var splittedInchargeIdList = inchargeIds.Split(',');
+            foreach (var item in splittedInchargeIdList)
+            {
                 _headCountList.Add(new HeadCountInner
                 {
-                    //InchargeId = inCharge.Id,
+                    InchargeId = Convert.ToInt32(item),
                     //DepartmentName = inCharge.InChargeName,
                     //CategoryName = subCategory.CategoryName,
                     //SubCategoryName = subCategory.SubCategoryName,
@@ -8393,12 +8399,14 @@ namespace CostAllocationApp.Controllers.Api
                     AugCount = 0,
                     SepCount = 0,
                 });
+            }
+                
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year);
-                if (forecastAssignmentViewModels.Count > 0)
-                {
-                    _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
-                }
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year);
+            if (forecastAssignmentViewModels.Count > 0)
+            {
+                _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
+            }
             //}
 
             if (_allforecastAssignmentViewModels.Count > 0)

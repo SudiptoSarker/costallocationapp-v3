@@ -100,7 +100,7 @@ $(document).ready(function () {
             $('#table_container').empty();
             var titleColumnsCount = 0;
             for (var n = 0; n < uniqueTableList.length; n++) {
-                debugger;
+                //debugger;
                 var _splittedValue = uniqueTableList[n].split('_');
                 titleColumnsCount = 0;
                 $.ajax({
@@ -150,18 +150,19 @@ $(document).ready(function () {
             var tableMatchedFlag = false;
             var matchedIndex = -1;
 
-            var _newObject = {
-                tableTitle: '',
-                pageTableCount: '',
-                rowData:[]
-            };
+            //var _newObject = {
+            //    tableTitle: '',
+            //    pageTableCount: '',
+            //    rowData:[]
+            //};
 
             //console.log(dynamicSettings);
             // main loop.
             for (var k = 0; k < dynamicSettings.length; k++) {
-                debugger;
+                //debugger;
                 var _dependency = '';
                 tableMatchedFlag = false;
+                var _newObject = {};
                 //tableCount = parseInt(dynamicSettings[k].DynamicTableId);
 
                 
@@ -213,11 +214,12 @@ $(document).ready(function () {
                     async: false,
                     dataType: 'json',
                     success: function (totalList) {
-
+                        
                         totalList[0].mainTitle = dynamicSettings[k].CategoryName;
                         totalList[0].subTitle = dynamicSettings[k].SubCategoryName;
                         totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;
-
+                        console.log('data-result:');
+                        console.log(totalList);
 
                         _newObject.rowData = totalList;
                         if (tableRowList.length == 0) {
@@ -243,32 +245,22 @@ $(document).ready(function () {
                
             }
 
+            
             console.log(tableRowList);
-
             if (tableRowList.length > 0) {
+                debugger;
                 var tempMainTitle = '';
                 for (var c = 0; c < tableRowList.length; c++) {
 
-                    // get unique main items.
-                    //var getUniquemainTitles = [];
                     var _rowDataList = tableRowList[c].rowData;
-                    //$.each(_rowDataList, function (index, value) {
-                    //    if (getUniquemainTitles.length == 0) {
-                    //        getUniquemainTitles.push(value.mainTitle);
-                    //    }
-                    //    else {
-                    //        if (!getUniquemainTitles.includes(value.mainTitle)) {
-                    //            getUniquemainTitles.push(value.mainTitle);
-                    //        }
-                    //    }
-                    //});
+
 
                     var dynamicTitleCount = $(`#table_${tableRowList[c].pageTableCount}`).data('dt');
                     
                     for (var d = 0; d < tableRowList[c].rowData.length; d++) {
                         
                         var _rowData = tableRowList[c].rowData[d];
-                        if (tempMainTitle != tableRowList[c].mainTitle) {
+                        if (tempMainTitle != _rowData.mainTitle) {
                             var rowCount = 0;
                             $.each(_rowDataList, function (index, value) {
                                 if (_rowData.mainTitle == value.mainTitle) {
@@ -277,7 +269,7 @@ $(document).ready(function () {
                             });
 
 
-                            tempMainTitle = tableRowList[c].mainTitle;
+                            tempMainTitle = _rowData.mainTitle;
 
                             if (rowCount > 1) {
                                 if (dynamicTitleCount == 1) {

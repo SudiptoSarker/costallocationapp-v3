@@ -3167,7 +3167,7 @@ namespace CostAllocationApp.Controllers.Api
         {
             List<object> returnedIdList = new List<object>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
-
+            var mwCompany = companyBLL.GetAllCompanies().Where(c=>c.CompanyName.ToLower()=="mw").SingleOrDefault();
             string tempTimeStampId = "";
             var session = System.Web.HttpContext.Current.Session;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
@@ -3192,7 +3192,7 @@ namespace CostAllocationApp.Controllers.Api
                         employeeAssignment.CompanyId = item.CompanyId;
                         if (item.CompanyId != null)
                         {
-                            if (item.CompanyId.Value != 3)
+                            if (item.CompanyId.Value != mwCompany.Id)
                             {
                                 employeeAssignment.GradeId = null;
                             }

@@ -2114,7 +2114,7 @@ namespace CostAllocationApp.BLL
 
                     }
 
-                    ActualCost actualCost = actualCosts.Where(ac => ac.Id == item.Id).SingleOrDefault();
+                    ActualCost actualCost = actualCosts.Where(ac => ac.AssignmentId == item.Id).SingleOrDefault();
 
                     int innerCount = 1;
                     foreach (var forecast in item.forecasts)

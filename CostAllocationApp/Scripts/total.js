@@ -275,44 +275,46 @@ $(document).ready(function () {
                                 if (dynamicTitleCount == 1) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
-                                    <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                      
+
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                                 if (dynamicTitleCount == 2) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
                                     <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td>${_rowData.subTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                                 if (dynamicTitleCount == 3) {
@@ -320,22 +322,23 @@ $(document).ready(function () {
                                     <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
                                     <td> <i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
                                     <td>${_rowData.subTitle}</td>
-                                    <td>${_rowData.detailsTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td>${_rowData.detailsTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                             }
@@ -343,44 +346,46 @@ $(document).ready(function () {
                                 if (dynamicTitleCount == 1) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr>
-                                    <td>${_rowData.mainTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td>${_rowData.mainTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                                 if (dynamicTitleCount == 2) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr>
                                     <td>${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td>${_rowData.subTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                                 if (dynamicTitleCount == 3) {
@@ -388,22 +393,23 @@ $(document).ready(function () {
                                     <tr>
                                     <td>${_rowData.mainTitle}</td>
                                     <td>${_rowData.subTitle}</td>
-                                    <td>${_rowData.detailsTitle}</td>
-                                    <td class="text-right">${Number(_rowData.OctCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.NovCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.DecCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JanCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FebCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MarCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AprCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.MayCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JunCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.JulCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.AugCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SepCost[2])}</td>
-                                    <td class="text-right">${Number(_rowData.RowTotal[2])}</td>
-                                    <td class="text-right">${Number(_rowData.FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(_rowData.SecondSlot[2])}</td>
+                                    <td>${_rowData.detailsTitle}</td>                                    
+                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    
+                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                                 </tr>`);
                                 }
                             }
@@ -744,43 +750,45 @@ $(document).ready(function () {
             if (dynamicTitleCount == 1) {
 
                 closestRow.after(`
-                                    <tr data-categiry='${categoryName}'>
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <tr data-categiry='${categoryName}'>                                    
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                    
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
                                 </tr>`);
             }
             if (dynamicTitleCount == 2) {
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>
-                                    <td>${filteredRows[i].subTitle}</td>
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <td>${filteredRows[i].subTitle}</td>                                    
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                                                                
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 3) {
@@ -789,20 +797,22 @@ $(document).ready(function () {
                                     <td>${filteredRows[i].subTitle}</td>
                                     <td>${filteredRows[i].detailsTitle}</td>
                                     <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 </tr>`);
             }
         }
@@ -935,65 +945,68 @@ $(document).ready(function () {
             if (dynamicTitleCount == 1) {
 
                 closestRow.after(`
-                                    <tr data-categiry='${categoryName}'>
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <tr data-categiry='${categoryName}'>                                    
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 2) {
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>
-                                    <td>${filteredRows[i].subTitle}</td>
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <td>${filteredRows[i].subTitle}</td>                                    
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 3) {
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>
                                     <td>${filteredRows[i].subTitle}</td>
-                                    <td>${filteredRows[i].detailsTitle}</td>
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2])}</td>
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2])}</td>
+                                    <td>${filteredRows[i].detailsTitle}</td>                                    
+                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    
+                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                                 </tr>`);
             }
         }
@@ -1030,44 +1043,46 @@ $(document).ready(function () {
 
             closestRow.after(`
                             <tr data-categiry='${categoryName}'>
-                            <td>${filteredRows[i].mainTitle}</td>
-                            <td class="text-right">${Number(filteredRows[0].OctCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].NovCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].DecCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JanCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FebCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MarCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AprCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MayCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JunCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JulCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AugCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SepCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].RowTotal[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FirstSlot[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SecondSlot[2])}</td>
+                            <td>${filteredRows[i].mainTitle}</td>                            
+                            <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            
+                            <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                         </tr>`);
         }
         if (dynamicTitleCount == 2) {
             closestRow.after(`
                             <tr data-categiry='${categoryName}'>
                             <td>${filteredRows[i].mainTitle}</td>
-                            <td>${filteredRows[i].subTitle}</td>
-                            <td class="text-right">${Number(filteredRows[0].OctCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].NovCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].DecCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JanCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FebCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MarCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AprCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MayCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JunCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JulCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AugCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SepCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].RowTotal[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FirstSlot[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SecondSlot[2])}</td>
+                            <td>${filteredRows[i].subTitle}</td>                            
+                            <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+
+                            <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                         </tr>`);
         }
         if (dynamicTitleCount == 3) {
@@ -1075,22 +1090,23 @@ $(document).ready(function () {
                             <tr data-categiry='${categoryName}'>
                             <td>${filteredRows[i].mainTitle}</td>
                             <td>${filteredRows[i].subTitle}</td>
-                            <td>${filteredRows[i].detailsTitle}</td>
-                            <td class="text-right">${Number(filteredRows[0].OctCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].NovCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].DecCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JanCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FebCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MarCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AprCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].MayCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JunCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].JulCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].AugCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SepCost[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].RowTotal[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].FirstSlot[2])}</td>
-                            <td class="text-right">${Number(filteredRows[0].SecondSlot[2])}</td>
+                            <td>${filteredRows[i].detailsTitle}</td>                            
+                            <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            
+                            <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                
+                            <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
                         </tr>`);
         }
 

@@ -1626,7 +1626,7 @@ namespace CostAllocationApp.DAL
             List<int> years = new List<int>();
             string query = "";
 
-            query = "select distinct year from EmployeesAssignmentsWithCostsHistory where Year > 0 order by year";
+            query = "select distinct year from EmployeesAssignmentsWithTimeStamps where Year > 0 order by year";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

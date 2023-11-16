@@ -68,11 +68,20 @@ $(document).ready(function () {
                 //debugger;
                 //console.log(jss.options.rows);
                 //console.log(_allRows);
+
+                var manMonthTotal = 0;
+
+                $.each(_newEmployeeGroupList, (index, value) => {
+                    manMonthTotal += parseFloat(value.manMonth);
+                });
+
                 for (var l = 0; l < _newEmployeeGroupList.length; l++) {
+
+                   
 
                     var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
                     var ac = _actualCostAmount;
-                    var newCost = mm * ac;
+                    var newCost = mm * manMonthTotal* ac;
 
                     for (var m = 0; m < _allRows.length; m++) {
                         if (parseInt(_newEmployeeGroupList[l].assignmentId) ==  parseInt(_allRows[m].cells[1].innerText)) {
@@ -84,9 +93,10 @@ $(document).ready(function () {
 
                 _newEmployeeGroupList = [];
             }
+            distributeFlag = true;
         }
         
-
+       
     });
     $.ajax({
         url: `/api/utilities/GetForecatYear`,

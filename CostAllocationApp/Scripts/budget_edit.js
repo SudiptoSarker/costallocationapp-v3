@@ -1977,11 +1977,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.section.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -1989,11 +1989,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.department.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -2001,11 +2001,11 @@ function ShowBedgetResults(year) {
                         
                         if (x == jssTableDefinition.incharge.index) {
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }                        
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -2013,11 +2013,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.role.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -2025,11 +2025,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.explanation.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -2047,11 +2047,11 @@ function ShowBedgetResults(year) {
                             }
 
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
@@ -2059,11 +2059,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.grade.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
@@ -2071,11 +2071,11 @@ function ShowBedgetResults(year) {
 
                         if (x == jssTableDefinition.unitPrice.index) {                        
                             if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
+                                //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);

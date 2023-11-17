@@ -1961,22 +1961,22 @@ function ShowBedgetResults(year) {
                         updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                     }
                     else {
-                        var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
+                        var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
+                        var dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
 
                         if (x == jssTableDefinition.remarks.index) {                        
                             if (dataCheck.length == 0) {
                                 jssUpdatedData.push(retrivedData);
-                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
                                 updateArray(jssUpdatedData, retrivedData);
-                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }                        
                             cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                         }
 
-                        if (x == jssTableDefinition.section.index) {                        
-                            if (dataCheck.length == 0) {
+                        if (x == jssTableDefinition.section.index) {
+                            debugger;
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -1984,11 +1984,13 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }                    
 
-                        if (x == jssTableDefinition.department.index) {                        
-                            if (dataCheck.length == 0) {
+                        if (x == jssTableDefinition.department.index) {  
+                            debugger;
+                            if (dataCheckForInsertOnChange.length == 0) {
+                                
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -1996,11 +1998,11 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
                         
                         if (x == jssTableDefinition.incharge.index) {
-                            if (dataCheck.length == 0) {
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -2008,11 +2010,11 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }                        
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
                         if (x == jssTableDefinition.role.index) {                        
-                            if (dataCheck.length == 0) {
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -2020,17 +2022,17 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                           // cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
                         if (x == jssTableDefinition.explanation.index) {                        
                             if (dataCheck.length == 0) {
-                                //jssUpdatedData.push(retrivedData);
-                                insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
+                                jssUpdatedData.push(retrivedData);
+                                //insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
                             else {
-                                //updateArray(jssUpdatedData, retrivedData);
-                                updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
+                                updateArray(jssUpdatedData, retrivedData);
+                                //updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
                             cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
@@ -2046,7 +2048,7 @@ function ShowBedgetResults(year) {
                                 $(jss.getCell("J" + rowNumber)).removeClass('readonly');                                
                             }
 
-                            if (dataCheck.length == 0) {
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -2054,11 +2056,11 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                         }
 
                         if (x == jssTableDefinition.grade.index) {                        
-                            if (dataCheck.length == 0) {
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -2066,11 +2068,11 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
                         if (x == jssTableDefinition.unitPrice.index) {                        
-                            if (dataCheck.length == 0) {
+                            if (dataCheckForInsertOnChange.length == 0) {
                                 //jssUpdatedData.push(retrivedData);
                                 insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                             }
@@ -2078,7 +2080,7 @@ function ShowBedgetResults(year) {
                                 //updateArray(jssUpdatedData, retrivedData);
                                 updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                             }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                            //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                         }
 
                         if (x == jssTableDefinition.octM.index) {                        
@@ -2798,7 +2800,8 @@ function updateArray(array, retrivedData) {
 }
 
 function updateArrayForInsertOnChange(array, retrivedData) {
-    var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
+    debugger;
+    var index = insertedOnChangeList.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
     array[index].employeeId = retrivedData.employeeId;
     array[index].sectionId = retrivedData.sectionId;
@@ -2833,7 +2836,7 @@ function retrivedObjectForInsertOnChange(rowData) {
     var allData = jss.getData();
     var _unitPriceChanged = 0;
     var _roleChanged = 0;
-    var _duplicateCount = 0;
+    var _duplicateCount = 1;
     for (let x of allData) {
         if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(rowData[jssTableDefinition.employeeId.index])) {
             _duplicateCount++;
@@ -2854,9 +2857,6 @@ function retrivedObjectForInsertOnChange(rowData) {
                 _roleChanged = 1;
             }
             if (previousRowDataToDetech[i].roleId != rowData[jssTableDefinition.role.index]) {
-                _roleChanged = 1;
-            }
-            if (previousRowDataToDetech[i].explanationId != rowData[jssTableDefinition.explanation.index]) {
                 _roleChanged = 1;
             }
             if (previousRowDataToDetech[i].companyId != rowData[jssTableDefinition.company.index]) {

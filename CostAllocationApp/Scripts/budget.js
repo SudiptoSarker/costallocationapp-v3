@@ -1,12 +1,15 @@
 ﻿$(document).ready(function () {    
-    $('#budget_finalize').on('click', function () {
-
-    });
+    $('.replicate_forecast_data').on('click', function () {
+        ClearReplicateModal();
+    });    
     function ClearReplicateModal(){
-        $('#duplicate_from').val('');
-        $('#approval_timestamps').val('');
-        $('#duplciateYear').val('');
+        $('#duplicate_from').val('');    
+        $('#approval_timestamps').empty();
+        $('#approval_timestamps').val('');        
+        $("#duplciateYear").val('');
+        $("#duplciateYear").prop('disabled', true);
         $('#select_duplicate_budget_type').val('');
+        $('#select_duplicate_budget_type').empty();        
     }
     
     //import budget selction menu
@@ -52,6 +55,7 @@
                 if(data == true){
                     ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
                 }else{
+                    alert("test-1");
                     $('#select_duplicate_budget_type').empty();
                     $('#duplciateYear').val('');
                     alert("selected year is not valid to replicate!");
@@ -140,7 +144,7 @@
     //duplicate budget selction menu
     $('#duplciateYear').on('change', function() {
         var selectedBudgetYear = this.value;
-        alert(selectedBudgetYear);
+        alert("test-2");
 
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
             //check the selected year is valid for replicate data
@@ -159,6 +163,7 @@
             SelectDuplicateBudgetYearAndType();            
         }        
         else{
+            alert("test-3");
             $('#approval_timestamps').empty();
             $("#duplciateYear").val('');
             $("#duplciateYear").prop('disabled', true);

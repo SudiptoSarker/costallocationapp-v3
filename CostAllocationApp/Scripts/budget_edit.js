@@ -1,4 +1,7 @@
-﻿//$(document).ready(function () {
+﻿$(document).ready(function(){    
+    $(".sorting_custom_modal").css("display", "block");
+});
+//$(document).ready(function () {
 
     //checking the data is finalize or not.
     //save and finalize button disable/enable
@@ -2519,6 +2522,11 @@
         //jss.deleteColumn(52, 23);
         jss.deleteColumn(53, 23);
 
+        //first header sticky
+        // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
+        // first_header_1.css('position', 'sticky');
+        // first_header_1.css('top', '0px');
+
         //sort arrow on load: employee
         var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
         employee_asc_arow.addClass('arrow-down');
@@ -2529,9 +2537,9 @@
         //sort arrow on load: section
         var section_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)');
         section_asc_arow.addClass('arrow-down');
-        // var section_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-        // section_header.css('position', 'sticky');
-        // section_header.css('top', '0px');
+        var section_header = $('.jexcel > thead > tr:nth-of-type(4) > td');
+        section_header.css('position', 'sticky');
+        section_header.css('top', '0px');
         
         //sort arrow on load: department
         var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
@@ -2584,85 +2592,85 @@
 
         //sort employee
         $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)').on('click', function () {           
-            $('.search_p').css('display', 'block');        
-            // $("#hider").fadeIn("slow");
-            // $('.search_p').fadeIn("slow");
+            $('.employee_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.employee_sorting').fadeIn("slow");
         });
 
         // //section column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)').on('click', function () {  
-        //     $('.search_section').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_section').fadeIn("slow");
-        // });
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)').on('click', function () {  
+            $('.section_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.section_sorting').fadeIn("slow");
+        });
         
-        // //department column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)').on('click', function () {     
-        //     $('.search_department').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_department').fadeIn("slow");
-        // });    
-        // //incharge column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)').on('click', function () {  
-        //     $('.search_incharge').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_incharge').fadeIn("slow");
-        // });
-        // //role column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)').on('click', function () {         
-        //     $('.search_role').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_role').fadeIn("slow");
-        // });
-        // //explanation column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)').on('click', function () {    
-        //     $('.search_explanation').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_explanation').fadeIn("slow");
-        // });
-        // //company column
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)').on('click', function () {     
-        //     $('.search_company').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_company').fadeIn("slow");
-        // });
-        // //grade column sorting
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)').on('click', function () {        
-        //     $('.search_grade').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_grade').fadeIn("slow");
-        // });
-        //     //unit price column sorting
-        // $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)').on('click', function () { 
-        //     $('.search_unit_price').css('display', 'block');        
-        //     $("#hider").fadeIn("slow");
-        //     $('.search_unit_price').fadeIn("slow");
-        // });   
+        //department column
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)').on('click', function () {     
+            $('.department_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.department_sorting').fadeIn("slow");
+        });    
+        //incharge column
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)').on('click', function () {  
+            $('.incharge_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.incharge_sorting').fadeIn("slow");
+        });
+        //role column
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)').on('click', function () {         
+            $('.role_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.role_sorting').fadeIn("slow");
+        });
+        //explanation column
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)').on('click', function () {    
+            $('.explanation_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.explanation_sorting').fadeIn("slow");
+        });
+        //company column
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)').on('click', function () {     
+            $('.company_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.company_sorting').fadeIn("slow");
+        });
+        //grade column sorting
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)').on('click', function () {        
+            $('.grade_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.grade_sorting').fadeIn("slow");
+        });
+            //unit price column sorting
+        $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)').on('click', function () { 
+            $('.unit_sorting').css('display', 'block');        
+            $("#hider").fadeIn("slow");
+            $('.unit_sorting').fadeIn("slow");
+        });   
     }
 
     $("#hider").hide();
-    $(".search_p").hide();
-    $(".search_section").hide();
-    $(".search_department").hide();
-    $(".search_incharge").hide();
-    $(".search_role").hide();
-    $(".search_explanation").hide();
-    $(".search_company").hide();
-    $(".search_grade").hide();
-    $(".search_unit_price").hide();
+    $(".employee_sorting").hide();
+    $(".section_sorting").hide();
+    $(".department_sorting").hide();
+    $(".incharge_sorting").hide();
+    $(".role_sorting").hide();
+    $(".explanation_sorting").hide();
+    $(".company_sorting").hide();
+    $(".grade_sorting").hide();
+    $(".unit_sorting").hide();
 
     $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
 
         $("#hider").fadeOut("slow");
-        $('.search_p').fadeOut("slow");
-        $('.search_section').fadeOut("slow");
-        $('.search_department').fadeOut("slow");
-        $('.search_incharge').fadeOut("slow");
-        $('.search_role').fadeOut("slow");
-        $('.search_explanation').fadeOut("slow");
-        $('.search_company').fadeOut("slow");
-        $('.search_grade').fadeOut("slow");
-        $('.search_unit_price').fadeOut("slow");
+        $('.employee_sorting').fadeOut("slow");
+        $('.section_sorting').fadeOut("slow");
+        $('.department_sorting').fadeOut("slow");
+        $('.incharge_sorting').fadeOut("slow");
+        $('.role_sorting').fadeOut("slow");
+        $('.explanation_sorting').fadeOut("slow");
+        $('.company_sorting').fadeOut("slow");
+        $('.grade_sorting').fadeOut("slow");
+        $('.unit_sorting').fadeOut("slow");
     });
 
     var newRowInserted = function (instance, x, y, newRow) {
@@ -3710,168 +3718,107 @@
         $('#frmExportBudget').submit();
     }
 //});
+    
+function ShowAllSortingAscIcon(){
+    //sort arrow on load: employee
+    var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
+    employee_asc_arow.addClass('arrow-down');
+    var employee_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    employee_header.css('position', 'sticky');
+    employee_header.css('top', '0px');
+    $('#search_p_asc').css('background-color', 'lightsteelblue');
+    $('#search_p_desc').css('background-color', 'lightsteelblue');
 
-$(document).ready(function(){
-    //employee sorting
-    $('#search_p_asc').on('click',function(){
-        jss.orderBy(1, 0);
+    //sort arrow on load: section
+    var section_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)');
+    section_asc_arow.addClass('arrow-down');
+    var section_header = $('.jexcel > thead > tr:nth-of-type(4) > td');
+    section_header.css('position', 'sticky');
+    section_header.css('top', '0px');
+    $('#search_section_asc').css('background-color', 'lightsteelblue');
+    $('#search_section_desc').css('background-color', 'lightsteelblue');
 
-        $('#search_p_asc').css('background-color', 'grey');
-        $('#search_p_desc').css('background-color', 'lightsteelblue');
+    //sort arrow on load: department
+    var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
+    dept_asc_arow.addClass('arrow-down');
+    // var dept_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // dept_header.css('position', 'sticky');
+    // dept_header.css('top', '0px');
+    $('#search_department_asc').css('background-color', 'lightsteelblue');
+    $('#search_department_desc').css('background-color', 'lightsteelblue');
 
-        var employee_asc = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)');
-        employee_asc.addClass('arrow-down');
-    });
-    $('#search_p_desc').on('click',function(){
-        jss.orderBy(1, 1);
+    //sort arrow on load: inchrg
+    var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)');
+    incharge_asc_arow.addClass('arrow-down');
+    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // incharge_header.css('position', 'sticky');
+    // incharge_header.css('top', '0px');
+    $('#search_incharge_asc').css('background-color', 'lightsteelblue');
+    $('#search_incharge_desc').css('background-color', 'lightsteelblue');
 
-        $('#search_p_asc').css('background-color', 'lightsteelblue');
-        $('#search_p_desc').css('background-color', 'grey');
+    //sort arrow on load: role
+    var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)');
+    role_asc_arow.addClass('arrow-down');
+    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // jexcelFirstHeaderRow_role.css('position', 'sticky');
+    // jexcelFirstHeaderRow_role.css('top', '0px');
+    $('#search_role_asc').css('background-color', 'lightsteelblue');
+    $('#search_role_desc').css('background-color', 'lightsteelblue');
 
-        var employee_desc = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)');
-        employee_desc.addClass('arrow-up');
-    });
+    //sort arrow on load: exp
+    var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)');
+    explanation_asc_arow.addClass('arrow-down');
+    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
+    // jexcelFirstHeaderRow_exp.css('top', '0px');
+    $('#search_explanation_asc').css('background-color', 'lightsteelblue');
+    $('#search_explanation_desc').css('background-color', 'lightsteelblue');
 
-    //section sorting
-})    
+    //sort arrow on load: com
+    var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)');
+    company_asc_arow.addClass('arrow-down');
+    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // jexcelFirstHeaderRow_com.css('position', 'sticky');
+    // jexcelFirstHeaderRow_com.css('top', '0px');
+    $('#search_company_asc').css('background-color', 'lightsteelblue');
+    $('#search_company_desc').css('background-color', 'lightsteelblue');
+
+    //sort arrow on load: grade
+    var grade_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)');
+    grade_asc_arow.addClass('arrow-down');
+    // var jexcelFirstHeaderRow_grade = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // jexcelFirstHeaderRow_grade.css('position', 'sticky');
+    // jexcelFirstHeaderRow_grade.css('top', '0px');
+    $('#search_grade_asc').css('background-color', 'lightsteelblue');
+    $('#search_grade_desc').css('background-color', 'lightsteelblue');
+
+    //sort arrow on load: unit
+    var unit_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)');
+    unit_asc_arow.addClass('arrow-down');
+    // var jexcelFirstHeaderRow_unit = $('.jexcel > thead > tr:nth-of-type(3) > td');
+    // jexcelFirstHeaderRow_unit.css('position', 'sticky');
+    // jexcelFirstHeaderRow_unit.css('top', '0px');
+    $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
+    $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
+}
 
 //shorting column functions
-function ColumnOrder(columnNumber, orderBy,column_name) {
-    jss.orderBy(columnNumber, orderBy);
+function ColumnOrder(columnNumber, orderBy,trType,tdType,sortIconIdAsc,sortIconIdDesc) {    
+    jss.orderBy(columnNumber, orderBy);    
+    ShowAllSortingAscIcon();
 
-    if(column_name=="employee"){       
-        var short_name = "";
-        if (orderBy == 1) {
-            $('#search_p_asc').css('background-color', 'grey');
-            $('#search_p_desc').css('background-color', 'lightsteelblue');
-            //short_name = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)');
-            //short_name.addClass('arrow-down');
-        }
-        if (parseInt(orderBy) == 0) {
-            $('#search_p_asc').css('background-color', 'lightsteelblue');
-            $('#search_p_desc').css('background-color', 'grey');
-            //short_name = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1)');
-            //short_name.addClass('arrow-up');
-        }        
+    var column_sort_icon = "";
+    if (parseInt(orderBy) == 0) {
+        $('#'+sortIconIdAsc).css('background-color', 'grey');
+        $('#'+sortIconIdDesc).css('background-color', 'lightsteelblue');
+
+        column_sort_icon = $('.jexcel > thead > tr:nth-of-type('+trType+') > td:nth-of-type('+tdType+')');
+        column_sort_icon.addClass('arrow-down');                       
     }
-    // if(column_name=="section"){
-    //     var jexcelHeadTdSection = "";
-    //     if (orderBy == 0) {
-    //         $('#search_section_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_section_desc').css('background-color', 'grey');
-    //         jexcelHeadTdSection = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)');
-    //         jexcelHeadTdSection.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_section_asc').css('background-color', 'grey');
-    //         $('#search_section_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTdSection = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(5)');
-    //         jexcelHeadTdSection.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="department"){
-    //     var jexcelHeadTd_dept = "";
-    //     if (orderBy == 0) {
-    //         $('#search_department_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_department_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_dept = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
-    //         jexcelHeadTd_dept.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_department_asc').css('background-color', 'grey');
-    //         $('#search_department_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_dept = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
-    //         jexcelHeadTd_dept.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="incharge"){
-    //     var jexcelHeadTd_inchrg = "";
-    //     if (orderBy == 0) {
-    //         $('#search_incharge_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_incharge_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_inchrg = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)');
-    //         jexcelHeadTd_inchrg.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_incharge_asc').css('background-color', 'grey');
-    //         $('#search_incharge_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_inchrg = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)');
-    //         jexcelHeadTd_inchrg.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="role"){
-    //     var jexcelHeadTd_role = "";
-    //     if (orderBy == 0) {
-    //         $('#search_role_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_role_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_role = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)');
-    //         jexcelHeadTd_role.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_role_asc').css('background-color', 'grey');
-    //         $('#search_role_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_role = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)');
-    //         jexcelHeadTd_role.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="explanation"){        
-    //     var jexcelHeadTd_exp = "";
-    //     if (orderBy == 0) {
-    //         $('#search_explanation_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_explanation_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_exp = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)');
-    //         jexcelHeadTd_exp.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_explanation_asc').css('background-color', 'grey');
-    //         $('#search_explanation_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_exp = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)');
-    //         jexcelHeadTd_exp.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="company"){
-    //     var jexcelHeadTd_com = "";
-    //     if (orderBy == 0) {
-    //         $('#search_company_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_company_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_com = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)');
-    //         jexcelHeadTd_com.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_company_asc').css('background-color', 'grey');
-    //         $('#search_company_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_com = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)');
-    //         jexcelHeadTd_com.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="grade"){
-    //     var jexcelHeadTd_grade = "";
-    //     if (orderBy == 0) {
-    //         $('#search_grade_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_grade_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_grade = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)');
-    //         jexcelHeadTd_grade.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_grade_asc').css('background-color', 'grey');
-    //         $('#search_grade_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_grade = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)');
-    //         jexcelHeadTd_grade.addClass('arrow-down');
-    //     }
-    // }
-    // if(column_name=="unit"){
-    //     var jexcelHeadTd_unit = "";
-    //     if (orderBy == 0) {
-    //         $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
-    //         $('#search_unit_price_desc').css('background-color', 'grey');
-    //         jexcelHeadTd_unit = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)');
-    //         jexcelHeadTd_unit.addClass('arrow-up');
-    //     }
-    //     if (orderBy == 1) {
-    //         $('#search_unit_price_asc').css('background-color', 'grey');
-    //         $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
-    //         jexcelHeadTd_unit = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)');
-    //         jexcelHeadTd_unit.addClass('arrow-down');
-    //     }
-    // }
+    if (parseInt(orderBy) == 1) {
+        $('#'+sortIconIdAsc).css('background-color', 'lightsteelblue');
+        $('#'+sortIconIdDesc).css('background-color', 'grey');
+        column_sort_icon = $('.jexcel > thead > tr:nth-of-type('+trType+') > td:nth-of-type('+tdType+')');
+        column_sort_icon.addClass('arrow-down');      
+    }        
 }

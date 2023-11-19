@@ -10,7 +10,6 @@
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
     @{
-
         /***************************\
             Show Loader
         \***************************/
@@ -39,11 +38,11 @@
                 <select id="budget_years" class=""></select>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="search_budget">表示</button>
+                <button type="submit" class="btn btn-light mb-2" id="show_budget_list">表示</button>
             </div>
             <div class="col-1"></div>
             <div class="col-2">
-                <button type="button" class="btn btn-dark" id="cancele_all_changed_budget">取消(undo)</button>
+                <button type="button" class="btn btn-dark" id="undo_edited_budget">取消(undo)</button>
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-dark" id="save_bedget">保存（save）</button>
@@ -83,23 +82,21 @@
 <input type="hidden" id="selected_budget_year" value="" />
 <input type="hidden" id="is_finalize_budget" value="" />
 
+<!--------sort employee-------->
 <div class="search_p">
     <ul id="search_p_asc_desc">
-        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1)"></i> <span id="search_p_asc_text">昇順</span></li>
-        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0)"></i><span id="search_p_desc_text">降順</span></li>
+        <li><i id="search_p_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(3,1,'employee')"></i> <span id="search_p_asc_text">昇順</span></li>
+        <li><i id="search_p_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(3,0,'employee')"></i><span id="search_p_desc_text">降順</span></li>
     </ul>
-    @*<input type="text" id="search_p_text_box" />
-        <ul id="search_p_search"></ul>*@
-    <div class="search_p_footer">
-        @*<button type="button" onclick="GetEmployeeName()">Ok</button>*@
+    <div class="search_p_footer">        
         <button type="button" data-dismiss="modal" id="buttonClose">Close</button>
     </div>
 </div>
-
+<!-- 
 <div class="search_section">
     <ul id="search_section_asc_desc">
-        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Section(5,1)"></i> <span id="search_section_asc_text">昇順</span></li>
-        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Section(5,0)"></i><span id="search_section_desc_text">降順</span></li>
+        <li><i id="search_section_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(5,1,'section')"></i> <span id="search_section_asc_text">昇順</span></li>
+        <li><i id="search_section_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(5,0,'section')"></i><span id="search_section_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_section">Close</button>
@@ -108,8 +105,8 @@
 
 <div class="search_department">
     <ul id="search_department_asc_desc">
-        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Department(6,1)"></i> <span id="search_department_asc_text">昇順</span></li>
-        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Department(6,0)"></i><span id="search_department_desc_text">降順</span></li>
+        <li><i id="search_department_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(6,1,'department')"></i> <span id="search_department_asc_text">昇順</span></li>
+        <li><i id="search_department_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(6,0,'department')"></i><span id="search_department_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_department">Close</button>
@@ -117,8 +114,8 @@
 </div>
 <div class="search_incharge">
     <ul id="search_incharge_asc_desc">
-        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,1)"></i> <span id="search_incharge_asc_text">昇順</span></li>
-        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_InCharge(7,0)"></i><span id="search_incharge_desc_text">降順</span></li>
+        <li><i id="search_incharge_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(7,1,'incharge')"></i> <span id="search_incharge_asc_text">昇順</span></li>
+        <li><i id="search_incharge_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(7,0,'incharge')"></i><span id="search_incharge_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_incharge">Close</button>
@@ -126,8 +123,8 @@
 </div>
 <div class="search_role">
     <ul id="search_role_asc_desc">
-        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Role(8,1)"></i> <span id="search_role_asc_text">昇順</span></li>
-        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Role(8,0)"></i><span id="search_role_desc_text">降順</span></li>
+        <li><i id="search_role_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(8,1,'role')"></i> <span id="search_role_asc_text">昇順</span></li>
+        <li><i id="search_role_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(8,0,'role')"></i><span id="search_role_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_role">Close</button>
@@ -136,8 +133,8 @@
 
 <div class="search_explanation">
     <ul id="search_explanation_asc_desc">
-        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,1)"></i> <span id="search_explanation_asc_text">昇順</span></li>
-        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Explanation(9,0)"></i><span id="search_explanation_desc_text">降順</span></li>
+        <li><i id="search_explanation_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(9,1,'explanation')"></i> <span id="search_explanation_asc_text">昇順</span></li>
+        <li><i id="search_explanation_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(9,0,'explanation')"></i><span id="search_explanation_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_explanation">Close</button>
@@ -145,8 +142,8 @@
 </div>
 <div class="search_company">
     <ul id="search_company_asc_desc">
-        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Company(10,1)"></i> <span id="search_company_asc_text">昇順</span></li>
-        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Company(10,0)"></i><span id="search_company_desc_text">降順</span></li>
+        <li><i id="search_company_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(10,1,'company')"></i> <span id="search_company_asc_text">昇順</span></li>
+        <li><i id="search_company_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(10,0,'company')"></i><span id="search_company_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_company">Close</button>
@@ -154,8 +151,8 @@
 </div>
 <div class="search_grade">
     <ul id="search_grade_asc_desc">
-        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_Grade(11,1)"></i> <span id="search_grade_asc_text">昇順</span></li>
-        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_Grade(11,0)"></i><span id="search_grade_desc_text">降順</span></li>
+        <li><i id="search_grade_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(11,1,'grade')"></i> <span id="search_grade_asc_text">昇順</span></li>
+        <li><i id="search_grade_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(11,0,'grade')"></i><span id="search_grade_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_grade">Close</button>
@@ -163,13 +160,13 @@
 </div>
 <div class="search_unit_price">
     <ul id="search_unit_price_asc_desc">
-        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,1)"></i> <span id="search_unit_price_asc_text">昇順</span></li>
-        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder_UnitPrice(12,0)"></i><span id="search_unit_price_desc_text">降順</span></li>
+        <li><i id="search_unit_price_asc" class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="ColumnOrder(12,1,'unit')"></i> <span id="search_unit_price_asc_text">昇順</span></li>
+        <li><i id="search_unit_price_desc" class="fa fa-sort-alpha-desc" aria-hidden="true" onclick="ColumnOrder(12,0,'unit')"></i><span id="search_unit_price_desc_text">降順</span></li>
     </ul>
     <div class="search_p_footer">
         <button type="button" data-dismiss="modal" id="buttonClose_unit_price">Close</button>
     </div>
-</div>
+</div> -->
 
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">
@@ -197,8 +194,8 @@
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
-                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">追加(Add）</a>
+                            <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消(Undo）</a>
+                            <a href="javascript:void(0);" class="employee_registration">追加(Add）</a>
                         </div>
                     </div>
 
@@ -208,8 +205,8 @@
                     <select id="employee_list" style=""></select>
 
                     <div class="custom_button_group_employee_list">
-                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
-                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">追加(Add）</a>
+                        <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消(Undo）</a>
+                        <a href="javascript:void(0);" class="employee_add">追加(Add）</a>
                     </div>
                 </div>
             </div>
@@ -221,127 +218,10 @@
 @section Scripts{    
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/budget_edit.js"></script>
-    <!-- <script src="/Scripts/jexcel_common.js"></script>
-    <script src="/Scripts/edit_budget_ver02.js"></script> -->
-    <script src="~/signalr/hubs"></script>
     
-    <script type="text/javascript">
-
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-
-        $.connection.hub.start();
-
-        $(function () {
-            var chat = $.connection.chatHub;
-            //$.connection.hub.start();
-            //debugger;
-            //console.log(chat);
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName != value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-
-                        });
-
-                    }
-                });
-            };
-        });
-        $(document).ready(function () {
-           // $("table1").DataTable();
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data, (index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-
-        });
-        function bs_input_file() {
-            $(".input-file").before(
-                function () {
-                    if (!$(this).prev().hasClass('input-ghost')) {
-                        var element = $("<input type='file' id='dataFile' name='upload' class='input-ghost' style='visibility:hidden; height:0'>");
-                        element.attr("name", $(this).attr("name"));
-                        element.change(function () {
-                            element.next(element).find('input').val((element.val()).split('\\').pop());
-                        });
-                        $(this).find("button.btn-choose").click(function () {
-                            element.click();
-                        });
-                        $(this).find("button.btn-reset").click(function () {
-                            element.val(null);
-                            $(this).parents(".input-file").find('input').val('');
-                        });
-                        $(this).find('input').css("cursor", "pointer");
-                        $(this).find('input').mousedown(function () {
-                            $(this).parents('.input-file').prev().click();
-                            return false;
-                        });
-                        return element;
-                    }
-                }
-            );
-        }
-
-        function clear() {
-            var input = $("#dataFile").val('');
-        };
-        $(function () {
-            clear();
-            bs_input_file();
-        });        
-    </script>
+    <!-- user login/logout notifications script -->
+    <script src="~/signalr/hubs"></script>
+    <script src="/Scripts/user_notifications.js"></script>        
 }
 
 

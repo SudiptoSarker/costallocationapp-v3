@@ -254,8 +254,10 @@ body {
 .jexcel tbody tr td:nth-of-type(30) {
     text-align:right !important;
 }
+/*month wise cost*/
 .jexcel tbody tr td:nth-of-type(31) {
-    text-align:right !important;
+    text-align:right !important;    
+    white-space: nowrap !important;    
 }
 .jexcel tbody tr td:nth-of-type(32) {
     text-align:right !important;

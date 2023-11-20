@@ -47,6 +47,9 @@ $(document).ready(function () {
         }else if(selected_year == "" || selected_year == null || selected_year == undefined){
             alert("年を選択してください");
         }
+        else if(timeStampId == "" || timeStampId == null || timeStampId == undefined){
+            alert("タイムスタンプを選択してください");
+        }
         else {
 
             methodList = [];
@@ -187,7 +190,7 @@ $(document).ready(function () {
                         }
                     }
                 }
-
+                
                 if (detectTableChange != tableCount) {
                     detectTableChange = tableCount;
                     $(`#table_${tableCount}`).append('<tbody></tbody>');
@@ -197,15 +200,13 @@ $(document).ready(function () {
                 }
                 if (dynamicSettings[k].Dependency == 'in') {
                     _dependency = 'inchargeIds';
-                }
-
-                
+                }                                
 
                 //var parameters = dynamicSettings[k].ParameterId.split(',');
 
                 // parameter wise pulling data.
                 
-                var _url = `/api/utilities/${dynamicSettings[k].Syntex}?companiIds=${selected_compannies}&${_dependency}=${dynamicSettings[k].ParameterId}&year=${selected_year}`;
+                var _url = `/api/utilities/${dynamicSettings[k].Syntex}?companiIds=${selected_compannies}&${_dependency}=${dynamicSettings[k].ParameterId}&year=${selected_year}&timestampsId=${timeStampId}`;
 
                 $.ajax({
                     url: _url,

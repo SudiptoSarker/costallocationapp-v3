@@ -7311,7 +7311,122 @@ namespace CostAllocationApp.DAL
             return forecasts;
         }
 
+        /************
+         * Difference Methods: Starts
+        *************/
+        public List<ForecastAssignmentViewModel> GetForecastedAssignmentDataByTimestampId(string departmentIds, string companyIds, int year,string timestampsId)
+        {           
+            string query = "";
+            query = query + "SELECT ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks ";
+            query = query + "    ,ea.ExplanationId,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId ";
+            query = query + "    ,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR ";
+            query = query + "    ,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending,ea.IsRowPending,IsDeletePending,ea.EmployeeAssignmentId ";
+            query = query + "FROM EmployeesAssignmentsWithTimeStamps ea  ";
+	        query = query + "    LEFT JOIN Sections sec ON ea.SectionId = sec.Id ";
+	        query = query + "    LEFT JOIN Departments dep ON ea.DepartmentId = dep.Id ";
+	        query = query + "    LEFT JOIN Companies com ON ea.CompanyId = com.Id ";
+	        query = query + "    LEFT JOIN Roles rl ON ea.RoleId = rl.Id ";
+	        query = query + "    LEFT JOIN InCharges inc ON ea.InChargeId = inc.Id  ";
+	        query = query + "    LEFT JOIN Grades gd ON ea.GradeId = gd.Id ";
+	        query = query + "    LEFT JOIN Employees emp ON ea.EmployeeId = emp.Id ";
+            query = query + "WHERE ea.DepartmentId IN ("+ departmentIds + ") AND ea.CompanyId IN ("+ companyIds + ") AND ea.TimeStampsId IN("+ timestampsId + ") AND  ea.Year="+year+" AND 1=1 AND ea.IsDeleted is null OR  ea.IsDeleted= 0  ";
+            query = query + "ORDER BY emp.Id ASC ";
 
 
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.AssignmentTimeStampId = Convert.ToInt32(rdr["EmployeeAssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();                            
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);                            
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecastEmployeeAssignments;
+        }
+
+        public List<ForecastDto> GetForecastedDataByTimestampAssignmentId(int assignmentId, string year)
+        {
+            List<ForecastDto> forecasts = new List<ForecastDto>();
+            string query = "SELECT * FROM Costs_WithAssignmentsTimeStamps WHERE TimeStampsAssignmentId="+ assignmentId + " AND Year="+year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto forecast = new ForecastDto();
+                            forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return forecasts;
+        }
+
+        /************
+         * Difference Methods: Ends
+        *************/
     }
 }

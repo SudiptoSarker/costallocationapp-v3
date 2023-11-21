@@ -13146,7 +13146,9 @@ namespace CostAllocationApp.Controllers.Api
             if (!string.IsNullOrEmpty(timestampsId)) { 
                 List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();            
                 List<SukeyQADto> _objTotalCostWithQA = new List<SukeyQADto>();
-                _objTotalCostWithQA = totalBLL.GetTotalCostForDifferenceWithQA(companiIds, departmentIds, year, timestampsId);            
+                _objTotalCostWithQA = totalBLL.GetTotalCostForDifferenceWithQA(companiIds, departmentIds, year, timestampsId);
+
+                //List<SukeyQADto> objSumTotalDto = new List<SukeyQADto>();
 
                 List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
                 _objTotalBudgetCost = totalBLL.GetTotalBudgetCostByDepartment(companiIds, departmentIds, year);

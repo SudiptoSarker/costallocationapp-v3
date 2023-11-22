@@ -3,7 +3,7 @@ var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
-var distributeFlag = false;
+var distributionCount = 0;
 
 const channel = new BroadcastChannel("actualCost");
 
@@ -22,9 +22,13 @@ function LoaderHide() {
 $(document).ready(function () {
 
     $('#distribute').on('click', function () {
+        if (distributionCount > 0) {
+            alert("Please refresh and try again!");
+            return false;
+        }
         var _newEmployeeGroupList = [];
         var _uniqueEmnployeeIdList = [];
-        var _actualCostCount = 0;
+        var _actualCostFlag = 0;
         var _actualCostAmount = 0;
         var allData = jss.getData();
         var _allRows = $(`.jexcel > tbody > tr`);
@@ -41,21 +45,26 @@ $(document).ready(function () {
         }
 
         if (_uniqueEmnployeeIdList.length > 0) {
+
             for (var j = 0; j < _uniqueEmnployeeIdList.length; j++) {
                 _actualCostCount = 0;
-                _actualCostAmount =0;
+                _actualCostAmount = 0;
+                _actualCostFlag = 0;
                 for (var k = 0; k < allData.length; k++) {
                     if (allData[k][19] == _uniqueEmnployeeIdList[j]) {
 
                         if (allData[k][18] > 0) {
                             _actualCostAmount = parseFloat(allData[k][18]);
-                            _actualCostCount++;
+                            //_actualCostCount++;
                         }
-                        if (_actualCostCount > 1) {
-                            alert('Duplicate actual cost found!');
-                            distributeFlag = false;
-                            return;
+                        var _changedValue = allData[k][20];
+                        if (parseInt(_changedValue) == 1) {
+                            _actualCostFlag++;
                         }
+                        //if (_actualCostCount > 1) {
+                        //    alert('Duplicate actual cost found!');
+                        //    return;
+                        //}
                         _newEmployeeGroupList.push({
                             assignmentId: allData[k][0],
                             manMonth: allData[k][15],
@@ -68,35 +77,33 @@ $(document).ready(function () {
                 //debugger;
                 //console.log(jss.options.rows);
                 //console.log(_allRows);
+                if (_actualCostFlag > 0) {
+                    for (var l = 0; l < _newEmployeeGroupList.length; l++) {
 
-                var manMonthTotal = 0;
+                        var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
+                        var ac = _actualCostAmount;
+                        var newCost = mm * ac;
 
-                $.each(_newEmployeeGroupList, (index, value) => {
-                    manMonthTotal += parseFloat(value.manMonth);
-                });
+                        for (var m = 0; m < _allRows.length; m++) {
+                            //var _changedValue = jss.getValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y));
+                            if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {
 
-                for (var l = 0; l < _newEmployeeGroupList.length; l++) {
 
-                   
-
-                    var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
-                    var ac = _actualCostAmount;
-                    var newCost = mm * manMonthTotal* ac;
-
-                    for (var m = 0; m < _allRows.length; m++) {
-                        if (parseInt(_newEmployeeGroupList[l].assignmentId) ==  parseInt(_allRows[m].cells[1].innerText)) {
-                            jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                                //_allRows[m].cells[19].innerText = newCost;
+                                jss.setValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y), 1, false);
+                                jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                            }
                         }
-                    }
 
+                    }
                 }
+
 
                 _newEmployeeGroupList = [];
             }
-            distributeFlag = true;
         }
-        
-       
+
+        distributionCount++;
     });
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -244,29 +251,29 @@ $(document).ready(function () {
 
                     jss = $('#jspreadsheet').jspreadsheet({
                         data: _retriveddata,
-                        filters: true,                        
+                        filters: true,
                         tableOverflow: true,
                         freezeColumns: 3,
                         defaultColWidth: 50,
-                        tableWidth: w-280+ "px",
-                        tableHeight: (h-150) + "px",
+                        tableWidth: w - 280 + "px",
+                        tableHeight: (h - 150) + "px",
 
-                        
+
                         columns: [
                             { title: "Assignment Id", type: 'hidden', name: "Id" },
-                            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150,readOnly: true },
-                            { title: "Remarks", type: "text", name: "Remarks", width: 60,readOnly: true },
-                            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100,readOnly: true },
-                            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100,readOnly: true },
-                            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100,readOnly: true },
-                            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60,readOnly: true },
-                            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
-                            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },
+                            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150, readOnly: true },
+                            { title: "Remarks", type: "text", name: "Remarks", width: 60, readOnly: true },
+                            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100, readOnly: true },
+                            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100, readOnly: true },
+                            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100, readOnly: true },
+                            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60, readOnly: true },
+                            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150, readOnly: true },
+                            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100, readOnly: true },
                             { title: "Db Id", type: 'text', name: "Id", width: 100, readOnly: true },
-                            { title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true  },
-                            { title: "Duplicate Count", type: 'text', name: "DuplicateCount",width: 100,readOnly: true  },
-                            { title: "Role Changed", type: 'text', name: "RoleChanged",width: 100,readOnly: true  },
-                            { title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged",width: 100,readOnly: true  },
+                            { title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true },
+                            { title: "Duplicate Count", type: 'text', name: "DuplicateCount", width: 100, readOnly: true },
+                            { title: "Role Changed", type: 'text', name: "RoleChanged", width: 100, readOnly: true },
+                            { title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged", width: 100, readOnly: true },
                             {
                                 title: `${queryStrings['month']}月単価(uc)`,
                                 type: "decimal",
@@ -296,7 +303,7 @@ $(document).ready(function () {
                                 name: "ManMonth",
                                 width: 100,
                             },
-                             {
+                            {
                                 title: `${queryStrings['month']}月実績(ac)`,
                                 type: "decimal",
                                 name: "ActualCostAmount",
@@ -304,14 +311,44 @@ $(document).ready(function () {
                                 width: 100,
                             },
                             { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
+                            { title: "IsChanged", type: 'hidden', name: "IsChanged" },
                         ],
                         minDimensions: [6, 10],
                         columnSorting: true,
                         contextMenu: function (obj, x, y, e) {
+                        },
+                        onchange: function (instance, cell, x, y, value) {
+                            //debugger;
+                            var changedValue = jss.getValueFromCoords(20, y);
+                            if (parseInt(x) == 18 && changedValue == '') {
+                                var _allData = jss.getData();
+                                var employeeId = jss.getValueFromCoords(19, y);
+                                var employeeCostCount = 0;
+                                $.each(_allData, (index, value) => {
+                                    if (employeeId == value[19]) {
+                                        if (parseFloat(value[18]) > 0) {
+                                            employeeCostCount++;
+                                        }
+                                    }
+                                });
+
+                                if (employeeCostCount == 1) {
+                                    jss.setValueFromCoords(20, y, 1, false);
+                                }
+                                else {
+                                    alert('Duplicate data found for this employee!');
+                                    jss.setValueFromCoords(18, y, 0, false);
+                                }
+                            }
+
+                            if (parseInt(x) == 18 && changedValue == 2) {
+                                var _allData = jss.getData();
+                            }
+
 
                         }
                     });
-                    jss.deleteColumn(20, 26);
+                    jss.deleteColumn(21, 27);
                     //jss.hideIndex();
                     var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
                     jexcelHeadTdEmployeeName.addClass('arrow-down');
@@ -329,7 +366,7 @@ $(document).ready(function () {
                         $('.search_p').fadeIn("slow");
                     });
 
-                    
+
                 }
             });
         }, 3000);
@@ -340,8 +377,12 @@ $(document).ready(function () {
 
     $('#create_actual_cost').on('click', function () {
 
-        if (distributeFlag==false) {
+        if (distributionCount == 0) {
             alert("Please distribute first!");
+            return false;
+        }
+        if (distributionCount > 1) {
+            alert("Please undo and try again!");
             return false;
         }
 
@@ -355,7 +396,7 @@ $(document).ready(function () {
                 var obj = {
                     assignmentId: value[0],
                     manHour: parseFloat(value[17]),
-                    actualCostAmount :  parseFloat(value[18])
+                    actualCostAmount: parseFloat(value[18])
                 };
 
                 dataToSend.push(obj);

@@ -693,7 +693,11 @@
                         mainItemId = 0;
                         isValidRequest = false;
                     }
+                }else{
+                    mainItemId = 0;
                 }
+            }else{
+                mainItemId = 0;
             }
 
             if (is_sub_item_colmn != '' && is_sub_item_colmn != null && is_sub_item_colmn != undefined) {         
@@ -703,7 +707,11 @@
                         subItemId = 0;
                         isValidRequest = false;
                     }
+                }else{
+                    subItemId = 0;
                 }
+            }else{
+                subItemId = 0;
             }
             
             if (is_detail_item_colmn != '' && is_detail_item_colmn != null && is_detail_item_colmn != undefined) {         
@@ -713,7 +721,11 @@
                         detailItemId = 0;
                         isValidRequest = false;
                     }
+                }else{
+                    detailItemId = 0;
                 }
+            }else{
+                detailItemId = 0;
             }
             
             var methodId = $(this).find(".method_dropdown").val();

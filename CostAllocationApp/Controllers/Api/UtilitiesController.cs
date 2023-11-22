@@ -13141,19 +13141,24 @@ namespace CostAllocationApp.Controllers.Api
         //Cost difference with QA by department
         [HttpGet]
         [Route("api/utilities/GetDifferenceWithQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
-            List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
+            if (!string.IsNullOrEmpty(timestampsId)) { 
+                List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();            
+                List<SukeyQADto> _objTotalCostWithQA = new List<SukeyQADto>();
+                _objTotalCostWithQA = totalBLL.GetTotalCostForDifferenceWithQA(companiIds, departmentIds, year, timestampsId);            
 
-            List<SukeyQADto> _objTotalCostWithQA = new List<SukeyQADto>();
-            _objTotalCostWithQA = totalBLL.GetTotalCostForDifferenceWithQA(companiIds, departmentIds, year);            
+                List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
+                _objTotalBudgetCost = totalBLL.GetTotalBudgetCostByDepartment(companiIds, departmentIds, year);
 
-            List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
-            _objTotalBudgetCost = totalBLL.GetTotalBudgetCostByDepartment(companiIds, departmentIds, year);
+                _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithQA, _objTotalBudgetCost);
 
-            _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithQA, _objTotalBudgetCost);
-
-            return Ok(_objDifferenceTotals);
+                return Ok(_objDifferenceTotals);
+            }
+            else
+            {
+                return Ok("Timestamp is empty!");
+            }
         }
 
         //Cost difference without QA by department

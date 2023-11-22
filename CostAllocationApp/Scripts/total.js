@@ -71,8 +71,7 @@ $(document).ready(function () {
                 async: false,
                 dataType: 'json',
                 success: function (data) {
-                    dynamicSettings = data;
-                    console.log(data);
+                    dynamicSettings = data;                    
                     
                 }
             });
@@ -103,7 +102,6 @@ $(document).ready(function () {
             $('#table_container').empty();
             var titleColumnsCount = 0;
             for (var n = 0; n < uniqueTableList.length; n++) {
-                //debugger;
                 var _splittedValue = uniqueTableList[n].split('_');
                 titleColumnsCount = 0;
                 $.ajax({
@@ -142,8 +140,6 @@ $(document).ready(function () {
                 
             }
             
-            //console.log(dynamicSettings);
-
             var tableCount = 0;
             var detectTableChange = -1;
             var mainTitle = '';
@@ -158,11 +154,9 @@ $(document).ready(function () {
             //    pageTableCount: '',
             //    rowData:[]
             //};
-
-            //console.log(dynamicSettings);
+            
             // main loop.
             for (var k = 0; k < dynamicSettings.length; k++) {
-                //debugger;
                 var _dependency = '';
                 tableMatchedFlag = false;
                 var _newObject = {};
@@ -200,11 +194,7 @@ $(document).ready(function () {
                 }
                 if (dynamicSettings[k].Dependency == 'in') {
                     _dependency = 'inchargeIds';
-                }                                
-
-                //var parameters = dynamicSettings[k].ParameterId.split(',');
-
-                // parameter wise pulling data.
+                }                                                
                 
                 var _url = `/api/utilities/${dynamicSettings[k].Syntex}?companiIds=${selected_compannies}&${_dependency}=${dynamicSettings[k].ParameterId}&year=${selected_year}&timestampsId=${timeStampId}`;
 
@@ -218,8 +208,7 @@ $(document).ready(function () {
                         
                         totalList[0].mainTitle = dynamicSettings[k].CategoryName;
                         totalList[0].subTitle = dynamicSettings[k].SubCategoryName;
-                        totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;
-                        console.log('data-result:');
+                        totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;                        
                         console.log(totalList);
 
                         _newObject.rowData = totalList;
@@ -247,9 +236,8 @@ $(document).ready(function () {
             }
 
             
-            console.log(tableRowList);
+            console.log("p: "+tableRowList);
             if (tableRowList.length > 0) {
-                debugger;
                 var tempMainTitle = '';
                 for (var c = 0; c < tableRowList.length; c++) {
 
@@ -837,8 +825,7 @@ $(document).ready(function () {
         //}
 
         //console.log(uniqueSubCategoryList);
-        //if (uniqueSubCategoryList.length > 0) {
-        //    //debugger;
+        //if (uniqueSubCategoryList.length > 0) {        
         //    let _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
         //    for (var q = 0; q < uniqueSubCategoryList.length; q++) {
         //        _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
@@ -1145,11 +1132,9 @@ $(document).ready(function () {
             data: { year: year },
             success: function (data) {
                 
-                if (data == "" || data == null || data == undefined) {          
-                    console.log("empty")          
+                if (data == "" || data == null || data == undefined) {                              
                     $('#edit_history_time_stamp').empty().append('<option value="">タイムスタンプの選択</option>');      
                 }else{
-                    console.log("not empty")          
                     $('#edit_history_time_stamp').empty();
                     $('#edit_history_time_stamp').append('<option value="">タイムスタンプの選択</option>');                
                     $.each(data, function (index, element) {

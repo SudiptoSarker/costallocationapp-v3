@@ -70,7 +70,8 @@
             url: `/api/utilities/GetDynamicSettingsByDynamicTableId?dynamicTableId=${dynamicTableId}`,
             type: 'Get',
             dataType: 'json',
-            success: function (data) {         
+            success: function (data) {   
+                console.log(data)      ;
                 var tableheaderStartHtml = "<tr>"       
                 var tableheaderEndHtml = "</tr>"
                 var tableheaderHtml = ""
@@ -158,12 +159,14 @@
                         dataForList = dataForList +"</select>   ";                      
                         dataForList = dataForList +" </td>";
                         
-                        var dependency = "";
-                        if(parseInt(item.MethodId) == 1 || parseInt(item.MethodId)==2 || parseInt(item.MethodId)==3 || parseInt(item.MethodId)==4 || parseInt(item.MethodId)==5 || parseInt(item.MethodId)==6){
+                        var dependency = "";                        
+                        
+                        if(item.ParameterType == 'department'){
                             dependency = "dp";
                         }else{
                             dependency = "in";
-                        }                                        
+                        }
+
                         totalListItem = ""        
                         totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
                         

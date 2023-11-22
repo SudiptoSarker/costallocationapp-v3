@@ -1,44 +1,7 @@
-﻿/*-----------------
-	1. General
------------------------*/
-body {
-    overflow-x: auto;
-}
-
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover,
-.pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-    background-color: #3c4b5d !important;
-    border-color: #3c4b5d !important;
-    color: white !important;
-}
-
-.page-link {
-    color: black !important;
-}
-/***************************\                           
-	Total Head Table
-\***************************/
-
-#head_total {
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
-    display: none;
-    font-size: 12px;
-    border-collapse: collapse;
-    border:1px solid black;
-}
-    #head_total th, td {
-        border: 1px solid black;
-    }
-/***************************\                           
+﻿/***************************\                           
 	Employee Registration : Modal Deisgn
 \***************************/
-.employee_cancel {
+.undo_budget_edit {
     background-color: #FC4136;
     color: white;
     padding: 5px;
@@ -48,7 +11,7 @@ body {
     line-height: 1;
 }
 
-.employee_cancel:hover {
+.undo_budget_edit:hover {
     color: white;
 }
 
@@ -98,36 +61,13 @@ body {
    
     font-size: 10px;
     font-family: Yu Gothic;
-    /* line-height: -1; */
     white-space: nowrap !important;
 }
-/* 
-.jexcel_content{
-    max-height:800px !important;
-} */
 
 /***************************\                           
-	Import and Replicate Data
+	Show budget
 \***************************/
-.import_forecast_data {
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
-}
-.replicate_forecast_data{
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
-}
-.section_list_theader{
-    border: none !important;
-    padding: 0px !important;
-    text-align: left;
-    font-size: 0.875rem;
-}
-#search_budget{
+#show_budget_list{
     margin-left: -63px;
     margin-top: -2px;
     transition: all 0.2s ease-in-out 0s;
@@ -139,22 +79,12 @@ body {
     width: 64px;
     line-height: 1;
 }
-#assignment_year_list{
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    width: 100%;
-    height: 30px;
-    border: 1px solid #ccc !important;
-    text-align: center;
-}
-#year_data_table_header{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;
-    display: block;
-    margin-top: -11px;
+#budget_edit_navigation_txt{
+  font-size: 12px;
+  font-family: "Yu Gothic";
+  white-space: nowrap !important;
+  display: block;
+  margin-top: -11px;
 }
 #nav1,#nav2{
     font-size: 12px;
@@ -163,159 +93,6 @@ body {
 }
 #year_data_search, #year_data_list{
     margin-top: -13px;
-}
-/***************************\                           
-	Add Employee New Row Color Change
-\***************************/
-/* $("body").on("contextmenu", "table tr", function(e) {
-    $contextMenu.css({
-         display: "block",
-         left: e.pageX,
-         top: e.pageY
-    });
-    $('table tr').css("background-color", ""); //Remove previos color.
-     $(this).css("background-color", "yellow"); //Here Change color to yellow.
-    return false;
-}); */
-
-/***************************\                           
-	import form design
-\***************************/
-CSS.g-6,
-.gx-6 {
-  --bs-gutter-x: 4.5rem;
-}
-.g-6,
-.gy-6 {
-  --bs-gutter-y: 4.5rem;
-}
-@media (min-width: 576px) {
-  .g-sm-6,
-  .gx-sm-6 {
-    --bs-gutter-x: 4.5rem;
-  }
-  .g-sm-6,
-  .gy-sm-6 {
-    --bs-gutter-y: 4.5rem;
-  }
-}
-@media (min-width: 768px) {
-  .g-md-6,
-  .gx-md-6 {
-    --bs-gutter-x: 4.5rem;
-  }
-  .g-md-6,
-  .gy-md-6 {
-    --bs-gutter-y: 4.5rem;
-  }
-}
-@media (min-width: 992px) {
-  .g-lg-6,
-  .gx-lg-6 {
-    --bs-gutter-x: 4.5rem;
-  }
-  .g-lg-6,
-  .gy-lg-6 {
-    --bs-gutter-y: 4.5rem;
-  }
-}
-@media (min-width: 1200px) {
-  .g-xl-6,
-  .gx-xl-6 {
-    --bs-gutter-x: 4.5rem;
-  }
-  .g-xl-6,
-  .gy-xl-6 {
-    --bs-gutter-y: 4.5rem;
-  }
-}
-@media (min-width: 1400px) {
-  .g-xxl-6,
-  .gx-xxl-6 {
-    --bs-gutter-x: 4.5rem;
-  }
-  .g-xxl-6,
-  .gy-xxl-6 {
-    --bs-gutter-y: 4.5rem;
-  }
-}
-.mb-6 {
-  margin-bottom: 4.5rem !important;
-}
-.py-6 {
-  padding-top: 4.5rem !important;
-  padding-bottom: 4.5rem !important;
-}
-.w-65 {
-  width: 65% !important;
-}
-.w-85 {
-  width: 85% !important;
-}
-.w-95 {
-  width: 95% !important;
-}
-@media (min-width: 576px) {
-  .mb-sm-6 {
-    margin-bottom: 4.5rem !important;
-  }
-  .py-sm-6 {
-    padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
-  }
-}
-@media (min-width: 768px) {
-  .mb-md-6 {
-    margin-bottom: 4.5rem !important;
-  }
-  .py-md-6 {
-    padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
-  }
-}
-@media (min-width: 992px) {
-  .mb-lg-6 {
-    margin-bottom: 4.5rem !important;
-  }
-  .py-lg-6 {
-    padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
-  }
-}
-@media (min-width: 1200px) {
-  .mb-xl-6 {
-    margin-bottom: 4.5rem !important;
-  }
-  .py-xl-6 {
-    padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
-  }
-}
-@media (min-width: 1400px) {
-  .mb-xxl-6 {
-    margin-bottom: 4.5rem !important;
-  }
-  .py-xxl-6 {
-    padding-top: 4.5rem !important;
-    padding-bottom: 4.5rem !important;
-  }
-}
-
-/*
-    validation message
-*/
-#validation_message_success{
-    color: green;
-}
-#validation_message_failed{
-    color: red;
-}
-#budget_edit_navigation_txt{
-  font-size: 12px;
-  font-family: "Yu Gothic";
-  white-space: nowrap !important;
-  display: block;
-  margin-top: -11px;
 }
 #budget_years{
   transition: all 0.2s ease-in-out 0s;
@@ -328,13 +105,9 @@ CSS.g-6,
   text-align: center;
 }
 
-
-
 /***************************\                           
     Jexcel table design
 \***************************/
-
-
 .jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(2) {
   left: 0px;
   z-index: 3 !important;
@@ -350,8 +123,6 @@ CSS.g-6,
   z-index: 3 !important;
   -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
-
 .jexcel tbody tr td:nth-of-type(3) {
   text-align: left !important;
 }
@@ -586,95 +357,19 @@ CSS.g-6,
   text-align:right !important;
   white-space: nowrap !important;
 }
-/* 
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(9) {
-  background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(10) {
-  background-color: #cfe2f3;   
-} */
-/*
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
-  background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
-  background-color: #d99a23;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
-  background-color: #d99a23;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
-  background-color: #d99a23;
-} */
-
-#cancele_all_changed_budget{
+/*********
+budget buttons
+**********/
+#undo_edited_budget{
   display:none;
-  margin-left: 36px;
-
+  margin-left: 18px;
   line-height: 1;
 	background-color: red;
 	border: none;
-	/* color:white; */
 }
 #save_bedget{
   display:none;
-  margin-left: 13px;
-
+  margin-left: 6px;
   line-height:1;
   background-color: green;
 	border: none;
@@ -682,15 +377,12 @@ CSS.g-6,
 #budget_finalize{
   display:none;
   margin-left: 1px;
-
   line-height:1;
   background-color: blue;
 	border: none;
 }
 #export_budget{
-  /* display:none !important;; */
   margin-left: 1px;
-
   line-height:1;
   background-color: #89CFF0;
 	border: none;  
@@ -706,4 +398,91 @@ CSS.g-6,
   box-shadow: none !important;
   font-size: 14px !important;
   height: 29px !important;
+}
+/********** budget edit **********/
+.employee_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 143px;
+  z-index: 100;
+}
+.section_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 357px;
+  z-index: 100;
+}
+.department_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 453px;
+  z-index: 100;
+}
+.incharge_sorting{
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 554px;
+  z-index: 100;
+}
+.role_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 653px;
+  z-index: 100;
+}
+.explanation_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 713px;
+  z-index: 100;
+}
+.company_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 864px;
+  z-index: 100;
+}
+.grade_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 921px;
+  z-index: 100;
+}
+.unit_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 899px;
+  z-index: 100;
+}
+
+/********cutome modal ***********/
+.sorting_custom_modal{
+  display: none;
 }

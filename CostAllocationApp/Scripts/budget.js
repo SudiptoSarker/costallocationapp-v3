@@ -1,4 +1,17 @@
 ﻿$(document).ready(function () {    
+    $('.replicate_forecast_data').on('click', function () {
+        ClearReplicateModal();
+    });    
+    function ClearReplicateModal(){
+        $('#duplicate_from').val('');    
+        $('#approval_timestamps').empty();
+        $('#approval_timestamps').val('');        
+        $("#duplciateYear").val('');
+        $("#duplciateYear").prop('disabled', true);
+        $('#select_duplicate_budget_type').val('');
+        $('#select_duplicate_budget_type').empty();        
+    }
+    
     //import budget selction menu
     $('#select_import_year').on('change', function() {
         var selectedBudgetYear = this.value;
@@ -42,6 +55,7 @@
                 if(data == true){
                     ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
                 }else{
+                    alert("test-1");
                     $('#select_duplicate_budget_type').empty();
                     $('#duplciateYear').val('');
                     alert("selected year is not valid to replicate!");
@@ -130,7 +144,8 @@
     //duplicate budget selction menu
     $('#duplciateYear').on('change', function() {
         var selectedBudgetYear = this.value;
-    
+        alert("test-2");
+
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
             //check the selected year is valid for replicate data
 	        CheckIsValidYearForReplicate(selectedBudgetYear);             
@@ -148,6 +163,9 @@
             SelectDuplicateBudgetYearAndType();            
         }        
         else{
+            alert("test-3");
+            $('#approval_timestamps').empty();
+            $("#duplciateYear").val('');
             $("#duplciateYear").prop('disabled', true);
             $('#select_duplicate_budget_type').empty();
         }
@@ -3119,11 +3137,23 @@ function GetApprovalTimestampListByYear(year){
         success: function (data) {
             if (data != 0){
                 $('#approval_timestamps').empty();
-                $('#approval_timestamps').append(`<option value="">タイムスタンプの選択</option>`);
-                $('#approval_timestamps').append(`<option value="${year}" selected>最新の予算確定 (latest finalize budget)</option>`);
-                $.each(data, function (index, element) {                
-                    $('#approval_timestamps').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);              
+                $('#approval_timestamps').append(`<option value="">タイムスタンプの選択</option>`);                
+                var hasTimestamps = false;
+                var timestampCount = 1;
+                $.each(data, function (index, element) {    
+                    if(parseInt(timestampCount)==1){
+                        $('#approval_timestamps').append(`<option value="${element.Id}" selected>${element.TimeStamp}</option>`);  
+                    }else{
+                        $('#approval_timestamps').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);  
+                    }                    
+                    hasTimestamps = true;
+                    timestampCount++;            
                 });
+                if(hasTimestamps){
+                    $('#approval_timestamps').append(`<option value="${year}">最新の予算確定 (latest finalize budget)</option>`);
+                }else{
+                    $('#approval_timestamps').append(`<option value="${year}" selected>最新の予算確定 (latest finalize budget)</option>`);
+                }                
             }else{
                 $('#approval_timestamps').empty();
                 $('#approval_timestamps').append(`<option value="">タイムスタンプの選択</option>`);

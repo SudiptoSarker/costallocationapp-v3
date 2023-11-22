@@ -5321,13 +5321,25 @@ namespace CostAllocationApp.BLL
             //sum the list
             //List<SukeyQADto> sukeyQADto =new List<SukeyQADto>();
             SukeyQADto sukeyQADto = new SukeyQADto();
-            //double octSum = 0;
-            double novSum = 0;
-            List<double> OctCost = new List<double>();
+
+            double[] octSum = new double[3];
+            double[] novSum = new double[3];
+            double[] decSum = new double[3];
+            double[] janSum = new double[3];
+            double[] febSum = new double[3];
+            double[] marSum = new double[3];
+            double[] aprSum = new double[3];
+            double[] maySum = new double[3];
+            double[] junSum = new double[3];
+            double[] julSum = new double[3];
+            double[] octSum = new double[3];
 
             foreach (var singleItem in sukeyQADtos)
             {
-                sukeyQADto.OctCost.Add(Convert.ToDouble(singleItem.OctCost[0]));
+                octSum[0] = octSum[0] + Convert.ToDouble(singleItem.OctCost[0]);
+                octSum[1] = octSum[1] + Convert.ToDouble(singleItem.OctCost[1]);
+                octSum[2] = octSum[2] + Convert.ToDouble(singleItem.OctCost[2]);
+                //sukeyQADto.OctCost.Add(Convert.ToDouble(singleItem.OctCost[0]));
 
                 //double octSum = ;
                 //OctCost[0] = Convert.ToDouble(sukeyQADto.) + ;
@@ -5391,6 +5403,42 @@ namespace CostAllocationApp.BLL
                 //sukeyQADto.SecondSlot[1] = sukeyQADto.SecondSlot[1] + Convert.ToDouble(singleItem.SecondSlot[1]);
                 //sukeyQADto.SecondSlot[2] = sukeyQADto.SecondSlot[2] + Convert.ToDouble(singleItem.SecondSlot[2]);                
             }
+
+            //octCost.Add(octSum[0]);
+            //octCost.Add(octSum[1]);
+            //octCost.Add(octSum[2]);
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
+            sukeyQADto.OctCost.Add(octSum[0]);
+            sukeyQADto.OctCost.Add(octSum[1]);
+            sukeyQADto.OctCost.Add(octSum[2]);
+
             List<SukeyQADto> returnObj = new List<SukeyQADto>();
             returnObj.Add(sukeyQADto);
             return returnObj;

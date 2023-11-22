@@ -294,3 +294,13 @@ div.dataTables_wrapper div.dataTables_filter{
 .sidebar_filterSearch {
     background-color: #ccc;
 }
+
+#admin_table thead tr,
+#admin_table tbody tr {
+    line-height: 25px;
+}
+
+#admin_table tbody tr td {
+    padding-left: 2px;
+    border: 1px solid #ccc !important;
+}

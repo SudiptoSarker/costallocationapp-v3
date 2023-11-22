@@ -237,6 +237,12 @@ $(document).on('click', '#btn_status_change', function () {
         }); 
 });
 
+// Clear the filter
+$(document).on('click', '#clearFilter', function () {
+    window.location.reload();
+});
+
+// Search user by input box
 $(document).on('click', '#filterEmp', function () {
     var selectSearchOption = $("input[name='searchUser']:checked");
     if (selectSearchOption.length > 0) {
@@ -246,6 +252,7 @@ $(document).on('click', '#filterEmp', function () {
     }
 });
 
+// Sort user list
 $(document).on('click', '#sortUserBtn', function () {
     var selectOrderOption = $("input[name='orderUser']:checked");
     if (selectOrderOption.length > 0) {
@@ -253,10 +260,15 @@ $(document).on('click', '#sortUserBtn', function () {
         $.getJSON('/api/utilities/GetUserList?orderBy=' + orderOption + "&orderType=" + "asc")
             .done(function (data) {
                 ShowUserList_Datatable(data);
+            })
+            .fail(function () {
+                ToastMessage_Warning("No Data Found");
+                console.log("error");
             }); 
     }
 });
 
+// Filter User list
 $(document).on('click', '#filterUserBtn', function () {
     var selectedFilterRole = $('#searchRole').val();
     var selectedFilterTitle = $('#searchTitle').val();
@@ -276,9 +288,7 @@ $(document).on('click', '#filterUserBtn', function () {
         .fail(function () {
             ToastMessage_Warning("No Data Found");
             console.log("error");
-        });
-
-    
+        });    
 });
 
 //Get searched user list
@@ -286,7 +296,11 @@ function GetSearchUserList(searchOption, searchBy) {
     $.getJSON('/api/utilities/GetSearchUserList?searchOption=' + searchOption + "&searchBy=" + searchBy)
         .done(function (data) {
             ShowUserList_Datatable(data);
-        }); 
+        })
+        .fail(function () {
+            ToastMessage_Warning("No Data Found");
+            console.log("error");
+        });
 }
 
 //Get employee list

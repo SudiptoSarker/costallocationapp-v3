@@ -2762,7 +2762,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return NotFound();
+                    return BadRequest("No User Found");
                 }
             }
             else
@@ -2782,7 +2782,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return NotFound();
+                    return BadRequest("No User Found");
                 }
             }           
         }

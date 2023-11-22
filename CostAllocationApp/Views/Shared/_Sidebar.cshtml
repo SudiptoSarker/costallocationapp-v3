@@ -74,7 +74,10 @@
         if (url.ToLower().Contains("createnewemployee"))
         {
             <div class="sidebar_filterSearch pl-4 pt-2 pb-2 mt-2">
-                <div class="row"><h4>絞り込み</h4></div>
+                <div class="row">
+                    <div class="col-md-8 p-0"><h4>絞り込み</h4></div>
+                    <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="clearFilter">クリア</button></div>                    
+                </div>
                 <div class="row"><label>キーワードから探す</label></div>
                 <div class="row pl-2">
                     <label class="m-1">要員名</label>
@@ -102,7 +105,10 @@
         }
         else if (url.ToLower().Contains("createusers"))
         {
-            <div class="row pl-4 pt-1 mt-1"><h4>絞り込み</h4></div>
+            <div class="row pl-4 pt-1 mt-1">
+                <div class="col-md-8 p-0"><h4>絞り込み</h4></div>
+                <div class="col-md-4 p-0"><button class="btn-xs btn-danger p-1 rounded  w-75" id="clearFilter">クリア</button></div>                
+            </div>
             <div class="sidebar_filterSearch pl-4 pb-2 mt-1">
                 <div class="row"><label class="m-0">キーワードから探す</label></div>
                 <div class="row mb-2">

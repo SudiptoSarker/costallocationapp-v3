@@ -166,6 +166,11 @@ $(document).ready(function () {
 
 });
 
+// Clear the filter
+$(document).on('click', '#clearFilter', function () {
+    window.location.reload();
+});
+
 //search by employee name
 $(document).on('change', '#name_search', function () {
     var employeeName = $('#name_search').val();

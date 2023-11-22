@@ -178,7 +178,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 if (totalDeptCost > 0)
                 {
-                    var formattedDepartmentName = department.DepartmentName.Length > 2 ? department.DepartmentName.Substring(0, 2) + "..." : department.DepartmentName;
+                    var formattedDepartmentName = department.DepartmentName.Length > 2 ? department.DepartmentName.Substring(0, 3) + "..." : department.DepartmentName;
                     data.Add(formattedDepartmentName);
                     data.Add(totalDeptCost);
                     chartData.Add(data);
@@ -867,7 +867,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (listedDeptHeadCount > 0)
                 {
-                    var formattedDepartmentName = item.DepartmentName.Length > 2 ? item.DepartmentName.Substring(0, 2) + "..." : item.DepartmentName;
+                    var formattedDepartmentName = item.DepartmentName.Length > 2 ? item.DepartmentName.Substring(0, 3) + "..." : item.DepartmentName;
                     data.Add(formattedDepartmentName);
                     data.Add(listedDeptHeadCount);
                     chartData.Add(data);

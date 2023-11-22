@@ -78,12 +78,9 @@ namespace CostAllocationApp.Controllers.Api
 
             int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
             year = forecastLeatestYear;
-            //year = 2029;
 
             List<Department> departments = departmentBLL.GetAllDepartments();
             List<Company> companies = companyBLL.GetAllCompanies();
-
-            double totaleOtherCost = 0;
 
             foreach (var company in companies)
             {
@@ -93,187 +90,100 @@ namespace CostAllocationApp.Controllers.Api
             foreach (var department in departments)
             {
                 data = new ArrayList();
-                double totalDeptCost = 0;
+                double totalDeptCost = 0; // Assign initial value for total department cost
 
-                if (departmentListToShow.Contains(department.DepartmentName))
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
+                // Checking cost exist for a specific department 
+                if (forecastAssignmentViewModels.Count > 0)
                 {
-                    data.Add(department.DepartmentName);
+                    double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                    double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                    double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                    double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                    double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                    double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                    double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                    double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                    double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                    double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                    double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                    double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
 
-                    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
-                    if (forecastAssignmentViewModels.Count > 0)
-                    {
-                        double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
-                        double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
-                        double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
-                        double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
-                        double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
-                        double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
-                        double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
-                        double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
-                        double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
-                        double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
-                        double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
-                        double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
+                    double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
+                    double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
+                    double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
+                    double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
+                    double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
+                    double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
+                    double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
+                    double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
+                    double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
+                    double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
+                    double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
+                    double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
 
-                        double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
-                        double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
-                        double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
-                        double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
-                        double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
-                        double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
-                        double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
-                        double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
-                        double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
-                        double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
-                        double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
-                        double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
+                    totalDeptCost += (_octActualCostTotal > 0) ? _octActualCostTotal : _octTotal;
+                    _octTotalCost += _octTotal;
+                    _octActualCost += _octActualCostTotal;
 
-                        totalDeptCost += (_octActualCostTotal > 0) ? _octActualCostTotal : _octTotal;
-                        _octTotalCost += _octTotal;
-                        _octActualCost += _octActualCostTotal;
+                    totalDeptCost += (_novActualCostTotal > 0) ? _novActualCostTotal : _novTotal;
+                    _novTotalCost += _novTotal;
+                    _novActualCost += _novActualCostTotal;
 
-                        totalDeptCost += (_novActualCostTotal > 0) ? _novActualCostTotal : _novTotal;
-                        _novTotalCost += _novTotal;
-                        _novActualCost += _novActualCostTotal;
+                    totalDeptCost += (_decActualCostTotal > 0) ? _decActualCostTotal : _decTotal;
+                    _decTotalCost += _decTotal;
+                    _decActualCost += _decActualCostTotal;
 
-                        totalDeptCost += (_decActualCostTotal > 0) ? _decActualCostTotal : _decTotal;
-                        _decTotalCost += _decTotal;
-                        _decActualCost += _decActualCostTotal;
+                    totalDeptCost += (_janActualCostTotal > 0) ? _janActualCostTotal : _janTotal;
+                    _janTotalCost += _janTotal;
+                    _janActualCost += _janActualCostTotal;
 
-                        totalDeptCost += (_janActualCostTotal > 0) ? _janActualCostTotal : _janTotal;
-                        _janTotalCost += _janTotal;
-                        _janActualCost += _janActualCostTotal;
+                    totalDeptCost += (_febActualCostTotal > 0) ? _febActualCostTotal : _febTotal;
+                    _febTotalCost += _febTotal;
+                    _febActualCost += _febActualCostTotal;
 
-                        totalDeptCost += (_febActualCostTotal > 0) ? _febActualCostTotal : _febTotal;
-                        _febTotalCost += _febTotal;
-                        _febActualCost += _febActualCostTotal;
+                    totalDeptCost += (_marActualCostTotal > 0) ? _marActualCostTotal : _marTotal;
+                    _marTotalCost += _marTotal;
+                    _marActualCost += _marActualCostTotal;
 
-                        totalDeptCost += (_marActualCostTotal > 0) ? _marActualCostTotal : _marTotal;
-                        _marTotalCost += _marTotal;
-                        _marActualCost += _marActualCostTotal;
+                    totalDeptCost += (_aprActualCostTotal > 0) ? _aprActualCostTotal : _aprTotal;
+                    _aprTotalCost += _aprTotal;
+                    _aprActualCost += _aprActualCostTotal;
 
-                        totalDeptCost += (_aprActualCostTotal > 0) ? _aprActualCostTotal : _aprTotal;
-                        _aprTotalCost += _aprTotal;
-                        _aprActualCost += _aprActualCostTotal;
+                    totalDeptCost += (_mayActualCostTotal > 0) ? _mayActualCostTotal : _mayTotal;
+                    _mayTotalCost += _mayTotal;
+                    _mayActualCost += _mayActualCostTotal;
 
-                        totalDeptCost += (_mayActualCostTotal > 0) ? _mayActualCostTotal : _mayTotal;
-                        _mayTotalCost += _mayTotal;
-                        _mayActualCost += _mayActualCostTotal;
+                    totalDeptCost += (_junActualCostTotal > 0) ? _junActualCostTotal : _junTotal;
+                    _junTotalCost += _junTotal;
+                    _junActualCost += _junActualCostTotal;
 
-                        totalDeptCost += (_junActualCostTotal > 0) ? _junActualCostTotal : _junTotal;
-                        _junTotalCost += _junTotal;
-                        _junActualCost += _junActualCostTotal;
+                    totalDeptCost += (_julActualCostTotal > 0) ? _julActualCostTotal : _julTotal;
+                    _julTotalCost += _julTotal;
+                    _julActualCost += _julActualCostTotal;
 
-                        totalDeptCost += (_julActualCostTotal > 0) ? _julActualCostTotal : _julTotal;
-                        _julTotalCost += _julTotal;
-                        _julActualCost += _julActualCostTotal;
+                    totalDeptCost += (_augActualCostTotal > 0) ? _augActualCostTotal : _augTotal;
+                    _augTotalCost += _augTotal;
+                    _augActualCost += _augActualCostTotal;
 
-                        totalDeptCost += (_augActualCostTotal > 0) ? _augActualCostTotal : _augTotal;
-                        _augTotalCost += _augTotal;
-                        _augActualCost += _augActualCostTotal;
+                    totalDeptCost += (_sepActualCostTotal > 0) ? _sepActualCostTotal : _sepTotal;
+                    _sepTotalCost += _sepTotal;
+                    _sepActualCost += _sepActualCostTotal;
 
-                        totalDeptCost += (_sepActualCostTotal > 0) ? _sepActualCostTotal : _sepTotal;
-                        _sepTotalCost += _sepTotal;
-                        _sepActualCost += _sepActualCostTotal;
-
-
-                        totalCost += totalDeptCost;
-                        data.Add(totalDeptCost);
-                    }
-                    else
-                    {
-                        totalCost += totalDeptCost;
-                        data.Add(totalDeptCost);
-                    }
-                    chartData.Add(data);
+                    totalCost += totalDeptCost;
                 }
                 else
                 {
-                    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
-                    if (forecastAssignmentViewModels.Count > 0)
-                    {
-                        double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
-                        double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
-                        double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
-                        double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
-                        double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
-                        double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
-                        double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
-                        double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
-                        double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
-                        double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
-                        double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
-                        double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
-
-                        double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
-                        double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
-                        double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
-                        double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
-                        double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
-                        double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
-                        double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
-                        double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
-                        double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
-                        double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
-                        double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
-                        double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
-
-                        totaleOtherCost += (_octActualCostTotal > 0) ? _octActualCostTotal : _octTotal;
-                        _octTotalCost += _octTotal;
-                        _octActualCost += _octActualCostTotal;
-
-                        totaleOtherCost += (_novActualCostTotal > 0) ? _novActualCostTotal : _novTotal;
-                        _novTotalCost += _novTotal;
-                        _novActualCost += _novActualCostTotal;
-
-                        totaleOtherCost += (_decActualCostTotal > 0) ? _decActualCostTotal : _decTotal;
-                        _decTotalCost += _decTotal;
-                        _decActualCost += _decActualCostTotal;
-
-                        totaleOtherCost += (_janActualCostTotal > 0) ? _janActualCostTotal : _janTotal;
-                        _janTotalCost += _janTotal;
-                        _janActualCost += _janActualCostTotal;
-
-                        totaleOtherCost += (_febActualCostTotal > 0) ? _febActualCostTotal : _febTotal;
-                        _febTotalCost += _febTotal;
-                        _febActualCost += _febActualCostTotal;
-
-                        totaleOtherCost += (_marActualCostTotal > 0) ? _marActualCostTotal : _marTotal;
-                        _marTotalCost += _marTotal;
-                        _marActualCost += _marActualCostTotal;
-
-                        totaleOtherCost += (_aprActualCostTotal > 0) ? _aprActualCostTotal : _aprTotal;
-                        _aprTotalCost += _aprTotal;
-                        _aprActualCost += _aprActualCostTotal;
-
-                        totaleOtherCost += (_mayActualCostTotal > 0) ? _mayActualCostTotal : _mayTotal;
-                        _mayTotalCost += _mayTotal;
-                        _mayActualCost += _mayActualCostTotal;
-
-                        totaleOtherCost += (_junActualCostTotal > 0) ? _junActualCostTotal : _junTotal;
-                        _junTotalCost += _junTotal;
-                        _junActualCost += _junActualCostTotal;
-
-                        totaleOtherCost += (_julActualCostTotal > 0) ? _julActualCostTotal : _julTotal;
-                        _julTotalCost += _julTotal;
-                        _julActualCost += _julActualCostTotal;
-
-                        totaleOtherCost += (_augActualCostTotal > 0) ? _augActualCostTotal : _augTotal;
-                        _augTotalCost += _augTotal;
-                        _augActualCost += _augActualCostTotal;
-
-                        totaleOtherCost += (_sepActualCostTotal > 0) ? _sepActualCostTotal : _sepTotal;
-                        _sepTotalCost += _sepTotal;
-                        _sepActualCost += _sepActualCostTotal;
-                    }
+                    totalCost += totalDeptCost;
+                }
+                if (totalDeptCost > 0)
+                {
+                    var formattedDepartmentName = department.DepartmentName.Length > 2 ? department.DepartmentName.Substring(0, 2) + "..." : department.DepartmentName;
+                    data.Add(formattedDepartmentName);
+                    data.Add(totalDeptCost);
+                    chartData.Add(data);
                 }
             }
-            //Add other department costs
-            data = new ArrayList();
-            totalCost += totaleOtherCost;
-            data.Add("その他");
-            data.Add(totaleOtherCost);
-            chartData.Add(data);
 
             //Prepare monthly forecast cost data
             monthlyForecastData.Add("10", _octTotalCost);
@@ -484,7 +394,6 @@ namespace CostAllocationApp.Controllers.Api
             int year = 0;
             var companyIds = "";
             double totalHeadCount = 0;
-            double budgetHeadCount = 0;
             double _octHeadCount = 0;
             double _novHeadCount = 0;
             double _decHeadCount = 0;
@@ -943,9 +852,7 @@ namespace CostAllocationApp.Controllers.Api
             response.Add("totalHeadcount", totalHeadCount);
             response.Add("monthlyHeadcount", monthlyHeadCount);
 
-            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "新課程対応", "その他" };
             double listedDeptHeadCount = 0;
-            double otherDeptHeadCount = 0;
             var data = new ArrayList();
             var chartData = new ArrayList();
             data.Add("Departments");
@@ -956,23 +863,16 @@ namespace CostAllocationApp.Controllers.Api
             {
                 data = new ArrayList();
                 listedDeptHeadCount = 0;
-                if (departmentListToShow.Contains(item.DepartmentName))
+                listedDeptHeadCount = item.OctCount + item.NovCount + item.DecCount + item.JanCount + item.FebCount + item.MarCount + item.AprCount + item.MayCount + item.JunCount + item.JulCount + item.AugCount + item.SepCount;
+
+                if (listedDeptHeadCount > 0)
                 {
-                    data.Add(item.DepartmentName);
-                    listedDeptHeadCount = item.OctCount + item.NovCount + item.DecCount + item.JanCount + item.FebCount + item.MarCount + item.AprCount + item.MayCount + item.JunCount + item.JulCount + item.AugCount + item.SepCount;
+                    var formattedDepartmentName = item.DepartmentName.Length > 2 ? item.DepartmentName.Substring(0, 2) + "..." : item.DepartmentName;
+                    data.Add(formattedDepartmentName);
                     data.Add(listedDeptHeadCount);
                     chartData.Add(data);
                 }
-                else
-                {
-                    otherDeptHeadCount += item.OctCount + item.NovCount + item.DecCount + item.JanCount + item.FebCount + item.MarCount + item.AprCount + item.MayCount + item.JunCount + item.JulCount + item.AugCount + item.SepCount;
-                }
             }
-
-            data = new ArrayList();
-            data.Add("その他");
-            data.Add(otherDeptHeadCount);
-            chartData.Add(data);
             response.Add("ChartData", chartData);
             return Ok(response);
         }

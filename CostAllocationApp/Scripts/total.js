@@ -259,8 +259,9 @@ $(document).ready(function () {
 
 
                             tempMainTitle = _rowData.mainTitle;
-
+                            //alert(dynamicTitleCount)
                             if (rowCount > 1) {
+                                
                                 if (dynamicTitleCount == 1) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
@@ -332,10 +333,11 @@ $(document).ready(function () {
                                 }
                             }
                             else {
+                                //negative red mark should add
                                 if (dynamicTitleCount == 1) {
                                     $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                     <tr>
-                                    <td>${_rowData.mainTitle}</td>                                    
+                                    <td>${_rowData.mainTitle}</td>
                                     <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
                                     <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
                                     <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        

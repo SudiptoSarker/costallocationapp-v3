@@ -2245,6 +2245,40 @@ namespace CostAllocationApp.DAL
             return forecasts;
         }
 
+        public List<ForecastDto> GetCostByAssignmentId(int assignmentId, string year)
+        {
+            List<ForecastDto> forecasts = new List<ForecastDto>();
+            string query = "SELECT * FROM Costs WHERE EmployeeAssignmentsId=" + assignmentId + " AND Year=" + year;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastDto forecast = new ForecastDto();
+                            forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
+                            forecast.Year = Convert.ToInt32(rdr["Year"]);
+                            forecast.Month = Convert.ToInt32(rdr["MonthId"]);
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
+
+                            forecasts.Add(forecast);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecasts;
+        }
+
         public List<ForecastDto> GetBudgetManMonthByAssignmentId(int assignmentId, string year)
         {
             List<ForecastDto> forecasts = new List<ForecastDto>();

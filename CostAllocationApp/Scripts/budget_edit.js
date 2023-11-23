@@ -148,8 +148,7 @@
     $('#employee_list').select2();       
 
     //save budget edit data.
-    $('#save_bedget').on('click', function () {
-        $("#jspreadsheet").hide();    
+    $('#save_bedget').on('click', function () {        
         LoaderShow();
         var storeMessage = [];
         var _duplicateFlag = false;
@@ -737,8 +736,7 @@
             }
          
         }
-        
-        
+
         UpdateBudget();
     });
 
@@ -784,43 +782,38 @@
     });
     
     //show budget data.
-    $(document).on('click', '#show_budget_list ', function () {    
-        ClearnAllJexcelData();
-
+    $(document).on('click', '#show_budget_list ', function () {            
         var assignmentYear = $('#budget_years').val();        
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('年度を選択してください!!!');
             return false;
         }     
-        
-        LoaderShowJexcel();
-            
-        setTimeout(function () {                                
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
-        $("#export_budget").show(); 
+        LoaderShow();                
+        ClearnAllJexcelData();                            
+        ShowBedgetResults(assignmentYear);
+        // setTimeout(function () {                                
+        //     ShowBedgetResults(assignmentYear);
+        // }, 3000);
+
+        // $("#export_budget").show(); 
     });
 
     //refresh budget table data 
     $(document).on('click', '#undo_edited_budget ', function () {
+        LoaderShow();
         ClearnAllJexcelData();
-
         var assignmentYear = $('#budget_years').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
         }
-
         deletedExistingRowIds = [];
-        LoaderShowJexcel();            
-        setTimeout(function () {                               
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
+        ShowBedgetResults(assignmentYear);
         
     });
     
-    $(document).ajaxComplete(function(){
-        LoaderHideJexcel();
-    });
+    // $(document).ajaxComplete(function(){
+    //     LoaderHideJexcel();
+    // });
 
 
     //functions
@@ -923,22 +916,13 @@
     }
 
     //loader functions
-    function LoaderShow() {    
+    function LoaderShow() {   
+        $("#jspreadsheet").hide();   
         $("#loading").css("display", "block");
     }
 
     function LoaderHide() {    
-        $("#loading").css("display", "none");
-    }
-
-    function LoaderShowJexcel() {
-        $("#loading").css("display", "block");
-        $("#jspreadsheet").hide();  
-        $("#export_budget").hide(); 
-    }
-
-    function LoaderHideJexcel(){
-        $("#jspreadsheet").show(); 
+        $("#jspreadsheet").show();  
         $("#loading").css("display", "none");
     }
 
@@ -951,64 +935,11 @@
             $('#save_notifications').append(`<li>${name} ${message}</li>`);
         };
     });
+    
+    var _retriveddata = [];
+    var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
 
-    //show the budget results on jexcel table.
-    function ShowBedgetResults(year) {
-        var employeeName = $('#name_search').val();
-        employeeName = "";
-        var sectionId = $('#section_multi_search').val();
-        sectionId = "";
-        var inchargeId = $('#incharge_multi_search').val();
-        inchargeId = "";
-        var roleId = $('#role_multi_search').val();
-        roleId = "";
-        var companyId = $('#company_multi_search').val();
-        companyId = "";
-        var departmentId = $('#dept_multi_search').val();
-        departmentId = "";
-        var explanationId = $('#explanation_multi_search').val();
-        explanationId = "";
-
-        if (year == '' || year == undefined) {
-            alert('s予算年度を選択');
-            return false;
-        }
-
-        $('#cancel_forecast').css('display', 'inline-block');
-        $('#save_forecast').css('display', 'inline-block');
-
-        var sectionCheck = [];
-        var departmentCheck = [];
-        var inchargeCheck = [];
-        var roleCheck = [];
-        var explanationCheck = [];
-        var companyCheck = [];
-
-        var data_info = {
-            employeeName: employeeName,
-            sectionId: sectionId,
-            departmentId: departmentId,
-            inchargeId: inchargeId,
-            roleId: roleId,
-            explanationId: explanationId,
-            companyId: companyId,
-            status: '', year: year, timeStampId: ''
-        };
-        globalSearchObject = data_info;
-
-        var _retriveddata = [];
-        $.ajax({
-            url: `/api/utilities/GetAllBudgetData`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-            success: function (data) {
-                _retriveddata = data;
-            }
-        });
-        
+    function ShowBudgetJexcel(){
         var sectionsForJexcel = [];
         var departmentsForJexcel = [];
         var inchargesForJexcel = [];
@@ -1115,7 +1046,6 @@
                 _retriveTotal = data;         
             }
         });
-
         
         if (jss != undefined) {
             jss.destroy();
@@ -2510,6 +2440,7 @@
                     return items;
                 }
             });
+            LoaderHide();
         }else{
             $('#jspreadsheet').html("No Budget assign for this year!");
         }
@@ -2645,7 +2576,54 @@
             $('.unit_sorting').css('display', 'block');        
             $("#hider").fadeIn("slow");
             $('.unit_sorting').fadeIn("slow");
-        });   
+        });         
+        //$("#export_budget").show();  
+    }
+
+    //show the budget results on jexcel table.
+    function ShowBedgetResults(year) {        
+        employeeName = $('#name_search').val();
+        employeeName = "";
+        sectionId = $('#section_multi_search').val();
+        sectionId = "";
+        inchargeId = $('#incharge_multi_search').val();
+        inchargeId = "";
+        roleId = $('#role_multi_search').val();
+        roleId = "";
+        companyId = $('#company_multi_search').val();
+        companyId = "";
+        departmentId = $('#dept_multi_search').val();
+        departmentId = "";
+        explanationId = $('#explanation_multi_search').val();
+        explanationId = "";                      
+
+        var data_info = {
+            employeeName: employeeName,
+            sectionId: sectionId,
+            departmentId: departmentId,
+            inchargeId: inchargeId,
+            roleId: roleId,
+            explanationId: explanationId,
+            companyId: companyId,
+            status: '', year: year, timeStampId: ''
+        };
+        globalSearchObject = data_info;
+
+        
+        $.ajax({
+            url: `/api/utilities/GetAllBudgetData`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
+            success: function (data) {
+                _retriveddata = data;
+                ShowBudgetJexcel();
+                
+                LoaderHide();
+            }
+        });        
     }
 
     $("#hider").hide();
@@ -3284,11 +3262,9 @@
     }
 
     function UpdateBudget() {    
-        $("#update_forecast").modal("hide");
-        $("#jspreadsheet").hide();    
+        $("#update_forecast").modal("hide");        
         $("#export_budget").hide(); 
-        var userName = '';
-
+        var userName = '';        
         $.ajax({
             url: `/Registration/GetSession/`,
             contentType: 'application/json',
@@ -3312,37 +3288,34 @@
         var miliSeconds = dateObj.getMilliseconds();
         var timestamp = `${year}${month}${day}${miliSeconds}_`;
 
+        var isShowResults = false;
+
         if (jssUpdatedData.length > 0) {           
                 updateMessage = "Successfully data updated";
                 $.ajax({
                     url: `/api/utilities/UpdateBudgetData`,
                     contentType: 'application/json',
                     type: 'POST',
-                    async: false,
+                    async: true,
                     dataType: 'json',
                     data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                     success: function (data) {
-                        var year = $("#budget_years").val();
-                        ShowBedgetResults(year);
-
+                        isShowResults = true;
+                        
                         $("#timeStamp_ForUpdateData").val(data);
                         var chat = $.connection.chatHub;
                         $.connection.hub.start();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
                             chat.server.send('data has been updated by ', userName);
-                        });
-                        $("#jspreadsheet").show();
-                        $("#export_budget").show();
+                        });                        
                     }
                 });
                 jssUpdatedData = [];
             
             
         }
-        else {
-            $("#jspreadsheet").show();
-            $("#export_budget").show();
+        else {            
             updateMessage = "";
         }
 
@@ -3366,19 +3339,14 @@
                 async: false,
                 dataType: 'json',
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, YearWithBudgetType: add_employee_budget_year }),
-                success: function (data) {                               
-                    var year = $("#budget_years").val();
-                    ShowBedgetResults(year);
-
+                success: function (data) {                                                                       
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    $("#export_budget").show();               
+                    });            
                 }
             });
             jssInsertedData = [];

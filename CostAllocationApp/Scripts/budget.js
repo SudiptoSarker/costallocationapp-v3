@@ -162,8 +162,7 @@
             GetApprovalTimestampListByYear(selectedBudgetYear);            
             SelectDuplicateBudgetYearAndType();            
         }        
-        else{
-            alert("test-3");
+        else{            
             $('#approval_timestamps').empty();
             $("#duplciateYear").val('');
             $("#duplciateYear").prop('disabled', true);
@@ -281,8 +280,8 @@
         }
         
         if(fromDate!="" && toDate!=""){
-            $("#replicate_from_previous_year").modal("hide");
-            $("#loading").css("display", "block");
+            LoaderShow();
+            $("#replicate_from_previous_year").modal("hide");            
             $.ajax({
                 url: `/api/utilities/DuplicateForecastYear`,
                 contentType: 'application/json',
@@ -305,11 +304,11 @@
                         //     $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
                         // }
                     }
-                    LoaderHide();
-                    //window.location.reload();                
+                    LoaderHide();                    
                 }
             });
         }else{
+            LoaderHide();       
             $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Failed to Replicate the data!</span>");                        
             return false;
         }
@@ -335,21 +334,10 @@ var changeCount = 0;
 var newRowChangeEventFlag = false;
 var deletedExistingRowIds = [];
 
-function LoaderShow() {
-    $("#forecast_table_wrapper").css("display", "none");
+function LoaderShow() {    
     $("#loading").css("display", "block");
 }
-function LoaderHide() {
-    $("#forecast_table_wrapper").css("display", "block");
-    $("#loading").css("display", "none");
-}
-function LoaderShowJexcel() {
-    $("#loading").css("display", "block");
-    $("#jspreadsheet").hide();  
-    
-}
-function LoaderHideJexcel(){
-    $("#jspreadsheet").show();  
+function LoaderHide() {    
     $("#loading").css("display", "none");
 }
 
@@ -3181,7 +3169,7 @@ function CheckDuplicateYear(){
     author: sudipto.
     budget validation and submit the import file to server.
 */
-function validate(){
+function validate(){    
     // var selectedYear = $('#select_import_year').find(":selected").val();
     var selectedYear = $('#select_import_year').val();
     var budgetType = $('#select_budget_type').val();
@@ -3198,7 +3186,11 @@ function validate(){
         alert("please select import file!");
         return false;
     }
-    else { return true; }
+    else { 
+        $("#csv_import_modal").modal("hide");
+        LoaderShow();
+        return true; 
+    }
 }
 
 $('#frm_import_year_data').submit(validate);

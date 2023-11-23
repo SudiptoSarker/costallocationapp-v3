@@ -1410,108 +1410,6 @@ namespace CostAllocationApp.DAL
             return forecastEmployeeAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetBudgetManmonthByDepartments(string departmentIds, string companyIds, int year)
-        {
-            string where = "";
-            where += $" ea.DepartmentId in({departmentIds}) and ";
-
-            string tempCompanyIds = "";
-            string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
-
-            for (int i = 0; i < arrCompanyIds.Length; i++)
-            {
-                if (tempCompanyIds == "")
-                {
-                    tempCompanyIds = arrCompanyIds[i];
-                }
-                else
-                {
-                    tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
-                }
-            }
-            where += $" ea.CompanyId In ({tempCompanyIds}) and ";
-            where += $" ea.Year={year} and ";
-
-            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
-
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
-                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
-                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
-                            left join Departments dep on ea.DepartmentId = dep.Id
-                            left join Companies com on ea.CompanyId = com.Id
-                            left join Roles rl on ea.RoleId = rl.Id
-                            left join InCharges inc on ea.InChargeId = inc.Id 
-                            left join Grades gd on ea.GradeId = gd.Id
-                            left join Employees emp on ea.EmployeeId = emp.Id
-                            where {where}
-                            order by emp.Id asc";
-
-
-            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
-
-
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        while (rdr.Read())
-                        {
-                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
-                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
-                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
-                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
-                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
-                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
-                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
-                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
-                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
-                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
-                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
-                            //employeeAssignmentViewModel.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
-                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
-                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
-                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
-                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
-                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
-                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
-                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
-                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
-                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
-                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
-                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
-
-                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-
-            return forecastEmployeeAssignments;
-        }
-
         public List<ForecastAssignmentViewModel> GetBudgetManmonthByIncharge(string inchargeIds, string companyIds, int year)
         {
             string where = "";
@@ -1929,109 +1827,6 @@ namespace CostAllocationApp.DAL
 
             string where = "";
             where += $" ea.InChargeId in ({inchargeIds}) and ";
-
-            string tempCompanyIds = "";
-            string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
-
-            for (int i = 0; i < arrCompanyIds.Length; i++)
-            {
-                if (tempCompanyIds == "")
-                {
-                    tempCompanyIds = arrCompanyIds[i];
-                }
-                else
-                {
-                    tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
-                }
-            }
-            where += $" ea.CompanyId In ({tempCompanyIds}) and ";
-            where += $" ea.Year={year} and ";
-
-            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
-
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
-                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
-                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
-                            left join Departments dep on ea.DepartmentId = dep.Id
-                            left join Companies com on ea.CompanyId = com.Id
-                            left join Roles rl on ea.RoleId = rl.Id
-                            left join InCharges inc on ea.InChargeId = inc.Id 
-                            left join Grades gd on ea.GradeId = gd.Id
-                            left join Employees emp on ea.EmployeeId = emp.Id
-                            where {where}
-                            order by emp.Id asc";
-
-
-            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
-
-
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        while (rdr.Read())
-                        {
-                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
-                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
-                            //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
-                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
-                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
-                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
-                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
-                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
-                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
-                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
-                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
-                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
-                            //employeeAssignmentViewModel.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
-                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
-                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
-                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
-                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
-                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
-                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
-                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
-                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
-                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
-                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
-                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
-
-                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-
-            return forecastEmployeeAssignments;
-        }
-
-        public List<ForecastAssignmentViewModel> GetCostByCompanyAndInchargeIds(string inchargeId, string companyIds, int year)
-        {
-
-            string where = "";
-            where += $" ea.InChargeId in ({inchargeId}) and ";
 
             string tempCompanyIds = "";
             string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
@@ -7423,6 +7218,185 @@ namespace CostAllocationApp.DAL
                 }
             }
             return forecasts;
+        }
+
+        public List<ForecastAssignmentViewModel> GetCostByCompanyAndInchargeIds(string inchargeIds, string companyIds, int year, string timeStampsId)
+        {
+            string query = "";
+            query = query + "SELECT ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks ";
+            query = query + "    ,ea.ExplanationId,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName ";
+            query = query + "    ,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice ";
+            query = query + "    ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved ";
+            query = query + "    ,ea.IsApproved,ea.BCYRCellPending,ea.IsRowPending,IsDeletePending,ea.EmployeeAssignmentId ";
+            query = query + "FROM EmployeesAssignmentsWithTimeStamps ea left join Sections sec ON ea.SectionId = sec.Id ";
+            query = query + "    LEFT JOIN Departments dep ON ea.DepartmentId = dep.Id ";
+            query = query + "    LEFT JOIN Companies com ON ea.CompanyId = com.Id ";
+            query = query + "    LEFT JOIN Roles rl ON ea.RoleId = rl.Id ";
+            query = query + "    LEFT JOIN InCharges inc ON ea.InChargeId = inc.Id  ";
+            query = query + "    LEFT JOIN Grades gd ON ea.GradeId = gd.Id ";
+            query = query + "    LEFT JOIN Employees emp ON ea.EmployeeId = emp.Id ";
+            query = query + "WHERE ea.TimeStampsId=" + timeStampsId + " AND ea.InChargeId in (" + inchargeIds + ") AND ea.CompanyId In (" + companyIds + ") AND ea.Year=" + year + " and  1=1 AND ea.IsDeleted is null OR  ea.IsDeleted=0 ";
+            query = query + "ORDER BY emp.Id ASC ";
+
+
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.AssignmentTimeStampId = Convert.ToInt32(rdr["EmployeeAssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecastEmployeeAssignments;
+        }
+
+        public List<ForecastAssignmentViewModel> GetBudgetManmonthByDepartments(string departmentIds, string companyIds, int year)
+        {
+            string where = "";
+            where += $" ea.DepartmentId in({departmentIds}) and ";
+
+            string tempCompanyIds = "";
+            string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
+
+            for (int i = 0; i < arrCompanyIds.Length; i++)
+            {
+                if (tempCompanyIds == "")
+                {
+                    tempCompanyIds = arrCompanyIds[i];
+                }
+                else
+                {
+                    tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
+                }
+            }
+            where += $" ea.CompanyId In ({tempCompanyIds}) and ";
+            where += $" ea.Year={year} and ";
+
+            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
+
+            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
+                            ,ea.IsRowPending,IsDeletePending
+                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
+                            left join Departments dep on ea.DepartmentId = dep.Id
+                            left join Companies com on ea.CompanyId = com.Id
+                            left join Roles rl on ea.RoleId = rl.Id
+                            left join InCharges inc on ea.InChargeId = inc.Id 
+                            left join Grades gd on ea.GradeId = gd.Id
+                            left join Employees emp on ea.EmployeeId = emp.Id
+                            where {where}
+                            order by emp.Id asc";
+
+
+            List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
+
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
+                            forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
+                            forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
+                            forecastEmployeeAssignmentViewModel.DepartmentName = rdr["DepartmentName"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeId = rdr["InchargeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.InchargeName = rdr["InchargeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleId = rdr["RoleId"].ToString();
+                            forecastEmployeeAssignmentViewModel.RoleName = rdr["RoleName"].ToString();
+                            forecastEmployeeAssignmentViewModel.ExplanationId = rdr["ExplanationId"] is DBNull ? "" : rdr["ExplanationId"].ToString();
+                            //employeeAssignmentViewModel.ExplanationName = rdr["ExplanationName"] is DBNull ? "" : rdr["ExplanationName"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyId = rdr["CompanyId"].ToString();
+                            forecastEmployeeAssignmentViewModel.CompanyName = rdr["CompanyName"].ToString();
+                            forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString();
+                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(rdr["UnitPrice"]).ToString("N0");
+                            //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
+                            forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
+                            forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
+                            forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellApproved = rdr["BCYRCellApproved"] is DBNull ? "" : rdr["BCYRCellApproved"].ToString();
+                            //forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
+                            forecastEmployeeAssignmentViewModel.BCYRApproved = rdr["BCYRApproved"] is DBNull ? false : Convert.ToBoolean(rdr["BCYRApproved"]);
+                            forecastEmployeeAssignmentViewModel.IsApproved = rdr["IsApproved"] is DBNull ? false : Convert.ToBoolean(rdr["IsApproved"]);
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.BCYRCellPending = rdr["BCYRCellPending"] is DBNull ? "" : rdr["BCYRCellPending"].ToString();
+                            forecastEmployeeAssignmentViewModel.IsRowPending = rdr["IsRowPending"] is DBNull ? false : Convert.ToBoolean(rdr["IsRowPending"]);
+                            forecastEmployeeAssignmentViewModel.IsDeletePending = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                            forecastEmployeeAssignments.Add(forecastEmployeeAssignmentViewModel);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return forecastEmployeeAssignments;
         }
 
         /************

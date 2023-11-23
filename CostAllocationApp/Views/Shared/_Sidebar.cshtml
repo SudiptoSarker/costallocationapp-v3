@@ -103,7 +103,7 @@
                 </div>
             </div>
         }
-        else if (url.ToLower().Contains("createusers"))
+        else if (url.ToLower().Contains("createusers") && Convert.ToBoolean(ViewBag.linkFlag))
         {
             <div class="row pl-4 pt-1 mt-1">
                 <div class="col-md-8 p-0"><h4>絞り込み</h4></div>

@@ -33,7 +33,6 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/dash/GetTotalCost/")]
         public IHttpActionResult GetTotalCost()
         {
-            string[] departmentListToShow = { "New BLEND", "導入", "移行", "自治体", "運用保守", "新課程対応", "その他" };
             var year = 0;
             var companyIds = "";
             double totalCost = 0;
@@ -91,8 +90,9 @@ namespace CostAllocationApp.Controllers.Api
             {
                 data = new ArrayList();
                 double totalDeptCost = 0; // Assign initial value for total department cost
+                
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetForecastDataByCompanyAndDepartments(department.Id, companyIds, year);
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
                 // Checking cost exist for a specific department 
                 if (forecastAssignmentViewModels.Count > 0)
                 {
@@ -272,7 +272,7 @@ namespace CostAllocationApp.Controllers.Api
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
 
 
-            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companyIds, year);
+            var hinsoData = employeeAssignmentBLL.GetForecastDataByCompanyAndDepartments(qaDepartmentByName.Id, companyIds, year);
             if (hinsoData.Count > 0)
             {
                 _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -454,7 +454,7 @@ namespace CostAllocationApp.Controllers.Api
                     SepCount = 0,
                 });
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetForecastDataByCompanyAndDepartments(department.Id, companyIds, year);
 
                 if (forecastAssignmentViewModels.Count > 0)
                 {

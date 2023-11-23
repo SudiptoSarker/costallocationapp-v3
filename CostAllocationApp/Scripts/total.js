@@ -1,6 +1,19 @@
 ﻿var methodList = [];
 var tableRowList = [];
 $(document).ready(function () {
+
+
+    // function LoaderShow() {
+    //     $("#forecast_table_wrapper").css("display", "none");
+    //     $("#loading").css("display", "block");
+    // }
+    // function LoaderHide() {
+    //     $("#forecast_table_wrapper").css("display", "block");
+    //     $("#loading").css("display", "none");
+    // }
+
+
+
     $('#company_list').multiselect({
         allSelectedText: 'All',
         maxHeight: 200,

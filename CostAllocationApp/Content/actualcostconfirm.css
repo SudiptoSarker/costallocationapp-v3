@@ -215,5 +215,7 @@ body {
     left: 864px;
     z-index: 100;
 }
-
 /********cutome modal ***********/
+.sorting_custom_modal{
+    display: none;
+  }

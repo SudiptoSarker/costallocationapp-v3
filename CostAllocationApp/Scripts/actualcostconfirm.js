@@ -22,10 +22,7 @@ function LoaderHide() {
 $(document).ready(function () {
 
     $('#distribute').on('click', function () {
-        if (distributionCount > 0) {
-            alert("Please refresh and try again!");
-            return false;
-        }
+        
         var _newEmployeeGroupList = [];
         var _uniqueEmnployeeIdList = [];
         var _actualCostFlag = 0;

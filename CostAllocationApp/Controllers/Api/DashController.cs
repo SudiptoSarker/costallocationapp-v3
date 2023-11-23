@@ -301,7 +301,7 @@ namespace CostAllocationApp.Controllers.Api
                     apportionmentByDepartment = new Apportionment();
                 }
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(department.Id.ToString(), companyIds, year);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));

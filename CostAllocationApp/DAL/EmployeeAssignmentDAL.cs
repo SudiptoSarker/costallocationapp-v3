@@ -1308,44 +1308,23 @@ namespace CostAllocationApp.DAL
             return forecastEmployeeAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year,string timestampsId)
         {
-            string where = "";
-            where += $" ea.DepartmentId in({departmentIds}) and ";
-
-            string tempCompanyIds = "";
-            string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
-
-            for (int i = 0; i < arrCompanyIds.Length; i++)
-            {
-                if (tempCompanyIds == "")
-                {
-                    tempCompanyIds = arrCompanyIds[i];
-                }
-                else
-                {
-                    tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
-                }
-            }
-            where += $" ea.CompanyId In ({tempCompanyIds}) and ";
-            where += $" ea.Year={year} and ";
-
-            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
-
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
-                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
-                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
-                            left join Departments dep on ea.DepartmentId = dep.Id
-                            left join Companies com on ea.CompanyId = com.Id
-                            left join Roles rl on ea.RoleId = rl.Id
-                            left join InCharges inc on ea.InChargeId = inc.Id 
-                            left join Grades gd on ea.GradeId = gd.Id
-                            left join Employees emp on ea.EmployeeId = emp.Id
-                            where {where}
-                            order by emp.Id asc";
-
+            string query = "";
+            query = query + "SELECT ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks     ";
+            query = query + "	,ea.ExplanationId,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId     ";
+            query = query + "	,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR     ";
+            query = query + "	,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending,ea.IsRowPending,IsDeletePending,ea.EmployeeAssignmentId ";
+            query = query + "FROM EmployeesAssignmentsWithTimeStamps ea      ";
+            query = query + "	LEFT JOIN Sections sec ON ea.SectionId = sec.Id     ";
+            query = query + "	LEFT JOIN Departments dep ON ea.DepartmentId = dep.Id     ";
+            query = query + "	LEFT JOIN Companies com ON ea.CompanyId = com.Id     ";
+            query = query + "	LEFT JOIN Roles rl ON ea.RoleId = rl.Id     ";
+            query = query + "	LEFT JOIN InCharges inc ON ea.InChargeId = inc.Id      ";
+            query = query + "	LEFT JOIN Grades gd ON ea.GradeId = gd.Id     ";
+            query = query + "	LEFT JOIN Employees emp ON ea.EmployeeId = emp.Id ";
+            query = query + "WHERE ea.DepartmentId IN ("+ departmentIds + ") AND ea.CompanyId IN ("+ companyIds + ") AND ea.TimeStampsId IN("+ timestampsId + ") AND  ea.Year="+ year + " AND 1=1 AND ea.IsDeleted is null OR  ea.IsDeleted= 0  ";
+            query = query + "ORDER BY emp.Id ASC ";
 
             List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
 
@@ -1363,6 +1342,7 @@ namespace CostAllocationApp.DAL
                         {
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.AssignmentTimeStampId = Convert.ToInt32(rdr["EmployeeAssignmentId"]);
                             //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
@@ -1383,8 +1363,7 @@ namespace CostAllocationApp.DAL
                             //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
                             forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);                            
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
@@ -1719,46 +1698,23 @@ namespace CostAllocationApp.DAL
             return forecastEmployeeAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByIncharge_Company(int inchargeId, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByIncharge_Company(string inchargeIds, string companyIds, int year,string timestampsId)
         {
-
-            string where = "";
-            where += $" ea.InChargeId = {inchargeId} and ";
-
-            string tempCompanyIds = "";
-            string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);
-
-            for (int i = 0; i < arrCompanyIds.Length; i++)
-            {
-                if (tempCompanyIds == "")
-                {
-                    tempCompanyIds = arrCompanyIds[i];
-                }
-                else
-                {
-                    tempCompanyIds = tempCompanyIds + "," + arrCompanyIds[i];
-                }
-            }
-            where += $" ea.CompanyId In ({tempCompanyIds}) and ";
-            where += $" ea.Year={year} and ";
-
-            where += " 1=1 and ea.IsDeleted is null Or  ea.IsDeleted=0 ";
-
-            string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
-                            ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,IsDeletePending
-                            from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
-                            left join Departments dep on ea.DepartmentId = dep.Id
-                            left join Companies com on ea.CompanyId = com.Id
-                            left join Roles rl on ea.RoleId = rl.Id
-                            left join InCharges inc on ea.InChargeId = inc.Id 
-                            left join Grades gd on ea.GradeId = gd.Id
-                            left join Employees emp on ea.EmployeeId = emp.Id
-                            where {where}
-                            order by emp.Id asc";
-
-
+            string query = "";
+            query = query + "SELECT ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks     ";
+            query = query + "	,ea.ExplanationId,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId     ";
+            query = query + "	,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR     ";
+            query = query + "	,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending,ea.IsRowPending,IsDeletePending,ea.EmployeeAssignmentId ";
+            query = query + "FROM EmployeesAssignmentsWithTimeStamps ea      ";
+            query = query + "	LEFT JOIN Sections sec ON ea.SectionId = sec.Id     ";
+            query = query + "	LEFT JOIN Departments dep ON ea.DepartmentId = dep.Id     ";
+            query = query + "	LEFT JOIN Companies com ON ea.CompanyId = com.Id     ";
+            query = query + "	LEFT JOIN Roles rl ON ea.RoleId = rl.Id     ";
+            query = query + "	LEFT JOIN InCharges inc ON ea.InChargeId = inc.Id      ";
+            query = query + "	LEFT JOIN Grades gd ON ea.GradeId = gd.Id     ";
+            query = query + "	LEFT JOIN Employees emp ON ea.EmployeeId = emp.Id ";
+            query = query + "WHERE ea.InChargeId IN ("+ inchargeIds + ") AND ea.CompanyId IN ("+ companyIds + ") AND ea.TimeStampsId IN("+ timestampsId + ") AND  ea.Year="+ year + " AND 1=1 AND ea.IsDeleted is null OR  ea.IsDeleted= 0  ";
+            query = query + "ORDER BY emp.Id ASC ";
             List<ForecastAssignmentViewModel> forecastEmployeeAssignments = new List<ForecastAssignmentViewModel>();
 
 
@@ -1775,6 +1731,7 @@ namespace CostAllocationApp.DAL
                         {
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            forecastEmployeeAssignmentViewModel.AssignmentTimeStampId = Convert.ToInt32(rdr["EmployeeAssignmentId"]);
                             //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
@@ -1795,8 +1752,7 @@ namespace CostAllocationApp.DAL
                             //forecastEmployeeAssignmentViewModel.UnitPrice = Convert.ToInt32(forecastEmployeeAssignmentViewModel.UnitPrice).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
                             forecastEmployeeAssignmentViewModel.GradeId = rdr["GradeId"].ToString();
                             forecastEmployeeAssignmentViewModel.GradePoint = rdr["GradePoints"].ToString();
-                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            forecastEmployeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
+                            forecastEmployeeAssignmentViewModel.IsActive = Convert.ToBoolean(rdr["IsActive"]);                            
                             forecastEmployeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             forecastEmployeeAssignmentViewModel.BCYR = rdr["BCYR"] is DBNull ? false : Convert.ToBoolean(rdr["BCYR"]);
                             forecastEmployeeAssignmentViewModel.BCYRCell = rdr["BCYRCell"] is DBNull ? "" : rdr["BCYRCell"].ToString();
@@ -2258,7 +2214,7 @@ namespace CostAllocationApp.DAL
         public List<ForecastDto> GetForecastsByAssignmentId(int assignmentId,string year)
         {
             List<ForecastDto> forecasts = new List<ForecastDto>();
-            string query = "select * from Costs where EmployeeAssignmentsId=" + assignmentId+ " and Year="+ year;
+            string query = "SELECT * FROM Costs_WithAssignmentsTimeStamps WHERE TimeStampsAssignmentId=" + assignmentId + " AND Year=" + year;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -2274,25 +2230,7 @@ namespace CostAllocationApp.DAL
                             forecast.ForecastId = Convert.ToInt32(rdr["Id"]);
                             forecast.Year = Convert.ToInt32(rdr["Year"]);
                             forecast.Month = Convert.ToInt32(rdr["MonthId"]);
-                            forecast.Points = Convert.ToDecimal(rdr["Points"]);
-                            //forecast.Total = rdr["Total"].ToString();
-                            //forecast.Total = rdr["Total"].ToString();
-                            //forecast.Total = Convert.ToDecimal(forecast.Total).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
-                            //forecast.Total = Convert.ToInt32(rdr["Total"]).ToString("N0");
-
-                            //if (String.IsNullOrEmpty(forecast.Total))
-                            //{
-                            //    forecast.Total = "0";
-                            //}
-                            //if (!string.IsNullOrEmpty(rdr["Total"].ToString())) {
-                            //    forecast.Total = rdr["Total"].ToString();
-                            //    //forecast.Total = (Convert.ToDecimal(forecast.Total)).ToString("N", new CultureInfo("en-US"));
-                            //    forecast.Total = Convert.ToDecimal(forecast.Total).ToString("#,#.##", CultureInfo.CreateSpecificCulture("hi-IN"));
-                            //}
-                            //else
-                            //{
-                            //    forecast.Total = "0";
-                            //}
+                            forecast.Points = Convert.ToDecimal(rdr["Points"]);                            
 
                             forecasts.Add(forecast);
                         }

@@ -5614,7 +5614,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetTotalWithQA/")]
-        public IHttpActionResult GetTotalWithQA(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetTotalWithQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             //int year = 0;
@@ -5638,7 +5638,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return NotFound();
             }
-            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
+            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
             if (hinsoData.Count > 0)
             {
                 _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -5700,7 +5700,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
 
 
-                    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+                    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
                     if (forecastAssignmentViewModels.Count > 0)
                     {
                         double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -6086,18 +6086,16 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetTotalWithoutQA/")]
-        public IHttpActionResult GetTotalWithoutQA(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetTotalWithoutQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
-            double rowTotal = 0;
-            double rowTotalQa = 0;
+            double rowTotal = 0;            
             double rowTotalDept = 0;
-            double deptFirstSlot = 0;
-            double qaFirstSlot = 0;
+            double deptFirstSlot = 0;            
             double totalFirstSlot = 0;
             SukeyQADto sukeyDto = new SukeyQADto();
 
-            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
             if (forecastAssignmentViewModels.Count > 0)
             {
                 double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -6480,7 +6478,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetTotalByIncharge/")]
-        public IHttpActionResult GetTotalByIncharge(string companiIds, string inchargeIds, int year)
+        public IHttpActionResult GetTotalByIncharge(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdArray = incgangeIds.Split(',').ToList();
             //if (inchargeIdArray.Count == 0)
@@ -6559,7 +6557,7 @@ namespace CostAllocationApp.Controllers.Api
                 //}
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year, timestampsId);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -6947,7 +6945,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetInitialBudgetForTotal/")]
-        public IHttpActionResult GetInitialBudgetForTotal(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetInitialBudgetForTotal(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -7009,7 +7007,7 @@ namespace CostAllocationApp.Controllers.Api
                     apportionmentByDepartment.Add(new Apportionment());
                 }
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -7222,7 +7220,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetManmonthByDepartment/")]
-        public IHttpActionResult GetManmonthByDepartment(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetManmonthByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             //List<string> deprmentdList = departmentIds.Split(',').ToList();
             //if (deprmentdList.Count == 0)
@@ -7246,7 +7244,7 @@ namespace CostAllocationApp.Controllers.Api
                 //sukeyDto.DependencyName = department.DepartmentName;
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                 sukeyDto.OctCost.Add(0);
@@ -7350,7 +7348,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetManmonthByIncharges/")]
-        public IHttpActionResult GetManmonthByIncharges(string companiIds, string inchargeIds, int year)
+        public IHttpActionResult GetManmonthByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdList = inchargeIds.Split(',').ToList();
             //if (inchargeIdList.Count == 0)
@@ -7374,7 +7372,7 @@ namespace CostAllocationApp.Controllers.Api
                 //sukeyDto.DependencyName = inCharge.InChargeName;
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year, timestampsId);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     
@@ -7476,7 +7474,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetHeadCount/")]
-        public IHttpActionResult GetHeadCount(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetHeadCount(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -7522,7 +7520,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             
 
-            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
             if (forecastAssignmentViewModels.Count > 0)
             {
                 _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
@@ -8356,7 +8354,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetHeadCountByIncharges/")]
-        public IHttpActionResult GetHeadCountByIncharges(string companiIds, string inchargeIds, int year)
+        public IHttpActionResult GetHeadCountByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -8402,7 +8400,7 @@ namespace CostAllocationApp.Controllers.Api
             }
                 
 
-            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByIncharge_Company(inchargeIds, companiIds, year, timestampsId);
             if (forecastAssignmentViewModels.Count > 0)
             {
                 _allforecastAssignmentViewModels.AddRange(forecastAssignmentViewModels);
@@ -9037,7 +9035,7 @@ namespace CostAllocationApp.Controllers.Api
 
         [HttpGet]
         [Route("api/utilities/GetQaByDepartment/")]
-        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds, int year)
+        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<string> departmentIdList = departmentIds.Split(',').ToList();
             if (departmentIdList.Count == 0)
@@ -9066,7 +9064,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return NotFound();
             }
-            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
+            var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
             if (hinsoData.Count > 0)
             {
                 _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -9143,7 +9141,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
 
 
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year);
+                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(departmentIds, companiIds, year, timestampsId);
                 if (forecastAssignmentViewModels.Count > 0)
                 {
                     double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));

@@ -56,9 +56,9 @@ namespace CostAllocationApp.BLL
             qaProportionBLL = new QaProportionBLL();
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year,string timestampsId)
         {
-            List<ForecastAssignmentViewModel> forecastAssignments = totalDAL.GetEmployeesForecastByDepartments_Company(departmentId, companyIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignments = totalDAL.GetEmployeesForecastByDepartments_Company(departmentIds, companyIds, year, timestampsId);
             if (forecastAssignments.Count > 0)
             {
                 foreach (var forecastAssignment in forecastAssignments)
@@ -1853,7 +1853,7 @@ namespace CostAllocationApp.BLL
             double _octHinsho = 0, _novHinsho = 0, _decHinsho = 0, _janHinsho = 0, _febHinsho = 0, _marHinsho = 0, _aprHinsho = 0, _mayHinsho = 0, _junHinsho = 0, _julHinsho = 0, _augHinsho = 0, _sepHinsho = 0;
 
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
-            var hinsoData = GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companyIds, year);
+            var hinsoData = GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companyIds, year);
             if (hinsoData.Count > 0)
             {
                 _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
@@ -1880,7 +1880,7 @@ namespace CostAllocationApp.BLL
                 sukeyDto.DepartmentId = department.Id.ToString();
                 sukeyDto.DepartmentName = department.DepartmentName;
                 List<ForecastAssignmentViewModel> forecastAssignmentViewModels = new List<ForecastAssignmentViewModel>();
-                forecastAssignmentViewModels = GetEmployeesForecastByDepartments_Company(department.Id, companyIds, year);
+                forecastAssignmentViewModels = GetEmployeesForecastByDepartments_Company(department.Id.ToString(), companyIds, year);
 
                 if (forecastAssignmentViewModels.Count > 0)
                 {

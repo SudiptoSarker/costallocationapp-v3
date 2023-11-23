@@ -151,9 +151,9 @@ namespace CostAllocationApp.BLL
         }
 
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year,string timestampsId)
         {
-            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByDepartments_Company(departmentIds, companyIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByDepartments_Company(departmentIds, companyIds, year, timestampsId);
             if (forecastAssignments.Count > 0)
             {
                 foreach (var forecastAssignment in forecastAssignments)
@@ -188,7 +188,7 @@ namespace CostAllocationApp.BLL
                         forecastAssignment.SepTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.SepPoints)).ToString();
 
                     }
-                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.Id);
+                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.AssignmentTimeStampId);
                     if (forecastAssignment.ActualCosts.Count == 0)
                     {
                         forecastAssignment.ActualCosts = new List<ActualCost>();
@@ -348,9 +348,9 @@ namespace CostAllocationApp.BLL
             return forecastAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByIncharge_Company(int inchargeId, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByIncharge_Company(string inchargeIds, string companyIds, int year,string timestampsId)
         {
-            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByIncharge_Company(inchargeId, companyIds, year);
+            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByIncharge_Company(inchargeIds, companyIds, year, timestampsId);
             if (forecastAssignments.Count > 0)
             {
                 foreach (var forecastAssignment in forecastAssignments)
@@ -385,7 +385,7 @@ namespace CostAllocationApp.BLL
                         forecastAssignment.SepTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.SepPoints)).ToString();
 
                     }
-                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.Id);
+                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.AssignmentTimeStampId);
                     if (forecastAssignment.ActualCosts.Count == 0)
                     {
                         forecastAssignment.ActualCosts = new List<ActualCost>();

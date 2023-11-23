@@ -11,11 +11,11 @@ namespace CostAllocationApp.DAL
 {
     public class TotalDAL: DbContext
     {
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(int departmentId, string companyIds, int year)
+        public List<ForecastAssignmentViewModel> GetEmployeesForecastByDepartments_Company(string departmentIds, string companyIds, int year,string timestampsId)
         {
 
             string where = "";
-            where += $" ea.DepartmentId = {departmentId} and ";
+            where += $" ea.DepartmentId = {departmentIds} and ";
 
             string tempCompanyIds = "";
             string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);

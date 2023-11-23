@@ -150,6 +150,7 @@
     //save budget edit data.
     $('#save_bedget').on('click', function () {        
         LoaderShow();
+
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -738,6 +739,8 @@
         }
 
         UpdateBudget();
+        //ToastMessageSuccess('保存されました!');
+        //alert(".");
     });
 
     //finalize the budget data.
@@ -751,6 +754,7 @@
             alert("please 年度を選択してください!");
         }
         else{
+            LoaderShow();
             $.ajax({
                 url: `/api/utilities/FinalizeBudgetAssignment`,
                 contentType: 'application/json',
@@ -759,8 +763,8 @@
                 dataType: 'json',
                 data: "year=" + selected_year_for_finalize_budget,
                 success: function (data) {        
-                    alert("保存されました");              
-                          
+                    LoaderHide();
+                    alert("保存されました");                                  
                 }
             });
         }       
@@ -790,7 +794,7 @@
         }     
         LoaderShow();                
         ClearnAllJexcelData();                            
-        ShowBedgetResults(assignmentYear);
+        ShowBedgetResults(assignmentYear,'show');
         // setTimeout(function () {                                
         //     ShowBedgetResults(assignmentYear);
         // }, 3000);
@@ -807,7 +811,7 @@
             assignmentYear = 2023;
         }
         deletedExistingRowIds = [];
-        ShowBedgetResults(assignmentYear);
+        ShowBedgetResults(assignmentYear,'show');
         
     });
     
@@ -2581,7 +2585,7 @@
     }
 
     //show the budget results on jexcel table.
-    function ShowBedgetResults(year) {        
+    function ShowBedgetResults(year,showType) {        
         employeeName = $('#name_search').val();
         employeeName = "";
         sectionId = $('#section_multi_search').val();
@@ -2619,9 +2623,11 @@
             data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
             success: function (data) {
                 _retriveddata = data;
-                ShowBudgetJexcel();
-                
+                ShowBudgetJexcel();                
                 LoaderHide();
+                if(showType=='save'){
+                    alert("保存されました");
+                }
             }
         });        
     }
@@ -3306,7 +3312,7 @@
                         $.connection.hub.start();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            chat.server.send('data has been updated by ', userName);
+                            //chat.server.send('data has been updated by ', userName);
                         });                        
                     }
                 });
@@ -3345,7 +3351,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
+                        //chat.server.send('data has been updated by ', userName);
                     });            
                 }
             });
@@ -3371,7 +3377,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
+                        //chat.server.send('data has been updated by ', userName);
                     });                    
                 }
             });
@@ -3397,7 +3403,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
+                        //chat.server.send('data has been updated by ', userName);
                     });                    
                 }
             });
@@ -3414,53 +3420,59 @@
             deletedExistingRowIds = [];
         }
 
-        $(document).ajaxStop(function () {            
-            LoaderHide();
-        });        
-        return false;
+        // $(document).ajaxStop(function () {            
+        //     LoaderHide();
+        // });        
+        // return false;
 
         if(isShowResults){
-            LoaderHide();
             $("#export_budget").show();
-            var year = $("#budget_years").val();
-            ShowBedgetResults(year);
-        }else{
-            LoaderHide();
-        }
+            var year = $("#budget_years").val();            
+            ShowBedgetResults(year,'save');
 
-        if (updateMessage == "" && insertMessage == "") {
+            $("#save_modal_header").html("年度データー(Emp. Assignments)");
+            $("#back_button_show").css("display", "block");
+            $("#save_btn_modal").css("display", "block");
+            $("#close_save_modal").css("display", "none");
+            //alert("保存されました.");
+        }else{            
+            LoaderHide();
             $("#header_show").html("");
             $("#update_forecast").modal("show");
             $("#save_modal_header").html("変更されていないので、保存できません");
             $("#back_button_show").css("display", "none");
             $("#save_btn_modal").css("display", "none");
 
-            $("#close_save_modal").css("display", "block");
+            //ToastMessageSuccess("保存するデータがありません");
+            alert("保存するデータがありません!");
         }
-        else if (updateMessage != "" && insertMessage != "") {
-            $("#save_modal_header").html("年度データー(Emp. Assignments)");
-            $("#back_button_show").css("display", "block");
-            $("#save_btn_modal").css("display", "block");
-            $("#close_save_modal").css("display", "none");
 
-            alert("保存されました.");
-        }
-        else if (updateMessage != "") {
-            $("#save_modal_header").html("年度データー(Emp. Assignments)");
-            $("#back_button_show").css("display", "block");
-            $("#save_btn_modal").css("display", "block");
-            $("#close_save_modal").css("display", "none");
+        // if (updateMessage == "" && insertMessage == "") {
+        //     
 
-            alert("保存されました.");
-        }
-        else if (insertMessage != "") {
-            $("#save_modal_header").html("年度データー(Emp. Assignments)");
-            $("#back_button_show").css("display", "block");
-            $("#save_btn_modal").css("display", "block");
-            $("#close_save_modal").css("display", "none");
+        //     $("#close_save_modal").css("display", "block");
+        // }
+        // else if (updateMessage != "" && insertMessage != "") {
+        
 
-            alert("保存されました.");
-        }
+        //     //alert("保存されました.");
+        // }
+        // else if (updateMessage != "") {
+        //     $("#save_modal_header").html("年度データー(Emp. Assignments)");
+        //     $("#back_button_show").css("display", "block");
+        //     $("#save_btn_modal").css("display", "block");
+        //     $("#close_save_modal").css("display", "none");
+
+        //     //alert("保存されました.");
+        // }
+        // else if (insertMessage != "") {
+        //     $("#save_modal_header").html("年度データー(Emp. Assignments)");
+        //     $("#back_button_show").css("display", "block");
+        //     $("#save_btn_modal").css("display", "block");
+        //     $("#close_save_modal").css("display", "none");
+
+        //     //alert("保存されました.");
+        // }
 
     }
 

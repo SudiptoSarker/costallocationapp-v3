@@ -2711,7 +2711,7 @@ function AddEmployee() {
 function UpdateBudget() {    
     $("#update_forecast").modal("hide");
     $("#jspreadsheet").hide();    
-    LoaderShow();
+    //LoaderShow();
 
     var userName = '';
 
@@ -2756,7 +2756,7 @@ function UpdateBudget() {
                         $.connection.hub.start();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            chat.server.send('data has been updated by ', userName);
+                            //chat.server.send('data has been updated by ', userName);
                         });
                         $("#jspreadsheet").show();
                         //$("#head_total").show();

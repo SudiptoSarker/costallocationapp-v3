@@ -1,4 +1,8 @@
-﻿var jss;
+﻿$(document).ready(function () {
+    $(".sorting_custom_modal").css("display", "block");
+});
+
+var jss;
 var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];

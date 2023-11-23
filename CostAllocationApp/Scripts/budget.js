@@ -2,6 +2,7 @@
     $('.replicate_forecast_data').on('click', function () {
         ClearReplicateModal();
     });    
+
     function ClearReplicateModal(){
         $('#duplicate_from').val('');    
         $('#approval_timestamps').empty();
@@ -54,8 +55,7 @@
             success: function (data) {
                 if(data == true){
                     ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
-                }else{
-                    alert("test-1");
+                }else{                    
                     $('#select_duplicate_budget_type').empty();
                     $('#duplciateYear').val('');
                     alert("selected year is not valid to replicate!");
@@ -144,8 +144,7 @@
     //duplicate budget selction menu
     $('#duplciateYear').on('change', function() {
         var selectedBudgetYear = this.value;
-        alert("test-2");
-
+        
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
             //check the selected year is valid for replicate data
 	        CheckIsValidYearForReplicate(selectedBudgetYear);             
@@ -214,41 +213,8 @@
                     $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
                 });
             });
-    });
-    
-    //show budget data.
-    $(document).on('click', '#search_budget ', function () {           
-        var assignmentYear = $('#budget_years').val();        
-        if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-            alert('年度を選択してください!!!');
-            return false;
-        }     
-        
-        LoaderShowJexcel();
-            
-        setTimeout(function () {                                
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
-    });
+    });           
 
-    //refresh the page table data
-    $(document).on('click', '#cancele_all_changed_budget ', function () {    
-        var assignmentYear = $('#budget_years').val();          
-        if(assignmentYear==''){
-            assignmentYear = 2023;
-        }
-
-        deletedExistingRowIds = [];
-        LoaderShowJexcel();            
-        setTimeout(function () {                               
-            ShowBedgetResults(assignmentYear);
-        }, 3000);
-        
-    });
-    
-    $(document).ajaxComplete(function(){
-        LoaderHideJexcel();
-    });
 
     /*
         author: sudipto.
@@ -477,10 +443,6 @@ function ColumnOrder_UnitPrice(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-function onCancel() {
-    LoaderShow();
-    LoadForecastData()
-}
 
 var expanded = false;
 $(function () {
@@ -490,7 +452,6 @@ $(function () {
         // Add the message to the page.
         $('#save_notifications').append(`<li>${name} ${message}</li>`);
     };
-
 });
 
 //show budget data
@@ -595,6 +556,7 @@ function ShowBedgetResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Roles`,
         contentType: 'application/json',
@@ -607,6 +569,7 @@ function ShowBedgetResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Explanations`,
         contentType: 'application/json',
@@ -619,6 +582,7 @@ function ShowBedgetResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Companies`,
         contentType: 'application/json',
@@ -631,6 +595,7 @@ function ShowBedgetResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Salaries`,
         contentType: 'application/json',
@@ -643,10 +608,12 @@ function ShowBedgetResults(year) {
             });
         }
     });
+ 
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
     }
+
     var w = window.innerWidth;
     var h = window.innerHeight;
     
@@ -657,8 +624,6 @@ function ShowBedgetResults(year) {
             tableOverflow: true,
             freezeColumns: 3,
             defaultColWidth: 50,
-            // tableWidth: w - 500 + "px",
-            // tableHeight: (h - 300) + "px",
             tableWidth: w-280+ "px",
             tableHeight: (h-150) + "px",
             

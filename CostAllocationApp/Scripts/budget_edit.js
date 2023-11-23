@@ -3274,8 +3274,7 @@
             success: function (data) {
                 userName = data;
             }
-        });
-
+        });        
 
         var updateMessage = "";
         var insertMessage = "";
@@ -3296,7 +3295,7 @@
                     url: `/api/utilities/UpdateBudgetData`,
                     contentType: 'application/json',
                     type: 'POST',
-                    async: true,
+                    async: false,
                     dataType: 'json',
                     data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
                     success: function (data) {
@@ -3317,7 +3316,7 @@
         }
         else {            
             updateMessage = "";
-        }
+        }                
 
         if (jssInsertedData.length > 0) {
             var elementIndex = jssInsertedData.findIndex(object => {
@@ -3339,7 +3338,8 @@
                 async: false,
                 dataType: 'json',
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, YearWithBudgetType: add_employee_budget_year }),
-                success: function (data) {                                                                       
+                success: function (data) {        
+                    isShowResults = true;                                                               
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
@@ -3354,6 +3354,7 @@
 
         }
 
+        
         if (insertedOnChangeList.length > 0) {
             var add_employee_budget_year = $("#budget_years").val();
             $.ajax({
@@ -3364,18 +3365,14 @@
                 dataType: 'json',
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: insertedOnChangeList, HistoryName: timestamp, CellInfo: '', YearWithBudgetType: add_employee_budget_year }),
                 success: function (data) {
-                    var year = $("#budget_years").val();
-                    ShowBedgetResults(year);
-
+                    isShowResults = true;                    
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    $("#export_budget").show();
+                    });                    
                 }
             });
 
@@ -3393,7 +3390,7 @@
                 dataType: 'json',                
                 data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
                 success: function (data) {                
-                    ShowBedgetResults(year);
+                    isShowResults = true;
 
                     $("#timeStamp_ForUpdateData").val(data);
                     var chat = $.connection.chatHub;
@@ -3401,9 +3398,7 @@
                     // Start the connection.
                     $.connection.hub.start().done(function () {
                         chat.server.send('data has been updated by ', userName);
-                    });
-                    $("#jspreadsheet").show();
-                    $("#export_budget").show();    
+                    });                    
                 }
             });
 
@@ -3417,6 +3412,20 @@
             $("#jspreadsheet").show();
             LoaderHide();
             deletedExistingRowIds = [];
+        }
+
+        $(document).ajaxStop(function () {            
+            LoaderHide();
+        });        
+        return false;
+
+        if(isShowResults){
+            LoaderHide();
+            $("#export_budget").show();
+            var year = $("#budget_years").val();
+            ShowBedgetResults(year);
+        }else{
+            LoaderHide();
         }
 
         if (updateMessage == "" && insertMessage == "") {

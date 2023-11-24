@@ -5443,11 +5443,11 @@ namespace CostAllocationApp.DAL
             string strWhere = "";
             if (select_budget_type == 1)
             {
-                strWhere = "WHERE FirstHalfBudget=" + 1;
+                strWhere = "WHERE FirstHalfBudget=" + 1 +" AND IsActive=1 ";
             }
             else if (select_budget_type == 2)
             {
-                strWhere = "WHERE SecondHalfBudget=" + 1;
+                strWhere = "WHERE SecondHalfBudget=" + 1 + " AND IsActive=1 ";
             }
 
             if (!string.IsNullOrEmpty(strWhere))

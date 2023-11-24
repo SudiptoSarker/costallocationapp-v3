@@ -3312,7 +3312,7 @@
                         $.connection.hub.start();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            //chat.server.send('data has been updated by ', userName);
+                            chat.server.send('data has been updated by ', userName);
                         });                        
                     }
                 });
@@ -3351,7 +3351,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        //chat.server.send('data has been updated by ', userName);
+                        chat.server.send('data has been updated by ', userName);
                     });            
                 }
             });
@@ -3377,7 +3377,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        //chat.server.send('data has been updated by ', userName);
+                        chat.server.send('data has been updated by ', userName);
                     });                    
                 }
             });
@@ -3403,7 +3403,7 @@
                     $.connection.hub.start();
                     // Start the connection.
                     $.connection.hub.start().done(function () {
-                        //chat.server.send('data has been updated by ', userName);
+                        chat.server.send('data has been updated by ', userName);
                     });                    
                 }
             });

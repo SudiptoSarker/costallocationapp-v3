@@ -148,9 +148,7 @@
     $('#employee_list').select2();       
 
     //save budget edit data.
-    $('#save_bedget').on('click', function () {        
-        LoaderShow();
-
+    $('#save_bedget').on('click', function () {                
         var storeMessage = [];
         var _duplicateFlag = false;
         var _employeeIds = [];
@@ -194,7 +192,7 @@
             alert(displayMessage);
             return false;
         }
-        
+        LoaderShow();
         var allTableData = jss.getData();
 
         for (var i = 0; i < jssInsertedData.length; i++) {

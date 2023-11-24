@@ -21,38 +21,32 @@ $(document).ready(function () {
         }
     });
  
-    $('#history_data_btn').on('click', function () {     
-        $('#change_history_tbl').show();   
-        //get the multi search values
+    $('#history_data_btn').on('click', function () {                      
         var year = $('#history_year').val();
         console.log(year);
         if (year == '' || year == null || year == undefined) {
             alert('年度を選択してください');
             return false;
         }
-        LoaderShow();
-        setTimeout(function () {
-            $.ajax({
-                url: `/api/utilities/GetTimeStamps`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                data: { year: year },
-                success: function (data) {
-                    //$("#timestamp_list").css("display", "block");
-                    let i = 1;
-                    $('#timestamp_list tbody').empty();
-                    $.each(data, function (index, element) {
-                        $('#timestamp_list tbody').append(`<tr><td style="text-align: center;">${element.CreatedBy}</td><td style="text-align: left;"><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});" style="margin: 28px;">${element.TimeStamp}</a></td></tr>`);
-                        i++;
-                    });
-
-                }
-            });
-        }, 2000);
-        
-        
+        LoaderShow();        
+        $('#change_history_tbl').show(); 
+        $.ajax({
+            url: `/api/utilities/GetTimeStamps`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            data: { year: year },
+            success: function (data) {                
+                let i = 1;
+                $('#timestamp_list tbody').empty();
+                $.each(data, function (index, element) {
+                    $('#timestamp_list tbody').append(`<tr><td style="text-align: center;">${element.CreatedBy}</td><td style="text-align: left;"><a href='javascript:void(0);'  onclick="GetHistories(${element.Id});" style="margin: 28px;">${element.TimeStamp}</a></td></tr>`);
+                    i++;
+                });
+                LoaderHide();
+            }
+        });                
     });
 
 });
@@ -197,7 +191,3 @@ function LoaderHide() {
     $("#loading").css("display", "none");
     $("#timestamp_list").css("display", "block");
 }
-
-$(document).ajaxComplete(function(){
-    LoaderHide();
-});

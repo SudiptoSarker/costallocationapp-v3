@@ -73,24 +73,12 @@ var jssTableDefinition = {
 
 };
 
-
 function LoaderShow() {
     $("#jspreadsheet").css("display", "none");
     $("#loading").css("display", "block");
 }
 function LoaderHide() {
     $("#jspreadsheet").css("display", "block");
-    $("#loading").css("display", "none");
-}
-function LoaderShowJexcel() {
-    $("#loading").css("display", "block");
-    $("#jspreadsheet").hide();  
-    //$("#head_total").css("display", "none");
-    
-}
-function LoaderHideJexcel(){
-    $("#jspreadsheet").show();  
-    //$("#head_total").css("display", "table !important");
     $("#loading").css("display", "none");
 }
 
@@ -124,10 +112,7 @@ $(document).ready(function () {
             alert('年度を選択してください!!!');
             return false;
         }  
-        
-        // var approvedCells = $("#all_selected_cells").val(); 
-        // var approvedRows = $("#all_selected_row_for_approve").val();
-
+               
         var approvedCells = $("#approved_selected_cells").val(); 
         var approvedRows = $("#approved_selected_rows").val();
         
@@ -152,8 +137,8 @@ $(document).ready(function () {
             //$("#timeStamp_ForUpdateData").val('');
             if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
                 return false;
-            }else{
-                // LoaderShowJexcel();        
+            }else{ 
+
                 LoaderShow();        
                 var dateObj = new Date();
                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -172,10 +157,8 @@ $(document).ready(function () {
                     success: function (data) {
                         if(data==1){
                             $("#approved_selected_cells").val(''); 
-                            $("#approved_selected_rows").val('');
-                                  
-                            ShowForecastResults(assignmentYear);
-                            ToastMessageSuccess('データが保存されました');                            
+                            $("#approved_selected_rows").val('');                                  
+                            ShowForecastResults(assignmentYear,'save');                            
                         }else{
                             LoaderHide();
                             alert("There is no approved data to save!")
@@ -397,172 +380,18 @@ $(document).ready(function () {
     // });
 
     $('#unapprove_forecast_data').on('click', function () {       
-        //LoaderShow();  
-        var assignmentYear = $('#assignment_year_list').val();
-        ///ShowForecastResults(assignmentYear);
+        
+        LoaderShow();  
+        var assignmentYear = $('#assignment_year_list').val();                
+        ShowForecastResults(assignmentYear,'show');
 
-        LoaderShowJexcel();
-            
-        setTimeout(function () {                                 
-            ShowForecastResults(assignmentYear);
-        }, 3000);
         $("#approved_selected_cells").val(''); 
         $("#all_selected_cells").val('');    
         $("#all_selected_cells_with_cellposition").val('');    
 
         $("#approved_selected_rows").val(''); 
         $("#all_selected_row_for_approve").val('');    
-        $("#all_selected_row_with_assignmentId_row_number").val('');
-
-        // var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
-        // var isDeleted = $("#hidIsRowDeleted").val();
-        // if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
-        //     $("#hidSelectedRow_AssignementId").val('');
-        //     alert("承認するデータがありません");
-        // }else{
-        //     // LoaderShow();
-        //     //return false;
-
-        //     var data_Info = {
-        //         Id: approveAssignmentId
-        //     };
-        //     var cellPosition = $("#hid_SelectedCellPosition").val();
-        //     var selectedCells = $("#hid_cellNo").val();
-        //     var isRowSelected = $("#hid_IsRowSelected").val();
-            
-            
-        //     if(isRowSelected=="yes"){
-        //         //un approve rows
-        //         var approvedCells = $("#all_selected_row_for_approve").val();   
-        //         var arrCells = approvedCells.split(',');        
-
-        //         var restoreApproveCells = "";
-        //         var isValidForUnapprove = true;
-
-        //         $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-        //             //var arrNestedCells = nestedValue.split('_');
-        //             if(approveAssignmentId == nestedValue){                        
-        //                 isValidForUnapprove = false;
-        //             }
-        //             else{
-        //                 if(restoreApproveCells==""){
-        //                     restoreApproveCells = nestedValue;
-        //                 }else{
-        //                     restoreApproveCells = restoreApproveCells+","+nestedValue;
-        //                 }                        
-        //             }                                                            
-        //         }); 
-        //         if(isValidForUnapprove){                    
-        //             alert("There is no data to approved!");
-        //         }else{
-        //             $("#all_selected_row_for_approve").val(restoreApproveCells);   
-        //             var rowNumber = $("#hidSelectedRowNumber").val();
-        //             if(isDeleted =='true'){
-        //                 var selectRowIsPendingForApproval = $("#pending_selected_row").val();
-        //                 if(selectRowIsPendingForApproval =='true'){
-        //                     SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
-        //                 }else{
-        //                     SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
-        //                 }                        
-        //             }else{
-        //                 var deletedRowIsPendingForApproval = $("#pending_selected_deleted_row").val();
-        //                 if(deletedRowIsPendingForApproval =='true'){
-        //                     SetRowColor_UnapprovedDeleteRow(parseInt(rowNumber)+1);
-        //                 }else{
-        //                     SetRowColor_AfterUnApproved_Delete(parseInt(rowNumber)+1);
-        //                 }                          
-        //             }
-        //             $("#hidSelectedRow_AssignementId").val("");
-        //             $("#hidIsRowDeleted").val("");
-        //         }                  
-        //     }else{
-        //         //un approve cells
-        //         var approvedCells = $("#all_selected_cells").val();   
-        //         var arrCells = approvedCells.split(',');        
-
-        //         var restoreApproveCells = "";
-        //         var isValidForUnapprove = true;
-
-        //         $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-        //             var arrNestedCells = nestedValue.split('_');
-        //             if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){                        
-        //                 isValidForUnapprove = false;
-        //             }
-        //             else{
-        //                 if(restoreApproveCells==""){
-        //                     restoreApproveCells = arrNestedCells[0]+"_"+arrNestedCells[1];
-        //                 }else{
-        //                     restoreApproveCells = restoreApproveCells+","+arrNestedCells[0]+"_"+arrNestedCells[1];
-        //                 }                        
-        //             }                                                            
-        //         }); 
-        //         if(isValidForUnapprove){                    
-        //             alert("There is no data to approved!");
-        //         }else{
-        //             $("#all_selected_cells").val(restoreApproveCells);   
-        //             var cellNo = $("#selectCellNumber").val();    
-                    
-        //             var pendingCells = $("#pending_cells_selected_cells").val();
-        //             var arrPendingCells = pendingCells.split(',');        
-        //             var isPendingCells = false;
-        //             $.each(arrPendingCells, function (nextedIndex, nestedValue) { 
-        //                 if(selectedCells == nestedValue){
-        //                     isPendingCells = true;  
-        //                 }
-        //             }); 
-        //             if(isPendingCells){
-        //                 SetRowColor_PendingCells(cellNo) ;
-        //             }
-        //             else{
-        //                 SetCellWiseColor_ForUnApproved(cellNo);                                                                              
-        //             }                
-        //             //SetCellWiseColor_ForUnApproved(cellNo)
-        //         }
-
-        //         // $.ajax({
-        //         //     url: `/api/utilities/UnApprovedCellData`,
-        //         //     contentType: 'application/json',
-        //         //     type: 'GET',
-        //         //     async: true,
-        //         //     dataType: 'json',
-        //         //     data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-        //         //     success: function (data) {
-        //         //         if(data==1){
-        //         //             var assignmentYear = $('#assignment_year_list').val();
-        //         //             // if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
-        //         //             //     alert('年度を選択してください!!!');
-        //         //             //     return false;
-        //         //             // }    
-        //         //             var cellNo = $("#selectCellNumber").val();
-        //         //             // LoaderHide();
-        //         //             SetCellWiseColor_ForUnApproved(cellNo)
-        //         //             //alert("保存されました.")                    
-        //         //             //ShowForecastResults(assignmentYear);
-        //         //             //$(cellPosition).css('color', 'red');                            
-        //         //             // alert("保存されました.")
-        //         //             // location.reload();
-
-        //         //             // var selectedCells = $("#hid_cellNo").val();
-
-        //         //             // var rowNumber = $("#hidSelectedRowNumber").val();
-        //         //             // if(isDeleted =='true'){
-        //         //             //     SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-        //         //             // }else{
-        //         //             //     SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-        //         //             // }
-        //         //             // $("#hidSelectedRow_AssignementId").val("");
-        //         //             // $("#hidIsRowDeleted").val("");
-                            
-        //         //         }
-        //         //         else{
-        //         //             // LoaderHide();
-        //         //             alert("There is no data to approved!")
-        //         //         }
-        //         //         //_retriveddata = data;
-        //         //     }
-        //         // });       
-        //     }            
-        // }       
+        $("#all_selected_row_with_assignmentId_row_number").val('');            
     });
 
 
@@ -580,96 +409,34 @@ $(document).ready(function () {
             });
     });
     
-    $(document).on('click', '#assignment_year_data ', function () {    
+    $(document).on('click', '#assignment_year_data ', function () {            
         var assignmentYear = $('#assignment_year_list').val();
         $("#all_selected_cells").val("");
         $("#all_selected_row_for_approve").val("");
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
             alert('年度を選択してください!!!');
             return false;
-        }     
-        
-        LoaderShowJexcel();
-            
-        setTimeout(function () {                                 
-            ShowForecastResults(assignmentYear);
-        }, 3000);
-
-        
+        }             
+        LoaderShow();         
+        ShowForecastResults(assignmentYear,'show');                    
     });
+
     $(document).on('click', '#cancel_forecast_history ', function () {    
         var assignmentYear = $('#assignment_year_list').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
-        }
-        LoaderShowJexcel();            
+        }        
         setTimeout(function () {                               
             ShowForecastResults(assignmentYear);
         }, 3000);
         
-    });
-    
-    $(document).ajaxComplete(function(){
-        LoaderHideJexcel();
-    });
-
+    });    
 });
 
-function ShowForecastResults(year) {
-    var employeeName = $('#name_search').val();
-    employeeName = "";
-    var sectionId = $('#section_multi_search').val();
-    sectionId = "";
-    var inchargeId = $('#incharge_multi_search').val();
-    inchargeId = "";
-    var roleId = $('#role_multi_search').val();
-    roleId = "";
-    var companyId = $('#company_multi_search').val();
-    companyId = "";
-    var departmentId = $('#dept_multi_search').val();
-    departmentId = "";
-    var explanationId = $('#explanation_multi_search').val();
-    explanationId = "";
-    if (year == '' || year == undefined) {
-        alert('年度を選択してください');
-        return false;
-    }
+var _retriveddata = [];
+var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
 
-    $('#cancel_forecast').css('display', 'inline-block');
-    $('#save_forecast').css('display', 'inline-block');
-
-    var sectionCheck = [];
-    var departmentCheck = [];
-    var inchargeCheck = [];
-    var roleCheck = [];
-    var explanationCheck = [];
-    var companyCheck = [];
-
-    var data_info = {
-        employeeName: employeeName,
-        sectionId: sectionId,
-        departmentId: departmentId,
-        inchargeId: inchargeId,
-        roleId: roleId,
-        explanationId: explanationId,
-        companyId: companyId,
-        status: '', year: year, timeStampId: ''
-    };
-    globalSearchObject = data_info;
-
-    var _retriveddata = [];
-    $.ajax({
-        url: `/api/utilities/SearchForApprovalEmployee`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            _retriveddata = data;
-        }
-    });
-    
+function ShowApproveJexcel(){
     var sectionsForJexcel = [];
     var departmentsForJexcel = [];
     var inchargesForJexcel = [];
@@ -690,6 +457,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Departments`,
         contentType: 'application/json',
@@ -716,6 +484,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Roles`,
         contentType: 'application/json',
@@ -728,6 +497,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Explanations`,
         contentType: 'application/json',
@@ -740,6 +510,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Companies`,
         contentType: 'application/json',
@@ -752,6 +523,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     $.ajax({
         url: `/api/Salaries`,
         contentType: 'application/json',
@@ -764,6 +536,7 @@ function ShowForecastResults(year) {
             });
         }
     });
+
     if (jss != undefined) {
         jss.destroy();
         $('#jspreadsheet').empty();
@@ -997,11 +770,7 @@ function ShowForecastResults(year) {
         },
         onselection: selectionActive,   
         // onfocus: focus,     
-    });
-
-    $("#saved_approved_data").css("display", "block");
-    $("#approve_forecast_data").css("display", "block");
-    $("#unapprove_forecast_data").css("display", "block");
+    });    
 
     //jss.deleteColumn(52, 43);
     jss.deleteColumn(52, 25);
@@ -1684,6 +1453,7 @@ function ShowForecastResults(year) {
         }
         count++;
     });
+    
     var rowCount = 1;
     $.each(allRows, function (index,value){
         $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowCount))).removeClass('readonly');
@@ -1869,6 +1639,75 @@ function ShowForecastResults(year) {
 
         rowCount++;
     });
+}
+
+function ShowForecastResults(year,showType) {
+    employeeName = $('#name_search').val();
+    employeeName = "";
+    sectionId = $('#section_multi_search').val();
+    sectionId = "";
+    inchargeId = $('#incharge_multi_search').val();
+    inchargeId = "";
+    roleId = $('#role_multi_search').val();
+    roleId = "";
+    companyId = $('#company_multi_search').val();
+    companyId = "";
+    departmentId = $('#dept_multi_search').val();
+    departmentId = "";
+    explanationId = $('#explanation_multi_search').val();
+    explanationId = "";    
+
+    var data_info = {
+        employeeName: employeeName,
+        sectionId: sectionId,
+        departmentId: departmentId,
+        inchargeId: inchargeId,
+        roleId: roleId,
+        explanationId: explanationId,
+        companyId: companyId,
+        status: '', year: year, timeStampId: ''
+    };
+    globalSearchObject = data_info;
+    
+    var userName = '';
+
+    $.ajax({
+        url: `/Registration/GetSession/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            userName = data;
+        }
+    });
+    
+    $.ajax({
+        url: `/api/utilities/SearchForApprovalEmployee`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
+        success: function (data) {
+            _retriveddata = data;            
+            ShowApproveJexcel();
+            LoaderHide();
+            var chat = $.connection.chatHub;
+            $.connection.hub.start();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                chat.server.send('data has been approved by ', userName);
+            });     
+
+            $("#saved_approved_data").css("display", "block");
+            $("#approve_forecast_data").css("display", "block");
+            $("#unapprove_forecast_data").css("display", "block");            
+            if(showType=='save'){
+                ToastMessageSuccess('データが保存されました');                            
+            }
+        }
+    });    
 }
 
 $("#hider").hide();

@@ -3,16 +3,14 @@ var tableRowList = [];
 $(document).ready(function () {
 
 
-    // function LoaderShow() {
-    //     $("#forecast_table_wrapper").css("display", "none");
-    //     $("#loading").css("display", "block");
-    // }
-    // function LoaderHide() {
-    //     $("#forecast_table_wrapper").css("display", "block");
-    //     $("#loading").css("display", "none");
-    // }
-
-
+    function LoaderShow() {
+        $("#table_container").css("display", "none");
+        $("#loading").css("display", "block");
+    }
+    function LoaderHide() {
+        $("#table_container").css("display", "block");
+        $("#loading").css("display", "none");
+    }
 
     $('#company_list').multiselect({
         allSelectedText: 'All',
@@ -45,14 +43,16 @@ $(document).ready(function () {
             }
         });
     }
-    
+    var dynamicSettings = [];
+    var uniqueTableList = [];
+    var selected_compannies = "";
+    var selected_year = "";
+    var timeStampId = "";
 
-    $('#show_dynamic_tables').on('click', () => {        
-        var selected_compannies = $("#company_list").val();
-        var selected_year = $("#total_year_list").val();
-        var timeStampId = $("#edit_history_time_stamp").val();
-        var dynamicSettings = [];
-        var uniqueTableList = [];
+    $('#show_dynamic_tables').on('click', () => {                
+        selected_compannies = $("#company_list").val();
+        selected_year = $("#total_year_list").val();
+        timeStampId = $("#edit_history_time_stamp").val();        
 
 
         if (selected_compannies == "" || selected_compannies == null || selected_compannies == undefined) {
@@ -64,7 +64,7 @@ $(document).ready(function () {
             alert("タイムスタンプを選択してください");
         }
         else {
-
+            LoaderShow();
             methodList = [];
             $.ajax({
                 url: `/api/utilities/GetMethodList/`,
@@ -81,353 +81,348 @@ $(document).ready(function () {
                 url: `/api/utilities/GetDynamicSettings/`,
                 contentType: 'application/json',
                 type: 'GET',
-                async: false,
+                async: true,
                 dataType: 'json',
                 success: function (data) {
                     dynamicSettings = data;                    
                     
+                    CreateDynamicSettingTablesWithCalculations();
+                    LoaderHide();
                 }
-            });
-
-            for (var i = 0; i < methodList.length; i++) {
-
-                for (var j = 0; j < dynamicSettings.length; j++) {
-                    if (parseInt(methodList[i].Id) == parseInt(dynamicSettings[j].MethodId)) {
-                        dynamicSettings[j].MethodName = methodList[i].MethodName;
-                        dynamicSettings[j].Dependency = methodList[i].Dependency;
-                        dynamicSettings[j].Syntex = methodList[i].Syntex;
-                    }
-                }
-            }
-
-            uniqueTableList = [];
-            for (var m = 0; m < dynamicSettings.length; m++) {
-                if (uniqueTableList.length == 0) {
-                    uniqueTableList.push(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId);
-                }
-                else {
-                    if (!uniqueTableList.includes(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId)) {
-                        uniqueTableList.push(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId);
-                    }
-                }
-            }
-
-            $('#table_container').empty();
-            var titleColumnsCount = 0;
-            for (var n = 0; n < uniqueTableList.length; n++) {
-                var _splittedValue = uniqueTableList[n].split('_');
-                titleColumnsCount = 0;
-                $.ajax({
-                    url: `/api/utilities/GetDynamicTableById/${_splittedValue[1]}`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (tableData) {
-                        if (tableData.CategoryTitle !== "") {
-                            titleColumnsCount++;
-                        }
-                        if (tableData.SubCategoryTitle !== "") {
-                            titleColumnsCount++;
-                        }
-                        if (tableData.DetailsTitle !== "") {
-                            titleColumnsCount++;
-                        }
-
-                        $('#table_container').append(`<p class="font-weight-bold" style="margin-top:20px;"><u>${_splittedValue[0]}:</u></p>`);
-                        $('#table_container').append(`<table id="table_${n}" class="generated_table" data-dt='${titleColumnsCount}'></table>`);
-                        if (titleColumnsCount==1) {
-                            $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
-                        }
-                        if (titleColumnsCount == 2) {
-                            $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
-                        }
-                        if (titleColumnsCount == 3) {
-                            $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>${tableData.DetailsTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
-                        }
-                        
-                    }
-                });
-                
-                
-                
-            }
-            
-            var tableCount = 0;
-            var detectTableChange = -1;
-            var mainTitle = '';
-            var subTitle = '';
-            var detailsTitle = '';
-            var tempTableTitle = '';
-            var tableMatchedFlag = false;
-            var matchedIndex = -1;
-
-            //var _newObject = {
-            //    tableTitle: '',
-            //    pageTableCount: '',
-            //    rowData:[]
-            //};
-            
-            // main loop.
-            for (var k = 0; k < dynamicSettings.length; k++) {
-                var _dependency = '';
-                tableMatchedFlag = false;
-                var _newObject = {};
-                //tableCount = parseInt(dynamicSettings[k].DynamicTableId);
-
-                
-
-                for (var o = 0; o < uniqueTableList.length; o++) {
-                    var _splittedValue = uniqueTableList[o].split('_');
-                    if (_splittedValue[0] == dynamicSettings[k].DynamicTableTitle) {
-                        tableCount = o;
-                        tempTableTitle = dynamicSettings[k].DynamicTableTitle;
-                        _newObject.pageTableCount = o;
-   
-                    }
-                }
-
-                if (tableRowList.length == 0) {
-                    _newObject.tableTitle = tempTableTitle;
-                }
-                else {
-                    for (var a = 0; a < tableRowList.length; a++) {
-                        if (tableRowList[a].tableTitle != dynamicSettings[k].DynamicTableTitle) {
-                            _newObject.tableTitle = tempTableTitle;
-                        }
-                    }
-                }
-                
-                if (detectTableChange != tableCount) {
-                    detectTableChange = tableCount;
-                    $(`#table_${tableCount}`).append('<tbody></tbody>');
-                }
-                if (dynamicSettings[k].Dependency=='dp') {
-                    _dependency = 'departmentIds';
-                }
-                if (dynamicSettings[k].Dependency == 'in') {
-                    _dependency = 'inchargeIds';
-                }                                                
-                
-                var _url = `/api/utilities/${dynamicSettings[k].Syntex}?companiIds=${selected_compannies}&${_dependency}=${dynamicSettings[k].ParameterId}&year=${selected_year}&timestampsId=${timeStampId}`;
-
-                $.ajax({
-                    url: _url,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (totalList) {
-                        
-                        totalList[0].mainTitle = dynamicSettings[k].CategoryName;
-                        totalList[0].subTitle = dynamicSettings[k].SubCategoryName;
-                        totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;                        
-                        console.log(totalList);
-
-                        _newObject.rowData = totalList;
-                        if (tableRowList.length == 0) {
-                            tableRowList.push(_newObject);
-                        }
-                        else {
-                            for (var b  = 0; b < tableRowList.length; b++) {
-                                if (tableRowList[b].tableTitle == dynamicSettings[k].DynamicTableTitle) {
-                                    tableRowList[b].rowData.push(totalList[0]);
-                                    tableMatchedFlag = true;
-                                    break;
-                                }
-                               
-                            }
-
-                            if (tableMatchedFlag == false) {
-                                tableRowList.push(_newObject);
-                            }
-                        }
-                    }
-                });
-                
-               
-            }
-
-            
-            console.log("p: "+tableRowList);
-            if (tableRowList.length > 0) {
-                var tempMainTitle = '';
-                for (var c = 0; c < tableRowList.length; c++) {
-
-                    var _rowDataList = tableRowList[c].rowData;
-
-
-                    var dynamicTitleCount = $(`#table_${tableRowList[c].pageTableCount}`).data('dt');
-                    
-                    for (var d = 0; d < tableRowList[c].rowData.length; d++) {
-                        
-                        var _rowData = tableRowList[c].rowData[d];
-                        if (tempMainTitle != _rowData.mainTitle) {
-                            var rowCount = 0;
-                            $.each(_rowDataList, function (index, value) {
-                                if (_rowData.mainTitle == value.mainTitle) {
-                                    rowCount++;
-                                }
-                            });
-
-
-                            tempMainTitle = _rowData.mainTitle;
-                            //alert(dynamicTitleCount)
-                            if (rowCount > 1) {
-                                
-                                if (dynamicTitleCount == 1) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
-                                    <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>                                    
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                      
-
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                                if (dynamicTitleCount == 2) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
-                                    <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>                                    
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                                if (dynamicTitleCount == 3) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
-                                    <td> <i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>
-                                    <td>${_rowData.detailsTitle}</td>                                    
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                            }
-                            else {
-                                //negative red mark should add
-                                if (dynamicTitleCount == 1) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr>
-                                    <td>${_rowData.mainTitle}</td>
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                                if (dynamicTitleCount == 2) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr>
-                                    <td>${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>                                    
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                                if (dynamicTitleCount == 3) {
-                                    $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
-                                    <tr>
-                                    <td>${_rowData.mainTitle}</td>
-                                    <td>${_rowData.subTitle}</td>
-                                    <td>${_rowData.detailsTitle}</td>                                    
-                                    <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    
-                                    <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
-                                    <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                </tr>`);
-                                }
-                            }
-                           
-                            
-                        }
-                 
-                    }
-
-                }
-            }
-
+            });            
         }   
     });
+
+    function CreateDynamicSettingTablesWithCalculations(){
+        for (var i = 0; i < methodList.length; i++) {
+
+            for (var j = 0; j < dynamicSettings.length; j++) {
+                if (parseInt(methodList[i].Id) == parseInt(dynamicSettings[j].MethodId)) {
+                    dynamicSettings[j].MethodName = methodList[i].MethodName;
+                    dynamicSettings[j].Dependency = methodList[i].Dependency;
+                    dynamicSettings[j].Syntex = methodList[i].Syntex;
+                }
+            }
+        }
+
+        uniqueTableList = [];
+        for (var m = 0; m < dynamicSettings.length; m++) {
+            if (uniqueTableList.length == 0) {
+                uniqueTableList.push(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId);
+            }
+            else {
+                if (!uniqueTableList.includes(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId)) {
+                    uniqueTableList.push(dynamicSettings[m].DynamicTableTitle + '_' + dynamicSettings[m].DynamicTableId);
+                }
+            }
+        }
+
+        $('#table_container').empty();
+        var titleColumnsCount = 0;
+        for (var n = 0; n < uniqueTableList.length; n++) {
+            var _splittedValue = uniqueTableList[n].split('_');
+            titleColumnsCount = 0;
+            $.ajax({
+                url: `/api/utilities/GetDynamicTableById/${_splittedValue[1]}`,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (tableData) {
+                    if (tableData.CategoryTitle !== "") {
+                        titleColumnsCount++;
+                    }
+                    if (tableData.SubCategoryTitle !== "") {
+                        titleColumnsCount++;
+                    }
+                    if (tableData.DetailsTitle !== "") {
+                        titleColumnsCount++;
+                    }
+
+                    $('#table_container').append(`<p class="font-weight-bold" style="margin-top:20px;"><u>${_splittedValue[0]}:</u></p>`);
+                    $('#table_container').append(`<table id="table_${n}" class="generated_table" data-dt='${titleColumnsCount}'></table>`);
+                    if (titleColumnsCount==1) {
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                    }
+                    if (titleColumnsCount == 2) {
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                    }
+                    if (titleColumnsCount == 3) {
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>${tableData.DetailsTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                    }
+                    
+                }
+            });
+            
+            
+            
+        }
+        
+        var tableCount = 0;
+        var detectTableChange = -1;
+        var mainTitle = '';
+        var subTitle = '';
+        var detailsTitle = '';
+        var tempTableTitle = '';
+        var tableMatchedFlag = false;
+        var matchedIndex = -1;
+        
+        // main loop.
+        for (var k = 0; k < dynamicSettings.length; k++) {
+            var _dependency = '';
+            tableMatchedFlag = false;
+            var _newObject = {};                
+
+            for (var o = 0; o < uniqueTableList.length; o++) {
+                var _splittedValue = uniqueTableList[o].split('_');
+                if (_splittedValue[0] == dynamicSettings[k].DynamicTableTitle) {
+                    tableCount = o;
+                    tempTableTitle = dynamicSettings[k].DynamicTableTitle;
+                    _newObject.pageTableCount = o;
+
+                }
+            }
+
+            if (tableRowList.length == 0) {
+                _newObject.tableTitle = tempTableTitle;
+            }
+            else {
+                for (var a = 0; a < tableRowList.length; a++) {
+                    if (tableRowList[a].tableTitle != dynamicSettings[k].DynamicTableTitle) {
+                        _newObject.tableTitle = tempTableTitle;
+                    }
+                }
+            }
+            
+            if (detectTableChange != tableCount) {
+                detectTableChange = tableCount;
+                $(`#table_${tableCount}`).append('<tbody></tbody>');
+            }
+            if (dynamicSettings[k].Dependency=='dp') {
+                _dependency = 'departmentIds';
+            }
+            if (dynamicSettings[k].Dependency == 'in') {
+                _dependency = 'inchargeIds';
+            }                                                
+            
+            var _url = `/api/utilities/${dynamicSettings[k].Syntex}?companiIds=${selected_compannies}&${_dependency}=${dynamicSettings[k].ParameterId}&year=${selected_year}&timestampsId=${timeStampId}`;
+
+            $.ajax({
+                url: _url,
+                contentType: 'application/json',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (totalList) {
+                    
+                    totalList[0].mainTitle = dynamicSettings[k].CategoryName;
+                    totalList[0].subTitle = dynamicSettings[k].SubCategoryName;
+                    totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;                        
+                    console.log(totalList);
+
+                    _newObject.rowData = totalList;
+                    if (tableRowList.length == 0) {
+                        tableRowList.push(_newObject);
+                    }
+                    else {
+                        for (var b  = 0; b < tableRowList.length; b++) {
+                            if (tableRowList[b].tableTitle == dynamicSettings[k].DynamicTableTitle) {
+                                tableRowList[b].rowData.push(totalList[0]);
+                                tableMatchedFlag = true;
+                                break;
+                            }
+                           
+                        }
+
+                        if (tableMatchedFlag == false) {
+                            tableRowList.push(_newObject);
+                        }
+                    }
+                }
+            });
+            
+           
+        }
+
+        
+        console.log("p: "+tableRowList);
+        if (tableRowList.length > 0) {
+            var tempMainTitle = '';
+            for (var c = 0; c < tableRowList.length; c++) {
+
+                var _rowDataList = tableRowList[c].rowData;
+
+
+                var dynamicTitleCount = $(`#table_${tableRowList[c].pageTableCount}`).data('dt');
+                
+                for (var d = 0; d < tableRowList[c].rowData.length; d++) {
+                    
+                    var _rowData = tableRowList[c].rowData[d];
+                    if (tempMainTitle != _rowData.mainTitle) {
+                        var rowCount = 0;
+                        $.each(_rowDataList, function (index, value) {
+                            if (_rowData.mainTitle == value.mainTitle) {
+                                rowCount++;
+                            }
+                        });
+
+
+                        tempMainTitle = _rowData.mainTitle;
+                        //alert(dynamicTitleCount)
+                        if (rowCount > 1) {
+                            
+                            if (dynamicTitleCount == 1) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
+                                <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>                                    
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                      
+
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                            if (dynamicTitleCount == 2) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
+                                <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
+                                <td>${_rowData.subTitle}</td>                                    
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                            if (dynamicTitleCount == 3) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
+                                <td> <i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
+                                <td>${_rowData.subTitle}</td>
+                                <td>${_rowData.detailsTitle}</td>                                    
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                        }
+                        else {
+                            //negative red mark should add
+                            if (dynamicTitleCount == 1) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr>
+                                <td>${_rowData.mainTitle}</td>
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                            if (dynamicTitleCount == 2) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr>
+                                <td>${_rowData.mainTitle}</td>
+                                <td>${_rowData.subTitle}</td>                                    
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                                                            
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                            if (dynamicTitleCount == 3) {
+                                $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
+                                <tr>
+                                <td>${_rowData.mainTitle}</td>
+                                <td>${_rowData.subTitle}</td>
+                                <td>${_rowData.detailsTitle}</td>                                    
+                                <td class="text-right">${_rowData.OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                
+                                <td class="text-right">${_rowData.RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                                                        
+                                <td class="text-right">${_rowData.SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                            </tr>`);
+                            }
+                        }
+                       
+                        
+                    }
+             
+                }
+
+            }
+        }
+    }
+
 
     function GetDynamicCostTables(selected_compannies,selected_year,strTableType,timeStampId){        
         var strTotalTalbe = "";    

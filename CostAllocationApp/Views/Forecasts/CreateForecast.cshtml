@@ -10,147 +10,82 @@
     <link href="/Content/forecast_ver04.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative;margin-top: -38px;">
-
-        @{
-            /***************************\
-             Employee Assignment: Import Excel
-            \***************************/
-
-            if (ViewBag.ImportViewOrForecastView.ToLower() == "imprt")
-            {
-                if (Convert.ToBoolean(ViewBag.linkFlag))
-                {
-                /***************************\
-                 Show Loader
-                \***************************/
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="forecast">
-                            <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                                <center>
-                                    <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;" alt="loader image">
-                                    <br>
-                                    <strong>しばらくお待ちください...</strong>
-                                    <br>
-                                    <br>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="import_year_wise_data" id="">
-                    <h5>予算策定・編集する年度のデータを選択 (Import Year Wise Data)</h5>
-                    <select id="select_year_to_import"></select>
-                    <br /> <br />
-                    <table class="" id="">
-                        <thead>
-                            <tr>
-                                <th class="section_list_theader">新規作成 (Create New Data)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="section_list_tbody">
-                            <tr>
-                                <td style="border: none !important;">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="CheckForecastYear();" class="import_forecast_data">CSVからインポート (CSV Import)</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="border: none !important;">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデーターの複製 (Replicate Data)</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br />
-                <br />
-            }
-        }
-        else
-        {   
-            /***************************\
-            Show Loader
-            \***************************/            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="forecast">
-                        <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                            <center>
-                                <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:200px;">
-                                <br>
-                                <strong>しばらくお待ちください...</strong>
-                                <br>
-                                <br>
-                            </center>
-                        </div>
+    <div class="content container-fluid" style="position:relative;margin-top: -38px;">        
+        @* Show Loader            *@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="forecast">
+                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                        <center>
+                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;">
+                            <br>
+                            <strong>しばらくお待ちください...</strong>
+                            <br>
+                            <br>
+                        </center>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <br/>
-            <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
-            <br/>
+        <br/>
+        <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
+        <br/>
 
-            <div class="row" id="year_data_search">
-                <div class="col-3">
-                    <select id="assignment_year_list" class="" ></select>
-                </div>                
-                <div class="col-2">
-                    <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
-                </div>
-
-                <div class="col-1"></div>
-
-                <div class="col-2">
-                </div>
-                <div class="col-2">                    
-                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消(undo)</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="update_forecast_history">保存 (Save)</button>
-                </div>
+        <div class="row" id="year_data_search">
+            <div class="col-3">
+                <select id="assignment_year_list" class="" ></select>
+            </div>                
+            <div class="col-2">
+                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
             </div>
-            <br>
 
-            /***************************\
-            Employee Assignment: Create Forecast
-            \***************************/
-            <div class="row" id="year_data_list">
-                <div class="col-md-12">
-                </div>
+            <div class="col-1"></div>
 
-                <div class="col-md-12">
-                    <div id="hider"></div>
-                    
-                    <div id="jspreadsheet"></div>
-                </div>
-                <div class="col-12">
-                    <table id="head_total" style="display: none;">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>10月</th>
-                                <th>11月</th>
-                                <th>12月</th>
-                                <th>1月</th>
-                                <th>2月</th>
-                                <th>3月</th>
-                                <th>4月</th>
-                                <th>5月</th>
-                                <th>6月</th>
-                                <th>7月</th>
-                                <th>8月</th>
-                                <th>9月</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+            <div class="col-2">
             </div>
-        }
-        }
+            <div class="col-2">                    
+                <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消(undo)</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="update_forecast_history">保存 (Save)</button>
+            </div>
+        </div>
+        <br>
+
+        @* Employee Assignment: Create Forecast *@
+        <div class="row" id="year_data_list">
+            <div class="col-md-12">
+            </div>
+
+            <div class="col-md-12">
+                <div id="hider"></div>
+                
+                <div id="jspreadsheet"></div>
+            </div>
+            <div class="col-12">
+                <table id="head_total" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>1月</th>
+                            <th>2月</th>
+                            <th>3月</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 

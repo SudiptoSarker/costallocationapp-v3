@@ -36,7 +36,7 @@ namespace CostAllocationApp.Models
             dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 14, MethodName = "Difference between budget and yearly data of Headcount for department", Dependency = "dp", Syntex = "GetDifferenceHeadCountByDepartment" });
             dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 15, MethodName = "Difference between budget and yearly data of Headcount for in chg", Dependency = "in", Syntex = "GetDifferenceHeadCountByIncharge" });
             //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 16, MethodName = "Difference between budget and yearly data of Cost for department from budget table", Dependency = "dp", Syntex = "" });
-            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 3, MethodName = "Cost for department from QA proration", Dependency = "dp", Syntex = "GetQaByDepartment" });
+            dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 16, MethodName = "Cost for department from QA proration", Dependency = "dp", Syntex = "GetQaByDepartment" });
 
 
             return dynamicMethod._methodList;

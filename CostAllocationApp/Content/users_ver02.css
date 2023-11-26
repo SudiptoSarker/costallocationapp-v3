@@ -304,3 +304,10 @@ div.dataTables_wrapper div.dataTables_filter{
     padding-left: 2px;
     border: 1px solid #ccc !important;
 }
+.field-icon {
+    float: right;
+    margin-right: 49px;
+    margin-top: -21px;
+    position: relative;
+    z-index: 2;
+}

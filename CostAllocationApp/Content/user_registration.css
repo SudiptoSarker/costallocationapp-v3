@@ -293,11 +293,11 @@ label {
 }
 /*password validation*/
 .field-icon {
-    float: right;
-    margin-right: 157px;
-    margin-top: -21px;
-    position: relative;
-    z-index: 2;
+    float: right !important;
+    margin-right: 157px !important;
+    margin-top: -21px !important;
+    position: relative !important;
+    z-index: 2 !important;
 }
 .container{
     padding-top:50px;

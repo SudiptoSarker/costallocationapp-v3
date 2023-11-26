@@ -20,7 +20,8 @@ function onCompanyInactiveClick() {
 }
 
 $(document).ready(function () {
-    $(".add_master_btn").on("click",function(event){        
+    $(".add_master_btn").on("click",function(event){ 
+        $("#company_name").val('');
         $('#add_master_modal').modal('show');
     })
     $("#undo_company_add_btn").on("click",function(event){        

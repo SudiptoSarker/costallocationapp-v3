@@ -1,5 +1,8 @@
 ﻿$(document).ready(function () {
-    $(".add_master_btn").on("click",function(event){        
+    $(".add_master_btn").on("click",function(event){    
+        $("#unit_price_from").val('');
+        $("#unit_price_to").val('');
+        $("#grae_point").val('');     
         $('#add_master_modal').modal('show');
     })
     $("#salary_undo_btn").on("click",function(event){        

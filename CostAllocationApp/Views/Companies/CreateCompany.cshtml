@@ -66,24 +66,24 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加 役割 (add role)</h3>
+                    <h3 id='add_modal_header'>追加の会社 (add company)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新しい会社を登録する場合は、「新しい会社をここに入力してください」テキストボックスに会社名を入力し、「保存」ボタンをクリックします。 </label>
                     <table id="company_reg_tbl">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="company_th">役割 (Roles Name)</th>
+                                <th class="company_th">会社名 (Company Name)</th>
                                 <th class="company_th">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td id="company_reg_frm_td">
-                                    <input type="text" value="" placeholder="新規役割をここに入力" id="company_name">                                            
+                                    <input type="text" value="" placeholder="ここに新しい会社を入力してください" id="company_name">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
                                     <a href="javascript:void(0);" class="" id="undo_company_add_btn">取消(undo)</a>
@@ -109,24 +109,24 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>編集​ 役割 (edit role)</h3>
+                    <h3 id='add_modal_header'>会社を編集する(edit company)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新しい会社を登録する場合は、「新しい会社をここに入力してください」テキストボックスに会社名を入力し、「保存」ボタンをクリックします。 </label>
                     <table id="company_reg_tbl">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="company_th">役割 (Roles Name)</th>
+                                <th class="company_th">会社名 (Company Name)</th>
                                 <th class="company_th">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td id="company_reg_frm_td">
-                                    <input type="text" value="" placeholder="新規役割をここに入力" id="company_name_edit">                                            
+                                    <input type="text" value="" placeholder="ここに新しい会社を入力してください" id="company_name_edit">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
                                     <a href="javascript:void(0);" class="" id="undo_company_edit_btn">取消(undo)</a>
@@ -173,86 +173,8 @@
 @section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/companies_ver02.js"></script>
+    
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-
-    <script type="text/javascript">
-
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-
-        $.connection.hub.start();
-
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-
-        $(document).ready(function () {
-         
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data,(index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-                    
-        });
-    </script>   
+    <script src="/Scripts/user_notifications.js"></script>  
 }

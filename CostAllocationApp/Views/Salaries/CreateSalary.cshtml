@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新しいグレードを登録する場合は、「新しいグレードをここに入力してください」テキストボックスに説明名を入力し、「保存」ボタンをクリックします。</label>
                     <table id="salary_add_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -86,13 +86,13 @@
                         <tbody>
                             <tr>
                                 <td id="salary_from_td">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_from">                                           
+                                    <input type="text" value="" placeholder="初期単価を入力してください" id="unit_price_from">                                           
                                 </td>
                                 <td id="salary_to_td">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_to">                                           
+                                    <input type="text" value="" placeholder="最高単価を入力してください" id="unit_price_to">                                           
                                 </td>
                                 <td id="salary_grade_point_td">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="grae_point">                                           
+                                    <input type="text" value="" placeholder="新しいグレードを入力してください" id="grae_point">                                           
                                 </td>
                                 <td id="salary_action_td">
                                     <a href="javascript:void(0);" class="" id="salary_undo_btn">取消(undo)</a>
@@ -122,7 +122,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新しいグレードを登録する場合は、「新しいグレードをここに入力してください」テキストボックスに説明名を入力し、「保存」ボタンをクリックします。</label>
                     <table id="salary_edit_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -136,13 +136,13 @@
                         <tbody>
                             <tr>
                                 <td id="salary_from_td_edit">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_from_edit">                                           
+                                    <input type="text" value="" placeholder="初期単価を入力してください" id="unit_price_from_edit">                                           
                                 </td>
                                 <td id="salary_to_td_edit">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="unit_price_to_edit">                                           
+                                    <input type="text" value="" placeholder="最高単価を入力してください" id="unit_price_to_edit">                                           
                                 </td>
                                 <td id="salary_grade_point_td_edit">
-                                    <input type="text" value="" placeholder="新規説明をここに入力" id="grae_point_edit">                                           
+                                    <input type="text" value="" placeholder="新しいグレードを入力してください" id="grae_point_edit">                                           
                                 </td>
                                 <td id="salary_action_td">
                                     <a href="javascript:void(0);" class="" id="salary_edit_undo_btn">取消(undo)</a>
@@ -188,84 +188,8 @@
 @section Scripts{
     <script src="/Scripts/common.js"></script> 
     <script src="/Scripts/salaries_ver02.js"></script>     
+   
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-
-    <script type="text/javascript">
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-        $.connection.hub.start();
-
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-
-        $(document).ready(function () {
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data,(index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-                    
-        });
-    </script>   
+    <script src="/Scripts/user_notifications.js"></script> 
 }

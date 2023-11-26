@@ -155,7 +155,7 @@ $(document).ready(function () {
         });
         if (jssInsertedData.length > 0) {
             for (var i = 0; i < jssInsertedData.length; i++) {
-                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].sectionId == 0 || jssInsertedData[i].departmentId == '' || jssInsertedData[i].departmentId == 0 ||jssInsertedData[i].companyId == '' ||jssInsertedData[i].companyId == 0 || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
                     storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
                 }
             }

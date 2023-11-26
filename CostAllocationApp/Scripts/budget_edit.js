@@ -170,7 +170,7 @@
 
         if (jssInsertedData.length > 0) {
             for (var i = 0; i < jssInsertedData.length; i++) {
-                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].departmentId == '' || jssInsertedData[i].companyId == '' || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].sectionId == 0 || jssInsertedData[i].departmentId == '' || jssInsertedData[i].departmentId == 0 || jssInsertedData[i].roleId == '' || jssInsertedData[i].roleId == 0 || jssInsertedData[i].companyId == '' || jssInsertedData[i].companyId == 0 || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
                     storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
                 }
             }
@@ -178,8 +178,15 @@
 
         if (jssUpdatedData.length > 0) {
             for (var i = 0; i < jssUpdatedData.length; i++) {
-                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
+                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].roleId == '' || jssUpdatedData[i].companyId == '' || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
                     storeMessage.push('invalid input for ' + jssUpdatedData[i].employeeName);
+                }
+            }
+        }
+        if (insertedOnChangeList.length > 0) {
+            for (var i = 0; i < insertedOnChangeList.length; i++) {
+                if (insertedOnChangeList[i].sectionId == '' || insertedOnChangeList[i].departmentId == '' || insertedOnChangeList[i].roleId == '' || insertedOnChangeList[i].roleId == 0 || insertedOnChangeList[i].companyId == '' || (insertedOnChangeList[i].unitPrice == 0 || isNaN(insertedOnChangeList[i].unitPrice))) {
+                    storeMessage.push('invalid input for ' + insertedOnChangeList[i].employeeName);
                 }
             }
         }
@@ -920,11 +927,13 @@
     //loader functions
     function LoaderShow() {   
         $("#jspreadsheet").hide();   
+        $("#export_budget").hide();   
         $("#loading").css("display", "block");
     }
 
     function LoaderHide() {    
         $("#jspreadsheet").show();  
+        $("#export_budget").show();   
         $("#loading").css("display", "none");
     }
 

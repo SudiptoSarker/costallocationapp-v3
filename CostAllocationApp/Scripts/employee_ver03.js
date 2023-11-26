@@ -1,6 +1,7 @@
 ﻿
 $(document).ready(function () {
     $(".add_master_btn").on("click",function(event){        
+        $("#employee_name_add").val('');
         $('#add_master_modal').modal('show');
     })
     $("#employee_add_undo").on("click",function(event){        

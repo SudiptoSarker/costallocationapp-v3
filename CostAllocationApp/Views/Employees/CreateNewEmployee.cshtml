@@ -15,7 +15,7 @@
             <div class="col-md-10">
                 <div class="table-responsive">
                     <label id="list_master">
-                        登録した会社を消去するには、チェックボックスにチェックを入れ、削除ボタンをクリックしてください。 
+                        登録した個人を削除する場合は、チェックボックスにチェックを入れて「削除」ボタンをクリックしてください。
                     </label>                  
                     <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead id="employeelist_thead">
@@ -76,19 +76,19 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新規担当者を登録する場合は、「新規担当者を入力してください」テキストボックスに担当者名を入力し、「保存」ボタンをクリックしてください。</label>
                     <table id="employee_add_table">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="employee_add_th">役割 (Roles Name)</th>
+                                <th class="employee_add_th">要員名 (Employee Name)</th>
                                 <th class="employee_add_th">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td id="employee_add_td">
-                                    <input type="text" value="" placeholder="新規役割をここに入力" id="employee_name_add">                                            
+                                    <input type="text" value="" placeholder="ここに新しい人材を入力してください" id="employee_name_add">                                            
                                 </td>
                                 <td id="employee_add_td">
                                     <a href="javascript:void(0);" class="" id="employee_add_undo">取消(undo)</a>
@@ -113,12 +113,12 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='edit_modal_header'>編集​ 氏名 (edit employee)</h3>
+                    <h3 id='edit_modal_header'>個人名を編集する (edit employee)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <label id='edit_modal_body_title'>新規登録する場合は、「新規役割をここに入力」テキストボックスに役割名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='edit_modal_body_title'>新規担当者を登録する場合は、「新規担当者を入力してください」テキストボックスに担当者名を入力し、「保存」ボタンをクリックしてください。 </label>
                     <table id="employee_edit_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -178,119 +178,8 @@
 
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/employee_ver03.js"></script>
+   
+   <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-
-    <script type="text/javascript">
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-
-        $.connection.hub.start();
-
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                if (message != $('#user_name').text()) {
-                    alert(name + message);
-                }
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-        $(document).ready(function () {
-            $(window).on("beforeunload", function () {
-                //alert("call");
-                console.log('fired');
-                var _keysCount = 0;
-                var currentHost = window.location.host;
-                _keys = Object.keys(localStorage);
-                for (var key = 0; key < _keys.length; key++) {
-                    if (localStorage.getItem(_keys[key]) == currentHost) {
-                        _keysCount++;
-                    }
-                }
-                if (_keysCount == 1) {
-                    var user_name = $('#hidden_username').val();
-                    if (user_name != null || user_name != undefined || user_name != '') {
-                        $.ajax({
-                            url: `/Registration/RemoveSession?userName=${user_name}`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            //dataType: 'json',
-                            success: function (data) {
-                            }
-                        });
-                    }
-                }
-                if (_keysCount > 1) {
-                    localStorage.removeItem(window.location.pathname);
-                }
-            });
-            var localStorageItem = localStorage.getItem(window.location.pathname);
-            if (localStorageItem == null || localStorageItem == '' || localStorageItem == undefined) {
-                localStorage.setItem(window.location.pathname, window.location.host);
-            }
-
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data, (index, value) => {
-
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-
-        });
-    </script>
+    <script src="/Scripts/user_notifications.js"></script> 
 }

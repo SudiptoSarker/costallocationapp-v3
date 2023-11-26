@@ -89,7 +89,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-header edit_user_header">
-                            <h3>Edit Users</h3>
+                            <h3>ユーザーの更新 (Edit Users)</h3>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -140,8 +140,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4"><label class="input_title">パスワー (Pass)</label></div>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="edit_user_pass" placeholder="パスワー (Password)">
+                                <div class="col-md-8">                                    
+                                    <input type="password" class="form-control" id="edit_user_pass" placeholder="パスワー (Pass)">
+                                    <span toggle="#edit_user_pass" class="fa fa-fw fa-eye field-icon toggle-password" id="show_password"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -166,7 +167,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modal_change_history_label">
-                            ユーザーの更新
+                            ユーザーの更新 (Edit Users)
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -195,7 +196,7 @@
                         <div class="row">
                             <div class="col-md-4"><label class="input_title">役割 (Role)</label></div>
                             <div class="col-md-8">
-                                <select id="user_role_list" name="user_role_list" style=""></select>
+                                <select id="user_role_list" name="user_role_list" style="" disabled></select>
                                 @* <select id="userRole" name="userRole" disabled></select> *@
                             </div>
                         </div> 
@@ -219,7 +220,7 @@
                         <div class="row">
                             <div class="col-md-4"><label class="input_title">状態 (Status)</label></div>
                             <div class="col-md-8">
-                                <select id="user_status_edit" style="">     
+                                <select id="user_status_edit" style="" disabled>      
                                     <option value=''>select status</option>                                                                           
                                     <option value='1'>有効(Active)</option>
                                     <option value='3'>承認待ち(waiting)</option>
@@ -236,9 +237,9 @@
 
                         <div class="row">
                             <div class="col-md-4"><label class="input_title">パスワー (Pass)</label></div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="edit_user_pass" placeholder="パスワー (Password)">
-                                @* <input type="text" id="userPass" minlength="" placeholder="パスワー (Password)" required> *@
+                            <div class="col-md-8">                                
+                                <input type="password" class="form-control" id="edit_user_pass" placeholder="パスワー (Pass)">
+                                <span toggle="#edit_user_pass" class="fa fa-fw fa-eye field-icon toggle-password" id="show_password"></span>
                             </div>
                         </div>
 

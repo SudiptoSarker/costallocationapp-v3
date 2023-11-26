@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {    
+﻿$(document).ready(function () {   
+    // $("#select_import_year, #replicate_from,#duplciateYear").datepicker({
+    //     format: "yyyy",
+    //     viewMode: "years",
+    //     minViewMode: "years"
+    // });
+
     $('.replicate_forecast_data').on('click', function () {
         ClearReplicateModal();
     });    
@@ -2998,6 +3004,11 @@ function GetAllFinalizeYear() {
 
 //auto select csv improt year and budget type when modal is open.
 function SelectImportBudgetYearAndType(){
+    
+
+
+
+
     $.ajax({
         url: `/api/utilities/GetImportYearAndBudgetType`,
         contentType: 'application/json',
@@ -3007,7 +3018,13 @@ function SelectImportBudgetYearAndType(){
         success: function (data) {
             //auto select the year
             $('#select_import_year').val(data.Year);
-
+            $("#select_import_year").datepicker({        
+                minViewMode: 2,
+                format: 'yyyy',
+                startDate: "'"+data.Year+"'",
+                endDate: "'"+data.Year+"'"
+            });
+    
             //auto select the budget type
             $('#select_budget_type').empty();
             $('#select_budget_type').append(`<option value="">select type</option>`);
@@ -3048,7 +3065,12 @@ function SelectDuplicateBudgetYearAndType(){
         success: function (data) {
             //auto select the year
             $('#duplciateYear').val(data.Year);
-
+            $("#duplciateYear").datepicker({        
+                minViewMode: 2,
+                format: 'yyyy',
+                startDate: "'"+data.Year+"'",
+                endDate: "'"+data.Year+"'"
+            });
             //auto select the budget type
             $('#select_duplicate_budget_type').empty();
             $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);

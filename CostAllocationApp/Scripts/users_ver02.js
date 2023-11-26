@@ -1,4 +1,15 @@
 ﻿$(document).ready(function () {    
+    //password validation
+    $(".toggle-password").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+    
     $('#user_role_list').select2();       
     $('#user_department_edit').select2();  
     $('#user_status_edit').select2();  

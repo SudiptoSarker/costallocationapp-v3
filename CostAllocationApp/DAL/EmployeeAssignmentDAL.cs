@@ -6457,6 +6457,50 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public int RemoveEmployeeProration(string prorationEmployeeId)
+        {
+            int result = 0;
+            string query = $@"DELETE FROM QaProportions WHERE Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", prorationEmployeeId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
+        public int DeleteApprotionment(string apportionmentId)
+        {
+            int result = 0;
+            string query = $@"DELETE FROM Apportionments WHERE Id=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", apportionmentId);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+
+        }
         public ForecastTotalManMonthCostsViewModal GetTotalManMonthAndCostForBudgetEdit(int year,int budgetType)
         {
             //List<ForecastTotalManMonthCostsViewModal> _forecastTotalManMonthCosts = new List<ForecastTotalManMonthCostsViewModal>();

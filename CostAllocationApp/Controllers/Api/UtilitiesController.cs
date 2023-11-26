@@ -10459,6 +10459,34 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        [HttpGet]
+        [Route("api/utilities/DeleteQAProrationEmployee/")]
+        public IHttpActionResult DeleteQAProrationEmployee(string qaProrationId)
+        {
+            if (!string.IsNullOrEmpty(qaProrationId))
+            {
+                employeeAssignmentBLL.RemoveEmployeeProration(qaProrationId);
+                return Ok("1");
+            }
+            else
+            {
+                return Ok("0");
+            }
+        }
+        [HttpGet]
+        [Route("api/utilities/DeleteApprotionment/")]
+        public IHttpActionResult DeleteApprotionment(string apportionmentId)
+        {
+            if (!string.IsNullOrEmpty(apportionmentId))
+            {
+                employeeAssignmentBLL.DeleteApprotionment(apportionmentId);
+                return Ok("1");
+            }
+            else
+            {
+                return Ok("0");
+            }
+        }
         [HttpPost]
         [Route("api/utilities/CreateDynamicTable/")]
         public IHttpActionResult CreateDynamicTable(DynamicTable dynamicTable)

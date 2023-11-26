@@ -171,8 +171,11 @@ $(document).ready(function () {
                     //GetUserList();
                     $('#register_modal').modal('hide');
                     $('#register_modal').on('hidden.bs.modal', function () {
+                        alert("Registration is completed.Please login.");
+                        window.location.href = "/Registration/Login";
+
                         // Load up a new modal...
-                        $('#registration_success').modal('show')
+                        //$('#registration_success').modal('show')
                     })
                 }
             },

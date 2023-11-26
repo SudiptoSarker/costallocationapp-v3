@@ -3051,6 +3051,14 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.RemoveBudgetAssignment(budgetAssignmentId);
         }
+        public int RemoveEmployeeProration(string prorationEmployeeId)
+        {
+            return employeeAssignmentDAL.RemoveEmployeeProration(prorationEmployeeId);
+        }
+        public int DeleteApprotionment(string apportionmentId)
+        {
+            return employeeAssignmentDAL.DeleteApprotionment(apportionmentId);
+        }
         public ForecastTotalManMonthCostsViewModal GetTotalManMonthAndCostForBudgetEdit(int year,int budgetType)
         {
             return employeeAssignmentDAL.GetTotalManMonthAndCostForBudgetEdit(year, budgetType);

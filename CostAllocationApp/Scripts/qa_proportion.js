@@ -29,7 +29,28 @@ function retrivedObject(rowData) {
         junPoint: parseFloat(rowData[11]),
         julPoint: parseFloat(rowData[12]),
         augPoint: parseFloat(rowData[13]),
-        sepPoint: parseFloat(rowData[14])
+        sepPoint: parseFloat(rowData[14]),
+        id: parseInt(rowData[15])
+    };
+}
+
+function retrivedObject_DepartmentWise(rowData) {
+    return {
+        dpartmentId: rowData[0],
+        departmentName: rowData[1],        
+        octPoint: parseFloat(rowData[2]),
+        novPoint: parseFloat(rowData[3]),
+        decPoint: parseFloat(rowData[4]),
+        janPoint: parseFloat(rowData[5]),
+        febPoint: parseFloat(rowData[6]),
+        marPoint: parseFloat(rowData[7]),
+        aprPoint: parseFloat(rowData[8]),
+        mayPoint: parseFloat(rowData[9]),
+        junPoint: parseFloat(rowData[10]),
+        julPoint: parseFloat(rowData[11]),
+        augPoint: parseFloat(rowData[12]),
+        sepPoint: parseFloat(rowData[13]),
+        id: parseInt(rowData[14])
     };
 }
 
@@ -180,7 +201,42 @@ function LoadJexcel() {
                         obj.setValueFromCoords(14, nextRow, 0, false);
                     }
                 });
+                items.push({
+                    title: 'delete',
+                    onclick: () => {
+                        
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        var qaProrationId = retrivedData.id;                                                                        
+                        var name = retrivedData.employeeName;
 
+                        if (parseInt(qaProrationId) > 0) {                       
+                        $.ajax({
+                                url: `/api/utilities/DeleteQAProrationEmployee`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: true,
+                                dataType: 'json',
+                                data: "qaProrationId=" + qaProrationId,
+                                success: function (data) {   
+                                    if(data==1){                      
+                                        jss.deleteRow(parseInt(y),1);                                    
+                                        alert("Operation Completed!");
+
+                                    }else{
+                                        alert("Operation Failed!");
+                                    }
+                                }
+                            });
+                        }else{
+                            jss.deleteRow(parseInt(y),1);  
+                            alert("Operation Completed!");            
+                            //alert(name +" has not been saved yet. You can not delete this employee!")  
+                        }   
+
+                        
+                    }
+                });
+                
                 return items;
             },
             onbeforechange: function (instance, cell, x, y, value) {
@@ -484,6 +540,48 @@ function LoadJexcel1() {
             { title: "9月 (QA ratio)", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
             { title: "Id", type: 'hidden', name: "Id" },
         ],
+
+        contextMenu: function (obj, x, y, e) {
+            var items = [];
+            var nextRow = parseInt(y) + 1;            
+            items.push({
+                title: 'delete',
+                onclick: () => {
+                    
+                    var retrivedData = retrivedObject_DepartmentWise(jss_1.getRowData(y));
+                    var apportionmentId = retrivedData.id;                                                                        
+                    var name = retrivedData.departmentName;
+
+                    if (parseInt(apportionmentId) > 0) {                       
+                    $.ajax({
+                            url: `/api/utilities/DeleteApprotionment`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: true,
+                            dataType: 'json',
+                            data: "apportionmentId=" + apportionmentId,
+                            success: function (data) {   
+                                if(data==1){                      
+                                    jss_1.deleteRow(parseInt(y),1);                                    
+                                    alert("Operation Completed!");
+
+                                }else{
+                                    alert("Operation Failed!");
+                                }
+                            }
+                        });
+                    }else{
+                        jss_1.deleteRow(parseInt(y),1);  
+                        alert("Operation Completed!");            
+                        //alert(name +" has not been saved yet. You can not delete this employee!")  
+                    }   
+
+                    
+                }
+            });
+            
+            return items;
+        },
     });
 }
 

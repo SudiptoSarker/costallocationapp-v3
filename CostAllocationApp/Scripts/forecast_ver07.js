@@ -1684,18 +1684,19 @@ function ShowForecastJexcel(){
                     }
 
                     if (x == jssTableDefinition.section.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
-                            retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert + '_' + x;
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
                             //updateArray(jssUpdatedData, retrivedData);
                             //retrivedObjectForOnChangeInsert.bcyrCell += retrivedObjectForOnChangeInsert + '_' + x;
-                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert,x);
+                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
@@ -1712,11 +1713,13 @@ function ShowForecastJexcel(){
                     }
 
                     if (x == jssTableDefinition.department.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -1737,11 +1740,13 @@ function ShowForecastJexcel(){
                     }
                     
                     if (x == jssTableDefinition.incharge.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -1762,11 +1767,13 @@ function ShowForecastJexcel(){
                     }
 
                     if (x == jssTableDefinition.role.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -1832,8 +1839,11 @@ function ShowForecastJexcel(){
                             jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
                         }
 
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -1854,7 +1864,7 @@ function ShowForecastJexcel(){
                     }
                     // for grade
                     if (x == jssTableDefinition.grade.index) {
-                        debugger;
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         var companyName = element[0].cells[9].innerText;
@@ -1879,6 +1889,7 @@ function ShowForecastJexcel(){
 
                         if (dataCheckForInsertOnChange.length == 0) {
                            //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -1902,11 +1913,13 @@ function ShowForecastJexcel(){
                     // for unit price
                     if (x == jssTableDefinition.unitPrice.index) {
                         debugger;
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
@@ -4377,7 +4390,7 @@ function updateArrayForInsertOnChange(array, retrivedData) {
     array[index].duplicateCount = retrivedData.duplicateCount;
     array[index].roleChanged = retrivedData.roleChanged;
     array[index].unitPriceChanged = retrivedData.unitPriceChanged;
-    array[index].bcyrCell += ',' + retrivedData.bcyrCell;
+    array[index].bcyrCell = array[index].bcyrCell+',' + retrivedData.bcyrCell;
 }
 
 function retrivedObject(rowData) {
@@ -4425,7 +4438,7 @@ function retrivedObject(rowData) {
     };
 }
 
-function retrivedObjectForInsertOnChange(rowData,x) {
+function retrivedObjectForInsertOnChange(rowData) {
 
     var allData = jss.getData();
     var _unitPriceChanged = 0;
@@ -4465,7 +4478,7 @@ function retrivedObjectForInsertOnChange(rowData,x) {
         }
     }
 
-    var bcyrCellVal = rowData[jssTableDefinition.assignmentId.index] + '_' + x;
+    //var bcyrCellVal = rowData[jssTableDefinition.assignmentId.index] + '_' + x;
     //var newEmployeeId = rowData[jssTableDefinition.employeeId.index];
     //if (_roleChanged > 0) {
     //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
@@ -4491,22 +4504,22 @@ function retrivedObjectForInsertOnChange(rowData,x) {
         companyId: rowData[jssTableDefinition.company.index],
         gradeId: rowData[jssTableDefinition.grade.index],
         unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
-        octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
-        novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
-        decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
-        janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
-        febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
-        marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
-        aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
-        mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
-        junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
-        julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
-        augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
-        sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
+        octPoint: 0,
+        novPoint: 0,
+        decPoint: 0,
+        janPoint: 0,
+        febPoint: 0,
+        marPoint: 0,
+        aprPoint: 0,
+        mayPoint: 0,
+        junPoint: 0,
+        julPoint: 0,
+        augPoint: 0,
+        sepPoint: 0,
         year: document.getElementById('assignment_year_list').value,
 
         bcyr: false,
-        bCYRCell: bcyrCellVal,
+        bCYRCell: '',
         isActive: rowData[jssTableDefinition.isActive.index],
         bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
         bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],

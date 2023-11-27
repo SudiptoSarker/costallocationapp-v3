@@ -1770,7 +1770,8 @@
                                 cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                             }
 
-                            if (x == jssTableDefinition.section.index) {                                
+                            if (x == jssTableDefinition.section.index) {  
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1782,7 +1783,8 @@
                                 //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }                    
 
-                            if (x == jssTableDefinition.department.index) {                                  
+                            if (x == jssTableDefinition.department.index) { 
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     
                                     //jssUpdatedData.push(retrivedData);
@@ -1796,6 +1798,7 @@
                             }
                             
                             if (x == jssTableDefinition.incharge.index) {
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1807,7 +1810,8 @@
                                 //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }
 
-                            if (x == jssTableDefinition.role.index) {                        
+                            if (x == jssTableDefinition.role.index) {  
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1831,7 +1835,8 @@
                                 cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }
 
-                            if (x == jssTableDefinition.company.index) {                    
+                            if (x == jssTableDefinition.company.index) {    
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 var rowNumber = parseInt(y) + 1;
                                 if (parseInt(value) !== 3) {
                                     var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -1853,7 +1858,8 @@
                                 //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                             }
 
-                            if (x == jssTableDefinition.grade.index) {                        
+                            if (x == jssTableDefinition.grade.index) {    
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1865,7 +1871,8 @@
                                 //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }
 
-                            if (x == jssTableDefinition.unitPrice.index) {                        
+                            if (x == jssTableDefinition.unitPrice.index) {   
+                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -2731,6 +2738,7 @@
         array[index].duplicateCount = retrivedData.duplicateCount;
         array[index].roleChanged = retrivedData.roleChanged;
         array[index].unitPriceChanged = retrivedData.unitPriceChanged;
+        array[index].bcyrCell = array[index].bcyrCell + ',' + retrivedData.bcyrCell;
     }
 
     function retrivedObjectForInsertOnChange(rowData) {
@@ -2786,22 +2794,22 @@
             companyId: rowData[jssTableDefinition.company.index],
             gradeId: rowData[jssTableDefinition.grade.index],
             unitPrice: parseFloat(rowData[jssTableDefinition.unitPrice.index]),
-            octPoint: parseFloat(rowData[jssTableDefinition.octM.index]),
-            novPoint: parseFloat(rowData[jssTableDefinition.novM.index]),
-            decPoint: parseFloat(rowData[jssTableDefinition.decM.index]),
-            janPoint: parseFloat(rowData[jssTableDefinition.janM.index]),
-            febPoint: parseFloat(rowData[jssTableDefinition.febM.index]),
-            marPoint: parseFloat(rowData[jssTableDefinition.marM.index]),
-            aprPoint: parseFloat(rowData[jssTableDefinition.aprM.index]),
-            mayPoint: parseFloat(rowData[jssTableDefinition.mayM.index]),
-            junPoint: parseFloat(rowData[jssTableDefinition.junM.index]),
-            julPoint: parseFloat(rowData[jssTableDefinition.julM.index]),
-            augPoint: parseFloat(rowData[jssTableDefinition.augM.index]),
-            sepPoint: parseFloat(rowData[jssTableDefinition.sepM.index]),
+            octPoint: 0,
+            novPoint: 0,
+            decPoint: 0,
+            janPoint: 0,
+            febPoint: 0,
+            marPoint: 0,
+            aprPoint: 0,
+            mayPoint: 0,
+            junPoint: 0,
+            julPoint: 0,
+            augPoint: 0,
+            sepPoint: 0,
             year: document.getElementById('selected_budget_year').value,
 
-            bcyr: rowData[jssTableDefinition.bcyr.index],
-            bCYRCell: rowData[jssTableDefinition.bcyrCell.index],
+            bcyr: false,
+            bCYRCell: '',
             isActive: rowData[jssTableDefinition.isActive.index],
             bCYRApproved: rowData[jssTableDefinition.bcyrApproved.index],
             bCYRCellApproved: rowData[jssTableDefinition.bcyrCellApproved.index],

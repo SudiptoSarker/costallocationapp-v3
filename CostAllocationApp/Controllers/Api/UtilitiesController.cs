@@ -7333,6 +7333,76 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyDto.SecondSlot.Add(secondSlot);
 
             }
+            else
+            {
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+
+
+
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+
+
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+
+
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+
+
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+
+
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+
+
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+
+
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+            }
 
 
 
@@ -7461,6 +7531,76 @@ namespace CostAllocationApp.Controllers.Api
                     sukeyDto.SecondSlot.Add(0);
                     sukeyDto.SecondSlot.Add(secondSlot);
                 }
+            else
+            {
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+                sukeyDto.OctCost.Add(0);
+
+
+
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+                sukeyDto.NovCost.Add(0);
+
+
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+                sukeyDto.DecCost.Add(0);
+
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+                sukeyDto.JanCost.Add(0);
+
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+                sukeyDto.FebCost.Add(0);
+
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+                sukeyDto.MarCost.Add(0);
+
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+                sukeyDto.AprCost.Add(0);
+
+
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+                sukeyDto.MayCost.Add(0);
+
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+                sukeyDto.JunCost.Add(0);
+
+
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+                sukeyDto.JulCost.Add(0);
+
+
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+                sukeyDto.AugCost.Add(0);
+
+
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+                sukeyDto.SepCost.Add(0);
+
+
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+                sukeyDto.RowTotal.Add(0);
+
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+                sukeyDto.FirstSlot.Add(0);
+
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+                sukeyDto.SecondSlot.Add(0);
+            }
 
 
 

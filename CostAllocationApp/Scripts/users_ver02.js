@@ -123,31 +123,37 @@
             userId = userId.trim();
         }        
         if (userName == '' || userName == null || userName == undefined){
-            alert("please enter user name")
+            alert("利用者名を入力してください")
             return false;
         }else{
             userName = userName.trim();
         }
         if (userTitle == '' || userTitle == null || userTitle == undefined){
-            alert("please enter title");
+            alert("利用者の役職を入力してください");
             return false;
         }else{
             userTitle = userTitle.trim();
         }
+        if (departmentId == '' || departmentId == null || departmentId == undefined){
+            alert("利用者の部署名を選択してください");
+            return false;
+        }else{
+            departmentId = departmentId.trim();
+        }
         if (userPass == '' || userPass == null || userPass == undefined){
-            alert("please enter user password");
+            alert("利用者のパスワードを入力してください");
             return false;
         }else{
             userPass = userPass.trim();
         }
         if (userRoleId == '' || userRoleId == null || userRoleId == undefined || userRoleId == "-1"){
-            alert("please select user role");
+            alert("利用者の役割を選択してください");
             return false;
         }else{
             userRoleId = userRoleId.trim();
         }
         if (userStatus == '' || userStatus == null || userStatus == undefined || userStatus == "-1"){
-            alert("please select user status");
+            alert("利用者のステータスを選択してください");
             return false;
         }else{
             userStatus = userStatus.trim();
@@ -204,7 +210,7 @@
                 location.reload();
             },
             error: function (data) {
-                alert(data.responseJSON.Message);
+                alert("失敗した");
             }
         });
     });   
@@ -651,19 +657,19 @@ function CreateUserName() {
     let userRoleId = $("#userRole").val().trim();
 
     if (userName == "") {
-        alert("please enter user name")
+        alert("利用者名を入力してください")
         return false;
     }
     if (userTitle == "") {
-        alert("please enter title")
+        alert("利用者の役職を入力してください")
         return false;
     }
     if (userPass == "") {
-        alert("please enter user password")
+        alert("利用者のパスワードを入力してください")
         return false;
     }
     if (userRoleId == "") {
-        alert("please select user role")
+        alert("利用者の役割を選択してください")
         return false;
     }
 

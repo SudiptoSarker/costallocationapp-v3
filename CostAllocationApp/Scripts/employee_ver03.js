@@ -14,7 +14,7 @@ $(document).ready(function () {
         var roleName = $("#employee_name_add").val();           
 
         if (roleName == '' || roleName == null || roleName == undefined){
-            alert("please enter role name!");
+            alert("要員名を入力してください");
             return false;
         }
         else{            
@@ -28,7 +28,7 @@ $(document).ready(function () {
         var roleId= $("#employee_id_for_edit").val();   
 
         if (roleName == '' || roleName == null || roleName == undefined){
-            alert("please enter role name!");
+            alert("要員名を入力してください");
             return false;
         }
         else{            
@@ -78,7 +78,7 @@ $(document).ready(function () {
         var id  = checkedVals.join(",");
         
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("要員名が選択されていません");
             return false;
         }else{
             $('#delete_master_modal').modal('show');
@@ -122,11 +122,11 @@ $(document).ready(function () {
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("要員名が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);

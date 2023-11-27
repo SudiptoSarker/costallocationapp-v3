@@ -22,15 +22,15 @@
         let gradePoints = $("#grae_point").val().trim();        
        
         if (lowUnitPrice == "" || lowUnitPrice == null || lowUnitPrice == undefined) {
-            alert("please enter initial unit!");
+            alert("下限の単価を入力してください");
             return false;
         }
         else if (highUnitPrice == "" || highUnitPrice == null || highUnitPrice == undefined) {
-            alert("please enter target unit!");
+            alert("上限の単価を入力してください");
             return false;
         }
         else if (gradePoints == "" || gradePoints == null || gradePoints == undefined) {
-            alert("please enter grade point!");
+            alert("グレード値を入力してください");
             return false;
         }
         UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,0,false);
@@ -44,15 +44,15 @@
         let gradeId = $("#gradeId_edit").val().trim();
 
         if (lowUnitPrice == "" || lowUnitPrice == null || lowUnitPrice == undefined) {
-            alert("please enter initial unit!");
+            alert("下限の単価を入力してください");
             return false;
         }
         else if (highUnitPrice == "" || highUnitPrice == null || highUnitPrice == undefined) {
-            alert("please enter target unit!");
+            alert("上限の単価を入力してください");
             return false;
         }
         else if (gradePoints == "" || gradePoints == null || gradePoints == undefined) {
-            alert("please enter grade point!");
+            alert("グレード値を入力してください");
             return false;
         }
         UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,gradeId,true);       
@@ -64,11 +64,11 @@
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("グレードが選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);
@@ -118,7 +118,7 @@
 
         let id = GetCheckedIds("salary_list_tbody");
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("グレードが選択されていません");
             return false;
         }else{
             onSalaryInactiveClick();

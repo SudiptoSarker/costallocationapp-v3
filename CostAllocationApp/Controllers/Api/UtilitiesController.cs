@@ -1,17 +1,12 @@
-﻿using System;
+﻿using CostAllocationApp.BLL;
+using CostAllocationApp.Dtos;
+using CostAllocationApp.Models;
+using CostAllocationApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using CostAllocationApp.Models;
-using CostAllocationApp.BLL;
-using CostAllocationApp.ViewModels;
-using CostAllocationApp.Dtos;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Drawing;
 
 namespace CostAllocationApp.Controllers.Api
 {

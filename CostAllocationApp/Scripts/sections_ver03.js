@@ -51,7 +51,7 @@
     $('.delete_sec_btn').on('click', function (event) {
         let id = GetCheckedIds("section_list_tbody");
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("区分が選択されていません");
             return false;
         }
         else{
@@ -64,7 +64,7 @@
     $("#sec_add_btn").on("click",function(event){
         let sectionName = $("#section-name").val().trim();        
         if (sectionName == "") {
-            alert("please enter section!");
+            alert("区分名を入力してください");
             return false;
         }
 
@@ -77,7 +77,7 @@
         var sectionId= $("#edit_section_id").val();   
 
         if (sectionName == '' || sectionName == null || sectionName == undefined){
-            alert("please enter section name!");
+            alert("区分名を入力してください");
             return false;
         }
         else{
@@ -172,11 +172,11 @@
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("区分が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheSectionEditModal(arrIds[0]);

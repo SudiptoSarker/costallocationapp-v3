@@ -934,7 +934,7 @@ namespace CostAllocationApp.Controllers
                         {
                             ModelState.AddModelError("File", "This file format is not supported");
                             ViewBag.ErrorCount = 1;
-                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Failed to import!</span>";
+                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>インポートに失敗しました!</span>";
                             return View();
                         }
                         DataRow row;
@@ -1418,7 +1418,7 @@ namespace CostAllocationApp.Controllers
                         {
                             ModelState.AddModelError("File", ex);
                             ViewBag.ErrorCount = 1;
-                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Failed to import!</span>";
+                            ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>インポートに失敗しました</span>";
                             return View();
                         }
 
@@ -1429,7 +1429,7 @@ namespace CostAllocationApp.Controllers
                         //DataTable tmp = result.Tables[0];
                         //Session["tmpdata"] = tmp;  //store datatable into session
                         TempData["seccess"] = "Data imported successfully";
-                        ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました " + selected_year + ".</span>";
+                        ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました </span>";
                         return View();
                     }
                     else
@@ -1442,11 +1442,11 @@ namespace CostAllocationApp.Controllers
 
             if (isThisYearBudgetExists)
             {
-                ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + selected_year + ".Please chooose another year to import data..</span>";
+                ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>選択した予算時期は既に登録済みです。他の予算時期を選択し、再度インポートしてください</span>";
             }
             else
             {
-                ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました " + selected_year + ".</span>";
+                ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました </span>";
             }
             return View();
         }

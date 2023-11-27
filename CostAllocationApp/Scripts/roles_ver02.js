@@ -20,7 +20,7 @@
     $("#roles_reg_save_btn").on("click",function(event){       
         let role_name = $("#role_name").val().trim();        
         if (role_name == "") {
-            alert("please enter role!");
+            alert("役割を入力してください");
             return false;
         }
 
@@ -34,11 +34,11 @@
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("役割が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);
@@ -54,7 +54,7 @@
         var roleId= $("#edit_role_id").val();   
 
         if (roleName == '' || roleName == null || roleName == undefined){
-            alert("please enter role name!");
+            alert("役割を入力してください");
             return false;
         }
         else{
@@ -111,7 +111,7 @@
 
         let id = GetCheckedIds("role_list_tbody");
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("役割が選択されていません");
             return false;
         }else{
             RoleWithAssignment();

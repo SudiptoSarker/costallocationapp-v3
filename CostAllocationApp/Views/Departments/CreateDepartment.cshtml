@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "部門登録 (Department Registration)";
+    ViewBag.Title = "部署の登録、編集、削除 (Department Registration)";
 }
 
 @section Styles {
@@ -15,7 +15,9 @@
             <div class="col-md-10">
                 <div class="table-responsive">
                     <label id="list_master">
-                        登録した部署を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。
+                        登録した部署を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。編集する場合は、
+                        <br>
+                        １つのチェックボックスを選択し、選択ボタンをクリックしてください。追加する場合は、追加ボタンをクリックしてください。
                     </label>
                     <table id="dept_list_tbl">
                         <thead>
@@ -120,7 +122,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label class='add_edit_modal_title'>登録したカテゴリを編集するには、「ここに新しいカテゴリを入力してください」テキストボックスでカテゴリ名を変更し、編集ボタンをクリックします。</label>
+                    <label class='add_edit_modal_title'>登録した部署名を編集するには、編集するテキストボックスを選択し、変更する部署名を記載し、区分を選択し、更新ボタンをクリックします。</label>
                     <table class="add_edit_dept_tbl">
                         <thead style="border: none;">
                             <tr></tr>

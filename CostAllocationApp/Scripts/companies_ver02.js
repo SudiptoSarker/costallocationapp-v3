@@ -33,7 +33,7 @@ $(document).ready(function () {
     $("#company_reg_save_btn").on("click",function(event){       
         let company_name = $("#company_name").val().trim();        
         if (company_name == "") {
-            alert("please enter company!");
+            alert("会社名を入力してください");
             return false;
         }
 
@@ -46,11 +46,11 @@ $(document).ready(function () {
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("会社名が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);
@@ -80,7 +80,7 @@ $(document).ready(function () {
         var roleId= $("#edit_role_id").val();   
 
         if (roleName == '' || roleName == null || roleName == undefined){
-            alert("please enter role name!");
+            alert("会社名を入力してください");
             return false;
         }
         else{            
@@ -155,7 +155,7 @@ $(document).ready(function () {
     $('.delete_master_btn').on('click', function (event) {
         let id = GetCheckedIds("company_list_tbody");
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("会社名が選択されていません");
             return false;
         }else{
             onCompanyInactiveClick();

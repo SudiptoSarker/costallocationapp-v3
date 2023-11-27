@@ -34,7 +34,7 @@ $(document).ready(function () {
     $("#exp_reg_save_btn").on("click",function(event){       
         let explanation_name = $("#explanation_name").val().trim();        
         if (explanation_name == "") {
-            alert("please enter explanation name!");
+            alert("説明文を入力してください");
             return false;
         }
 
@@ -48,11 +48,11 @@ $(document).ready(function () {
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("説明文が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);
@@ -82,7 +82,7 @@ $(document).ready(function () {
         var explanation_id= $("#hid_explanation_id").val();   
 
         if (explanation_name == '' || explanation_name == null || explanation_name == undefined){
-            alert("please enter explanation name!");
+            alert("説明文を入力してください");
             return false;
         }
         else{
@@ -122,7 +122,7 @@ $(document).ready(function () {
     $('.delete_role_btn').on('click', function (event) {
         let id = GetCheckedIds("explanations_list_tbody");        
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("説明文が選択されていません");
             return false;
         }else{
             onExplanationInactiveClick();

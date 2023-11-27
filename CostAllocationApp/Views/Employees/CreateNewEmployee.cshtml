@@ -23,7 +23,7 @@
                                 <th colspan="6">要員名リスト</th>
                             </tr>
                             <tr>
-                                <th class="employee_list_theader">選択</th>
+                                <th class="employee_list_theader">複数選択</th>
                                 <th class="employee_list_theader">ＩＤ</th>
                                 <th class="employee_list_theader">要員名</th>
                             </tr>
@@ -71,7 +71,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加 氏名 (add employee)</h3>
+                    <h3 id='add_modal_header'>要員の追加 (add employee)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -88,7 +88,7 @@
                         <tbody>
                             <tr>
                                 <td id="employee_add_td">
-                                    <input type="text" value="" placeholder="ここに新しい人材を入力してください" id="employee_name_add">                                            
+                                    <input type="text" value="" placeholder="ここに新しい要員名を入力してください" id="employee_name_add">                                            
                                 </td>
                                 <td id="employee_add_td">
                                     <a href="javascript:void(0);" class="" id="employee_add_undo">取消(undo)</a>
@@ -113,12 +113,12 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='edit_modal_header'>個人名を編集する (edit employee)</h3>
+                    <h3 id='edit_modal_header'>要員の編集 (edit employee)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <label id='edit_modal_body_title'>新規担当者を登録する場合は、「新規担当者を入力してください」テキストボックスに担当者名を入力し、「保存」ボタンをクリックしてください。 </label>
+                    <label id='edit_modal_body_title'>登録した要員を編集する場合は、編集するテキストボックスに要員名を入力し、「保存」ボタンをクリックしてください。 </label>
                     <table id="employee_edit_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -130,7 +130,7 @@
                         <tbody>
                             <tr>
                                 <td id="employee_edti_td">
-                                    <input type="text" value="" placeholder="新規役割をここに入力" id="employee_name_edit">                                            
+                                    <input type="text" value="" placeholder="ここに新しい要員名を入力してください" id="employee_name_edit">                                            
                                 </td>
                                 <td id="employee_edti_td">
                                     <a href="javascript:void(0);" class="" id="employee_edit_undo">取消(undo)</a>

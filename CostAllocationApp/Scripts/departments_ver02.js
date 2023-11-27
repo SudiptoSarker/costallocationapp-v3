@@ -20,11 +20,11 @@
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("部署が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集したい部門にチェックを入れます");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheDepartmentEditModal(arrIds[0]);
@@ -94,11 +94,11 @@
         let departmentName = $("#department_name").val().trim();
         let sectionId = $("#sec_list_for_dept_add").val().trim();
         if (departmentName == "") {
-            alert("please enter department!");
+            alert("部署名を入力してください");
             return false;
         }
         if (sectionId == "" || sectionId < 0){
-            alert("please select section!");
+            alert("区分を選択してください");
             return false;
         }
         departmentId = 0;
@@ -110,11 +110,11 @@
         let departmentName = $("#department_name_edit").val().trim();
         let sectionId = $("#sec_list_for_dept_edit").val().trim();
         if (departmentName == "") {
-            alert("please enter department!");
+            alert("部署名を入力してください");
             return false;
         }
         if (sectionId == "" || sectionId < 0){
-            alert("please select section!");
+            alert("区分を選択してください");
             return false;
         }        
         departmentId = $("#department_id_for_edit_modal").val();
@@ -166,7 +166,7 @@
 
         let id = GetCheckedIds("department_list_tbody");               
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("部署が選択されていません");
             return false;
         }
         else{

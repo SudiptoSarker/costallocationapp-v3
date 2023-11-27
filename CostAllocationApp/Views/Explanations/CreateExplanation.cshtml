@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "説明登録 (Explanation Registration)";
+    ViewBag.Title = "説明の登録、編集、削除 (Explanation Registration)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -23,7 +23,7 @@
                             </tr>
                             <tr>
                                 <th class="exp_list_theader explanation_th" >複数選択</th>
-                                <th class="exp_list_theader explanation_th">説明 (Explanation Name)</th>
+                                <th class="exp_list_theader explanation_th">説明 (Explanation)</th>
                             </tr>
                         </thead>
                         <tbody id="explanations_list_tbody"></tbody>
@@ -70,12 +70,12 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。</label>
                     <table id="exp_reg_tbl">
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="explanation_th">説明 (Explanation Name)</th>
+                                <th class="explanation_th">説明 (Explanation)</th>
                                 <th class="explanation_th">操作</th>
                             </tr>
                         </thead>
@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規登録する場合は、「新規説明をここに入力」テキストボックスに説明名を記載し、保存ボタンをクリックしてください。 </label>
+                    <label id='add_modal_body_title'>登録した役割を編集する場合は、編集するテキストボックスを選択し、変更する役割名を記載し、更新ボタンをクリックしてください</label>
                     <table id="exp_reg_tbl">
                         <thead style="border:none;">
                             <tr></tr>

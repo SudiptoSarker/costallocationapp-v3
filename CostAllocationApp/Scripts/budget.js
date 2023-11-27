@@ -235,19 +235,19 @@
         var approve_timestamp  = $('#approval_timestamps').val();
     
         if (fromDate == null || fromDate == undefined || fromDate == "") {
-            alert("Please select from date!")
+            alert("策定する予算のベースとなる年度を選択してください")
             return false;
         } 
         if (approve_timestamp == null || approve_timestamp == undefined || approve_timestamp == "") {
-            alert("Please select timestamp!")
+            alert("策定する予算のベースとなる承認履歴を選択してください")
             return false;
         }
         if (toDate == null || toDate == undefined || toDate == "") {
-            alert("Please select to date!")
+            alert("策定する予算年度を選択してください")
             return false;
         }
         if (budgetType == null || budgetType == undefined || budgetType == "") {
-            alert("Please select to budget type!")
+            alert("策定する予算時期を選択してください")
             return false;
         }
         
@@ -263,13 +263,13 @@
                 data: "copyYear=" + fromDate+"&insertYear="+toDate+"&budgetType="+budgetType+"&approve_timestamp="+approve_timestamp,
                 success: function (data) {                       
                     if(parseInt(data)==5){
-                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>Data has already imported to " + toDate + ".Please chooose another year to import data..</span>");                        
+                        $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>選択した予算時期は既に登録済みです。他の予算時期を選択し、再度インポートしてください</span>");                        
                     }
                     else if(parseInt(data)==6){
                         $("#validation_message").html("<span id='validation_message_failed' style='margin-left: 28px;'>"+fromDate+" has no data to copy!</span>");                        
                     }
                     else{
-                        $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>Data has successfully replicated to "+toDate+".</span>");                        
+                        $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>予算データは正常に作成されました</span>");                        
                         // if(parseInt(data)>0){
                         //     $("#validation_message").html("<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました "+toDate+".</span>");                        
                         // }else{
@@ -3166,11 +3166,11 @@ function validate(){
         alert("年度を選択してください!");
         return false;
     }else if(budgetType =="" || typeof budgetType === "undefined"){
-        alert("please select budget type!");
+        alert("予算の時期を選択してください");
         return false;
     }
     else if(import_file =="" || typeof import_file === "undefined"){
-        alert("please select import file!");
+        alert("インポートするファイルを選択してください");
         return false;
     }
     else { 

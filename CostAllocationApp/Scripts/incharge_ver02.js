@@ -22,7 +22,7 @@
     $("#incharge_reg_save_btn").on("click",function(event){         
         let inchargeName = $("#in_charge_name").val().trim();        
         if (inchargeName == "") {
-            alert("please enter incharge!");
+            alert("担当名を入力してください");
             return false;
         }
 
@@ -36,11 +36,11 @@
         var tempLength  =arrIds.length;
 
         if (id == '' || id == null || id == undefined){
-            alert("ファイルが削除されたことを確認してください");
+            alert("担当が選択されていません");
             return false;
         }
         else if(parseInt(tempLength)>2){
-            alert("編集するセクションにチェックを入れてください");
+            alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
             FillTheEditModal(arrIds[0]);
@@ -97,7 +97,7 @@
 
         let id = GetCheckedIds("incharge_list_tbody");
         if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
+            alert("担当が選択されていません ");
             return false;
         } 
         else{
@@ -180,7 +180,7 @@
         var incharegeId= $("#edit_incharge_id").val();   
 
         if (inchargeName == '' || inchargeName == null || inchargeName == undefined){
-            alert("please enter incharge name!");
+            alert("担当名を入力してください");
             return false;
         }
         else{

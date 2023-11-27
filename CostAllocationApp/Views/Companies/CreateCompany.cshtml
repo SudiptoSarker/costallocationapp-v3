@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "会社登録 (Company Registration)";
+    ViewBag.Title = "会社の登録、編集、削除 (Company Registration)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -83,7 +83,7 @@
                         <tbody>
                             <tr>
                                 <td id="company_reg_frm_td">
-                                    <input type="text" value="" placeholder="ここに新しい会社を入力してください" id="company_name">                                            
+                                    <input type="text" value="" placeholder="ここに新しい会社名を入力してください" id="company_name">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
                                     <a href="javascript:void(0);" class="" id="undo_company_add_btn">取消(undo)</a>
@@ -114,7 +114,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新しい会社を登録する場合は、「新しい会社をここに入力してください」テキストボックスに会社名を入力し、「保存」ボタンをクリックします。 </label>
+                    <label id='add_modal_body_title'>登録した会社名を編集する場合は、編集するテキストボックスを選択し、変更する会社名を記載し、更新ボタンをクリックしてください  </label>
                     <table id="company_reg_tbl">
                         <thead style="border:none;">
                             <tr></tr>
@@ -126,7 +126,7 @@
                         <tbody>
                             <tr>
                                 <td id="company_reg_frm_td">
-                                    <input type="text" value="" placeholder="ここに新しい会社を入力してください" id="company_name_edit">                                            
+                                    <input type="text" value="" placeholder="ここに新しい会社名を入力してください" id="company_name_edit">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
                                     <a href="javascript:void(0);" class="" id="undo_company_edit_btn">取消(undo)</a>

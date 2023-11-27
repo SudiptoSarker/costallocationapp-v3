@@ -693,17 +693,18 @@ function ShowTables(){
 $(document).ready(function () {
     HideTables();
 
-    $('#employee_wise_save_button').on('click', () => {
-       
+    $('#employee_wise_save_button').on('click', () => {                
         let duplicateEmployeeId = '';
         let duplicateEmployeeName = '';
 
         let flag = true;
         let flag1 = true;
         if (jss != undefined) {
+            $("#employee_wise_save_button").attr("disabled", true);
             $.each(jss.getData(), (index, itemValue) => {
                 if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
                     alert('invalid department!');
+                    $("#employee_wise_save_button").attr("disabled", false);
                     flag = false;
                     return false;
                 }
@@ -731,6 +732,7 @@ $(document).ready(function () {
                         
                         departmentIds = [];
                         duplicateEmployeeId = uniqueEmployeeIds[i];
+                        $("#employee_wise_save_button").attr("disabled", false);
                         flag1 = false;
                         break;
                     }
@@ -750,21 +752,7 @@ $(document).ready(function () {
                         var sep_sum = 0;
 
                         $.each(jss.getData(), (index1, itemValue1) => {
-                            //if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
-                            //    oct_sum += parseFloat(itemValue1[3]);
-                            //    nov_sum += parseFloat(itemValue1[4]);
-                            //    dec_sum += parseFloat(itemValue1[5]);
-                            //    jan_sum += parseFloat(itemValue1[6]);
-                            //    feb_sum += parseFloat(itemValue1[7]);
-                            //    mar_sum += parseFloat(itemValue1[8]);
-                            //    apr_sum += parseFloat(itemValue1[9]);
-                            //    may_sum += parseFloat(itemValue1[10]);
-                            //    jun_sum += parseFloat(itemValue1[11]);
-                            //    jul_sum += parseFloat(itemValue1[12]);
-                            //    aug_sum += parseFloat(itemValue1[13]);
-                            //    sep_sum += parseFloat(itemValue1[14]);
-                            //}
-
+                            if (uniqueEmployeeIds[i].toString() == itemValue1[0].toString()) {
                                 oct_sum += parseFloat(itemValue1[3]);
                                 nov_sum += parseFloat(itemValue1[4]);
                                 dec_sum += parseFloat(itemValue1[5]);
@@ -777,55 +765,81 @@ $(document).ready(function () {
                                 jul_sum += parseFloat(itemValue1[12]);
                                 aug_sum += parseFloat(itemValue1[13]);
                                 sep_sum += parseFloat(itemValue1[14]);
+                            }
+
+                                // oct_sum += parseFloat(itemValue1[3]);
+                                // nov_sum += parseFloat(itemValue1[4]);
+                                // dec_sum += parseFloat(itemValue1[5]);
+                                // jan_sum += parseFloat(itemValue1[6]);
+                                // feb_sum += parseFloat(itemValue1[7]);
+                                // mar_sum += parseFloat(itemValue1[8]);
+                                // apr_sum += parseFloat(itemValue1[9]);
+                                // may_sum += parseFloat(itemValue1[10]);
+                                // jun_sum += parseFloat(itemValue1[11]);
+                                // jul_sum += parseFloat(itemValue1[12]);
+                                // aug_sum += parseFloat(itemValue1[13]);
+                                // sep_sum += parseFloat(itemValue1[14]);
 
                         }); // end of each...
                         
-                        if (oct_sum < 0 || oct_sum > 100) {
+                        if (oct_sum !=100) {
                             alert('Invalid Month (Oct) Value ' + oct_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (nov_sum < 0 || nov_sum > 100) {
+                        if (nov_sum !=100) {
                             alert('Invalid Month (Nov) Value ' + nov_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (dec_sum < 0 || dec_sum > 100) {
+                        if (dec_sum !=100) {
                             alert('Invalid Month (Dec) Value ' + dec_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (jan_sum < 0 || jan_sum > 100) {
+                        if (jan_sum !=100) {
                             alert('Invalid Month (Jan) Value ' + jan_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (feb_sum < 0 || feb_sum > 100) {
+                        if (feb_sum !=100) {
                             alert('Invalid Month (Feb) Value ' + feb_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (mar_sum < 0 || feb_sum > 100) {
+                        if (mar_sum !=100) {
                             alert('Invalid Month (Mar) Value ' + mar_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (apr_sum < 0 || apr_sum > 100) {
+                        if (apr_sum !=100) {
                             alert('Invalid Month (Apr) Value ' + apr_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (may_sum < 0 || may_sum > 100) {
+                        if (may_sum !=100) {
                             alert('Invalid Month (May) Value ' + may_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (jun_sum < 0 || jun_sum > 100) {
+                        if (jun_sum !=100) {
                             alert('Invalid Month (Jun) Value ' + jun_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (jul_sum < 0 || jul_sum > 100) {
+                        if (jul_sum !=100) {
                             alert('Invalid Month (Jul) Value ' + jul_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (aug_sum < 0 || aug_sum > 100) {
+                        if (aug_sum !=100) {
                             alert('Invalid Month (Aug) Value ' + aug_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
-                        if (sep_sum < 0 || sep_sum > 100) {
+                        if (sep_sum !=100) {
                             alert('Invalid Month (Sep) Value ' + sep_sum);
+                            $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
 
@@ -861,7 +875,7 @@ $(document).ready(function () {
                             url: `/api/utilities/CreateQaProportion`,
                             contentType: 'application/json',
                             type: 'POST',
-                            async: false,
+                            async: true,
                             dataType: 'json',
                             data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
                             success: function (data) {
@@ -875,12 +889,15 @@ $(document).ready(function () {
                                 //$("#jspreadsheet").show();
                                 //$("#head_total").show();
                                 employeeWiseProportionObjectList = [];
+                                GetQAProrationByYear(year);
                                 alert(data);
-                                LoaderHide();
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                //LoaderHide();
                             }
                         });
                     } else {
                         alert('追加、修正していないデータがありません!');
+                        $("#employee_wise_save_button").attr("disabled", false);
                         return false;
                     }
                 }
@@ -889,11 +906,13 @@ $(document).ready(function () {
                     for (var i = 0; i < allArrayData.length; i++) {
                         if (allArrayData[i][0].toString() == duplicateEmployeeId.toString()) {
                             duplicateEmployeeName = allArrayData[i][1];
+                            $("#employee_wise_save_button").attr("disabled", false);
                             break;
                         }
                         
                     }
                     alert('duplicate departments found for ' + duplicateEmployeeName);
+                    $("#employee_wise_save_button").attr("disabled", false);
                     return false;
                 }
             }

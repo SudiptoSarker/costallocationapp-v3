@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "給与登録 (Salary Unit Price Registration)";
+    ViewBag.Title = "グレードの登録、編集、削除 (Salary Unit Price Registration)";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th class="salary_th">複数選択</th>
-                                <th class="salary_th">給与登録</th>
+                                <th class="salary_th">給与レンジ</th>
                                 <th class="salary_th">グレード (Grade)</th>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加 説明 (add salary)</h3>
+                    <h3 id='add_modal_header'>グレードの追加 (add salary)</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -86,13 +86,13 @@
                         <tbody>
                             <tr>
                                 <td id="salary_from_td">
-                                    <input type="text" value="" placeholder="初期単価を入力してください" id="unit_price_from">                                           
+                                    <input type="text" value="" placeholder="下限単価を入力してください" id="unit_price_from">                                           
                                 </td>
                                 <td id="salary_to_td">
-                                    <input type="text" value="" placeholder="最高単価を入力してください" id="unit_price_to">                                           
+                                    <input type="text" value="" placeholder="上限単価を入力してください" id="unit_price_to">                                           
                                 </td>
                                 <td id="salary_grade_point_td">
-                                    <input type="text" value="" placeholder="新しいグレードを入力してください" id="grae_point">                                           
+                                    <input type="text" value="" placeholder="新しいグレードを数値で入力してください" id="grae_point">                                           
                                 </td>
                                 <td id="salary_action_td">
                                     <a href="javascript:void(0);" class="" id="salary_undo_btn">取消(undo)</a>
@@ -122,7 +122,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新しいグレードを登録する場合は、「新しいグレードをここに入力してください」テキストボックスに説明名を入力し、「保存」ボタンをクリックします。</label>
+                    <label id='add_modal_body_title'>登録したグレードを編集する場合は、編集するテキストボックスに情報を入力し、「保存」ボタンをクリックします。</label>
                     <table id="salary_edit_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -136,13 +136,13 @@
                         <tbody>
                             <tr>
                                 <td id="salary_from_td_edit">
-                                    <input type="text" value="" placeholder="初期単価を入力してください" id="unit_price_from_edit">                                           
+                                    <input type="text" value="" placeholder="下限単価を入力してください" id="unit_price_from_edit">                                           
                                 </td>
                                 <td id="salary_to_td_edit">
-                                    <input type="text" value="" placeholder="最高単価を入力してください" id="unit_price_to_edit">                                           
+                                    <input type="text" value="" placeholder="上限単価を入力してください" id="unit_price_to_edit">                                           
                                 </td>
                                 <td id="salary_grade_point_td_edit">
-                                    <input type="text" value="" placeholder="新しいグレードを入力してください" id="grae_point_edit">                                           
+                                    <input type="text" value="" placeholder="新しいグレードを数値で入力してください" id="grae_point_edit">                                           
                                 </td>
                                 <td id="salary_action_td">
                                     <a href="javascript:void(0);" class="" id="salary_edit_undo_btn">取消(undo)</a>

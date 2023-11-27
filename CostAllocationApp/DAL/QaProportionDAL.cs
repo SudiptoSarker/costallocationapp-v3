@@ -205,7 +205,7 @@ namespace CostAllocationApp.DAL
         public List<QaProportionViewModel> GetQaProportionDataByYear(int year)
         {
 
-            string query = "select * from QaProportions join Employees on QaProportions.EmployeeId = Employees.Id  where QaProportions.year = " + year;
+            string query = "select * from QaProportions join Employees on QaProportions.EmployeeId = Employees.Id  where QaProportions.year = " + year+ " Order By FullName ASC";
 
             List<QaProportionViewModel> qaProportionEmployeeList = new List<QaProportionViewModel>();
 

@@ -1028,6 +1028,8 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/UpdateForecastData/")]
         public IHttpActionResult UpdateForecastData(ForecastHistoryDto forecastHistoryDto)
         {
+            bool mmChangeType = true;
+            mmChangeType = HttpContext.Current.Request.QueryString["changeType"] == "mm" ? false : true;
             var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecastsPrevious = new List<Forecast>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
@@ -1119,7 +1121,7 @@ namespace CostAllocationApp.Controllers.Api
                                 {
                                     int checkResults = employeeAssignmentBLL.CheckForOriginalAssignmentIsExists(employeeAssignment.Id);
 
-                                    if (Convert.ToInt32(itemData[1]) == 2)
+                                    if (Convert.ToInt32(itemData[1]) == 2 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "2", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1136,7 +1138,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 3)
+                                    if (Convert.ToInt32(itemData[1]) == 3 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "3", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1153,7 +1155,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 4)
+                                    if (Convert.ToInt32(itemData[1]) == 4 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "4", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1170,7 +1172,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 5)
+                                    if (Convert.ToInt32(itemData[1]) == 5 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "5", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1187,7 +1189,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 6)
+                                    if (Convert.ToInt32(itemData[1]) == 6 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "6", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1204,7 +1206,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 7)
+                                    if (Convert.ToInt32(itemData[1]) == 7 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "7", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1221,7 +1223,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 8)
+                                    if (Convert.ToInt32(itemData[1]) == 8 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "8", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1238,7 +1240,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 9)
+                                    if (Convert.ToInt32(itemData[1]) == 9 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "9", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)
@@ -1255,7 +1257,7 @@ namespace CostAllocationApp.Controllers.Api
                                             }
                                         }
                                     }
-                                    if (Convert.ToInt32(itemData[1]) == 10)
+                                    if (Convert.ToInt32(itemData[1]) == 10 && mmChangeType)
                                     {
                                         bool validForOriginalData = employeeAssignmentBLL.CheckForValidOriginalData(_assignmentHistory.BCYRCellPending, "10", _assignmentHistory.BCYRCell);
                                         if (validForOriginalData)

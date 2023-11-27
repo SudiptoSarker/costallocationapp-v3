@@ -246,7 +246,7 @@ $(document).ready(function () {
         }
 
         
-        console.log("p: "+tableRowList);
+        console.log(tableRowList);
         if (tableRowList.length > 0) {
             var tempMainTitle = '';
             for (var c = 0; c < tableRowList.length; c++) {

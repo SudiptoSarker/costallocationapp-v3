@@ -4670,7 +4670,7 @@ function UpdateForecast(isUpdate) {
             if (jssUpdatedData.length > 0) {           
                     updateMessage = "Successfully data updated";
                     $.ajax({
-                        url: `/api/utilities/UpdateForecastData`,
+                        url: `/api/utilities/UpdateForecastData?changeType=mm`,
                         contentType: 'application/json',
                         type: 'POST',
                         async: false,

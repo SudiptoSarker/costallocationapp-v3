@@ -1689,11 +1689,13 @@ function ShowForecastJexcel(){
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
+                            retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert + '_' + x;
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
                             //updateArray(jssUpdatedData, retrivedData);
-                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
+                            //retrivedObjectForOnChangeInsert.bcyrCell += retrivedObjectForOnChangeInsert + '_' + x;
+                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert,x);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
@@ -4375,6 +4377,7 @@ function updateArrayForInsertOnChange(array, retrivedData) {
     array[index].duplicateCount = retrivedData.duplicateCount;
     array[index].roleChanged = retrivedData.roleChanged;
     array[index].unitPriceChanged = retrivedData.unitPriceChanged;
+    array[index].bcyrCell += ',' + retrivedData.bcyrCell;
 }
 
 function retrivedObject(rowData) {
@@ -4422,7 +4425,7 @@ function retrivedObject(rowData) {
     };
 }
 
-function retrivedObjectForInsertOnChange(rowData) {
+function retrivedObjectForInsertOnChange(rowData,x) {
 
     var allData = jss.getData();
     var _unitPriceChanged = 0;
@@ -4462,17 +4465,17 @@ function retrivedObjectForInsertOnChange(rowData) {
         }
     }
 
-    var bcyrCellVal = '';
-    var newEmployeeId = rowData[jssTableDefinition.employeeId.index];
-    if (_roleChanged > 0) {
-        bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-    }
-    else if (_unitPriceChanged > 0) {
-        bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-    }
-    else {
-        bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-    }
+    var bcyrCellVal = rowData[jssTableDefinition.assignmentId.index] + '_' + x;
+    //var newEmployeeId = rowData[jssTableDefinition.employeeId.index];
+    //if (_roleChanged > 0) {
+    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+    //}
+    //else if (_unitPriceChanged > 0) {
+    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+    //}
+    //else {
+    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+    //}
 
 
     return {

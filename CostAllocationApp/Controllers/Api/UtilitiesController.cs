@@ -2923,6 +2923,7 @@ namespace CostAllocationApp.Controllers.Api
                             yearlyDataTimeStampId = timestampId_add_employee.ToString();
                         }
                         //int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
+                        Company company = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
 
                         foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                         {
@@ -2946,7 +2947,7 @@ namespace CostAllocationApp.Controllers.Api
 
                             if (item.CompanyId != null)
                             {
-                                if (item.CompanyId.Value != 3)
+                                if (item.CompanyId.Value != company.Id)
                                 {
                                     employeeAssignment.GradeId = null;
                                 }

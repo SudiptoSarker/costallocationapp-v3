@@ -325,7 +325,7 @@ $(document).ready(function () {
         // if (insertedOnChangeList.length > 0) {                        
         //     UpdateForecast(true);
         // }
-        
+        //debugger;
         if (jssInsertedData.length > 0) {
             var insertedUniqueEmployeeData_unitPrice = [];
             var insertedUniqueEmployeeData_role = [];
@@ -716,9 +716,10 @@ $(document).ready(function () {
         } else {
             isUpdateInsertDelete = false;
         }
-        // if (insertedOnChangeList.length > 0) {                        
-        //     UpdateForecast(true);
-        // }
+
+         //if (insertedOnChangeList.length > 0) {                        
+         //    UpdateForecast(isUpdateInsertDelete);
+         //}
 
 
         if (jssUpdatedData.length > 0) {
@@ -1879,6 +1880,7 @@ function ShowForecastJexcel(){
                     }
                     // for grade
                     if (x == jssTableDefinition.grade.index) {
+                        
                         retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -1901,7 +1903,8 @@ function ShowForecastJexcel(){
                                 }
                             });
                         }
-
+                        debugger;
+                        dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
                         if (dataCheckForInsertOnChange.length == 0) {
                            //jssUpdatedData.push(retrivedData);
                             
@@ -4377,6 +4380,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 }
 
 function updateArrayForInsertOnChange(array, retrivedData) {
+    debugger;
     var index = insertedOnChangeList.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
     array[index].employeeId = retrivedData.employeeId;

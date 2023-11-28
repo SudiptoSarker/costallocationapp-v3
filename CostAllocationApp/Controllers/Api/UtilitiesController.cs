@@ -13432,5 +13432,14 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(_objDifferenceTotalsHeadCount);
         }
+
+        [HttpGet]
+        [Route("api/utilities/GetMwCompany/")]
+        public IHttpActionResult GetMwCompany()
+        {
+            Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
+            return Ok(mwCompany);
+        }
+
     }
 }

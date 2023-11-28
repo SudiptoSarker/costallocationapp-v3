@@ -829,6 +829,7 @@ $(document).ready(function () {
 
 var _retriveddata = [];
 var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
+var _mwCompanyFromApi = '';
 
 function ShowForecastJexcel(){
     year = $("#assignment_year_list").val();
@@ -840,6 +841,18 @@ function ShowForecastJexcel(){
     var explanationsForJexcel = [];
     var companiesForJexcel = [];
     var gradesForJexcel = [];
+    
+
+    $.ajax({
+        url: `/api/utilities/GetMwCompany`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            _mwCompanyFromApi = data;
+        }
+    });
 
     $.ajax({
         url: `/api/Sections`,
@@ -1645,8 +1658,10 @@ function ShowForecastJexcel(){
                 else {
                     var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
                     var dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
+
                     console.log(jssUpdatedData);
-                    if (retrivedData.companyId != 3) {
+
+                    if (retrivedData.companyId != _mwCompanyFromApi.Id) {
                         retrivedData.gradeId = '';
                     }
                     

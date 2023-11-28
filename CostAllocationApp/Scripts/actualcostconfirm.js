@@ -3,7 +3,7 @@ var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
-var distributionCount = 0;
+var distributtonCount = 0;
 
 const channel = new BroadcastChannel("actualCost");
 
@@ -180,9 +180,10 @@ function ShowActualCostConfrimJexcel(){
         contextMenu: function (obj, x, y, e) {
         },
         onchange: function (instance, cell, x, y, value) {
-            //debugger;
+            debugger;
             var changedValue = jss.getValueFromCoords(20, y);
-            if (parseInt(x) == 18 && changedValue == '') {
+            if (parseInt(x) == 18 && value > 0) {
+
                 var _allData = jss.getData();
                 var employeeId = jss.getValueFromCoords(19, y);
                 var employeeCostCount = 0;
@@ -198,14 +199,16 @@ function ShowActualCostConfrimJexcel(){
                     jss.setValueFromCoords(20, y, 1, false);
                 }
                 else {
-                    alert('Duplicate data found for this employee!');
-                    jss.setValueFromCoords(18, y, 0, false);
+                    if (distributtonCount == 0) {
+                        alert('Duplicate data found for this employee!');
+                        jss.setValueFromCoords(18, y, 0, false);
+                    }
+                   
                 }
             }
 
-            if (parseInt(x) == 18 && changedValue == 2) {
-                var _allData = jss.getData();
-            }
+            
+
 
 
         }
@@ -317,7 +320,9 @@ $(document).ready(function () {
     $(".sorting_custom_modal").css("display", "block");
 
     $('#distribute').on('click', function () {
-        
+
+        distributtonCount++;
+
         var _newEmployeeGroupList = [];
         var _uniqueEmnployeeIdList = [];
         var _actualCostFlag = 0;
@@ -382,8 +387,9 @@ $(document).ready(function () {
 
 
                                 //_allRows[m].cells[19].innerText = newCost;
-                                jss.setValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y), 1, false);
+                                
                                 jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                                jss.setValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y), '', false);
                             }
                         }
 
@@ -395,7 +401,7 @@ $(document).ready(function () {
             }
         }
 
-        distributionCount++;
+       
     });
     
 
@@ -441,11 +447,11 @@ $(document).ready(function () {
 
     $('#create_actual_cost').on('click', function () {
 
-        if (distributionCount == 0) {
+        if (distributtonCount == 0) {
             alert("Please distribute first!");
             return false;
         }
-        if (distributionCount > 1) {
+        if (distributtonCount > 1) {
             alert("Please undo and try again!");
             return false;
         }

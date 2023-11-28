@@ -1284,7 +1284,24 @@ namespace CostAllocationApp.Controllers.Api
                             }
                         }
                         employeeAssignment.IsActiveAssignment = true;
-                        int updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+                        int updateResult = 0;
+                        if (!mmChangeType)
+                        {
+                            employeeAssignment.Remarks = _assignmentHistory.Remarks;
+                            employeeAssignment.SectionId =  _assignmentHistory.SectionId == "" ? 0 : Convert.ToInt32(_assignmentHistory.SectionId);
+                            employeeAssignment.DepartmentId = _assignmentHistory.DepartmentId == "" ? 0 : Convert.ToInt32(_assignmentHistory.DepartmentId);
+                            employeeAssignment.InchargeId = _assignmentHistory.InChargeId == "" ? 0 : Convert.ToInt32(_assignmentHistory.InChargeId);
+                            employeeAssignment.ExplanationId = _assignmentHistory.ExplanationId;
+                            employeeAssignment.CompanyId = _assignmentHistory.CompanyId == "" ? 0 : Convert.ToInt32(_assignmentHistory.CompanyId);
+                            employeeAssignment.GradeId = _assignmentHistory.GradeId == "" ? 0 : Convert.ToInt32(_assignmentHistory.GradeId);
+                            employeeAssignment.UnitPrice = _assignmentHistory.UnitPrice == "" ? 0 : Convert.ToDecimal(_assignmentHistory.UnitPrice);
+                            updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+                        }
+                        else
+                        {
+                             updateResult = employeeAssignmentBLL.UpdateAssignment(employeeAssignment);
+                        }
+                        
 
                         int timestampResults = employeeAssignmentBLL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, yearlyDataTimeStampId);
                         int latestAssignmentIdForTimeStamps = 0;
@@ -1958,6 +1975,7 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             List<Forecast> forecasts = new List<Forecast>();
             string message = "Something went wrong!!!";
+            Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
 
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -1980,7 +1998,7 @@ namespace CostAllocationApp.Controllers.Api
 
                         if (item.CompanyId != null)
                         {
-                            if (item.CompanyId.Value != 3)
+                            if (item.CompanyId.Value != mwCompany.Id)
                             {
                                 employeeAssignment.GradeId = null;
                             }
@@ -2001,7 +2019,7 @@ namespace CostAllocationApp.Controllers.Api
                         _assignmentHistory.CreatedDate = DateTime.Now;
 
                         employeeAssignment.IsActiveAssignment = true;
-                        int updateResult = employeeAssignmentBLL.UpdateBudgetAssignment(employeeAssignment);
+                       // int updateResult = employeeAssignmentBLL.UpdateBudgetAssignment(employeeAssignment);
 
 
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));

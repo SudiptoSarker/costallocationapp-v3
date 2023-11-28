@@ -949,6 +949,7 @@
     
     var _retriveddata = [];
     var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
+var _mwCompanyFromApi = '';
 
     function ShowBudgetJexcel(){
         var sectionsForJexcel = [];
@@ -958,6 +959,18 @@
         var explanationsForJexcel = [];
         var companiesForJexcel = [];
         var gradesForJexcel = [];
+
+
+        $.ajax({
+            url: `/api/utilities/GetMwCompany`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                _mwCompanyFromApi = data;
+            }
+        });
 
         $.ajax({
             url: `/api/Sections`,
@@ -1838,7 +1851,7 @@
                             if (x == jssTableDefinition.company.index) {    
                                 retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 var rowNumber = parseInt(y) + 1;
-                                if (parseInt(value) !== 3) {
+                                if (parseInt(value) !== _mwCompanyFromApi.Id) {
                                     var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                                     element[0].cells[10].innerText = '';
                                     $(jss.getCell("J" + rowNumber)).addClass('readonly');

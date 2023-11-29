@@ -176,13 +176,14 @@
             }
         }
 
-        if (jssUpdatedData.length > 0) {
-            for (var i = 0; i < jssUpdatedData.length; i++) {
-                if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].sectionId == 0 || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].departmentId == 0 || jssUpdatedData[i].roleId == '' || jssUpdatedData[i].roleId == 0 || jssUpdatedData[i].companyId == '' || jssUpdatedData[i].companyId == 0 || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
-                    storeMessage.push('不正な入力値です ' + jssUpdatedData[i].employeeName);
-                }
-            }
-        }
+        // if (jssUpdatedData.length > 0) {
+        //     for (var i = 0; i < jssUpdatedData.length; i++) {
+        //         if (jssUpdatedData[i].sectionId == '' || jssUpdatedData[i].sectionId == 0 || jssUpdatedData[i].departmentId == '' || jssUpdatedData[i].departmentId == 0 || jssUpdatedData[i].roleId == '' || jssUpdatedData[i].roleId == 0 || jssUpdatedData[i].companyId == '' || jssUpdatedData[i].companyId == 0 || (jssUpdatedData[i].unitPrice == 0 || isNaN(jssUpdatedData[i].unitPrice))) {
+        //             storeMessage.push('不正な入力値です ' + jssUpdatedData[i].employeeName);
+        //         }
+        //     }
+        // }
+
         if (insertedOnChangeList.length > 0) {
             for (var i = 0; i < insertedOnChangeList.length; i++) {
                 if (insertedOnChangeList[i].sectionId == '' || insertedOnChangeList[i].sectionId == 0 || insertedOnChangeList[i].departmentId == '' || insertedOnChangeList[i].departmentId == 0 || insertedOnChangeList[i].roleId == '' || insertedOnChangeList[i].roleId == 0 || insertedOnChangeList[i].companyId == '' || insertedOnChangeList[i].companyId == 0 || (insertedOnChangeList[i].unitPrice == 0 || isNaN(insertedOnChangeList[i].unitPrice))) {

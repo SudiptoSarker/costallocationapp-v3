@@ -212,9 +212,18 @@ $(document).ready(function () {
 
             jssUpdatedData = tempUpdateData;
 
-            for (var k = 0; k < jssUpdatedData.length; k++) {
-                if (jssUpdatedData[k].sectionId == '' || jssUpdatedData[k].departmentId == '' || jssUpdatedData[k].companyId == '' || (jssUpdatedData[k].unitPrice == 0 || isNaN(jssUpdatedData[k].unitPrice))) {
-                    storeMessage.push('invalid input for ' + jssUpdatedData[k].employeeName);
+            // for (var k = 0; k < jssUpdatedData.length; k++) {
+            //     if (jssUpdatedData[k].sectionId == '' || jssUpdatedData[k].departmentId == '' || jssUpdatedData[k].companyId == '' || (jssUpdatedData[k].unitPrice == 0 || isNaN(jssUpdatedData[k].unitPrice))) {
+            //         storeMessage.push('invalid input for ' + jssUpdatedData[k].employeeName);
+            //     }
+            // }            
+        }
+
+        //added by sudipto,29th nov
+        if (insertedOnChangeList.length > 0) {
+            for (var i = 0; i < insertedOnChangeList.length; i++) {
+                if (insertedOnChangeList[i].sectionId == '' || insertedOnChangeList[i].sectionId == 0 || insertedOnChangeList[i].departmentId == '' || insertedOnChangeList[i].departmentId == 0 || insertedOnChangeList[i].roleId == '' || insertedOnChangeList[i].roleId == 0 || insertedOnChangeList[i].companyId == '' || insertedOnChangeList[i].companyId == 0 || (insertedOnChangeList[i].unitPrice == 0 || isNaN(insertedOnChangeList[i].unitPrice))) {
+                    storeMessage.push('不正な入力値です ' + insertedOnChangeList[i].employeeName);
                 }
             }
         }
@@ -4748,7 +4757,7 @@ function UpdateForecast(isUpdate) {
                 newRowCount = 1;
             }
 
-            if (insertedOnChangeList.length > 0) {insertedOnChangeList                              
+            if (insertedOnChangeList.length > 0) {                              
                 var update_timeStampId = $("#timeStamp_ForUpdateData").val();
                 insertMessage = "Successfully data inserted.";
                 $.ajax({

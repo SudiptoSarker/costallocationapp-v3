@@ -1876,6 +1876,27 @@
 
                             if (x == jssTableDefinition.grade.index) {    
                                // retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+
+                                var rowNumber = parseInt(y) + 1;
+                                var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                                var companyName = element[0].cells[9].innerText;
+
+                                var cellValue = jss.getValueFromCoords(jssTableDefinition.company.index, y);
+
+                                if (companyName.toLowerCase() == 'mw') {
+                                    $.ajax({
+                                        url: '/api/Salaries?salaryGradeId=' + value,
+                                        contentType: 'application/json',
+                                        type: 'GET',
+                                        async: false,
+                                        dataType: 'json',
+                                        success: function (salary) {
+                                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), salary.SalaryLowPoint, false);
+                                        }
+                                    });
+                                }
+                                dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
+
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);

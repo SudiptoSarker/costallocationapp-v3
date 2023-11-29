@@ -1903,7 +1903,7 @@ function ShowForecastJexcel(){
                                 }
                             });
                         }
-                        debugger;
+
                         dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
                         if (dataCheckForInsertOnChange.length == 0) {
                            //jssUpdatedData.push(retrivedData);

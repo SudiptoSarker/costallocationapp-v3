@@ -946,44 +946,44 @@ $(document).ready(function () {
 
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>                                    
-                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                
-                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
+                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 2) {
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>
                                     <td>${filteredRows[i].subTitle}</td>                                    
-                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-                                
-                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].SecondSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
+                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+                                    
+                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 3) {
@@ -991,22 +991,22 @@ $(document).ready(function () {
                                     <tr data-categiry='${categoryName}'>
                                     <td>${filteredRows[i].subTitle}</td>
                                     <td>${filteredRows[i].detailsTitle}</td>                                    
-                                    <td class="text-right">${filteredRows[i].OctCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].NovCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].DecCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JanCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FebCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MarCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AprCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].MayCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JunCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].JulCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].AugCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].SepCost[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                   <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
+                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${filteredRows[i].RowTotal[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>                                    
-                                    <td class="text-right">${filteredRows[i].FirstSlot[2].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
         }

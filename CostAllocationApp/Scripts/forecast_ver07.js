@@ -1663,6 +1663,27 @@ function ShowForecastJexcel(){
                 var retrivedData = retrivedObject(jss.getRowData(y));
                 var retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
                 if (retrivedData.assignmentId.toString().includes('new')) {
+                    if (x == jssTableDefinition.grade.index) {
+                        var rowNumber = parseInt(y) + 1;
+                        var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
+                        var companyName = element[0].cells[9].innerText;
+
+                        var cellValue = jss.getValueFromCoords(jssTableDefinition.company.index, y);
+
+                        if (companyName.toLowerCase() == 'mw') {
+                            $.ajax({
+                                url: '/api/Salaries?salaryGradeId=' + value,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                success: function (salary) {
+                                    jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), salary.SalaryLowPoint, false);
+                                    retrivedData = retrivedObject(jss.getRowData(y));
+                                }
+                            });
+                        }
+                    }
                     updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
                 }
                 else {
@@ -1685,18 +1706,21 @@ function ShowForecastJexcel(){
                     }
 
                     if (x == jssTableDefinition.remarks.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
+                        if (dataCheckForInsertOnChange.length == 0) {
+                            //jssUpdatedData.push(retrivedData);
+                            insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            updateArray(jssUpdatedData, retrivedData);
+                            //updateArray(jssUpdatedData, retrivedData);
+                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
+                        //cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                     }
                     else{                         
                         if(isUnapprovedDeletedRow){
@@ -1819,18 +1843,21 @@ function ShowForecastJexcel(){
                     }
 
                     if (x == jssTableDefinition.explanation.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
-                        if (dataCheck.length == 0) {
-                            jssUpdatedData.push(retrivedData);
+                        if (dataCheckForInsertOnChange.length == 0) {
+                            //jssUpdatedData.push(retrivedData);
+                            insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            updateArray(jssUpdatedData, retrivedData);
+                            //updateArray(jssUpdatedData, retrivedData);
+                            updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1841,7 +1868,8 @@ function ShowForecastJexcel(){
                         }
                     }
                     // for company
-                    if (x == jssTableDefinition.company.index) {                        ;
+                    if (x == jssTableDefinition.company.index) {
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
@@ -1863,8 +1891,8 @@ function ShowForecastJexcel(){
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('background-color', 'white'); 
                             jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
                         }
-
-                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                        
+                        
 
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);
@@ -1889,8 +1917,8 @@ function ShowForecastJexcel(){
                     }
                     // for grade
                     if (x == jssTableDefinition.grade.index) {
+                        debugger;
                         
-                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         var companyName = element[0].cells[9].innerText;
@@ -1912,8 +1940,9 @@ function ShowForecastJexcel(){
                                 }
                             });
                         }
-
-                        dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
+                        retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                        dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedObjectForOnChangeInsert.assignmentId);
                         if (dataCheckForInsertOnChange.length == 0) {
                            //jssUpdatedData.push(retrivedData);
                             

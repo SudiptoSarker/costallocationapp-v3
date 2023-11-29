@@ -1292,6 +1292,7 @@ namespace CostAllocationApp.Controllers.Api
                             employeeAssignment.DepartmentId = _assignmentHistory.DepartmentId == "" ? 0 : Convert.ToInt32(_assignmentHistory.DepartmentId);
                             employeeAssignment.InchargeId = _assignmentHistory.InChargeId == "" ? 0 : Convert.ToInt32(_assignmentHistory.InChargeId);
                             employeeAssignment.ExplanationId = _assignmentHistory.ExplanationId;
+                            employeeAssignment.RoleId = _assignmentHistory.RoleId == "" ? 0 : Convert.ToInt32(_assignmentHistory.RoleId);
                             employeeAssignment.CompanyId = _assignmentHistory.CompanyId == "" ? 0 : Convert.ToInt32(_assignmentHistory.CompanyId);
                             employeeAssignment.GradeId = _assignmentHistory.GradeId == "" ? 0 : Convert.ToInt32(_assignmentHistory.GradeId);
                             employeeAssignment.UnitPrice = _assignmentHistory.UnitPrice == "" ? 0 : Convert.ToDecimal(_assignmentHistory.UnitPrice);

@@ -3030,9 +3030,9 @@ function ShowForecastJexcel(){
                     obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
 
 
-                    // color row....
-                    jss.setStyle(jssTableDefinition.employeeName.cellName, nextRow + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
+                    // color row....                    
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");                    
 
                     jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
                     jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");

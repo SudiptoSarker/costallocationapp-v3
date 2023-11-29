@@ -13438,7 +13438,7 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(_objDifferenceTotalsManmonth);
         }
 
-        //Man Month Headcount difference by department
+        //Headcount difference by department
         [HttpGet]
         [Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
         public IHttpActionResult GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
@@ -13456,7 +13456,7 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(_objDifferenceTotalsHeadCount);
         }
 
-        //Man Month Headcount difference by incharge
+        //Headcount difference by incharge
         [HttpGet]
         [Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
         public IHttpActionResult GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)

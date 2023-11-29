@@ -47,7 +47,38 @@ $(document).ready(function () {
     var uniqueTableList = [];
     var selected_compannies = "";
     var selected_year = "";
-    var timeStampId = "";
+    var timeStampId = "";    
+    
+    function ReplaceComma_2(returnValue){
+         //var returnValue  = 0;
+         //returnValue = differenceValue;
+        if(returnValue.includes(',')){
+             returnValue = returnValue.replace(',', '');
+         }
+         if(returnValue.includes(',')){
+             returnValue = returnValue.replace(',', '');
+         }
+         if(returnValue.includes(',')){
+             returnValue = returnValue.replace(',', '');
+         }        
+        return returnValue;
+     }
+
+    function ColorNegativeValue_2(){
+        var allTableData = $('#table_container table tbody td');
+                    
+        $.each(allTableData, (index,value) => {
+            if (value.innerText.includes('-')) {
+                //if (isNaN(value.innerText)) {
+                var colorValue = ReplaceComma_2(value.innerText);                            
+                if ($.isNumeric(colorValue)){                            
+                    $(value).css('color', 'red');
+                }
+                
+            }
+        });
+    }
+    
 
     $('#show_dynamic_tables').on('click', () => {                
         selected_compannies = $("#company_list").val();
@@ -88,6 +119,7 @@ $(document).ready(function () {
                     
                     CreateDynamicSettingTablesWithCalculations();
                     LoaderHide();
+                    ColorNegativeValue_2();
                 }
             });            
         }   
@@ -218,8 +250,7 @@ $(document).ready(function () {
                     
                     totalList[0].mainTitle = dynamicSettings[k].CategoryName;
                     totalList[0].subTitle = dynamicSettings[k].SubCategoryName;
-                    totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;                        
-                    console.log(totalList);
+                    totalList[0].detailsTitle = dynamicSettings[k].DetailsItemName;                                            
 
                     _newObject.rowData = totalList;
                     if (tableRowList.length == 0) {
@@ -244,9 +275,7 @@ $(document).ready(function () {
             
            
         }
-
         
-        console.log(tableRowList);
         if (tableRowList.length > 0) {
             var tempMainTitle = '';
             for (var c = 0; c < tableRowList.length; c++) {
@@ -657,10 +686,43 @@ var _secondHalfDifference = 0;
 
 
 
-$(document).ready(function () {   
+$(document).ready(function () {
+    
+    function ReplaceComma(returnValue){
+        //var returnValue  = 0;
+        //returnValue = differenceValue;
+
+        if(returnValue.includes(',')){
+            returnValue = returnValue.replace(',', '');
+        }
+        if(returnValue.includes(',')){
+            returnValue = returnValue.replace(',', '');
+        }
+        if(returnValue.includes(',')){
+            returnValue = returnValue.replace(',', '');
+        }        
+
+        return returnValue;
+    }
+
+    function ColorNegativeValue(){
+        var allTableData = $('#table_container table tbody td');
+                    
+        $.each(allTableData, (index,value) => {
+            if (value.innerText.includes('-')) {
+                //if (isNaN(value.innerText)) {
+                var colorValue = ReplaceComma(value.innerText);                            
+                if ($.isNumeric(colorValue)){                            
+                    $(value).css('color', 'red');
+                }
+                
+            }
+        });
+    }
+
     var companies;
 
-    $(document).on('click', '.expand-count-inner', function () {
+    $(document).on('click', '.expand-count-inner', function () {  
         var closestRow = $(this).closest('tr');
         var categoryName = $(closestRow).attr('data-category');
         var subCategoryName = $(closestRow[0].cells[0]).attr('data-subcategory');
@@ -697,6 +759,7 @@ $(document).ready(function () {
             }
         }
 
+        ColorNegativeValue();
         $(this).removeClass('fa fa-plus expand-count-inner');
         $(this).addClass('fa fa-minus expand-count-inner-close');
 
@@ -721,7 +784,7 @@ $(document).ready(function () {
 
             });
 
-
+        ColorNegativeValue();
         $(this).removeClass('fa fa-minus expand-count-inner-close');
         $(this).addClass('fa fa-plus expand-count-inner');
 
@@ -729,7 +792,7 @@ $(document).ready(function () {
 
     });
 
-    $(document).on('click', '.expand-count', function () {
+    $(document).on('click', '.expand-count', function () {        
         var closestRow = $(this).closest('tr');
         var categoryName = $(closestRow).attr('data-category');
         var filteredRows = [];
@@ -818,73 +881,13 @@ $(document).ready(function () {
             }
         }
 
-
-
-
-        //var uniqueSubCategoryList = [];
-        //for (var s = 0; s < headCountList.length; s++) {
-        //    if (headCountList[s].CategoryName == categoryName) {
-        //        if (uniqueSubCategoryList.length == 0) {
-        //            uniqueSubCategoryList.push(headCountList[s].SubCategoryName.toString());
-        //        }
-        //        else {
-        //            if (!uniqueSubCategoryList.includes(headCountList[s].SubCategoryName.toString())) {
-        //                uniqueSubCategoryList.push(headCountList[s].SubCategoryName.toString());
-        //            }
-        //        }
-        //    }
-           
-        //}
-
-        //console.log(uniqueSubCategoryList);
-        //if (uniqueSubCategoryList.length > 0) {        
-        //    let _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
-        //    for (var q = 0; q < uniqueSubCategoryList.length; q++) {
-        //        _octCount = 0, _novCount = 0, _decCount = 0, _janCount = 0, _febCount = 0, _marCount = 0, _aprCount = 0, _mayCount = 0, _junCount = 0, _julCount = 0, _augCount = 0, _sepCount = 0;
-        //        for (var r = 0; r < headCountList.length; r++) {
-        //            if ((headCountList[r].SubCategoryName.toString() == uniqueSubCategoryList[q]) && (headCountList[r].CategoryName.toString() == categoryName)) {
-        //                _octCount += parseFloat(headCountList[r].OctCount);
-        //                _novCount += parseFloat(headCountList[r].NovCount);
-        //                _decCount += parseFloat(headCountList[r].DecCount);
-        //                _janCount += parseFloat(headCountList[r].JanCount);
-        //                _febCount += parseFloat(headCountList[r].FebCount);
-        //                _marCount += parseFloat(headCountList[r].MarCount);
-        //                _aprCount += parseFloat(headCountList[r].AprCount);
-        //                _mayCount += parseFloat(headCountList[r].MayCount);
-        //                _junCount += parseFloat(headCountList[r].JunCount);
-        //                _julCount += parseFloat(headCountList[r].JulCount);
-        //                _augCount += parseFloat(headCountList[r].AugCount);
-        //                _sepCount += parseFloat(headCountList[r].SepCount);
-        //            }
-        //        }
-
-        //        closestRow.after(`
-        //                        <tr data-category='${categoryName}'>
-        //                        <td style='padding-left:20px !important;' data-subcategory='${uniqueSubCategoryList[q]}'><i class="fa fa-plus expand-count-inner" aria-hidden="true"></i> ${uniqueSubCategoryList[q]}</th>
-        //                        <td class="text-right">${_octCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_novCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_decCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_janCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_febCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_marCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_aprCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_mayCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_junCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_julCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_augCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        <td class="text-right">${_sepCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        //                        </tr>`);
-        //    }
-
-        //}
-        
-        
+        ColorNegativeValue();
         $(this).removeClass('fa fa-plus expand-count');
         $(this).addClass('fa fa-minus expand-count-close');
 
     });
 
-    $(document).on('click', '.expand-count-close', function () {
+    $(document).on('click', '.expand-count-close', function () {        
         var closestRow = $(this).closest('tr');
         var categoryName = $(closestRow).attr('data-category');
 
@@ -916,11 +919,9 @@ $(document).ready(function () {
             });
         }
 
+        ColorNegativeValue();
         $(this).removeClass('fa fa-minus expand-count-close');
         $(this).addClass('fa fa-plus expand-count');
-
-
-
     });
 
     $(document).on('click', '.expand', function () {
@@ -1010,6 +1011,9 @@ $(document).ready(function () {
                                 </tr>`);
             }
         }
+
+        ColorNegativeValue();
+        
         $(this).removeClass('fa fa-plus expand');
         $(this).addClass('fa fa-minus closed');
 
@@ -1023,7 +1027,6 @@ $(document).ready(function () {
         var closestRow = $(this).closest('tr');
         var categoryName = $(closestRow).attr('data-category');
         var filteredRows = [];
-        console.log(filteredRows);
 
         var splittedValue = categoryName.split('_');
         var dynamicTitleCount = parseInt(splittedValue[2]);

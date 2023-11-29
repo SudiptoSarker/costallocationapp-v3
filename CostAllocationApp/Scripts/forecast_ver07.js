@@ -334,7 +334,6 @@ $(document).ready(function () {
         // if (insertedOnChangeList.length > 0) {                        
         //     UpdateForecast(true);
         // }
-        //debugger;
         if (jssInsertedData.length > 0) {
             var insertedUniqueEmployeeData_unitPrice = [];
             var insertedUniqueEmployeeData_role = [];
@@ -1576,7 +1575,7 @@ function ShowForecastJexcel(){
                 }
                 else {
                     previousRowDataToDetech.push(retrivedData);
-                }
+                }                             
             }
             if (x == jssTableDefinition.unitPrice.index) {
                 var flag = true;
@@ -1874,22 +1873,20 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         var rowNumber = parseInt(y) + 1;
-                        var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
-                        console.log(element);
+                        var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);                        
                         var companyName = element[0].cells[9].innerText;
                         if (companyName.toLowerCase() !== 'mw') {
                             element[0].cells[10].innerText = '';
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).addClass('readonly');
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('color', 'black');
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('background-color', 'white');
-                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
-                            
+                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);                                                                                                              
                         }
                         else {
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).removeClass('readonly');
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('color', 'black');
                             $(jss.getCell(jssTableDefinition.grade.cellName + rowNumber)).css('background-color', 'white'); 
-                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
+                            jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);                             
                         }
                         
                         retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
@@ -1918,9 +1915,7 @@ function ShowForecastJexcel(){
                         }
                     }
                     // for grade
-                    if (x == jssTableDefinition.grade.index) {
-                        debugger;
-                        
+                    if (x == jssTableDefinition.grade.index) {                        
                         var rowNumber = parseInt(y) + 1;
                         var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                         var companyName = element[0].cells[9].innerText;
@@ -1970,7 +1965,6 @@ function ShowForecastJexcel(){
                     }
                     // for unit price
                     if (x == jssTableDefinition.unitPrice.index) {
-                        debugger;
                         retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
@@ -4420,7 +4414,6 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
 }
 
 function updateArrayForInsertOnChange(array, retrivedData) {
-    debugger;
     var index = insertedOnChangeList.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
     array[index].employeeId = retrivedData.employeeId;

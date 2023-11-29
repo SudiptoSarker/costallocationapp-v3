@@ -13482,6 +13482,5 @@ namespace CostAllocationApp.Controllers.Api
             Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
             return Ok(mwCompany);
         }
-
     }
 }

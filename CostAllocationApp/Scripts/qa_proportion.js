@@ -199,25 +199,6 @@ function LoadJexcel() {
                         obj.setValueFromCoords(12, nextRow, 0, false);
                         obj.setValueFromCoords(13, nextRow, 0, false);
                         obj.setValueFromCoords(14, nextRow, 0, false);
-
-                        _retriveddata.push({
-                            EmployeeId: retrivedData.employeeId,
-                            EmployeeName: retrivedData.employeeName,
-                            DepartmentId: null,
-                            OctPercentage: 0,
-                            NovPercentage: 0,
-                            DecPercentage: 0,
-                            JanPercentage: 0,
-                            FebPercentage: 0,
-                            MarPercentage: 0,
-                            AprPercentage: 0,
-                            MayPercentage: 0,
-                            JunPercentage: 0,
-                            JulPercentage: 0,
-                            AugPercentage: 0,
-                            SepPercentage: 0,
-                            Id: 0
-                        });
                     }
                 });
                 items.push({
@@ -1187,18 +1168,24 @@ $(document).ready(function () {
             }
         });
 
-        $.ajax({
-            url: `/api/utilities/QaProportionDataByYear?year=${year}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                $.each(data, function (key, element) {
-                    _retriveSelectedData.push(`${element.EmployeeId}_${element.EmployeeName}`);
-                });
-            }
+        // $.ajax({
+        //     url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+        //     contentType: 'application/json',
+        //     type: 'GET',
+        //     async: false,
+        //     dataType: 'json',
+        //     success: function (data) {
+        //         $.each(data, function (key, element) {
+        //             _retriveSelectedData.push(`${element.EmployeeId}_${element.EmployeeName}`);
+        //         });
+        //     }
+        // });
+
+
+        $.each(jss.getData(), (index, itemValue) => {
+            _retriveSelectedData.push(`${itemValue[0]}_${itemValue[1]}`);                          
         });
+
 
         $("#employee_from_qc").multiselect('select', _retriveSelectedData);
         $("#employee_from_qc").multiselect('updateButtonText');
@@ -1211,22 +1198,46 @@ $(document).ready(function () {
         var duplicateEmployees = [];
         var datas = $('#employee_from_qc').val();
         var year = $('#assignment_year').val();
-        if (loadFlag==0) {
-            _retriveddata = [];
-            $.ajax({
-                url: `/api/utilities/QaProportionDataByYear?year=${year}`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    _retriveddata = data;
-                }
-            });
-            loadFlag = 1;
-        }
-        
-        
+        // if (loadFlag==0) {
+        //     _retriveddata = [];
+        //     $.ajax({
+        //         url: `/api/utilities/QaProportionDataByYear?year=${year}`,
+        //         contentType: 'application/json',
+        //         type: 'GET',
+        //         async: false,
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             _retriveddata = data;
+        //         }
+        //     });
+        //     loadFlag = 1;
+        // }
+        _retriveddata = [];
+        $.each(jss.getData(), (index, itemValue) => {
+            // if (itemValue[15] == null || itemValue[15] == '' || itemValue[15] == undefined) {                
+                                     
+            // }
+
+            _retriveddata.push({
+                EmployeeId: itemValue[0],
+                EmployeeName: itemValue[1],
+                DepartmentId: itemValue[2],
+                OctPercentage: itemValue[3],
+                NovPercentage: itemValue[4],
+                DecPercentage: itemValue[5],
+                JanPercentage: itemValue[6],
+                FebPercentage: itemValue[7],
+                MarPercentage: itemValue[8],
+                AprPercentage: itemValue[9],
+                MayPercentage: itemValue[10],
+                JunPercentage: itemValue[11],
+                JulPercentage: itemValue[12],
+                AugPercentage: itemValue[13],
+                SepPercentage: itemValue[14],
+                Id: itemValue[15]
+            });      
+        });
+
         $.each(datas, function (index, itemValue) {
             let pushFlag = true;
             var splittedString = itemValue.split('_');

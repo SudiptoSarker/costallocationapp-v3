@@ -1347,7 +1347,7 @@ var _mwCompanyFromApi = '';
                             let column = parseInt(c) - 1;
                             
                             var value1 = instance.jexcel.getValueFromCoords(column, row);
-                            if (parseInt(value1) != 3) {
+                            if (parseInt(value1) != _mwCompanyFromApi.Id) {
                                 return [];
                             }
                             else {

@@ -1892,7 +1892,9 @@ function ShowForecastJexcel(){
                             jss.setValueFromCoords(jssTableDefinition.unitPrice.index, parseInt(y), 0, false);
                         }
                         
-                        
+                        retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
+                        retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                        dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedObjectForOnChangeInsert.assignmentId);
 
                         if (dataCheckForInsertOnChange.length == 0) {
                             //jssUpdatedData.push(retrivedData);

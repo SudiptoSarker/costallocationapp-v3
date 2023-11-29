@@ -949,7 +949,7 @@
     
     var _retriveddata = [];
     var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
-var _mwCompanyFromApi = '';
+    var _mwCompanyFromApi = '';
 
     function ShowBudgetJexcel(){
         var sectionsForJexcel = [];
@@ -1059,13 +1059,14 @@ var _mwCompanyFromApi = '';
         });
         var _retriveTotal = [];        
         //get total man month
+        var totalCal_year = $('#budget_years').val();       
         $.ajax({
             url: `/api/utilities/GetTotalManMonthAndCostForBudgetEdit`,
             contentType: 'application/json',
             type: 'GET',
             async: false,
             dataType: 'json',
-            data: "yearWithType=" + year,
+            data: "yearWithType=" + totalCal_year,
             success: function (data) {
                 _retriveTotal = data;         
             }

@@ -815,8 +815,7 @@
         var assignmentYear = $('#budget_years').val();          
         if(assignmentYear==''){
             assignmentYear = 2023;
-        }
-        deletedExistingRowIds = [];
+        }        
         ShowBedgetResults(assignmentYear,'show');
         
     });
@@ -916,6 +915,8 @@
         beforeChangedValue = 0;
         jssUpdatedData = [];
         jssInsertedData = [];
+        insertedOnChangeList = [];
+        previousRowDataToDetech = [];
         allEmployeeName = [];
         allEmployeeName1 = [];
         cellwiseColorCode = [];

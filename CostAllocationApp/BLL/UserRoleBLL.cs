@@ -17,6 +17,6 @@ namespace CostAllocationApp.BLL
         public List<UserRole> GetAllUserRoles()
         {
             return roleDAL.GetAllUserRoles();
-        }
+        }        
     }
 }

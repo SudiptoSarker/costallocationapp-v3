@@ -33,6 +33,21 @@ namespace CostAllocationApp.Controllers
         {
             return Json(Session["userName"].ToString(), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetUserRoleType()
+        {
+            string userName = Session["userName"].ToString();
+            string userRoleType = "";
+            if (!string.IsNullOrEmpty(userName))
+            {
+                userRoleType = userBLL.GetUserRoleByUserName(userName);
+            }
+            else
+            {
+                userRoleType = "empty";
+            }
+            
+            return Json(userRoleType, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetLastPath()
         {

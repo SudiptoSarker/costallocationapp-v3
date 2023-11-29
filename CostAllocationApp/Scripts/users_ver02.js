@@ -1,4 +1,29 @@
 ﻿$(document).ready(function () {    
+    var userRoleType = "";
+    userRoleType = GetUserRoleType();
+    
+    if(userRoleType !=''){
+        if(userRoleType=='editor'){
+            $(".user_name_list_header").text("Editor's Information - 編集者情報");
+        }else if(userRoleType=='visitor'){
+            $(".user_name_list_header").text("Visitor's Information - 来場者情報");
+        }
+    }    
+    function GetUserRoleType(){        
+        $.ajax({
+            url: `/Registration/GetUserRoleType/`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                userRoleType = data;
+            }
+        });
+
+        return userRoleType;
+    }
+
     //password validation
     $(".toggle-password").click(function() {
         $(this).toggleClass("fa-eye fa-eye-slash");

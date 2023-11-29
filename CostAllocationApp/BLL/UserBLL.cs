@@ -87,5 +87,9 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.CreateUserPermissions(link,userId);
         }
+        public string GetUserRoleByUserName(string userName)
+        {
+            return userDAL.GetUserRoleByUserName(userName);
+        }
     }
 }

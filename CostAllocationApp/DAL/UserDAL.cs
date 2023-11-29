@@ -600,5 +600,50 @@ namespace CostAllocationApp.DAL
             }
 
         }
+        public string GetUserRoleByUserName(string userName)
+        {
+            string userRoleType = "";
+
+            string query = "";
+            query = query + "SELECT u.Id,u.UserName,u.UserRoleId ";
+            query = query + "FROM Users u ";
+            query = query + "    INNER JOIN UserRoles ur ON u.UserRoleId = ur.ID ";
+            query = query + "WHERE UserName=N'"+ userName + "' ";
+
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            int userRoleId = Convert.ToInt32(rdr["UserRoleId"]);
+                            if(userRoleId == 1)
+                            {
+                                userRoleType = "admin";
+                            }
+                            else if (userRoleId == 2)
+                            {
+                                userRoleType = "editor";
+
+                            }
+                            else if (userRoleId == 3)
+                            {
+                                userRoleType = "visitor";
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return userRoleType;
+        }
     }
 }

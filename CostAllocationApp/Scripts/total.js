@@ -140,7 +140,7 @@ $(document).ready(function () {
                         titleColumnsCount++;
                     }
 
-                    $('#table_container').append(`<p class="font-weight-bold" style="margin-top:20px;"><u>${_splittedValue[0]}:</u></p>`);
+                    $('#table_container').append(`<p class="font-weight-bold" style="margin-top:20px;"><u>${_splittedValue[0]}</u></p>`);
                     $('#table_container').append(`<table id="table_${n}" class="generated_table" data-dt='${titleColumnsCount}'></table>`);
                     if (titleColumnsCount==1) {
                         $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);

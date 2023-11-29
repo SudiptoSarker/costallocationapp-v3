@@ -155,8 +155,8 @@ $(document).ready(function () {
         });
         if (jssInsertedData.length > 0) {
             for (var i = 0; i < jssInsertedData.length; i++) {
-                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].sectionId == 0 || jssInsertedData[i].departmentId == '' || jssInsertedData[i].departmentId == 0 ||jssInsertedData[i].companyId == '' ||jssInsertedData[i].companyId == 0 || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
-                    storeMessage.push('invalid input for ' + jssInsertedData[i].employeeName);
+                if (jssInsertedData[i].sectionId == '' || jssInsertedData[i].sectionId == 0 || jssInsertedData[i].departmentId == '' || jssInsertedData[i].departmentId == 0  || jssInsertedData[i].roleId == ''  || jssInsertedData[i].roleId == 0 ||jssInsertedData[i].companyId == '' ||jssInsertedData[i].companyId == 0 || (jssInsertedData[i].unitPrice == 0 || isNaN(jssInsertedData[i].unitPrice))) {
+                    storeMessage.push('不正な入力値です ' + jssInsertedData[i].employeeName);
                 }
             }
         }
@@ -214,7 +214,7 @@ $(document).ready(function () {
 
             // for (var k = 0; k < jssUpdatedData.length; k++) {
             //     if (jssUpdatedData[k].sectionId == '' || jssUpdatedData[k].departmentId == '' || jssUpdatedData[k].companyId == '' || (jssUpdatedData[k].unitPrice == 0 || isNaN(jssUpdatedData[k].unitPrice))) {
-            //         storeMessage.push('invalid input for ' + jssUpdatedData[k].employeeName);
+            //         storeMessage.push('不正な入力値です ' + jssUpdatedData[k].employeeName);
             //     }
             // }            
         }

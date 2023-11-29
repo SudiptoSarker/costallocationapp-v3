@@ -12,9 +12,11 @@ function InsertDynamicTables() {
     var apiurlInsert = "/api/Utilities/CreateDynamicTable";
     var apiurlUpdate = "/api/Utilities/UpdateDynamicTable";
     var buttonTag = $('#table_format_add_btn').attr('tag');
+
     var tableName = $("#table_name_input").val();
     var tableTitle = $("#table_title_input").val();
     var tablePosition = $("#table_position_input").val();
+
     var isValid = true;
     var columnTitle1 = '';
     var columnTitle2 = '';
@@ -32,40 +34,28 @@ function InsertDynamicTables() {
         columnTitle1 = $('#column_input_1').val();
         columnTitle2 = $('#column_input_2').val();
         columnTitle3 = $('#column_input_3').val();
-    }
+    }    
 
     if (tableName == "") {
         isValid = false;
-        $("#table_name_warning_msg").show();
-        $("#table_name").focus();        
-    }else{
-        $("#table_name_warning_msg").hide();
+        alert("テーブル名を入力してください");
+        return false;        
     }
+    
     if (tableTitle == "") {
-        if(isValid){
-            $("#table_title").focus();   
-        }        
+        alert("テーブルのタイトルを入力してください");            
         isValid = false;
-        $("#table_title_warning_msg").show();        
-    }else{         
-        $("#table_title_warning_msg").hide();
+        return false;     
     }
+
     if (tablePosition == "") {
-        if(isValid){
-            $("#table_position").focus();   
-        }  
+        alert("テーブルの位置を入力してください");         
         isValid = false;
-        $("#table_position_warning_msg").show();
-    }else{
-        $("#table_position_warning_msg").hide();
+        return false;     
     }
 
 
-    if(isValid) {
-        $("#table_name_warning_msg").hide();
-        $("#table_title_warning_msg").hide();
-        $("#table_position_warning_msg").hide();
-
+    if(isValid) {    
         var data = {
             TableName: tableName,
             TableTitle: tableTitle,
@@ -974,7 +964,8 @@ $(document).ready(function() {
 
     $(document).on('change', '.select_column_no', function () {
         var columnNo = $(this).val();
-        var columnInputContaner = $('.input-container-3');
+        //var columnInputContaner = $('.input-container-3');
+        var columnInputContaner = $('#dynamic_column_title_block');
         columnInputContaner.empty();
         if (columnNo=="1") {
             for (var i = 1; i <= 1; i++) {
@@ -1950,5 +1941,6 @@ function ClearInputEditForm(){
     $("#table_main_item_input").val("");
     $("#table_sub_item_input").val("");
 
-    $('.input-container-3').empty();
+    //$('.input-container-3').empty();
+    $('#dynamic_column_title_block').empty();
 }

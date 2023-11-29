@@ -334,6 +334,28 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
+        public int RemoveDynamicTableSettings(DynamicTable dynamicTable)
+        {
+            int result = 0;
+            string query = $@"delete from dynamicsettings where dynamictableId=@id";
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@id", dynamicTable.Id);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return result;
+            }
+        }
         public int DeleteDynamicTableSettings(string dynamicTalbeId,string dynamicSettingIds)
         {
             int result = 0;

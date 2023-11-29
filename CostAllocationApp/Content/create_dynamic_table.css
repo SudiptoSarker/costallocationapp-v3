@@ -31,6 +31,10 @@ body {
 .input-container-3 {
     margin-left: 50px;
 }
+#dynamic_column_title_block {
+    margin-left: 50px;
+}
+
 .input_table_frm_lbl {
     font-size: 12px;
 }

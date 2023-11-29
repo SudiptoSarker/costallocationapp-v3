@@ -56,8 +56,11 @@
             $('.dynamic_table_list_action').hide(); 
             $('#total_menu_list_thead').empty();    
             $('#total_menu_list_tbody').empty();    
-            var resultsItem = GetDynamicTablesByTableId(tableId);              
-            
+            var resultsItem = GetDynamicTablesByTableId(tableId);                          
+            if (resultsItem == '' || resultsItem == null || resultsItem == undefined) {
+                alert("dynamic table has no major title, please set table format");
+                return false;                
+            }
             GetDynamicSettings(tableId,resultsItem);            
             // $('.data_for_dropdown').select2();
             $(".total_menu_list_tbl").show();              

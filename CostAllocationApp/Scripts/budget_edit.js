@@ -1774,17 +1774,19 @@ var _mwCompanyFromApi = '';
                             var dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
 
                             if (x == jssTableDefinition.remarks.index) {                        
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
+                                if (dataCheckForInsertOnChange.length == 0) {
+                                    //jssUpdatedData.push(retrivedData);
+                                    insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                                 }
                                 else {
-                                    updateArray(jssUpdatedData, retrivedData);
+                                    //updateArray(jssUpdatedData, retrivedData);
+                                    updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                                 }                        
-                                cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
+                                //cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                             }
 
                             if (x == jssTableDefinition.section.index) {  
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1797,7 +1799,7 @@ var _mwCompanyFromApi = '';
                             }                    
 
                             if (x == jssTableDefinition.department.index) { 
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     
                                     //jssUpdatedData.push(retrivedData);
@@ -1811,7 +1813,7 @@ var _mwCompanyFromApi = '';
                             }
                             
                             if (x == jssTableDefinition.incharge.index) {
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1824,7 +1826,7 @@ var _mwCompanyFromApi = '';
                             }
 
                             if (x == jssTableDefinition.role.index) {  
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1837,19 +1839,19 @@ var _mwCompanyFromApi = '';
                             }
 
                             if (x == jssTableDefinition.explanation.index) {                        
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                    //insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
+                                if (dataCheckForInsertOnChange.length == 0) {
+                                    //jssUpdatedData.push(retrivedData);
+                                    insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                                 }
                                 else {
-                                    updateArray(jssUpdatedData, retrivedData);
-                                    //updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
+                                    //updateArray(jssUpdatedData, retrivedData);
+                                    updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                                 }
-                                cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
+                                //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }
 
                             if (x == jssTableDefinition.company.index) {    
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 var rowNumber = parseInt(y) + 1;
                                 if (parseInt(value) !== _mwCompanyFromApi.Id) {
                                     var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
@@ -1872,7 +1874,7 @@ var _mwCompanyFromApi = '';
                             }
 
                             if (x == jssTableDefinition.grade.index) {    
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                               // retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -1885,7 +1887,7 @@ var _mwCompanyFromApi = '';
                             }
 
                             if (x == jssTableDefinition.unitPrice.index) {   
-                                retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
+                                //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
                                     insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
@@ -2751,7 +2753,7 @@ var _mwCompanyFromApi = '';
         array[index].duplicateCount = retrivedData.duplicateCount;
         array[index].roleChanged = retrivedData.roleChanged;
         array[index].unitPriceChanged = retrivedData.unitPriceChanged;
-        array[index].bcyrCell = array[index].bcyrCell + ',' + retrivedData.bcyrCell;
+        array[index].bcyrCell =  retrivedData.bcyrCell;
     }
 
     function retrivedObjectForInsertOnChange(rowData) {

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Dynamic Talbe Format";
+    ViewBag.Title = "ダイナミックテーブルフォーマット( Create Tables)";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,9 +10,7 @@
     @*<link rel="stylesheet" type="text/css" href="/Content/sections_ver02.css" />*@
 }
 
-
 <div class="content container-fluid">
-
     <!-----------------Dynamic Table: Dynamic Table list are showing on this part----------------->
     <div id="dynamic_table_list" style="display: block;">
         <h4 class="table_heading">集計表マスター​</h4>
@@ -1233,106 +1231,8 @@
 @section Scripts {
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/create_dynamic_table.js"></script>
+    
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
-    <script type="text/javascript">
-        $.connection.hub.disconnected(function () {
-            setTimeout(function () {
-                $.connection.hub.start();
-            }, 5000); // Restart connection after 5 seconds.
-        });
-        $.connection.hub.start();
-        $(function () {
-
-            var chat = $.connection.chatHub;
-
-            chat.client.addNewMessageToPage = function (name, message) {
-                alert(name + message);
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            };
-        });
-
-
-
-        $(document).ready(function () {
-
-            setInterval(() => {
-                $.ajax({
-                    url: `/api/utilities/GetUserLogs/`,
-                    contentType: 'application/json',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var userName = $('#user_name').text();
-                        $('#user_log').empty();
-                        $.each(data, (index, value) => {
-                            if (userName !== value.UserName) {
-                                $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                            }
-                        });
-
-                    }
-                });
-            }, 5000);
-
-            $.ajax({
-                url: `/api/utilities/GetUserLogs/`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (data) {
-                    var userName = $('#user_name').text();
-                    $('#user_log').empty();
-                    $.each(data, (index, value) => {
-                        if (userName !== value.UserName) {
-                            $('#user_log').append(`<li style="float:left;background-color:lightgrey; border-radius:50px; overflow:hidden;margin-right:5px;">${value.UserName}</li>`);
-                        }
-                    });
-
-                }
-            });
-
-            $('#showColumnTitleInput').change(function () {
-                const column_title_label = ["大項目ヘッダータイトル", "中項目ヘッダータイトル", "詳細項目ヘッダーのタイトル"];
-                let append_block = '';
-                $('#dynamic_column_title_block').empty();
-
-                for (let i = 1; i <= $(this).val(); i++) {
-                    append_block += '<div class="row mt-1">' +
-                        '<div class="col-md-1" ></div >' +
-                        '<div class="col-md-5 dynamic_column_title_label">' +
-                        '<label class="input_table_frm_lbl">' + column_title_label[i-1] + '</label>' +
-                        '</div>' +
-                        '<div class="col-md-6 dynamic_column_title_input">' +
-                        '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_' + i + '">' +
-                        '</div>' +
-                        '</div>';
-
-                }
-                $('#dynamic_column_title_block').append(append_block);
-                append_block = "";
-            });
-
-        });
-
-
-
-    </script>
+    <script src="/Scripts/user_notifications.js"></script>    
 }

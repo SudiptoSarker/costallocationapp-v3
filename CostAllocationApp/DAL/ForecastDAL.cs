@@ -1694,7 +1694,7 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
             query = query + "    Left Join Departments d On eh.DepartmentId = d.Id ";
-            query = query + "    Left Join InCharges i On eh.InChargeId = e.Id ";
+            query = query + "    Left Join InCharges i On eh.InChargeId = i.Id ";
             query = query + "    Left Join Roles r On eh.RoleId = r.Id ";
             query = query + "    Left Join Explanations ex On eh.ExplanationId = ex.Id ";
             query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";

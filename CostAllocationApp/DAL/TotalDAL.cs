@@ -444,7 +444,7 @@ namespace CostAllocationApp.DAL
             List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
             string query = $@"select ds.Id,c.CategoryName,sc.SubCategoryName,di.DetailsItemName,dt.TableName,ds.MethodId,ds.ParameterId,ds.IsActive
                             ,c.Id 'CategoryId',sc.Id 'SubCategoryId',di.Id 'DetailId',ds.DynamicTableId, dt.TableTitle 
-                            from DynamicSettings ds left join DynamicTables dt on ds.DynamicTableId=dt.Id
+                            from DynamicSettings ds inner join DynamicTables dt on ds.DynamicTableId=dt.Id
                             left join Categories c on ds.CategoryId = c.Id 
                             left join SubCategories sc on ds.SubCategoryId = sc.Id
                             left join DetailsItems di on di.Id = ds.DetailsId where ds.IsActive=1 order by dt.TablePosition";

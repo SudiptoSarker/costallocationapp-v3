@@ -276,7 +276,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
     var tableId = $('#table_id_for_edit').val();
     var dynamicTable;
     if (mainItem == '' || mainItem == undefined || mainItem == null) {
-        alert('Main item required!');
+        alert('メイン項目必須');
         return;
     }
     else {
@@ -380,7 +380,7 @@ $(document).on('click', '.main_item_edit_action ', function () {
     var dynamicTableId = $('#table_id_for_edit').val();
 
     if (mainItemName == '' || mainItemName == undefined || mainItemName == null) {
-        alert('Main item required!');
+        alert('メイン項目必須');
         return;
     }
     else {

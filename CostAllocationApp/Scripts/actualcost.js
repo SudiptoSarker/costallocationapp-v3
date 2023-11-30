@@ -252,7 +252,7 @@ function ActualCostJexcel(){
                 readOnly: true
             },
         ],
-        columnSorting: true,
+        columnSorting: false,
         contextMenu: function (obj, x, y, e) {
 
         }

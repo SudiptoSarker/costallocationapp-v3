@@ -11234,7 +11234,7 @@ namespace CostAllocationApp.Controllers.Api
         {
             if (String.IsNullOrEmpty(subCategory.SubCategoryName))
             {
-                return BadRequest("Sub-Category name required!");
+                return BadRequest("サブカテゴリー名 必須");
             }
             
             subCategory.CreatedBy = "";
@@ -11383,7 +11383,7 @@ namespace CostAllocationApp.Controllers.Api
         {
             if (String.IsNullOrEmpty(deatailsItem.DetailsItemName))
             {
-                return BadRequest("Details Item Name required!");
+                return BadRequest("詳細項目名 必須");
             }
             if (String.IsNullOrEmpty(deatailsItem.SubCategoryId))
             {

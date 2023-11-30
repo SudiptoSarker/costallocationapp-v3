@@ -993,7 +993,8 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.SectionId = 0;
+                                                _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName("N/A", userName);
+                                                //_uploadExcel.SectionId = 0;
                                             }
                                             //department : read/write
                                             if (!string.IsNullOrEmpty(_row[1].ToString()))
@@ -1003,7 +1004,8 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.DepartmentId = 0;
+                                                int sectionId = Convert.ToInt32(_uploadExcel.SectionId);
+                                                _uploadExcel.DepartmentId = departmentBLL.RetrieveDepartmentIdByDepartmentName("N/A", sectionId, userName);                                                
                                             }
 
                                             //incharge: read/write
@@ -1023,7 +1025,7 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.RoleId = 0;
+                                                _uploadExcel.RoleId = roleBLL.RetrieveRoleIdByRoleName("N/A", userName);
                                             }
 
                                             //explanation: read/write
@@ -1039,7 +1041,7 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.CompanyId = 0;
+                                                _uploadExcel.CompanyId = companyBLL.RetrieveCompanyIdByCompanyName("N/A", userName);
                                             }
 
                                             //grade and unit price: read/write

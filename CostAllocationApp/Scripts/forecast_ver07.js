@@ -996,7 +996,7 @@ function ShowForecastJexcel(){
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",           
         minDimensions: [6, 10],
-        columnSorting: true,
+        columnSorting: false,
         oninsertrow: newRowInserted,
 
         nestedHeaders:[

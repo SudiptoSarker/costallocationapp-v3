@@ -762,7 +762,7 @@ function ShowApproveJexcel(){
             { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
         ],
         minDimensions: [6, 10],
-        columnSorting: true,
+        columnSorting: false,
         oninsertrow: newRowInserted,
         ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {            

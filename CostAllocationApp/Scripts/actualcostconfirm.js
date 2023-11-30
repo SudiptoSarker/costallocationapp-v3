@@ -176,7 +176,7 @@ function ShowActualCostConfrimJexcel(){
             { title: "IsChanged", type: 'hidden', name: "IsChanged" },
         ],
         minDimensions: [6, 10],
-        columnSorting: true,
+        columnSorting: false,
         contextMenu: function (obj, x, y, e) {
         },
         onchange: function (instance, cell, x, y, value) {

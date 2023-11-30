@@ -1217,7 +1217,7 @@ $(document).ready(function() {
         var responseData = '';
         var tableId = $('.table_list_radio:checked').val();
         if (tableId == null || tableId == undefined || tableId == "") {
-            alert("please select a table!");
+            alert("テーブルを選択してください！");
         } else {
             //ajax call here
             var count = 0;
@@ -1398,7 +1398,7 @@ $(document).ready(function() {
         var tableId = $('.table_list_radio:checked').val();
         var dynamicTable;
         if (tableId == null || tableId == undefined || tableId == "") {
-            alert("please select a table!");
+            alert("テーブルを選択してください！");
         } else {
             //ajax call here
             $.ajax({
@@ -1414,7 +1414,7 @@ $(document).ready(function() {
                 }
             });
             if (dynamicTable.CategoryTitle == "" || dynamicTable.CategoryTitle == null || dynamicTable.CategoryTitle == undefined) {
-                alert('Main Title not defined!');
+                alert('メインタイトルが定義されていません！');
                 return false;
             }
             //get value by id and set to the modal 

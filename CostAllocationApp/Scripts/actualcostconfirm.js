@@ -180,7 +180,6 @@ function ShowActualCostConfrimJexcel(){
         contextMenu: function (obj, x, y, e) {
         },
         onchange: function (instance, cell, x, y, value) {
-            debugger;
             var changedValue = jss.getValueFromCoords(20, y);
             if (parseInt(x) == 18 && value > 0) {
 
@@ -326,7 +325,8 @@ $(document).ready(function () {
         var _newEmployeeGroupList = [];
         var _uniqueEmnployeeIdList = [];
         var _actualCostFlag = 0;
-        var _actualCostAmount = 0;
+        var _actualCostAmount = 0;  
+        var totalManmonth = 0;      
         var allData = jss.getData();
         var _allRows = $(`.jexcel > tbody > tr`);
 
@@ -347,6 +347,7 @@ $(document).ready(function () {
                 _actualCostCount = 0;
                 _actualCostAmount = 0;
                 _actualCostFlag = 0;
+                totalManmonth = 0;
                 for (var k = 0; k < allData.length; k++) {
                     if (allData[k][19] == _uniqueEmnployeeIdList[j]) {
 
@@ -362,16 +363,15 @@ $(document).ready(function () {
                         //    alert('Duplicate actual cost found!');
                         //    return;
                         //}
+                        totalManmonth+= parseFloat(allData[k][15]);
                         _newEmployeeGroupList.push({
                             assignmentId: allData[k][0],
                             manMonth: allData[k][15],
                             actualCost: allData[k][18]
                         });
-
-
                     }
                 }
-                //debugger;
+
                 //console.log(jss.options.rows);
                 //console.log(_allRows);
                 if (_actualCostFlag > 0) {
@@ -379,24 +379,16 @@ $(document).ready(function () {
 
                         var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
                         var ac = _actualCostAmount;
-                        var newCost = mm * ac;
-
+                        var newCost = (mm * ac)/totalManmonth;
                         for (var m = 0; m < _allRows.length; m++) {
                             //var _changedValue = jss.getValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y));
-                            if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {
-
-
-                                //_allRows[m].cells[19].innerText = newCost;
-                                
+                            if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {                                
                                 jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
                                 jss.setValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y), '', false);
                             }
                         }
-
                     }
                 }
-
-
                 _newEmployeeGroupList = [];
             }
         }

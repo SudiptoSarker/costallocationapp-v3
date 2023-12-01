@@ -81,12 +81,17 @@ namespace CostAllocationApp.Controllers.Api
             List<Department> departments = departmentBLL.GetAllDepartments();
             List<Company> companies = companyBLL.GetAllCompanies();
 
-            foreach (var company in companies)
+            if (companies.Count > 0)
             {
-                companyIDList.Add(company.Id);
+                foreach (var company in companies)
+                {
+                    companyIDList.Add(company.Id);
+                }
+                companyIds = String.Join(",", companyIDList);
             }
-            companyIds = String.Join(",", companyIDList);
-            foreach (var department in departments)
+
+            if (departments.Count > 0) { 
+                foreach (var department in departments)
             {
                 data = new ArrayList();
                 double totalDeptCost = 0; // Assign initial value for total department cost
@@ -185,41 +190,42 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-            //Prepare monthly forecast cost data
-            monthlyForecastData.Add("10", _octTotalCost);
-            monthlyForecastData.Add("11", _novTotalCost);
-            monthlyForecastData.Add("12", _decTotalCost);
-            monthlyForecastData.Add("1", _janTotalCost);
-            monthlyForecastData.Add("2", _febTotalCost);
-            monthlyForecastData.Add("3", _marTotalCost);
-            monthlyForecastData.Add("4", _aprTotalCost);
-            monthlyForecastData.Add("5", _mayTotalCost);
-            monthlyForecastData.Add("6", _junTotalCost);
-            monthlyForecastData.Add("7", _julTotalCost);
-            monthlyForecastData.Add("8", _augTotalCost);
-            monthlyForecastData.Add("9", _sepTotalCost);
+                //Prepare monthly forecast cost data
+                monthlyForecastData.Add("10", _octTotalCost);
+                monthlyForecastData.Add("11", _novTotalCost);
+                monthlyForecastData.Add("12", _decTotalCost);
+                monthlyForecastData.Add("1", _janTotalCost);
+                monthlyForecastData.Add("2", _febTotalCost);
+                monthlyForecastData.Add("3", _marTotalCost);
+                monthlyForecastData.Add("4", _aprTotalCost);
+                monthlyForecastData.Add("5", _mayTotalCost);
+                monthlyForecastData.Add("6", _junTotalCost);
+                monthlyForecastData.Add("7", _julTotalCost);
+                monthlyForecastData.Add("8", _augTotalCost);
+                monthlyForecastData.Add("9", _sepTotalCost);
 
-            //prepare monthly actual cost data
-            monthlyActualData.Add("10", _octActualCost);
-            monthlyActualData.Add("11", _novActualCost);
-            monthlyActualData.Add("12", _decActualCost);
-            monthlyActualData.Add("1", _janActualCost);
-            monthlyActualData.Add("2", _febActualCost);
-            monthlyActualData.Add("3", _marActualCost);
-            monthlyActualData.Add("4", _aprActualCost);
-            monthlyActualData.Add("5", _mayActualCost);
-            monthlyActualData.Add("6", _junActualCost);
-            monthlyActualData.Add("7", _julActualCost);
-            monthlyActualData.Add("8", _augActualCost);
-            monthlyActualData.Add("9", _sepActualCost);
+                //prepare monthly actual cost data
+                monthlyActualData.Add("10", _octActualCost);
+                monthlyActualData.Add("11", _novActualCost);
+                monthlyActualData.Add("12", _decActualCost);
+                monthlyActualData.Add("1", _janActualCost);
+                monthlyActualData.Add("2", _febActualCost);
+                monthlyActualData.Add("3", _marActualCost);
+                monthlyActualData.Add("4", _aprActualCost);
+                monthlyActualData.Add("5", _mayActualCost);
+                monthlyActualData.Add("6", _junActualCost);
+                monthlyActualData.Add("7", _julActualCost);
+                monthlyActualData.Add("8", _augActualCost);
+                monthlyActualData.Add("9", _sepActualCost);
 
-            //Prepare response data
-            response.Add("chartData", chartData);
-            response.Add("Year", year);
-            response.Add("totalCost", string.Format("{0:N2}M", totalCost / 1000000));
-            response.Add("forecastCost", monthlyForecastData);
-            response.Add("actualCost", monthlyActualData);
-
+                //Prepare response data
+                response.Add("chartData", chartData);
+                response.Add("Year", year);
+                response.Add("totalCost", string.Format("{0:N2}M", totalCost / 1000000));
+                response.Add("forecastCost", monthlyForecastData);
+                response.Add("actualCost", monthlyActualData);
+            }
+            
             return Ok(response);
         }
 
@@ -262,127 +268,129 @@ namespace CostAllocationApp.Controllers.Api
             List<int> companyIDList = new List<int>();
 
             List<Company> companies = companyBLL.GetAllCompanies();
-            foreach (var company in companies)
-            {
-                companyIDList.Add(company.Id);
+            if (companies.Count > 0) { 
+                foreach (var company in companies)
+                {
+                    companyIDList.Add(company.Id);
+                }
+                companyIds = String.Join(",", companyIDList);
             }
-            companyIds = String.Join(",", companyIDList);
-
 
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
 
+            if(year > 0) { 
+                var hinsoData = employeeAssignmentBLL.GetForecastDataByCompanyAndDepartments(qaDepartmentByName.Id, companyIds, year);
+                if (hinsoData.Count > 0)
+                {
+                    _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                    _novHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                    _decHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                    _janHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                    _febHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                    _marHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                    _aprHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                    _mayHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                    _junHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                    _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                    _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                    _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
+                }
 
-            var hinsoData = employeeAssignmentBLL.GetForecastDataByCompanyAndDepartments(qaDepartmentByName.Id, companyIds, year);
-            if (hinsoData.Count > 0)
-            {
-                _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
-                _novHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.NovTotal));
-                _decHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.DecTotal));
-                _janHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JanTotal));
-                _febHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.FebTotal));
-                _marHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MarTotal));
-                _aprHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AprTotal));
-                _mayHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MayTotal));
-                _junHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JunTotal));
-                _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
-                _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
-                _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
+                if (departments.Count > 0) { 
+                    foreach (var department in departments)
+                    {
+                        if (department.Id == qaDepartmentByName.Id)
+                        {
+                            continue;
+                        }
+                        var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
+                        if (apportionmentByDepartment == null)
+                        {
+                            apportionmentByDepartment = new Apportionment();
+                        }
+
+                        List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(department.Id.ToString(), companyIds, year);
+                        if (forecastAssignmentViewModels.Count > 0)
+                        {
+                            double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
+                            double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
+                            double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
+                            double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
+                            double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
+                            double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
+                            double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
+                            double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
+                            double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
+                            double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
+                            double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
+                            double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
+
+                            var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
+                            {
+                                _octBudgetCost += _octTotal + _octCalculation;
+                            }
+                            var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
+
+                            {
+                                _novBudgetCost += _novTotal + _novCalculation;
+                            }
+                            var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
+                            {
+                                _decBudgetCost += _decTotal + _decCalculation;
+                            }
+                            var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
+                            {
+                                _janBudgetCost += _janTotal + _janCalculation;
+                            }
+                            var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
+                            {
+                                _febBudgetCost += _febTotal + _febCalculation;
+                            }
+                            var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
+                            {
+                                _marBudgetCost += _marTotal + _marCalculation;
+                            }
+                            var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
+                            {
+                                _aprBudgetCost += _aprTotal + _aprCalculation;
+                            }
+                            var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
+                            {
+                                _mayBudgetCost += _mayTotal + _mayCalculation;
+                            }
+                            var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
+                            {
+                                _junBudgetCost += _junTotal + _junCalculation;
+                            }
+                            var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
+                            {
+                                _julBudgetCost += _julTotal + _julCalculation;
+                            }
+                            var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
+                            {
+                                _augBudgetCost += _augTotal + _augCalculation;
+                            }
+                            var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
+                            {
+                                _sepBudgetCost += _sepTotal + _sepCalculation;
+                            }
+                        }
+
+                    }
+                }
+                response.Add("10", _octBudgetCost);
+                response.Add("11", _novBudgetCost);
+                response.Add("12", _decBudgetCost);
+                response.Add("1", _janBudgetCost);
+                response.Add("2", _febBudgetCost);
+                response.Add("3", _marBudgetCost);
+                response.Add("4", _aprBudgetCost);
+                response.Add("5", _mayBudgetCost);
+                response.Add("6", _junBudgetCost);
+                response.Add("7", _julBudgetCost);
+                response.Add("8", _augBudgetCost);
+                response.Add("9", _sepBudgetCost);
             }
-
-            foreach (var department in departments)
-            {
-                if (department.Id == qaDepartmentByName.Id)
-                {
-                    continue;
-                }
-                var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
-                if (apportionmentByDepartment == null)
-                {
-                    apportionmentByDepartment = new Apportionment();
-                }
-
-                List<ForecastAssignmentViewModel> forecastAssignmentViewModels = totalBLL.GetEmployeesForecastByDepartments_Company(department.Id.ToString(), companyIds, year);
-                if (forecastAssignmentViewModels.Count > 0)
-                {
-                    double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
-                    double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
-                    double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
-                    double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
-                    double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
-                    double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
-                    double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
-                    double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
-                    double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
-                    double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
-                    double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
-                    double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
-
-                    var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
-                    {
-                        _octBudgetCost += _octTotal + _octCalculation;
-                    }
-                    var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
-
-                    {
-                        _novBudgetCost += _novTotal + _novCalculation;
-                    }
-                    var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
-                    {
-                        _decBudgetCost += _decTotal + _decCalculation;
-                    }
-                    var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
-                    {
-                        _janBudgetCost += _janTotal + _janCalculation;
-                    }
-                    var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
-                    {
-                        _febBudgetCost += _febTotal + _febCalculation;
-                    }
-                    var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
-                    {
-                        _marBudgetCost += _marTotal + _marCalculation;
-                    }
-                    var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
-                    {
-                        _aprBudgetCost += _aprTotal + _aprCalculation;
-                    }
-                    var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
-                    {
-                        _mayBudgetCost += _mayTotal + _mayCalculation;
-                    }
-                    var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
-                    {
-                        _junBudgetCost += _junTotal + _junCalculation;
-                    }
-                    var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
-                    {
-                        _julBudgetCost += _julTotal + _julCalculation;
-                    }
-                    var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
-                    {
-                        _augBudgetCost += _augTotal + _augCalculation;
-                    }
-                    var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
-                    {
-                        _sepBudgetCost += _sepTotal + _sepCalculation;
-                    }
-                }
-
-            }
-
-            response.Add("10", _octBudgetCost);
-            response.Add("11", _novBudgetCost);
-            response.Add("12", _decBudgetCost);
-            response.Add("1", _janBudgetCost);
-            response.Add("2", _febBudgetCost);
-            response.Add("3", _marBudgetCost);
-            response.Add("4", _aprBudgetCost);
-            response.Add("5", _mayBudgetCost);
-            response.Add("6", _junBudgetCost);
-            response.Add("7", _julBudgetCost);
-            response.Add("8", _augBudgetCost);
-            response.Add("9", _sepBudgetCost);
-
             return Ok(response);
         }
 

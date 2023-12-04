@@ -404,3 +404,41 @@ CSS.g-6,
   font-size: 14px !important;
   height: 44px !important;
 }
+
+/* .fa-upload {
+  font-size: 60px;
+  color: white;
+  }
+   */
+  /* label.file {
+  vertical-align: middle;
+  padding: 10px;
+  display: inline-block;
+  } */
+  
+  /* input[type="file"] {
+  display: none;
+  } */
+/*   
+  span.upload {
+  width: 100%;
+  padding: 20px;
+  font-size: 2em;
+  border-radius: 4px;
+  background-color: lightblue;
+  } */
+  
+input[type=file]{    
+    color:transparent;
+}
+#import_file_excel{
+  font-size: 12px;
+  margin-left: 6px;
+  margin-top: 41px;
+}
+#fileLabel{
+  font-size: 13px;
+}
+#file_label_txt{
+  margin-top: 35px;
+}

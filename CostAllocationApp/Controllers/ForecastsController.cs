@@ -993,7 +993,7 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName("N/A", userName);
+                                                _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName("未設定", userName);
                                                 //_uploadExcel.SectionId = 0;
                                             }
                                             //department : read/write
@@ -1005,7 +1005,7 @@ namespace CostAllocationApp.Controllers
                                             else
                                             {
                                                 int sectionId = Convert.ToInt32(_uploadExcel.SectionId);
-                                                _uploadExcel.DepartmentId = departmentBLL.RetrieveDepartmentIdByDepartmentName("N/A", sectionId, userName);                                                
+                                                _uploadExcel.DepartmentId = departmentBLL.RetrieveDepartmentIdByDepartmentName("未設定", sectionId, userName);                                                
                                             }
 
                                             //incharge: read/write
@@ -1025,7 +1025,7 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.RoleId = roleBLL.RetrieveRoleIdByRoleName("N/A", userName);
+                                                _uploadExcel.RoleId = roleBLL.RetrieveRoleIdByRoleName("未設定", userName);
                                             }
 
                                             //explanation: read/write
@@ -1041,7 +1041,7 @@ namespace CostAllocationApp.Controllers
                                             }
                                             else
                                             {
-                                                _uploadExcel.CompanyId = companyBLL.RetrieveCompanyIdByCompanyName("N/A", userName);
+                                                _uploadExcel.CompanyId = companyBLL.RetrieveCompanyIdByCompanyName("未設定", userName);
                                             }
 
                                             //grade and unit price: read/write

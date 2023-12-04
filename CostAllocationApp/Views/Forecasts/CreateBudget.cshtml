@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td style="border: none !important;">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデーターの複製 (Replicate Data)</a>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデータの複製 (Replicate Data)</a>
                         </td>
                     </tr>
                     <br>
@@ -83,9 +83,16 @@
                                 <label style="margin-right: 11px;">予算時期を選択</label>
                                 <select id="select_budget_type" class="form-control" name="select_budget_type"></select>
                             </div>
-                            <div class="col-4">
-                                <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
-                            </div>
+                            <div class="col-5">    
+                                <div class="row">
+                                    <div class="col-4">
+                                        <input type='file' class="form-control-file" name="uploaded_file" id="import_file_excel" onchange="pressed()">
+                                    </div>                                    
+                                    <div class="col-8 pl-0" id="file_label_txt">
+                                        <label id="fileLabel" for="import_file_excel" class="mt-2">ファイルが選択されていません</label>
+                                    </div>                                    
+                                </div>                                
+                            </div>                            
                         </div>
                     </div>
                     <div class="modal-btn delete-action">
@@ -113,7 +120,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 id='replicate_modal_header'>策定する年度を選択 (Replicate Data)</h3>
+                    <h3 id='replicate_modal_header'>過去のデータの複製 (Replicate Data)</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
                     <br>
                     <div class="row">

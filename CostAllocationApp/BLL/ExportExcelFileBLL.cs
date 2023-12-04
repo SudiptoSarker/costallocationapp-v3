@@ -2392,31 +2392,31 @@ namespace CostAllocationApp.BLL
             sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["J1"].AutoFitColumns();
 
-            sheet.Cells["K1"].Value = "Db Id";
+            sheet.Cells["K1"].Value = "ID";
             sheet.Cells["K1"].Style.Font.Bold = true;
             sheet.Cells["K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["K1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["K1"].AutoFitColumns();
 
-            sheet.Cells["L1"].Value = "Duplicate From";
+            sheet.Cells["L1"].Value = "複製元";
             sheet.Cells["L1"].Style.Font.Bold = true;
             sheet.Cells["L1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["L1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["L1"].AutoFitColumns();
 
-            sheet.Cells["M1"].Value = "Duplicate Count";
+            sheet.Cells["M1"].Value = "複製数";
             sheet.Cells["M1"].Style.Font.Bold = true;
             sheet.Cells["M1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["M1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["M1"].AutoFitColumns();
 
-            sheet.Cells["N1"].Value = "Role Changed";
+            sheet.Cells["N1"].Value = "役割等変更";
             sheet.Cells["N1"].Style.Font.Bold = true;
             sheet.Cells["N1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["N1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["N1"].AutoFitColumns();
 
-            sheet.Cells["O1"].Value = "UnitPrice Changed";
+            sheet.Cells["O1"].Value = "単価変更";
             sheet.Cells["O1"].Style.Font.Bold = true;
             sheet.Cells["O1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["O1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);

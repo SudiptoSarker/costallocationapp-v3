@@ -179,9 +179,9 @@ function onSalaryInactiveClick() {
         type: 'Get',
         dataType: 'json',
         success: function (data) {
-            $('.salary_count').empty();
+            $('.del_confirm_warning').empty();
             $.each(data, function (key, item) {
-                $('.salary_count').append(`<li class='text-info'>${item}</li>`);
+                $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
             });
         },
         error: function (data) {

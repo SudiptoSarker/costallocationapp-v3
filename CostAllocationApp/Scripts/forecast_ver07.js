@@ -1256,11 +1256,11 @@ function ShowForecastJexcel(){
             },
             { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
 
-            { title: "Db Id", type: 'text', name: "Id" },
-            { title: "DuplicateFrom", type: 'text', name: "DuplicateFrom" },
-            { title: "DuplicateCount", type: 'text', name: "DuplicateCount" },
-            { title: "RoleChanged", type: 'text', name: "RoleChanged" },
-            { title: "UnitPriceChanged", type: 'text', name: "UnitPriceChanged" },
+            { title: "ID", type: 'text', name: "Id" },
+            { title: "複製元", type: 'text', name: "DuplicateFrom" },
+            { title: "複製数", type: 'text', name: "DuplicateCount" },
+            { title: "役割等変更", type: 'text', name: "RoleChanged" },
+            { title: "単価変更", type: 'text', name: "UnitPriceChanged" },
 
             {
                 title: "10月",

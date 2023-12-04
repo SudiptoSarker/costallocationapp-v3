@@ -551,13 +551,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     ///countMessage.Add(result + " projects assigned for " + section.SectionName);
-                                    countMessage.Add(result + " のプロジェクトが " + section.SectionName + " にアサインされています");
-
+                                    countMessage.Add(result + " の要員が " + section.SectionName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + section.SectionName);
-                                    countMessage.Add(result + " のプロジェクトが " + section.SectionName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + section.SectionName + " にアサインされています");
                                 }
                             }
                         }
@@ -649,12 +648,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + department.DepartmentName);
-                                    countMessage.Add(result + " のプロジェクトが " + department.DepartmentName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + department.DepartmentName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + department.DepartmentName);
-                                    countMessage.Add(result + " のプロジェクトが " + department.DepartmentName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + department.DepartmentName + " にアサインされています");
                                 }
                             }
                         }
@@ -699,12 +698,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + company.CompanyName);
-                                    countMessage.Add(result + " のプロジェクトが " + company.CompanyName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + company.CompanyName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + company.CompanyName);
-                                    countMessage.Add(result + " のプロジェクトが " + company.CompanyName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + company.CompanyName + " にアサインされています");
                                 }
                             }
                         }
@@ -749,12 +748,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + inCharge.InChargeName);
-                                    countMessage.Add(result + " のプロジェクトが " + inCharge.InChargeName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + inCharge.InChargeName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + inCharge.InChargeName);
-                                    countMessage.Add(result + " のプロジェクトが " + inCharge.InChargeName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + inCharge.InChargeName + " にアサインされています");
                                 }
                             }
                         }
@@ -799,12 +798,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + role.RoleName);
-                                    countMessage.Add(result + " のプロジェクトが " + role.RoleName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + role.RoleName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + role.RoleName);
-                                    countMessage.Add(result + " のプロジェクトが " + role.RoleName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + role.RoleName + " にアサインされています");
                                 }
                             }
                         }
@@ -849,12 +848,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + explanation.ExplanationName);
-                                    countMessage.Add(result + " のプロジェクトが " + explanation.ExplanationName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + explanation.ExplanationName + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + explanation.ExplanationName);
-                                    countMessage.Add(result + " のプロジェクトが " + explanation.ExplanationName + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + explanation.ExplanationName + " にアサインされています");
                                 }
                             }
                         }
@@ -899,12 +898,12 @@ namespace CostAllocationApp.Controllers.Api
                                 if (result > 1)
                                 {
                                     //countMessage.Add(result + " projects assigned for " + salary.SalaryGrade);
-                                    countMessage.Add(result + " のプロジェクトが " + salary.SalaryGrade + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + salary.SalaryGrade + " にアサインされています");
                                 }
                                 else
                                 {
                                     //countMessage.Add(result + " project assigned for " + salary.SalaryGrade);
-                                    countMessage.Add(result + " のプロジェクトが " + salary.SalaryGrade + " にアサインされています");
+                                    countMessage.Add(result + " の要員が " + salary.SalaryGrade + " にアサインされています");
                                 }
                             }
                         }
@@ -3364,7 +3363,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
 
-            return Ok("Operation Completed!");
+            return Ok("正常に処理されました");
         }
         [HttpGet]
         [Route("api/utilities/GetUserLogs/")]
@@ -4986,7 +4985,7 @@ namespace CostAllocationApp.Controllers.Api
                 //        actualCostBLL.CreateSukey(sukey);
                 //    }
                 //}
-                return Ok("Operation Completed.");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -5265,7 +5264,7 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }
             }
-            return Ok("Operation Completed!");
+            return Ok("正常に処理されました");
         }
 
         [HttpGet]
@@ -10283,7 +10282,7 @@ namespace CostAllocationApp.Controllers.Api
                     }
 
                 }
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11200,7 +11199,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 if (finalResults > 0)
                 {
-                    return Ok("設定が削除されました.");
+                    return Ok("設定が保存されました");
                 }
                 else
                 {
@@ -11313,7 +11312,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11341,7 +11340,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11369,7 +11368,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11442,7 +11441,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11470,7 +11469,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11504,7 +11503,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (result > 0)
             {
-                return Ok("Operation Completed!");
+                return Ok("正常に処理されました");
             }
             else
             {
@@ -11564,7 +11563,7 @@ namespace CostAllocationApp.Controllers.Api
             }
 
 
-            return Ok("Operation Completed!");
+            return Ok("正常に処理されました");
 
         }
 

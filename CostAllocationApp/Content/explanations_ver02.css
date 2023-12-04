@@ -229,4 +229,7 @@ body {
     padding: 15px !important;
     margin-top: 1px !important;
 }
-
+.add_edit_del_header{
+    text-align: left;
+    margin-left: 25px;
+}

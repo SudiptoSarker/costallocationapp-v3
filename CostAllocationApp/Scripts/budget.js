@@ -1,4 +1,16 @@
 ﻿$(document).ready(function () {   
+    window.pressed = function(){
+        var a = document.getElementById('import_file_excel');
+        if(a.value == "")
+        {
+            fileLabel.innerHTML = "Choose file";
+        }
+        else
+        {
+            var theSplit = a.value.split('\\');
+            fileLabel.innerHTML = theSplit[theSplit.length-1];
+        }
+    };
     // $("#select_import_year, #replicate_from,#duplciateYear").datepicker({
     //     format: "yyyy",
     //     viewMode: "years",
@@ -82,26 +94,26 @@
             success: function (data) {
                 $('#select_budget_type').empty();
                                                
-                $('#select_budget_type').append(`<option value="">select type</option>`);
+                $('#select_budget_type').append(`<option value="">予算時期を選択</option>`);
                 //create fist half budget dropdown                    
                 if(data.FirstHalfFinalize){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
+                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
                 }else if(data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
+                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
                 }else if(!data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
+                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
                 }  
 
                 //create second half budget dropdown
                 if(data.SecondHalfFinalize){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
                 }else if(data.SecondHalfBudget){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
                 }else if(!data.SecondHalfBudget){
                     if(data.FirstHalfBudget){
-                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
+                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
                     }else{
-                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
+                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
                     }                                               
                 }  
             }
@@ -121,26 +133,26 @@
             success: function (data) {
                 $('#select_duplicate_budget_type').empty();
                                                
-                $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="">予算時期を選択</option>`);
                 //create fist half budget dropdown                    
                 if(data.FirstHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} Initial Budget Created</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
                 }else if(data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} Initial Budget Created But Not Finalize</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
                 }else if(!data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} Initial Budget</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
                 }  
 
                 //create second half budget dropdown
                 if(data.SecondHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 2nd Half Budget Created</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
                 }else if(data.SecondHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 2nd Half Budget Created But Not Finalize</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
                 }else if(!data.SecondHalfBudget){                         
                     if(data.FirstHalfBudget){
-                        $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 2nd Half Budget</option>`);
+                        $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
                     }else{
-                        $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 2nd Half Budget</option>`);
+                        $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
                     }                        
                 }  
             }
@@ -3027,27 +3039,27 @@ function SelectImportBudgetYearAndType(){
     
             //auto select the budget type
             $('#select_budget_type').empty();
-            $('#select_budget_type').append(`<option value="">select type</option>`);
+            $('#select_budget_type').append(`<option value="">予算時期を選択</option>`);
 
             //create fist half budget dropdown            
             if(data.FirstHalfFinalize){
-                $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} Initial Budget Created</option>`);
+                $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} 初期予算が作成されました</option>`);
             }else if(data.FirstHalfBudget){
-                $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} Initial Budget Created But Not Finalize</option>`);
+                $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} 初期予算は確定されていません</option>`);
             }else if(!data.FirstHalfBudget){
-                $('#select_budget_type').append(`<option value="1" selected >${data.Year} Initial Budget</option>`);
+                $('#select_budget_type').append(`<option value="1" selected >${data.Year} 初期予算</option>`);
             }  
             
             //create second half budget dropdown
             if(data.SecondHalfFinalize){
-                $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 2nd Half Budget Created</option>`);
+                $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 下期修正予算が作成されました</option>`);
             }else if(data.SecondHalfBudget){
-                $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 2nd Half Budget Created But Not Finalize</option>`);
+                $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 下期修正予算は確定されていません</option>`);
             }else if(!data.SecondHalfBudget){
                 if(data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="2" selected>${data.Year} 2nd Half Budget</option>`);
+                    $('#select_budget_type').append(`<option value="2" selected>${data.Year} 下期修正予算</option>`);
                 }else{
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 2nd Half Budget</option>`);
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 下期修正予算</option>`);
                 }                                               
             }       
         }
@@ -3073,27 +3085,27 @@ function SelectDuplicateBudgetYearAndType(){
             });
             //auto select the budget type
             $('#select_duplicate_budget_type').empty();
-            $('#select_duplicate_budget_type').append(`<option value="">select type</option>`);
+            $('#select_duplicate_budget_type').append(`<option value="">予算時期を選択</option>`);
 
             //create fist half budget dropdown            
             if(data.FirstHalfFinalize){
-                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} Initial Budget Created</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${data.Year} 初期予算が作成されました</option>`);
             }else if(data.FirstHalfBudget){
-                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} Initial Budget Created But Not Finalize</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${data.Year} 初期予算は確定されていません</option>`);
             }else if(!data.FirstHalfBudget){
-                $('#select_duplicate_budget_type').append(`<option value="1" selected >${data.Year} Initial Budget</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="1" selected >${data.Year} 初期予算</option>`);
             }  
             
             //create second half budget dropdown
             if(data.SecondHalfFinalize){
-                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 2nd Half Budget Created</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${data.Year} 下期修正予算が作成されました</option>`);
             }else if(data.SecondHalfBudget){
-                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 2nd Half Budget Created But Not Finalize</option>`);
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${data.Year} 下期修正予算は確定されていません</option>`);
             }else if(!data.SecondHalfBudget){
                 if(data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="2" selected>${data.Year} 2nd Half Budget</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="2" selected>${data.Year} 下期修正予算</option>`);
                 }else{
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 2nd Half Budget</option>`);
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${data.Year} 下期修正予算</option>`);
                 }                                               
             }       
         }

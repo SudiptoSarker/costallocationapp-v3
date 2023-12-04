@@ -179,7 +179,7 @@ function LoadJexcel() {
                 var items = [];
                 var nextRow = parseInt(y) + 1;
                 items.push({
-                    title: 'duplicate',
+                    title: '複製',
                     onclick: () => {
                         obj.insertRow(1, parseInt(y));
                         var retrivedData = retrivedObject(jss.getRowData(y));
@@ -202,7 +202,7 @@ function LoadJexcel() {
                     }
                 });
                 items.push({
-                    title: 'delete',
+                    title: '削除',
                     onclick: () => {
                         
                         var retrivedData = retrivedObject(jss.getRowData(y));
@@ -220,16 +220,16 @@ function LoadJexcel() {
                                 success: function (data) {   
                                     if(data==1){                      
                                         jss.deleteRow(parseInt(y),1);                                    
-                                        alert("Operation Completed!");
+                                        alert("正常に処理されました");
 
                                     }else{
-                                        alert("Operation Failed!");
+                                        alert("操作が失敗しました");
                                     }
                                 }
                             });
                         }else{
                             jss.deleteRow(parseInt(y),1);  
-                            alert("Operation Completed!");            
+                            alert("正常に処理されました");            
                             //alert(name +" has not been saved yet. You can not delete this employee!")  
                         }   
 
@@ -545,7 +545,7 @@ function LoadJexcel1() {
             var items = [];
             var nextRow = parseInt(y) + 1;            
             items.push({
-                title: 'delete',
+                title: '削除',
                 onclick: () => {
                     
                     var retrivedData = retrivedObject_DepartmentWise(jss_1.getRowData(y));
@@ -563,20 +563,18 @@ function LoadJexcel1() {
                             success: function (data) {   
                                 if(data==1){                      
                                     jss_1.deleteRow(parseInt(y),1);                                    
-                                    alert("Operation Completed!");
+                                    alert("正常に処理されました");
 
                                 }else{
-                                    alert("Operation Failed!");
+                                    alert("操作が失敗しました"); 
                                 }
                             }
                         });
                     }else{
                         jss_1.deleteRow(parseInt(y),1);  
-                        alert("Operation Completed!");            
+                        alert("正常に処理されました");            
                         //alert(name +" has not been saved yet. You can not delete this employee!")  
-                    }   
-
-                    
+                    }                       
                 }
             });
             
@@ -703,7 +701,7 @@ $(document).ready(function () {
             $("#employee_wise_save_button").attr("disabled", true);
             $.each(jss.getData(), (index, itemValue) => {
                 if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
-                    alert('invalid department!');
+                    alert('不正な部署名です');
                     $("#employee_wise_save_button").attr("disabled", false);
                     flag = false;
                     return false;
@@ -781,64 +779,64 @@ $(document).ready(function () {
                                 // sep_sum += parseFloat(itemValue1[14]);
 
                         }); // end of each...
-                        
-                        if (oct_sum !=100) {
-                            alert('Invalid Month (Oct) Value ' + oct_sum);
+                        //１月(January)２月(February) ３月(March)、So, Add "月" after the number of month
+                        if (oct_sum !=100) {                            
+                            alert("十月 のデータ "+oct_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (nov_sum !=100) {
-                            alert('Invalid Month (Nov) Value ' + nov_sum);
+                            alert("十一月 のデータ "+nov_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (dec_sum !=100) {
-                            alert('Invalid Month (Dec) Value ' + dec_sum);
+                            alert("十二月 のデータ "+dec_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (jan_sum !=100) {
-                            alert('Invalid Month (Jan) Value ' + jan_sum);
+                            alert("一月 のデータ "+jan_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (feb_sum !=100) {
-                            alert('Invalid Month (Feb) Value ' + feb_sum);
+                            alert("二月 のデータ "+feb_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (mar_sum !=100) {
-                            alert('Invalid Month (Mar) Value ' + mar_sum);
+                            alert("三月 のデータ "+mar_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (apr_sum !=100) {
-                            alert('Invalid Month (Apr) Value ' + apr_sum);
+                            alert("四月 のデータ "+apr_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (may_sum !=100) {
-                            alert('Invalid Month (May) Value ' + may_sum);
+                            alert("五月 のデータ "+may_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (jun_sum !=100) {
-                            alert('Invalid Month (Jun) Value ' + jun_sum);
+                            alert("六月 のデータ "+jun_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (jul_sum !=100) {
-                            alert('Invalid Month (Jul) Value ' + jul_sum);
+                            alert("七月 のデータ "+jul_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (aug_sum !=100) {
-                            alert('Invalid Month (Aug) Value ' + aug_sum);
+                            alert("八月 のデータ "+aug_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
                         if (sep_sum !=100) {
-                            alert('Invalid Month (Sep) Value ' + sep_sum);
+                            alert("九月 のデータ "+sep_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
                         }
@@ -910,8 +908,8 @@ $(document).ready(function () {
                             break;
                         }
                         
-                    }
-                    alert('duplicate departments found for ' + duplicateEmployeeName);
+                    }                    
+                    alert(duplicateEmployeeName+" に同じ部署が複数登録されています")
                     $("#employee_wise_save_button").attr("disabled", false);
                     return false;
                 }
@@ -963,58 +961,58 @@ $(document).ready(function () {
                 sep_sum += parseFloat(data[i][13]);
             }
 
-            if (oct_sum > 0) {
-                if (oct_sum !=100) {
-                    alert('Invalid Department(Oct) Value ' + oct_sum);
+            if (oct_sum >= 0) {
+                if (oct_sum !=100) {                    
+                    alert("十月 の部署のデータ "+oct_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }                
             }
             if (nov_sum> 0) {
                 if(nov_sum !=100){
-                    alert('Invalid Department(Nov) Value ' + nov_sum);
+                    alert("十一月 の部署のデータ "+nov_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }                
             }
             if (dec_sum> 0) {
                 if(dec_sum !=100){
-                    alert('Invalid Department(Dec) Value ' + dec_sum);
+                    alert("十二月 の部署のデータ "+dec_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (jan_sum> 0) {
                 if(jan_sum !=100){
-                    alert('Invalid Department(Jan) Value ' + jan_sum);
+                    alert("一月 の部署のデータ "+jan_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (feb_sum> 0) {
                 if(feb_sum !=100){
-                    alert('Invalid Department(Feb) Value ' + feb_sum);
+                    alert("二月 の部署のデータ "+feb_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (mar_sum> 0) {
                 if(mar_sum !=100){
-                    alert('Invalid Department(Mar) Value ' + mar_sum);
+                    alert("三月 の部署のデータ "+mar_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (apr_sum> 0) {
                 if(apr_sum !=100){
-                    alert('Invalid Department(Apr) Value ' + apr_sum);
+                    alert("四月 の部署のデータ "+apr_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (may_sum> 0) {
                 if(may_sum !=100){
-                    alert('Invalid Department(May) Value ' + may_sum);
+                    alert("五月 の部署のデータ "+may_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
@@ -1022,28 +1020,28 @@ $(document).ready(function () {
             }
             if (jun_sum> 0) {
                 if(jun_sum !=100){
-                    alert('Invalid Department(Jun) Value ' + jun_sum);
+                    alert("六月 の部署のデータ "+jun_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (jul_sum > 0) {
                 if(jul_sum !=100){
-                    alert('Invalid Department(Jul) Value ' + jul_sum);
+                    alert("七月 の部署のデータ "+jul_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (aug_sum> 0) {
                 if(aug_sum !=100){
-                    alert('Invalid Department(Aug) Value ' + aug_sum);
+                    alert("八月 の部署のデータ "+aug_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
             if (sep_sum> 0) {
                 if(sep_sum !=100){
-                    alert('Invalid Department(Sep) Value ' + sep_sum);
+                    alert("九月 の部署のデータ "+sep_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
@@ -1135,7 +1133,7 @@ $(document).ready(function () {
         $('#slect_department_modal').modal('hide');
     });
 
-    $('#select_employee_btn').on('click', function () {
+    $('#select_employee_btn').on('click', function () {        
         $('#slect_employee_modal').modal('show');
         var year = $('#assignment_year').val();
         _retriveSelectedData = [];
@@ -1163,7 +1161,8 @@ $(document).ready(function () {
                 $('#employee_from_qc').multiselect({
                     allSelectedText: 'All',
                     maxHeight: 200,
-                    includeSelectAllOption: true
+                    includeSelectAllOption: true,
+                    nonSelectedText: '要員を選択してください'
                 });
             }
         });
@@ -1188,9 +1187,7 @@ $(document).ready(function () {
 
 
         $("#employee_from_qc").multiselect('select', _retriveSelectedData);
-        $("#employee_from_qc").multiselect('updateButtonText');
-
-
+        $("#employee_from_qc").multiselect('updateButtonText');        
     });
 
     $('#add_employee_button').on('click', function () {
@@ -1284,7 +1281,7 @@ $(document).ready(function () {
         LoadJexcel();
     });
 
-    $('#select_department_btn').on('click', function () {
+    $('#select_department_btn').on('click', function () {        
         $('#slect_department_modal').modal('show');
         var year = $('#assignment_year').val();
         _retriveddata = [];
@@ -1311,7 +1308,8 @@ $(document).ready(function () {
                 $('#department_from_qc').multiselect({
                     allSelectedText: 'All',
                     maxHeight: 200,
-                    includeSelectAllOption: true
+                    includeSelectAllOption: true,
+                    nonSelectedText: '部署を選択してください'
                 });
             }
         });
@@ -1331,8 +1329,7 @@ $(document).ready(function () {
         });
 
         $("#department_from_qc").multiselect('select', _retriveddata);
-        $("#department_from_qc").multiselect('updateButtonText');
-
+        $("#department_from_qc").multiselect('updateButtonText');        
     });
     
     $('#department_list_add_button').on('click', function () {

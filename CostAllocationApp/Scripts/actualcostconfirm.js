@@ -445,8 +445,55 @@ $(document).ready(function () {
             alert("Please distribute first!");
             return false;
         }
-        if (distributtonCount > 1) {
-            alert("Please undo and try again!");
+
+        var _uniqueEmnployeeIdList = [];
+        var _allData = jss.getData(false);
+        var _newEmployeeGroupList = [];
+        var saveFlag = true;
+        for (var i = 0; i < _allData.length; i++) {
+            if (_uniqueEmnployeeIdList.length > 0) {
+                if (!_uniqueEmnployeeIdList.includes(_allData[i][19])) {
+                    _uniqueEmnployeeIdList.push(_allData[i][19]);
+                }
+            }
+            else {
+                _uniqueEmnployeeIdList.push(_allData[i][19]);
+            }
+        }
+
+        for (var e = 0; e < _uniqueEmnployeeIdList.length; e++) {
+            _newEmployeeGroupList = [];
+            var employeeId = _uniqueEmnployeeIdList[e];
+            $.each(_allData, (index, value) => {
+                if (employeeId == value[19]) {
+                    _newEmployeeGroupList.push({ manMonth : value[15],actualCost : value[18] });
+                }
+            });
+
+            if (_newEmployeeGroupList.length > 1) {
+                var employeeCostCount = 0;
+                $.each(_newEmployeeGroupList, (index, value) => {
+                    if (parseFloat(value.actualCost) > 0) {
+                        employeeCostCount++;
+                    }
+                });
+
+                if (employeeCostCount > 0) {
+                    $.each(_newEmployeeGroupList, (index, value) => {
+                        if (parseFloat(value.manMonth) > 0) {
+                            if (parseFloat(value.actualCost) <= 0) {
+                                saveFlag = false;
+                            }
+                        }
+                        
+                    });
+                }
+                
+            }
+        }
+
+        if (saveFlag == false) {
+            alert("Please distribute first!");
             return false;
         }
 
@@ -455,8 +502,7 @@ $(document).ready(function () {
         //var year = $('#assignment_year').val();
 
         if (jss != undefined) {
-            var data = jss.getData(false);
-            $.each(data, function (index, value) {
+            $.each(_allData, function (index, value) {
                 var obj = {
                     assignmentId: value[0],
                     manHour: parseFloat(value[17]),

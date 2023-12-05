@@ -2532,7 +2532,7 @@ namespace CostAllocationApp.DAL
                             }
                             else
                             {
-                                forecast.Points = Convert.ToInt32(rdr["Points"]);
+                                forecast.Points = Convert.ToDecimal(rdr["Points"]);
                             }
                             if (rdr["Total"] == DBNull.Value)
                             {
@@ -2540,7 +2540,7 @@ namespace CostAllocationApp.DAL
                             }
                             else
                             {
-                                forecast.Total = Convert.ToInt32(rdr["Total"]);
+                                forecast.Total = Convert.ToDecimal(rdr["Total"]);
                             }
                             if (rdr["CreatedBy"] == DBNull.Value)
                             {
@@ -4016,7 +4016,7 @@ namespace CostAllocationApp.DAL
             }
             where += " 1=1 and (ema.IsRowPending is null or ema.IsRowPending =0)";
 
-            string query = $@"select ea.Id,ea.AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
+            string query = $@"select ea.Id approvedAssignmentId,ea.AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
                             ,ea.IsRowPending,ea.IsDeletePending,ea.IsAddEmployee,ea.IsDeleteEmployee,ea.IsCellWiseUpdate,ea.ApprovedCells,emp.FullName 'RootEmployeeName'
@@ -4048,7 +4048,8 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             ExcelAssignmentDto excelAssignmentDto = new ExcelAssignmentDto();
-                            excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            //excelAssignmentDto.Id = Convert.ToInt32(rdr["AssignmentId"]);
+                            excelAssignmentDto.Id = Convert.ToInt32(rdr["approvedAssignmentId"]);
                             if (rdr["EmployeeId"] == DBNull.Value)
                             {
                                 excelAssignmentDto.EmployeeId = null;

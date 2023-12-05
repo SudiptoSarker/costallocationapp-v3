@@ -349,9 +349,14 @@
 }
 
 .search_p_footer button {
-    font-size: 12px;
+    font-size: 14px;
     border: 1px solid black;
-    margin-left: 35%;
+    margin-left: 21%;
+    border: 0px solid;
+    width: 66px;
+    border-radius: 10px;
+    height: 27px;
+    background-color: lightgray;
 }
 
 #hider {

@@ -5,6 +5,7 @@
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
     <link rel="stylesheet" type="text/css" href="/Content/employee_ver02.css" />
+    @* <link rel="stylesheet" type="text/css" href="/Content/sections_ver03.css" /> *@
 
 }
 
@@ -17,21 +18,17 @@
                     <label id="list_master">
                         登録した個人を削除する場合は、チェックボックスにチェックを入れて「削除」ボタンをクリックしてください。
                     </label>                  
-                    <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%">
+                    @* <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%"> *@
+                    <table id="employeeList_datatable" style="width:100%">
                         <thead id="employeelist_thead">
                             <tr>
-                                <th colspan="6">要員名リスト</th>
+                                <th colspan="6" class="employee_header">要員名リスト</th>
                             </tr>
                             <tr>
-                                <th class="employee_list_theader">複数選択</th>
-                                <th class="employee_list_theader">ＩＤ</th>
-                                <th class="employee_list_theader">要員名</th>
+                                <th class="employee_list_theader employee_header" style="width: 0px !important;">複数選択</th>
+                                <th class="employee_list_theader employee_header" style="width: 109px !important;">ＩＤ</th>
+                                <th class="employee_list_theader employee_header">要員名</th>
                             </tr>
-                            @*<tr>
-                                <th></th>
-                                <th></th>
-                                <th class="namelist_td name"><input type="text" placeholder="Search 氏名 (Name)" class="" id="name_search"></th>
-                            </tr>*@
                         </thead>
                         <tbody id="employeelist_tbody"></tbody>
                     </table>

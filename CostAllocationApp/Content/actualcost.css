@@ -141,6 +141,10 @@ body {
     top: 160px;
     left: 143px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .section_sorting {
     height: 157px;
@@ -150,6 +154,10 @@ body {
     top: 160px;
     left: 357px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .department_sorting {
     height: 157px;
@@ -159,6 +167,10 @@ body {
     top: 160px;
     left: 453px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .incharge_sorting{
     height: 157px;
@@ -168,6 +180,10 @@ body {
     top: 160px;
     left: 554px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .role_sorting {
     height: 157px;
@@ -177,6 +193,10 @@ body {
     top: 160px;
     left: 653px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .explanation_sorting {
     height: 157px;
@@ -186,6 +206,10 @@ body {
     top: 160px;
     left: 713px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .company_sorting {
     height: 157px;
@@ -195,6 +219,10 @@ body {
     top: 160px;
     left: 864px;
     z-index: 100;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 10px 6px -6px #777;
 }
 
 /********cutome modal ***********/

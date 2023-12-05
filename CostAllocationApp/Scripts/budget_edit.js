@@ -1580,7 +1580,7 @@
 
                 ],
                 minDimensions: [6, 10],
-                columnSorting: true,
+                columnSorting: false,
                 onbeforechange: function (instance, cell, x, y, value) {
                     var retrivedData = retrivedObject(jss.getRowData(y));
 

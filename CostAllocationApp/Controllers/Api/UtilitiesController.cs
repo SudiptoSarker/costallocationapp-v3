@@ -9874,8 +9874,7 @@ namespace CostAllocationApp.Controllers.Api
             int results = 0;
             int updateResults = 0;
             var cleanResults = 0;
-            var insertResults = 0;
-
+            var insertResults = 0;            
             if (isApprove)
             {
                 //approve history: start
@@ -10196,11 +10195,33 @@ namespace CostAllocationApp.Controllers.Api
                 {
                     insertResults = forecastBLL.InsertApprovedForecastedDataByYear(approveTimeStampId, Convert.ToInt32(assignmentYear), session["userName"].ToString(), isApprove);
                 }
-                //cleanResults = forecastBLL.CleanPreviousApprovedDeletedRows(Convert.ToInt32(assignmentYear), approveTimeStampId);                
-            }
-            
 
-            
+                //pending cell update
+                List<EmployeeAssignment> employeeAssignments = forecastBLL.GetAllUnapprovalDataForCells(Convert.ToInt32(assignmentYear));
+                if (employeeAssignments.Count > 0)
+                {
+                    foreach (var updateItem in employeeAssignments)
+                    {
+                        string udpatePendingCellsAfterSave = "";
+                        if (!string.IsNullOrEmpty(updateItem.BCYRCell))
+                        {
+                            if (!string.IsNullOrEmpty(updateItem.BCYRCellPending))
+                            {                                
+                                udpatePendingCellsAfterSave = updateItem.BCYRCellPending + "," + updateItem.BCYRCell;
+                            }
+                            else
+                            {
+                                udpatePendingCellsAfterSave = updateItem.BCYRCell;
+                            }
+                            updateResults = employeeAssignmentBLL.UpdateCellsByAssignmentid("", udpatePendingCellsAfterSave, updateItem.Id);
+                        }
+                    }
+                }
+
+            }
+
+
+
 
             if (results > 0 || updateResults > 0 || cleanResults > 0 || insertResults>0)
             {

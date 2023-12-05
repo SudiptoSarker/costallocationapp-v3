@@ -66,21 +66,15 @@ body {
     text-indent: 1em;
     float: left;
 }
+
 /***************************\                           
 	Employee List Show
 \***************************/
 #employeelist_thead {
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 14px;
     font-family: Yu Gothic;
     /*line-height: -1;*/
-    white-space: nowrap !important;
-}
-#employeelist_tbody {
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    line-height: 0;
     white-space: nowrap !important;
 }
 #employee_list {
@@ -135,14 +129,18 @@ body {
         /* width: 45px; */
         width: 10%;
     }
-.employee_list_theader{
-    border: 1px solid #ccc !important;
-    border-spacing: 4px;
+
+/* #employeelist_tbody {
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    line-height: 0;
+    white-space: nowrap !important;
 }
 #employeelist_tbody {
     text-align: left;
     text-indent: 1em;
-}
+} */
 /***************************\                           
 	Employee List Delete Button
 \***************************/ 
@@ -439,4 +437,59 @@ body {
 
 .sidebar_filterSearch {
     background-color: #ccc;
+}
+
+/***************************\                           
+	employee List Show: Start
+\***************************/ 
+#employeeList_datatable{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+    border: 1px solid;
+}
+#employeeList_datatable td, th {
+    border: 1px solid;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#employeeList_datatable td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#employeeList_datatable td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#employeeList_datatable thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#employeeList_datatable thead th:nth-of-type(2) {
+    width: 200px
+}
+#employeeList_datatable thead th:nth-of-type(3) {
+    width: 100px
+}
+#employeeList_datatable thead th:nth-of-type(1) {
+    width: 10%;
+}
+.section_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
+}
+
+.employee_header{
+    border: 1px solid #ccc !important;
+}
+.employee_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
 }

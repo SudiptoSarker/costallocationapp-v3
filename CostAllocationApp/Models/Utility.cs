@@ -12,5 +12,21 @@ namespace CostAllocationApp.Models
         //public string Address { get; set; } = "http://198.38.92.119:8090";
         //public string Address { get; set; } = "http://198.38.92.119:4545";
         public string Address { get; set; } = ConfigurationManager.AppSettings["url"];
+
+
+        public bool CheckSession()
+        {
+            bool isLogedIn = true;
+            var session = System.Web.HttpContext.Current.Session;
+            if (session["token"] == null)
+            {
+                isLogedIn = false;
+            }
+            if (BLL.UserBLL.GetUserLogByToken(session["token"].ToString()) == false)
+            {
+                isLogedIn = false;
+            }
+            return isLogedIn;
+        }
     }
 }

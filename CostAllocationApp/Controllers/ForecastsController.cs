@@ -35,7 +35,7 @@ namespace CostAllocationApp.Controllers
         InChargeBLL inChargeBLL = new InChargeBLL();
         RoleBLL roleBLL = new RoleBLL();
         ExplanationsBLL explanationsBLL = new ExplanationsBLL();
-        CompanyBLL companyBLL = new CompanyBLL();
+        CompanyBLL companyBLL = new CompanyBLL();        
 
         ForecastBLL forecastBLL = new ForecastBLL();
         ExportExcelFileBLL exportExcelFileBLL = new ExportExcelFileBLL();
@@ -822,53 +822,30 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
-        // GET: budget ui
+        // GET: 
         public ActionResult CreateBudget()
         {
-            if (Session["token"] == null)
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            string requestType = Request.QueryString["forecastType"];
-
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
-            }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            ViewBag.ImportViewOrForecastView = requestType;
-
-            {
-                //user permission on page
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                    ViewBag.ValidationMessage = "";
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
-                }
+                    return RedirectToAction("Login", "Registration");
+                }                                
             }
-            ViewBag.ValidationMessage = "";
-            return View(forecastViewModal);
+            
+            return View();
         }
 
         //budget excel submit page

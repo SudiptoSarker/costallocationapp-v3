@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CostAllocationApp.BLL;
+using CostAllocationApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,20 +10,30 @@ namespace CostAllocationApp.Controllers
 {
     public class DashboardController : Controller
     {
+        Utility _utility = new Utility();
+        UserBLL userBLL = new UserBLL();
         // GET: Dashboard
         public ActionResult Index()
         {
-            if (Session["token"] == null)
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                //Session["token"] = null;
-                //Session["userName"] = null;
-                Session.Abandon();
-                return RedirectToAction("Login", "Registration");
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;                    
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
+
             return View();
         }
     }

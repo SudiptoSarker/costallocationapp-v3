@@ -3,7 +3,7 @@ var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
-var distributtonCount = 0;
+var distributionCount = 0;
 
 const channel = new BroadcastChannel("actualCost");
 
@@ -132,11 +132,11 @@ function ShowActualCostConfrimJexcel(){
             { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150, readOnly: true },
             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100, readOnly: true },
             
-            { title: "ID", type: 'text', name: "Id", width: 100, readOnly: true },
-            { title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true },
-            { title: "Duplicate Count", type: 'text', name: "DuplicateCount", width: 100, readOnly: true },
-            { title: "Role Changed", type: 'text', name: "RoleChanged", width: 100, readOnly: true },
-            { title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged", width: 100, readOnly: true },
+            //{ title: "ID", type: 'text', name: "Id", width: 100, readOnly: true },
+            //{ title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true },
+            //{ title: "Duplicate Count", type: 'text', name: "DuplicateCount", width: 100, readOnly: true },
+            //{ title: "Role Changed", type: 'text', name: "RoleChanged", width: 100, readOnly: true },
+            //{ title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged", width: 100, readOnly: true },
             
             {
                 title: `${queryStrings['month']}月単価(uc)`,
@@ -182,27 +182,26 @@ function ShowActualCostConfrimJexcel(){
         contextMenu: function (obj, x, y, e) {
         },
         onchange: function (instance, cell, x, y, value) {
-            var changedValue = jss.getValueFromCoords(20, y);
-            if (parseInt(x) == 18 && value > 0) {
+            if (parseInt(x) == 13 && value > 0) {
 
                 var _allData = jss.getData();
-                var employeeId = jss.getValueFromCoords(19, y);
+                var employeeId = jss.getValueFromCoords(14, y);
                 var employeeCostCount = 0;
                 $.each(_allData, (index, value) => {
-                    if (employeeId == value[19]) {
-                        if (parseFloat(value[18]) > 0) {
+                    if (employeeId == value[14]) {
+                        if (parseFloat(value[13]) > 0) {
                             employeeCostCount++;
                         }
                     }
                 });
 
                 if (employeeCostCount == 1) {
-                    jss.setValueFromCoords(20, y, 1, false);
+                    jss.setValueFromCoords(15, y, 1, false);
                 }
                 else {
-                    if (distributtonCount == 0) {
+                    if (distributionCount == 0) {
                         alert('同一情報の要員が複製されています');
-                        jss.setValueFromCoords(18, y, 0, false);
+                        jss.setValueFromCoords(13, y, 0, false);
                     }
                    
                 }
@@ -214,7 +213,7 @@ function ShowActualCostConfrimJexcel(){
 
         }
     });
-    jss.deleteColumn(21, 27);
+    jss.deleteColumn(16, 22);
     
     //first header sticky
     // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
@@ -322,7 +321,7 @@ $(document).ready(function () {
 
     $('#distribute').on('click', function () {
 
-        distributtonCount++;
+        distributionCount++;
 
         var _newEmployeeGroupList = [];
         var _uniqueEmnployeeIdList = [];
@@ -334,12 +333,12 @@ $(document).ready(function () {
 
         for (var i = 0; i < allData.length; i++) {
             if (_uniqueEmnployeeIdList.length > 0) {
-                if (!_uniqueEmnployeeIdList.includes(allData[i][19])) {
-                    _uniqueEmnployeeIdList.push(allData[i][19]);
+                if (!_uniqueEmnployeeIdList.includes(allData[i][14])) {
+                    _uniqueEmnployeeIdList.push(allData[i][14]);
                 }
             }
             else {
-                _uniqueEmnployeeIdList.push(allData[i][19]);
+                _uniqueEmnployeeIdList.push(allData[i][14]);
             }
         }
 
@@ -351,13 +350,13 @@ $(document).ready(function () {
                 _actualCostFlag = 0;
                 totalManmonth = 0;
                 for (var k = 0; k < allData.length; k++) {
-                    if (allData[k][19] == _uniqueEmnployeeIdList[j]) {
+                    if (allData[k][14] == _uniqueEmnployeeIdList[j]) {
 
-                        if (allData[k][18] > 0) {
-                            _actualCostAmount = parseFloat(allData[k][18]);
+                        if (allData[k][13] > 0) {
+                            _actualCostAmount = parseFloat(allData[k][13]);
                             //_actualCostCount++;
                         }
-                        var _changedValue = allData[k][20];
+                        var _changedValue = allData[k][15];
                         if (parseInt(_changedValue) == 1) {
                             _actualCostFlag++;
                         }
@@ -365,11 +364,11 @@ $(document).ready(function () {
                         //    alert('Duplicate actual cost found!');
                         //    return;
                         //}
-                        totalManmonth+= parseFloat(allData[k][15]);
+                        totalManmonth+= parseFloat(allData[k][10]);
                         _newEmployeeGroupList.push({
                             assignmentId: allData[k][0],
-                            manMonth: allData[k][15],
-                            actualCost: allData[k][18]
+                            manMonth: allData[k][10],
+                            actualCost: allData[k][13]
                         });
                     }
                 }
@@ -381,12 +380,16 @@ $(document).ready(function () {
 
                         var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
                         var ac = _actualCostAmount;
-                        var newCost = (mm * ac)/totalManmonth;
+                        var newCost = (mm * ac) / totalManmonth;
+                        if (isNaN(newCost)) {
+                            newCost = 0;
+                        }
+                        newCost = newCost.toFixed(2);
                         for (var m = 0; m < _allRows.length; m++) {
                             //var _changedValue = jss.getValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y));
                             if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {                                
-                                jss.setValueFromCoords(18, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
-                                jss.setValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y), '', false);
+                                jss.setValueFromCoords(13, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                                jss.setValueFromCoords(15, parseInt(_allRows[m].cells[0].dataset.y), '', false);
                             }
                         }
                     }
@@ -441,7 +444,7 @@ $(document).ready(function () {
 
     $('#create_actual_cost').on('click', function () {
 
-        if (distributtonCount == 0) {
+        if (distributionCount == 0) {
             alert("Please distribute first!");
             return false;
         }
@@ -452,12 +455,12 @@ $(document).ready(function () {
         var saveFlag = true;
         for (var i = 0; i < _allData.length; i++) {
             if (_uniqueEmnployeeIdList.length > 0) {
-                if (!_uniqueEmnployeeIdList.includes(_allData[i][19])) {
-                    _uniqueEmnployeeIdList.push(_allData[i][19]);
+                if (!_uniqueEmnployeeIdList.includes(_allData[i][14])) {
+                    _uniqueEmnployeeIdList.push(_allData[i][14]);
                 }
             }
             else {
-                _uniqueEmnployeeIdList.push(_allData[i][19]);
+                _uniqueEmnployeeIdList.push(_allData[i][14]);
             }
         }
 
@@ -465,8 +468,8 @@ $(document).ready(function () {
             _newEmployeeGroupList = [];
             var employeeId = _uniqueEmnployeeIdList[e];
             $.each(_allData, (index, value) => {
-                if (employeeId == value[19]) {
-                    _newEmployeeGroupList.push({ manMonth : value[15],actualCost : value[18] });
+                if (employeeId == value[14]) {
+                    _newEmployeeGroupList.push({ manMonth : value[10],actualCost : value[13] });
                 }
             });
 
@@ -505,8 +508,8 @@ $(document).ready(function () {
             $.each(_allData, function (index, value) {
                 var obj = {
                     assignmentId: value[0],
-                    manHour: parseFloat(value[17]),
-                    actualCostAmount: parseFloat(value[18])
+                    manHour: parseFloat(value[12]),
+                    actualCostAmount: parseFloat(value[13])
                 };
 
                 dataToSend.push(obj);

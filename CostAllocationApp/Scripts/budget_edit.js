@@ -276,7 +276,7 @@
                         }
 
                         if (singleRowDuplicationCount == 9) {
-                            alert('duplicate row(s) found for ' + tempArray[i][1]);
+                            alert(tempArray[i][1]+'が重複しています');
                             _duplicateFlag = true;
                             break;
                         }
@@ -1735,9 +1735,7 @@
                     if (x == jssTableDefinition.sepM.index) {
                         beforeChangedValue = jss.getValueFromCoords(x, y);
                     }
-                },
-                //onafterchanges: function () {
-                //},
+                },                
                 onchange: function (instance, cell, x, y, value) {
                     var checkId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
                     var employeeId = jss.getValueFromCoords(jssTableDefinition.employeeId.index, y);
@@ -2511,7 +2509,7 @@
                                         }
                                     });
                                 }else{
-                                    alert(name +" has not been saved yet. You can not delete this employee!")  
+                                    alert(name +" は保存されていないため、削除できません。")  
                                 }                         
                             }
                         });

@@ -119,10 +119,11 @@
   -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
 .jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(4) {
-  left: 150px;
+  left: 0px;
   z-index: 3 !important;
   -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
+
 .jexcel tbody tr td:nth-of-type(3) {
   text-align: left !important;
 }

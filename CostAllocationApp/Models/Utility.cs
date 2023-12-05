@@ -22,10 +22,14 @@ namespace CostAllocationApp.Models
             {
                 isLogedIn = false;
             }
-            if (BLL.UserBLL.GetUserLogByToken(session["token"].ToString()) == false)
+            else
             {
-                isLogedIn = false;
+                if (BLL.UserBLL.GetUserLogByToken(session["token"].ToString()) == false)
+                {
+                    isLogedIn = false;
+                }
             }
+            
             return isLogedIn;
         }
     }

@@ -10,7 +10,7 @@
 
 <div class="content container-fluid">
     <!-----------------Employee Master: Employee Registration Form----------------->
-    @if (Convert.ToBoolean(ViewBag.linkFlag))
+    @if (ViewBag.UserRole == "admin")
     {
         <div class="row">
             <div class="col-12">

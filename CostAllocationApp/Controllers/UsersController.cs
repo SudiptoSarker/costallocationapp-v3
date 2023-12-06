@@ -44,5 +44,27 @@ namespace CostAllocationApp.Controllers
             }
             return View();
         }
+        public ActionResult EditUsers()
+        {
+            if (!_utility.CheckSession())
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            else
+            {
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
+            }
+            return View();
+        }
     }
 }

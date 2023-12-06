@@ -64,7 +64,7 @@
                             <li><a href="/Companies/CreateCompany" title="会社マスター (Company Mast)">会社マスター (Company)</a></li>
                             <li><a href="/Salaries/CreateSalary" title="グレードマスター (Grade Mast)">グレードマスター (Grade)</a></li>
                             <li><a href="/Employees/CreateNewEmployee" title="人員マスター (Employee)">人員マスター (Employee)</a></li>
-                            <li><a href="/Users/CreateUsers" title="利用者マスター（User)">利用者マスター(User)</a></li>
+                            <li><a href="/Users/EditUsers" title="利用者マスター（User)">利用者マスター(User)</a></li>
 
                             <!-- <li><a href="/Category/CreateCategory" title="カテゴリー (Category)">カテゴリー (Category)</a></li>
                             <li><a href="/Category/CreateSubCategory" title="Sub-Category">サブカテゴリー (Sub-Category)</a></li>
@@ -109,7 +109,7 @@
                 </div>
             </div>
         }
-        else if (url.ToLower().Contains("createusers") && Convert.ToBoolean(ViewBag.linkFlag))
+        else if (url.ToLower().Contains("editusers") && (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"))
         {
             <div class="row pl-4 pt-1 mt-1">
                 <div class="col-md-8 p-0"><h4>絞り込み</h4></div>

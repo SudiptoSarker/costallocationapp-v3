@@ -886,6 +886,7 @@
     <Content Include="Views\Forecasts\TableFormat.cshtml" />
     <Content Include="Views\Forecasts\CreateDynamicTable.cshtml" />
     <Content Include="Views\Forecasts\DynamicTableView.cshtml" />
+    <Content Include="Views\Users\EditUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

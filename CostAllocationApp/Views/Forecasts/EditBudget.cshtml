@@ -41,15 +41,17 @@
                 <button type="submit" class="btn btn-light mb-2" id="show_budget_list">表示</button>
             </div>
             <div class="col-1"></div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="undo_edited_budget">取消(undo)</button>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="save_bedget">保存（save）</button>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="budget_finalize">決定 (Finalize)</button>
-            </div>
+            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="undo_edited_budget">取消(undo)</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="save_bedget">保存（save）</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="budget_finalize">決定 (Finalize)</button>
+                </div>
+            }
         </div>
         <br>
     
@@ -81,6 +83,7 @@
 
 <input type="hidden" id="selected_budget_year" value="" />
 <input type="hidden" id="is_finalize_budget" value="" />
+<input type="hidden" id="user_role" value="@ViewBag.UserRole" />
 
 <div class='sorting_custom_modal'>
     <!--------sort employee custom div-------->

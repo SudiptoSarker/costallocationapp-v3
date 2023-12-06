@@ -2665,641 +2665,650 @@ function ShowForecastJexcel(){
         },        
         //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
-            var items = [];           
-            items.push({
-                title: '要員を追加 (Add Emp)',
-                onclick: function () {
-                    obj.insertRow(1, parseInt(y));
-                    var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
-                    
-                    setTimeout(function () {
-                        SetColorCommonRow(parseInt(y) + 2, "yellow", "red", "newrow");
-                        jss.setValueFromCoords(jssTableDefinition.bcyr.index, (insertedRowNumber - 1), true, false);
-
-                        $('#jexcel_add_employee_modal').modal('show');
-                        globalY = parseInt(y) + 1;
-                        GetEmployeeList();
-                    },1000);
-                    
-                    
-                }
-            });
-            items.push({
-                title: '要員のコピー（単価変更）(unit price)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
+            var items = []; 
+            var user_role = $("#user_role").val();
+            if(user_role=='visitor'){
+                return items;
+            }else{
+                items.push({
+                    title: '要員を追加 (Add Emp)',
+                    onclick: function () {
+                        obj.insertRow(1, parseInt(y));
+                        var insertedRowNumber = parseInt(obj.getSelectedRows(true)) + 2;
+                        
+                        setTimeout(function () {
+                            SetColorCommonRow(parseInt(y) + 2, "yellow", "red", "newrow");
+                            jss.setValueFromCoords(jssTableDefinition.bcyr.index, (insertedRowNumber - 1), true, false);
+    
+                            $('#jexcel_add_employee_modal').modal('show');
+                            globalY = parseInt(y) + 1;
+                            GetEmployeeList();
+                        },1000);
+                        
+                        
                     }
+                });
 
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-                    var activeEmployeeCount = 0;
-                    var masterEmployeeName = "";
-                    var inactiveEmployeeCount = 0;
-                    var _duplicateFrom = "";
-                    var _duplicateCount = "";
-                    var _roleChanged = "";
-                    var _unitPriceChanged = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    _duplicateFrom = retrivedData.assignmentId.toString();
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-                                if (isNaN(x[jssTableDefinition.assignmentId.index])) {
+                items.push({
+                    title: '要員のコピー（単価変更）(unit price)',
+                    onclick: function () {
+                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                            return false;
+                        }
+    
+                        newRowChangeEventFlag = true;
+                        var allData = jss.getData();
+                        let nextRow = parseInt(y) + 1;
+                        var allSameEmployeeId = [];
+                        var newCountedEmployeeName = '';
+                        var newEmployeeId = "";
+                        var activeEmployeeCount = 0;
+                        var masterEmployeeName = "";
+                        var inactiveEmployeeCount = 0;
+                        var _duplicateFrom = "";
+                        var _duplicateCount = "";
+                        var _roleChanged = "";
+                        var _unitPriceChanged = "";
+    
+                        obj.insertRow(1, parseInt(y));
+    
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        _duplicateFrom = retrivedData.assignmentId.toString();
+                        if (retrivedData.assignmentId.toString().includes('new')) {
+                            newEmployeeId = "new-" + newRowCount;
+                            var allSpecificObjectsCount = 0;
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
+                                    if (isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                        allSpecificObjectsCount++;
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
+    
+                                }
+                            }
+                            var allSameEmployeeIdSplitted = [];
+                            for (var i = 0; i < allSameEmployeeId.length; i++) {
+                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                            }
+    
+    
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
+                                }
+                            }
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+    
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                    newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})`;
+                                    break;
+                                }
+                            }
+    
+    
+    
+                        }
+                        else {
+                            newEmployeeId = "new-" + newRowCount;
+                            var allSpecificObjectsCount = 0;
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
+    
                                 }
-
                             }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})`;
-                                break;
-                            }
-                        }
-
-
-
-                    }
-                    else {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+    
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
                                 }
-
                             }
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
+    
+                            for (let x of allData) {
+                                if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                    activeEmployeeCount = activeEmployeeCount + 1;
+                                }
+                            }
+    
+                            $.ajax({
+                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                                success: function (data) {
+                                    masterEmployeeName = data.EmployeeName;
+                                    inactiveEmployeeCount = data.EmployeeCount;
+                                }
+                            });
                         }
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-                        for (let x of allData) {
-                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
-                                activeEmployeeCount = activeEmployeeCount + 1;
-                            }
-                        }
-
-                        $.ajax({
-                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
-                            success: function (data) {
-                                masterEmployeeName = data.EmployeeName;
-                                inactiveEmployeeCount = data.EmployeeCount;
-                            }
-                        });
+    
+    
+                        _unitPriceChanged = '1';
+                        _roleChanged = '0';
+                        _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                        //newCountedEmployeeName = masterEmployeeName + " (" + (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1) + ")";
+                        obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
+                        allSameEmployeeId = [];
+    
+                        obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                        obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                        obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                        obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                        obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                        obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                        obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                        obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
+    
+                        // color row....
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
+    
+                        // disable section....
+                        $(obj.getCell(jssTableDefinition.section.cellName + (nextRow + 1))).addClass('readonly');
+                        // disable department....
+                        $(obj.getCell(jssTableDefinition.department.cellName + (nextRow + 1))).addClass('readonly');
+                        // disable incharge....
+                        $(obj.getCell(jssTableDefinition.incharge.cellName + (nextRow + 1))).addClass('readonly');
+                        // disable role....
+                        $(obj.getCell(jssTableDefinition.role.cellName + (nextRow + 1))).addClass('readonly');
+                        // disable company....
+                        $(obj.getCell(jssTableDefinition.company.cellName + (nextRow + 1))).addClass('readonly');
+    
+                        obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                        obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
+                        obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                        obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
+    
+                        obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
+    
+    
+                        jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
+    
+                        newRowCount++;
+                        newRowChangeEventFlag = false;
                     }
+    
+                });
 
-
-                    _unitPriceChanged = '1';
-                    _roleChanged = '0';
-                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                    //newCountedEmployeeName = masterEmployeeName + " (" + (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1) + ")";
-                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
-                    allSameEmployeeId = [];
-
-                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
-
-                    // color row....
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
-
-                    // disable section....
-                    $(obj.getCell(jssTableDefinition.section.cellName + (nextRow + 1))).addClass('readonly');
-                    // disable department....
-                    $(obj.getCell(jssTableDefinition.department.cellName + (nextRow + 1))).addClass('readonly');
-                    // disable incharge....
-                    $(obj.getCell(jssTableDefinition.incharge.cellName + (nextRow + 1))).addClass('readonly');
-                    // disable role....
-                    $(obj.getCell(jssTableDefinition.role.cellName + (nextRow + 1))).addClass('readonly');
-                    // disable company....
-                    $(obj.getCell(jssTableDefinition.company.cellName + (nextRow + 1))).addClass('readonly');
-
-                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
-                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`, false);
-                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
-                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `unit_${retrivedData.assignmentId}_${y}`, false);
-
-                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
-
-
-                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-                }
-
-            });
-            items.push({
-                title: '要員のコピー（役割変更）(role)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
-                    }
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-                    var activeEmployeeCount = 0;
-                    var masterEmployeeName = "";
-                    var inactiveEmployeeCount = 0;
-                    var _duplicateFrom = "";
-                    var _duplicateCount = "";
-                    var _roleChanged = "";
-                    var _unitPriceChanged = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    _duplicateFrom = retrivedData.assignmentId.toString();
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-
-                                if (isNaN(x[0])) {
+                items.push({
+                    title: '要員のコピー（役割変更）(role)',
+                    onclick: function () {
+                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                            return false;
+                        }
+                        newRowChangeEventFlag = true;
+                        var allData = jss.getData();
+                        let nextRow = parseInt(y) + 1;
+                        var allSameEmployeeId = [];
+                        var newCountedEmployeeName = '';
+                        var newEmployeeId = "";
+                        var activeEmployeeCount = 0;
+                        var masterEmployeeName = "";
+                        var inactiveEmployeeCount = 0;
+                        var _duplicateFrom = "";
+                        var _duplicateCount = "";
+                        var _roleChanged = "";
+                        var _unitPriceChanged = "";
+    
+                        obj.insertRow(1, parseInt(y));
+    
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        _duplicateFrom = retrivedData.assignmentId.toString();
+                        if (retrivedData.assignmentId.toString().includes('new')) {
+                            newEmployeeId = "new-" + newRowCount;
+                            var allSpecificObjectsCount = 0;
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
+    
+                                    if (isNaN(x[0])) {
+                                        allSpecificObjectsCount++;
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
+    
+                                }
+                            }
+                            var allSameEmployeeIdSplitted = [];
+                            for (var i = 0; i < allSameEmployeeId.length; i++) {
+                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                            }
+    
+    
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
+                                }
+                            }
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+    
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                    newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})*`;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            newEmployeeId = "new-" + newRowCount;
+    
+                            var allSpecificObjectsCount = 0;
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
-                                }
-
-                            }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})*`;
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        newEmployeeId = "new-" + newRowCount;
-
-                        var allSpecificObjectsCount = 0;
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
                                 }
                             }
-                        }
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
+    
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+    
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
+                                }
                             }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-
-                        for (let x of allData) {
-                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
-                                activeEmployeeCount = activeEmployeeCount + 1;
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
+    
+                            for (let x of allData) {
+                                if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                    activeEmployeeCount = activeEmployeeCount + 1;
+                                }
                             }
+    
+                            $.ajax({
+                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                                success: function (data) {
+                                    masterEmployeeName = data.EmployeeName;
+                                    inactiveEmployeeCount = data.EmployeeCount;
+                                }
+                            });
                         }
-
-                        $.ajax({
-                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
-                            success: function (data) {
-                                masterEmployeeName = data.EmployeeName;
-                                inactiveEmployeeCount = data.EmployeeCount;
-                            }
-                        });
+    
+                        _unitPriceChanged = '0';
+                        _roleChanged = '1';
+                        _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                        //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
+                        obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
+                        allSameEmployeeId = [];
+    
+    
+                        obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                        obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                        obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                        obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                        obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                        obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                        obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                        obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
+    
+    
+                        // color row....                    
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");                    
+    
+                        jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
+    
+    
+                        jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
+    
+    
+                        // disable grade and unit price....
+                        $(obj.getCell(jssTableDefinition.grade.cellName + (nextRow + 1))).addClass('readonly');
+                        $(obj.getCell(jssTableDefinition.unitPrice.cellName + (nextRow + 1))).addClass('readonly');
+    
+                        obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                        obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                        obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                        obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+    
+    
+                        obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
+    
+    
+                        jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
+    
+                        newRowCount++;
+                        newRowChangeEventFlag = false;
+    
                     }
-
-                    _unitPriceChanged = '0';
-                    _roleChanged = '1';
-                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                    //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
-                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
-                    allSameEmployeeId = [];
-
-
-                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
-
-
-                    // color row....                    
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");                    
-
-                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
-
-
-                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
-
-
-                    // disable grade and unit price....
-                    $(obj.getCell(jssTableDefinition.grade.cellName + (nextRow + 1))).addClass('readonly');
-                    $(obj.getCell(jssTableDefinition.unitPrice.cellName + (nextRow + 1))).addClass('readonly');
-
-                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
-                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
-                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-
-
-                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
-
-
-                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-
-                }
-            });
-            items.push({
-                title: '要員のコピー（役割・単価変更）(role/unit)',
-                onclick: function () {
-                    var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
-                    if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
-                        return false;
-                    }
-                    newRowChangeEventFlag = true;
-                    var allData = jss.getData();
-                    let nextRow = parseInt(y) + 1;
-                    var allSameEmployeeId = [];
-                    var newCountedEmployeeName = '';
-                    var newEmployeeId = "";
-                    var activeEmployeeCount = 0;
-                    var masterEmployeeName = "";
-                    var inactiveEmployeeCount = 0;
-                    var _duplicateFrom = "";
-                    var _duplicateCount = "";
-                    var _roleChanged = "";
-                    var _unitPriceChanged = "";
-
-                    obj.insertRow(1, parseInt(y));
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    _duplicateFrom = retrivedData.assignmentId.toString();
-
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        newEmployeeId = "new-" + newRowCount;
-                        var allSpecificObjectsCount = 0;
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-
-                                if (isNaN(x[0])) {
+                });
+                
+                items.push({
+                    title: '要員のコピー（役割・単価変更）(role/unit)',
+                    onclick: function () {
+                        var retrivedDataForCheck = retrivedObject(jss.getRowData(y));
+                        if (retrivedDataForCheck.assignmentId.toString().includes('new')) {
+                            return false;
+                        }
+                        newRowChangeEventFlag = true;
+                        var allData = jss.getData();
+                        let nextRow = parseInt(y) + 1;
+                        var allSameEmployeeId = [];
+                        var newCountedEmployeeName = '';
+                        var newEmployeeId = "";
+                        var activeEmployeeCount = 0;
+                        var masterEmployeeName = "";
+                        var inactiveEmployeeCount = 0;
+                        var _duplicateFrom = "";
+                        var _duplicateCount = "";
+                        var _roleChanged = "";
+                        var _unitPriceChanged = "";
+    
+                        obj.insertRow(1, parseInt(y));
+    
+                        var retrivedData = retrivedObject(jss.getRowData(y));
+                        _duplicateFrom = retrivedData.assignmentId.toString();
+    
+                        if (retrivedData.assignmentId.toString().includes('new')) {
+                            newEmployeeId = "new-" + newRowCount;
+                            var allSpecificObjectsCount = 0;
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
+    
+                                    if (isNaN(x[0])) {
+                                        allSpecificObjectsCount++;
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
+    
+                                }
+                            }
+                            var allSameEmployeeIdSplitted = [];
+                            for (var i = 0; i < allSameEmployeeId.length; i++) {
+                                var singleNewEmployeeId = allSameEmployeeId[i].split('-');
+                                allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
+                            }
+    
+    
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
+                                }
+                            }
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+    
+    
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
+                                    newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})**`;
+                                    break;
+                                }
+                            }
+                        } else {
+                            newEmployeeId = "new-" + newRowCount;
+    
+                            var allSpecificObjectsCount = 0;
+                            for (let x of allData) {
+                                if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
                                     allSpecificObjectsCount++;
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
-                                }
-
-                            }
-                        }
-                        var allSameEmployeeIdSplitted = [];
-                        for (var i = 0; i < allSameEmployeeId.length; i++) {
-                            var singleNewEmployeeId = allSameEmployeeId[i].split('-');
-                            allSameEmployeeIdSplitted.push(parseInt(singleNewEmployeeId[1]));
-                        }
-
-
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeIdSplitted);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
-                            }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.assignmentId.index] == 'new-' + minAssignmentNumber) {
-                                newCountedEmployeeName = x[jssTableDefinition.employeeName.index] + ` (${allSpecificObjectsCount + 1})**`;
-                                break;
-                            }
-                        }
-                    } else {
-                        newEmployeeId = "new-" + newRowCount;
-
-                        var allSpecificObjectsCount = 0;
-                        for (let x of allData) {
-                            if (x[jssTableDefinition.employeeId.index] == retrivedData.employeeId) {
-                                allSpecificObjectsCount++;
-                                if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
-                                    allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    if (!isNaN(x[jssTableDefinition.assignmentId.index])) {
+                                        allSameEmployeeId.push(x[jssTableDefinition.assignmentId.index]);
+                                    }
                                 }
                             }
-                        }
-                        var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
-
-                        for (let x = 0; x < allData.length; x++) {
-                            if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
-
-                                retrivedData = retrivedObject(jss.getRowData(x));
-
-                                break;
+                            var minAssignmentNumber = Math.min.apply(null, allSameEmployeeId);
+    
+                            for (let x = 0; x < allData.length; x++) {
+                                if (allData[x][jssTableDefinition.assignmentId.index] == minAssignmentNumber) {
+    
+                                    retrivedData = retrivedObject(jss.getRowData(x));
+    
+                                    break;
+                                }
                             }
-                        }
-
-                        retrivedData.bcyr = false;
-                        retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-
-
-                        for (let x of allData) {
-                            if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
-                                activeEmployeeCount = activeEmployeeCount + 1;
+    
+                            retrivedData.bcyr = false;
+                            retrivedData.bCYRCell = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
+    
+    
+                            for (let x of allData) {
+                                if (parseInt(x[jssTableDefinition.employeeId.index]) == parseInt(retrivedData.employeeId)) {
+                                    activeEmployeeCount = activeEmployeeCount + 1;
+                                }
                             }
+                            $.ajax({
+                                url: `/api/utilities/GetEmployeeNameForMenuChange`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
+                                success: function (data) {
+                                    masterEmployeeName = data.EmployeeName;
+                                    inactiveEmployeeCount = data.EmployeeCount;
+                                }
+                            });
                         }
-                        $.ajax({
-                            url: `/api/utilities/GetEmployeeNameForMenuChange`,
-                            contentType: 'application/json',
-                            type: 'GET',
-                            async: false,
-                            dataType: 'json',
-                            data: "employeeAssignmentId=" + retrivedData.assignmentId + "&employeeId=" + retrivedData.employeeId + "&menuType=unit" + "&year=" + retrivedData.year,
-                            success: function (data) {
-                                masterEmployeeName = data.EmployeeName;
-                                inactiveEmployeeCount = data.EmployeeCount;
-                            }
-                        });
+    
+                        _unitPriceChanged = '1';
+                        _roleChanged = '1';
+                        _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
+                        //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
+                        obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
+                        allSameEmployeeId = [];
+    
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
+    
+    
+                        jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
+    
+                        jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
+                        jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
+    
+                        obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
+                        obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
+                        obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
+                        obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
+                        obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
+                        obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
+                        obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
+                        obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
+                        obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
+                        obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
+                        obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
+    
+                        obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
+                        obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
+                        obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
+                        obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
+    
+                        obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
+                        obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
+    
+    
+                        jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
+                        jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
+    
+    
+                        newRowCount++;
+                        newRowChangeEventFlag = false;
                     }
+                });
 
-                    _unitPriceChanged = '1';
-                    _roleChanged = '1';
-                    _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                    //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
-                    obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
-                    allSameEmployeeId = [];
-
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.employeeName.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.section.cellName + (nextRow + 1), "color", "red");
-
-
-                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.department.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.incharge.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.role.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.company.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.grade.cellName + (nextRow + 1), "color", "red");
-
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "background-color", "yellow");
-                    jss.setStyle(jssTableDefinition.unitPrice.cellName + (nextRow + 1), "color", "red");
-
-                    obj.setValueFromCoords(jssTableDefinition.duplicateFrom.index, nextRow, _duplicateFrom, false);
-                    obj.setValueFromCoords(jssTableDefinition.duplicateCount.index, nextRow, _duplicateCount, false);
-                    obj.setValueFromCoords(jssTableDefinition.roleChanged.index, nextRow, _roleChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPriceChanged.index, nextRow, _unitPriceChanged, false);
-                    obj.setValueFromCoords(jssTableDefinition.employeeId.index, nextRow, retrivedData.employeeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.remarks.index, nextRow, retrivedData.remarks, false);
-                    obj.setValueFromCoords(jssTableDefinition.section.index, nextRow, retrivedData.sectionId, false);
-                    obj.setValueFromCoords(jssTableDefinition.department.index, nextRow, retrivedData.departmentId, false);
-                    obj.setValueFromCoords(jssTableDefinition.incharge.index, nextRow, retrivedData.inchargeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.role.index, nextRow, retrivedData.roleId, false);
-                    obj.setValueFromCoords(jssTableDefinition.explanation.index, nextRow, retrivedData.explanationId, false);
-                    obj.setValueFromCoords(jssTableDefinition.company.index, nextRow, retrivedData.companyId, false);
-                    obj.setValueFromCoords(jssTableDefinition.grade.index, nextRow, retrivedData.gradeId, false);
-                    obj.setValueFromCoords(jssTableDefinition.unitPrice.index, nextRow, retrivedData.unitPrice, false);
-
-                    obj.setValueFromCoords(jssTableDefinition.bcyr.index, nextRow, false, false);
-                    obj.setValueFromCoords(jssTableDefinition.bcyrCell.index, nextRow, `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`, false);
-                    obj.setValueFromCoords(jssTableDefinition.isActive.index, nextRow, true, false);
-                    obj.setValueFromCoords(jssTableDefinition.rowType.index, nextRow, `role_${retrivedData.assignmentId}_${y}`, false);
-
-                    obj.setValueFromCoords(jssTableDefinition.octM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.novM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.decM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.janM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.febM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.marM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.aprM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.mayM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.junM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.julM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.augM.index, nextRow, '0.0', false);
-                    obj.setValueFromCoords(jssTableDefinition.sepM.index, nextRow, '0.0', false);
-
-
-                    jss.setValueFromCoords(jssTableDefinition.octT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.octM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.novT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.novM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.decT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.decM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.janT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.janM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.febT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.febM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.marT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.marM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.aprT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.aprM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.mayT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.mayM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.junT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.junM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.julT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.julM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.augT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.augM.cellName}${parseInt(nextRow) + 1}`, false);
-                    jss.setValueFromCoords(jssTableDefinition.sepT.index, nextRow, `=${jssTableDefinition.unitPrice.cellName}${parseInt(nextRow) + 1}*${jssTableDefinition.sepM.cellName}${parseInt(nextRow) + 1}`, false);
-
-
-                    newRowCount++;
-                    newRowChangeEventFlag = false;
-                }
-            });
-            items.push({
-                title: '選択した要員の削除 (delete)',                
-                onclick: function () {                    
-                    var value = obj.getSelectedRows();
-                    var assignementId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
-                    var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);                                       
-                    if(parseInt(assignementId) >0){
-                        deletedExistingRowIds.push(assignementId);                                
-                        SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
-                    }else{
-                        alert(name +" は保存されていないため、削除できません")  
-                    }      
-                }
-            });
-
+                items.push({
+                    title: '選択した要員の削除 (delete)',                
+                    onclick: function () {                    
+                        var value = obj.getSelectedRows();
+                        var assignementId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
+                        var name = jss.getValueFromCoords(jssTableDefinition.employeeName.index, y);                                       
+                        if(parseInt(assignementId) >0){
+                            deletedExistingRowIds.push(assignementId);                                
+                            SetColorCommonRow(parseInt(y)+1,"gray","black","deleted");                        
+                        }else{
+                            alert(name +" は保存されていないため、削除できません")  
+                        }      
+                    }
+                });
+            }          
+            
             return items;
         }
     });

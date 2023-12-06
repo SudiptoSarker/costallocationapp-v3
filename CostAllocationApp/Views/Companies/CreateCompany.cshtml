@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            @if (Convert.ToBoolean(ViewBag.linkFlag))
+            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
             {
                 
                 <div class="add_edit_delete_btn_section" style="display: block;">

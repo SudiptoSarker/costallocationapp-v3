@@ -358,43 +358,44 @@ function ActualCostJexcel(){
         $("#hider").fadeIn("slow");
         $('.company_sorting').fadeIn("slow");
     });     
+    var user_role = $("#user_role").val();
+    if(user_role == "admin" || user_role == "editor"){
+        var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+        octElement.append('<button id="oct_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var octElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-    octElement.append('<button id="oct_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+        novElement.append('<button id="nov_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var novElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-    novElement.append('<button id="nov_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var decElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13)');
+        decElement.append('<button id="dec_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var decElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13)');
-    decElement.append('<button id="dec_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var janElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14)');
+        janElement.append('<button id="jan_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var janElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14)');
-    janElement.append('<button id="jan_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var febElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
+        febElement.append('<button id="feb_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var febElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15)');
-    febElement.append('<button id="feb_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var marElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16)');
+        marElement.append('<button id="mar_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var marElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16)');
-    marElement.append('<button id="mar_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var aprElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17)');
+        aprElement.append('<button id="apr_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var aprElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17)');
-    aprElement.append('<button id="apr_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var mayElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18)');
+        mayElement.append('<button id="may_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var mayElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18)');
-    mayElement.append('<button id="may_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var junElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19)');
+        junElement.append('<button id="jun_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var junElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19)');
-    junElement.append('<button id="jun_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var julElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20)');
+        julElement.append('<button id="jul_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var julElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20)');
-    julElement.append('<button id="jul_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+        var augElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21)');
+        augElement.append('<button id="aug_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
 
-    var augElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21)');
-    augElement.append('<button id="aug_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
-
-    var sepElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22)');
-    sepElement.append('<button id="sep_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
-
+        var sepElement = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22)');
+        sepElement.append('<button id="sep_btn"  style="display:inline-block;margin-left: 10px; padding: 0px 5px;"><i class="fa fa-caret-right" aria-hidden="true"></i></button>');
+    }
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {
         $('.search_p').css('display', 'block');
         $("#hider").fadeIn("slow");

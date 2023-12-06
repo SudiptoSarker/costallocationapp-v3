@@ -1781,8 +1781,7 @@ namespace CostAllocationApp.DAL
                         {
                             _approvalHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
                             _approvalHistoryViewModal.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            _approvalHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
-                            _approvalHistoryViewModal.RootEmployeeName = rdr["FullName"] is DBNull ? "" : rdr["FullName"].ToString();
+                            _approvalHistoryViewModal.EmployeeName = rdr["FullName"] is DBNull ? "" : rdr["FullName"].ToString();                            
                             _approvalHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             _approvalHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
                             _approvalHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
@@ -2341,7 +2340,7 @@ namespace CostAllocationApp.DAL
             string query = "";
             //query = "select top 1 * from EmployeesAssignmentsWithCostsHistory where EmployeeAssignmentId = "+assignmentId+" Order by Id desc ";
             query = "Select eh.Id,eh.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
-            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.MonthId_Points ";
+            query = query + "   ,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName',g.GradePoints,eh.UnitPrice,ea.Remarks,eh.IsUpdate,eh.MonthId_Points,e.FullName 'OrgEmployeeName' ";
             query = query + "From EmployeesAssignmentsWithCostsHistory eh  ";
             query = query + "    Left Join Employees e On eh.EmployeeId=e.Id ";
             query = query + "    Left Join Sections s On eh.SectionId = s.Id ";
@@ -2366,7 +2365,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
-                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.EmployeeName = rdr["OrgEmployeeName"] is DBNull ? "" : rdr["OrgEmployeeName"].ToString();
                             assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
                             assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();
@@ -2400,7 +2399,7 @@ namespace CostAllocationApp.DAL
             string query = "";
             query = query + "Select ah.Id,ah.TimeStampId,ea.EmployeeName 'EmployeeName',s.Name 'SectionName',d.Name 'DepartmentName' ";
             query = query + "	,i.Name 'InChargeName',r.Name 'RoleName',ex.Name 'ExplanationName',c.Name 'CompanyName' ";
-            query = query + "	,g.GradePoints,ah.UnitPrice,ea.Remarks,ah.IsUpdate,ah.MonthId_Points ,ah.ApprovedCells ";
+            query = query + "	,g.GradePoints,ah.UnitPrice,ea.Remarks,ah.IsUpdate,ah.MonthId_Points ,ah.ApprovedCells,e.FullName 'OrgEmployeeName' ";
             query = query + "From ApproveHistory ah "; 
             query = query + "	Left Join Employees e On ah.EmployeeId = e.Id ";
             query = query + "	Left Join Sections s On ah.SectionId = s.Id ";
@@ -2425,7 +2424,7 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             assignmentHistoryViewModal.Id = Convert.ToInt32(rdr["Id"]);
-                            assignmentHistoryViewModal.EmployeeName = rdr["EmployeeName"] is DBNull ? "" : rdr["EmployeeName"].ToString();
+                            assignmentHistoryViewModal.EmployeeName = rdr["OrgEmployeeName"] is DBNull ? "" : rdr["OrgEmployeeName"].ToString();
                             assignmentHistoryViewModal.SectionName = rdr["SectionName"] is DBNull ? "" : rdr["SectionName"].ToString();
                             assignmentHistoryViewModal.DepartmentName = rdr["DepartmentName"] is DBNull ? "" : rdr["DepartmentName"].ToString();
                             assignmentHistoryViewModal.InChargeName = rdr["InChargeName"] is DBNull ? "" : rdr["InChargeName"].ToString();

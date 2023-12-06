@@ -3938,10 +3938,11 @@ namespace CostAllocationApp.Controllers.Api
                     _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId, false);
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
                     var rootEmployeeName = _assignmentHistoryViewModal.RootEmployeeName;
-                    if (string.IsNullOrEmpty(employeeName))
-                    {
-                        employeeName = rootEmployeeName;
-                    }
+                    //if (string.IsNullOrEmpty(employeeName))
+                    //{
+                    //    employeeName = rootEmployeeName;
+                    //}
+                    employeeName = rootEmployeeName;
                     var sectionName = _assignmentHistoryViewModal.SectionName;
                     var departmentName = _assignmentHistoryViewModal.DepartmentName;
                     var inChargeName = _assignmentHistoryViewModal.InChargeName;

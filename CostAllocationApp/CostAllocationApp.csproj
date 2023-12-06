@@ -276,6 +276,7 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DeatailsItem.cs" />
+    <Compile Include="Models\DeleteEmployees.cs" />
     <Compile Include="Models\DepartmentWithSubCategory.cs" />
     <Compile Include="Models\DynamicMethod.cs" />
     <Compile Include="Models\DynamicSetting.cs" />

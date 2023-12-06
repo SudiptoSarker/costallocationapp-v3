@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        @if (Convert.ToBoolean(ViewBag.linkFlag))
+        @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
         {
             
             <div class="add_edit_del_dept" style="display: block;">

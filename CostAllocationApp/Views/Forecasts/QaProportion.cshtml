@@ -59,9 +59,10 @@
                     <div id="hider"></div>
                     <div>要員毎の品証の按分 (Employee Wise QA Proration)</div>
                     <div id="jspreadsheet"></div>
-
-                    <button type="submit" class="btn btn-light mb-2" id="select_employee_btn">要員の選択</button>
-                    <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">保存（save）</button>
+                    @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+                        <button type="submit" class="btn btn-light mb-2" id="select_employee_btn">要員の選択</button>
+                        <button type="submit" class="btn btn-dark mb-2" id="employee_wise_save_button">保存（save）</button>
+                    }
                 </div>
             </div>
             <br /><br />
@@ -78,8 +79,11 @@
                 <div class="col-md-12">
                     <div>部門毎の品証の按分 (Department Wise QA Proration)</div>
                     <div id="jspreadsheet_1"></div>
-                    <button type="submit" class="btn btn-light mb-2" id="select_department_btn">部署の選択</button>
-                    <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">保存（save）</button>
+
+                    @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+                        <button type="submit" class="btn btn-light mb-2" id="select_department_btn">部署の選択</button>
+                        <button type="submit" class="btn btn-dark mb-2" id="department_wise_save_button">保存（save）</button>
+                    }                    
                 </div>
             </div>
         </div>

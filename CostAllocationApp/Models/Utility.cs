@@ -31,6 +31,6 @@ namespace CostAllocationApp.Models
             }
             
             return isLogedIn;
-        }
+        }        
     }
 }

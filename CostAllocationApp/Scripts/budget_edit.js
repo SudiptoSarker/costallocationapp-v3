@@ -2459,7 +2459,8 @@
                     }
                     
                     var is_finalize = $("#is_finalize_budget").val();
-                    if(is_finalize==1){
+                    var user_role = $("#user_role").val();
+                    if(is_finalize==1 || user_role=='visitor'){
                         return items;
                     }else{
                         items.push({

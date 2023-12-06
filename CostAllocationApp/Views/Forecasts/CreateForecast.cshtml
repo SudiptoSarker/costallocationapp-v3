@@ -44,12 +44,14 @@
 
             <div class="col-2">
             </div>
-            <div class="col-2">                    
-                <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消(undo)</button>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="update_forecast_history">保存 (Save)</button>
-            </div>
+            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+                <div class="col-2">                    
+                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消(undo)</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="update_forecast_history">保存 (Save)</button>
+                </div>
+            }
         </div>
         <br>
 
@@ -101,6 +103,7 @@
 <input type="hidden" id="timeStamp_ForUpdateData" value="" />
 
 <input type="hidden" id="changed_cell_with_assignmentid" value="" />
+<input type="hidden" id="user_role" value="@ViewBag.UserRole" />
 
 <!-----------------Modal: Add Employee----------------->
 <div class="modal custom-modal fade" id="jexcel_add_employee_modal" role="dialog">

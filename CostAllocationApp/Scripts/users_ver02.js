@@ -8,7 +8,8 @@
         }else if(userRoleType=='visitor'){
             $(".user_name_list_header").text("Visitor's Information - 来場者情報");
         }
-    }    
+    }   
+
     function GetUserRoleType(){        
         $.ajax({
             url: `/Registration/GetUserRoleType/`,
@@ -93,16 +94,10 @@
         .done(function (data) {
             $('#user_role_list').append(`<option value=''>Select Role</option>`);
             $('#searchRole').append(`<option value=''>役割の選択</option>`);
-            $.each(data, function (key, item) {
+            $.each(data, function (key, item) {              
                 $('#user_role_list').append(`<option value='${item.Id}'>${item.Role}</option>`);
                 $('#searchRole').append(`<option value='${item.Id}'>${item.Role}</option>`);
             });
-
-
-            // $('#user_status_edit').append(`<option value=''>select status</option>`);
-            // $('#user_status_edit').append(`<option value='1'>有効(Active)</option>`);
-            // $('#user_status_edit').append(`<option value='3'>承認待ち(waiting)</option>`);
-            // $('#user_status_edit').append(`<option value='0'>無効(Inactive)</option>`);
         }); 
 
         $.getJSON('/api/utilities/GetUserList/')
@@ -589,38 +584,12 @@ function ShowUserList_Datatable(data) {
     // });   
 }
 
-$(document).ready(function () {  
-    //$('#employeeList_datatable tfoot th').each(function () {
-    //    var title = $(this).text();
-    //    if(title == 'user name'){
-    //        $(this).html('<input class="user_search" id="search_user_name" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    if(title == 'role'){
-    //        $(this).html('<input class="user_search" id="search_user_role" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    if(title == 'title'){
-    //        $(this).html('<input class="user_search" id="search_user_title" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    if(title == 'department'){
-    //        $(this).html('<input class="user_search" id="search_user_department" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    if(title == 'email'){
-    //        $(this).html('<input class="user_search" id="search_user_email" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    if(title == 'status'){
-    //        $(this).html('<input class="user_search" id="search_user_status" type="text"  placeholder="Search ' + title + '" />');
-    //    }
-    //    //$(this).html('<input class="user_search" id="" type="text"  placeholder="Search ' + title + '" />');
-    //});
-
+$(document).ready(function () {      
     $.getJSON('/api/utilities/GetOnlyAdmin/')
         .done(function (data) {
             $('#admin_table tbody').empty();
             $('#admin_table tbody').append(`<tr><td>${data.UserName}</td><td>${data.UserRoleName}</td><td>${data.UserTitle}</td><td>${data.DepartmentName}</td><td>${data.Email}</td><td>${data.Password}</td><td><button class="btn btn-info user_edit_button" user_name='${data.UserName}' user_status='active' >編集</button></td></tr>`);
-        }); 
-
-    
-    // ("#userDepartment").select2();
+        });     
 
     //------------------Employee Master----------------------//
     //show employee list on page load

@@ -57,17 +57,7 @@
                 <th class="employee_list_theader">操作 (Action)</th>
             </tr>
         </thead>
-        <tbody id="employeelist_tbody"></tbody>
-        @*<tfoot>
-            <tr>
-                <th>user name</th>
-                <th>role</th>
-                <th>title</th>
-                <th>department</th>
-                <th>email</th>
-                <th>status</th>
-            </tr>
-        </tfoot>*@
+        <tbody id="employeelist_tbody"></tbody>        
     </table>
     <br />
 </div>
@@ -81,7 +71,7 @@
 
 <input type="hidden" value="" id="user_id_hidden" />
 @{
-    if (Convert.ToBoolean(ViewBag.linkFlag))
+    if (ViewBag.UserRole == "admin")
     {        
         //user update modal
         <div class="modal custom-modal fade" id="modal_update_user" role="dialog">            
@@ -159,7 +149,7 @@
                 </div>
             </div>
         </div>        
-    }
+    }    
     else 
     {                
         <div class="modal fade" id="modal_update_user">            

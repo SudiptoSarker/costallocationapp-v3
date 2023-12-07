@@ -279,12 +279,11 @@ $(document).ready(function () {
         if (tableRowList.length > 0) {
             var tempMainTitle = '';
             for (var c = 0; c < tableRowList.length; c++) {
-
-                var _rowDataList = tableRowList[c].rowData;
-
-
-                var dynamicTitleCount = $(`#table_${tableRowList[c].pageTableCount}`).data('dt');
                 
+                var _rowDataList = tableRowList[c].rowData;
+                var dynamicTitleCount = $(`#table_${tableRowList[c].pageTableCount}`).data('dt');
+
+                tempMainTitle = '';
                 for (var d = 0; d < tableRowList[c].rowData.length; d++) {
                     
                     var _rowData = tableRowList[c].rowData[d];
@@ -374,11 +373,11 @@ $(document).ready(function () {
                         else {
                             //negative red mark should add
                             if (dynamicTitleCount == 1) {
+                                console.log(tableRowList[c].pageTableCount);
                                 $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                 <tr>
                                 <td>${_rowData.mainTitle}</td>
-                                if()
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td >                                                                        
+                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                  
                                 <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
@@ -401,7 +400,7 @@ $(document).ready(function () {
                                 <tr>
                                 <td>${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td >                                                                        
+                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
                                 <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
@@ -425,7 +424,7 @@ $(document).ready(function () {
                                 <td>${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>
                                 <td>${_rowData.detailsTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td >                                                                        
+                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
                                 <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
                                 <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        

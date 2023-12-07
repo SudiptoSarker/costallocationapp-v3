@@ -2207,7 +2207,15 @@ namespace CostAllocationApp.Controllers.Api
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             return Ok(resultData);
         }
+        [HttpGet]
+        [Route("api/utilities/IsPendingForDelete/")]
+        public IHttpActionResult IsPendingForDelete(string assignementId)
+        {
+            bool isDeletePending = false;
 
+            isDeletePending = employeeAssignmentBLL.IsPendingForDelete(assignementId);            
+            return Ok(isDeletePending);
+        }
         [HttpGet]
         [Route("api/utilities/IsValidForApprovalRow/")]
         public IHttpActionResult IsValidForApprovalRow(string assignementId, bool isDeletedRow)

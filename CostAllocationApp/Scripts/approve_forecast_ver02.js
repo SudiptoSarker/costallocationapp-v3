@@ -190,17 +190,58 @@ $(document).ready(function () {
             alert("承認するデータがありません ");
         }else{
             if(isRowApprovalRequest){
+                var isDeleteRequest = false;
+                var isDeleteReqestConfirmed = false;
+                var deletedRow_assignmentId = "";
 
                 var arrSelectedRowsWithRowNumber = selectedRowsWithRowNumber.split(",");
+                $.each(arrSelectedRowsWithRowNumber, function (nextedIndex, nestedValue){
+                    var arrNestedValue = nestedValue.split("_");  
+                    if(arrNestedValue[2] == "true")  {                        
+                    }else{
+                        isDeleteRequest = true;
+                    }                
+                });
+                if(isDeleteRequest){
+                    if (confirm("過去データを変更された、及び削除されたデータを承認すると、過去データも変更、削除されます。注意してください！！") == true){
+                        isDeleteReqestConfirmed = true;
+                    }
+                }                
                 $.each(arrSelectedRowsWithRowNumber, function (nextedIndex, nestedValue){
                     var arrNestedValue = nestedValue.split("_");  
                     if(arrNestedValue[2] == "true")  {
                         SetRowColor_AfterApproved(parseInt(arrNestedValue[1])+1);           
                     }else{
-                        SetRowColor_ForDeletedRow(parseInt(arrNestedValue[1])+1);           
+                        if(deletedRow_assignmentId==""){
+                            deletedRow_assignmentId = arrNestedValue[0];
+                        }else{
+                            deletedRow_assignmentId = deletedRow_assignmentId +","+arrNestedValue[0];
+                        }
+                        if(isDeleteReqestConfirmed){
+                            SetRowColor_ForDeletedRow(parseInt(arrNestedValue[1])+1);           
+                        }else{
+                            var isPending = false;
+                            $.ajax({
+                                url: `/api/utilities/IsPendingForDelete`,
+                                contentType: 'application/json',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                data: "assignementId=" + arrNestedValue[0],
+                                success: function (data) {
+                                    isPending = data;         
+                                }
+                            }); 
+                            if(isPending){
+                                SetRowColor_UnapprovedDeleteRow(parseInt(arrNestedValue[1])+1);   
+                            }else{
+                                SetRowColor_AfterUnApproved_Delete(parseInt(arrNestedValue[1])+1);   
+                            }                            
+                        }                        
                     }                
                 });
             }
+
             if(isCellApprovalRequest){
                 var arrSelectedCellsWithPosition = selectedCellsWithPosition.split(",");
                 $.each(arrSelectedCellsWithPosition, function (nextedIndex, nestedValue){
@@ -242,8 +283,33 @@ $(document).ready(function () {
         }else{
             approvedRows = previousSelectedRows +","+approvedRows;
             $("#approved_selected_rows").val(approvedRows);
-        }
+        }        
 
+        if(!isDeleteReqestConfirmed){
+            var approvalAssignmentIds = "";
+            var allRowIds = $("#approved_selected_rows").val();
+
+            var arrAllRowIds = allRowIds.split(",");
+
+            $.each(arrAllRowIds, function (nextedIndex, rowItem){                
+                var arrDeletedRowIds = deletedRow_assignmentId.split(",");
+                
+                var isRowIdExistsInAllRows = false;
+                $.each(arrDeletedRowIds, function (nextedIndex, deleteItem){
+                    if(rowItem == deleteItem){
+                        isRowIdExistsInAllRows = true;
+                    }                    
+                });     
+                if(!isRowIdExistsInAllRows){
+                    if(approvalAssignmentIds==""){
+                        approvalAssignmentIds = rowItem;
+                    }else{
+                        approvalAssignmentIds = approvalAssignmentIds +","+rowItem;
+                    }
+                }
+            });
+            $("#approved_selected_rows").val(approvalAssignmentIds)
+        }                
     });
 
 

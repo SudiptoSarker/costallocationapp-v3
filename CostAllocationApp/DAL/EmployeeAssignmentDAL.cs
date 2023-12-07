@@ -2689,7 +2689,7 @@ namespace CostAllocationApp.DAL
                             employeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             employeeAssignmentViewModel.AddNameSubCode = rdr["SubCode"].ToString();
                             employeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"] is DBNull ? "" : rdr["DuplicateName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"] is DBNull ? "" : rdr["FullName"].ToString();
 
                             employeeAssignments.Add(employeeAssignmentViewModel);
                         }
@@ -2740,7 +2740,7 @@ namespace CostAllocationApp.DAL
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             employeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -3811,6 +3811,35 @@ namespace CostAllocationApp.DAL
                 resultData = 2;
             }
             return resultData;
+        }
+
+        public bool IsPendingForDelete(string assignementId)
+        {
+            bool results = false;
+            string query = "select Id,IsDeletePending from EmployeesAssignments where id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            results = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            
+            return results;
         }
 
         public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)

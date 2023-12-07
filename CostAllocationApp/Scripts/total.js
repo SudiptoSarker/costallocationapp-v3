@@ -297,7 +297,6 @@ $(document).ready(function () {
 
 
                         tempMainTitle = _rowData.mainTitle;
-                        //alert(dynamicTitleCount)
                         if (rowCount > 1) {
                             
                             if (dynamicTitleCount == 1) {
@@ -371,7 +370,6 @@ $(document).ready(function () {
                             }
                         }
                         else {
-                            //negative red mark should add
                             if (dynamicTitleCount == 1) {
                                 console.log(tableRowList[c].pageTableCount);
                                 $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`

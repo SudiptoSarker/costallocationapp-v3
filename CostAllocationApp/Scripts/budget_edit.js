@@ -2523,7 +2523,7 @@
             });
             LoaderHide();
         }else{
-            $('#jspreadsheet').html("No Budget assign for this year!");
+            $('#jspreadsheet').html("今年度の予算はない！");
         }
 
         $("#save_bedget").css("display", "block");

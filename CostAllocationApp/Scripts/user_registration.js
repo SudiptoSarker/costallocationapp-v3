@@ -171,7 +171,7 @@ $(document).ready(function () {
                     //GetUserList();
                     $('#register_modal').modal('hide');
                     $('#register_modal').on('hidden.bs.modal', function () {
-                        alert("Registration is completed.Please login.");
+                        alert("登録が完了しました。ログインしてください。");
                         window.location.href = "/Registration/Login";
 
                         // Load up a new modal...

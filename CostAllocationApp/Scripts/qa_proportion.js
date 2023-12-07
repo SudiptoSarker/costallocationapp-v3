@@ -700,12 +700,18 @@ $(document).ready(function () {
         if (jss != undefined) {
             $("#employee_wise_save_button").attr("disabled", true);
             $.each(jss.getData(), (index, itemValue) => {
-                if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
-                    alert('不正な部署名です');
-                    $("#employee_wise_save_button").attr("disabled", false);
-                    flag = false;
-                    return false;
+                var isIgnoreRow = true;
+                if (itemValue[0] == null || itemValue[0] == '' || itemValue[0] == undefined){
+                    isIgnoreRow = false;
                 }
+                if(isIgnoreRow){
+                    if (itemValue[2] == null || itemValue[2] == '' || itemValue[2] == undefined) {
+                        alert('不正な部署名です');
+                        $("#employee_wise_save_button").attr("disabled", false);
+                        flag = false;
+                        return false;
+                    }
+                }                
             });
             if (flag) {
                 let employeeIds = [];
@@ -780,72 +786,96 @@ $(document).ready(function () {
 
                         }); // end of each...
                         //１月(January)２月(February) ３月(March)、So, Add "月" after the number of month
-                        if (oct_sum !=100) {                            
-                            alert("十月 のデータ "+oct_sum+" は不正な値です");
+                        if (oct_sum >= 0 || oct_sum < 0) {
+                            if (oct_sum !=100) {                    
+                                alert("十月 のデータ "+oct_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }                
+                        }  
+                        if (nov_sum > 0 || nov_sum < 0){
+                            if (nov_sum !=100) {
+                                alert("十一月 のデータ "+nov_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }                                         
+                        if (dec_sum > 0 || dec_sum < 0){
+                            if (dec_sum !=100) {
+                                alert("十二月 のデータ "+dec_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (jan_sum > 0 || jan_sum < 0){
+                            if (jan_sum !=100) {
+                                alert("一月 のデータ "+jan_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (feb_sum > 0 || feb_sum < 0){
+                            if (feb_sum !=100) {
+                                alert("二月 のデータ "+feb_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (mar_sum > 0 || mar_sum < 0){
+                            if (mar_sum !=100) {
+                                alert("三月 のデータ "+mar_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (apr_sum > 0 || apr_sum < 0){
+                            if (apr_sum !=100) {
+                                alert("四月 のデータ "+apr_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (may_sum > 0 || may_sum < 0){
+                            if (may_sum !=100) {
+                                alert("五月 のデータ "+may_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (jun_sum > 0 || jun_sum < 0){
+                            if (jun_sum !=100) {
+                                alert("六月 のデータ "+jun_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (jul_sum > 0 || jul_sum < 0){
+                            if (jul_sum !=100) {
+                                alert("七月 のデータ "+jul_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (aug_sum > 0 || aug_sum < 0){
+                            if (aug_sum !=100) {
+                                alert("八月 のデータ "+aug_sum+" は不正な値です");
+                                $("#employee_wise_save_button").attr("disabled", false);
+                                return false;
+                            }
+                        }
+                        if (sep_sum > 0 || sep_sum < 0){
+                            if (sep_sum !=100) {
+                                alert("九月 のデータ "+sep_sum+" は不正な値です");
                             $("#employee_wise_save_button").attr("disabled", false);
                             return false;
+                            }
                         }
-                        if (nov_sum !=100) {
-                            alert("十一月 のデータ "+nov_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (dec_sum !=100) {
-                            alert("十二月 のデータ "+dec_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (jan_sum !=100) {
-                            alert("一月 のデータ "+jan_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (feb_sum !=100) {
-                            alert("二月 のデータ "+feb_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (mar_sum !=100) {
-                            alert("三月 のデータ "+mar_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (apr_sum !=100) {
-                            alert("四月 のデータ "+apr_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (may_sum !=100) {
-                            alert("五月 のデータ "+may_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (jun_sum !=100) {
-                            alert("六月 のデータ "+jun_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (jul_sum !=100) {
-                            alert("七月 のデータ "+jul_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (aug_sum !=100) {
-                            alert("八月 のデータ "+aug_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-                        if (sep_sum !=100) {
-                            alert("九月 のデータ "+sep_sum+" は不正な値です");
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            return false;
-                        }
-
                     }
                 }
 
                 if (flag1) {
-                    var year = $('#assignment_year').val();
+                    var year = $('#selected_year').val();
+
                     let employeeWiseProportionObjectList = [];
                     let employeeWiseProportionList = jss.getData();
                     if (employeeWiseProportionList.length > 0) {
@@ -941,10 +971,10 @@ $(document).ready(function () {
         var aug_sum = 0;
         var sep_sum = 0;
 
-        var year = $('#assignment_year').val();
+        var year = $('#selected_year').val();
 
         if (jss_1 != undefined) {
-            var data = jss_1.getData(false);
+            var data = jss_1.getData(false);            
 
             for (let i = 0; i < data.length; i++) {
                 oct_sum += parseFloat(data[i][2]);
@@ -961,56 +991,56 @@ $(document).ready(function () {
                 sep_sum += parseFloat(data[i][13]);
             }
 
-            if (oct_sum >= 0) {
+            if (oct_sum >= 0 || oct_sum < 0) {
                 if (oct_sum !=100) {                    
                     alert("十月 の部署のデータ "+oct_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }                
             }
-            if (nov_sum> 0) {
+            if (nov_sum> 0 || nov_sum < 0) {
                 if(nov_sum !=100){
                     alert("十一月 の部署のデータ "+nov_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }                
             }
-            if (dec_sum> 0) {
+            if (dec_sum> 0 || dec_sum < 0) {
                 if(dec_sum !=100){
                     alert("十二月 の部署のデータ "+dec_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (jan_sum> 0) {
+            if (jan_sum> 0 || jan_sum < 0) {
                 if(jan_sum !=100){
                     alert("一月 の部署のデータ "+jan_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (feb_sum> 0) {
+            if (feb_sum> 0 || feb_sum < 0) {
                 if(feb_sum !=100){
                     alert("二月 の部署のデータ "+feb_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (mar_sum> 0) {
+            if (mar_sum> 0 || mar_sum < 0) {
                 if(mar_sum !=100){
                     alert("三月 の部署のデータ "+mar_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (apr_sum> 0) {
+            if (apr_sum> 0 || apr_sum < 0) {
                 if(apr_sum !=100){
                     alert("四月 の部署のデータ "+apr_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (may_sum> 0) {
+            if (may_sum> 0 || may_sum < 0) {
                 if(may_sum !=100){
                     alert("五月 の部署のデータ "+may_sum+" は不正な値です");
                     dataToSend = [];
@@ -1018,28 +1048,28 @@ $(document).ready(function () {
                 }
                 
             }
-            if (jun_sum> 0) {
+            if (jun_sum> 0 || jun_sum < 0) {
                 if(jun_sum !=100){
                     alert("六月 の部署のデータ "+jun_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (jul_sum > 0) {
+            if (jul_sum > 0 || jul_sum < 0) {
                 if(jul_sum !=100){
                     alert("七月 の部署のデータ "+jul_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (aug_sum> 0) {
+            if (aug_sum> 0 || aug_sum < 0) {
                 if(aug_sum !=100){
                     alert("八月 の部署のデータ "+aug_sum+" は不正な値です");
                     dataToSend = [];
                     return false;
                 }
             }
-            if (sep_sum> 0) {
+            if (sep_sum> 0 || sep_sum < 0) {
                 if(sep_sum !=100){
                     alert("九月 の部署のデータ "+sep_sum+" は不正な値です");
                     dataToSend = [];
@@ -1048,24 +1078,30 @@ $(document).ready(function () {
             }
 
             $.each(data, function (index, value) {
-                var obj = {
-                    departmentId: value[0],
-                    octPercentage: parseFloat(value[2]),
-                    novPercentage: parseFloat(value[3]),
-                    decPercentage: parseFloat(value[4]),
-                    janPercentage: parseFloat(value[5]),
-                    febPercentage: parseFloat(value[6]),
-                    marPercentage: parseFloat(value[7]),
-                    aprPercentage: parseFloat(value[8]),
-                    mayPercentage: parseFloat(value[9]),
-                    junPercentage: parseFloat(value[10]),
-                    julPercentage: parseFloat(value[11]),
-                    augPercentage: parseFloat(value[12]),
-                    sepPercentage: parseFloat(value[13]),
-                    id: value[14]
-                };
+                var isIgnoreRow = true;
+                if (value[0] == null || value[0] == '' || value[0] == undefined){
+                    isIgnoreRow = false;
+                }
+                if(isIgnoreRow){
+                    var obj = {
+                        departmentId: value[0],
+                        octPercentage: parseFloat(value[2]),
+                        novPercentage: parseFloat(value[3]),
+                        decPercentage: parseFloat(value[4]),
+                        janPercentage: parseFloat(value[5]),
+                        febPercentage: parseFloat(value[6]),
+                        marPercentage: parseFloat(value[7]),
+                        aprPercentage: parseFloat(value[8]),
+                        mayPercentage: parseFloat(value[9]),
+                        junPercentage: parseFloat(value[10]),
+                        julPercentage: parseFloat(value[11]),
+                        augPercentage: parseFloat(value[12]),
+                        sepPercentage: parseFloat(value[13]),
+                        id: value[14]
+                    };
 
-                dataToSend.push(obj);
+                    dataToSend.push(obj);
+                }
             });
 
             $.ajax({
@@ -1080,8 +1116,10 @@ $(document).ready(function () {
                 }),
                 success: function (data) {
                     alert("保存されました.");
+                    GetQAProrationByYear(year);
                 }
             });
+
         }
         else {
             alert('追加、修正していないデータがありません!');
@@ -1107,18 +1145,20 @@ $(document).ready(function () {
     });
 
     $('#actual_cost').on('click', function () {        
-        var year = $('#assignment_year').val();
+        var year = $('#assignment_year').val();     
+
         if (year == null || year == '' || year == undefined) {
             alert('年度を選択してください!!!');
             return false;
         }    
+        $("#selected_year").val(year);
+
         isLoaderShow = true; 
         if(isLoaderShow){
             HideTables();
             LoaderShow_QAProration();
         }  
-                    
-        var year = $('#assignment_year').val();        
+                            
         EmployeeWiseQAProration(year);
         if(!isLoaderShow){
             LoaderHide_QAProration();

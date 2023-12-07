@@ -445,7 +445,7 @@ $(document).ready(function () {
     $('#create_actual_cost').on('click', function () {
 
         if (distributionCount == 0) {
-            alert("Please distribute first!");
+            alert("最初に配布してください!");
             return false;
         }
 
@@ -496,7 +496,7 @@ $(document).ready(function () {
         }
 
         if (saveFlag == false) {
-            alert("Please distribute first!");
+            alert("最初に配布してください!");
             return false;
         }
 

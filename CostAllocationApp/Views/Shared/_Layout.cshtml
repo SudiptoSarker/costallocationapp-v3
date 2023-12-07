@@ -215,7 +215,7 @@
                         var chat = $.connection.chatHub;
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            chat.server.send(user_name, ' Logged Out');
+                            chat.server.send(user_name, ' ログアウト');
                         });
                         location.href = '/';
                     }

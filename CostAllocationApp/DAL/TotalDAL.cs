@@ -15,7 +15,7 @@ namespace CostAllocationApp.DAL
         {
 
             string where = "";
-            where += $" ea.DepartmentId = {departmentIds} and ";
+            where += $" ea.DepartmentId IN ({departmentIds}) and ";
 
             string tempCompanyIds = "";
             string[] arrCompanyIds = companyIds.Split(new[] { "," }, StringSplitOptions.None);

@@ -39,20 +39,12 @@
                 <select id="assignment_year" class=""></select>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="actual_cost">表示</button>
+                <button type="submit" class="btn btn-light mb-2" id="show_proration">表示</button>
             </div>
         </div>
         <br>
 
-        <div id="qa_proration_tables">
-            @*<div class="row" id="actual_cost_search">
-                <div class="col-3">
-                    <select id="merged_employee_from_qc" class="" multiple="multiple"></select>
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-light mb-2" id="add_button">追加 (Add)</button>
-                </div>
-            </div>*@
+        <div id="qa_proration_tables">            
             <br />
             <div class="row" id="actual_cost_list">
                 <div class="col-md-12">
@@ -65,15 +57,7 @@
                     }
                 </div>
             </div>
-            <br /><br />
-            @*<div class="row" id="actual_cost_search">
-                <div class="col-3">
-                    <select id="department_list" class="" multiple="multiple"></select>
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-light mb-2" id="department_list_add_button">追加 (Add)</button>
-                </div>
-            </div>*@
+            <br /><br />            
             <br>
             <div class="row" id="actual_cost_list1">
                 <div class="col-md-12">
@@ -148,8 +132,7 @@
 
 
 @section Scripts{
-    <script src="/Scripts/common.js"></script>
-    @*<script src="/Scripts/forecast_ver04.js"></script>*@
+    <script src="/Scripts/common.js"></script>    
     <script src="~/Scripts/qa_proportion.js"></script>
     <script src="/Scripts/multi_select_dynamic_table.js"></script>
     

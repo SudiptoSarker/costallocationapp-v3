@@ -82,413 +82,403 @@ function LoadJexcel() {
         return false;
     }
     
-    setTimeout(function () {
-        $.ajax({
-            url: '/Registration/GetUserRole',
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                if (parseInt(data) === 1 || parseInt(data) === 2) {
-                    userRoleflag = false;
-                }
-                else {
-                    userRoleflag = true;
-                }
+    $.ajax({
+        url: '/Registration/GetUserRole',
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            if (parseInt(data) === 1 || parseInt(data) === 2) {
+                userRoleflag = false;
             }
-        });
-        // 1st jexcel
-        {
-        if (jss != undefined) {
-            jss.destroy();
-            $('#jspreadsheet').empty();
+            else {
+                userRoleflag = true;
+            }
         }
+    });
 
-        var sectionsForJexcel = [];
-        var departmentsForJexcel = [];
-        var inchargesForJexcel = [];
-        var rolesForJexcel = [];
-        var explanationsForJexcel = [];
-        var companiesForJexcel = [];
+    // 1st jexcel
+    
+    if (jss != undefined) {
+        jss.destroy();
+        $('#jspreadsheet').empty();
+    }
 
+    var sectionsForJexcel = [];
+    var departmentsForJexcel = [];
+    var inchargesForJexcel = [];
+    var rolesForJexcel = [];
+    var explanationsForJexcel = [];
+    var companiesForJexcel = [];
 
-        $.ajax({
-            url: `/api/Departments`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
+    $.ajax({
+        url: `/api/Departments`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
 
-                $.each(data, (index, value) => {
-                    if (value.DepartmentName !== '品証') {
-                        departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-                    }
+            $.each(data, (index, value) => {
+                if (value.DepartmentName !== '品証') {
+                    departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
+                }
+            });
+        }
+    });
 
-                });
-            }
-        });
+    jss = $('#jspreadsheet').jspreadsheet({
+        data: _retriveddata,
+        filters: true,
+        tableOverflow: true,
+        freezeColumns: 3,
+        defaultColWidth: 50,
+        tableWidth: (window.innerWidth - 300) + "px",
+        tableHeight: (window.innerHeight - 300) + "px",
 
+        columns: [
+            { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
 
-        jss = $('#jspreadsheet').jspreadsheet({
-            data: _retriveddata,
-            filters: true,
-            tableOverflow: true,
-            freezeColumns: 3,
-            defaultColWidth: 50,
-            tableWidth: (window.innerWidth - 300) + "px",
-            tableHeight: (window.innerHeight - 300) + "px",
+            { title: "要員名(Emp)", type: 'text', name: "EmployeeName", width: 100 },
 
-            columns: [
-                { title: "Employee Id", type: 'text', name: "EmployeeId", type: 'hidden' },
+            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
 
-                { title: "要員名(Emp)", type: 'text', name: "EmployeeName", width: 100 },
+            { title: "10月", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
 
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
+            { title: "11月", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
 
-                { title: "10月", type: "decimal", name: "OctPercentage", mask: "#,## %", width: 100 },
+            { title: "12月", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
 
-                { title: "11月", type: "decimal", name: "NovPercentage", mask: "#.## %", width: 100 },
+            { title: "1月", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
 
-                { title: "12月", type: "decimal", name: "DecPercentage", mask: "#.## %", width: 100 },
+            { title: "2月", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
 
-                { title: "1月", type: "decimal", name: "JanPercentage", mask: "#.## %", width: 100 },
+            { title: "3月", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
 
-                { title: "2月", type: "decimal", name: "FebPercentage", mask: "#.## %", width: 100 },
+            { title: "4月", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
 
-                { title: "3月", type: "decimal", name: "MarPercentage", mask: "#.## %", width: 100 },
+            { title: "5月", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
 
-                { title: "4月", type: "decimal", name: "AprPercentage", mask: "#.## %", width: 100 },
+            { title: "6月", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
 
-                { title: "5月", type: "decimal", name: "MayPercentage", mask: "#.## %", width: 100 },
+            { title: "7月", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
 
-                { title: "6月", type: "decimal", name: "JunPercentage", mask: "#.## %", width: 100 },
+            { title: "8月", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
 
-                { title: "7月", type: "decimal", name: "JulPercentage", mask: "#.## %", width: 100 },
+            { title: "9月", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
 
-                { title: "8月", type: "decimal", name: "AugPercentage", mask: "#.## %", width: 100 },
+            { title: "Id", type: 'text', name: "Id", type: 'hidden' },
 
-                { title: "9月", type: "decimal", name: "SepPercentage", mask: "#.## %", width: 100 },
+        ],
+        columnSorting: true,
+        contextMenu: function (obj, x, y, e) {
+            var items = [];
+            var nextRow = parseInt(y) + 1;
+            items.push({
+                title: '複製',
+                onclick: () => {
+                    obj.insertRow(1, parseInt(y));
+                    var retrivedData = retrivedObject(jss.getRowData(y));
 
-                { title: "Id", type: 'text', name: "Id", type: 'hidden' },
+                    obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
+                    obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
+                    obj.setValueFromCoords(2, nextRow, null, false);
+                    obj.setValueFromCoords(3, nextRow, 0, false);
+                    obj.setValueFromCoords(4, nextRow, 0, false);
+                    obj.setValueFromCoords(5, nextRow, 0, false);
+                    obj.setValueFromCoords(6, nextRow, 0, false);
+                    obj.setValueFromCoords(7, nextRow, 0, false);
+                    obj.setValueFromCoords(8, nextRow, 0, false);
+                    obj.setValueFromCoords(9, nextRow, 0, false);
+                    obj.setValueFromCoords(10, nextRow, 0, false);
+                    obj.setValueFromCoords(11, nextRow, 0, false);
+                    obj.setValueFromCoords(12, nextRow, 0, false);
+                    obj.setValueFromCoords(13, nextRow, 0, false);
+                    obj.setValueFromCoords(14, nextRow, 0, false);
+                }
+            });
+            items.push({
+                title: '削除',
+                onclick: () => {
+                    
+                    var retrivedData = retrivedObject(jss.getRowData(y));
+                    var qaProrationId = retrivedData.id;                                                                        
+                    var name = retrivedData.employeeName;
 
-            ],
-            columnSorting: true,
-            contextMenu: function (obj, x, y, e) {
-                var items = [];
-                var nextRow = parseInt(y) + 1;
-                items.push({
-                    title: '複製',
-                    onclick: () => {
-                        obj.insertRow(1, parseInt(y));
-                        var retrivedData = retrivedObject(jss.getRowData(y));
+                    if (parseInt(qaProrationId) > 0) {                       
+                    $.ajax({
+                            url: `/api/utilities/DeleteQAProrationEmployee`,
+                            contentType: 'application/json',
+                            type: 'GET',
+                            async: false,
+                            dataType: 'json',
+                            data: "qaProrationId=" + qaProrationId,
+                            success: function (data) {   
+                                if(data==1){                      
+                                    jss.deleteRow(parseInt(y),1);                                    
+                                    alert("正常に処理されました");
 
-                        obj.setValueFromCoords(0, nextRow, retrivedData.employeeId, false);
-                        obj.setValueFromCoords(1, nextRow, retrivedData.employeeName, false);
-                        obj.setValueFromCoords(2, nextRow, null, false);
-                        obj.setValueFromCoords(3, nextRow, 0, false);
-                        obj.setValueFromCoords(4, nextRow, 0, false);
-                        obj.setValueFromCoords(5, nextRow, 0, false);
-                        obj.setValueFromCoords(6, nextRow, 0, false);
-                        obj.setValueFromCoords(7, nextRow, 0, false);
-                        obj.setValueFromCoords(8, nextRow, 0, false);
-                        obj.setValueFromCoords(9, nextRow, 0, false);
-                        obj.setValueFromCoords(10, nextRow, 0, false);
-                        obj.setValueFromCoords(11, nextRow, 0, false);
-                        obj.setValueFromCoords(12, nextRow, 0, false);
-                        obj.setValueFromCoords(13, nextRow, 0, false);
-                        obj.setValueFromCoords(14, nextRow, 0, false);
-                    }
-                });
-                items.push({
-                    title: '削除',
-                    onclick: () => {
-                        
-                        var retrivedData = retrivedObject(jss.getRowData(y));
-                        var qaProrationId = retrivedData.id;                                                                        
-                        var name = retrivedData.employeeName;
-
-                        if (parseInt(qaProrationId) > 0) {                       
-                        $.ajax({
-                                url: `/api/utilities/DeleteQAProrationEmployee`,
-                                contentType: 'application/json',
-                                type: 'GET',
-                                async: true,
-                                dataType: 'json',
-                                data: "qaProrationId=" + qaProrationId,
-                                success: function (data) {   
-                                    if(data==1){                      
-                                        jss.deleteRow(parseInt(y),1);                                    
-                                        alert("正常に処理されました");
-
-                                    }else{
-                                        alert("操作が失敗しました");
-                                    }
+                                }else{
+                                    alert("操作が失敗しました");
                                 }
-                            });
-                        }else{
-                            jss.deleteRow(parseInt(y),1);  
-                            alert("正常に処理されました");            
-                            //alert(name +" has not been saved yet. You can not delete this employee!")  
-                        }   
+                            }
+                        });
+                    }else{
+                        jss.deleteRow(parseInt(y),1);  
+                        alert("正常に処理されました");            
+                    }   
+                }
+            });                
+            return items;
+        },
+        onbeforechange: function (instance, cell, x, y, value) {
 
-                        
+            //alert(value);
+            if (x == 3) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 4) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 5) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 6) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 7) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 8) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 9) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 10) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 11) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 12) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 13) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+            if (x == 14) {
+                beforeChangedValue = jss.getValueFromCoords(x, y);
+            }
+        },
+        onchange: (instance, cell, x, y, value) => {               
+            if (x == 3) {
+                var octSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        octSum += parseFloat(parseFloat(dataValue[3]));
                     }
+
                 });
-                
-                return items;
-            },
-            onbeforechange: function (instance, cell, x, y, value) {
 
-                //alert(value);
-                if (x == 3) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 4) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 5) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 6) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 7) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 8) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 9) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 10) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 11) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 12) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 13) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 14) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-            },
-            onchange: (instance, cell, x, y, value) => {               
-                if (x == 3) {
-                    var octSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            octSum += parseFloat(parseFloat(dataValue[3]));
-                        }
+                if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
+                    octSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
 
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || octSum > 100) {
-                        octSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }
-                }
-                if (x == 4) {
-                    var novSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            novSum += parseFloat(parseFloat(dataValue[4]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || novSum > 100) {
-                        novSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }
-                }
-                if (x == 5) {
-                    var decSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            decSum += parseFloat(parseFloat(dataValue[5]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || decSum > 100) {
-                        decSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }
-                }
-                if (x == 6) {
-                    var janSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            janSum += parseFloat(parseFloat(dataValue[6]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || janSum > 100) {
-                        janSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                  
-                }
-                if (x == 7) {
-                    var febSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            febSum += parseFloat(parseFloat(dataValue[7]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || febSum > 100) {
-                        febSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                    
-                }
-                if (x == 8) {
-                    var marSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            marSum += parseFloat(parseFloat(dataValue[8]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || marSum > 100) {
-                        marSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                  
-                }
-                if (x == 9) {
-                    var aprSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            aprSum += parseFloat(parseFloat(dataValue[9]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || aprSum > 100) {
-                        aprSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                
-                }
-                if (x == 10) {
-                    var maySum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            maySum += parseFloat(parseFloat(dataValue[10]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || maySum > 100) {
-                        maySum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                   
-                }
-                if (x == 11) {
-                    var junSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            junSum += parseFloat(parseFloat(dataValue[11]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || junSum > 100) {
-                        junSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                    
-                }
-                if (x == 12) {
-                    var julSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            julSum += parseFloat(parseFloat(dataValue[12]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || julSum > 100) {
-                        julSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                    
-                }
-                if (x == 13) {
-                    var augSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            augSum += parseFloat(parseFloat(dataValue[13]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || augSum > 100) {
-                        augSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                    
-                }
-                if (x == 14) {
-                    var sepSum = 0;
-                    var employeeId = jss.getValueFromCoords(0, y);
-                    $.each(jss.getData(), (index, dataValue) => {
-                        if (dataValue[0].toString() == employeeId.toString()) {
-                            sepSum += parseFloat(parseFloat(dataValue[14]));
-                        }
-
-                    });
-
-                    if (isNaN(value) || parseFloat(value) < 0 || sepSum > 100) {
-                        sepSum = 0;
-                        alert('入力値が不正です');
-                        jss.setValueFromCoords(x, y, beforeChangedValue, false);
-
-                    }                  
                 }
             }
-        });
-    } 
+            if (x == 4) {
+                var novSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        novSum += parseFloat(parseFloat(dataValue[4]));
+                    }
 
-    }, 3000);
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || novSum > 100) {
+                    novSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }
+            }
+            if (x == 5) {
+                var decSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        decSum += parseFloat(parseFloat(dataValue[5]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || decSum > 100) {
+                    decSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }
+            }
+            if (x == 6) {
+                var janSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        janSum += parseFloat(parseFloat(dataValue[6]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || janSum > 100) {
+                    janSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                  
+            }
+            if (x == 7) {
+                var febSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        febSum += parseFloat(parseFloat(dataValue[7]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || febSum > 100) {
+                    febSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                    
+            }
+            if (x == 8) {
+                var marSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        marSum += parseFloat(parseFloat(dataValue[8]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || marSum > 100) {
+                    marSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                  
+            }
+            if (x == 9) {
+                var aprSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        aprSum += parseFloat(parseFloat(dataValue[9]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || aprSum > 100) {
+                    aprSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                
+            }
+            if (x == 10) {
+                var maySum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        maySum += parseFloat(parseFloat(dataValue[10]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || maySum > 100) {
+                    maySum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                   
+            }
+            if (x == 11) {
+                var junSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        junSum += parseFloat(parseFloat(dataValue[11]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || junSum > 100) {
+                    junSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                    
+            }
+            if (x == 12) {
+                var julSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        julSum += parseFloat(parseFloat(dataValue[12]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || julSum > 100) {
+                    julSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                    
+            }
+            if (x == 13) {
+                var augSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        augSum += parseFloat(parseFloat(dataValue[13]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || augSum > 100) {
+                    augSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                    
+            }
+            if (x == 14) {
+                var sepSum = 0;
+                var employeeId = jss.getValueFromCoords(0, y);
+                $.each(jss.getData(), (index, dataValue) => {
+                    if (dataValue[0].toString() == employeeId.toString()) {
+                        sepSum += parseFloat(parseFloat(dataValue[14]));
+                    }
+
+                });
+
+                if (isNaN(value) || parseFloat(value) < 0 || sepSum > 100) {
+                    sepSum = 0;
+                    alert('入力値が不正です');
+                    jss.setValueFromCoords(x, y, beforeChangedValue, false);
+
+                }                  
+            }
+        }
+    });
 }
 
 function LoadJexcel1() {
@@ -557,7 +547,7 @@ function LoadJexcel1() {
                             url: `/api/utilities/DeleteApprotionment`,
                             contentType: 'application/json',
                             type: 'GET',
-                            async: true,
+                            async: false,
                             dataType: 'json',
                             data: "apportionmentId=" + apportionmentId,
                             success: function (data) {   
@@ -599,7 +589,7 @@ function ColumnOrder(columnNumber, orderBy) {
         jexcelHeadTdEmployeeName.addClass('arrow-down');
     }
 }
-function GetQAProrationByYear(year){
+function GetQAProrationByYear(year){    
     _retriveddata = [];
     _retriveddata_1 = [];
     $.ajax({
@@ -622,10 +612,12 @@ function GetQAProrationByYear(year){
         success: function (data) {
             _retriveddata_1 = data;
         }
-    });
+    });    
+    // LoadJexcel();
+    // LoaderHide();
 
-    LoadJexcel();
-    LoadJexcel1();
+    //LoadJexcel1();    
+    //LoaderHide();   
 }
 function GetDepartmentListForQAProration(){
     $.ajax({
@@ -679,17 +671,22 @@ function ShowTables(){
     $("#qa_proration_tables").show();
 }
 
-// function LoaderShow() {
-//     $("#jspreadsheet").hide();
-//     $("#loading").css("display", "block");
-// }
+function LoaderShow() {
+    $("#qa_proration_tables").hide();
+    // $("#jspreadsheet_1").hide();
+    $("#loading").css("display", "block");
+}
 
-// function LoaderHide() {
-//     $("#jspreadsheet").show();
-//     $("#loading").css("display", "none");
-// }
+function LoaderHide() {
+    $("#qa_proration_tables").show();
+    // $("#jspreadsheet_1").show();
+    $("#loading").css("display", "none");
+}
+
 $(document).ready(function () {
-    HideTables();
+    //HideTables();
+    $("#qa_proration_tables").hide();
+    //$("#jspreadsheet").hide();
 
     $('#employee_wise_save_button').on('click', () => {                
         let duplicateEmployeeId = '';
@@ -903,7 +900,7 @@ $(document).ready(function () {
                             url: `/api/utilities/CreateQaProportion`,
                             contentType: 'application/json',
                             type: 'POST',
-                            async: true,
+                            async: false,
                             dataType: 'json',
                             data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
                             success: function (data) {
@@ -1144,28 +1141,37 @@ $(document).ready(function () {
         }
     });
 
-    $('#actual_cost').on('click', function () {        
+    $('#show_proration').on('click', function () {        
         var year = $('#assignment_year').val();     
-
         if (year == null || year == '' || year == undefined) {
             alert('年度を選択してください!!!');
             return false;
         }    
+        LoaderShow();    
+        //LoaderHide();    
         $("#selected_year").val(year);
 
-        isLoaderShow = true; 
-        if(isLoaderShow){
-            HideTables();
-            LoaderShow_QAProration();
-        }  
+        // isLoaderShow = true; 
+        // if(isLoaderShow){
+        //     HideTables();
+        //     LoaderShow_QAProration();
+        // }  
                             
-        EmployeeWiseQAProration(year);
-        if(!isLoaderShow){
-            LoaderHide_QAProration();
-            ShowTables();
-        }   
+        EmployeeWiseQAProration(year);        
+        // if(!isLoaderShow){
+        //     LoaderHide_QAProration();
+        //     ShowTables();
+        // }   
         GetDepartmentListForQAProration();
-        GetQAProrationByYear(year);                                 
+        
+        GetQAProrationByYear(year);
+
+        LoadJexcel();
+        LoadJexcel1();    
+        LoaderHide();  
+
+        
+        //LoaderHide();                                 
     });
 
     $('.modal_return_btn').on('click', function () {

@@ -67,7 +67,7 @@ namespace CostAllocationApp.DAL
         {
             List<Salary> salaries = new List<Salary>();
             string query = "";
-            query = "SELECT * FROM Grades WHERE IsActive=1 ";
+            query = "SELECT * FROM Grades WHERE IsActive=1 ORDER BY len(GradePoints), GradePoints";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

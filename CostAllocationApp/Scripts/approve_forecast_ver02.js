@@ -1763,7 +1763,8 @@ function ShowForecastResults(year,showType) {
             $.connection.hub.start();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                chat.server.send('data has been approved by ', userName);
+                //chat.server.send('データは [アドナン]によって承認されている ', userName);
+                chat.server.send('データは によって承認されている ', userName);
             });     
 
             $("#saved_approved_data").css("display", "block");

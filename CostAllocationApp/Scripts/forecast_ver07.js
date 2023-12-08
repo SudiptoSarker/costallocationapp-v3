@@ -988,6 +988,7 @@ function ShowForecastJexcel(){
 
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
+        
         filters: true,
         allowComments:true,
         tableOverflow: true,
@@ -1238,8 +1239,7 @@ function ShowForecastJexcel(){
                 source: gradesForJexcel, 
                 name: "GradeId", 
                 width: 60,
-                filter: (instance, cell, c, r, source) => {
-                    
+                filter: (instance, cell, c, r, source) => {                    
                     let row = parseInt(r);
                     let column = parseInt(c) - 1;
                     
@@ -1474,10 +1474,10 @@ function ShowForecastJexcel(){
             
             
         ],        
-        
-        onbeforechange: function (instance, cell, x, y, value) {
-            //console.log("onbeforechange");
-            //alert(value);
+        // onevent: function(event,a,b,c,d,e,f) {
+        //     console.log(event,a,b,c,d,e,f);
+        // },
+        onbeforechange: function (instance, cell, x, y, value) {            
             var retrivedData = retrivedObject(jss.getRowData(y));
             if (x == jssTableDefinition.section.index) {
                 var flag = true;
@@ -1633,7 +1633,7 @@ function ShowForecastJexcel(){
                 beforeChangedValue = jss.getValueFromCoords(x, y);
             }
         },
-        onchange: function (instance, cell, x, y, value) {
+        onchange: function (instance, cell, x, y, value) {            
             var checkId = jss.getValueFromCoords(jssTableDefinition.assignmentId.index, y);
             var employeeId = jss.getValueFromCoords(jssTableDefinition.employeeId.index, y);            
 

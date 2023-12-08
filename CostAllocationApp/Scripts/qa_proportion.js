@@ -710,6 +710,7 @@ $(document).ready(function () {
                     }
                 }                
             });
+            
             if (flag) {
                 let employeeIds = [];
                 $.each(jss.getData(), (index, itemValue) => {
@@ -729,8 +730,7 @@ $(document).ready(function () {
                     });
                     // find duplicate departments...
                     let duplicateElements = find_duplicate_in_array(departmentIds);
-                    if (duplicateElements.length > 0) {
-                        
+                    if (duplicateElements.length > 0) {                        
                         departmentIds = [];
                         duplicateEmployeeId = uniqueEmployeeIds[i];
                         $("#employee_wise_save_button").attr("disabled", false);

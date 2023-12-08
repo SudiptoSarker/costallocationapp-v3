@@ -303,22 +303,22 @@ $(document).ready(function () {
                                 $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                 <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
                                 <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                           
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
                             </tr>`);
                             }
                             if (dynamicTitleCount == 2) {
@@ -326,22 +326,22 @@ $(document).ready(function () {
                                 <tr data-category='${_rowData.mainTitle}_${tableRowList[c].tableTitle}_${dynamicTitleCount}'>
                                 <td><i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                 
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                 
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
                             </tr>`);
                             }
                             if (dynamicTitleCount == 3) {
@@ -350,22 +350,22 @@ $(document).ready(function () {
                                 <td> <i class="fa fa-plus expand" aria-hidden="true"></i> ${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>
                                 <td>${_rowData.detailsTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                     
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                     
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                  
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                  
                             </tr>`);
                             }
                         }
@@ -375,22 +375,22 @@ $(document).ready(function () {
                                 $(`#table_${tableRowList[c].pageTableCount} tbody`).append(`
                                 <tr>
                                 <td>${_rowData.mainTitle}</td>
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                  
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                                  
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                 
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                 
                             </tr>`);
                             }
                             if (dynamicTitleCount == 2) {
@@ -398,22 +398,22 @@ $(document).ready(function () {
                                 <tr>
                                 <td>${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                  
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                  
                             </tr>`);
                             }
                             if (dynamicTitleCount == 3) {
@@ -422,22 +422,22 @@ $(document).ready(function () {
                                 <td>${_rowData.mainTitle}</td>
                                 <td>${_rowData.subTitle}</td>
                                 <td>${_rowData.detailsTitle}</td>                                    
-                                <td class="text-right">${Number(_rowData.OctCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
-                                <td class="text-right">${Number(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                <td class="text-right">${Number(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
+                                <td class="text-right">${Math.round(_rowData.OctCost[2]).toLocaleString('en-US')}</td>
+                                <td class="text-right">${Math.round(_rowData.NovCost[2]).toLocaleString('en-US')}</td>                                                                                                            
+                                <td class="text-right">${Math.round(_rowData.DecCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JanCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FebCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MarCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.AprCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.MayCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JunCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.AugCost[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SepCost[2]).toLocaleString('en-US')}</td>                                      
 
-                                <td class="text-right">${Number(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
-                                <td class="text-right">${Number(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
+                                <td class="text-right">${Math.round(_rowData.RowTotal[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.FirstSlot[2]).toLocaleString('en-US')}</td>                                                                        
+                                <td class="text-right">${Math.round(_rowData.SecondSlot[2]).toLocaleString('en-US')}</td>                                    
                             </tr>`);
                             }
                         }
@@ -944,44 +944,44 @@ $(document).ready(function () {
 
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>                                    
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>
                                     
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 2) {
                 closestRow.after(`
                                     <tr data-categiry='${categoryName}'>
                                     <td>${filteredRows[i].subTitle}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
             if (dynamicTitleCount == 3) {
@@ -989,22 +989,22 @@ $(document).ready(function () {
                                     <tr data-categiry='${categoryName}'>
                                     <td>${filteredRows[i].subTitle}</td>
                                     <td>${filteredRows[i].detailsTitle}</td>                                    
-                                   <td class="text-right">${Number(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>                                
-                                    <td class="text-right">${Number(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Number(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${Number(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Number(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
                                 </tr>`);
             }
         }

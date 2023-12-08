@@ -11,9 +11,11 @@ namespace CostAllocationApp.Controllers
     public class EmployeesController : Controller
     {
         UserBLL userBLL = null;
+        Utility _utility = null;
         public EmployeesController()
         {
             userBLL = new UserBLL();
+            _utility = new Utility();
         }
         [NonAction]
         public ActionResult CreateEmployee()
@@ -38,30 +40,26 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult CreateNewEmployee()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Employees/CreateNewEmployee".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
+
             return View();
         }
     }

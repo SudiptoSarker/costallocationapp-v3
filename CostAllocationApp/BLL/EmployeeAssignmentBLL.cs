@@ -1629,6 +1629,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.CheckForApprovedCells(assignementId, selectedCells);
         }
+        public bool IsPendingForDelete(string assignementId)
+        {
+            return employeeAssignmentDAL.IsPendingForDelete(assignementId);
+        }
         public bool CheckForUnApprovedRow(string assignementId, bool isDeletedRow)
         {
             return employeeAssignmentDAL.CheckForUnApprovedRow(assignementId, isDeletedRow);

@@ -605,10 +605,10 @@ namespace CostAllocationApp.DAL
             string userRoleType = "";
 
             string query = "";
-            query = query + "SELECT u.Id,u.UserName,u.UserRoleId ";
+            query = query + "SELECT u.UserName,ur.Role ";
             query = query + "FROM Users u ";
-            query = query + "    INNER JOIN UserRoles ur ON u.UserRoleId = ur.ID ";
-            query = query + "WHERE UserName=N'"+ userName + "' ";
+            query = query + "    INNER JOIN UserRoles ur ON u.UserRoleId = ur.Id ";
+            query = query + "WHERE u.UserName=N'"+ userName + "' AND u.IsActive=1 ";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -621,20 +621,7 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            int userRoleId = Convert.ToInt32(rdr["UserRoleId"]);
-                            if(userRoleId == 1)
-                            {
-                                userRoleType = "admin";
-                            }
-                            else if (userRoleId == 2)
-                            {
-                                userRoleType = "editor";
-
-                            }
-                            else if (userRoleId == 3)
-                            {
-                                userRoleType = "visitor";
-                            }
+                            userRoleType = rdr["Role"].ToString().ToLower();                            
                         }
                     }
                 }

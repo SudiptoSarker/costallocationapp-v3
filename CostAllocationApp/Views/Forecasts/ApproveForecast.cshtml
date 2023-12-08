@@ -44,15 +44,18 @@
                 <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
             </div>
             <div class="col-1"></div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="unapprove_forecast_data">取消(undo)</button>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="approve_forecast_data">承認(Approve)</button>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="saved_approved_data">保存 (Save)</button>
-            </div>
+            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor")
+            {
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data">取消(undo)</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="approve_forecast_data">承認(Approve)</button>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark" id="saved_approved_data">保存 (Save)</button>
+                </div>
+            }
         </div>
         
         @* <div class="container">

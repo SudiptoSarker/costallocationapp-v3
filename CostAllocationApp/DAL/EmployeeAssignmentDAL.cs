@@ -2689,7 +2689,7 @@ namespace CostAllocationApp.DAL
                             employeeAssignmentViewModel.SubCode = Convert.ToInt32(rdr["SubCode"]);
                             employeeAssignmentViewModel.AddNameSubCode = rdr["SubCode"].ToString();
                             employeeAssignmentViewModel.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"] is DBNull ? "" : rdr["DuplicateName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"] is DBNull ? "" : rdr["FullName"].ToString();
 
                             employeeAssignments.Add(employeeAssignmentViewModel);
                         }
@@ -2740,7 +2740,7 @@ namespace CostAllocationApp.DAL
                             EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
                             employeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             employeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
-                            employeeAssignmentViewModel.EmployeeName = rdr["DuplicateName"].ToString();
+                            employeeAssignmentViewModel.EmployeeName = rdr["FullName"].ToString();
                             employeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             employeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             employeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -3813,6 +3813,35 @@ namespace CostAllocationApp.DAL
             return resultData;
         }
 
+        public bool IsPendingForDelete(string assignementId)
+        {
+            bool results = false;
+            string query = "select Id,IsDeletePending from EmployeesAssignments where id=" + assignementId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            results = rdr["IsDeletePending"] is DBNull ? false : Convert.ToBoolean(rdr["IsDeletePending"]);
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            
+            return results;
+        }
+
         public EmployeeAssignment GetEmployeeAssignmentForCheckApproval(string assignementId)
         {
             EmployeeAssignment _employeeAssignments = new EmployeeAssignment();
@@ -3947,7 +3976,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.AssignmentId = Convert.ToInt32(rdr["AssignmentId"]);
                             //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["RootEmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -4428,7 +4457,7 @@ namespace CostAllocationApp.DAL
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks, ea.SubCode, ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
                             ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.BCYR,ea.BCYRCell,ea.IsActive,ea.BCYRApproved,ea.BCYRCellApproved,ea.IsApproved,ea.BCYRCellPending
-                            ,ea.IsRowPending,ea.IsDeletePending, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged
+                            ,ea.IsRowPending,ea.IsDeletePending, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged,emp.FullName 'OrgEmployeeName'
                             from EmployeesAssignments ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -4459,7 +4488,7 @@ namespace CostAllocationApp.DAL
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             //forecastEmployeeAssignmentViewModel.EmployeeId = Convert.ToInt32(rdr["EmployeeId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["OrgEmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -4751,7 +4780,7 @@ namespace CostAllocationApp.DAL
 
             string query = $@"select ea.id as AssignmentId,emp.Id as EmployeeId,ea.EmployeeName,ea.SectionId, sec.Name as SectionName, ea.Remarks,ea.ExplanationId,
                             ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice
-                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged
+                            ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive, ea.DuplicateFrom, ea.DuplicateCount, ea.RoleChanged, ea.UnitPriceChanged,emp.FullName 'OrgEmployeeName'
                             from EmployeeeBudgets ea left join Sections sec on ea.SectionId = sec.Id
                             left join Departments dep on ea.DepartmentId = dep.Id
                             left join Companies com on ea.CompanyId = com.Id
@@ -4779,7 +4808,7 @@ namespace CostAllocationApp.DAL
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["OrgEmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();
@@ -5670,7 +5699,7 @@ namespace CostAllocationApp.DAL
             query = query + "    , sec.Name as SectionName, ea.Remarks,ea.ExplanationId ";
             query = query + "    ,ea.DepartmentId, dep.Name as DepartmentName,ea.InChargeId, inc.Name as InchargeName ";
             query = query + "    ,ea.RoleId,rl.Name as RoleName,ea.CompanyId, com.Name as CompanyName, ea.UnitPrice ";
-            query = query + "    ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive,emp.FullName 'RootEmployeeName' ";
+            query = query + "    ,gd.GradePoints,ea.IsActive,ea.GradeId,ea.IsActive,emp.FullName 'OrgEmployeeName' ";
             query = query + "FROM EmployeeeBudgets ea ";
             query = query + "    LEFT JOIN Sections sec on ea.SectionId = sec.Id ";
             query = query + "    LEFT JOIN Departments dep on ea.DepartmentId = dep.Id ";
@@ -5700,7 +5729,7 @@ namespace CostAllocationApp.DAL
                             ForecastAssignmentViewModel forecastEmployeeAssignmentViewModel = new ForecastAssignmentViewModel();
                             forecastEmployeeAssignmentViewModel.Id = Convert.ToInt32(rdr["AssignmentId"]);                            
                             forecastEmployeeAssignmentViewModel.EmployeeId = rdr["EmployeeId"] is DBNull ? 0 : Convert.ToInt32(rdr["EmployeeId"]);
-                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["EmployeeName"].ToString();
+                            forecastEmployeeAssignmentViewModel.EmployeeName = rdr["OrgEmployeeName"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionId = rdr["SectionId"].ToString();
                             forecastEmployeeAssignmentViewModel.SectionName = rdr["SectionName"].ToString();
                             forecastEmployeeAssignmentViewModel.DepartmentId = rdr["DepartmentId"].ToString();

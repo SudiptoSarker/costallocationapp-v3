@@ -276,6 +276,7 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DeatailsItem.cs" />
+    <Compile Include="Models\DeleteEmployees.cs" />
     <Compile Include="Models\DepartmentWithSubCategory.cs" />
     <Compile Include="Models\DynamicMethod.cs" />
     <Compile Include="Models\DynamicSetting.cs" />
@@ -886,6 +887,7 @@
     <Content Include="Views\Forecasts\TableFormat.cshtml" />
     <Content Include="Views\Forecasts\CreateDynamicTable.cshtml" />
     <Content Include="Views\Forecasts\DynamicTableView.cshtml" />
+    <Content Include="Views\Users\EditUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

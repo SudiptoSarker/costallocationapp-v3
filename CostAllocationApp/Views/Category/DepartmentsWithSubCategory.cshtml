@@ -9,52 +9,49 @@
 
     <!-- <link href="/Content/filter_multi_select.css" rel="stylesheet" type="text/css" /> -->
     <link rel="stylesheet" type="text/css" href="/Content/department_with_subcategory.css" />
-    
+
 }
 
 <div class="content container-fluid">
     <!-----------------Departments With Sub-Category Master: Departments With Sub-Category Registration Form----------------->
-    @if (Convert.ToBoolean(ViewBag.linkFlag))
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-8">
-                        <table id="dept_reg_tbl">
-                            <thead style="border:none;">
-                                <tr></tr>
-                                <tr>                                    
-                                    <th>カテゴリー (Category)</th>
-                                    <th>サブカテゴリー (Sub-Category)</th>
-                                    <th>部署 (Dept.)</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="dept_reg_frm_td">
-                                        <select id="category_list" class="" style=""></select>
-                                    </td>
-                                    <td id="dept_reg_frm_td">
-                                        <select id="sub_category_list" class="" style=""></select>
-                                    </td>
-                                    <td id="dept_reg_frm_td">
-                                        <select class="selectpicker" multiple data-live-search="true" id="unassigned_department_list">                                           
-                                        </select>                                      
-                                    </td>
-                                    <td id="dept_reg_frm_td">
-                                        <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
-                                        <a href="javascript:void(0);" class="" id="dept_reg_save_btn">Save</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <table id="dept_reg_tbl">
+                        <thead style="border:none;">
+                            <tr></tr>
+                            <tr>
+                                <th>カテゴリー (Category)</th>
+                                <th>サブカテゴリー (Sub-Category)</th>
+                                <th>部署 (Dept.)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="dept_reg_frm_td">
+                                    <select id="category_list" class="" style=""></select>
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <select id="sub_category_list" class="" style=""></select>
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <select class="selectpicker" multiple data-live-search="true" id="unassigned_department_list"></select>
+                                </td>
+                                <td id="dept_reg_frm_td">
+                                    <a href="javascript:void(0);" class="" id="dept_reg_cancel_btn" data-dismiss="modal">Cancel</a>
+                                    <a href="javascript:void(0);" class="" id="dept_reg_save_btn">Save</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <br /><br />
-    }
+    </div>
+    <br /><br />
+
 
 
     <!-----------------Departments With Sub-Category Master: Departments With Sub-Category list are showing on this part----------------->
@@ -70,19 +67,12 @@
                             <tr>
                                 <th class="dept_list_theader">Check</th>
                                 <th class="dept_list_theader">Category</th>
-                                <th class="dept_list_theader">Sub-Category</th>                                
-                                <th class="dept_list_theader">部署 (Dept.)</th>                                
+                                <th class="dept_list_theader">Sub-Category</th>
+                                <th class="dept_list_theader">部署 (Dept.)</th>
                             </tr>
                         </thead>
                         <tbody id="subcategory_list_tbody"></tbody>
                     </table>
-                    @if (Convert.ToBoolean(ViewBag.linkFlag))
-                    {
-                        <!-- <label id="dept_delete_btn">
-                            <a id="department_inactive_btn" href="javascript:void();" data-toggle="modal" data-target="#inactive_department_modal" onClick="onDepartmentInactiveClick()">Delete</a>
-                        </label> -->
-                    }
-
                 </div>
             </div>
         </div>
@@ -122,5 +112,9 @@
     <!-- <script src="/Scripts/filter-multi-select-bundle.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-    <script src="/Scripts/department_with_subcategory.js"></script>    
+    <script src="/Scripts/department_with_subcategory.js"></script>
+
+    <!-- user login/logout notifications script -->
+    <script src="~/signalr/hubs"></script>
+    <script src="/Scripts/user_notifications.js"></script>
 }

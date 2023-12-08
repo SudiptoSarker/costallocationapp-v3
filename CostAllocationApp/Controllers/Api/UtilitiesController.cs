@@ -2207,7 +2207,15 @@ namespace CostAllocationApp.Controllers.Api
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             return Ok(resultData);
         }
+        [HttpGet]
+        [Route("api/utilities/IsPendingForDelete/")]
+        public IHttpActionResult IsPendingForDelete(string assignementId)
+        {
+            bool isDeletePending = false;
 
+            isDeletePending = employeeAssignmentBLL.IsPendingForDelete(assignementId);            
+            return Ok(isDeletePending);
+        }
         [HttpGet]
         [Route("api/utilities/IsValidForApprovalRow/")]
         public IHttpActionResult IsValidForApprovalRow(string assignementId, bool isDeletedRow)
@@ -3938,10 +3946,11 @@ namespace CostAllocationApp.Controllers.Api
                     _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId, false);
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
                     var rootEmployeeName = _assignmentHistoryViewModal.RootEmployeeName;
-                    if (string.IsNullOrEmpty(employeeName))
-                    {
-                        employeeName = rootEmployeeName;
-                    }
+                    //if (string.IsNullOrEmpty(employeeName))
+                    //{
+                    //    employeeName = rootEmployeeName;
+                    //}
+                    employeeName = rootEmployeeName;
                     var sectionName = _assignmentHistoryViewModal.SectionName;
                     var departmentName = _assignmentHistoryViewModal.DepartmentName;
                     var inChargeName = _assignmentHistoryViewModal.InChargeName;
@@ -13501,6 +13510,6 @@ namespace CostAllocationApp.Controllers.Api
         {
             Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
             return Ok(mwCompany);
-        }
+        }        
     }
 }

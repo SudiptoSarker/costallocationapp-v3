@@ -71,27 +71,10 @@ body {
 /* #employeeList_datatable {
     table-layout: fixed;
 } */
-#employeelist_thead {
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    /*line-height: -1;*/
-    white-space: nowrap !important;
-}
-#employeelist_tbody {
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    line-height: 0;
-    white-space: nowrap !important;
-}
+
 .employee_list_theader{
     border: 1px solid #ccc !important;
     border-spacing: 4px;
-}
-#employeelist_tbody {
-    text-align: left;
-    text-indent: 1em;
 }
 /***************************\                           
 	Employee List Delete Button
@@ -265,30 +248,9 @@ div.dataTables_wrapper div.dataTables_filter{
     font-size: 14px !important;
     height: 29px !important;
 }
-.select2-selection.select2-selection--single{
-    border-color: #e3e3e3 !important;
-    box-shadow: none !important;
-    font-size: 14px !important;
-    height: 29px !important;
-    margin-top: 10px !important;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow{
-    height: 26px !important;
-    right: 3px !important;
-    margin-top: 10px !important;
-}
 .input_title{
     text-align: left !important;
     margin-left: 46px;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #676767;
-    font-size: 13px;
-    font-family: Yu Gothic;
-    font-weight: normal;
-    /* line-height: 42px; */
-    line-height: 25px;
-    color: black;
 }
 
 .sidebar_filterSearch {
@@ -311,3 +273,155 @@ div.dataTables_wrapper div.dataTables_filter{
     position: relative;
     z-index: 2;
 }
+
+/***************************\                           
+	Other Userlist Show
+\***************************/ 
+#user_list{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+    border: 1px solid;
+}
+#user_list td, th {
+    border: 1px solid;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#user_list td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#user_list td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#user_list thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#user_list thead th:nth-of-type(2) {
+    width: 200px
+}
+#user_list thead th:nth-of-type(3) {
+    width: 100px
+}
+#user_list thead th:nth-of-type(1) {
+    width: 10%;
+}
+
+/***************************\                           
+	admin Userlist Show
+\***************************/ 
+#admin_table{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+    border: 1px solid;
+}
+#admin_table td, th {
+    border: 1px solid;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#admin_table td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#admin_table td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#admin_table thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+#admin_table thead th:nth-of-type(2) {
+    width: 200px
+}
+#admin_table thead th:nth-of-type(3) {
+    width: 100px
+}
+#admin_table thead th:nth-of-type(1) {
+    width: 10%;
+}
+
+
+.section_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
+}
+.user_list_header{
+    border: 1px solid black !important;    
+}
+.admin_tr_thead{
+    border: 1px solid black !important;    
+}
+#employeelist_tbody {
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    line-height: 0;
+    white-space: nowrap !important;
+    text-align: left;
+    text-indent: 1em;
+}
+
+#user_thead {
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: Yu Gothic;
+    /*line-height: -1;*/
+    white-space: nowrap !important;
+}
+#admin_thead {
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: Yu Gothic;
+    /*line-height: -1;*/
+    white-space: nowrap !important;
+}
+
+/***************************\                           
+	admin modal
+\***************************/ 
+.select2-container{
+    width: 100% !important;
+}
+.select2-selection.select2-selection--single{
+    border-color: #e3e3e3 !important;
+    box-shadow: none !important;
+    font-size: 14px !important;
+    height: 29px !important;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 26px !important;
+    right: 3px !important;
+    margin-top: 1px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #676767;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    font-weight: normal;
+    /* line-height: 42px; */
+    line-height: 25px;
+    color: black;
+}
+

@@ -358,7 +358,7 @@ function ShowUserList_Datatable(data) {
     var selectPageLength = $("select[name='employeeList_datatable_length']").val();
     selectPageLength = selectPageLength != null ? selectPageLength : 10;
 
-    var custome_table = $('#employeeList_datatable').DataTable({                             
+    var custome_table = $('#user_list').DataTable({                             
         destroy: true,
         data: data,
         ordering: false,
@@ -439,8 +439,8 @@ function ShowUserList_Datatable(data) {
         ]
         ,
         initComplete: function () {
-            var r = $('#employeeList_datatable tfoot tr');
-            $('#employeeList_datatable thead').append(r);
+            var r = $('#user_list tfoot tr');
+            $('#user_list thead').append(r);
             // Apply the search
             // this.api()
             //     .columns()
@@ -475,7 +475,7 @@ function ShowUserList_Datatable(data) {
     } );
     
 
-    // $('#employeeList_datatable').DataTable({                               
+    // $('#user_list').DataTable({                               
     //     // destroy: true,
     //     // data: data,
     //     // ordering: true,
@@ -567,8 +567,8 @@ function ShowUserList_Datatable(data) {
     //     ]
     //     // ,
     //     // initComplete: function () {
-    //     //     var r = $('#employeeList_datatable tfoot tr');
-    //     //     $('#employeeList_datatable thead').append(r);
+    //     //     var r = $('#user_list tfoot tr');
+    //     //     $('#user_list thead').append(r);
     //     //     // Apply the search
     //     //     // this.api()
     //     //     //     .columns()

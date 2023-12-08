@@ -35,7 +35,7 @@ namespace CostAllocationApp.Controllers
         InChargeBLL inChargeBLL = new InChargeBLL();
         RoleBLL roleBLL = new RoleBLL();
         ExplanationsBLL explanationsBLL = new ExplanationsBLL();
-        CompanyBLL companyBLL = new CompanyBLL();
+        CompanyBLL companyBLL = new CompanyBLL();        
 
         ForecastBLL forecastBLL = new ForecastBLL();
         ExportExcelFileBLL exportExcelFileBLL = new ExportExcelFileBLL();
@@ -48,48 +48,27 @@ namespace CostAllocationApp.Controllers
         // GET: Forecasts
         public ActionResult CreateForecast()
         {
-            if (Session["token"] == null)
+            //authentication
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            string requestType = Request.QueryString["forecastType"];
-
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
-            }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            ViewBag.ImportViewOrForecastView = requestType;
-
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
-            return View(forecastViewModal);
+
+            return View();
         }
 
         [HttpPost]
@@ -501,100 +480,73 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult GetHistories()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/GetHistories".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
+
             return View();
         }
 
         public ActionResult ActualCosts()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/ActualCosts".ToLower()).SingleOrDefault();
-                if (link == null)
-                {
-                    ViewBag.linkFlag = false;
-                }
-                else
-                {
-                    ViewBag.linkFlag = true;
-                }
-            }
-            string requestType = Request.QueryString["forecastType"];
-
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            ViewBag.ImportViewOrForecastView = requestType;
-            return View(forecastViewModal);
+
+            return View();
         }
 
         public ActionResult ActualCostConfirm()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/ActualCosts".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
 
@@ -665,71 +617,51 @@ namespace CostAllocationApp.Controllers
         // GET: Approve Forecasts
         public ActionResult ApproveForecast()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
-            }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
-            return View(forecastViewModal);
+
+            return View();
         }
 
         public ActionResult ApproveHistories()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/GetHistories".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
+
             return View();
         }
 
@@ -809,66 +741,54 @@ namespace CostAllocationApp.Controllers
 
         public ActionResult QaProportion()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            return View();
-        }
-
-        // GET: budget ui
-        public ActionResult CreateBudget()
-        {
-            if (Session["token"] == null)
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            string requestType = Request.QueryString["forecastType"];
-
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
-            }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            ViewBag.ImportViewOrForecastView = requestType;
-
-            {
-                //user permission on page
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
-            ViewBag.ValidationMessage = "";
-            return View(forecastViewModal);
+
+            return View();
+        }
+
+        // GET: 
+        public ActionResult CreateBudget()
+        {
+            // user authentication
+            if (!_utility.CheckSession())
+            {
+                return RedirectToAction("Login", "Registration");
+            }
+            else
+            {
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                    ViewBag.ValidationMessage = "";
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }                                
+            }
+            
+            return View();
         }
 
         //budget excel submit page
@@ -876,16 +796,27 @@ namespace CostAllocationApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateBudget(HttpPostedFileBase uploaded_file, string upload_year, string select_budget_type)
         {
-            if (Session["token"] == null)
+            // user authentication
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
+
+
             var session = System.Web.HttpContext.Current.Session;
             bool isThisYearBudgetExists = false;
             int selected_year = 0;
@@ -1452,65 +1383,55 @@ namespace CostAllocationApp.Controllers
             }
             return View();
         }
+
         // GET: Forecasts
         public ActionResult EditBudget()
         {
-            if (Session["token"] == null)
+            //authentication
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            string requestType = Request.QueryString["forecastType"];
-
-            if (TempData["seccess"] != null)
-            {
-                ViewBag.Success = TempData["seccess"];
             }
             else
             {
-                ViewBag.Success = null;
-
-            }
-            ForecastViewModal forecastViewModal = new ForecastViewModal
-            {
-                _sections = sectionBLL.GetAllSections()
-            };
-            ViewBag.ErrorCount = 0;
-            ViewBag.ImportViewOrForecastView = requestType;
-
-            {
-                User user = userBLL.GetUserByUserName(Session["userName"].ToString());
-                List<UserPermission> userPermissions = userBLL.GetUserPermissionsByUserId(user.Id);
-                var link = userPermissions.Where(up => up.Link.ToLower() == "Forecasts/CreateForecast".ToLower()).SingleOrDefault();
-                if (link == null)
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
                 {
-                    ViewBag.linkFlag = false;
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
                 }
                 else
                 {
-                    ViewBag.linkFlag = true;
+                    return RedirectToAction("Login", "Registration");
                 }
             }
+                       
             ViewBag.ValidationMessage = "";
-            return View(forecastViewModal);
+            return View();
         }
         public ActionResult Total()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
+
             return View();
         }
 
@@ -1530,29 +1451,48 @@ namespace CostAllocationApp.Controllers
         }
         public ActionResult CreateDynamicTable()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
+
             return View();
         }
         public ActionResult DynamicTableView()
         {
-            if (Session["token"] == null)
+            //authentications
+            if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
+            else
             {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
+                string userRole = "";
+                string loggedIn_userName = Session["userName"].ToString();
+                if (!string.IsNullOrEmpty(loggedIn_userName))
+                {
+                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
+                    ViewBag.UserRole = userRole;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Registration");
+                }
             }
 
             return View();

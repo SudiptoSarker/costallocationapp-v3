@@ -2094,65 +2094,65 @@ namespace CostAllocationApp.BLL
                 {
                     SukeyQADto _objDifferenceTotal = new SukeyQADto();
                     
-                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[0]) - Convert.ToDouble(itemBudget.OctCost[0]));
-                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[1]) - Convert.ToDouble(itemBudget.OctCost[1]));
-                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[2]) - Convert.ToDouble(itemBudget.OctCost[2]));
+                    _objDifferenceTotal.OctCost.Add(0);
+                    _objDifferenceTotal.OctCost.Add(0);
+                    _objDifferenceTotal.OctCost.Add(Convert.ToDouble(itemYearly.OctCost[0]) - Convert.ToDouble(itemBudget.OctCost[2]));
 
-                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[0]) - Convert.ToDouble(itemBudget.NovCost[0]));
-                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[1]) - Convert.ToDouble(itemBudget.NovCost[1]));
-                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[2]) - Convert.ToDouble(itemBudget.NovCost[2]));
+                    _objDifferenceTotal.NovCost.Add(0);
+                    _objDifferenceTotal.NovCost.Add(0);
+                    _objDifferenceTotal.NovCost.Add(Convert.ToDouble(itemYearly.NovCost[0]) - Convert.ToDouble(itemBudget.NovCost[2]));
 
-                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[0]) - Convert.ToDouble(itemBudget.DecCost[0]));
-                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[1]) - Convert.ToDouble(itemBudget.DecCost[1]));
-                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[2]) - Convert.ToDouble(itemBudget.DecCost[2]));
+                    _objDifferenceTotal.DecCost.Add(0);
+                    _objDifferenceTotal.DecCost.Add(0);
+                    _objDifferenceTotal.DecCost.Add(Convert.ToDouble(itemYearly.DecCost[0]) - Convert.ToDouble(itemBudget.DecCost[2]));
 
-                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[0]) - Convert.ToDouble(itemBudget.JanCost[0]));
-                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[1]) - Convert.ToDouble(itemBudget.JanCost[1]));
-                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[2]) - Convert.ToDouble(itemBudget.JanCost[2]));
+                    _objDifferenceTotal.JanCost.Add(0);
+                    _objDifferenceTotal.JanCost.Add(0);
+                    _objDifferenceTotal.JanCost.Add(Convert.ToDouble(itemYearly.JanCost[0]) - Convert.ToDouble(itemBudget.JanCost[2]));
 
-                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[0]) - Convert.ToDouble(itemBudget.FebCost[0]));
-                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[1]) - Convert.ToDouble(itemBudget.FebCost[1]));
-                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[2]) - Convert.ToDouble(itemBudget.FebCost[2]));
+                    _objDifferenceTotal.FebCost.Add(0);
+                    _objDifferenceTotal.FebCost.Add(0);
+                    _objDifferenceTotal.FebCost.Add(Convert.ToDouble(itemYearly.FebCost[0]) - Convert.ToDouble(itemBudget.FebCost[2]));
 
-                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[0]) - Convert.ToDouble(itemBudget.MarCost[0]));
-                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[1]) - Convert.ToDouble(itemBudget.MarCost[1]));
-                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[2]) - Convert.ToDouble(itemBudget.MarCost[2]));
+                    _objDifferenceTotal.MarCost.Add(0);
+                    _objDifferenceTotal.MarCost.Add(0);
+                    _objDifferenceTotal.MarCost.Add(Convert.ToDouble(itemYearly.MarCost[0]) - Convert.ToDouble(itemBudget.MarCost[2]));
 
-                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[0]) - Convert.ToDouble(itemBudget.AprCost[0]));
-                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[1]) - Convert.ToDouble(itemBudget.AprCost[1]));
-                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[2]) - Convert.ToDouble(itemBudget.AprCost[2]));
+                    _objDifferenceTotal.AprCost.Add(0);
+                    _objDifferenceTotal.AprCost.Add(0);
+                    _objDifferenceTotal.AprCost.Add(Convert.ToDouble(itemYearly.AprCost[0]) - Convert.ToDouble(itemBudget.AprCost[2]));
 
-                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[0]) - Convert.ToDouble(itemBudget.MayCost[0]));
-                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[1]) - Convert.ToDouble(itemBudget.MayCost[1]));
-                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[2]) - Convert.ToDouble(itemBudget.MayCost[2]));
+                    _objDifferenceTotal.MayCost.Add(0);
+                    _objDifferenceTotal.MayCost.Add(0);
+                    _objDifferenceTotal.MayCost.Add(Convert.ToDouble(itemYearly.MayCost[0]) - Convert.ToDouble(itemBudget.MayCost[2]));
 
-                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[0]) - Convert.ToDouble(itemBudget.JunCost[0]));
-                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[1]) - Convert.ToDouble(itemBudget.JunCost[1]));
-                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[2]) - Convert.ToDouble(itemBudget.JunCost[2]));
+                    _objDifferenceTotal.JunCost.Add(0);
+                    _objDifferenceTotal.JunCost.Add(0);
+                    _objDifferenceTotal.JunCost.Add(Convert.ToDouble(itemYearly.JunCost[0]) - Convert.ToDouble(itemBudget.JunCost[2]));
 
-                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[0]) - Convert.ToDouble(itemBudget.JulCost[0]));
-                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[1]) - Convert.ToDouble(itemBudget.JulCost[1]));
-                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[2]) - Convert.ToDouble(itemBudget.JulCost[2]));
+                    _objDifferenceTotal.JulCost.Add(0);
+                    _objDifferenceTotal.JulCost.Add(0);
+                    _objDifferenceTotal.JulCost.Add(Convert.ToDouble(itemYearly.JulCost[0]) - Convert.ToDouble(itemBudget.JulCost[2]));
 
-                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[0]) - Convert.ToDouble(itemBudget.AugCost[0]));
-                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[1]) - Convert.ToDouble(itemBudget.AugCost[1]));
-                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[2]) - Convert.ToDouble(itemBudget.AugCost[2]));
+                    _objDifferenceTotal.AugCost.Add(0);
+                    _objDifferenceTotal.AugCost.Add(0);
+                    _objDifferenceTotal.AugCost.Add(Convert.ToDouble(itemYearly.AugCost[0]) - Convert.ToDouble(itemBudget.AugCost[2]));
 
-                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[0]) - Convert.ToDouble(itemBudget.SepCost[0]));
-                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[1]) - Convert.ToDouble(itemBudget.SepCost[1]));
-                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[2]) - Convert.ToDouble(itemBudget.SepCost[2]));
+                    _objDifferenceTotal.SepCost.Add(0);
+                    _objDifferenceTotal.SepCost.Add(0);
+                    _objDifferenceTotal.SepCost.Add(Convert.ToDouble(itemYearly.SepCost[0]) - Convert.ToDouble(itemBudget.SepCost[2]));
 
-                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[0]) - Convert.ToDouble(itemBudget.RowTotal[0]));
-                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[1]) - Convert.ToDouble(itemBudget.RowTotal[1]));
-                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[2]) - Convert.ToDouble(itemBudget.RowTotal[2]));
+                    _objDifferenceTotal.RowTotal.Add(0);
+                    _objDifferenceTotal.RowTotal.Add(0);
+                    _objDifferenceTotal.RowTotal.Add(Convert.ToDouble(itemYearly.RowTotal[0]) - Convert.ToDouble(itemBudget.RowTotal[2]));
 
-                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[0]) - Convert.ToDouble(itemBudget.FirstSlot[0]));
-                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[1]) - Convert.ToDouble(itemBudget.FirstSlot[1]));
-                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[2]) - Convert.ToDouble(itemBudget.FirstSlot[2]));
+                    _objDifferenceTotal.FirstSlot.Add(0);
+                    _objDifferenceTotal.FirstSlot.Add(0);
+                    _objDifferenceTotal.FirstSlot.Add(Convert.ToDouble(itemYearly.FirstSlot[0]) - Convert.ToDouble(itemBudget.FirstSlot[2]));
 
-                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[0]) - Convert.ToDouble(itemBudget.SecondSlot[0]));
-                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[1]) - Convert.ToDouble(itemBudget.SecondSlot[1]));
-                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[2]) - Convert.ToDouble(itemBudget.SecondSlot[2]));
+                    _objDifferenceTotal.SecondSlot.Add(0);
+                    _objDifferenceTotal.SecondSlot.Add(0);
+                    _objDifferenceTotal.SecondSlot.Add(Convert.ToDouble(itemYearly.SecondSlot[0]) - Convert.ToDouble(itemBudget.SecondSlot[2]));
 
                     _objDifferenceTotals.Add(_objDifferenceTotal);
                 }

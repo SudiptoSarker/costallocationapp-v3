@@ -712,6 +712,7 @@ $(document).ready(function () {
             });
             
             if (flag) {
+                var isValid = true;
                 let employeeIds = [];
                 $.each(jss.getData(), (index, itemValue) => {
                     employeeIds.push(parseInt(itemValue[0]));
@@ -870,75 +871,142 @@ $(document).ready(function () {
                     }
                 }
 
-                if (flag1) {
-                    var year = $('#selected_year').val();
+                $.each(jss.getData(), (index1, itemValue1) => {    
+                    if (itemValue[0] != null && itemValue[0] != '' && itemValue[0] != undefined){                       
+                        var employeeName = itemValue1[1];
+                        var isValidPercentage = false;
 
-                    let employeeWiseProportionObjectList = [];
-                    let employeeWiseProportionList = jss.getData();
-                    if (employeeWiseProportionList.length > 0) {
-                        $.each(employeeWiseProportionList, (index, singleItemValue) => {
-                            employeeWiseProportionObjectList.push({
-                                EmployeeId: singleItemValue[0],
-                                DepartmentId: singleItemValue[2],
-                                OctPercentage: singleItemValue[3],
-                                NovPercentage: singleItemValue[4],
-                                DecPercentage: singleItemValue[5],
-                                JanPercentage: singleItemValue[6],
-                                FebPercentage: singleItemValue[7],
-                                MarPercentage: singleItemValue[8],
-                                AprPercentage: singleItemValue[9],
-                                MayPercentage: singleItemValue[10],
-                                JunPercentage: singleItemValue[11],
-                                JulPercentage: singleItemValue[12],
-                                AugPercentage: singleItemValue[13],
-                                SepPercentage: singleItemValue[14],
-                                Id: singleItemValue[15]
+                        oct_sum = 0;
+                        oct_sum = parseFloat(itemValue1[3]);
+                        if (oct_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        nov_sum = 0;
+                        nov_sum = parseFloat(itemValue1[4]);
+                        if (nov_sum > 0){
+                            isValidPercentage = true;
+                        }  
+                        dec_sum = 0                         
+                        dec_sum = parseFloat(itemValue1[5]);
+                        if (dec_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        jan_sum = parseFloat(itemValue1[6]);
+                        if (jan_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        feb_sum = parseFloat(itemValue1[7]);
+                        if (feb_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        mar_sum = parseFloat(itemValue1[8]);
+                        if (mar_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        apr_sum = parseFloat(itemValue1[9]);
+                        if (apr_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        may_sum = parseFloat(itemValue1[10]);
+                        if (may_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        jun_sum = parseFloat(itemValue1[11]);
+                        if (jun_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        jul_sum = parseFloat(itemValue1[12]);
+                        if (jul_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        aug_sum = parseFloat(itemValue1[13]);
+                        if (aug_sum > 0){
+                            isValidPercentage = true;
+                        }                           
+                        sep_sum = parseFloat(itemValue1[14]);
+                        if (sep_sum > 0){
+                            isValidPercentage = true;
+                        }   
+                        if(!isValidPercentage){
+                            $("#employee_wise_save_button").attr("disabled", false);
+                            isValid = false;
+                            alert(employeeName+ "s input is not valid!");
+                            return false;
+                        }
+                    }
+                })
+               
+                if(isValid){
+                    if (flag1) {
+                        var year = $('#selected_year').val();
+
+                        let employeeWiseProportionObjectList = [];
+                        let employeeWiseProportionList = jss.getData();
+                        if (employeeWiseProportionList.length > 0) {
+                            $.each(employeeWiseProportionList, (index, singleItemValue) => {
+                                employeeWiseProportionObjectList.push({
+                                    EmployeeId: singleItemValue[0],
+                                    DepartmentId: singleItemValue[2],
+                                    OctPercentage: singleItemValue[3],
+                                    NovPercentage: singleItemValue[4],
+                                    DecPercentage: singleItemValue[5],
+                                    JanPercentage: singleItemValue[6],
+                                    FebPercentage: singleItemValue[7],
+                                    MarPercentage: singleItemValue[8],
+                                    AprPercentage: singleItemValue[9],
+                                    MayPercentage: singleItemValue[10],
+                                    JunPercentage: singleItemValue[11],
+                                    JulPercentage: singleItemValue[12],
+                                    AugPercentage: singleItemValue[13],
+                                    SepPercentage: singleItemValue[14],
+                                    Id: singleItemValue[15]
+                                });
                             });
-                        });
 
-                        $.ajax({
-                            url: `/api/utilities/CreateQaProportion`,
-                            contentType: 'application/json',
-                            type: 'POST',
-                            async: false,
-                            dataType: 'json',
-                            data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
-                            success: function (data) {
-                                //$("#timeStamp_ForUpdateData").val(data);
-                                //var chat = $.connection.chatHub;
-                                //$.connection.hub.start();
-                                // Start the connection.
-                                //$.connection.hub.start().done(function () {
-                                //    chat.server.send('data has been updated by ', userName);
-                                //});
-                                //$("#jspreadsheet").show();
-                                //$("#head_total").show();
-                                employeeWiseProportionObjectList = [];
-                                GetQAProrationByYear(year);
-                                alert(data);
+                            $.ajax({
+                                url: `/api/utilities/CreateQaProportion`,
+                                contentType: 'application/json',
+                                type: 'POST',
+                                async: false,
+                                dataType: 'json',
+                                data: JSON.stringify({ QaProportionViewModels: employeeWiseProportionObjectList, Year: year }),
+                                success: function (data) {
+                                    //$("#timeStamp_ForUpdateData").val(data);
+                                    //var chat = $.connection.chatHub;
+                                    //$.connection.hub.start();
+                                    // Start the connection.
+                                    //$.connection.hub.start().done(function () {
+                                    //    chat.server.send('data has been updated by ', userName);
+                                    //});
+                                    //$("#jspreadsheet").show();
+                                    //$("#head_total").show();
+                                    employeeWiseProportionObjectList = [];
+                                    GetQAProrationByYear(year);
+                                    alert(data);
+                                    $("#employee_wise_save_button").attr("disabled", false);
+                                    //LoaderHide();
+                                }
+                            });
+                        } else {
+                            alert('追加、修正していないデータがありません!');
+                            $("#employee_wise_save_button").attr("disabled", false);
+                            return false;
+                        }
+                    }
+                    else {
+                        var allArrayData = jss.getData();
+                        for (var i = 0; i < allArrayData.length; i++) {
+                            if (allArrayData[i][0].toString() == duplicateEmployeeId.toString()) {
+                                duplicateEmployeeName = allArrayData[i][1];
                                 $("#employee_wise_save_button").attr("disabled", false);
-                                //LoaderHide();
+                                break;
                             }
-                        });
-                    } else {
-                        alert('追加、修正していないデータがありません!');
+                            
+                        }                    
+                        alert(duplicateEmployeeName+" に同じ部署が複数登録されています")
                         $("#employee_wise_save_button").attr("disabled", false);
                         return false;
                     }
-                }
-                else {
-                    var allArrayData = jss.getData();
-                    for (var i = 0; i < allArrayData.length; i++) {
-                        if (allArrayData[i][0].toString() == duplicateEmployeeId.toString()) {
-                            duplicateEmployeeName = allArrayData[i][1];
-                            $("#employee_wise_save_button").attr("disabled", false);
-                            break;
-                        }
-                        
-                    }                    
-                    alert(duplicateEmployeeName+" に同じ部署が複数登録されています")
-                    $("#employee_wise_save_button").attr("disabled", false);
-                    return false;
                 }
             }
            

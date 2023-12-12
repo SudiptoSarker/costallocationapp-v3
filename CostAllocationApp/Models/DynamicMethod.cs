@@ -17,7 +17,7 @@ namespace CostAllocationApp.Models
         public static List<DynamicMethodDefinition> GetMethods()
         {
             DynamicMethodDefinition dynamicMethod = new DynamicMethodDefinition();
-
+            
             dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 1, MethodName = "Cost for Department without QA proration", Dependency = "dp",Syntex= "GetTotalWithoutQA" });
             dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 2, MethodName = "Cost for Department with QA proration", Dependency = "dp", Syntex = "GetTotalWithQA" });
             //dynamicMethod._methodList.Add(new DynamicMethodDefinition { Id = 3, MethodName = "Cost for department from QA proration", Dependency = "dp", Syntex = "GetQaByDepartment" });

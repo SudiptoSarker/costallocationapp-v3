@@ -2,16 +2,9 @@
 var jss_1;
 var _retriveddata;
 var _retriveddata_1;
-var userRoleflag;
-var allEmployeeName = [];
-var allEmployeeName1 = [];
 var beforeChangedValue = 0;
 var loadFlag = 0;
 var loadFlag1 = 0;
-var isLoaderShow = true;
-
-
-const channel = new BroadcastChannel("actualCost");
 
 function retrivedObject(rowData) {
     return {
@@ -74,7 +67,7 @@ function find_duplicate_in_array(arra1) {
 
 }
 
-function LoadJexcel() {
+function ShowEmployeeWiseData() {
     var year = $('#selected_year').val();
     if (year == null || year == '' || year == undefined) {
         alert('年度を選択してください!!!');
@@ -462,7 +455,7 @@ function LoadJexcel() {
     });
 }
 
-function LoadJexcel1() {
+function ShowDepartmentWiseData() {
     // another jexcel table
     var year = $('#assignment_year').val();
 
@@ -554,23 +547,6 @@ function LoadJexcel1() {
     });
 }
 
-
-function ColumnOrder(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_p_asc').css('background-color', 'lightsteelblue');
-        $('#search_p_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_p_asc').css('background-color', 'grey');
-        $('#search_p_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-
 function ShowEmployeeWiseProration(year){
     _retriveddata = [];
     $.ajax({
@@ -581,7 +557,7 @@ function ShowEmployeeWiseProration(year){
         dataType: 'json',
         success: function (data) {
             _retriveddata = data;
-            LoadJexcel(); 
+            ShowEmployeeWiseData(); 
             ShowDepartmentWiseProration(year);       
             LoaderHide();      
         }
@@ -598,42 +574,11 @@ function ShowDepartmentWiseProration(year){
         dataType: 'json',
         success: function (data) {
             _retriveddata_1 = data;
-            LoadJexcel1();            
+            ShowDepartmentWiseData();            
         }
     });
 }
 
-function GetQAProrationByYear(year){    
-    _retriveddata = [];
-    _retriveddata_1 = [];
-    $.ajax({
-        url: `/api/utilities/QaProportionDataByYear?year=${year}`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: true,
-        dataType: 'json',
-        success: function (data) {
-            _retriveddata = data;
-            LoaderHide();  
-        }
-    });
-
-    // $.ajax({
-    //     url: `/api/utilities/CreateApportionment?year=${year}`,
-    //     contentType: 'application/json',
-    //     type: 'GET',
-    //     async: false,
-    //     dataType: 'json',
-    //     success: function (data) {
-    //         _retriveddata_1 = data;
-    //     }
-    // });    
-    // LoadJexcel();
-    // LoaderHide();
-
-    //LoadJexcel1();    
-    //LoaderHide();   
-}
 function GetDepartmentListForQAProration(){
     $.ajax({
         url: `/api/utilities/GetFilteredDepartments`,
@@ -651,40 +596,33 @@ function GetDepartmentListForQAProration(){
     });
 }
 
-//loader show
-function LoaderShow_QAProration(){
-    $("#loading").css("display", "block");
-}
-//loader hide
-function LoaderHide_QAProration(){
-    $("#loading").css("display", "none");
-}
-//hide all the tables
-function HideTables(){
-    $("#qa_proration_tables").hide();    
-}
-//show all the tables
-function ShowTables(){
-    $("#qa_proration_tables").show();
-}
-
 function LoaderShow() {
     $("#qa_proration_tables").hide();
-    // $("#jspreadsheet_1").hide();
     $("#loading").css("display", "block");
 }
-
 function LoaderHide() {
     $("#qa_proration_tables").show();
-    // $("#jspreadsheet_1").show();
     $("#loading").css("display", "none");
 }
 
 $(document).ready(function () {
-    //HideTables();
     $("#qa_proration_tables").hide();
-    //$("#jspreadsheet").hide();
     
+    $.ajax({
+        url: `/api/utilities/GetForecatYear`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#assignment_year').empty();
+            $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
+            $.each(data, function (index, element) {
+                $('#assignment_year').append(`<option value='${element.Year}'>${element.Year}</option>`);
+            });
+        }
+    });
+
     //validate department
     function EmployeeWiseDepartmentValidation(){
         let isValidTotalPercentage = true;
@@ -788,6 +726,7 @@ $(document).ready(function () {
         
         return isValid;
     }
+
     //same employee duplciate department assignments    
     function CheckEmployeeWiseDuplicateDepartments(){
         let flag1 = true;        
@@ -1010,7 +949,6 @@ $(document).ready(function () {
                         success: function (data) {    
                                                     
                             employeeWiseProportionObjectList = [];
-                            //GetQAProrationByYear(year);
                             ShowEmployeeWiseProration(year);
                             alert(data);
                             $("#employee_wise_save_button").attr("disabled", false);
@@ -1029,7 +967,6 @@ $(document).ready(function () {
         }
 
     });
-
 
     //validate duplicate department for no value
     function CheckForDuplicateDepartmentWithoutValue(){
@@ -1111,6 +1048,7 @@ $(document).ready(function () {
         
         return isValid;
     }
+
     function CheckDepartmentPercentage(){
         var isValid = true;
         var data = jss_1.getData(false); 
@@ -1242,6 +1180,7 @@ $(document).ready(function () {
 
         return isValid;
     }
+
     $('#department_wise_save_button').click(function () {
         var dataToSend = [];        
 
@@ -1297,7 +1236,6 @@ $(document).ready(function () {
                     }),
                     success: function (data) {
                         alert("保存されました.");
-                        //GetQAProrationByYear(year);
                         ShowEmployeeWiseProration(year);
                     }
                 });
@@ -1306,25 +1244,7 @@ $(document).ready(function () {
         else {
             alert('追加、修正していないデータがありません!');
         }
-    });
-
-
-
-
-    $.ajax({
-        url: `/api/utilities/GetForecatYear`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $('#assignment_year').empty();
-            $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
-            $.each(data, function (index, element) {
-                $('#assignment_year').append(`<option value='${element.Year}'>${element.Year}</option>`);
-            });
-        }
-    });
+    });    
 
     $('#show_proration').on('click', function () {        
         var year = $('#assignment_year').val();     
@@ -1333,18 +1253,8 @@ $(document).ready(function () {
             return false;
         }    
         LoaderShow();
-        $("#selected_year").val(year);           
-        //EmployeeWiseQAProration(year);
-        //GetDepartmentListForQAProration();
-        
-        ShowEmployeeWiseProration(year);        
-        //GetQAProrationByYear(year);
-
-        //LoadJexcel();
-        //return false;
-        //LoadJexcel1();    
-        //LoaderHide();  
-
+        $("#selected_year").val(year);          
+        ShowEmployeeWiseProration(year);  
     });
 
     $('.modal_return_btn').on('click', function () {
@@ -1370,7 +1280,6 @@ $(document).ready(function () {
             async: false,
             dataType: 'json',
             success: function (data) {
-                isLoaderShow = false;
                 $('#employee_from_qc').empty();
                 $.each(data, function (index, element) {
                     $('#employee_from_qc').append(`<option value='${element.EmployeeId}_${element.EmployeeName}'>${element.EmployeeName}</option>`);
@@ -1497,7 +1406,7 @@ $(document).ready(function () {
             //This alert message is commented as per requirement
             //alert(duplicateMessege);
         }
-        LoadJexcel();
+        ShowEmployeeWiseData();
     });
 
     $('#select_department_btn').on('click', function () {        
@@ -1613,7 +1522,7 @@ $(document).ready(function () {
             //This alert is removed as per requirement
             //alert(duplicateMessege);
         }
-        LoadJexcel1();
+        ShowDepartmentWiseData();
     });
 
     $('#department_list').select2({ placeholder: "部署を選択 (部署を選択)", });
@@ -1625,8 +1534,6 @@ $(document).ready(function () {
 
         $("#hider").fadeOut("slow");
         $('.search_p').fadeOut("slow");
-        // $('#search_p_text_box').val('');
     });
-
 
 });

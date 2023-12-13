@@ -1,26 +1,207 @@
-﻿function onDepartmentInactiveClick() {
-    let departmentIds = GetCheckedIds("department_list_tbody");    
-    var apiurl = '/api/utilities/DepartmentCount?departmentIds=' + departmentIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $('.department_count').empty();
-            $.each(data, function (key, item) {
-                $('.department_count').append(`<li class='text-info'>${item}</li>`);
-            });
-        },
-        error: function (data) {
-        }
-    });  
-}
-
-$(document).ready(function () {    
+﻿$(document).ready(function () {   
+    /***************************\                           
+        Show department list on page load           
+    \***************************/	 
     GetDepartments();
-    LoadSectionDropdown();
     
-    $('#department_inactive_confirm_btn').on('click', function (event) {
+    //show add department modal
+    $(".add_dept_btn").on("click",function(event){    
+        GetSections("add",0);    
+        $("#department_name").val('');
+        $("#sec_list_for_dept_add").val(-1);
+        
+        $('#add_department_modal').modal('show');
+    })
+
+    //show edit department modal
+    $(".edit_dept_btn").on("click",function(event){   
+        let id = GetCheckedIds("department_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("部署が選択されていません");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集の場合、複数の選択はできません");
+            return false;
+        }else{   
+            FillTheDepartmentEditModal(arrIds[0]);
+
+            $('#edit_department_modal').modal('show');
+        }        
+    })
+
+    //clear input fields
+    $("#undo_add_frm").on("click",function(event){        
+        $("#department_name").val('');
+        $("#sec_list_for_dept_add").val(-1);
+    })
+    $("#undo_edit_frm").on("click",function(event){        
+        $("#department_name_edit").val('');
+        $("#sec_list_for_dept_edit").val(-1);
+    })
+    $("#undo_edit_sec").on("click",function(event){        
+        $("#section_name_edit").val('');
+    })
+
+    //get department details by department id
+    function FillTheDepartmentEditModal(departmentId){            
+        var apiurl = `/api/utilities/GetDepartmentByDepartemntId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            data: "departmentId=" + departmentId,
+            success: function (data) { 
+                $("#department_id_for_edit_modal").val(data.Id);
+                $("#department_name_edit").val(data.DepartmentName);
+                GetSections("edit",data.SectionId);   
+            }
+        });            
+    }
+    
+    //section dropdown
+    function GetSections(addOredit,sectionId){
+        $.getJSON('/api/sections/')
+        .done(function (data) {
+            if(addOredit=='add'){
+                $('#sec_list_for_dept_add').empty();
+                $('#sec_list_for_dept_add').append(`<option value='-1'>Select Section</option>`);        
+                $.each(data, function (key, item) {
+                    $('#sec_list_for_dept_add').append(`<option value='${item.Id}'>${item.SectionName}</option>`);
+                });    
+            }
+            if(addOredit =='edit'){
+                $('#sec_list_for_dept_edit').empty();
+                $('#sec_list_for_dept_edit').append(`<option value='-1'>Select Section</option>`);
+                $.each(data, function (key, item) {
+                    if(parseInt(sectionId) == parseInt(item.Id)){
+                        $('#sec_list_for_dept_edit').append(`<option value='${item.Id}' selected>${item.SectionName}</option>`)
+                    }else{
+                        $('#sec_list_for_dept_edit').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
+                    }                    
+                });
+            }
+        });
+    }
+
+    //add department from modal
+    $("#dept_add_btn").on("click",function(event){
+        let departmentName = $("#department_name").val().trim();
+        let sectionId = $("#sec_list_for_dept_add").val().trim();
+        if (departmentName == "") {
+            alert("部署名を入力してください");
+            return false;
+        }
+        if (sectionId == "" || sectionId < 0){
+            alert("区分を選択してください");
+            return false;
+        }
+        departmentId = 0;
+        UpdateInsertDepartment(departmentName,departmentId,sectionId,false);
+    })
+
+    //edit department from modal
+    $("#dept_edit_btn").on("click",function(event){
+        let departmentName = $("#department_name_edit").val().trim();
+        let sectionId = $("#sec_list_for_dept_edit").val().trim();
+        if (departmentName == "") {
+            alert("部署名を入力してください");
+            return false;
+        }
+        if (sectionId == "" || sectionId < 0){
+            alert("区分を選択してください");
+            return false;
+        }        
+        departmentId = $("#department_id_for_edit_modal").val();
+        UpdateInsertDepartment(departmentName,departmentId,sectionId,true);
+    })
+
+    /***************************\                           
+    Department Insertion function. 
+    \***************************/
+    function UpdateInsertDepartment(departmentName,departmentId,sectionId,isUpdate) {
+        var apiurl = "/api/Departments/";
+        var data = {
+            Id:departmentId,
+            DepartmentName: departmentName,
+            SectionId: sectionId,
+            IsUpdate:isUpdate
+        };
+
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                ToastMessageSuccess(data);
+                GetDepartments();
+                if(isUpdate){
+                    $("#edit_department_modal").modal("hide");
+                    $("#department_name").val('');
+                    $("#sec_list_for_dept_add").val('');                
+                    $('#section-name').val('');
+                }else{
+                    $("#add_department_modal").modal("hide");
+                    $("#department_name").val('');
+                    $("#sec_list_for_dept_add").val('');                
+                    $('#section-name').val('');
+                }            
+            },
+            error: function (data) {
+                alert(data.responseJSON.Message);
+            }
+        });
+    }
+
+    /***************************\                           
+        Check if the department is checked for delete/remove
+    \***************************/
+    $('.delete_dept_btn').on('click', function (event) {
+
+        let id = GetCheckedIds("department_list_tbody");               
+        if (id == "") {
+            alert("部署が選択されていません");
+            return false;
+        }
+        else{
+            DepartmentWithAssignment();
+            $('#delete_department_modal').modal('show');
+        }
+
+    });
+
+    /***************************\                           
+    Department In-Active/Remove 
+    Also,shows that in how many projec that department is assigned                
+    \***************************/	
+    function DepartmentWithAssignment() {
+        let departmentIds = GetCheckedIds("department_list_tbody");    
+        var apiurl = '/api/utilities/DepartmentCount?departmentIds=' + departmentIds;
+        $.ajax({
+            url: apiurl,
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('.del_confirm_warning').empty();
+                $.each(data, function (key, item) {
+                    $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
+                });
+            },
+            error: function (data) {
+            }
+        });  
+    }
+
+    /***************************\                           
+        Department Delete/Remove Confirm Button           
+    \***************************/	
+    $('#dept_del_confirm').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("department_list_tbody");
         id = id.slice(0, -1);
@@ -38,86 +219,20 @@ $(document).ready(function () {
             }
         });
 
-        $('#inactive_department_modal').modal('toggle');
+        $('#delete_department_modal').modal('toggle');
 
     });
 
-    $('#department_inactive_btn').on('click', function (event) {
-
-        let id = GetCheckedIds("department_list_tbody");        
-        if (id == "") {
-            alert("ファイルが削除されたことを確認してください");
-            return false;
-        }
-    });
-});
-
-//insert department
-function InsertDepartment() {
-    var apiurl = "/api/Departments/";
-    let departmentName = $("#department_name").val().trim();
-    let sectionId = $("#section_list").val().trim();
-
-    let isValidRequest = true;
-
-    if (departmentName == "") {
-        $(".department_name_err").show();
-        isValidRequest = false;
-    } else {
-        $(".department_name_err").hide();
-    }
-    if (sectionId == "" || sectionId < 0) {
-        $("#section_ist_error").show();
-        isValidRequest = false;
-    } else {
-        $("#section_ist_error").hide();
-    }
-
-    if (isValidRequest) {
-        var data = {
-            DepartmentName: departmentName,
-            SectionId: sectionId
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                $("#page_load_after_modal_close").val("yes");
-                $("#department_name").val('');
-                $("#section_list").val('');
-
-                ToastMessageSuccess(data);
-                $('#section-name').val('');
-                GetDepartments();
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
-}
-
-//get section list
-function LoadSectionDropdown(){
-    $.getJSON('/api/sections/')
+    /***************************\                           
+    Get all the department list from database.
+    \***************************/
+    function GetDepartments(){
+        $.getJSON('/api/departments/')
         .done(function (data) {
-            $('#section_list').empty();
-            $('#section_list').append(`<option value='-1'>Select Section</option>`)
+            $('#department_list_tbody').empty();
             $.each(data, function (key, item) {
-                $('#section_list').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
+                $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td><td>${item.SectionName}</td></tr>`);
             });
         });
-}
-//get department list
-function GetDepartments(){
-    $.getJSON('/api/departments/')
-    .done(function (data) {
-        $('#department_list_tbody').empty();
-        $.each(data, function (key, item) {
-            $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td><td>${item.SectionName}</td></tr>`);
-        });
-    });
-}
+    }    
+});

@@ -1,21 +1,138 @@
 ﻿/*-----------------Explanation Master-----------------------*/
-#explanation_registration {
+body {
+    overflow-x: auto;
+}
+
+/***************************\                           
+	Explanation Registration Form
+\***************************/ 
+#exp_reg_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    border: 1px solid;
+    font-family: Yu Gothic;
+}
+
+#exp_reg_tbl thead {
     background-color: #3c4b5d;
     color: white;
+    text-align: center;
+}
+#exp_reg_frm_td{
+    height: 25px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 57%;
+}
+#explanation_name,#explanation_name_edit{
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    border: 1px solid #ccc !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+}
+#undo_explation_add_btn,#undo_explation_edit_btn {
+    line-height: 1;
+	background-color: red;
+    color: white;
+	border: none;
+
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
     display: inline-block;
+    margin-bottom: 20px;
 }
-#explanation_cancel {
-    background-color: #FC4136;
+#exp_reg_save_btn,#exp_reg_save_btn_edit {
+    line-height:1;
+    background-color: green;
+	border: none;
+
     color: white;
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
     display: inline-block;
+    margin-bottom: 20px;
 }
+
+
+/***************************\                           
+	List: Show All Explanation: Start
+\***************************/ 
+#exp_list_tbl{
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+#exp_list_tbl td, th {
+    border: 1px solid;
+    padding: 0px !important;
+    text-align: center;
+}
+
+#exp_list_tbl td, th:nth-of-type(9) {
+    text-align: center;
+    width: 20px;
+}
+
+#exp_list_tbl td:nth-of-type(2) {
+    border: 1px solid;
+    padding: 2px !important;
+    text-align: left;
+    text-indent: 1em;
+}
+#exp_list_tbl {
+    width: 85%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid;
+}
+
+#exp_list_tbl thead tr:nth-of-type(1) {
+    background-color: #3c4b5d;
+    color: white;
+    text-align: center;
+}
+
+#exp_list_tbl thead th:nth-of-type(2) {
+    width: 200px
+}
+
+#exp_list_tbl thead th:nth-of-type(3) {
+    width: 100px
+}
+
+#exp_list_tbl thead th:nth-of-type(1) {
+    /* width: 45px; */
+    width: 10%;
+}
+.exp_list_theader{
+    border: 1px solid #ccc !important;
+    border-spacing: 4px;
+}
+.explanation_th{
+    border: 1px solid black !important;
+}
+/***************************\                           
+	List: Show All Explanation: End
+\***************************/ 
+
+/***************************\                           
+	Explanation List Delete Button
+\***************************/ 
 #explanations_inactive_btn {
+    width: 83%;
+    font-size: 10px;
+    font-family: Yu Gothic;
     background: indianred;
     color: white;
     border-radius: 5px;
@@ -23,53 +140,96 @@
     margin: 5px;
     display: inline-block;
 }
-#explanation_table td, th {
-    border: 1px solid;
-    padding: 0px !important;
+#explanation_delete_btn {
+    padding-left: 740px;
 }
-#explanation_table {
-    width: 47%;
+
+/**************
+    Action: Add,Edit,Delete Button:Start
+**************/
+.add_edit_delete_explanation{
+    margin-top: 6px;
+}
+.add_explanation_btn{   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1;    
+    margin-left: -204px; 
+}
+.edit_explanation_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: #4472c4;
+    color: white;
+    line-height: 1.3;
+    margin-left: -97px;
+    float: left;
+}
+.delete_role_btn{
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: white;
+    color: red;
+    line-height: 1.2;    
+    border: 2px solid red !important;
+}
+/**************
+    Action: Add,Edit,Delete Button:End
+**************/
+
+/*modal*/
+#add_modal_body_title{
+    font-size: 10px !important;
+    font-family: Yu Gothic;
+}
+#add_modal_header{
+    text-align: left;
+    margin-left: 25px;
+}
+
+/*modal design*/
+#main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
+    width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 10px;
     border: 1px solid;
+    font-family: Yu Gothic;
 }
-#explanation_table thead tr:nth-of-type(1) {
+.main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
+    height: 26px;
+    border: none;
+    border: 1px solid black !important;
+    border-collapse: separate;
+    border-spacing: 4px;
+    text-align: center;
+    width: 61%;
+}
+#main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-.cutom_button_group_explanation {
-    float: right;
-    margin-left: 69%;
+/*common modal design*/
+.modal_return_btn{
+    margin-top: 40px !important;
+    line-height: 1 !important;
+    margin-right: -12px  !important;
 }
-#explanation_table tbody tr td:last-child {
-    border: 1px solid;
-    padding: 2px !important;
+.modal-footer{
+    margin-top: -38px !important;
+}
+.custom-modal .modal-footer {
+    border: 0;
+    justify-content: right;
+    /* padding: 0 30px 30px;*/
+}
+.custom-modal .modal-body{
+    padding: 15px !important;
+    margin-top: 1px !important;
+}
+.add_edit_del_header{
     text-align: left;
-    text-indent: 1em;
+    margin-left: 25px;
 }
-#explanation_delete_btn {
-    padding-left: 429px;
-}
-.explanations_name_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-}
-#explanation_body {
-    width: 59% !important;
-}
-#explanations_list_tbody {
-    text-align: center;
-    /*height: 133px;*/
-}
-#explanation_table thead th:nth-of-type(1) {
-    width: 45px;
-}
-#explanation_table thead th:nth-of-type(2) {
-    width: 200px
-}
-
-

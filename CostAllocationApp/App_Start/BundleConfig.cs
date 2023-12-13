@@ -20,9 +20,7 @@ namespace CostAllocationApp
             bundles.Add(new ScriptBundle("~/bundles/others").Include(
                             "~/Scripts/jquery.slimscroll.min.js",
                             "~/Scripts/select2.min.js",
-                            //"~/Scripts/jspreadsheet.js",
                             "~/Scripts/jexcel.js",
-                            //"~/Scripts/jexcel_modified.js",
                             "~/Scripts/jsuites.js",
                             "~/Scripts/moment.min.js",
                             "~/Scripts/bootstrap-datetimepicker.min.js",
@@ -32,10 +30,6 @@ namespace CostAllocationApp
                             "~/Scripts/toastr.min.js",
                             "~/Scripts/jquery.signalR-2.4.3.js",
                             "~/Scripts/modally.js"
-
-                            //,
-                            //"~/Scripts/loader.js",
-                            //"~/Scripts/Chart.min.js"
                             ));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
@@ -48,18 +42,15 @@ namespace CostAllocationApp
                     "~/Content/line-awesome.min.css",
                     "~/Content/dataTables.bootstrap4.min.css",
                     "~/Content/select2.min.css",
-                    //"~/Content/jspreadsheet.css",
                     "~/Content/jexcel.css",
                     "~/Content/jsuites.css",
                     "~/Content/bootstrap-datetimepicker.min.css",
                     "~/Content/toastr.min.css",
-                    "~/Content/style_ver02.css",
-                    "~/Content/side_menu_ver02.css",
-                    "~/Content/new_side_menu_ver02.css",
+                    "~/Content/style.css",
+                    "~/Content/side_menu.css",
+                    "~/Content/new_side_menu.css",
                     "~/Content/custome_side_menu.css",
                     "~/Content/modally.css"
-                    //,
-                    //"~/Content/custom.css"
                     ));
 
         }

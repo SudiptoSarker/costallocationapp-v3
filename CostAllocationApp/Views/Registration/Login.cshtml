@@ -8,7 +8,7 @@
         <div class="container">
             <!-- Account Logo -->
             <div class="account-logo">
-                <a href="javascript:void(0);"><img src="~/img/logo.png" alt="Dreamguy's Technologies"></a>
+                <a href="javascript:void(0);"><img src="~/img/logo.png" alt="jabait logo"></a>
             </div>
             <!-- /Account Logo -->
             <div class="account-box">
@@ -78,11 +78,13 @@
         function GoToRegistrationForm(){
             window.location.href = "/registration/userregistration";
         }
+        
         $.connection.hub.disconnected(function () {
             setTimeout(function () {
                 $.connection.hub.start();
             }, 1000); // Restart connection after 1 second.
         });
+
         $(document).ready(function () {
             
 
@@ -139,5 +141,6 @@
 
            
         });
+
     </script>
 }

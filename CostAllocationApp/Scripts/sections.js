@@ -1,41 +1,12 @@
-﻿/***************************\                           
- js                      
-\***************************/	
-function onSectionInactiveClick() {
-    let sectionIds = GetCheckedIds("section_list_tbody");
-    var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $('.section_count').empty();
-            $.each(data, function (key, item) {
-                $('.section_count').append(`<li class='text-info'>${item}</li>`);
-            });
-        },
-        error: function (data) {
-        }
-    });  
-}
+﻿$(document).ready(function () {
 
-$(document).ready(function () {
-    //------------------Section Master----------------------//
-
-    //show sections on page load
+    //Show section list on page load           
     GetSectionList();
-
-
-    //inactive section
-    $('#section_inactive_confirm_btn').on('click', function (event) {
+    
+    //Section Delete/Remove Confirm Button           
+    $('#sec_del_confirm').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("section_list_tbody");
-
-        var sectionWarningTxt = $("#section_warning_text").val();
-        $("#section_warning").html(sectionWarningTxt);
-        var tempVal = $("#section_warning").html();
-        //alert(tempVal)
-       
 
         id = id.slice(0, -1);
         $.ajax({
@@ -49,63 +20,81 @@ $(document).ready(function () {
                 ToastMessageFailed(data);
             }
         });
-        $('#delete_section').modal('toggle');
+        $('#delete_section_modal').modal('toggle');
     });
-});
-$('#section_inactive_btn').on('click', function (event) {
-
-    let id = GetCheckedIds("section_list_tbody");
-    if (id == "") {
-        alert("ファイルが削除されたことを確認してください");
-        return false;
-    }
-});
-//function GetCheckedIds(sectionId) {
-//    var hidSectionIds = $("#section_chk_ids").val();
-//    if (hidSectionIds == '') {
-//        $("#section_chk_ids").val(hidSectionIds);
-//    } else {
-
-//    }
-//    alert("test: " + sectionId);
-//}
-
-//Get Assgined Section Count
-function IsSectionAssigned(sectionIds) {
-    var returnVal = "";
-    var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, function (key, item) {
-                if (returnVal == "") {
-                    returnVal = item;
-                } else {
-                    returnVal = returnVal + ". " + item;
-                }
-            });
-            $("#section_warning_text").val(returnVal);
-        },
-        error: function (data) {
-            $("#section_warning_text").val(returnVal);
-        }
-    });    
-}
-
-//sections insert
-function InsertSection() {
-    var apiurl = "/api/sections/";
-    let sectionName = $("#section-name").val().trim();
     
-    if (sectionName == "") {
-        $(".section_name_err").show();
-        return false;
-    } else {
-        $(".section_name_err").hide();
+    /***************************\                           
+    Section In-Active/Remove 
+    Also,shows that in how many projec in that specific section is assigned for             
+    \***************************/	
+    function SectionWithAssignment() {
+        let sectionIds = GetCheckedIds("section_list_tbody");
+        var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
+        $.ajax({
+            url: apiurl,
+            type: 'Get',
+            dataType: 'json',
+            success: function (data) {
+                $('.del_confirm_warning').empty();
+                $.each(data, function (key, item) {
+                    $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
+                });
+            },
+            error: function (data) {
+            }
+        });  
+    }
+
+    /***************************\                           
+    Check if the section is checked for delete/remove
+    \***************************/    
+    $('.delete_sec_btn').on('click', function (event) {
+        let id = GetCheckedIds("section_list_tbody");
+        if (id == "") {
+            alert("区分が選択されていません");
+            return false;
+        }
+        else{
+            SectionWithAssignment();
+            $('#delete_section_modal').modal('show');
+        }
+    });
+
+    //add from modal
+    $("#sec_add_btn").on("click",function(event){
+        let sectionName = $("#section-name").val().trim();        
+        if (sectionName == "") {
+            alert("区分名を入力してください");
+            return false;
+        }
+
+        UpdateInsertSection(sectionName,0,false);
+    })    
+
+    //edit from modal
+    $("#edit_sec_from_modal").on("click",function(event){        
+        var sectionName = $("#section_name_edit").val();   
+        var sectionId= $("#edit_section_id").val();   
+
+        if (sectionName == '' || sectionName == null || sectionName == undefined){
+            alert("区分名を入力してください");
+            return false;
+        }
+        else{
+            UpdateInsertSection(sectionName,sectionId,true);
+        }        
+    })
+
+    /***************************\                           
+        Section Insertion is done by this function. 
+    \***************************/
+    function UpdateInsertSection(sectionName,sectionId,isUpdate) {
+        var apiurl = "/api/sections/";        
+        
         var data = {
-            SectionName: sectionName
+            Id:sectionId,
+            SectionName: sectionName,
+            IsUpdate:isUpdate
         };
 
         $.ajax({
@@ -116,8 +105,13 @@ function InsertSection() {
             success: function (data) {
                 $("#page_load_after_modal_close").val("yes");
                 ToastMessageSuccess(data);
-
-                $('#section-name').val('');
+                if(isUpdate){
+                    $('#section_name_edit').val('');
+                    $("#edit_section_modal").modal("hide");
+                }else{
+                    $('#section-name').val('');
+                    $("#add_section_modal").modal("hide");
+                }                
                 GetSectionList();
             },
             error: function (data) {
@@ -125,15 +119,70 @@ function InsertSection() {
             }
         });
     }
-}
+        
+    //get section details by section id
+    function FillTheSectionEditModal(sectionId){            
+        var apiurl = `/api/utilities/GetSectionNameBySectionId`;
+        $.ajax({
+            url: apiurl,
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            data: "sectionIds=" + sectionId,
+            success: function (data) { 
+                $("#section_name_edit").val(data.SectionName);   
+                $("#edit_section_id").val(data.Id);   
+            }
+        });            
+    }
 
-//Get section list
-function GetSectionList() {
-    $.getJSON('/api/sections/')
-        .done(function (data) {
-            $('#section_list_tbody').empty();
-            $.each(data, function (key, item) {
-                $('#section_list_tbody').append(`<tr><td><input type="checkbox" class="section_list_chk" onclick="GetCheckedIds(${item.Id});" data-id='${item.Id}' /></td><td>${item.SectionName}</td></tr>`);
+    /***************************\                           
+    Get all the section list from database.
+    \***************************/
+    function GetSectionList() {
+        $.getJSON('/api/sections/')
+            .done(function (data) {                
+                if (data != '' && data != null && data != undefined){
+                    $('#section_list_tbody').empty();
+                    $.each(data, function (key, item) {                
+                        $('#section_list_tbody').append(`<tr><td><input type="checkbox" class="section_list_chk" onclick="GetCheckedIds(${item.Id});" data-id='${item.Id}' /></td><td>${item.SectionName}</td></tr>`);
+                    });
+                }                
             });
-        });
-}
+    }
+
+    $(".add_sec_btn").on("click",function(event){   
+        $("#section-name").val('');     
+        $('#add_section_modal').modal('show');
+    })
+
+    $("#sec_undo_btn").on("click",function(event){        
+        $("#section-name").val('');
+    })
+
+    $("#undo_edit_sec").on("click",function(event){        
+        $("#section_name_edit").val('');
+    })
+    
+    $(".edit_sec_btn").on("click",function(event){   
+       
+        let id = GetCheckedIds("section_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("区分が選択されていません");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集の場合、複数の選択はできません");
+            return false;
+        }else{   
+            FillTheSectionEditModal(arrIds[0]);
+
+            $('#edit_section_modal').modal('show');
+        }        
+    })
+});
+

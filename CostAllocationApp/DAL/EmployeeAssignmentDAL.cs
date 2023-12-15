@@ -7000,6 +7000,12 @@ namespace CostAllocationApp.DAL
                 return objQAProportions;                
             }            
         }
+        public List<QaProportion> GetQAProportionsWithEmployeeForTotalMenu(string employeeId, string year)
+        {
+            List<QaProportion> objQAProportions = new List<QaProportion>();
+            objQAProportions = GetQAProportionPercentageWithEmployee(employeeId, year);
+            return objQAProportions;
+        }
         public int InsertEmployeeAssignmentsForTimeStamps(EmployeeAssignment employeeAssignment,int timeStampId)
         {
             int result = 0;

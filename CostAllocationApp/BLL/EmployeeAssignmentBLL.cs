@@ -3071,6 +3071,10 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetQAProportionsWithEmployee(employeeId,year);
         }
+        public List<QaProportion> GetQAProportionsWithEmployeeForTotalMenu(string employeeId, string year)
+        {
+            return employeeAssignmentDAL.GetQAProportionsWithEmployeeForTotalMenu(employeeId,year);
+        }
         public int InsertEmployeeAssignmentsForTimeStamps(EmployeeAssignment employeeAssignment, int timeStampId)
         {
             return employeeAssignmentDAL.InsertEmployeeAssignmentsForTimeStamps(employeeAssignment, timeStampId);

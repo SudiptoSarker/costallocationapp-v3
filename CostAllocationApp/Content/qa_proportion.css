@@ -107,7 +107,7 @@ body {
     text-align: right !important;
 }
 
-#actual_cost {
+#show_proration {
     margin-left: -63px;
     margin-top: -2px;
     transition: all 0.2s ease-in-out 0s;

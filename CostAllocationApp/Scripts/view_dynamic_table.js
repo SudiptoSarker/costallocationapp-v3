@@ -612,6 +612,10 @@
         }        
     });
 
+    function RemoveDeletedRows(){
+
+    }
+
     //delete settings for the selected table
     $(document).on('click', '.confrim_del_btn ', function () {
         var tableId = $("#table_list").val();    
@@ -622,6 +626,13 @@
         var isNotSavedRow = false;
 
         $('.setting_tbl_chk:checkbox:checked').each(function(i){
+            $('table tr').has('.setting_tbl_chk:checkbox:checked').remove();    
+
+            //$('.setting_tbl_tr .setting_tbl_chk:checkbox:checked').remove();            
+            
+            //$('table tr').has('input[name="vehicle"]:checked').remove();
+            //return false;
+
             val[i] = $(this).val();
             if(parseInt(val[i]) ==0){
                 isNotSavedRow = true;
@@ -633,7 +644,7 @@
                 }             
             }            
         });  
-                
+
         if (settingIds !=''){
             var apiurl = "/api/Utilities/DeleteDynamicTableSettings?tableId=" + tableId+"&settingIds="+settingIds;        
             $.ajax({
@@ -643,11 +654,11 @@
                 success: function (data) {                
                     ToastMessageSuccess(data);                                
                     
-                    $('.dynamic_table_list_action').hide(); 
-                    $('#total_menu_list_thead').empty();    
-                    $('#total_menu_list_tbody').empty();    
+                    //$('.dynamic_table_list_action').hide(); 
+                   // $('#total_menu_list_thead').empty();    
+                    //$('#total_menu_list_tbody').empty();    
 
-                    GetDynamicSettings(tableId,resultsItem);
+                    //GetDynamicSettings(tableId,resultsItem);
                     $("#delete_settings_table").modal("hide");
                 },
                 error: function (data) {
@@ -656,10 +667,10 @@
             });
         }else{
             ToastMessageSuccess("設定が削除されました");                                
-            $('.dynamic_table_list_action').hide(); 
-            $('#total_menu_list_thead').empty();    
-            $('#total_menu_list_tbody').empty();          
-            GetDynamicSettings(tableId,resultsItem);
+            //$('.dynamic_table_list_action').hide(); 
+            //$('#total_menu_list_thead').empty();    
+            //$('#total_menu_list_tbody').empty();          
+            //GetDynamicSettings(tableId,resultsItem);
             $("#delete_settings_table").modal("hide"); 
         }        
     

@@ -27,7 +27,9 @@ namespace CostAllocationApp.BLL
 
         public List<Category> GetAllCategoriesByDynamicTableId(int dynamicTableId)
         {
-            return categoryDAL.GetAllCategoriesByDynamicTableId(dynamicTableId);
+            List<Category> categories = new List<Category>();
+            categories = categoryDAL.GetAllCategoriesByDynamicTableId(dynamicTableId);
+            return categories;
         }
         public int RemoveCategory(Category category)
         {

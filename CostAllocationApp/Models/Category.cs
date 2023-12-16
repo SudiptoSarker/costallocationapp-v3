@@ -11,5 +11,7 @@ namespace CostAllocationApp.Models
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
         public string DynamicTableId { get; set; }
+        public string SubTitleName { get; set; }
+        public bool IsSubTitle { get; set; }
     }
 }

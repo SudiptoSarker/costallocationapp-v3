@@ -13,5 +13,7 @@ namespace CostAllocationApp.Models
         // for display category name
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
+        public string DetailsTitleName { get; set; }
+        public bool IsDetailTitle { get; set; }
     }
 }

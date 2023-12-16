@@ -192,7 +192,12 @@ namespace CostAllocationApp.DAL
         public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
             List<SubCategory> subCategories = new List<SubCategory>();
-            string query = "select * from SubCategories where isactive=1 and CategoryId = " + categoryId;
+            string query = "";
+            query = query + "SELECT sc.Id,sc.SubCategoryName,sc.CategoryId,sc.IsActive,dt.DetailsTitle ";
+            query = query + "FROM SubCategories sc  ";
+	        query = query + "    INNER JOIN Categories c ON sc.CategoryId=c.Id ";
+	        query = query + "    INNER JOIN DynamicTables dt ON c.DynamicTableId = dt.Id ";
+            query = query + "WHERE sc.IsActive=1 and sc.CategoryId = " + categoryId;
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -208,9 +213,16 @@ namespace CostAllocationApp.DAL
                             SubCategory subCategory = new SubCategory();
                             subCategory.Id = Convert.ToInt32(rdr["Id"]);
                             subCategory.SubCategoryName = rdr["SubCategoryName"].ToString();
+                            subCategory.DetailsTitleName = rdr["DetailsTitle"] is DBNull ? "" : rdr["DetailsTitle"].ToString();
+                            if (!string.IsNullOrEmpty(subCategory.DetailsTitleName))
+                            {
+                                subCategory.IsDetailTitle = true;
+                            }
+                            else
+                            {
+                                subCategory.IsDetailTitle = false;
+                            }
                             subCategories.Add(subCategory);
-
-
                         }
                     }
                 }

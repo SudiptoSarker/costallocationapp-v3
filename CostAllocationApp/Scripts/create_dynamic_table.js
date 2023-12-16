@@ -302,27 +302,30 @@ $(document).on('click', '.main_item_add_btn ', function () {
                     success: function (data) {
                         $('.main_item_list_tbl tbody').empty();
                         $.each(data, function (index, value) {
-                            $('.main_item_list_tbl tbody').append(`
-                                <tr data-id='${value.Id}'>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_link" href="#" >${value.CategoryName}</a>
-                                    </td>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                            var strCategoryList = "";
+                            strCategoryList = strCategoryList +"    <tr data-id='"+value.Id+"'>";
+                            strCategoryList = strCategoryList +"    <td class='main_item_input_td'>";
+                            if(value.IsSubTitle){
+                                strCategoryList = strCategoryList +         "<a class='main_item_link' href='javascript:void(0);' >"+value.CategoryName+"</a>";
+                            }else{
+                                strCategoryList = strCategoryList +         "<a>"+value.CategoryName+"</a>";
+                            }                            
+                            strCategoryList = strCategoryList +     "</td>";
+                            strCategoryList = strCategoryList +     "<td class='main_item_input_td'>";
+                            strCategoryList = strCategoryList +     "            <a class='main_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strCategoryList = strCategoryList +     "            <a href='javascript:void(0);' class='main_item_del_btn' id=''>削除​ (delete)</a>";
+                            strCategoryList = strCategoryList +     "        </td>";
+                            strCategoryList = strCategoryList +     "    </tr>";
+                            $('.main_item_list_tbl tbody').append(strCategoryList);
                         });
                         
                     },
                     error: function (data) {
                     }
                 });
-                if (dynamicTable.SubCategoryTitle == "" || dynamicTable.SubCategoryTitle == null || dynamicTable.SubCategoryTitle == undefined) {
-                    $('.main_item_list_tbl tbody .main_item_input_td a').removeClass('main_item_link');
-                }
+                // if (dynamicTable.SubCategoryTitle == "" || dynamicTable.SubCategoryTitle == null || dynamicTable.SubCategoryTitle == undefined) {
+                //     $('.main_item_list_tbl tbody .main_item_input_td a').removeClass('main_item_link');
+                // }
               
             },
             error: function (data) {
@@ -392,19 +395,22 @@ $(document).on('click', '.main_item_edit_action ', function () {
                     async: false,
                     success: function (data) {
                         $('.main_item_list_tbl tbody').empty();
-                        $.each(data, function (index, value) {
-                            $('.main_item_list_tbl tbody').append(`
-                                <tr data-id='${value.Id}'>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_link" href="#" >${value.CategoryName}</a>
-                                    </td>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                        $.each(data, function (index, value) {                            
+                            var strCategoryList = "";
+                            strCategoryList = strCategoryList +"    <tr data-id='"+value.Id+"'>";
+                            strCategoryList = strCategoryList +"    <td class='main_item_input_td'>";
+                            if(value.IsSubTitle){
+                                strCategoryList = strCategoryList +         "<a class='main_item_link' href='javascript:void(0);' >"+value.CategoryName+"</a>";
+                            }else{
+                                strCategoryList = strCategoryList +         "<a>"+value.CategoryName+"</a>";
+                            }                            
+                            strCategoryList = strCategoryList +     "</td>";
+                            strCategoryList = strCategoryList +     "<td class='main_item_input_td'>";
+                            strCategoryList = strCategoryList +     "            <a class='main_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strCategoryList = strCategoryList +     "            <a href='javascript:void(0);' class='main_item_del_btn' id=''>削除​ (delete)</a>";
+                            strCategoryList = strCategoryList +     "        </td>";
+                            strCategoryList = strCategoryList +     "    </tr>";
+                            $('.main_item_list_tbl tbody').append(strCategoryList);
                         });
                         $('#main_item_edit_modal').modal('hide');
                         setTimeout(() => {
@@ -528,18 +534,21 @@ $(document).on('click', '.sub_item_edit_action', function () {
 
                         $('.sub_item_list_tbl tbody').empty();
                         $.each(data, function (index, value) {
-                            $('.sub_item_list_tbl tbody').append(`
-                                <tr data-sub-item-id='${value.Id}'>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
-                                    </td>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                            var strDetailsItemList = "";
+                            strDetailsItemList = strDetailsItemList +"<tr data-sub-item-id='"+value.Id+"'>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            if(value.IsDetailTitle){
+                                strDetailsItemList = strDetailsItemList +"<a class='sub_item_link' href='javascript:void(0)'>"+value.SubCategoryName+"</a>";
+                            }else{
+                                strDetailsItemList = strDetailsItemList +"<a>"+value.SubCategoryName+"</a>";
+                            }                            
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            strDetailsItemList = strDetailsItemList +"<a class='sub_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strDetailsItemList = strDetailsItemList +"<a href='javascript:void(0);' class='sub_item_del_btn' id=''>削除​ (delete)</a>";
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"</tr>";
+                            $('.sub_item_list_tbl tbody').append(strDetailsItemList);
                         });
 
                         $('#sub_item_edit_modal').modal('hide');
@@ -549,11 +558,7 @@ $(document).on('click', '.sub_item_edit_action', function () {
                     },
                     error: function (data) {
                     }
-                });
-
-                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
-                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
-                }
+                });                
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -604,27 +609,26 @@ $(document).on('click', '.sub_item_add_btn ', function () {
 
                         $('.sub_item_list_tbl tbody').empty();
                         $.each(data, function (index, value) {
-                            $('.sub_item_list_tbl tbody').append(`
-                                <tr data-sub-item-id='${value.Id}'>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
-                                    </td>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                            var strDetailsItemList = "";
+                            strDetailsItemList = strDetailsItemList +"<tr data-sub-item-id='"+value.Id+"'>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            if(value.IsDetailTitle){
+                                strDetailsItemList = strDetailsItemList +"<a class='sub_item_link' href='javascript:void(0)'>"+value.SubCategoryName+"</a>";
+                            }else{
+                                strDetailsItemList = strDetailsItemList +"<a>"+value.SubCategoryName+"</a>";
+                            }                            
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            strDetailsItemList = strDetailsItemList +"<a class='sub_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strDetailsItemList = strDetailsItemList +"<a href='javascript:void(0);' class='sub_item_del_btn' id=''>削除​ (delete)</a>";
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"</tr>";
+                            $('.sub_item_list_tbl tbody').append(strDetailsItemList);
                         });
                     },
                     error: function (data) {
                     }
-                });
-
-                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
-                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
-                }
+                });                
             }
         },
         error: function (data) {
@@ -662,7 +666,7 @@ $(document).on('click', '.detail_item_add_btn ', function () {
                         $('.detail_item_list_tbl tbody').append(`
                                 <tr data-detail-item-id='${value.Id}'>
                                     <td class="detail_item_input_td">
-                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                        <a>${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
                                         <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
@@ -747,7 +751,7 @@ $(document).on('click', '.detail_item_edit_action', function () {
                             $('.detail_item_list_tbl tbody').append(`
                                 <tr data-detail-item-id='${value.Id}'>
                                     <td class="detail_item_input_td">
-                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                        <a>${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
                                         <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
@@ -1429,18 +1433,21 @@ $(document).ready(function() {
                 success: function (data) {
                     $('.main_item_list_tbl tbody').empty();
                     $.each(data, function (index, value) {
-                        $('.main_item_list_tbl tbody').append(`
-                                <tr data-id='${value.Id}'>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_link" href="#">${value.CategoryName}</a>
-                                    </td>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                        var strCategoryList = "";
+                        strCategoryList = strCategoryList +"    <tr data-id='"+value.Id+"'>";
+                        strCategoryList = strCategoryList +"    <td class='main_item_input_td'>";
+                        if(value.IsSubTitle){
+                            strCategoryList = strCategoryList +         "<a class='main_item_link' href='javascript:void(0);' >"+value.CategoryName+"</a>";
+                        }else{
+                            strCategoryList = strCategoryList +         "<a>"+value.CategoryName+"</a>";
+                        }                            
+                        strCategoryList = strCategoryList +     "</td>";
+                        strCategoryList = strCategoryList +     "<td class='main_item_input_td'>";
+                        strCategoryList = strCategoryList +     "            <a class='main_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                        strCategoryList = strCategoryList +     "            <a href='javascript:void(0);' class='main_item_del_btn' id=''>削除​ (delete)</a>";
+                        strCategoryList = strCategoryList +     "        </td>";
+                        strCategoryList = strCategoryList +     "    </tr>";
+                        $('.main_item_list_tbl tbody').append(strCategoryList);                                              
                     });
                     
 
@@ -1511,19 +1518,22 @@ $(document).ready(function() {
                     async: false,
                     success: function (data) {
                         $('.main_item_list_tbl tbody').empty();
-                        $.each(data, function (index, value) {
-                            $('.main_item_list_tbl tbody').append(`
-                                <tr data-id='${value.Id}'>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_link" href="#" onclick='clickInside();'">${value.CategoryName}</a>
-                                    </td>
-                                    <td class="main_item_input_td">
-                                        <a class="main_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="main_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                        $.each(data, function (index, value) {                            
+                            var strCategoryList = "";
+                            strCategoryList = strCategoryList +"    <tr data-id='"+value.Id+"'>";
+                            strCategoryList = strCategoryList +"    <td class='main_item_input_td'>";
+                            if(value.IsSubTitle){
+                                strCategoryList = strCategoryList +         "<a class='main_item_link' href='javascript:void(0);' >"+value.CategoryName+"</a>";
+                            }else{
+                                strCategoryList = strCategoryList +         "<a>"+value.CategoryName+"</a>";
+                            }                            
+                            strCategoryList = strCategoryList +     "</td>";
+                            strCategoryList = strCategoryList +     "<td class='main_item_input_td'>";
+                            strCategoryList = strCategoryList +     "            <a class='main_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strCategoryList = strCategoryList +     "            <a href='javascript:void(0);' class='main_item_del_btn' id=''>削除​ (delete)</a>";
+                            strCategoryList = strCategoryList +     "        </td>";
+                            strCategoryList = strCategoryList +     "    </tr>";
+                            $('.main_item_list_tbl tbody').append(strCategoryList);
                         });
 
                     },
@@ -1606,27 +1616,26 @@ $(document).ready(function() {
 
                         $('.sub_item_list_tbl tbody').empty();
                         $.each(data, function (index, value) {
-                            $('.sub_item_list_tbl tbody').append(`
-                                <tr data-sub-item-id='${value.Id}'>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
-                                    </td>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                            var strDetailsItemList = "";
+                            strDetailsItemList = strDetailsItemList +"<tr data-sub-item-id='"+value.Id+"'>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            if(value.IsDetailTitle){
+                                strDetailsItemList = strDetailsItemList +"<a class='sub_item_link' href='javascript:void(0)'>"+value.SubCategoryName+"</a>";
+                            }else{
+                                strDetailsItemList = strDetailsItemList +"<a>"+value.SubCategoryName+"</a>";
+                            }                            
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                            strDetailsItemList = strDetailsItemList +"<a class='sub_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                            strDetailsItemList = strDetailsItemList +"<a href='javascript:void(0);' class='sub_item_del_btn' id=''>削除​ (delete)</a>";
+                            strDetailsItemList = strDetailsItemList +"</td>";
+                            strDetailsItemList = strDetailsItemList +"</tr>";
+                            $('.sub_item_list_tbl tbody').append(strDetailsItemList);
                         });
                     },
                     error: function (data) {
                     }
-                });
-
-                if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
-                    $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
-                }
+                });                
             },
             error: function (data) {
                 ToastMessageFailed(data);
@@ -1688,7 +1697,7 @@ $(document).ready(function() {
                             $('.detail_item_list_tbl tbody').append(`
                                 <tr data-detail-item-id='${value.Id}'>
                                     <td class="detail_item_input_td">
-                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                        <a>${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
                                         <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>
@@ -1759,28 +1768,26 @@ $(document).ready(function() {
 
                 $('.sub_item_list_tbl tbody').empty();
                 $.each(data, function (index, value) {
-                    $('.sub_item_list_tbl tbody').append(`
-                                <tr data-sub-item-id='${value.Id}'>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_link" href="#">${value.SubCategoryName}</a>
-                                    </td>
-                                    <td class="sub_item_input_td">
-                                        <a class="sub_item_edit_btn" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_edit">編集 (edit)</a>
-                                        <a href="javascript:void(0);" class="sub_item_del_btn" id="">削除​ (delete)</a>
-                                    </td>
-                                </tr>
-
-                            `);
+                    var strDetailsItemList = "";
+                    strDetailsItemList = strDetailsItemList +"<tr data-sub-item-id='"+value.Id+"'>";
+                    strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                    if(value.IsDetailTitle){
+                        strDetailsItemList = strDetailsItemList +"<a class='sub_item_link' href='javascript:void(0)'>"+value.SubCategoryName+"</a>";
+                    }else{
+                        strDetailsItemList = strDetailsItemList +"<a>"+value.SubCategoryName+"</a>";
+                    }                            
+                    strDetailsItemList = strDetailsItemList +"</td>";
+                    strDetailsItemList = strDetailsItemList +"<td class='sub_item_input_td'>";
+                    strDetailsItemList = strDetailsItemList +"<a class='sub_item_edit_btn' href='javascript:void(0);'>編集 (edit)</a>";
+                    strDetailsItemList = strDetailsItemList +"<a href='javascript:void(0);' class='sub_item_del_btn' id=''>削除​ (delete)</a>";
+                    strDetailsItemList = strDetailsItemList +"</td>";
+                    strDetailsItemList = strDetailsItemList +"</tr>";
+                    $('.sub_item_list_tbl tbody').append(strDetailsItemList);
                 });
             },
             error: function (data) {
             }
-        });
-
-        if (dynamicTable.DetailsTitle == "" || dynamicTable.DetailsTitle == null || dynamicTable.DetailsTitle == undefined) {
-            $('.sub_item_list_tbl tbody .sub_item_input_td a').removeClass('sub_item_link');
-        }
-
+        });        
         setTimeout(function () {
             $('#sub_item_list_modal').modal('show');
         }, 600);
@@ -1823,7 +1830,7 @@ $(document).ready(function() {
                     $('.detail_item_list_tbl tbody').append(`
                                 <tr data-detail-item-id='${value.Id}'>
                                     <td class="detail_item_input_td">
-                                        <a class="detail_item_link" href="#">${value.DetailsItemName}</a>
+                                        <a>${value.DetailsItemName}</a>
                                     </td>
                                     <td class="detail_item_input_td">
                                         <a class="detail_item_edit_btn" href="javascript:void(0);">編集 (edit)</a>

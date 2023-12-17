@@ -11185,6 +11185,7 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("Data not found!");
             }
         }
+
         [HttpPost]
         [Route("api/utilities/InsertUpdateDynamicSettings/")]
         public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters, string tableId)
@@ -11192,49 +11193,168 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             if (!string.IsNullOrEmpty(tableSettingsParameters))
             {
+                bool duplicateFlag = false;
+                bool flagError = false;
                 int finalResults = 0;
-
                 var arrTableSettingParams = tableSettingsParameters.Split('-');
-                foreach (var settingItem in arrTableSettingParams)
+                // code for validation.
                 {
-                    if (!string.IsNullOrEmpty(settingItem))
+                    
+                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                    foreach (var item in arrTableSettingParams)
                     {
-                        string insertType = "";
                         DynamicSetting dynamicSetting = new DynamicSetting();
-                        var arrSettingItem = settingItem.Split('_');
-                        dynamicSetting.Id = Convert.ToInt32(arrSettingItem[0]);
-                        dynamicSetting.CategoryId = arrSettingItem[1].ToString();
-                        dynamicSetting.SubCategoryId = arrSettingItem[2].ToString();
-                        dynamicSetting.DetailsId = arrSettingItem[3].ToString();
-                        dynamicSetting.MethodId = arrSettingItem[4].ToString();
-                        dynamicSetting.ParameterId = arrSettingItem[5].ToString();
-                        dynamicSetting.DynamicTableId = tableId;
-                        dynamicSetting.IsActive = true;
+                        var _item = item.Split('_');
 
-                        insertType = arrSettingItem[6].ToString();
-                        if (insertType == "insert")
-                        {
-                            dynamicSetting.CreatedBy = session["userName"].ToString();
-                            dynamicSetting.CreatedDate = DateTime.Now;
-                            finalResults = totalBLL.CreateDynamicSetting(dynamicSetting);
-                        }
-                        else if (insertType == "update")
-                        {
-                            dynamicSetting.UpdatedBy = session["userName"].ToString();
-                            dynamicSetting.UpdatedDate = DateTime.Now;
-                            finalResults = totalBLL.UpdateDynamicTableSettings(dynamicSetting);
-                        }
+                        dynamicSetting.CategoryId = _item[1].ToString();
+                        dynamicSetting.SubCategoryId = _item[2].ToString();
+                        dynamicSetting.DetailsId = _item[3].ToString();
+                        dynamicSetting.MethodId = _item[4].ToString();
+                        dynamicSetting.IsMainTotal = Convert.ToBoolean(_item[7]);
+                        dynamicSettings.Add(dynamicSetting);
                     }
+
+
+                    var ifDetailsItemExists = Convert.ToInt32(dynamicSettings[0].DetailsId);
+                    
+                    if (ifDetailsItemExists > 0)
+                    {
+                        // if details item exists.
+
+
+                    }
+                    else
+                    {
+                        // for sub item
+                        List<string> mainItems = new List<string>();
+                        Dictionary<string, List<string>> _lists = new Dictionary<string, List<string>>();
+                        Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            mainItems.Add(_item1.CategoryId);
+                        }
+
+                        var uniqueMainItems = mainItems.Distinct().ToList();
+
+                        int mainFlagCount = 0;
+                        foreach (var _item2 in uniqueMainItems)
+                        {
+                            mainFlagCount = 0;
+                            List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.CategoryId)
+                                {
+                                    _subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsMainTotal)
+                                    {
+                                        mainFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            _lists.Add(_item2,_subItems);
+                            _mainItemFlag.Add(_item2, mainFlagCount);
+
+                        }
+                       
+
+                        foreach (var item in _lists)
+                        {
+                            var normalCount = item.Value.ToList().Count;
+                            var distinctCount = item.Value.ToList().Distinct().ToList().Count;
+                            if (normalCount != distinctCount)
+                            {
+                                duplicateFlag = true;
+                                break;
+                            }
+                        }
+
+                        foreach (var item in _mainItemFlag)
+                        {
+                            if (item.Value>1 || item.Value==0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
+
+
+
+
+                    }
+
+
+
+
                 }
 
-                if (finalResults > 0)
+
+
+                if (duplicateFlag)
                 {
-                    return Ok("設定が保存されました");
+                    return BadRequest("Duplicate value found!");
+                }
+                else if (flagError)
+                {
+                    return BadRequest("Item flag issue!");
                 }
                 else
                 {
-                    return BadRequest("Something went wrong.");
+                    foreach (var settingItem in arrTableSettingParams)
+                    {
+                        if (!string.IsNullOrEmpty(settingItem))
+                        {
+                            string insertType = "";
+                            DynamicSetting dynamicSetting = new DynamicSetting();
+                            var arrSettingItem = settingItem.Split('_');
+                            dynamicSetting.Id = Convert.ToInt32(arrSettingItem[0]);
+                            dynamicSetting.CategoryId = arrSettingItem[1].ToString();
+                            dynamicSetting.SubCategoryId = arrSettingItem[2].ToString();
+                            dynamicSetting.DetailsId = arrSettingItem[3].ToString();
+                            dynamicSetting.MethodId = arrSettingItem[4].ToString();
+                            dynamicSetting.ParameterId = arrSettingItem[5].ToString();
+                            dynamicSetting.IsMainTotal = Convert.ToBoolean(arrSettingItem[7]);
+                            try
+                            {
+                                dynamicSetting.IsSubTotal = Convert.ToBoolean(arrSettingItem[8]);
+                            }
+                            catch (Exception ex)
+                            {
+                                dynamicSetting.IsSubTotal = false;
+                            }
+                            dynamicSetting.DynamicTableId = tableId;
+                            dynamicSetting.IsActive = true;
+
+                            insertType = arrSettingItem[6].ToString();
+                            if (insertType == "insert")
+                            {
+                                dynamicSetting.CreatedBy = session["userName"].ToString();
+                                dynamicSetting.CreatedDate = DateTime.Now;
+                                finalResults = totalBLL.CreateDynamicSetting(dynamicSetting);
+                            }
+                            else if (insertType == "update")
+                            {
+                                dynamicSetting.UpdatedBy = session["userName"].ToString();
+                                dynamicSetting.UpdatedDate = DateTime.Now;
+                                finalResults = totalBLL.UpdateDynamicTableSettings(dynamicSetting);
+                            }
+                        }
+                    }
+
+                    if (finalResults > 0)
+                    {
+                        return Ok("設定が保存されました");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong.");
+                    }
                 }
+               
             }
             else
             {

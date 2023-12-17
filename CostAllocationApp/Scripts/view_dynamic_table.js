@@ -849,7 +849,7 @@
 
             isSubTotal = $(this).find(".is_sub_total_chk").is(':checked');
 
-            if (isSubTotal == '' || isSubTotal == null || isSubTotal == undefined) {
+            if (isSubTotal == undefined) {
                 if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined) {
                     tableSettingsParameters = settingsId + "_" + mainItemId + "_" + subItemId + "_" + detailItemId + "_" + methodId + "_" + paramterIds + "_" + insertType + "_" + isMainTotal;
                 } else {

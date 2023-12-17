@@ -11211,6 +11211,14 @@ namespace CostAllocationApp.Controllers.Api
                         dynamicSetting.DetailsId = _item[3].ToString();
                         dynamicSetting.MethodId = _item[4].ToString();
                         dynamicSetting.IsMainTotal = Convert.ToBoolean(_item[7]);
+                        try
+                        {
+                            dynamicSetting.IsSubTotal = Convert.ToBoolean(_item[8]);
+                        }
+                        catch(Exception ex)
+                        {
+                            dynamicSetting.IsSubTotal = false;
+                        }
                         dynamicSettings.Add(dynamicSetting);
                     }
 
@@ -11220,6 +11228,89 @@ namespace CostAllocationApp.Controllers.Api
                     if (ifDetailsItemExists > 0)
                     {
                         // if details item exists.
+                        // main item flag check.
+                        List<string> mainItems = new List<string>();
+                        Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            mainItems.Add(_item1.CategoryId);
+                        }
+                        var uniqueMainItems = mainItems.Distinct().ToList();
+
+                        int mainFlagCount = 0;
+                        foreach (var _item2 in uniqueMainItems)
+                        {
+                            mainFlagCount = 0;
+                            //List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.CategoryId)
+                                {
+                                    //_subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsMainTotal)
+                                    {
+                                        mainFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            //_lists.Add(_item2,_subItems);
+                            _mainItemFlag.Add(_item2, mainFlagCount);
+
+                        }
+                        foreach (var item in _mainItemFlag)
+                        {
+                            if (item.Value > 1 || item.Value == 0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
+                        // sub item flag check.
+
+                        List<string> subItems = new List<string>();
+                        Dictionary<string, int> _subItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            subItems.Add(_item1.SubCategoryId);
+                        }
+                        var uniqueSubItems = subItems.Distinct().ToList();
+
+                        int subFlagCount = 0;
+                        foreach (var _item2 in uniqueSubItems)
+                        {
+                            subFlagCount = 0;
+                            //List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.SubCategoryId)
+                                {
+                                    //_subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsSubTotal)
+                                    {
+                                        subFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            //_lists.Add(_item2,_subItems);
+                            _subItemFlag.Add(_item2, subFlagCount);
+
+                        }
+                        foreach (var item in _subItemFlag)
+                        {
+                            if (item.Value > 1 || item.Value == 0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
 
 
                     }
@@ -11227,7 +11318,7 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         // for sub item
                         List<string> mainItems = new List<string>();
-                        Dictionary<string, List<string>> _lists = new Dictionary<string, List<string>>();
+                        //Dictionary<string, List<string>> _lists = new Dictionary<string, List<string>>();
                         Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
 
                         foreach (var _item1 in dynamicSettings)
@@ -11241,12 +11332,12 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var _item2 in uniqueMainItems)
                         {
                             mainFlagCount = 0;
-                            List<string> _subItems = new List<string>();
+                            //List<string> _subItems = new List<string>();
                             foreach (var _item3 in dynamicSettings)
                             {
                                 if (_item2 == _item3.CategoryId)
                                 {
-                                    _subItems.Add(_item3.SubCategoryId);
+                                    //_subItems.Add(_item3.SubCategoryId);
                                     if (_item3.IsMainTotal)
                                     {
                                         mainFlagCount++;
@@ -11255,22 +11346,22 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                             }
 
-                            _lists.Add(_item2,_subItems);
+                            //_lists.Add(_item2,_subItems);
                             _mainItemFlag.Add(_item2, mainFlagCount);
 
                         }
                        
 
-                        foreach (var item in _lists)
-                        {
-                            var normalCount = item.Value.ToList().Count;
-                            var distinctCount = item.Value.ToList().Distinct().ToList().Count;
-                            if (normalCount != distinctCount)
-                            {
-                                duplicateFlag = true;
-                                break;
-                            }
-                        }
+                        //foreach (var item in _lists)
+                        //{
+                        //    var normalCount = item.Value.ToList().Count;
+                        //    var distinctCount = item.Value.ToList().Distinct().ToList().Count;
+                        //    if (normalCount != distinctCount)
+                        //    {
+                        //        duplicateFlag = true;
+                        //        break;
+                        //    }
+                        //}
 
                         foreach (var item in _mainItemFlag)
                         {
@@ -11294,11 +11385,7 @@ namespace CostAllocationApp.Controllers.Api
 
 
 
-                if (duplicateFlag)
-                {
-                    return BadRequest("Duplicate value found!");
-                }
-                else if (flagError)
+                if (flagError)
                 {
                     return BadRequest("Item flag issue!");
                 }

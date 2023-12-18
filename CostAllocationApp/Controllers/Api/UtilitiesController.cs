@@ -5637,9 +5637,9 @@ namespace CostAllocationApp.Controllers.Api
         #region dynamic methods
 
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalWithQA/")]
-        public IHttpActionResult GetTotalWithQA(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalWithQA/")]
+        public List<SukeyQADto> GetTotalWithQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             //int year = 0;
@@ -5661,7 +5661,7 @@ namespace CostAllocationApp.Controllers.Api
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
             if (hinsoData.Count > 0)
@@ -6105,13 +6105,13 @@ namespace CostAllocationApp.Controllers.Api
 
 
                     sukeyQADtos.Add(sukeyDto);
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalWithoutQA/")]
-        public IHttpActionResult GetTotalWithoutQA(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalWithoutQA/")]
+        public List<SukeyQADto> GetTotalWithoutQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             double rowTotal = 0;            
@@ -6498,12 +6498,12 @@ namespace CostAllocationApp.Controllers.Api
             }
 
                     sukeyQADtos.Add(sukeyDto);
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalByIncharge/")]
-        public IHttpActionResult GetTotalByIncharge(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalByIncharge/")]
+        public List<SukeyQADto> GetTotalByIncharge(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdArray = incgangeIds.Split(',').ToList();
             //if (inchargeIdArray.Count == 0)
@@ -6963,14 +6963,14 @@ namespace CostAllocationApp.Controllers.Api
 
                 sukeyQADtos.Add(sukeyDto);
             //}
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetInitialBudgetForTotal/")]
-        public IHttpActionResult GetInitialBudgetForTotal(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetInitialBudgetForTotal/")]
+        public List<SukeyQADto> GetInitialBudgetForTotal(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -7239,13 +7239,13 @@ namespace CostAllocationApp.Controllers.Api
 
             //}
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
-        [HttpGet]
-        [Route("api/utilities/GetManmonthByDepartment/")]
-        public IHttpActionResult GetManmonthByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetManmonthByDepartment/")]
+        public List<SukeyQADto> GetManmonthByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             //List<string> deprmentdList = departmentIds.Split(',').ToList();
             //if (deprmentdList.Count == 0)
@@ -7434,16 +7434,16 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
                 //}
            // }
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetManmonthByIncharges/")]
-        public IHttpActionResult GetManmonthByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetManmonthByIncharges/")]
+        public List<SukeyQADto> GetManmonthByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdList = inchargeIds.Split(',').ToList();
             //if (inchargeIdList.Count == 0)
@@ -7632,14 +7632,14 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
                 //}
             //}
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetHeadCount/")]
-        public IHttpActionResult GetHeadCount(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetHeadCount/")]
+        public List<SukeyQADto> GetHeadCount(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -8523,14 +8523,14 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
             }
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetHeadCountByIncharges/")]
-        public IHttpActionResult GetHeadCountByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetHeadCountByIncharges/")]
+        public List<SukeyQADto> GetHeadCountByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -9217,17 +9217,17 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
             }
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
-        [HttpGet]
-        [Route("api/utilities/GetQaByDepartment/")]
-        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetQaByDepartment/")]
+        public List<SukeyQADto> GetQaByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<string> departmentIdList = departmentIds.Split(',').ToList();
             if (departmentIdList.Count == 0)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
 
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();            
@@ -9246,7 +9246,7 @@ namespace CostAllocationApp.Controllers.Api
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
             //get all qa forecast data
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
@@ -9532,9 +9532,11 @@ namespace CostAllocationApp.Controllers.Api
             }
 
 
-            sukeyQADtos.Add(sukeyDto);
-               
-            return Ok(sukeyQADtos);
+
+                sukeyQADtos.Add(sukeyDto);
+                //}
+            //}
+            return sukeyQADtos;
         }
 
         #endregion
@@ -10955,6 +10957,7 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("Data not found!");
             }
         }
+
         [HttpPost]
         [Route("api/utilities/InsertUpdateDynamicSettings/")]
         public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters, string tableId)
@@ -10962,49 +10965,255 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             if (!string.IsNullOrEmpty(tableSettingsParameters))
             {
+                bool duplicateFlag = false;
+                bool flagError = false;
                 int finalResults = 0;
-
                 var arrTableSettingParams = tableSettingsParameters.Split('-');
-                foreach (var settingItem in arrTableSettingParams)
+                // code for validation.
                 {
-                    if (!string.IsNullOrEmpty(settingItem))
+                    
+                    List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
+                    foreach (var item in arrTableSettingParams)
                     {
-                        string insertType = "";
                         DynamicSetting dynamicSetting = new DynamicSetting();
-                        var arrSettingItem = settingItem.Split('_');
-                        dynamicSetting.Id = Convert.ToInt32(arrSettingItem[0]);
-                        dynamicSetting.CategoryId = arrSettingItem[1].ToString();
-                        dynamicSetting.SubCategoryId = arrSettingItem[2].ToString();
-                        dynamicSetting.DetailsId = arrSettingItem[3].ToString();
-                        dynamicSetting.MethodId = arrSettingItem[4].ToString();
-                        dynamicSetting.ParameterId = arrSettingItem[5].ToString();
-                        dynamicSetting.DynamicTableId = tableId;
-                        dynamicSetting.IsActive = true;
+                        var _item = item.Split('_');
 
-                        insertType = arrSettingItem[6].ToString();
-                        if (insertType == "insert")
+                        dynamicSetting.CategoryId = _item[1].ToString();
+                        dynamicSetting.SubCategoryId = _item[2].ToString();
+                        dynamicSetting.DetailsId = _item[3].ToString();
+                        dynamicSetting.MethodId = _item[4].ToString();
+                        dynamicSetting.IsMainTotal = Convert.ToBoolean(_item[7]);
+                        try
                         {
-                            dynamicSetting.CreatedBy = session["userName"].ToString();
-                            dynamicSetting.CreatedDate = DateTime.Now;
-                            finalResults = totalBLL.CreateDynamicSetting(dynamicSetting);
+                            dynamicSetting.IsSubTotal = Convert.ToBoolean(_item[8]);
                         }
-                        else if (insertType == "update")
+                        catch(Exception ex)
                         {
-                            dynamicSetting.UpdatedBy = session["userName"].ToString();
-                            dynamicSetting.UpdatedDate = DateTime.Now;
-                            finalResults = totalBLL.UpdateDynamicTableSettings(dynamicSetting);
+                            dynamicSetting.IsSubTotal = false;
                         }
+                        dynamicSettings.Add(dynamicSetting);
                     }
+
+
+                    var ifDetailsItemExists = Convert.ToInt32(dynamicSettings[0].DetailsId);
+                    
+                    if (ifDetailsItemExists > 0)
+                    {
+                        // if details item exists.
+                        // main item flag check.
+                        List<string> mainItems = new List<string>();
+                        Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            mainItems.Add(_item1.CategoryId);
+                        }
+                        var uniqueMainItems = mainItems.Distinct().ToList();
+
+                        int mainFlagCount = 0;
+                        foreach (var _item2 in uniqueMainItems)
+                        {
+                            mainFlagCount = 0;
+                            //List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.CategoryId)
+                                {
+                                    //_subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsMainTotal)
+                                    {
+                                        mainFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            //_lists.Add(_item2,_subItems);
+                            _mainItemFlag.Add(_item2, mainFlagCount);
+
+                        }
+                        foreach (var item in _mainItemFlag)
+                        {
+                            if (item.Value > 1 || item.Value == 0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
+                        // sub item flag check.
+
+                        List<string> subItems = new List<string>();
+                        Dictionary<string, int> _subItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            subItems.Add(_item1.SubCategoryId);
+                        }
+                        var uniqueSubItems = subItems.Distinct().ToList();
+
+                        int subFlagCount = 0;
+                        foreach (var _item2 in uniqueSubItems)
+                        {
+                            subFlagCount = 0;
+                            //List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.SubCategoryId)
+                                {
+                                    //_subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsSubTotal)
+                                    {
+                                        subFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            //_lists.Add(_item2,_subItems);
+                            _subItemFlag.Add(_item2, subFlagCount);
+
+                        }
+                        foreach (var item in _subItemFlag)
+                        {
+                            if (item.Value > 1 || item.Value == 0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        // for sub item
+                        List<string> mainItems = new List<string>();
+                        //Dictionary<string, List<string>> _lists = new Dictionary<string, List<string>>();
+                        Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
+
+                        foreach (var _item1 in dynamicSettings)
+                        {
+                            mainItems.Add(_item1.CategoryId);
+                        }
+
+                        var uniqueMainItems = mainItems.Distinct().ToList();
+
+                        int mainFlagCount = 0;
+                        foreach (var _item2 in uniqueMainItems)
+                        {
+                            mainFlagCount = 0;
+                            //List<string> _subItems = new List<string>();
+                            foreach (var _item3 in dynamicSettings)
+                            {
+                                if (_item2 == _item3.CategoryId)
+                                {
+                                    //_subItems.Add(_item3.SubCategoryId);
+                                    if (_item3.IsMainTotal)
+                                    {
+                                        mainFlagCount++;
+
+                                    }
+                                }
+                            }
+
+                            //_lists.Add(_item2,_subItems);
+                            _mainItemFlag.Add(_item2, mainFlagCount);
+
+                        }
+                       
+
+                        //foreach (var item in _lists)
+                        //{
+                        //    var normalCount = item.Value.ToList().Count;
+                        //    var distinctCount = item.Value.ToList().Distinct().ToList().Count;
+                        //    if (normalCount != distinctCount)
+                        //    {
+                        //        duplicateFlag = true;
+                        //        break;
+                        //    }
+                        //}
+
+                        foreach (var item in _mainItemFlag)
+                        {
+                            if (item.Value>1 || item.Value==0)
+                            {
+                                flagError = true;
+                                break;
+                            }
+                        }
+
+
+
+
+
+                    }
+
+
+
+
                 }
 
-                if (finalResults > 0)
+
+
+                if (flagError)
                 {
-                    return Ok("設定が保存されました");
+                    return BadRequest("Item flag issue!");
                 }
                 else
                 {
-                    return BadRequest("Something went wrong.");
+                    foreach (var settingItem in arrTableSettingParams)
+                    {
+                        if (!string.IsNullOrEmpty(settingItem))
+                        {
+                            string insertType = "";
+                            DynamicSetting dynamicSetting = new DynamicSetting();
+                            var arrSettingItem = settingItem.Split('_');
+                            dynamicSetting.Id = Convert.ToInt32(arrSettingItem[0]);
+                            dynamicSetting.CategoryId = arrSettingItem[1].ToString();
+                            dynamicSetting.SubCategoryId = arrSettingItem[2].ToString();
+                            dynamicSetting.DetailsId = arrSettingItem[3].ToString();
+                            dynamicSetting.MethodId = arrSettingItem[4].ToString();
+                            dynamicSetting.ParameterId = arrSettingItem[5].ToString();
+                            dynamicSetting.IsMainTotal = Convert.ToBoolean(arrSettingItem[7]);
+                            try
+                            {
+                                dynamicSetting.IsSubTotal = Convert.ToBoolean(arrSettingItem[8]);
+                            }
+                            catch (Exception ex)
+                            {
+                                dynamicSetting.IsSubTotal = false;
+                            }
+                            dynamicSetting.DynamicTableId = tableId;
+                            dynamicSetting.IsActive = true;
+
+                            insertType = arrSettingItem[6].ToString();
+                            if (insertType == "insert")
+                            {
+                                dynamicSetting.CreatedBy = session["userName"].ToString();
+                                dynamicSetting.CreatedDate = DateTime.Now;
+                                finalResults = totalBLL.CreateDynamicSetting(dynamicSetting);
+                            }
+                            else if (insertType == "update")
+                            {
+                                dynamicSetting.UpdatedBy = session["userName"].ToString();
+                                dynamicSetting.UpdatedDate = DateTime.Now;
+                                finalResults = totalBLL.UpdateDynamicTableSettings(dynamicSetting);
+                            }
+                        }
+                    }
+
+                    if (finalResults > 0)
+                    {
+                        return Ok("設定が保存されました");
+                    }
+                    else
+                    {
+                        return BadRequest("Something went wrong.");
+                    }
                 }
+               
             }
             else
             {
@@ -13143,9 +13352,9 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         //Cost difference with QA by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceWithQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceWithQAByDepartment/")]
+        public List<SukeyQADto> GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             if (!string.IsNullOrEmpty(timestampsId)) { 
                 List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();            
@@ -13157,18 +13366,18 @@ namespace CostAllocationApp.Controllers.Api
 
                 _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithQA, _objTotalBudgetCost);
 
-                return Ok(_objDifferenceTotals);
+                return _objDifferenceTotals;
             }
             else
             {
-                return Ok("Timestamp is empty!");
+                return new List<SukeyQADto>();
             }
         }
 
         //Cost difference without QA by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithoutQAByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
+        public List<SukeyQADto> GetDifferenceWithoutQAByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 
@@ -13180,13 +13389,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithoutQA, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotals);
+            return _objDifferenceTotals;
         }
 
         //Cost difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceCostByIncharge/")]
-        public IHttpActionResult GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceCostByIncharge/")]
+        public List<SukeyQADto> GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 
@@ -13198,13 +13407,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostByIncharge, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotals);
+            return _objDifferenceTotals;
         }
 
         //Man month difference by departments
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceManmonthByDepartment/")]
-        public IHttpActionResult GetDifferenceManmonthByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceManmonthByDepartment/")]
+        public List<SukeyQADto> GetDifferenceManmonthByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
 
@@ -13216,13 +13425,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsManmonth);
+            return _objDifferenceTotalsManmonth;
         }
         
         //Man month difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceManmonthByIncharge/")]
-        public IHttpActionResult GetDifferenceManmonthByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceManmonthByIncharge/")]
+        public List<SukeyQADto> GetDifferenceManmonthByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
 
@@ -13234,13 +13443,13 @@ namespace CostAllocationApp.Controllers.Api
             //_objTotalBudgetCost = totalBLL.GetBudgetManmonthByDepartments(companiIds, departmentIds, year);
             _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsManmonth);
+            return _objDifferenceTotalsManmonth;
         }
 
         //Headcount difference by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
-        public IHttpActionResult GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
+        public List<SukeyQADto> GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
 
@@ -13252,13 +13461,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsHeadCount = totalBLL.GetDifferenceCostByDepartments(_objTotalHeadCountByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsHeadCount);
+            return _objDifferenceTotalsHeadCount;
         }
 
         //Headcount difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
-        public IHttpActionResult GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
+        public List<SukeyQADto> GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
 
@@ -13271,7 +13480,7 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsHeadCount = totalBLL.GetDifferenceCostByDepartments(_objTotalHeadCountByIncharge, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsHeadCount);
+            return _objDifferenceTotalsHeadCount;
         }
 
         [HttpGet]
@@ -13280,6 +13489,81 @@ namespace CostAllocationApp.Controllers.Api
         {
             Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
             return Ok(mwCompany);
-        }        
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetTableWiseTotal/")]
+        public IHttpActionResult GetTableWiseTotal(int tableId, string companiIds,int year, string timestampsId)
+        {
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            List<DynamicSetting> dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableId);
+
+            foreach (var item in dynamicSettings)
+            {
+                sukeyQADtos.AddRange(GetSettingWiseData(item, companiIds, year, timestampsId));
+            }
+
+
+
+            return Ok();
+        }
+
+        public List<SukeyQADto> GetSettingWiseData(DynamicSetting dynamicSetting, string companiIds, int year, string timestampsId)
+        {
+            List<SukeyQADto> data = null;
+            switch (dynamicSetting.Id)
+            {
+                case 1:
+                    data =  GetTotalWithoutQA(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+
+                case 2:
+                    data = GetTotalWithQA(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 3:
+                    data = GetTotalByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 4:
+                    data = GetInitialBudgetForTotal(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 5:
+                    data = GetManmonthByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 6:
+                    data = GetManmonthByIncharges(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 7:
+                    data = GetHeadCount(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 8:
+                    data = GetHeadCountByIncharges(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 9:
+                    data = GetDifferenceWithoutQAByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 10:
+                    data = GetDifferenceWithQAByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 11:
+                    data = GetDifferenceCostByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 12:
+                    data = GetDifferenceManmonthByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 13:
+                    data = GetDifferenceManmonthByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 14:
+                    data = GetDifferenceHeadCountByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 15:
+                    data = GetDifferenceHeadCountByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 16:
+                    data = GetQaByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+            }
+            return data;
+        }
     }
 }

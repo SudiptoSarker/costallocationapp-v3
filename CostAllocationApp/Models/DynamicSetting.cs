@@ -35,6 +35,10 @@ namespace CostAllocationApp.Models
 
         public string DynamicTableTitle { get; set; }
 
+        public bool IsMainTotal { get; set; }
+
+        public bool IsSubTotal { get; set; }
+
         public string CommaSeperatedParameterName { get; set; }        
         // for receive data from client
         public List<DynamicSetting> DynamicSettings { get; set; }

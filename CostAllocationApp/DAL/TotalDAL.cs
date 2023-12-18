@@ -433,8 +433,8 @@ namespace CostAllocationApp.DAL
         public int CreateDynamicSetting(DynamicSetting dynamicSetting)
         {
             int result = 0;
-            string query = $@"insert into DynamicSettings(CategoryId,SubCategoryId,DetailsId,MethodId,ParameterId,CreatedBy,CreatedDate,IsActive,DynamicTableId) 
-                            values(@categoryId,@subCategoryId,@detailsId,@methodId,@parameterId,@createdBy,@createdDate,@isActive,@dynamicTableId)";
+            string query = $@"insert into DynamicSettings(CategoryId,SubCategoryId,DetailsId,MethodId,ParameterId,CreatedBy,CreatedDate,IsActive,DynamicTableId,IsMainTotal,IsSubTotal) 
+                            values(@categoryId,@subCategoryId,@detailsId,@methodId,@parameterId,@createdBy,@createdDate,@isActive,@dynamicTableId,@isMainTotal,@isSubTotal)";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -448,6 +448,8 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@createdDate", dynamicSetting.CreatedDate);
                 cmd.Parameters.AddWithValue("@isActive", dynamicSetting.IsActive);
                 cmd.Parameters.AddWithValue("@dynamicTableId", dynamicSetting.DynamicTableId);
+                cmd.Parameters.AddWithValue("@isMainTotal", dynamicSetting.IsMainTotal);
+                cmd.Parameters.AddWithValue("@isSubTotal", dynamicSetting.IsSubTotal);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -514,7 +516,7 @@ namespace CostAllocationApp.DAL
         {
             List<DynamicSetting> dynamicSettings = new List<DynamicSetting>();
             string query = $@"select ds.Id,c.CategoryName,sc.SubCategoryName,di.DetailsItemName,dt.TableName,ds.MethodId,ds.ParameterId,ds.IsActive
-                            ,c.Id 'CategoryId',sc.Id 'SubCategoryId',di.Id 'DetailId',ds.DynamicTableId
+                            ,c.Id 'CategoryId',sc.Id 'SubCategoryId',di.Id 'DetailId',ds.DynamicTableId, ds.IsMainTotal, ds.IsSubTotal 
                             from DynamicSettings ds left join DynamicTables dt on ds.DynamicTableId=dt.Id
                             left join Categories c on ds.CategoryId = c.Id 
                             left join SubCategories sc on ds.SubCategoryId = sc.Id
@@ -542,6 +544,8 @@ namespace CostAllocationApp.DAL
                             dynamicSetting.MethodId = rdr["MethodId"].ToString();
                             dynamicSetting.ParameterId = rdr["ParameterId"].ToString();
                             dynamicSetting.DynamicTableId = rdr["DynamicTableId"].ToString();
+                            dynamicSetting.IsMainTotal = Convert.ToBoolean(rdr["IsMainTotal"]);
+                            dynamicSetting.IsSubTotal = Convert.ToBoolean(rdr["IsSubTotal"]);
 
 
                             dynamicSettings.Add(dynamicSetting);
@@ -625,7 +629,7 @@ namespace CostAllocationApp.DAL
 
             int result = 0;
             //string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id AND DynamicTableId=@dynamicTableId";
-            string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id AND DynamicTableId=@dynamicTableId";
+            string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, IsMainTotal=@isMainTotal, IsSubTotal=@isSubTotal where Id=@id AND DynamicTableId=@dynamicTableId";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -637,6 +641,8 @@ namespace CostAllocationApp.DAL
                 cmd.Parameters.AddWithValue("@parameterId", dynamicSetting.ParameterId);
                 cmd.Parameters.AddWithValue("@updatedBy", dynamicSetting.UpdatedBy);
                 cmd.Parameters.AddWithValue("@updatedDate", dynamicSetting.UpdatedDate);
+                cmd.Parameters.AddWithValue("@isMainTotal", dynamicSetting.IsMainTotal);
+                cmd.Parameters.AddWithValue("@isSubTotal", dynamicSetting.IsSubTotal);
 
                 cmd.Parameters.AddWithValue("@id", dynamicSetting.Id);
                 cmd.Parameters.AddWithValue("@dynamicTableId", dynamicSetting.DynamicTableId);                

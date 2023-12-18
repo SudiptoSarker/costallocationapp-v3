@@ -182,6 +182,10 @@ $(document).on('change', '#name_search', function () {
 $(document).on('click', '#filterEmp', function () {
     var employeeName = $('#inputEmpName').val();
     GetEmployeeSearchResults(employeeName);    
+
+    if ($("#employeelist_tbody").hasClass("dataTables_empty")) {
+        alert("empty!");
+    }
 });
 
 //order the employee list
@@ -230,6 +234,9 @@ function ShowNameList_Datatable(data) {
         //searching: true,
         // bLengthChange: false,    
         //dom: 'lifrtip',
+        language: {
+            "emptyTable": "検索条件に合ったデータはありません"
+        },
         columns: [
             { data: "Id",
                 render: function (data,type,row) {
@@ -243,7 +250,7 @@ function ShowNameList_Datatable(data) {
                 data: 'FullName'
             }
         ]
-    });
+    });    
 }
 
 // $(function () {

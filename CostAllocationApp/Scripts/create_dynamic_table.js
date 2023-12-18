@@ -975,7 +975,7 @@ $(document).ready(function() {
             for (var i = 1; i <= 1; i++) {
                 columnInputContaner.append(`
                             <div class="form-group row">
-                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
+                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル</label>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
                                 </div>
@@ -983,28 +983,40 @@ $(document).ready(function() {
                 `);
             }
         }
-        if (columnNo == "2") {
-            for (var i = 1; i <= 2; i++) {
-                columnInputContaner.append(`
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
-                                </div>
-                            </div>
-                `);
+        if (columnNo == "2") {            
+            for (var i = 1; i <= 2; i++) {                
+                var main_sub_item_title ="";            
+                main_sub_item_title = main_sub_item_title +"<div class='form-group row'>";
+                if(i==1){
+                    main_sub_item_title = main_sub_item_title +"<label class='col-form-label col-md-4 input_table_frm_lbl2'>大項目ヘッダータイトル​</label>";
+                    main_sub_item_title = main_sub_item_title +"<div class='col-md-7'>";
+                    main_sub_item_title = main_sub_item_title +"<input type='text' class='form-control input_table_text_field' placeholder='ヘッダータイトルを入力​' name='test_input' id='column_input_"+i+"'>";
+                }else{
+                    main_sub_item_title = main_sub_item_title +"<label class='col-form-label col-md-4 input_table_frm_lbl2'>中項目ヘッダータイトル​</label>";
+                    main_sub_item_title = main_sub_item_title +"<div class='col-md-7'>";
+                    main_sub_item_title = main_sub_item_title +"<input type='text' class='form-control input_table_text_field' placeholder='ヘッダータイトルを入力​' name='test_input' id='column_input_"+i+"'>";
+                }                                
+                main_sub_item_title = main_sub_item_title +"</div>";
+                main_sub_item_title = main_sub_item_title +"</div>";                
+                columnInputContaner.append(main_sub_item_title);
             }
         }
-        if (columnNo == "3") {
+        if (columnNo == "3") {            
             for (var i = 1; i <= 3; i++) {
-                columnInputContaner.append(`
-                            <div class="form-group row">
-                                <label class="col-form-label col-md-4 input_table_frm_lbl2">大項目ヘッダータイトル​</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_${i}">
-                                </div>
-                            </div>
-                `);
+                var main_sub_detial_item_title ="";
+                main_sub_detial_item_title = main_sub_detial_item_title +"<div class='form-group row'>";
+                if(i==1){
+                    main_sub_detial_item_title = main_sub_detial_item_title +"<label class='col-form-label col-md-4 input_table_frm_lbl2'>大項目ヘッダータイトル​</label>";
+                }else if(i==2){
+                    main_sub_detial_item_title = main_sub_detial_item_title +"<label class='col-form-label col-md-4 input_table_frm_lbl2'>中項目ヘッダータイトル​</label>";
+                }else {
+                    main_sub_detial_item_title = main_sub_detial_item_title +"<label class='col-form-label col-md-4 input_table_frm_lbl2'>詳細項目ヘッダータイトル​</label>";
+                }                
+                main_sub_detial_item_title = main_sub_detial_item_title +"<div class='col-md-7'>";
+                main_sub_detial_item_title = main_sub_detial_item_title +"<input type='text' class='form-control input_table_text_field' placeholder='ヘッダータイトルを入力​' name='test_input' id='column_input_"+i+"'>";
+                main_sub_detial_item_title = main_sub_detial_item_title +"</div>";
+                main_sub_detial_item_title = main_sub_detial_item_title +"</div>";
+                columnInputContaner.append(main_sub_detial_item_title);
             }
         }
     });
@@ -1297,7 +1309,7 @@ $(document).ready(function() {
                     columnInputContainer.append('<div class="row mt-1">' +
                         '<div class="col-md-1" ></div >' +
                         '<div class="col-md-5 dynamic_column_title_label">' +
-                        '<label class="input_table_frm_lbl">詳細項目ヘッダーのタイトル</label>' +
+                        '<label class="input_table_frm_lbl">詳細項目ヘッダータイトル</label>' +
                         '</div>' +
                         '<div class="col-md-6 dynamic_column_title_input">' +
                         '<input type="text" class="form-control input_table_text_field" placeholder="ヘッダータイトルを入力​​" name="test_input" id="column_input_3" value="' + responseData.DetailsTitle + '">' +

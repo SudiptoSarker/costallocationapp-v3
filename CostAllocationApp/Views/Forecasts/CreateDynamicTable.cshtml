@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ダイナミックテーブルフォーマット( Create Tables)";
+    ViewBag.Title = "ダイナミックテーブルフォーマット";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -23,9 +23,9 @@
                             </tr>
                             <tr>
                                 <th>選択​</th>
-                                <th class="table_list_th">表名​ (table)</th>
-                                <th class="table_list_th">表タイトル​ (title)</th>
-                                <th class="table_list_th">表示位置​ (position)</th>
+                                <th class="table_list_th">表名​ </th>
+                                <th class="table_list_th">表タイトル​ </th>
+                                <th class="table_list_th">表示位置​ </th>
                             </tr>
                         <tbody id="dynamic_list_tbody"></tbody>
                     </table>
@@ -38,25 +38,22 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="table-responsive">
-                    <button class="btn list_table_add_btn" type="button">追　加​ (add)</button>
+                    <button class="btn list_table_add_btn" type="button">追加</button>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="table-responsive">
-                    <!-- <a class="btn frm_setting_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#main_item_list" onClick="DeleteDynmaicTalbe();">項目設定​</a></label>                     -->
-                    <a class="btn frm_setting_btn" id="dynamic_table_delete_link">項目設定​</a>
+                    <button class="btn list_table_edit_btn" type="button">編集​</button>
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="table-responsive">
-                    <button class="btn list_table_edit_btn" type="button">編集​ (edit)​</button>
+                <div class="table-responsive">                    
+                    <a class="btn frm_setting_btn" id="dynamic_table_delete_link">項目設定</a>
                 </div>
-            </div>
+            </div>            
             <div class="col-md-3">
                 <div class="table-responsive">
-                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);"
-                        data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削　除
-                        (delete)​</a></label>
+                    <a class="btn list_table_delete_btn" id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe();">削除</a></label>
                 </div>
             </div>
         </div>
@@ -160,9 +157,9 @@
                 <thead style="border: none;">
                     <tr></tr>
                     <tr>
-                        <th>テーブル名(Table)</th>
-                        <th>表のタイトル(Title)</th>
-                        <th>テーブルの位置(Position)</th>
+                        <th>テーブル名</th>
+                        <th>表のタイトル</th>
+                        <th>テーブルの位置</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -181,9 +178,9 @@
 
                         <td class="create_form_td">
                             <a href="javascript:void(0);" class="" id="clear_input_frm"
-                                data-dismiss="modal">取消(undo)</a>
+                                data-dismiss="modal">取消</a>
                             <a href="javascript:void(0);" class="" id="save_inputs"
-                                onclick="InsertDynamicTables()">保存（save）</a>
+                                onclick="InsertDynamicTables()">保存</a>
                         </td>
                     </tr>
                     <tr>
@@ -590,7 +587,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header sub_list_header">
-                <h5 class="modal-title" id="exampleModalLongTitle">(サブ項目編集)​</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">(中項目一覧)​</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="sub_item_close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -598,7 +595,7 @@
 
             <div class="modal-body">
 
-                <h5>Main Item: <span class="main_item_name"></span></h5>
+                <h5>大項目: <span class="main_item_name"></span></h5>
                 <table id="sub_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -611,7 +608,7 @@
                         <tr>
                             <td class="sub_item_input_td">
                                 <input type="hidden" value="" id="main_item_id" />
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="input_sub_item">
+                                <input type="text" value="" placeholder="設定する中項目を入力​" id="input_sub_item">
                             </td>
                             <td class="sub_item_input_td">
                                 <a href="javascript:void(0);" class="sub_item_add_btn" id="">追加​ (add)</a>
@@ -652,8 +649,8 @@
 
             <div class="modal-body">
 
-                <h5>Main Item: <span class="main_item_name"></span></h5>
-                <h5>Sub Item: <span class="sub_item_name"></span></h5>
+                <h5>大項目: <span class="main_item_name"></span></h5>
+                <h5>中項目: <span class="sub_item_name"></span></h5>
                 <table id="detail_item_input_tbl">
                     <thead style="border: none;">
                         <tr></tr>
@@ -666,7 +663,7 @@
                         <tr>
                             <td class="detail_item_input_td">
                                 <input type="hidden" value="" id="sub_item_id" />
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="input_detail_item">
+                                <input type="text" value="" placeholder="設定する詳細項目を入力​" id="input_detail_item">
                             </td>
                             <td class="sub_item_input_td">
                                 <a href="javascript:void(0);" class="detail_item_add_btn" id="">追加​ (add)</a>
@@ -763,7 +760,7 @@
                             <td class="sub_item_edit_input_td">
                                 <input type="hidden" value="" id="main_item_id_edit_input">
                                 <input type="hidden" value="" id="sub_item_id_edit_input">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="sub_item_edit_input">
+                                <input type="text" value="" placeholder="設定する中項目を入力" id="sub_item_edit_input">
                             </td>
                             <td class="sub_item_edit_input_td">
                                 <a href="javascript:void(0);" class="sub_item_edit_action" id="">更新​ (Update)</a>
@@ -806,7 +803,7 @@
                             <td class="detail_item_edit_input_td">
                                 <input type="hidden" value="" id="sub_item_id_edit_input">
                                 <input type="hidden" value="" id="detail_item_id_edit_input">
-                                <input type="text" value="" placeholder="設定する大項目を入力​" id="detail_item_edit_input">
+                                <input type="text" value="" placeholder="設定する詳細項目を入力​" id="detail_item_edit_input">
                             </td>
                             <td class="detail_item_edit_input_td">
                                 <a href="javascript:void(0);" class="detail_item_edit_action" id="">更新​ (Update)</a>

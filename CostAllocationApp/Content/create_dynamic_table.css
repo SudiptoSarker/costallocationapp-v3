@@ -73,17 +73,13 @@ body {
     width: 111px;
 }
 .frm_setting_btn{
-    line-height: .7;
-    background-color: #bfbfbf;
-    border: 1px solid black;
+    font-size: 10px;
+    font-family: Yu Gothic;
+    background: blueviolet;
     color: white;
-    /* padding: 2px; */
-    /* border-radius: 5px; */
-    /* margin-top: 10px; */
-    display: inline-block;
-    margin-bottom: 20px;
-    margin-left: -64px;
-    width: 111px;
+    line-height: 1.2;
+    width: 66px;
+    text-align: center; 
 }
 .frm_cancel_btn{
     line-height: .7;
@@ -168,8 +164,9 @@ body {
     font-family: Yu Gothic;
     background: indianred;
     color: white;
-    line-height: 1;    
-    margin-left: 6px;
+    line-height: 1.2;
+    margin-left: 14px;
+    width: 40%;
 }
 
 .list_table_add_btn{   
@@ -177,27 +174,20 @@ body {
     font-family: Yu Gothic;
     background: blueviolet;
     color: white;
-    line-height: 1;
-    margin-left: 5px;
+    line-height: 1.2;
+    margin-left: 2px;
+    width: 65px;
 }
 .list_table_edit_btn{
     font-size: 10px;
     font-family: Yu Gothic;
     background: blueviolet;
     color: white;
-    line-height: 1;
-    margin-left: 12px;
+    line-height: 1.2;
+    margin-left: 5px;
+    width: 65px;
 }
-.frm_setting_btn{
-    font-size: 10px;
-    font-family: Yu Gothic;
-    background: blueviolet;
-    color: white;
-    line-height: 1;
-    margin-left: 12px;
-    text-align: center;
-    width: 72%;
-}
+
 
 /*delete confirm modal*/
 .delete_confirm_header{

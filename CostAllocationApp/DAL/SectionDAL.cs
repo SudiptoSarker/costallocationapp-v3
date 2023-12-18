@@ -102,7 +102,7 @@ namespace CostAllocationApp.DAL
         public int RemoveSection(int sectionId)
         {
             int result = 0;            
-            string query = $@"DELETE FROM Sections WHERE id = @id ";
+            string query = $@"Update Sections SET IsActive=0 Where Id=@id ";
 
             using (SqlConnection sqlConnection = this.GetConnection())
             {

@@ -299,7 +299,7 @@ $(document).on('click', '#sortUserBtn', function () {
                 ShowUserList_Datatable(data);
             })
             .fail(function () {
-                ToastMessage_Warning("No Data Found");
+                ToastMessage_Warning("検索条件に合ったデータはありません");
                 console.log("error");
             }); 
     }
@@ -335,7 +335,7 @@ function GetSearchUserList(searchOption, searchBy) {
             ShowUserList_Datatable(data);
         })
         .fail(function () {
-            ToastMessage_Warning("No Data Found");
+            ToastMessage_Warning("検索条件に合ったデータはありません");
             console.log("error");
         });
 }

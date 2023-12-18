@@ -14,7 +14,11 @@
             <div class="col-md-10">
                 <div class="table-responsive">
                     <label id="list_master">
-                        登録した個人を削除する場合は、チェックボックスにチェックを入れて「削除」ボタンをクリックしてください。
+                        登録した要員を消去するには、チェックボックスにチェックを入れ、 削除ボタンをクリックしてください。
+                        <br>
+                        編集する場合は、１つのチェックボックスを選択し、選択ボタンをクリックしてください。
+                        <br>
+                        追加する場合は、追加ボタンをクリックしてください。要員データを削除すると、最新の年度データの要員データも削除されます。
                     </label>                  
                     @* <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%"> *@
                     <table id="employeeList_datatable" style="width:100%">
@@ -23,7 +27,7 @@
                                 <th colspan="6" class="employee_header">要員名リスト</th>
                             </tr>
                             <tr>
-                                <th class="employee_list_theader employee_header" style="width: 0px !important;">複数選択</th>
+                                <th class="employee_list_theader employee_header" style="width: 0px !important;">要員の追加、編集、削除</th>
                                 <th class="employee_list_theader employee_header" style="width: 109px !important;">ＩＤ</th>
                                 <th class="employee_list_theader employee_header">要員名</th>
                             </tr>
@@ -71,7 +75,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <label id='add_modal_body_title'>新規担当者を登録する場合は、「新規担当者を入力してください」テキストボックスに担当者名を入力し、「保存」ボタンをクリックしてください。</label>
+                    <label id='add_modal_body_title'>新規要員を登録する場合は、「ここに新しい要員名を入力してください」テキストボックスに要員名を入力し、「保存」ボタンをクリックしてください。 </label>
                     <table id="employee_add_table">
                         <thead style="border:none;">
                             <tr></tr>
@@ -151,7 +155,7 @@
                 <div class="form-header">
                     <h3>Delete Employees</h3>
                     <ol class="company_count" style="text-align:left;"></ol>
-                    <p>本当に削除しますか？　削除されたデータを承認すると、過去データも削除されることがあります。注意してください！！</p>
+                    <p>本当に削除しますか？ 削除されたデータを承認すると、過去データも削除されることがあります。注意してください！！</p>
                 </div>
                 <div class="modal-btn delete-action">
                     <div class="row">

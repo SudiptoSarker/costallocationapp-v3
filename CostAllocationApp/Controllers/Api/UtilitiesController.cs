@@ -5637,9 +5637,9 @@ namespace CostAllocationApp.Controllers.Api
         #region dynamic methods
 
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalWithQA/")]
-        public IHttpActionResult GetTotalWithQA(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalWithQA/")]
+        public List<SukeyQADto> GetTotalWithQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             //int year = 0;
@@ -5661,7 +5661,7 @@ namespace CostAllocationApp.Controllers.Api
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
             if (hinsoData.Count > 0)
@@ -6105,13 +6105,13 @@ namespace CostAllocationApp.Controllers.Api
 
 
                     sukeyQADtos.Add(sukeyDto);
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalWithoutQA/")]
-        public IHttpActionResult GetTotalWithoutQA(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalWithoutQA/")]
+        public List<SukeyQADto> GetTotalWithoutQA(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             double rowTotal = 0;            
@@ -6498,12 +6498,12 @@ namespace CostAllocationApp.Controllers.Api
             }
 
                     sukeyQADtos.Add(sukeyDto);
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
-        [HttpGet]
-        [Route("api/utilities/GetTotalByIncharge/")]
-        public IHttpActionResult GetTotalByIncharge(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetTotalByIncharge/")]
+        public List<SukeyQADto> GetTotalByIncharge(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdArray = incgangeIds.Split(',').ToList();
             //if (inchargeIdArray.Count == 0)
@@ -6963,14 +6963,14 @@ namespace CostAllocationApp.Controllers.Api
 
                 sukeyQADtos.Add(sukeyDto);
             //}
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetInitialBudgetForTotal/")]
-        public IHttpActionResult GetInitialBudgetForTotal(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetInitialBudgetForTotal/")]
+        public List<SukeyQADto> GetInitialBudgetForTotal(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -7239,13 +7239,13 @@ namespace CostAllocationApp.Controllers.Api
 
             //}
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
-        [HttpGet]
-        [Route("api/utilities/GetManmonthByDepartment/")]
-        public IHttpActionResult GetManmonthByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetManmonthByDepartment/")]
+        public List<SukeyQADto> GetManmonthByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             //List<string> deprmentdList = departmentIds.Split(',').ToList();
             //if (deprmentdList.Count == 0)
@@ -7434,16 +7434,16 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
                 //}
            // }
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetManmonthByIncharges/")]
-        public IHttpActionResult GetManmonthByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetManmonthByIncharges/")]
+        public List<SukeyQADto> GetManmonthByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
             //List<string> inchargeIdList = inchargeIds.Split(',').ToList();
             //if (inchargeIdList.Count == 0)
@@ -7632,14 +7632,14 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
                 //}
             //}
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetHeadCount/")]
-        public IHttpActionResult GetHeadCount(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetHeadCount/")]
+        public List<SukeyQADto> GetHeadCount(string companiIds, string departmentIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -8523,14 +8523,14 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
             }
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
 
 
-        [HttpGet]
-        [Route("api/utilities/GetHeadCountByIncharges/")]
-        public IHttpActionResult GetHeadCountByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetHeadCountByIncharges/")]
+        public List<SukeyQADto> GetHeadCountByIncharges(string companiIds, string inchargeIds, int year,string timestampsId)
         {
 
             //int year = 0;
@@ -9217,17 +9217,17 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
             }
 
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
-        [HttpGet]
-        [Route("api/utilities/GetQaByDepartment/")]
-        public IHttpActionResult GetQaByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetQaByDepartment/")]
+        public List<SukeyQADto> GetQaByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             List<string> departmentIdList = departmentIds.Split(',').ToList();
             if (departmentIdList.Count == 0)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             //int year = 0;
@@ -9249,7 +9249,7 @@ namespace CostAllocationApp.Controllers.Api
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
-                return NotFound();
+                return new List<SukeyQADto>();
             }
             var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id.ToString(), companiIds, year, timestampsId);
             if (hinsoData.Count > 0)
@@ -9764,7 +9764,7 @@ namespace CostAllocationApp.Controllers.Api
                 sukeyQADtos.Add(sukeyDto);
                 //}
             //}
-            return Ok(sukeyQADtos);
+            return sukeyQADtos;
         }
 
         #endregion
@@ -13580,9 +13580,9 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         //Cost difference with QA by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceWithQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceWithQAByDepartment/")]
+        public List<SukeyQADto> GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             if (!string.IsNullOrEmpty(timestampsId)) { 
                 List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();            
@@ -13594,18 +13594,18 @@ namespace CostAllocationApp.Controllers.Api
 
                 _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithQA, _objTotalBudgetCost);
 
-                return Ok(_objDifferenceTotals);
+                return _objDifferenceTotals;
             }
             else
             {
-                return Ok("Timestamp is empty!");
+                return new List<SukeyQADto>();
             }
         }
 
         //Cost difference without QA by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
-        public IHttpActionResult GetDifferenceWithoutQAByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
+        public List<SukeyQADto> GetDifferenceWithoutQAByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 
@@ -13617,13 +13617,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostWithoutQA, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotals);
+            return _objDifferenceTotals;
         }
 
         //Cost difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceCostByIncharge/")]
-        public IHttpActionResult GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceCostByIncharge/")]
+        public List<SukeyQADto> GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
 
@@ -13635,13 +13635,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotals = totalBLL.GetDifferenceCostByDepartments(_objTotalCostByIncharge, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotals);
+            return _objDifferenceTotals;
         }
 
         //Man month difference by departments
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceManmonthByDepartment/")]
-        public IHttpActionResult GetDifferenceManmonthByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceManmonthByDepartment/")]
+        public List<SukeyQADto> GetDifferenceManmonthByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
 
@@ -13653,13 +13653,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsManmonth);
+            return _objDifferenceTotalsManmonth;
         }
         
         //Man month difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceManmonthByIncharge/")]
-        public IHttpActionResult GetDifferenceManmonthByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceManmonthByIncharge/")]
+        public List<SukeyQADto> GetDifferenceManmonthByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
 
@@ -13671,13 +13671,13 @@ namespace CostAllocationApp.Controllers.Api
             //_objTotalBudgetCost = totalBLL.GetBudgetManmonthByDepartments(companiIds, departmentIds, year);
             _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsManmonth);
+            return _objDifferenceTotalsManmonth;
         }
 
         //Headcount difference by department
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
-        public IHttpActionResult GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
+        public List<SukeyQADto> GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
 
@@ -13689,13 +13689,13 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsHeadCount = totalBLL.GetDifferenceCostByDepartments(_objTotalHeadCountByDepartment, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsHeadCount);
+            return _objDifferenceTotalsHeadCount;
         }
 
         //Headcount difference by incharge
-        [HttpGet]
-        [Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
-        public IHttpActionResult GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
+        //[HttpGet]
+        //[Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
+        public List<SukeyQADto> GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
 
@@ -13708,7 +13708,7 @@ namespace CostAllocationApp.Controllers.Api
 
             _objDifferenceTotalsHeadCount = totalBLL.GetDifferenceCostByDepartments(_objTotalHeadCountByIncharge, _objTotalBudgetCost);
 
-            return Ok(_objDifferenceTotalsHeadCount);
+            return _objDifferenceTotalsHeadCount;
         }
 
         [HttpGet]
@@ -13717,6 +13717,81 @@ namespace CostAllocationApp.Controllers.Api
         {
             Company mwCompany = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
             return Ok(mwCompany);
-        }        
+        }
+
+        [HttpGet]
+        [Route("api/utilities/GetTableWiseTotal/")]
+        public IHttpActionResult GetTableWiseTotal(int tableId, string companiIds,int year, string timestampsId)
+        {
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            List<DynamicSetting> dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableId);
+
+            foreach (var item in dynamicSettings)
+            {
+                sukeyQADtos.AddRange(GetSettingWiseData(item, companiIds, year, timestampsId));
+            }
+
+
+
+            return Ok();
+        }
+
+        public List<SukeyQADto> GetSettingWiseData(DynamicSetting dynamicSetting, string companiIds, int year, string timestampsId)
+        {
+            List<SukeyQADto> data = null;
+            switch (dynamicSetting.Id)
+            {
+                case 1:
+                    data =  GetTotalWithoutQA(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+
+                case 2:
+                    data = GetTotalWithQA(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 3:
+                    data = GetTotalByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 4:
+                    data = GetInitialBudgetForTotal(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 5:
+                    data = GetManmonthByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 6:
+                    data = GetManmonthByIncharges(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 7:
+                    data = GetHeadCount(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 8:
+                    data = GetHeadCountByIncharges(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 9:
+                    data = GetDifferenceWithoutQAByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 10:
+                    data = GetDifferenceWithQAByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 11:
+                    data = GetDifferenceCostByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 12:
+                    data = GetDifferenceManmonthByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 13:
+                    data = GetDifferenceManmonthByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 14:
+                    data = GetDifferenceHeadCountByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 15:
+                    data = GetDifferenceHeadCountByIncharge(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+                case 16:
+                    data = GetQaByDepartment(companiIds, dynamicSetting.ParameterId, year, timestampsId);
+                    break;
+            }
+            return data;
+        }
     }
 }

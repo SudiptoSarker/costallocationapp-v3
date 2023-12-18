@@ -152,19 +152,23 @@
             });
     }
 
+    //add modal show
     $(".add_sec_btn").on("click",function(event){   
         $("#section-name").val('');     
         $('#add_section_modal').modal('show');
     })
 
+    //clear add section input field
     $("#sec_undo_btn").on("click",function(event){        
         $("#section-name").val('');
     })
 
+    //clear edit section input
     $("#undo_edit_sec").on("click",function(event){        
         $("#section_name_edit").val('');
     })
     
+    //edit section modal show
     $(".edit_sec_btn").on("click",function(event){   
        
         let id = GetCheckedIds("section_list_tbody");

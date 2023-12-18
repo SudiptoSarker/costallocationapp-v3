@@ -527,6 +527,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(employeeAssignmentViewModels);
         }
 
+        /*
+	    Get count of sections assigned in forecast	
+        Request: Get
+	    Response: string
+	    */
         [HttpGet]
         public IHttpActionResult SectionCount(string sectionIds)
         {
@@ -543,19 +548,18 @@ namespace CostAllocationApp.Controllers.Api
                         Int32.TryParse(item, out tempSectionId);
                         if (tempSectionId > 0)
                         {
+                            // Get section name for creating the validation strings.
                             var section = sectionBLL.GetSectionBySectionId(tempSectionId);
                             if (section != null)
                             {
-                                int result = sectionBLL.GetSectionCountWithEmployeeAsignment(tempSectionId);
-                                //countMessage.Add(result + " rows counted for " + section.SectionName);
+                                // Get count of sections assigned in forecast	
+                                int result = sectionBLL.GetSectionCountWithEmployeeAsignment(tempSectionId);                                
                                 if (result > 1)
-                                {
-                                    ///countMessage.Add(result + " projects assigned for " + section.SectionName);
+                                {                                    
                                     countMessage.Add(result + " の要員が " + section.SectionName + " にアサインされています");
                                 }
                                 else
-                                {
-                                    //countMessage.Add(result + " project assigned for " + section.SectionName);
+                                {                                    
                                     countMessage.Add(result + " の要員が " + section.SectionName + " にアサインされています");
                                 }
                             }
@@ -576,6 +580,7 @@ namespace CostAllocationApp.Controllers.Api
             }
 
         }
+
         [HttpGet]
         public IHttpActionResult CategoryCount(string categoryIds)
         {
@@ -624,6 +629,7 @@ namespace CostAllocationApp.Controllers.Api
             }
 
         }
+
         [HttpGet]
         public IHttpActionResult DepartmentCount(string departmentIds)
         {

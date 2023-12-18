@@ -17,21 +17,41 @@ namespace CostAllocationApp.Controllers.Api
             departmentBLL = new DepartmentBLL();
         }
 
+        /*
+        Get Department List
+        Request: Get
+        Response: List of Departments
+        */
+        [HttpGet]
+        public IHttpActionResult Departments()
+        {
+            // Get Department List
+            List<Department> departments = departmentBLL.GetAllDepartments();
+            return Ok(departments);
+        }
+
+        /*
+        Create/Update Departments
+        Request: Post
+        Response: string
+        */
         [HttpPost]
         public IHttpActionResult CreateDepartment(Department department)
         {
             var session = System.Web.HttpContext.Current.Session;
 
+            // Department Name Validation: The Department must have a value
             if (String.IsNullOrEmpty(department.DepartmentName))
             {
-                return BadRequest("Department Name Required");
+                return BadRequest("部署名は必須です");
             }
             else if (String.IsNullOrEmpty(department.SectionId.ToString()))
             {
-                return BadRequest("Please select section");
+                return BadRequest("セクションを選択してください");
             }
             else
             {
+                // Department Name must be unique
                 if (departmentBLL.CheckDepartment(department))
                 {
                     return BadRequest("部門は登録済みです!!!");
@@ -44,6 +64,7 @@ namespace CostAllocationApp.Controllers.Api
                         department.UpdatedDate = DateTime.Now;
                         department.IsActive = true;
 
+                        // Update Department
                         result = departmentBLL.UpdateDepartment(department);
                     }
                     else
@@ -52,6 +73,7 @@ namespace CostAllocationApp.Controllers.Api
                         department.CreatedDate = DateTime.Now;
                         department.IsActive = true;
 
+                        // Create New Department
                         result = departmentBLL.CreateDepartment(department);
                     }
 
@@ -67,23 +89,23 @@ namespace CostAllocationApp.Controllers.Api
                                                 
             }
         }
-        [HttpGet]
-        public IHttpActionResult Departments()
-        {
-            List<Department> departments = departmentBLL.GetAllDepartments();
-            return Ok(departments);
-        }
 
+        /*
+        Delete Departments
+        Request: HttpDelete
+        Response: string
+        */
         [HttpDelete]
         public IHttpActionResult RemoveDepartment([FromUri] string departmentIds)
         {
             int result = 0;
 
-
+            // Department Validation: The Department must have a value
             if (!String.IsNullOrEmpty(departmentIds))
             {
                 string[] ids = departmentIds.Split(',');
 
+                // Department Deletion 
                 foreach (var item in ids)
                 {
                     result += departmentBLL.RemoveDepartment(Convert.ToInt32(item));
@@ -95,7 +117,7 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return BadRequest("Something Went Wrong!!!");
+                    return BadRequest("何か問題が発生しました");
                 }
             }
             else

@@ -17,19 +17,37 @@ namespace CostAllocationApp.Controllers.Api
             sectionBLL = new SectionBLL();
         }
 
-        /***************************\                           
-            Section Master Api: Section created through this api.                               
-        \***************************/ 
+        /*
+        Get Section List
+        Request: Get
+        Response: List of sections
+        */
+        [HttpGet]
+        public IHttpActionResult Sections()
+        {
+            // Get Section List
+            List<Section> sections = sectionBLL.GetAllSections();
+            return Ok(sections);
+        }
+
+        /*
+        Create/Update Sections
+        Request: Post
+        Response: string
+        */
         [HttpPost]
         public IHttpActionResult CreateSection(Section section)
         {
             var session = System.Web.HttpContext.Current.Session;
+
+            // Section Name Validation: The section must have a value
             if (String.IsNullOrEmpty(section.SectionName))
             {
                 return BadRequest("セクション名は必須です!");
             }
             else
-            {                
+            {
+                // Section Name must be unique
                 if (sectionBLL.CheckSection(section.SectionName))
                 {
                     return BadRequest("区分は登録済みです!");
@@ -43,6 +61,7 @@ namespace CostAllocationApp.Controllers.Api
                         section.UpdatedDate = DateTime.Now;
                         section.IsActive = true;
 
+                        // Update Section
                         result = sectionBLL.UpdateSection(section);
                     }
                     else
@@ -51,6 +70,7 @@ namespace CostAllocationApp.Controllers.Api
                         section.CreatedDate = DateTime.Now;
                         section.IsActive = true;
 
+                        // Create New Section
                         result = sectionBLL.CreateSection(section);
                     }
 
@@ -60,39 +80,27 @@ namespace CostAllocationApp.Controllers.Api
                     }
                     else
                     {
-                        return BadRequest("Something Went Wrong!!!");
+                        return BadRequest("何か問題が発生しました");
                     }
                 }                
             }
-
-
-
-
         }
 
-        /***************************\                           
-            Section Master Api: All the sections are fetched using this api.                            
-        \***************************/
-        [HttpGet]
-        public IHttpActionResult Sections()
-        {
-            List<Section> sections = sectionBLL.GetAllSections();
-            return Ok(sections);
-        }
-
-        /***************************\                           
-            Section Master Api: Sections are removed using this api.                          
-        \***************************/
+        /*
+        Delete Sections
+        Request: HttpDelete
+        Response: string
+        */
         [HttpDelete]
         public IHttpActionResult RemoveSection([FromUri] string sectionIds)
         {
             int result = 0;
-            
-
+            // Section Validation: The section must have a value
             if (!String.IsNullOrEmpty(sectionIds))
             {
                 string[] ids = sectionIds.Split(',');
 
+                // Section Deletion 
                 foreach (var item in ids)
                 {
                     result += sectionBLL.RemoveSection(Convert.ToInt32(item));
@@ -104,15 +112,13 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return BadRequest("Something Went Wrong!!!");
+                    return BadRequest("何か問題が発生しました");
                 }
             }
             else
             {
-                return BadRequest("Select Section Id!");
+                return BadRequest("セクションIDを選択してください");
             }
-
         }
-
     }
 }

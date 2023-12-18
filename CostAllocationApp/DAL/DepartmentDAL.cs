@@ -104,44 +104,6 @@ namespace CostAllocationApp.DAL
             }
         }
 
-        public List<InCharge> GetAllIncharge()
-        {
-            List<InCharge> inCharges = new List<InCharge>();
-            string query = "";
-            query = query + "SELECT inch.Id 'InchargeId',inch.Name 'InchargeName',inch.CreatedDate,inch.CreatedBy ";
-            query = query + "FROM InCharges inch ";
-            query = query + "WHERE inch.isactive = 1 ";
-
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        while (rdr.Read())
-                        {
-                            InCharge inCharge = new InCharge();
-                            inCharge.Id = Convert.ToInt32(rdr["InchargeId"]);                            
-                            inCharge.InChargeName = rdr["InchargeName"].ToString();                            
-                            inCharge.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            inCharge.CreatedBy = rdr["CreatedBy"].ToString();
-
-                            inCharges.Add(inCharge);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return inCharges;
-            }
-        }
-
         public bool CheckForBudgetInitialDataExists(int budgetYear)
         {            
             bool results = false;

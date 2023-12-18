@@ -9,9 +9,9 @@ namespace CostAllocationApp.DAL
 {
     public class SectionDAL:DbContext
     {
-
+        // Create New Section
         public int CreateSection(Section section)
-        {
+        {           
             int result = 0;
             string query = $@"insert into Sections(Name,CreatedBy,CreatedDate,IsActive) values(@sectionName,@createdBy,@createdDate,@isActive)";
             using (SqlConnection sqlConnection = this.GetConnection())
@@ -35,8 +35,10 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
+        // Update Section
         public int UpdateSection(Section section)
-        {
+        {            
             int result = 0;
             string query = "";
             query = query + "UPDATE Sections ";
@@ -60,6 +62,8 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
+        // Get Section List
         public List<Section> GetAllSections()
         {
             List<Section> sections = new List<Section>();
@@ -94,10 +98,10 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        // Section Deletion 
         public int RemoveSection(int sectionId)
         {
-            int result = 0;
-            //string query = $@"update sections set isactive=0 where id=@id";
+            int result = 0;            
             string query = $@"DELETE FROM Sections WHERE id = @id ";
 
             using (SqlConnection sqlConnection = this.GetConnection())
@@ -119,6 +123,7 @@ namespace CostAllocationApp.DAL
 
         }
 
+        // Section Unique check. Response: bool
         public bool CheckSection(string sectionName)
         {
             string query = "select * from Sections where Name=N'" + sectionName + "'";
@@ -144,6 +149,10 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        /*
+	    Get count of sections assigned in forecast	    
+	    Response: integer count
+	    */
         public int GetSectionCountWithEmployeeAsignment(int sectionId)
         {
             string query = "select * from EmployeesAssignments where SectionId=" + sectionId;
@@ -172,11 +181,11 @@ namespace CostAllocationApp.DAL
             return result;
         }
 
+        // Get section name for creating the validation strings.
         public Section GetSectionBySectionId(int sectionId)
         {
             Section section = null;
             string query = "select * from Sections where Id = "+sectionId;
-            bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -203,6 +212,7 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        //check if the section is unique or not
         public int GetSectionIdByName(string sectionName)
         {
             string query = "select Id,Name from Sections where Name=N'" + sectionName + "'";

@@ -65,23 +65,26 @@
     color: red;
     line-height: 1.2;    
     border: 2px solid red !important;
+    width: 40%;
 }
 .add_dept_btn{   
     font-size: 10px;
     font-family: Yu Gothic;
     background: #4472c4;
     color: white;
-    line-height: 1;    
+    line-height: 1.2;    
     margin-left: -204px; 
+    width: 40%;
 }
 .edit_dept_btn{
     font-size: 10px;
     font-family: Yu Gothic;
     background: #4472c4;
     color: white;
-    line-height: 1.3;
+    line-height: 1.2;
     margin-left: -97px;
     float: left;
+    width: 40%;
 }
 /**************
     Action: Add,Edit,Delete Button:End
@@ -144,6 +147,7 @@
     margin-top: 10px;
     display: inline-block;
     margin-bottom: 20px;
+    width: 35%;
 }
 
 #dept_add_btn,#dept_edit_btn {
@@ -157,6 +161,7 @@
     margin-top: 10px;
     display: inline-block;
     margin-bottom: 20px;
+    width: 35%;
 }
 /******************
     Modal: Add,Edit,Delete: End

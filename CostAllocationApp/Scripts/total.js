@@ -213,7 +213,7 @@ $(document).ready(function () {
                             if (mainItem.MainItems.length > 0) {
                                 $.each(mainItem.MainItems, (index1, nestedMainItem) => {
                                     _tr += `
-                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <tr class='hidden-row' data-item='${mainItem.MainItemName}_${mainItem.MainItemName}'>
                                     <td></td>
                                     <td>${nestedMainItem.OctVal}</td>
                                     <td>${nestedMainItem.NovVal}</td>
@@ -267,7 +267,7 @@ $(document).ready(function () {
                             if (mainItem.SubItems!=null) {
                                 $.each(mainItem.SubItems, (index1,subItem) => {
                                     _tr += `
-                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <tr class='hidden-row' data-item='${mainItem.MainItemName}_${subItem.SubItemName}'>
                                     <td></td>
                                     <td>${subItem.SubItemName}</td>
                                     <td>${subItem.OctVal}</td>
@@ -323,9 +323,9 @@ $(document).ready(function () {
                             if (mainItem.SubItems != null) {
                                 $.each(mainItem.SubItems, (index1, subItem) => {
                                     _tr += `
-                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <tr class='hidden-row' data-item='${mainItem.MainItemName}_${subItem.SubItemName}'>
                                     <td></td>
-                                    <td data-item='_${subItem.SubItemName}_'><i class="fa fa-plus expand-sub" aria-hidden="true"></i> ${subItem.SubItemName}</td>
+                                    <td><i class="fa fa-plus expand-sub ${mainItem.MainItemName}subicon" aria-hidden="true"></i> ${subItem.SubItemName}</td>
                                     <td></td>
                                     <td>${subItem.OctVal}</td>
                                     <td>${subItem.NovVal}</td>
@@ -349,7 +349,7 @@ $(document).ready(function () {
                                     if (subItem.DetailsItems != null) {
                                         $.each(subItem.DetailsItems, (index1, detailsItem) => {
                                             _tr += `
-                                                <tr class='hidden-row' data-item='__${subItem.SubItemName}__'>
+                                                <tr class='hidden-row' data-item='${mainItem.MainItemName}_${mainItem.MainItemName}_&'>
                                                 <td></td>
                                                 <td></td>
                                                 <td>${detailsItem.DetailsItemName}</td>
@@ -404,7 +404,12 @@ $(document).ready(function () {
         var tableId = $(this).closest('table').attr('id');
         var mainItemName = $(this).closest('tr').data('item');
         $(`#${tableId} tbody tr`).filter(function (index) {
-            return $(this).data('item') == '_' + mainItemName + '_';
+            var returnFlag = false;
+            var dataAttr = $(this).data('item');
+            if (dataAttr.includes(mainItemName + "_") && !dataAttr.includes('&')) {
+                returnFlag = true;
+            }
+            return returnFlag;
         }).show();
 
         $(this).removeClass('fa fa-plus expand-main');
@@ -417,8 +422,11 @@ $(document).ready(function () {
         var tableId = $(this).closest('table').attr('id');
         var mainItemName = $(this).closest('tr').data('item');
         $(`#${tableId} tbody tr`).filter(function (index) {
-            return $(this).data('item') == '_' + mainItemName + '_';
+            return $(this).data('item').includes(mainItemName+'_');
         }).hide();
+
+        $(`#${tableId} tbody i.${mainItemName}subicon`).removeClass('fa fa-minus');
+        $(`#${tableId} tbody i.${mainItemName}subicon`).addClass('fa fa-plus');
 
         $(this).removeClass('fa fa-minus close-main');
         $(this).addClass('fa fa-plus expand-main');
@@ -429,9 +437,14 @@ $(document).ready(function () {
     $(document).on('click', '.expand-sub', function () {
 
         var tableId = $(this).closest('table').attr('id');
-        var subItemName = $(this).closest('td').data('item');
+        var mainSubItemName = $(this).closest('tr').data('item');
         $(`#${tableId} tbody tr`).filter(function (index) {
-            return $(this).data('item') == '_' + subItemName + '_';
+            var returnFlag = false;
+            var dataAttr = $(this).data('item');
+            if (dataAttr == mainSubItemName + '_&') {
+                returnFlag = true;
+            }
+            return returnFlag;
         }).show();
 
         $(this).removeClass('fa fa-plus expand-sub');
@@ -442,9 +455,14 @@ $(document).ready(function () {
     $(document).on('click', '.close-sub', function () {
 
         var tableId = $(this).closest('table').attr('id');
-        var subItemName = $(this).closest('td').data('item');
+        var mainSubItemName = $(this).closest('tr').data('item');
         $(`#${tableId} tbody tr`).filter(function (index) {
-            return $(this).data('item') == '_' + subItemName + '_';
+            var returnFlag = false;
+            var dataAttr = $(this).data('item');
+            if (dataAttr == mainSubItemName + '_&') {
+                returnFlag = true;
+            }
+            return returnFlag;
         }).hide();
 
         $(this).removeClass('fa fa-minus close-sub');

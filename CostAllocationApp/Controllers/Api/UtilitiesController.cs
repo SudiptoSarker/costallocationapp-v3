@@ -9230,7 +9230,7 @@ namespace CostAllocationApp.Controllers.Api
                 return new List<SukeyQADto>();
             }
 
-            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();            
+            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             double _octHinsho = 0;
             double _novHinsho = 0;
             double _decHinsho = 0;
@@ -9242,7 +9242,7 @@ namespace CostAllocationApp.Controllers.Api
             double _junHinsho = 0;
             double _julHinsho = 0;
             double _augHinsho = 0;
-            double _sepHinsho = 0;            
+            double _sepHinsho = 0;
             Department qaDepartmentByName = departmentBLL.GetAllDepartments().Where(d => d.DepartmentName == "品証").SingleOrDefault();
             if (qaDepartmentByName == null)
             {
@@ -9266,18 +9266,19 @@ namespace CostAllocationApp.Controllers.Api
                 _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
                 _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
                 _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
-                
+
                 double _octQASum = 0, _novQASum = 0, _decQASum = 0, _janQASum = 0, _febQASum = 0, _marQASum = 0, _aprQASum = 0, _mayQASum = 0, _junQASum = 0, _julQASum = 0, _augQASum = 0, _sepQASum = 0;
                 double octEmpWisecSum = 0, novEmpWisecSum = 0, decEmpWisecSum = 0, janEmpWisecSum = 0, febEmpWisecSum = 0, marEmpWisecSum = 0, aprEmpWisecSum = 0, mayEmpWisecSum = 0, junEmpWisecSum = 0, julEmpWisecSum = 0, augEmpWisecSum = 0, septEmpWisecSum = 0;
-                
+
                 //read employee wise qa prorations       
                 foreach (var qaPerson in hinsoData)
                 {
                     var employeeId = qaPerson.EmployeeId;
-                    var proration_year = qaPerson.Year;                            
+                    var proration_year = qaPerson.Year;
                     List<QaProportion> qaProportions = employeeAssignmentBLL.GetQAProportionsWithEmployeeForTotalMenu(employeeId.ToString(), year.ToString());
-                                        
-                    if (qaProportions.Count > 0) { 
+
+                    if (qaProportions.Count > 0)
+                    {
                         _octQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.OctPoints)));
                         _novQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.NovPoints)));
                         _decQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.DecPoints)));
@@ -9290,11 +9291,11 @@ namespace CostAllocationApp.Controllers.Api
                         _julQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.JulPoints)));
                         _augQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.AugPoints)));
                         _sepQASum += (Convert.ToDouble(qaPerson.UnitPrice) * (Convert.ToDouble(qaPerson.SepPoints)));
-                    }                    
+                    }
                     var arrDepartments = departmentIds.Split(',');
-                    foreach(var qaItem in qaProportions)
-                    {                        
-                        foreach(var deptItem in arrDepartments)
+                    foreach (var qaItem in qaProportions)
+                    {
+                        foreach (var deptItem in arrDepartments)
                         {
                             if (qaItem.DepartmentId == deptItem)
                             {
@@ -9309,12 +9310,12 @@ namespace CostAllocationApp.Controllers.Api
                                 junEmpWisecSum += Convert.ToDouble(qaPerson.UnitPrice) * (qaItem.JunPercentage / 100) * Convert.ToDouble(qaPerson.JunPoints);
                                 julEmpWisecSum += Convert.ToDouble(qaPerson.UnitPrice) * (qaItem.JulPercentage / 100) * Convert.ToDouble(qaPerson.JulPoints);
                                 augEmpWisecSum += Convert.ToDouble(qaPerson.UnitPrice) * (qaItem.AugPercentage / 100) * Convert.ToDouble(qaPerson.AugPoints);
-                                septEmpWisecSum += Convert.ToDouble(qaPerson.UnitPrice) * (qaItem.SepPercentage / 100) * Convert.ToDouble(qaPerson.NovPoints);                                
+                                septEmpWisecSum += Convert.ToDouble(qaPerson.UnitPrice) * (qaItem.SepPercentage / 100) * Convert.ToDouble(qaPerson.NovPoints);
                             }
-                        }                        
+                        }
                     }
                 }
-                                 
+
                 //qa proration subtract from forecost value
                 _octHinsho = _octHinsho - _octQASum;
                 _novHinsho = _novHinsho - _novQASum;
@@ -9379,16 +9380,17 @@ namespace CostAllocationApp.Controllers.Api
                 _junHinsho += junEmpWisecSum;
                 _julHinsho += junEmpWisecSum;
                 _augHinsho += augEmpWisecSum;
-                _sepHinsho += septEmpWisecSum;    
+                _sepHinsho += septEmpWisecSum;
             }
 
 
             double rowTotalQa = 0;
             double qaFirstSlot = 0;
-            SukeyQADto sukeyDto = new SukeyQADto();                       
+            SukeyQADto sukeyDto = new SukeyQADto();
             //appro
 
-            if (hinsoData.Count > 0) { 
+            if (hinsoData.Count > 0)
+            {
                 sukeyDto.OctCost.Add(0);
                 sukeyDto.OctCost.Add(0);
                 sukeyDto.OctCost.Add(_octHinsho);
@@ -9406,7 +9408,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 sukeyDto.JanCost.Add(0);
                 sukeyDto.JanCost.Add(0);
-                sukeyDto.JanCost.Add(_janHinsho);            
+                sukeyDto.JanCost.Add(_janHinsho);
                 rowTotalQa += _janHinsho;
 
                 sukeyDto.FebCost.Add(0);
@@ -9453,11 +9455,11 @@ namespace CostAllocationApp.Controllers.Api
                 rowTotalQa += _sepHinsho;
 
 
-            
+
                 sukeyDto.RowTotal.Add(0);
                 sukeyDto.RowTotal.Add(0);
                 sukeyDto.RowTotal.Add(rowTotalQa);
-                
+
 
                 sukeyDto.FirstSlot.Add(0);
                 sukeyDto.FirstSlot.Add(0);
@@ -9532,10 +9534,8 @@ namespace CostAllocationApp.Controllers.Api
             }
 
 
+            sukeyQADtos.Add(sukeyDto);
 
-                sukeyQADtos.Add(sukeyDto);
-                //}
-            //}
             return sukeyQADtos;
         }
 

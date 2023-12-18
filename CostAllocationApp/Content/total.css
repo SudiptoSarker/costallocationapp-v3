@@ -67,11 +67,14 @@
 .generated_table td{
     padding: 7px !important;
 }
-.expand, .inner-expand, .closed, .inner-closed, .expand-count, .expand-count-close, .expand-count-inner, .expand-count-inner-close {
+.expand-main, .close-main, .expand-sub, .close-sub {
     cursor: pointer;
     border: 1px solid black;
     font-size: 8px;
     padding: 1px;
+}
+.hidden-row {
+    display: none;
 }
 
 /*style for budget table*/

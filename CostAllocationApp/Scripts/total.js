@@ -156,52 +156,241 @@ $(document).ready(function () {
         for (var n = 0; n < uniqueTableList.length; n++) {
             var _splittedValue = uniqueTableList[n].split('_');
             titleColumnsCount = 0;
+
+
             $.ajax({
-                url: `/api/utilities/GetDynamicTableById/${_splittedValue[1]}`,
+                url: `/api/utilities/GetTableWiseTotal?tableId=${_splittedValue[1]}&companiIds=${selected_compannies}&year=${selected_year}&timestampsId=${timeStampId}`,
                 contentType: 'application/json',
                 type: 'GET',
                 async: false,
                 dataType: 'json',
-                success: function (tableData) {
-                    tableId = tableData.Id;
-                    if (tableData.CategoryTitle !== "") {
+                success: function (tableObject) {
+
+                    var tableInfo = tableObject.dynamicTable;
+                    var tableData = tableObject.data;
+                    console.log(tableData);
+
+                    if (tableInfo.CategoryTitle !== "") {
                         titleColumnsCount++;
                     }
-                    if (tableData.SubCategoryTitle !== "") {
+                    if (tableInfo.SubCategoryTitle !== "") {
                         titleColumnsCount++;
                     }
-                    if (tableData.DetailsTitle !== "") {
+                    if (tableInfo.DetailsTitle !== "") {
                         titleColumnsCount++;
                     }
 
                     $('#table_container').append(`<p class="font-weight-bold" style="margin-top:20px;"><u>${_splittedValue[0]}</u></p>`);
                     $('#table_container').append(`<table id="table_${n}" class="generated_table" data-dt='${titleColumnsCount}'></table>`);
-                    if (titleColumnsCount==1) {
-                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                    if (titleColumnsCount == 1) {
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableInfo.CategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead><tbody></tbody>`);
+                        var _tr = '';
+                        $.each(tableData, (index, mainItem) => {
+                            var icon = '';
+                            if (mainItem.MainItems.length > 0) {
+                                icon = '<i class="fa fa-plus expand-main" aria-hidden="true"></i>';
+                            }
+                            _tr += `
+                                    <tr data-item='${mainItem.MainItemName}'>
+                                    <td>${icon} ${mainItem.MainItemName}</td>
+                                    <td>${mainItem.OctVal}</td>
+                                    <td>${mainItem.NovVal}</td>
+                                    <td>${mainItem.DecVal}</td>
+                                    <td>${mainItem.JanVal}</td>
+                                    <td>${mainItem.FebVal}</td>
+                                    <td>${mainItem.MarVal}</td>
+                                    <td>${mainItem.AprVal}</td>
+                                    <td>${mainItem.MayVal}</td>
+                                    <td>${mainItem.JunVal}</td>
+                                    <td>${mainItem.JulVal}</td>
+                                    <td>${mainItem.AugVal}</td>
+                                    <td>${mainItem.SepVal}</td>
+                                    <td>${mainItem.Total}</td>
+                                    <td>${mainItem.FirstHalf}</td>
+                                    <td>${mainItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+                            if (mainItem.MainItems.length > 0) {
+                                $.each(mainItem.MainItems, (index1, nestedMainItem) => {
+                                    _tr += `
+                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <td></td>
+                                    <td>${nestedMainItem.OctVal}</td>
+                                    <td>${nestedMainItem.NovVal}</td>
+                                    <td>${nestedMainItem.DecVal}</td>
+                                    <td>${nestedMainItem.JanVal}</td>
+                                    <td>${nestedMainItem.FebVal}</td>
+                                    <td>${nestedMainItem.MarVal}</td>
+                                    <td>${nestedMainItem.AprVal}</td>
+                                    <td>${nestedMainItem.MayVal}</td>
+                                    <td>${nestedMainItem.JunVal}</td>
+                                    <td>${nestedMainItem.JulVal}</td>
+                                    <td>${nestedMainItem.AugVal}</td>
+                                    <td>${nestedMainItem.SepVal}</td>
+                                    <td>${nestedMainItem.Total}</td>
+                                    <td>${nestedMainItem.FirstHalf}</td>
+                                    <td>${nestedMainItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+                                });
+                            }
+                        });
+                        $(`#table_${n} tbody`).empty();
+                        $(`#table_${n} tbody`).append(_tr);
+
                     }
                     if (titleColumnsCount == 2) {
-                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableInfo.CategoryTitle}</th><th>${tableInfo.SubCategoryTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead><tbody></tbody>`);
+                        var _tr = '';
+                        $.each(tableData, (index, mainItem) => {
+                            _tr += `
+                                    <tr data-item='${mainItem.MainItemName}'>
+                                    <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
+                                    <td></td>
+                                    <td>${mainItem.OctVal}</td>
+                                    <td>${mainItem.NovVal}</td>
+                                    <td>${mainItem.DecVal}</td>
+                                    <td>${mainItem.JanVal}</td>
+                                    <td>${mainItem.FebVal}</td>
+                                    <td>${mainItem.MarVal}</td>
+                                    <td>${mainItem.AprVal}</td>
+                                    <td>${mainItem.MayVal}</td>
+                                    <td>${mainItem.JunVal}</td>
+                                    <td>${mainItem.JulVal}</td>
+                                    <td>${mainItem.AugVal}</td>
+                                    <td>${mainItem.SepVal}</td>
+                                    <td>${mainItem.Total}</td>
+                                    <td>${mainItem.FirstHalf}</td>
+                                    <td>${mainItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+                            if (mainItem.SubItems!=null) {
+                                $.each(mainItem.SubItems, (index1,subItem) => {
+                                    _tr += `
+                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <td></td>
+                                    <td>${subItem.SubItemName}</td>
+                                    <td>${subItem.OctVal}</td>
+                                    <td>${subItem.NovVal}</td>
+                                    <td>${subItem.DecVal}</td>
+                                    <td>${subItem.JanVal}</td>
+                                    <td>${subItem.FebVal}</td>
+                                    <td>${subItem.MarVal}</td>
+                                    <td>${subItem.AprVal}</td>
+                                    <td>${subItem.MayVal}</td>
+                                    <td>${subItem.JunVal}</td>
+                                    <td>${subItem.JulVal}</td>
+                                    <td>${subItem.AugVal}</td>
+                                    <td>${subItem.SepVal}</td>
+                                    <td>${subItem.Total}</td>
+                                    <td>${subItem.FirstHalf}</td>
+                                    <td>${subItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+                                });
+                            }
+                        });
+                        $(`#table_${n} tbody`).empty();
+                        $(`#table_${n} tbody`).append(_tr);
                     }
                     if (titleColumnsCount == 3) {
-                        $(`#table_${n}`).append(`<thead><tr><th>${tableData.CategoryTitle}</th><th>${tableData.SubCategoryTitle}</th><th>${tableData.DetailsTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead>`);
+                        $(`#table_${n}`).append(`<thead><tr><th>${tableInfo.CategoryTitle}</th><th>${tableInfo.SubCategoryTitle}</th><th>${tableInfo.DetailsTitle}</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>FY${selected_year}計</th><th>上期</th><th>下期 </th></tr></thead><tbody></tbody>`);
+
+                        var _tr = '';
+                        $.each(tableData, (index, mainItem) => {
+                            _tr += `
+                                    <tr data-item='${mainItem.MainItemName}'>
+                                    <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>${mainItem.OctVal}</td>
+                                    <td>${mainItem.NovVal}</td>
+                                    <td>${mainItem.DecVal}</td>
+                                    <td>${mainItem.JanVal}</td>
+                                    <td>${mainItem.FebVal}</td>
+                                    <td>${mainItem.MarVal}</td>
+                                    <td>${mainItem.AprVal}</td>
+                                    <td>${mainItem.MayVal}</td>
+                                    <td>${mainItem.JunVal}</td>
+                                    <td>${mainItem.JulVal}</td>
+                                    <td>${mainItem.AugVal}</td>
+                                    <td>${mainItem.SepVal}</td>
+                                    <td>${mainItem.Total}</td>
+                                    <td>${mainItem.FirstHalf}</td>
+                                    <td>${mainItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+                            if (mainItem.SubItems != null) {
+                                $.each(mainItem.SubItems, (index1, subItem) => {
+                                    _tr += `
+                                    <tr class='hidden-row' data-item='_${mainItem.MainItemName}_'>
+                                    <td></td>
+                                    <td data-item='_${subItem.SubItemName}_'><i class="fa fa-plus expand-sub" aria-hidden="true"></i> ${subItem.SubItemName}</td>
+                                    <td></td>
+                                    <td>${subItem.OctVal}</td>
+                                    <td>${subItem.NovVal}</td>
+                                    <td>${subItem.DecVal}</td>
+                                    <td>${subItem.JanVal}</td>
+                                    <td>${subItem.FebVal}</td>
+                                    <td>${subItem.MarVal}</td>
+                                    <td>${subItem.AprVal}</td>
+                                    <td>${subItem.MayVal}</td>
+                                    <td>${subItem.JunVal}</td>
+                                    <td>${subItem.JulVal}</td>
+                                    <td>${subItem.AugVal}</td>
+                                    <td>${subItem.SepVal}</td>
+                                    <td>${subItem.Total}</td>
+                                    <td>${subItem.FirstHalf}</td>
+                                    <td>${subItem.SecondHalf}</td>
+                                    </tr>
+                                    `;
+
+
+                                    if (subItem.DetailsItems != null) {
+                                        $.each(subItem.DetailsItems, (index1, detailsItem) => {
+                                            _tr += `
+                                                <tr class='hidden-row' data-item='__${subItem.SubItemName}__'>
+                                                <td></td>
+                                                <td></td>
+                                                <td>${detailsItem.DetailsItemName}</td>
+                                                <td>${detailsItem.OctVal}</td>
+                                                <td>${detailsItem.NovVal}</td>
+                                                <td>${detailsItem.DecVal}</td>
+                                                <td>${detailsItem.JanVal}</td>
+                                                <td>${detailsItem.FebVal}</td>
+                                                <td>${detailsItem.MarVal}</td>
+                                                <td>${detailsItem.AprVal}</td>
+                                                <td>${detailsItem.MayVal}</td>
+                                                <td>${detailsItem.JunVal}</td>
+                                                <td>${detailsItem.JulVal}</td>
+                                                <td>${detailsItem.AugVal}</td>
+                                                <td>${detailsItem.SepVal}</td>
+                                                <td>${detailsItem.Total}</td>
+                                                <td>${detailsItem.FirstHalf}</td>
+                                                <td>${detailsItem.SecondHalf}</td>
+                                                </tr>
+                                                `;
+                                        });
+                                    }
+
+
+                                });
+                            }
+                        });
+
+                        $(`#table_${n} tbody`).empty();
+                        $(`#table_${n} tbody`).append(_tr);
                     }
                     
                 }
             });
 
 
+     
 
-            $.ajax({
-                url: `/api/utilities/GetTableWiseTotal?tableId=${tableId}&companiIds=${selected_compannies}&year=${selected_year}&timestampsId=${timeStampId}`,
-                contentType: 'application/json',
-                type: 'GET',
-                async: false,
-                dataType: 'json',
-                success: function (tableArray) {
 
-                }
-            });
 
+           
 
             
             
@@ -209,6 +398,60 @@ $(document).ready(function () {
         
      
     }
+
+    $(document).on('click', '.expand-main', function () {
+
+        var tableId = $(this).closest('table').attr('id');
+        var mainItemName = $(this).closest('tr').data('item');
+        $(`#${tableId} tbody tr`).filter(function (index) {
+            return $(this).data('item') == '_' + mainItemName + '_';
+        }).show();
+
+        $(this).removeClass('fa fa-plus expand-main');
+        $(this).addClass('fa fa-minus close-main');
+
+    });
+
+    $(document).on('click', '.close-main', function () {
+
+        var tableId = $(this).closest('table').attr('id');
+        var mainItemName = $(this).closest('tr').data('item');
+        $(`#${tableId} tbody tr`).filter(function (index) {
+            return $(this).data('item') == '_' + mainItemName + '_';
+        }).hide();
+
+        $(this).removeClass('fa fa-minus close-main');
+        $(this).addClass('fa fa-plus expand-main');
+        
+
+    });
+
+    $(document).on('click', '.expand-sub', function () {
+
+        var tableId = $(this).closest('table').attr('id');
+        var subItemName = $(this).closest('td').data('item');
+        $(`#${tableId} tbody tr`).filter(function (index) {
+            return $(this).data('item') == '_' + subItemName + '_';
+        }).show();
+
+        $(this).removeClass('fa fa-plus expand-sub');
+        $(this).addClass('fa fa-minus close-sub');
+
+    });
+
+    $(document).on('click', '.close-sub', function () {
+
+        var tableId = $(this).closest('table').attr('id');
+        var subItemName = $(this).closest('td').data('item');
+        $(`#${tableId} tbody tr`).filter(function (index) {
+            return $(this).data('item') == '_' + subItemName + '_';
+        }).hide();
+
+        $(this).removeClass('fa fa-minus close-sub');
+        $(this).addClass('fa fa-plus expand-sub');
+
+
+    });
 
 
     function GetDynamicCostTables(selected_compannies,selected_year,strTableType,timeStampId){        
@@ -680,135 +923,135 @@ $(document).ready(function () {
         $(this).addClass('fa fa-plus expand-count');
     });
 
-    $(document).on('click', '.expand', function () {
-        var closestRow = $(this).closest('tr');
-        var categoryName = $(closestRow).attr('data-category');
-        var filteredRows = [];
+    //$(document).on('click', '.expand', function () {
+    //    var closestRow = $(this).closest('tr');
+    //    var categoryName = $(closestRow).attr('data-category');
+    //    var filteredRows = [];
 
-        var splittedValue = categoryName.split('_');
-        var dynamicTitleCount = parseInt(splittedValue[2]);
-        $.each(tableRowList, (index, tableData) => {
+    //    var splittedValue = categoryName.split('_');
+    //    var dynamicTitleCount = parseInt(splittedValue[2]);
+    //    $.each(tableRowList, (index, tableData) => {
 
-            if (tableData.tableTitle == splittedValue[1]) {
-                $.each(tableData.rowData, (index, row) => {
-                    if (row.mainTitle == splittedValue[0]) {
-                        filteredRows.push(row);
-                    }
-                });
-            }
-        });
-        $(closestRow[0].cells[0]).attr('rowspan', filteredRows.length);
-        for (var i = 1; i < filteredRows.length; i++) {
-            if (dynamicTitleCount == 1) {
+    //        if (tableData.tableTitle == splittedValue[1]) {
+    //            $.each(tableData.rowData, (index, row) => {
+    //                if (row.mainTitle == splittedValue[0]) {
+    //                    filteredRows.push(row);
+    //                }
+    //            });
+    //        }
+    //    });
+    //    $(closestRow[0].cells[0]).attr('rowspan', filteredRows.length);
+    //    for (var i = 1; i < filteredRows.length; i++) {
+    //        if (dynamicTitleCount == 1) {
 
-                closestRow.after(`
-                                    <tr data-categiry='${categoryName}'>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>
+    //            closestRow.after(`
+    //                                <tr data-categiry='${categoryName}'>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>
                                     
-                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
-                                </tr>`);
-            }
-            if (dynamicTitleCount == 2) {
-                closestRow.after(`
-                                    <tr data-categiry='${categoryName}'>
-                                    <td>${filteredRows[i].subTitle}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+    //                            </tr>`);
+    //        }
+    //        if (dynamicTitleCount == 2) {
+    //            closestRow.after(`
+    //                                <tr data-categiry='${categoryName}'>
+    //                                <td>${filteredRows[i].subTitle}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
-                                </tr>`);
-            }
-            if (dynamicTitleCount == 3) {
-                closestRow.after(`
-                                    <tr data-categiry='${categoryName}'>
-                                    <td>${filteredRows[i].subTitle}</td>
-                                    <td>${filteredRows[i].detailsTitle}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
-                                    <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+    //                            </tr>`);
+    //        }
+    //        if (dynamicTitleCount == 3) {
+    //            closestRow.after(`
+    //                                <tr data-categiry='${categoryName}'>
+    //                                <td>${filteredRows[i].subTitle}</td>
+    //                                <td>${filteredRows[i].detailsTitle}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].OctCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].NovCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].DecCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].JanCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].FebCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].MarCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].AprCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].MayCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].JunCost[2]).toLocaleString('en-US')}</td>
+    //                                <td class="text-right">${Math.round(filteredRows[i].JulCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].AugCost[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].SepCost[2]).toLocaleString('en-US')}</td>                                    
                                     
-                                    <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
-                                    <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
-                                </tr>`);
-            }
-        }
+    //                                <td class="text-right">${Math.round(filteredRows[i].RowTotal[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].FirstSlot[2]).toLocaleString('en-US')}</td>                                    
+    //                                <td class="text-right">${Math.round(filteredRows[i].SecondSlot[2]).toLocaleString('en-US')}</td>
+    //                            </tr>`);
+    //        }
+    //    }
 
-        ColorNegativeValue();
+    //    ColorNegativeValue();
         
-        $(this).removeClass('fa fa-plus expand');
-        $(this).addClass('fa fa-minus closed');
+    //    $(this).removeClass('fa fa-plus expand');
+    //    $(this).addClass('fa fa-minus closed');
 
-    });
+    //});
 
-    $(document).on('click', '.closed', function () {
-        $(this).removeClass('fa fa-minus closed');
-        $(this).addClass('fa fa-plus expand');
+    //$(document).on('click', '.closed', function () {
+    //    $(this).removeClass('fa fa-minus closed');
+    //    $(this).addClass('fa fa-plus expand');
 
 
-        var closestRow = $(this).closest('tr');
-        var categoryName = $(closestRow).attr('data-category');
-        var filteredRows = [];
+    //    var closestRow = $(this).closest('tr');
+    //    var categoryName = $(closestRow).attr('data-category');
+    //    var filteredRows = [];
 
-        var splittedValue = categoryName.split('_');
-        var dynamicTitleCount = parseInt(splittedValue[2]);
-        $.each(tableRowList, (index, tableData) => {
+    //    var splittedValue = categoryName.split('_');
+    //    var dynamicTitleCount = parseInt(splittedValue[2]);
+    //    $.each(tableRowList, (index, tableData) => {
 
-            if (tableData.tableTitle == splittedValue[1]) {
-                $.each(tableData.rowData, (index, row) => {
-                    if (row.mainTitle == splittedValue[0]) {
-                        filteredRows.push(row);
-                    }
-                });
-            }
-        });
-        var rowSpanNumber = $(closestRow[0].cells[0]).attr('rowspan');
+    //        if (tableData.tableTitle == splittedValue[1]) {
+    //            $.each(tableData.rowData, (index, row) => {
+    //                if (row.mainTitle == splittedValue[0]) {
+    //                    filteredRows.push(row);
+    //                }
+    //            });
+    //        }
+    //    });
+    //    var rowSpanNumber = $(closestRow[0].cells[0]).attr('rowspan');
 
-        $(closestRow[0].cells[0]).attr('rowspan', '');
+    //    $(closestRow[0].cells[0]).attr('rowspan', '');
 
-        for (var i = 1; i < rowSpanNumber; i++) {
-            closestRow.next().remove();
-        }
+    //    for (var i = 1; i < rowSpanNumber; i++) {
+    //        closestRow.next().remove();
+    //    }
 
 
 
 
       
-    });
+    //});
 
     // $.ajax({
     //     // url: `/api/utilities/GetYearFromHistory`,

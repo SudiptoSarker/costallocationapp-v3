@@ -13723,23 +13723,479 @@ namespace CostAllocationApp.Controllers.Api
         [Route("api/utilities/GetTableWiseTotal/")]
         public IHttpActionResult GetTableWiseTotal(int tableId, string companiIds,int year, string timestampsId)
         {
-            List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
+            //List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             List<DynamicSetting> dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableId);
+            List<MainItem> mainItems = new List<MainItem>();
+            List<OnlyMainItem> onlyMainItems = new List<OnlyMainItem>();
+            List<ItemsWithProperties> itemsWithProperties = new List<ItemsWithProperties>();
+
+            DynamicTable _dynamicTable = totalBLL.GetDynamicTableById(tableId);
 
             foreach (var item in dynamicSettings)
             {
-                sukeyQADtos.AddRange(GetSettingWiseData(item, companiIds, year, timestampsId));
+                ItemsWithProperties iwp = new ItemsWithProperties();
+                iwp.MainItemId = item.CategoryId;
+                iwp.MainItemName = item.CategoryName;
+                iwp.SubItemId = item.SubCategoryId;
+                iwp.SubItemName = item.SubCategoryName;
+                iwp.DetailsItemId = item.DetailsId;
+                iwp.DetailsItemName = item.DetailsItemName;
+                iwp.IsMainTotal = item.IsMainTotal;
+                iwp.IsSubTotal = item.IsSubTotal;
+
+                iwp.SukeyQADtos = new List<SukeyQADto>();
+                iwp.SukeyQADtos.AddRange(GetSettingWiseData(item, companiIds, year, timestampsId));
+
+                itemsWithProperties.Add(iwp);
+            }
+
+            var mainItemList = new List<string>();
+
+            foreach (var item in itemsWithProperties)
+            {
+                mainItemList.Add(item.MainItemName);
+            }
+
+            // get unique main items.
+            var uniqueMainItems = mainItemList.Distinct().ToList();
+
+            // check sub value.
+            string subCategoryId = dynamicSettings[0].SubCategoryId;
+
+            // check details value.
+            string detailsId = dynamicSettings[0].DetailsId;
+
+            if (String.IsNullOrEmpty(subCategoryId))
+            {
+                // if only main item exists
+                foreach (var item in uniqueMainItems)
+                {
+                    OnlyMainItem onlyMainItem = new OnlyMainItem();
+                    onlyMainItem.MainItems = new List<MainItem>();
+                    onlyMainItem.MainItemName = item;
+
+                    // get display values.
+                    foreach (var item1 in itemsWithProperties)
+                    {
+                        if (item == item1.MainItemName)
+                        {
+                            MainItem mainItem = new MainItem();
+                            mainItem.MainItemName = item;
+
+                            if (item1.IsMainTotal)
+                            {
+                                onlyMainItem.OctVal = item1.SukeyQADtos[0].OctCost[2];
+                                onlyMainItem.NovVal = item1.SukeyQADtos[0].NovCost[2];
+                                onlyMainItem.DecVal = item1.SukeyQADtos[0].DecCost[2];
+                                onlyMainItem.JanVal = item1.SukeyQADtos[0].JanCost[2];
+                                onlyMainItem.FebVal = item1.SukeyQADtos[0].FebCost[2];
+                                onlyMainItem.MarVal = item1.SukeyQADtos[0].MarCost[2];
+                                onlyMainItem.AprVal = item1.SukeyQADtos[0].AprCost[2];
+                                onlyMainItem.MayVal = item1.SukeyQADtos[0].MayCost[2];
+                                onlyMainItem.JunVal = item1.SukeyQADtos[0].JunCost[2];
+                                onlyMainItem.JulVal = item1.SukeyQADtos[0].JulCost[2];
+                                onlyMainItem.AugVal = item1.SukeyQADtos[0].AugCost[2];
+                                onlyMainItem.SepVal = item1.SukeyQADtos[0].SepCost[2];
+                                onlyMainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
+                                onlyMainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
+                                onlyMainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                            }
+                            else
+                            {
+                                mainItem.OctVal = item1.SukeyQADtos[0].OctCost[2];
+                                mainItem.NovVal = item1.SukeyQADtos[0].NovCost[2];
+                                mainItem.DecVal = item1.SukeyQADtos[0].DecCost[2];
+                                mainItem.JanVal = item1.SukeyQADtos[0].JanCost[2];
+                                mainItem.FebVal = item1.SukeyQADtos[0].FebCost[2];
+                                mainItem.MarVal = item1.SukeyQADtos[0].MarCost[2];
+                                mainItem.AprVal = item1.SukeyQADtos[0].AprCost[2];
+                                mainItem.MayVal = item1.SukeyQADtos[0].MayCost[2];
+                                mainItem.JunVal = item1.SukeyQADtos[0].JunCost[2];
+                                mainItem.JulVal = item1.SukeyQADtos[0].JulCost[2];
+                                mainItem.AugVal = item1.SukeyQADtos[0].AugCost[2];
+                                mainItem.SepVal = item1.SukeyQADtos[0].SepCost[2];
+                                mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
+                                mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
+                                mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+
+                                onlyMainItem.MainItems.Add(mainItem);
+                            }
+
+                           
+                            
+
+                        }
+                    }
+
+                    onlyMainItems.Add(onlyMainItem);
+
+                }
+
+                var tableObject = new
+                {
+                    dynamicTable = _dynamicTable,
+                    data = onlyMainItems
+                };
+                return Ok(tableObject);
+
+            }
+            else if (String.IsNullOrEmpty(detailsId))
+            {
+                // if only main item and sub item exists
+                
+
+                foreach (var item in uniqueMainItems)
+                {
+                    MainItem mainItem = new MainItem();
+                    mainItem.SubItems = new List<SubItem>();
+
+                    var subItems = new List<string>();
+                    var uniqueSubItems = new List<string>();
+
+                    mainItem.MainItemName = item;
+
+                    // get display values.
+                    foreach (var item1 in itemsWithProperties)
+                    {
+                        if (item == item1.MainItemName)
+                        {
+                            // store subItems.
+                            subItems.Add(item1.SubItemName);
+
+                            if (item1.IsMainTotal)
+                            {
+                                mainItem.OctVal = item1.SukeyQADtos[0].OctCost[2];
+                                mainItem.NovVal = item1.SukeyQADtos[0].NovCost[2];
+                                mainItem.DecVal = item1.SukeyQADtos[0].DecCost[2];
+                                mainItem.JanVal = item1.SukeyQADtos[0].JanCost[2];
+                                mainItem.FebVal = item1.SukeyQADtos[0].FebCost[2];
+                                mainItem.MarVal = item1.SukeyQADtos[0].MarCost[2];
+                                mainItem.AprVal = item1.SukeyQADtos[0].AprCost[2];
+                                mainItem.MayVal = item1.SukeyQADtos[0].MayCost[2];
+                                mainItem.JunVal = item1.SukeyQADtos[0].JunCost[2];
+                                mainItem.JulVal = item1.SukeyQADtos[0].JulCost[2];
+                                mainItem.AugVal = item1.SukeyQADtos[0].AugCost[2];
+                                mainItem.SepVal = item1.SukeyQADtos[0].SepCost[2];
+                                mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
+                                mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
+                                mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                            }
+                        }
+                    }
+
+                    // get unique subItems.
+                    uniqueSubItems = subItems.Distinct().ToList();
+
+                    // get sub items according to main items.
+                    foreach (var item2 in uniqueSubItems)
+                    {
+                        foreach (var item3 in itemsWithProperties)
+                        {
+                            SubItem subItem = new SubItem();
+
+                            if (item == item3.MainItemName && item2 == item3.SubItemName)
+                            {
+                                subItem.SubItemName = item2;
+
+                                subItem.OctVal = item3.SukeyQADtos[0].OctCost[2];
+                                subItem.NovVal = item3.SukeyQADtos[0].NovCost[2];
+                                subItem.DecVal = item3.SukeyQADtos[0].DecCost[2];
+                                subItem.JanVal = item3.SukeyQADtos[0].JanCost[2];
+                                subItem.FebVal = item3.SukeyQADtos[0].FebCost[2];
+                                subItem.MarVal = item3.SukeyQADtos[0].MarCost[2];
+                                subItem.AprVal = item3.SukeyQADtos[0].AprCost[2];
+                                subItem.MayVal = item3.SukeyQADtos[0].MayCost[2];
+                                subItem.JunVal = item3.SukeyQADtos[0].JunCost[2];
+                                subItem.JulVal = item3.SukeyQADtos[0].JulCost[2];
+                                subItem.AugVal = item3.SukeyQADtos[0].AugCost[2];
+                                subItem.SepVal = item3.SukeyQADtos[0].SepCost[2];
+                                subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
+                                subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
+                                subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
+
+
+                                mainItem.SubItems.Add(subItem);
+
+                            }
+                        }
+                    }
+
+
+                    mainItems.Add(mainItem);
+                }
+
+                var tableObject = new
+                {
+                    dynamicTable = _dynamicTable,
+                    data = mainItems
+                };
+                return Ok(tableObject);
+
+            }
+            else
+            {
+                // if main item, sub item and details item are exists.
+                foreach (var item in uniqueMainItems)
+                {
+                    MainItem mainItem = new MainItem();
+                    mainItem.SubItems = new List<SubItem>();
+
+                    var subItems = new List<string>();
+                    var uniqueSubItems = new List<string>();
+
+
+                   
+
+                    mainItem.MainItemName = item;
+
+                    // get display values.
+                    foreach (var item1 in itemsWithProperties)
+                    {
+                        if (item == item1.MainItemName)
+                        {
+                            // store subItems.
+                            subItems.Add(item1.SubItemName);
+                          
+
+                            if (item1.IsMainTotal)
+                            {
+                                mainItem.OctVal = item1.SukeyQADtos[0].OctCost[2];
+                                mainItem.NovVal = item1.SukeyQADtos[0].NovCost[2];
+                                mainItem.DecVal = item1.SukeyQADtos[0].DecCost[2];
+                                mainItem.JanVal = item1.SukeyQADtos[0].JanCost[2];
+                                mainItem.FebVal = item1.SukeyQADtos[0].FebCost[2];
+                                mainItem.MarVal = item1.SukeyQADtos[0].MarCost[2];
+                                mainItem.AprVal = item1.SukeyQADtos[0].AprCost[2];
+                                mainItem.MayVal = item1.SukeyQADtos[0].MayCost[2];
+                                mainItem.JunVal = item1.SukeyQADtos[0].JunCost[2];
+                                mainItem.JulVal = item1.SukeyQADtos[0].JulCost[2];
+                                mainItem.AugVal = item1.SukeyQADtos[0].AugCost[2];
+                                mainItem.SepVal = item1.SukeyQADtos[0].SepCost[2];
+                                mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
+                                mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
+                                mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                            }
+                        }
+                    }
+
+
+                    var detailsItems = new List<string>();
+                    var uniqueDetailsItems = new List<string>();
+
+
+                    // get unique subItems.
+                    uniqueSubItems = subItems.Distinct().ToList();
+                    
+
+                    // get sub items according to main items.
+                    foreach (var item2 in uniqueSubItems)
+                    {
+                        foreach (var x in itemsWithProperties)
+                        {
+                            if (item2 == x.SubItemName)
+                            {
+                                // store detailsItems.
+                                detailsItems.Add(x.DetailsItemName);
+                            }
+                        }
+
+                        // get unique detailsItems.
+                        uniqueDetailsItems = detailsItems.Distinct().ToList();
+
+                        foreach (var item3 in itemsWithProperties)
+                        {
+                            
+
+                            if (item == item3.MainItemName && item2 == item3.SubItemName)
+                            {
+                               
+
+                                if (item3.IsSubTotal)
+                                {
+                                    SubItem subItem = new SubItem();
+                                    subItem.SubItemName = item2;
+
+                                    subItem.OctVal = item3.SukeyQADtos[0].OctCost[2];
+                                    subItem.NovVal = item3.SukeyQADtos[0].NovCost[2];
+                                    subItem.DecVal = item3.SukeyQADtos[0].DecCost[2];
+                                    subItem.JanVal = item3.SukeyQADtos[0].JanCost[2];
+                                    subItem.FebVal = item3.SukeyQADtos[0].FebCost[2];
+                                    subItem.MarVal = item3.SukeyQADtos[0].MarCost[2];
+                                    subItem.AprVal = item3.SukeyQADtos[0].AprCost[2];
+                                    subItem.MayVal = item3.SukeyQADtos[0].MayCost[2];
+                                    subItem.JunVal = item3.SukeyQADtos[0].JunCost[2];
+                                    subItem.JulVal = item3.SukeyQADtos[0].JulCost[2];
+                                    subItem.AugVal = item3.SukeyQADtos[0].AugCost[2];
+                                    subItem.SepVal = item3.SukeyQADtos[0].SepCost[2];
+                                    subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
+                                    subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
+                                    subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
+                                    subItem.DetailsItems = new List<DetailsItem>();
+
+                                    foreach (var item4 in uniqueDetailsItems)
+                                    {
+                                        foreach (var item5 in itemsWithProperties)
+                                        {
+                                            if (item2 == item5.SubItemName &&  item4 == item5.DetailsItemName)
+                                            {
+                                                DetailsItem detailsItem = new DetailsItem();
+                                                detailsItem.DetailsItemName = item4;
+
+                                                detailsItem.OctVal = item5.SukeyQADtos[0].OctCost[2];
+                                                detailsItem.NovVal = item5.SukeyQADtos[0].NovCost[2];
+                                                detailsItem.DecVal = item5.SukeyQADtos[0].DecCost[2];
+                                                detailsItem.JanVal = item5.SukeyQADtos[0].JanCost[2];
+                                                detailsItem.FebVal = item5.SukeyQADtos[0].FebCost[2];
+                                                detailsItem.MarVal = item5.SukeyQADtos[0].MarCost[2];
+                                                detailsItem.AprVal = item5.SukeyQADtos[0].AprCost[2];
+                                                detailsItem.MayVal = item5.SukeyQADtos[0].MayCost[2];
+                                                detailsItem.JunVal = item5.SukeyQADtos[0].JunCost[2];
+                                                detailsItem.JulVal = item5.SukeyQADtos[0].JulCost[2];
+                                                detailsItem.AugVal = item5.SukeyQADtos[0].AugCost[2];
+                                                detailsItem.SepVal = item5.SukeyQADtos[0].SepCost[2];
+
+                                                subItem.DetailsItems.Add(detailsItem);
+                                            }
+                                        }
+                                    }
+
+                                    mainItem.SubItems.Add(subItem);
+                                }
+                                
+
+                                
+
+
+                                
+
+                            }
+                        }
+                    }
+
+
+                    mainItems.Add(mainItem);
+                }
+
+                var tableObject = new
+                {
+                    dynamicTable = _dynamicTable,
+                    data = mainItems
+                };
+                return Ok(tableObject);
             }
 
 
-
-            return Ok();
+            
         }
+
+        class ItemsWithProperties
+        {
+            public string MainItemId { get; set; }
+            public string MainItemName { get; set; }
+            public string SubItemId { get; set; }
+            public string SubItemName { get; set; }
+            public string DetailsItemId { get; set; }
+            public string DetailsItemName { get; set; }
+            public bool IsMainTotal { get; set; }
+            public bool IsSubTotal { get; set; }
+
+            public List<SukeyQADto> SukeyQADtos { get; set; }
+
+        }
+
+        class OnlyMainItem
+        {
+            public string MainItemName { get; set; }
+
+            public double OctVal { get; set; }
+            public double NovVal { get; set; }
+            public double DecVal { get; set; }
+            public double JanVal { get; set; }
+            public double FebVal { get; set; }
+            public double MarVal { get; set; }
+            public double AprVal { get; set; }
+            public double MayVal { get; set; }
+            public double JunVal { get; set; }
+            public double JulVal { get; set; }
+            public double AugVal { get; set; }
+            public double SepVal { get; set; }
+            public double Total { get; set; }
+            public double FirstHalf { get; set; }
+            public double SecondHalf { get; set; }
+
+            public List<MainItem> MainItems { get; set; }
+        }
+        class MainItem
+        {
+            public string MainItemName { get; set; }
+
+            public double OctVal { get; set; }
+            public double NovVal { get; set; }
+            public double DecVal { get; set; }
+            public double JanVal { get; set; }
+            public double FebVal { get; set; }
+            public double MarVal { get; set; }
+            public double AprVal { get; set; }
+            public double MayVal { get; set; }
+            public double JunVal { get; set; }
+            public double JulVal { get; set; }
+            public double AugVal { get; set; }
+            public double SepVal { get; set; }
+            public double Total { get; set; }
+            public double FirstHalf { get; set; }
+            public double SecondHalf { get; set; }
+
+            public List<SubItem> SubItems { get; set; }
+        }
+        class SubItem
+        {
+            public string SubItemName { get; set; }
+
+            public double OctVal { get; set; }
+            public double NovVal { get; set; }
+            public double DecVal { get; set; }
+            public double JanVal { get; set; }
+            public double FebVal { get; set; }
+            public double MarVal { get; set; }
+            public double AprVal { get; set; }
+            public double MayVal { get; set; }
+            public double JunVal { get; set; }
+            public double JulVal { get; set; }
+            public double AugVal { get; set; }
+            public double SepVal { get; set; }
+            public double Total { get; set; }
+            public double FirstHalf { get; set; }
+            public double SecondHalf { get; set; }
+
+            public List<DetailsItem> DetailsItems { get; set; }
+        }
+
+        class DetailsItem
+        {
+            public string DetailsItemName { get; set; }
+
+            public double OctVal { get; set; }
+            public double NovVal { get; set; }
+            public double DecVal { get; set; }
+            public double JanVal { get; set; }
+            public double FebVal { get; set; }
+            public double MarVal { get; set; }
+            public double AprVal { get; set; }
+            public double MayVal { get; set; }
+            public double JunVal { get; set; }
+            public double JulVal { get; set; }
+            public double AugVal { get; set; }
+            public double SepVal { get; set; }
+            public double Total { get; set; }
+            public double FirstHalf { get; set; }
+            public double SecondHalf { get; set; }
+        }
+
 
         public List<SukeyQADto> GetSettingWiseData(DynamicSetting dynamicSetting, string companiIds, int year, string timestampsId)
         {
             List<SukeyQADto> data = null;
-            switch (dynamicSetting.Id)
+            switch (Convert.ToInt32(dynamicSetting.MethodId))
             {
                 case 1:
                     data =  GetTotalWithoutQA(companiIds, dynamicSetting.ParameterId, year, timestampsId);

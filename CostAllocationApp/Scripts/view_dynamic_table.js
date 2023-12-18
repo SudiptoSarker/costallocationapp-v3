@@ -713,7 +713,7 @@
                     $("#delete_settings_table").modal("hide");
                 },
                 error: function (data) {
-                    ToastMessageFailed(data); 
+                    ToastMessageFailed("操作が失敗しました"); 
                 }
             });
         }else{
@@ -894,7 +894,7 @@
                     $("#delete_settings_table").modal("hide");
                 },
                 error: function (data) {
-                    ToastMessageFailed(data); 
+                    ToastMessageFailed("操作が失敗しました"); 
                 }
             });            
         }else{

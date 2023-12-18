@@ -110,7 +110,7 @@ $(document).ready(function () {
                 GetExplanationList();               
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
         $('#inactive_explanation_modal').modal('toggle');
@@ -159,7 +159,7 @@ function UpdateInsertExplanations(explanationName,explanationId,isUpdate) {
             }            
         },
         error: function (data) {
-            ToastMessageFailed(data);
+            ToastMessageFailed("操作が失敗しました");
         }
     });
 }

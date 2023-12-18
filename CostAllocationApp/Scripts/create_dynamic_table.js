@@ -89,7 +89,7 @@ function InsertDynamicTables() {
                     }
                 },
                 error: function (data) {
-                    ToastMessageFailed(data);
+                    ToastMessageFailed("操作が失敗しました");
                 }
             });
         }
@@ -119,7 +119,7 @@ function InsertDynamicTables() {
                     $('.table_input_frm_div').hide();
                 },
                 error: function (data) {
-                    ToastMessageFailed(data);
+                    ToastMessageFailed("操作が失敗しました");
                 }
             });
         }
@@ -250,7 +250,7 @@ $(document).on('click', '#update_dynamic_table ', function () {
                 }                
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
                 $('#edit_dynamic_table_modal').modal('toggle');
             }
         });
@@ -329,7 +329,7 @@ $(document).on('click', '.main_item_add_btn ', function () {
               
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
     }
@@ -424,7 +424,7 @@ $(document).on('click', '.main_item_edit_action ', function () {
 
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
     }
@@ -561,7 +561,7 @@ $(document).on('click', '.sub_item_edit_action', function () {
                 });                
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
     }
@@ -632,7 +632,7 @@ $(document).on('click', '.sub_item_add_btn ', function () {
             }
         },
         error: function (data) {
-            ToastMessageFailed(data);
+            ToastMessageFailed("操作が失敗しました");
         }
     });
 
@@ -682,7 +682,7 @@ $(document).on('click', '.detail_item_add_btn ', function () {
             });
         },
         error: function (data) {
-            ToastMessageFailed(data);
+            ToastMessageFailed("操作が失敗しました");
         }
     });
 });
@@ -774,7 +774,7 @@ $(document).on('click', '.detail_item_edit_action', function () {
 
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
     }
@@ -811,7 +811,7 @@ $(document).on('click', '.confrim_del_btn ', function () {
             $('.table_input_frm_div').hide();
         },
         error: function (data) {
-            ToastMessageFailed(data);
+            ToastMessageFailed("操作が失敗しました");
         }
     });
 
@@ -850,7 +850,7 @@ $(document).on('click', 'confrim_del_btn ', function () {
             GetDynamicTablesForSetting();
         },
         error: function (data) {
-            ToastMessageFailed(data);
+            ToastMessageFailed("操作が失敗しました");
         }
     });
 
@@ -1558,7 +1558,7 @@ $(document).ready(function() {
                 }
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
 
@@ -1650,7 +1650,7 @@ $(document).ready(function() {
                 });                
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
 
@@ -1725,7 +1725,7 @@ $(document).ready(function() {
                 });
             },
             error: function (data) {
-                ToastMessageFailed(data);
+                ToastMessageFailed("操作が失敗しました");
             }
         });
 

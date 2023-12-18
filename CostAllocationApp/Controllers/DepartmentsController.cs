@@ -17,16 +17,22 @@ namespace CostAllocationApp.Controllers
             userBLL = new UserBLL();
             _utility = new Utility();
         }
-        // GET: Departments
+
+        /*
+        Get Department's Master View
+        Request: Get
+        Response: ActionResult
+        */
         public ActionResult CreateDepartment()
         {
-            //authentications
+            // Login Authentication
             if (!_utility.CheckSession())
             {
                 return RedirectToAction("Login", "Registration");
             }
             else
             {
+                // Logged In User Role
                 string userRole = "";
                 string loggedIn_userName = Session["userName"].ToString();
                 if (!string.IsNullOrEmpty(loggedIn_userName))

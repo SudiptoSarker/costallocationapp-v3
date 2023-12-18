@@ -14,22 +14,25 @@ namespace CostAllocationApp.BLL
         {
             departmentDAL = new DepartmentDAL();
         }
+
+        // Create New Department
         public int CreateDepartment(Department department)
         {
             return departmentDAL.CreateDepartment(department);
         }
+
+        // Update Department
         public int UpdateDepartment(Department department)
         {
             return departmentDAL.UpdateDepartment(department);
         }
+
+        // Get Department List
         public List<Department> GetAllDepartments()
         {
             return departmentDAL.GetAllDepartments();
         }
-        public List<InCharge> GetAllIncharge()
-        {
-            return departmentDAL.GetAllIncharge();
-        }
+
         public bool CheckForBudgetInitialDataExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetInitialDataExists(budgetYear);
@@ -46,10 +49,13 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.CheckForBudgetSecondHalfDataFinalizeExists(budgetYear);
         }
+
+        // Department Deletion 
         public int RemoveDepartment(int departmentIds)
         {
             return departmentDAL.RemoveDepartment(departmentIds);
         }
+
         public List<Department> GetAllDepartmentsBySectionId(int sectionId)
         {
             return departmentDAL.GetAllDepartmentsBySectionId(sectionId);

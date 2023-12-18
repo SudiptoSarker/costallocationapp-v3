@@ -1,7 +1,44 @@
 ﻿$(document).ready(function(){    
     $(".sorting_custom_modal").css("display", "block");
+
+    
 });
 //$(document).ready(function () {
+//onclick="table[0].setNestedCell(0, 0, { title:'New title',tooltip:'New tooltip' })
+//table.setHeader(document.getElementById('columnNumber').value)
+
+
+
+
+var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
+    console.log("test-1");
+    // var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
+    // var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
+       
+    // var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
+    // var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
+    
+    // //get cell information
+    // //var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
+    // /*
+    //     cell info:x2/x1 ,1-employee name ,2-remarks, 3-sections, 4-dept. ,5-incharge ,6-role, 7-explanations ,8-company ,9-grade ,10-unit price, 11-oct, 12-nov, 13-dec, 14-jan, 15-feb, 16-mar,17-apr, 18-may, 19-jun, 20-july, 21-aug, 22-sept
+    //     x2-34 means row select
+    // */
+
+    // var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);    
+    // //var selectedRows = $("#jspreadsheet").getSelectedRows();
+    // var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
+
+    // if(typeof retrivedData != "undefined"){        
+    //     if(x2==40){
+    //         //row approval
+    //         CheckForValidRowRequest(retrivedData.assignmentId,retrivedData.isActive,retrivedData.isRowPending,retrivedData.isDeletePending,sRows);            
+    //     }else{
+    //         //cells approval
+    //         CheckForValidCellRequest(retrivedData.assignmentId,x2,retrivedData.bCYRCellPending,x1,cellName1,sRows);
+    //     }
+    // }
+}
 
     //checking the data is finalize or not.
     //save and finalize button disable/enable
@@ -1090,6 +1127,8 @@
         var h = window.innerHeight;
         
         if (_retriveddata != "" && _retriveddata != null && _retriveddata != undefined) {
+            console.log(_retriveddata);
+
             jss = $('#jspreadsheet').jspreadsheet({
                 data: _retriveddata,
                 filters: true,
@@ -2519,7 +2558,12 @@
                     
         
                     return items;
-                }
+                },
+
+                //onselection: filter_top_header
+                //ondeleterow: filter_top_header
+                //onfocus: filter_top_header
+                //
             });
             LoaderHide();
         }else{

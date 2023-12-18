@@ -3634,7 +3634,7 @@ namespace CostAllocationApp.BLL
         public List<SukeyQADto> GetTotalBudgetCostByIncharge(string companiIds, string inchargeIds, int year)
         {
             List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
-            List<InCharge> inCharges = departmentBLL.GetAllIncharge();
+            List<InCharge> inCharges = inchargeBLL.GetAllInCharges();
 
             double rowTotal = 0;
             double firstSlot = 0;

@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewBag.Title = "部署の登録、編集、削除 (Department Registration)";
+﻿@{
+    ViewBag.Title = "部署の登録、編集、削除";
 }
 
 @section Styles {
@@ -22,12 +21,12 @@
                     <table id="dept_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6" class="dept_header">部署 リスト(Dept List)</th>
+                                <th colspan="6" class="dept_header">部署 リスト</th>
                             </tr>
                             <tr>
                                 <th class="dept_list_theader dept_header">複数選択</th>
-                                <th class="dept_list_theader dept_header">部署 (Dept Name)</th>
-                                <th class="dept_list_theader dept_header">区分 (Section)</th>
+                                <th class="dept_list_theader dept_header">部署</th>
+                                <th class="dept_list_theader dept_header">区分</th>
                             </tr>
                         </thead>
                         <tbody id="department_list_tbody"></tbody>
@@ -44,13 +43,13 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_dept_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_dept_btn" type="button">削除​</button>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn edit_dept_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_dept_btn" type="button">編集​​</button>
                             </div>                                
                             <div class="col-md-3" >
-                                <button class="btn add_dept_btn" type="button">追加 (add)</button>
+                                <button class="btn add_dept_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -68,7 +67,7 @@
         <div class="modal-content">
             <div class="modal-body">                
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>追加 部署 (add department)</h3>
+                    <h3 class='add_edit_del_header'>追加 部署</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -80,8 +79,8 @@
                         <thead style="border: none;">
                             <tr></tr>
                             <tr>
-                                <th class="dept_header">部署 (Dept Name)</th>
-                                <th class="dept_header">区分 (Section)</th>
+                                <th class="dept_header">部署</th>
+                                <th class="dept_header">区分</th>
                                 <th class="dept_header">操作</th>
                             </tr>
                         </thead>
@@ -94,8 +93,8 @@
                                     <select id="sec_list_for_dept_add" class="" style=""></select>                                           
                                 </td>
                                 <td class="department_body">
-                                    <a href="javascript:void(0);" class="" id="undo_add_frm">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="dept_add_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="undo_add_frm">取消</a>
+                                    <a href="javascript:void(0);" class="" id="dept_add_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -117,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-body">                    
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>編集​ 部署 (edit department)</h3>
+                    <h3 class='add_edit_del_header'>編集​ 部署</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -127,8 +126,8 @@
                         <thead style="border: none;">
                             <tr></tr>
                             <tr>
-                                <th class="dept_header">部署 (Dept Name)</th>
-                                <th class="dept_header">区分 (Section)</th>
+                                <th class="dept_header">部署</th>
+                                <th class="dept_header">区分</th>
                                 <th class="dept_header">操作</th>
                             </tr>
                         </thead>
@@ -141,8 +140,8 @@
                                     <select id="sec_list_for_dept_edit" class="" style=""></select>                                           
                                 </td>
                                 <td class="department_body">
-                                    <a href="javascript:void(0);" class="" id="undo_edit_frm">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="dept_edit_btn">更新​ (Update)</a>
+                                    <a href="javascript:void(0);" class="" id="undo_edit_frm">取消</a>
+                                    <a href="javascript:void(0);" class="" id="dept_edit_btn">更新​</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -163,7 +162,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>部署削除 (Delete Department)</h3>
+                    <h3 class='add_edit_del_header'>部署削除</h3>
                     <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>

@@ -39,7 +39,12 @@ namespace CostAllocationApp.DAL
         public List<Category> GetAllCategoriesByDynamicTableId(int dynamicTableId)
         {
             List<Category> categories = new List<Category>();
-            string query = "select * from Categories where DynamicTableId="+dynamicTableId;
+            string query = ""; 
+            query = query + "SELECT c.Id,c.CategoryName,c.IsActive,c.DynamicTableId,dt.CategoryTitle,dt.SubCategoryTitle,dt.DetailsTitle ";
+            query = query + "FROM Categories c ";
+            query = query + "    INNER JOIN DynamicTables dt ON c.DynamicTableId=dt.Id ";
+            query = query + "where DynamicTableId=" + dynamicTableId;
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -53,11 +58,16 @@ namespace CostAllocationApp.DAL
                         {
                             Category category = new Category();
                             category.Id = Convert.ToInt32(rdr["Id"]);
-                            category.CategoryName = rdr["CategoryName"].ToString();
-                            //category.IsActive = Convert.ToBoolean(rdr["IsActive"]);
-                            //category.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            //category.CreatedBy = rdr["CreatedBy"].ToString();
-
+                            category.CategoryName = rdr["CategoryName"].ToString();                            
+                            category.SubTitleName = rdr["SubCategoryTitle"] is DBNull ? "" : rdr["SubCategoryTitle"].ToString();
+                            if (!string.IsNullOrEmpty(category.SubTitleName))
+                            {
+                                category.IsSubTitle = true;
+                            }
+                            else
+                            {
+                                category.IsSubTitle = false;
+                            }
                             categories.Add(category);
                         }
                     }

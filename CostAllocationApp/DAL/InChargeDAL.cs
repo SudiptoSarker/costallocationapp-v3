@@ -63,7 +63,10 @@ namespace CostAllocationApp.DAL
         {
             List<InCharge> inCharges = new List<InCharge>();
             string query = "";
-            query = "SELECT * FROM InCharges WHERE IsActive=1 ";
+            query = query + "SELECT inch.Id 'InchargeId',inch.Name 'InchargeName',inch.CreatedDate,inch.CreatedBy ";
+            query = query + "FROM InCharges inch ";
+            query = query + "WHERE inch.isactive = 1 ";
+
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -76,8 +79,8 @@ namespace CostAllocationApp.DAL
                         while (rdr.Read())
                         {
                             InCharge inCharge = new InCharge();
-                            inCharge.Id = Convert.ToInt32(rdr["Id"]);
-                            inCharge.InChargeName = rdr["Name"].ToString();
+                            inCharge.Id = Convert.ToInt32(rdr["InchargeId"]);
+                            inCharge.InChargeName = rdr["InchargeName"].ToString();
                             inCharge.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
                             inCharge.CreatedBy = rdr["CreatedBy"].ToString();
 

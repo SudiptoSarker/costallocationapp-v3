@@ -11,19 +11,16 @@ function GetCheckedIds(department_list_id) {
     return id;
 }
 //success toast message
-function ToastMessageSuccess(response_data) {
-    Command: toastr["success"](response_data, "Success")
+function ToastMessageSuccess(response_data) {    
     toastr.options = {
-        "closeButton": false,
+        "closeButton": true,
         "debug": false,
-        "newestOnTop": false,
+        "newestOnTop": true,
         "progressBar": false,
         "positionClass": "toast-top-right",
-        //positionClass: 'toast-top-center'
-
         "preventDuplicates": false,
         "onclick": null,
-        "showDuration": "3000",
+        "showDuration": "5000",
         "hideDuration": "1000",
         "timeOut": "5000",
         "extendedTimeOut": "1000",
@@ -31,7 +28,9 @@ function ToastMessageSuccess(response_data) {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+      };
+      
+      toastr.success(response_data, "Success");
 }
 //success toast message
 function ToastMessageSuccess_Center(response_data) {

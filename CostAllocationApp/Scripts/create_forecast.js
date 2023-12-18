@@ -986,6 +986,8 @@ function ShowForecastJexcel(){
     var octTotalPoints = "";
     octTotalPoints = "<label id='oct_total_points'>"+_retriveTotal.OctTotalMM+"</label>"
 
+    console.log("alldata: "+_retriveddata);
+    
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
         

@@ -84,8 +84,10 @@
                 //alert(arrResultsItem.length);
                 //return false;
                 var count =1;                
-                if(parseInt(data.length)>0){                        
+                if (parseInt(data.length) > 0) {
+                    console.log(data);
                     $.each(data, function (key, item) {
+                        //debugger;
                         var startTR = "";
                         var endTR = "";
                         var checkItem = "";
@@ -96,6 +98,9 @@
                         var dataForList = "";
                         var totalListItem = "";                        
                         var settingColCount = 0;
+                        var mainTotalCheck = '';
+                        var subTotalCheck = '';
+
 
                         $("#main_item_settings").val('');
                         $("#sub_item_settings").val('');
@@ -112,6 +117,9 @@
                             }                            
                             checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                                               
                         }
+
+                        
+        
 
                         var tempCatId = 0;
                         if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
@@ -170,13 +178,41 @@
                             dependency = "in";
                         }
 
-                        totalListItem = ""        
-                        totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
+                        totalListItem = "";
+
+                        if (item.IsMainTotal) {
+                            mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_main_total_chk'></td>`;
+                        }
+                        else {
+                            mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
+                        }
+                        
+
+                        if (detailItem != '') {
+                            if (item.IsSubTotal) {
+                                subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_sub_total_chk'></td>`;
+                            }
+                            else {
+                                subTotalCheck = `<td class='setting_items_td'><input  type='checkbox'  class='is_sub_total_chk'></td>`;
+                            }
+                            
+                            totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck +""+ endTR;
+                        }
+                        else {
+                            totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + endTR;
+                        }
+
+                              
+                        
                         
                         if(parseInt(count) == 1){
                             settingColCount = parseInt(settingColCount)+2;
                             tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
-                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計データ​(data)</th>";
+                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>集計データ​(data)</th>";
+                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Main Total</th>";
+                            if (detailItem != '') {
+                                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Sub Total</th>";
+                            }
 
                             tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
                             $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
@@ -204,6 +240,8 @@
                     var dataForList = "";
                     var totalListItem = "";                        
                     var settingColCount = 0;
+                    var mainTotalCheck = '';
+                    var subTotalCheck = '';
 
                     $("#main_item_settings").val('');
                     $("#sub_item_settings").val('');
@@ -213,7 +251,7 @@
                     startTR = "<tr data-count='1' class='setting_tbl_tr'>";
                     endTR = "</tr>";
                     tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";        
-                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='0' class='setting_tbl_chk'></td>`;   
+                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='0' class='setting_tbl_chk'></td>`;
                     settingColCount = parseInt(settingColCount)+1;                                                                
 
                     var tempCatId = 0;
@@ -247,13 +285,26 @@
                     dataForList = dataForList +"</select>   ";                      
                     dataForList = dataForList +" </td>";
                     
-                    var dependency = "";                                                            
-                    totalListItem = ""        
-                    totalListItem = startTR+""+checkItem+""+mainItem+""+subItem+""+detailItem+""+methodList+""+dataForList+""+endTR;
+                    var dependency = "";
+                    mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
+                    
+                    totalListItem = "";
+                    if (detailItem != '') {
+                        subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_sub_total_chk'></td>`;
+                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck+"" + endTR;
+                    }
+                    else {
+                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck+"" + endTR;
+                    }
+                    
                     
                     settingColCount = parseInt(settingColCount)+2;
                     tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
-                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計データ​(data)</th>";
+                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>集計データ​(data)</th>";
+                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Main Total</th>";
+                    if (detailItem != '') {
+                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Sub Total</th>";
+                    }
 
                     tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
                     $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
@@ -678,6 +729,7 @@
     }); 
 
     $(document).on('click', '.list_table_edit_btn ', function () {
+        debugger;
         var tableSettingsParameters = "";
         //tableSettingsParameters = "settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1,2,3)_insertType(update/insert)###settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1#2#3#)_insertType(update/insert)"
         
@@ -686,6 +738,40 @@
         var is_detail_item_colmn = $("#detail_item_settings").val();
 
         var isValidRequest = true;
+
+        // code for validation.
+        //{
+        //    var itemFlag = 0;
+
+        //    if (is_main_item_colmn != '' && is_main_item_colmn != null && is_main_item_colmn != undefined) {
+        //        itemFlag = 1;
+        //    }
+        //    if (is_sub_item_colmn != '' && is_sub_item_colmn != null && is_sub_item_colmn != undefined) {
+        //        itemFlag = 2;
+        //    }
+        //    if (is_detail_item_colmn != '' && is_detail_item_colmn != null && is_detail_item_colmn != undefined) {
+        //        itemFlag = 3;
+        //    }
+
+
+
+        //    if (itemFlag == 1) {
+
+        //    }
+        //    if (itemFlag == 2) {
+
+        //    }
+        //    if (itemFlag == 3) {
+
+        //    }
+
+        //    $('.setting_tbl_tr').each(function (i) {
+
+        //    });
+        //}
+      
+
+
         $('.setting_tbl_tr').each(function(i){
             var settingsId = "";
             var mainItemId = "";
@@ -693,7 +779,9 @@
             var detailItemId = "";
             var methodId = "";
             var paramterIds = "";
-            var insertType = "";            
+            var insertType = "";
+            var isMainTotal = false;
+            var isSubTotal = false;
                         
             var settingsId = $(this).find(".setting_tbl_chk").val();
             if (settingsId == '' || settingsId == null || settingsId == undefined || settingsId==0) {
@@ -754,13 +842,29 @@
             if (paramterIds == '' || paramterIds == null || paramterIds == undefined) {                
                 paramterIds = 0;
                 isValidRequest = false;
-            }                        
+            }
+
+            isMainTotal = $(this).find(".is_main_total_chk").is(':checked');
+            //console.log($(this).find(".is_main_total_chk"));
+
+            isSubTotal = $(this).find(".is_sub_total_chk").is(':checked');
+
+            if (isSubTotal == undefined) {
+                if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined) {
+                    tableSettingsParameters = settingsId + "_" + mainItemId + "_" + subItemId + "_" + detailItemId + "_" + methodId + "_" + paramterIds + "_" + insertType + "_" + isMainTotal;
+                } else {
+                    tableSettingsParameters = tableSettingsParameters + "-" + settingsId + "_" + mainItemId + "_" + subItemId + "_" + detailItemId + "_" + methodId + "_" + paramterIds + "_" + insertType + "_" + isMainTotal;
+                }
+            }
+            else {
+                if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined) {
+                    tableSettingsParameters = settingsId + "_" + mainItemId + "_" + subItemId + "_" + detailItemId + "_" + methodId + "_" + paramterIds + "_" + insertType + "_" + isMainTotal + "_" + isSubTotal;
+                } else {
+                    tableSettingsParameters = tableSettingsParameters + "-" + settingsId + "_" + mainItemId + "_" + subItemId + "_" + detailItemId + "_" + methodId + "_" + paramterIds + "_" + insertType + "_" + isMainTotal + "_" + isSubTotal;
+                }
+            }
             
-            if (tableSettingsParameters == '' || tableSettingsParameters == null || tableSettingsParameters == undefined){
-                tableSettingsParameters =settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
-            }else{
-                tableSettingsParameters = tableSettingsParameters+ "-"+settingsId+"_"+mainItemId+"_"+subItemId+"_"+detailItemId+"_"+methodId+"_"+paramterIds+"_"+insertType;
-            }                        
+                                 
         })
         if(isValidRequest){
             UpdateInsertSettings(tableSettingsParameters);

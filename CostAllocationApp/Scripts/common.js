@@ -77,17 +77,15 @@ function ToastMessage_Warning(message){
 }
 //failed toast message
 function ToastMessageFailed(response_data){
-    Command: toastr["warning"](response_data.responseText, "Warning")
-
     toastr.options = {
-        "closeButton": false,
+        "closeButton": true,
         "debug": false,
         "newestOnTop": false,
         "progressBar": false,
         "positionClass": "toast-top-right",
         "preventDuplicates": false,
         "onclick": null,
-        "showDuration": "3000",
+        "showDuration": "5000",
         "hideDuration": "1000",
         "timeOut": "5000",
         "extendedTimeOut": "1000",
@@ -95,6 +93,8 @@ function ToastMessageFailed(response_data){
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+      };
+      
+      toastr.error(response_data, "Failed");
 }  
 

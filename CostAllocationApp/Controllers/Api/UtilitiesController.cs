@@ -13520,6 +13520,7 @@ namespace CostAllocationApp.Controllers.Api
                 iwp.DetailsItemName = item.DetailsItemName;
                 iwp.IsMainTotal = item.IsMainTotal;
                 iwp.IsSubTotal = item.IsSubTotal;
+                iwp.MethodId = Convert.ToInt32(item.MethodId);
 
                 iwp.SukeyQADtos = new List<SukeyQADto>();
                 iwp.SukeyQADtos.AddRange(GetSettingWiseData(item, companiIds, year, timestampsId));
@@ -13577,6 +13578,7 @@ namespace CostAllocationApp.Controllers.Api
                                 onlyMainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
                                 onlyMainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
                                 onlyMainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                                onlyMainItem.MethodId = item1.MethodId;
                             }
                             else
                             {
@@ -13595,6 +13597,7 @@ namespace CostAllocationApp.Controllers.Api
                                 mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
                                 mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
                                 mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                                mainItem.MethodId = item1.MethodId;
 
                                 onlyMainItem.MainItems.Add(mainItem);
                             }
@@ -13657,6 +13660,7 @@ namespace CostAllocationApp.Controllers.Api
                                 mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
                                 mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
                                 mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                                mainItem.MethodId = item1.MethodId;
                             }
                         }
                     }
@@ -13690,6 +13694,7 @@ namespace CostAllocationApp.Controllers.Api
                                 subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
                                 subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
                                 subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
+                                subItem.MethodId = item3.MethodId;
 
 
                                 mainItem.SubItems.Add(subItem);
@@ -13752,6 +13757,7 @@ namespace CostAllocationApp.Controllers.Api
                                 mainItem.Total = item1.SukeyQADtos[0].RowTotal[2];
                                 mainItem.FirstHalf = item1.SukeyQADtos[0].FirstSlot[2];
                                 mainItem.SecondHalf = item1.SukeyQADtos[0].SecondSlot[2];
+                                mainItem.MethodId = item1.MethodId;
                             }
                         }
                     }
@@ -13808,6 +13814,7 @@ namespace CostAllocationApp.Controllers.Api
                                     subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
                                     subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
                                     subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
+                                    subItem.MethodId = item3.MethodId;
                                     subItem.DetailsItems = new List<DetailsItem>();
 
                                     foreach (var item4 in uniqueDetailsItems)
@@ -13831,6 +13838,7 @@ namespace CostAllocationApp.Controllers.Api
                                                 detailsItem.JulVal = item5.SukeyQADtos[0].JulCost[2];
                                                 detailsItem.AugVal = item5.SukeyQADtos[0].AugCost[2];
                                                 detailsItem.SepVal = item5.SukeyQADtos[0].SepCost[2];
+                                                detailsItem.MethodId = item5.MethodId;
 
                                                 subItem.DetailsItems.Add(detailsItem);
                                             }
@@ -13876,6 +13884,7 @@ namespace CostAllocationApp.Controllers.Api
             public string DetailsItemName { get; set; }
             public bool IsMainTotal { get; set; }
             public bool IsSubTotal { get; set; }
+            public int MethodId { get; set; }
 
             public List<SukeyQADto> SukeyQADtos { get; set; }
 
@@ -13900,6 +13909,7 @@ namespace CostAllocationApp.Controllers.Api
             public double Total { get; set; }
             public double FirstHalf { get; set; }
             public double SecondHalf { get; set; }
+            public int MethodId { get; set; }
 
             public List<MainItem> MainItems { get; set; }
         }
@@ -13922,6 +13932,7 @@ namespace CostAllocationApp.Controllers.Api
             public double Total { get; set; }
             public double FirstHalf { get; set; }
             public double SecondHalf { get; set; }
+            public int MethodId { get; set; }
 
             public List<SubItem> SubItems { get; set; }
         }
@@ -13944,6 +13955,7 @@ namespace CostAllocationApp.Controllers.Api
             public double Total { get; set; }
             public double FirstHalf { get; set; }
             public double SecondHalf { get; set; }
+            public int MethodId { get; set; }
 
             public List<DetailsItem> DetailsItems { get; set; }
         }
@@ -13967,6 +13979,7 @@ namespace CostAllocationApp.Controllers.Api
             public double Total { get; set; }
             public double FirstHalf { get; set; }
             public double SecondHalf { get; set; }
+            public int MethodId { get; set; }
         }
 
 

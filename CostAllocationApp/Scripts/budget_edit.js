@@ -11,7 +11,6 @@
 
 
 var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
-    console.log("test-1");
     // var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
     // var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
        
@@ -1126,9 +1125,7 @@ var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
         var w = window.innerWidth;
         var h = window.innerHeight;
         
-        if (_retriveddata != "" && _retriveddata != null && _retriveddata != undefined) {
-            console.log(_retriveddata);
-
+        if (_retriveddata != "" && _retriveddata != null && _retriveddata != undefined) {         
             jss = $('#jspreadsheet').jspreadsheet({
                 data: _retriveddata,
                 filters: true,
@@ -1808,8 +1805,7 @@ var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
                         var retrivedObjectForOnChangeInsert = retrivedObjectForInsertOnChange(jss.getRowData(y));
                         if (retrivedData.assignmentId.toString().includes('new')) {
 
-                            if (x == jssTableDefinition.grade.index) {
-                                debugger;
+                            if (x == jssTableDefinition.grade.index) {                              
                                 var rowNumber = parseInt(y) + 1;
                                 var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                                 var companyName = element[0].cells[9].innerText;
@@ -1937,8 +1933,7 @@ var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
                             }
 
                             if (x == jssTableDefinition.grade.index) {    
-                               // retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
-                                debugger;
+                               // retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;                               
                                 var rowNumber = parseInt(y) + 1;
                                 var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
                                 var companyName = element[0].cells[9].innerText;
@@ -1971,8 +1966,7 @@ var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
                                 //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                             }
 
-                            if (x == jssTableDefinition.unitPrice.index) {  
-                                debugger;
+                            if (x == jssTableDefinition.unitPrice.index) {                                 
                                 //retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                                 if (dataCheckForInsertOnChange.length == 0) {
                                     //jssUpdatedData.push(retrivedData);
@@ -2559,11 +2553,6 @@ var filter_top_header = function(instance, x1, y1, x2, y2, origin) {
         
                     return items;
                 },
-
-                //onselection: filter_top_header
-                //ondeleterow: filter_top_header
-                //onfocus: filter_top_header
-                //
             });
             LoaderHide();
         }else{

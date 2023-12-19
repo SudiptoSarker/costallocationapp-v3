@@ -985,8 +985,6 @@ function ShowForecastJexcel(){
     var novSumFormula = "=SUM(M3:M13)";
     var octTotalPoints = "";
     octTotalPoints = "<label id='oct_total_points'>"+_retriveTotal.OctTotalMM+"</label>"
-
-    console.log("alldata: "+_retriveddata);
     
     jss = $('#jspreadsheet').jspreadsheet({
         data: _retriveddata,
@@ -1247,7 +1245,6 @@ function ShowForecastJexcel(){
                     
                     var element = $(`.jexcel > tbody > tr:nth-of-type(${row+1})`);
                     var companyName = element[0].cells[9].innerText;
-                    console.log('company filter:' + companyName);
                     if (companyName.toLowerCase() !== "mw") {
                         return [];
                     }
@@ -1475,10 +1472,7 @@ function ShowForecastJexcel(){
             { title: "RowType", type: 'hidden', name: "RowType" },
             
             
-        ],        
-        // onevent: function(event,a,b,c,d,e,f) {
-        //     console.log(event,a,b,c,d,e,f);
-        // },
+        ], 
         onbeforechange: function (instance, cell, x, y, value) {            
             var retrivedData = retrivedObject(jss.getRowData(y));
             if (x == jssTableDefinition.section.index) {
@@ -1690,8 +1684,6 @@ function ShowForecastJexcel(){
                 else {
                     var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);
                     var dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedData.assignmentId);
-
-                    console.log(jssUpdatedData);
 
                     if (retrivedData.companyId != _mwCompanyFromApi.Id) {
                         retrivedData.gradeId = '';
@@ -4667,9 +4659,7 @@ function AddEmployee() {
     var masterEmployeeNameForAddEmployee = "";
     var inactiveEmployeeCountForAddEmployee = 0;
 
-    for (let x of allTableData) {            
-        console.log("x: "+x);                
-        console.log("retrivedData.employeeId: "+employeeId);                
+    for (let x of allTableData) {                           
 		if(parseInt(x[42]) == parseInt(employeeId)){
 			activeEmployeeCountForAddEmployee = activeEmployeeCountForAddEmployee+1;
 		}                          

@@ -33,6 +33,10 @@ namespace CostAllocationApp.BLL
             return departmentDAL.GetAllDepartments();
         }
 
+        /*
+         check the initial budget with year
+         return: bool
+        */
         public bool CheckForBudgetInitialDataExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetInitialDataExists(budgetYear);

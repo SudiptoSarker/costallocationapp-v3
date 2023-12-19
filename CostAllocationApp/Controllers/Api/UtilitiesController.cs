@@ -10004,11 +10004,7 @@ namespace CostAllocationApp.Controllers.Api
                         }
                     }
                 }
-
             }
-
-
-
 
             if (results > 0 || updateResults > 0 || cleanResults > 0 || insertResults>0)
             {

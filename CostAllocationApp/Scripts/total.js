@@ -349,7 +349,7 @@ $(document).ready(function () {
                                     if (subItem.DetailsItems != null) {
                                         $.each(subItem.DetailsItems, (index1, detailsItem) => {
                                             _tr += `
-                                                <tr class='hidden-row' data-item='${mainItem.MainItemName}_${mainItem.MainItemName}_&'>
+                                                <tr class='hidden-row' data-item='${mainItem.MainItemName}_${subItem.SubItemName}_&'>
                                                 <td></td>
                                                 <td></td>
                                                 <td>${detailsItem.DetailsItemName}</td>

@@ -193,21 +193,21 @@ $(document).ready(function () {
                             _tr += `
                                     <tr data-item='${mainItem.MainItemName}'>
                                     <td>${icon} ${mainItem.MainItemName}</td>
-                                    <td>${mainItem.OctVal}</td>
-                                    <td>${mainItem.NovVal}</td>
-                                    <td>${mainItem.DecVal}</td>
-                                    <td>${mainItem.JanVal}</td>
-                                    <td>${mainItem.FebVal}</td>
-                                    <td>${mainItem.MarVal}</td>
-                                    <td>${mainItem.AprVal}</td>
-                                    <td>${mainItem.MayVal}</td>
-                                    <td>${mainItem.JunVal}</td>
-                                    <td>${mainItem.JulVal}</td>
-                                    <td>${mainItem.AugVal}</td>
-                                    <td>${mainItem.SepVal}</td>
-                                    <td>${mainItem.Total}</td>
-                                    <td>${mainItem.FirstHalf}</td>
-                                    <td>${mainItem.SecondHalf}</td>
+                                    <td>${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
                             if (mainItem.MainItems.length > 0) {
@@ -215,21 +215,21 @@ $(document).ready(function () {
                                     _tr += `
                                     <tr class='hidden-row' data-item='${mainItem.MainItemName}_${mainItem.MainItemName}'>
                                     <td></td>
-                                    <td>${nestedMainItem.OctVal}</td>
-                                    <td>${nestedMainItem.NovVal}</td>
-                                    <td>${nestedMainItem.DecVal}</td>
-                                    <td>${nestedMainItem.JanVal}</td>
-                                    <td>${nestedMainItem.FebVal}</td>
-                                    <td>${nestedMainItem.MarVal}</td>
-                                    <td>${nestedMainItem.AprVal}</td>
-                                    <td>${nestedMainItem.MayVal}</td>
-                                    <td>${nestedMainItem.JunVal}</td>
-                                    <td>${nestedMainItem.JulVal}</td>
-                                    <td>${nestedMainItem.AugVal}</td>
-                                    <td>${nestedMainItem.SepVal}</td>
-                                    <td>${nestedMainItem.Total}</td>
-                                    <td>${nestedMainItem.FirstHalf}</td>
-                                    <td>${nestedMainItem.SecondHalf}</td>
+                                    <td>${Math.round(nestedMainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(nestedMainItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
                                 });
@@ -247,21 +247,21 @@ $(document).ready(function () {
                                     <tr data-item='${mainItem.MainItemName}'>
                                     <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
                                     <td></td>
-                                    <td>${mainItem.OctVal}</td>
-                                    <td>${mainItem.NovVal}</td>
-                                    <td>${mainItem.DecVal}</td>
-                                    <td>${mainItem.JanVal}</td>
-                                    <td>${mainItem.FebVal}</td>
-                                    <td>${mainItem.MarVal}</td>
-                                    <td>${mainItem.AprVal}</td>
-                                    <td>${mainItem.MayVal}</td>
-                                    <td>${mainItem.JunVal}</td>
-                                    <td>${mainItem.JulVal}</td>
-                                    <td>${mainItem.AugVal}</td>
-                                    <td>${mainItem.SepVal}</td>
-                                    <td>${mainItem.Total}</td>
-                                    <td>${mainItem.FirstHalf}</td>
-                                    <td>${mainItem.SecondHalf}</td>
+                                    <td>${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
                             if (mainItem.SubItems!=null) {
@@ -270,21 +270,21 @@ $(document).ready(function () {
                                     <tr class='hidden-row' data-item='${mainItem.MainItemName}_${subItem.SubItemName}'>
                                     <td></td>
                                     <td>${subItem.SubItemName}</td>
-                                    <td>${subItem.OctVal}</td>
-                                    <td>${subItem.NovVal}</td>
-                                    <td>${subItem.DecVal}</td>
-                                    <td>${subItem.JanVal}</td>
-                                    <td>${subItem.FebVal}</td>
-                                    <td>${subItem.MarVal}</td>
-                                    <td>${subItem.AprVal}</td>
-                                    <td>${subItem.MayVal}</td>
-                                    <td>${subItem.JunVal}</td>
-                                    <td>${subItem.JulVal}</td>
-                                    <td>${subItem.AugVal}</td>
-                                    <td>${subItem.SepVal}</td>
-                                    <td>${subItem.Total}</td>
-                                    <td>${subItem.FirstHalf}</td>
-                                    <td>${subItem.SecondHalf}</td>
+                                    <td>${Math.round(subItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
                                 });
@@ -303,21 +303,21 @@ $(document).ready(function () {
                                     <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
                                     <td></td>
                                     <td></td>
-                                    <td>${mainItem.OctVal}</td>
-                                    <td>${mainItem.NovVal}</td>
-                                    <td>${mainItem.DecVal}</td>
-                                    <td>${mainItem.JanVal}</td>
-                                    <td>${mainItem.FebVal}</td>
-                                    <td>${mainItem.MarVal}</td>
-                                    <td>${mainItem.AprVal}</td>
-                                    <td>${mainItem.MayVal}</td>
-                                    <td>${mainItem.JunVal}</td>
-                                    <td>${mainItem.JulVal}</td>
-                                    <td>${mainItem.AugVal}</td>
-                                    <td>${mainItem.SepVal}</td>
-                                    <td>${mainItem.Total}</td>
-                                    <td>${mainItem.FirstHalf}</td>
-                                    <td>${mainItem.SecondHalf}</td>
+                                    <td>${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(mainItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
                             if (mainItem.SubItems != null) {
@@ -327,21 +327,21 @@ $(document).ready(function () {
                                     <td></td>
                                     <td><i class="fa fa-plus expand-sub ${mainItem.MainItemName}subicon" aria-hidden="true"></i> ${subItem.SubItemName}</td>
                                     <td></td>
-                                    <td>${subItem.OctVal}</td>
-                                    <td>${subItem.NovVal}</td>
-                                    <td>${subItem.DecVal}</td>
-                                    <td>${subItem.JanVal}</td>
-                                    <td>${subItem.FebVal}</td>
-                                    <td>${subItem.MarVal}</td>
-                                    <td>${subItem.AprVal}</td>
-                                    <td>${subItem.MayVal}</td>
-                                    <td>${subItem.JunVal}</td>
-                                    <td>${subItem.JulVal}</td>
-                                    <td>${subItem.AugVal}</td>
-                                    <td>${subItem.SepVal}</td>
-                                    <td>${subItem.Total}</td>
-                                    <td>${subItem.FirstHalf}</td>
-                                    <td>${subItem.SecondHalf}</td>
+                                    <td>${Math.round(subItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.NovVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.DecVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JanVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.FebVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.MarVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.AprVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.MayVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JunVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.JulVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.AugVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.SepVal).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.Total).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.FirstHalf).toLocaleString('en-US')}</td>
+                                    <td>${Math.round(subItem.SecondHalf).toLocaleString('en-US')}</td>
                                     </tr>
                                     `;
 
@@ -353,21 +353,21 @@ $(document).ready(function () {
                                                 <td></td>
                                                 <td></td>
                                                 <td>${detailsItem.DetailsItemName}</td>
-                                                <td>${detailsItem.OctVal}</td>
-                                                <td>${detailsItem.NovVal}</td>
-                                                <td>${detailsItem.DecVal}</td>
-                                                <td>${detailsItem.JanVal}</td>
-                                                <td>${detailsItem.FebVal}</td>
-                                                <td>${detailsItem.MarVal}</td>
-                                                <td>${detailsItem.AprVal}</td>
-                                                <td>${detailsItem.MayVal}</td>
-                                                <td>${detailsItem.JunVal}</td>
-                                                <td>${detailsItem.JulVal}</td>
-                                                <td>${detailsItem.AugVal}</td>
-                                                <td>${detailsItem.SepVal}</td>
-                                                <td>${detailsItem.Total}</td>
-                                                <td>${detailsItem.FirstHalf}</td>
-                                                <td>${detailsItem.SecondHalf}</td>
+                                                <td>${Math.round(detailsItem.OctVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.NovVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.DecVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.JanVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.FebVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.MarVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.AprVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.MayVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.JunVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.JulVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.AugVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.SepVal).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.Total).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.FirstHalf).toLocaleString('en-US')}</td>
+                                                <td>${Math.round(detailsItem.SecondHalf).toLocaleString('en-US')}</td>
                                                 </tr>
                                                 `;
                                         });

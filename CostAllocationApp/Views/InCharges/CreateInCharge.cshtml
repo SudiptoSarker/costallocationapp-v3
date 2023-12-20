@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "担当の登録、編集、削除 (In-Charge Registration)";
+    ViewBag.Title = "担当の登録、編集、削除";
 }
 
 @section Styles {
@@ -9,7 +9,7 @@
 }
 
 <div class="content container-fluid">        
-    <!-----------------In-Charge Master: In-Charge list are showing on this part----------------->
+    <!-----------------In-Charge Master: Show In-Charge list----------------->
     <div style="display: block;">
         <div class="row">
             <div class="col-md-10">
@@ -22,11 +22,11 @@
                     <table id="incharge_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6" class="incharge_header">担当 氏名(In-Charge List)</th>
+                                <th colspan="6" class="incharge_header">担当 氏名</th>
                             </tr>
                             <tr>
                                 <th class="incharge_list_theader incharge_header">複数選択</th>
-                                <th class="incharge_list_theader incharge_header">担当 (In-Charge Name)</th>
+                                <th class="incharge_list_theader incharge_header">担当</th>
                             </tr>
                         </thead>
                         <tbody id="incharge_list_tbody"></tbody>
@@ -35,19 +35,20 @@
             </div>
         </div>
 
+        <!-----------------User Authentications----------------->
         @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" ){         
             <div class="add_edit_del_inchar" style="display: block;">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_inchar_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_inchar_btn" type="button">削除​</button>
                             </div>                                
                             <div class="col-md-3">
-                                <button class="btn edit_inchar_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_inchar_btn" type="button">編集​</button>
                             </div>
                             <div class="col-md-3" >
-                                <button class="btn add_inchar_btn" type="button">追加 (add)</button>
+                                <button class="btn add_inchar_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -59,14 +60,14 @@
     <input type="hidden" id="edit_incharge_id" />
 </div>
 
-<!-----------------Modal: Add Section----------------->
+<!-----------------Modal: Add Incharge----------------->
 <div class="modal custom-modal fade" id="add_incharge_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>担当の追加 (add Incharge)</h3>
+                    <h3 class='add_edit_del_header'>担当の追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -76,7 +77,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="incharge_header">担当 (In-Charge Name)</th>
+                                <th class="incharge_header">担当</th>
                                 <th class="incharge_header">操作</th>
                             </tr>
                         </thead>
@@ -86,8 +87,8 @@
                                     <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name">                                            
                                 </td>
                                 <td class="incharge_body">
-                                    <a href="javascript:void(0);" class="" id="undo_incharge_btn_add">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="undo_incharge_btn_add">取消</a>
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -102,14 +103,14 @@
     </div>
 </div>
 
-<!-----------------Modal: Edit Section----------------->
+<!-----------------Modal: Edit Incharge----------------->
 <div class="modal custom-modal fade" id="edit_incharge_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>担当の編集 (edit Incharge)</h3>
+                    <h3 class='add_edit_del_header'>担当の編集</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -119,7 +120,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="incharge_header">担当 (In-Charge Name)</th>
+                                <th class="incharge_header">担当</th>
                                 <th class="incharge_header">操作</th>
                             </tr>
                         </thead>
@@ -129,8 +130,8 @@
                                     <input type="text" value="" placeholder="新規担当をここに入力" id="in_charge_name_edit">                                            
                                 </td>
                                 <td class="incharge_body">
-                                    <a href="javascript:void(0);" class="" id="undo_incharge_btn_edit">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn_edit">更新​ (Update)</a>
+                                    <a href="javascript:void(0);" class="" id="undo_incharge_btn_edit">取消</a>
+                                    <a href="javascript:void(0);" class="" id="incharge_reg_save_btn_edit">更新​</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -151,7 +152,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class="add_edit_del_header">登録した担当の削除 (Delete In-Charge)</h3>
+                    <h3 class="add_edit_del_header">登録した担当の削除</h3>
                     <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>

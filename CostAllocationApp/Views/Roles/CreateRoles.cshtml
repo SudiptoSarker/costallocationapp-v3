@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "役割の登録、編集、削除 (Roles Registration)";
+    ViewBag.Title = "役割の登録、編集、削除";
 }
 
 @section Styles {
@@ -9,7 +9,7 @@
 }
 
 <div class="content container-fluid">
-    <!-----------------Roles Master: Roles list are showing on this part----------------->
+    <!-----------------Roles Master: Show Roles list----------------->
     <div style="display: block;">
         <div class="row">
             <div class="col-md-10">
@@ -22,11 +22,11 @@
                     <table class="" id="roles_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6" class="role_header">役割 リスト(Roles List)</th>
+                                <th colspan="6" class="role_header">役割 リスト</th>
                             </tr>
                             <tr>
                                 <th class="roles_list_theader role_header">複数選択</th>
-                                <th class="roles_list_theader role_header">役割 (Roles Name)</th>
+                                <th class="roles_list_theader role_header">役割</th>
                             </tr>
                         </thead>
                         <tbody id="role_list_tbody"></tbody>
@@ -35,6 +35,7 @@
             </div>
         </div>
 
+        <!-----------------User Authentication for access----------------->
         @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
         {
             
@@ -43,13 +44,13 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_role_btn" type="button">削除​</button>
                             </div>                                
                             <div class="col-md-3">
-                                <button class="btn edit_role_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_role_btn" type="button">編集​​</button>
                             </div>
                             <div class="col-md-3" >
-                                <button class="btn add_role_btn" type="button">追加 (add)</button>
+                                <button class="btn add_role_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>役割の追加 (add role)</h3>
+                    <h3 class='add_edit_del_header'>役割の追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -78,7 +79,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="role_header">役割 (Roles Name)</th>
+                                <th class="role_header">役割</th>
                                 <th class="role_header">操作</th>
                             </tr>
                         </thead>
@@ -88,8 +89,8 @@
                                     <input type="text" value="" placeholder="新規役割をここに入力" id="role_name">                                            
                                 </td>
                                 <td class="role_body">
-                                    <a href="javascript:void(0);" class="" id="undo_role_add_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="undo_role_add_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -110,7 +111,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>役割の編集 (edit role)</h3>
+                    <h3 class='add_edit_del_header'>役割の編集</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -120,7 +121,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="role_header">役割 (Roles Name)</th>
+                                <th class="role_header">役割</th>
                                 <th class="role_header">操作</th>
                             </tr>
                         </thead>
@@ -130,8 +131,8 @@
                                     <input type="text" value="" placeholder="新規役割をここに入力" id="role_name_edit">                                            
                                 </td>
                                 <td class="role_body">
-                                    <a href="javascript:void(0);" class="" id="undo_role_edit_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn_edit">更新​ (Update)</a>
+                                    <a href="javascript:void(0);" class="" id="undo_role_edit_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="roles_reg_save_btn_edit">更新​</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -151,7 +152,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class='add_edit_del_header'>役割削除 (Delete Roles)</h3>
+                    <h3 class='add_edit_del_header'>役割削除</h3>
                     <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>

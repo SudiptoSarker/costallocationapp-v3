@@ -48,55 +48,6 @@
         $("#sec_list_for_dept_edit").val(-1);
     })    
 
-    //get department details by department id
-    function FillTheDepartmentEditModal(departmentId){            
-        var apiurl = `/api/utilities/GetDepartmentByDepartemntId`;
-        $.ajax({
-            url: apiurl,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: "departmentId=" + departmentId,
-            success: function (data) { 
-                $("#department_id_for_edit_modal").val(data.Id);
-                $("#department_name_edit").val(data.DepartmentName);
-
-                //section list function called by section id for selecting the saved section
-                GetSections("edit",data.SectionId);   
-            }
-        });            
-    }
-    
-    //section dropdown with departments and select the existing section with department
-    function GetSections(addOredit,sectionId){
-        $.getJSON('/api/sections/')
-        .done(function (data) {
-            
-            //create section dropdown for add department modal.
-            if(addOredit=='add'){
-                $('#sec_list_for_dept_add').empty();
-                $('#sec_list_for_dept_add').append(`<option value='-1'>Select Section</option>`);        
-                $.each(data, function (key, item) {
-                    $('#sec_list_for_dept_add').append(`<option value='${item.Id}'>${item.SectionName}</option>`);
-                });    
-            }
-
-            //create section dropdown for edit department modal.
-            if(addOredit =='edit'){
-                $('#sec_list_for_dept_edit').empty();
-                $('#sec_list_for_dept_edit').append(`<option value='-1'>Select Section</option>`);
-                $.each(data, function (key, item) {
-                    if(parseInt(sectionId) == parseInt(item.Id)){
-                        $('#sec_list_for_dept_edit').append(`<option value='${item.Id}' selected>${item.SectionName}</option>`)
-                    }else{
-                        $('#sec_list_for_dept_edit').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
-                    }                    
-                });
-            }
-        });
-    }
-
     //add department from modal
     $("#dept_add_btn").on("click",function(event){
         let departmentName = $("#department_name").val().trim();
@@ -132,45 +83,7 @@
         //update function called for editing department
         UpdateInsertDepartment(departmentName,departmentId,sectionId,true);
     })
-
-    /***************************\                           
-    Department Update/Insert
-    \***************************/
-    function UpdateInsertDepartment(departmentName,departmentId,sectionId,isUpdate) {
-        var apiurl = "/api/Departments/";
-        var data = {
-            Id:departmentId,
-            DepartmentName: departmentName,
-            SectionId: sectionId,
-            IsUpdate:isUpdate
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data) {
-                ToastMessageSuccess(data);
-                GetDepartments();
-                if(isUpdate){
-                    $("#edit_department_modal").modal("hide");
-                    $("#department_name").val('');
-                    $("#sec_list_for_dept_add").val('');                
-                    $('#section-name').val('');
-                }else{
-                    $("#add_department_modal").modal("hide");
-                    $("#department_name").val('');
-                    $("#sec_list_for_dept_add").val('');                
-                    $('#section-name').val('');
-                }            
-            },
-            error: function (data) {
-                alert(data.responseJSON.Message);
-            }
-        });
-    }
-
+    
     /***************************\                           
         Check if the department is checked for delete/remove
     \***************************/
@@ -188,28 +101,7 @@
             $('#delete_department_modal').modal('show');
         }
 
-    });
-
-    /***************************\                           
-    Delete confirmation function and shows the department assignemnts with the selected departments         
-    \***************************/	
-    function DepartmentWithAssignment() {
-        let departmentIds = GetCheckedIds("department_list_tbody");    
-        var apiurl = '/api/utilities/DepartmentCount?departmentIds=' + departmentIds;
-        $.ajax({
-            url: apiurl,
-            type: 'Get',
-            dataType: 'json',
-            success: function (data) {
-                $('.del_confirm_warning').empty();
-                $.each(data, function (key, item) {
-                    $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
-                });
-            },
-            error: function (data) {
-            }
-        });  
-    }
+    });    
 
     /***************************\                           
         Delete departments         
@@ -236,18 +128,126 @@
 
         $('#delete_department_modal').modal('toggle');
 
-    });
-
-    /***************************\                           
-    Get all the department list from database.
-    \***************************/
-    function GetDepartments(){
-        $.getJSON('/api/departments/')
-        .done(function (data) {
-            $('#department_list_tbody').empty();
-            $.each(data, function (key, item) {
-                $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td><td>${item.SectionName}</td></tr>`);
-            });
-        });
-    }    
+    }); 
 });
+
+//get department details by department id
+function FillTheDepartmentEditModal(departmentId){            
+    var apiurl = `/api/utilities/GetDepartmentByDepartemntId`;
+    $.ajax({
+        url: apiurl,
+        contentType: 'application/json',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        data: "departmentId=" + departmentId,
+        success: function (data) { 
+            $("#department_id_for_edit_modal").val(data.Id);
+            $("#department_name_edit").val(data.DepartmentName);
+
+            //section list function called by section id for selecting the saved section
+            GetSections("edit",data.SectionId);   
+        }
+    });            
+}
+
+//section dropdown with departments and select the existing section with department
+function GetSections(addOredit,sectionId){
+    $.getJSON('/api/sections/')
+    .done(function (data) {
+        
+        //create section dropdown for add department modal.
+        if(addOredit=='add'){
+            $('#sec_list_for_dept_add').empty();
+            $('#sec_list_for_dept_add').append(`<option value='-1'>Select Section</option>`);        
+            $.each(data, function (key, item) {
+                $('#sec_list_for_dept_add').append(`<option value='${item.Id}'>${item.SectionName}</option>`);
+            });    
+        }
+
+        //create section dropdown for edit department modal.
+        if(addOredit =='edit'){
+            $('#sec_list_for_dept_edit').empty();
+            $('#sec_list_for_dept_edit').append(`<option value='-1'>Select Section</option>`);
+            $.each(data, function (key, item) {
+                if(parseInt(sectionId) == parseInt(item.Id)){
+                    $('#sec_list_for_dept_edit').append(`<option value='${item.Id}' selected>${item.SectionName}</option>`)
+                }else{
+                    $('#sec_list_for_dept_edit').append(`<option value='${item.Id}'>${item.SectionName}</option>`)
+                }                    
+            });
+        }
+    });
+}
+
+/***************************\                           
+Department Update/Insert
+\***************************/
+function UpdateInsertDepartment(departmentName,departmentId,sectionId,isUpdate) {
+    var apiurl = "/api/Departments/";
+    var data = {
+        Id:departmentId,
+        DepartmentName: departmentName,
+        SectionId: sectionId,
+        IsUpdate:isUpdate
+    };
+
+    $.ajax({
+        url: apiurl,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            ToastMessageSuccess(data);
+            GetDepartments();
+            if(isUpdate){
+                $("#edit_department_modal").modal("hide");
+                $("#department_name").val('');
+                $("#sec_list_for_dept_add").val('');                
+                $('#section-name').val('');
+            }else{
+                $("#add_department_modal").modal("hide");
+                $("#department_name").val('');
+                $("#sec_list_for_dept_add").val('');                
+                $('#section-name').val('');
+            }            
+        },
+        error: function (data) {
+            alert(data.responseJSON.Message);
+        }
+    });
+}
+
+/***************************\                           
+Delete confirmation function and shows the department assignemnts with the selected departments         
+\***************************/	
+function DepartmentWithAssignment() {
+    let departmentIds = GetCheckedIds("department_list_tbody");    
+    var apiurl = '/api/utilities/DepartmentCount?departmentIds=' + departmentIds;
+    $.ajax({
+        url: apiurl,
+        type: 'Get',
+        dataType: 'json',
+        success: function (data) {
+            $('.del_confirm_warning').empty();
+            $.each(data, function (key, item) {
+                $('.del_confirm_warning').append(`<li class='text-info'>${item}</li>`);
+            });
+        },
+        error: function (data) {
+        }
+    });  
+}
+
+/***************************\                           
+Get all the department list from database.
+\***************************/
+function GetDepartments(){
+    $.getJSON('/api/departments/')
+    .done(function (data) {
+        $('#department_list_tbody').empty();
+        $.each(data, function (key, item) {
+            $('#department_list_tbody').append(`<tr><td><input type="checkbox" class="department_list_chk" data-id='${item.Id}' /></td><td>${item.DepartmentName}</td><td>${item.SectionName}</td></tr>`);
+        });
+    });
+}   

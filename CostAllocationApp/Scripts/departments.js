@@ -15,6 +15,8 @@
 
     //show edit department modal
     $(".edit_dept_btn").on("click",function(event){   
+
+        //get checked department ids
         let id = GetCheckedIds("department_list_tbody");
         var arrIds = id.split(',');        
         var tempLength  =arrIds.length;
@@ -27,24 +29,24 @@
             alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
+            //Get department Details by Id and fill the edit modal
             FillTheDepartmentEditModal(arrIds[0]);
 
             $('#edit_department_modal').modal('show');
         }        
     })
 
-    //clear input fields
+    //add department modal: clear input fields
     $("#undo_add_frm").on("click",function(event){        
         $("#department_name").val('');
         $("#sec_list_for_dept_add").val(-1);
     })
+
+    //edit department modal: clear input fields
     $("#undo_edit_frm").on("click",function(event){        
         $("#department_name_edit").val('');
         $("#sec_list_for_dept_edit").val(-1);
-    })
-    $("#undo_edit_sec").on("click",function(event){        
-        $("#section_name_edit").val('');
-    })
+    })    
 
     //get department details by department id
     function FillTheDepartmentEditModal(departmentId){            
@@ -59,15 +61,19 @@
             success: function (data) { 
                 $("#department_id_for_edit_modal").val(data.Id);
                 $("#department_name_edit").val(data.DepartmentName);
+
+                //section list function called by section id for selecting the saved section
                 GetSections("edit",data.SectionId);   
             }
         });            
     }
     
-    //section dropdown
+    //section dropdown with departments and select the existing section with department
     function GetSections(addOredit,sectionId){
         $.getJSON('/api/sections/')
         .done(function (data) {
+            
+            //create section dropdown for add department modal.
             if(addOredit=='add'){
                 $('#sec_list_for_dept_add').empty();
                 $('#sec_list_for_dept_add').append(`<option value='-1'>Select Section</option>`);        
@@ -75,6 +81,8 @@
                     $('#sec_list_for_dept_add').append(`<option value='${item.Id}'>${item.SectionName}</option>`);
                 });    
             }
+
+            //create section dropdown for edit department modal.
             if(addOredit =='edit'){
                 $('#sec_list_for_dept_edit').empty();
                 $('#sec_list_for_dept_edit').append(`<option value='-1'>Select Section</option>`);
@@ -102,6 +110,8 @@
             return false;
         }
         departmentId = 0;
+
+        //update function called for editing department
         UpdateInsertDepartment(departmentName,departmentId,sectionId,false);
     })
 
@@ -118,11 +128,13 @@
             return false;
         }        
         departmentId = $("#department_id_for_edit_modal").val();
+
+        //update function called for editing department
         UpdateInsertDepartment(departmentName,departmentId,sectionId,true);
     })
 
     /***************************\                           
-    Department Insertion function. 
+    Department Update/Insert
     \***************************/
     function UpdateInsertDepartment(departmentName,departmentId,sectionId,isUpdate) {
         var apiurl = "/api/Departments/";
@@ -170,6 +182,8 @@
             return false;
         }
         else{
+
+            //delete department function called for deleting the department
             DepartmentWithAssignment();
             $('#delete_department_modal').modal('show');
         }
@@ -177,8 +191,7 @@
     });
 
     /***************************\                           
-    Department In-Active/Remove 
-    Also,shows that in how many projec that department is assigned                
+    Delete confirmation function and shows the department assignemnts with the selected departments         
     \***************************/	
     function DepartmentWithAssignment() {
         let departmentIds = GetCheckedIds("department_list_tbody");    
@@ -199,7 +212,7 @@
     }
 
     /***************************\                           
-        Department Delete/Remove Confirm Button           
+        Delete departments         
     \***************************/	
     $('#dept_del_confirm').on('click', function (event) {
         event.preventDefault();
@@ -211,6 +224,8 @@
             type: 'DELETE',
             success: function (data) {
                 ToastMessageSuccess(data);
+
+                //department list show after deletion
                 GetDepartments();
             },
             error: function (data) {

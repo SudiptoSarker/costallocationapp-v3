@@ -104,6 +104,7 @@ namespace CostAllocationApp.DAL
             }
         }
 
+        //check if the year already exists initial budget data
         public bool CheckForBudgetInitialDataExists(int budgetYear)
         {            
             bool results = false;

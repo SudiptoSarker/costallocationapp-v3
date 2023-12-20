@@ -6,6 +6,8 @@
     //Section Delete/Remove Confirm Button           
     $('#sec_del_confirm').on('click', function (event) {
         event.preventDefault();
+
+        //get checked section ids
         let id = GetCheckedIds("section_list_tbody");
 
         id = id.slice(0, -1);
@@ -13,10 +15,16 @@
             url: '/api/sections?sectionIds=' + id,
             type: 'DELETE',
             success: function (data) {
+
+                //show success toast message
                 ToastMessageSuccess(data);
+
+                //show section list after section delete completion
                 GetSectionList();
             },
             error: function (data) {
+
+                //show failed toast message
                 ToastMessageFailed("操作が失敗しました");
             }
         });
@@ -28,6 +36,8 @@
     Also,shows that in how many projec in that specific section is assigned for             
     \***************************/	
     function SectionWithAssignment() {
+
+        //get checked section ids
         let sectionIds = GetCheckedIds("section_list_tbody");
         var apiurl = '/api/utilities/SectionCount?sectionIds=' + sectionIds;
         $.ajax({
@@ -49,6 +59,7 @@
     Check if the section is checked for delete/remove
     \***************************/    
     $('.delete_sec_btn').on('click', function (event) {
+        //get checked section ids
         let id = GetCheckedIds("section_list_tbody");
         if (id == "") {
             alert("区分が選択されていません");
@@ -67,7 +78,8 @@
             alert("区分名を入力してください");
             return false;
         }
-
+        
+        //insert function called for adding section
         UpdateInsertSection(sectionName,0,false);
     })    
 
@@ -81,12 +93,14 @@
             return false;
         }
         else{
+
+            //update function called for editing section
             UpdateInsertSection(sectionName,sectionId,true);
         }        
     })
 
     /***************************\                           
-        Section Insertion is done by this function. 
+        Section Add/Update 
     \***************************/
     function UpdateInsertSection(sectionName,sectionId,isUpdate) {
         var apiurl = "/api/sections/";        
@@ -111,16 +125,20 @@
                 }else{
                     $('#section-name').val('');
                     $("#add_section_modal").modal("hide");
-                }                
+                }          
+                
+                // after update show the section list 
                 GetSectionList();
             },
-            error: function (data) {
-                alert(data.responseJSON.Message);
+            error: function (data) {               
+                
+                //show failed toast message for failed request
+                ToastMessageFailed(data.responseJSON.Message);
             }
         });
     }
         
-    //get section details by section id
+    //Get Section Details by Id and fill the edit modal
     function FillTheSectionEditModal(sectionId){            
         var apiurl = `/api/utilities/GetSectionNameBySectionId`;
         $.ajax({
@@ -138,7 +156,7 @@
     }
 
     /***************************\                           
-    Get all the section list from database.
+    Get all the section list from database and show it to the section list table
     \***************************/
     function GetSectionList() {
         $.getJSON('/api/sections/')
@@ -152,7 +170,7 @@
             });
     }
 
-    //add modal show
+    //Section Add: Modal Show
     $(".add_sec_btn").on("click",function(event){   
         $("#section-name").val('');     
         $('#add_section_modal').modal('show');
@@ -171,6 +189,7 @@
     //edit section modal show
     $(".edit_sec_btn").on("click",function(event){   
        
+        //get checked section ids
         let id = GetCheckedIds("section_list_tbody");
         var arrIds = id.split(',');        
         var tempLength  =arrIds.length;
@@ -183,6 +202,7 @@
             alert("編集の場合、複数の選択はできません");
             return false;
         }else{   
+            //Get Section Details by Id and fill the edit modal
             FillTheSectionEditModal(arrIds[0]);
 
             $('#edit_section_modal').modal('show');

@@ -3651,12 +3651,19 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetBudgetFinalizeYear();
             return Ok(result);
         }
+
+        /*
+        Get Year and Budget type for import csv
+        Request: get
+        Response: object of ForecastYear
+        */
         [HttpGet]
         [Route("api/utilities/GetImportYearAndBudgetType/")]
         public IHttpActionResult GetImportYearAndBudgetType()
         {
             ForecastYear _forecastYear = new ForecastYear();
 
+            //get the latest year
             int latestYear = forecastBLL.GetLatestBudgetYear();
             bool isInitialDataExists = false;
             bool isFirstHalfFinalize = false;
@@ -3667,6 +3674,7 @@ namespace CostAllocationApp.Controllers.Api
 
             if (latestYear > 0)
             {
+                //check if the year already exists initial budget data. return bool response
                 isInitialDataExists = departmentBLL.CheckForBudgetInitialDataExists(latestYear);
                 isSecondHalfBudgetExists = departmentBLL.CheckForBudgetSecondHalfDataExists(latestYear);
 
@@ -3709,6 +3717,7 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(_forecastYear);
         }
+
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
         public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear, string budgetType,string approve_timestamp)

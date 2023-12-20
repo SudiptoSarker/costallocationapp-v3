@@ -73,12 +73,10 @@ $(document).ready(function () {
                 var colorValue = ReplaceComma_2(value.innerText);                            
                 if ($.isNumeric(colorValue)){                            
                     $(value).css('color', 'red');
-                }
-                
+                }                
             }
         });
-    }
-    
+    }    
 
     $('#show_dynamic_tables').on('click', () => {                
         selected_compannies = $("#company_list").val();

@@ -3016,10 +3016,6 @@ function GetAllFinalizeYear() {
 
 //auto select csv improt year and budget type when modal is open.
 function SelectImportBudgetYearAndType(){
-    
-
-
-
 
     $.ajax({
         url: `/api/utilities/GetImportYearAndBudgetType`,

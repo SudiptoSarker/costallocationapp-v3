@@ -1,46 +1,32 @@
-﻿/***************************\                           
-    Explanation In-Active/Remove     
-\***************************/
-function onExplanationInactiveClick() {
-    let explanationIds = GetCheckedIds("explanations_list_tbody");
-    var apiurl = '/api/utilities/ExplanationCount?roleIds=' + explanationIds;
-    $.ajax({
-        url: apiurl,
-        type: 'Get',
-        dataType: 'json',
-        success: function (data) {
-            $('.explanation_count').empty();
-            $.each(data, function (key, item) {
-                $('.explanation_count').append(`<li class='text-info'>${item}</li>`);
-            });
-        },
-        error: function (data) {
-        }
-    });
-}
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
+    // Show Add Explanation Modal
     $(".add_explanation_btn").on("click",function(event){      
         $("#explanation_name").val('');  
         $('#add_explanation_modal').modal('show');
     })
+
+    //clear modal modal input field
     $("#undo_explation_add_btn").on("click",function(event){        
         $("#explanation_name").val('');
     })
+
+    //clear edit modal input field. 
     $("#undo_explation_edit_btn").on("click",function(event){        
         $("#explanation_name_edit").val('');
     })
    
+    //insert explations
     $("#exp_reg_save_btn").on("click",function(event){       
         let explanation_name = $("#explanation_name").val().trim();        
         if (explanation_name == "") {
             alert("説明文を入力してください");
             return false;
         }
-
+        
+        //call insert explanation function
         UpdateInsertExplanations(explanation_name,0,false);
     })
-
+    
     //edit incharge
     $(".edit_explanation_btn").on("click",function(event){          
         let id = GetCheckedIds("explanations_list_tbody");
@@ -119,13 +105,13 @@ $(document).ready(function () {
     /***************************\                           
         Check if the Explanation is checked for delete/remove
     \***************************/
-    $('.delete_role_btn').on('click', function (event) {
+    $('.delete_explanation_btn').on('click', function (event) {
         let id = GetCheckedIds("explanations_list_tbody");        
         if (id == "") {
             alert("説明文が選択されていません");
             return false;
         }else{
-            onExplanationInactiveClick();
+            ExplanationWithAssignment();
             $('#inactive_explanation_modal').modal('show');
         }
     });
@@ -133,7 +119,41 @@ $(document).ready(function () {
 });
 
 /***************************\                           
-    Explanation Insertion function. 
+Delete confirmation function and shows the Explanation assignemnts with the selected Explanation        
+\***************************/	
+function ExplanationWithAssignment() {
+    let explanationIds = GetCheckedIds("explanations_list_tbody");
+    var apiurl = '/api/utilities/ExplanationCount?roleIds=' + explanationIds;
+    $.ajax({
+        url: apiurl,
+        type: 'Get',
+        dataType: 'json',
+        success: function (data) {
+            $('.explanation_count').empty();
+            $.each(data, function (key, item) {
+                $('.explanation_count').append(`<li class='text-info'>${item}</li>`);
+            });
+        },
+        error: function (data) {
+        }
+    });
+}
+
+/***************************\                           
+    Get all the Explanation list from database.
+\***************************/
+function GetExplanationList(){
+    $.getJSON('/api/Explanations/')
+    .done(function (data) {
+        $('#explanations_list_tbody').empty();
+        $.each(data, function (key, item) {
+            $('#explanations_list_tbody').append(`<tr><td><input type="checkbox" class="explanation_list_chk" data-id='${item.Id}' /></td><td>${item.ExplanationName}</td></tr>`);
+        });
+    });
+} 
+
+/***************************\                           
+    Explanation Update / Insert
 \***************************/ 
 function UpdateInsertExplanations(explanationName,explanationId,isUpdate) {
     var apiurl = "/api/Explanations/";
@@ -163,16 +183,3 @@ function UpdateInsertExplanations(explanationName,explanationId,isUpdate) {
         }
     });
 }
-
-/***************************\                           
-    Get all the Explanation list from database.
-\***************************/
-function GetExplanationList(){
-    $.getJSON('/api/Explanations/')
-    .done(function (data) {
-        $('#explanations_list_tbody').empty();
-        $.each(data, function (key, item) {
-            $('#explanations_list_tbody').append(`<tr><td><input type="checkbox" class="explanation_list_chk" data-id='${item.Id}' /></td><td>${item.ExplanationName}</td></tr>`);
-        });
-    });
-} 

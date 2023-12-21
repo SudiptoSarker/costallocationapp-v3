@@ -1,9 +1,4 @@
-﻿/*-----------------Explanation Master-----------------------*/
-body {
-    overflow-x: auto;
-}
-
-/***************************\                           
+﻿/***************************\                           
 	Explanation Registration Form
 \***************************/ 
 #exp_reg_tbl {
@@ -48,6 +43,7 @@ body {
     margin-top: 10px;
     display: inline-block;
     margin-bottom: 20px;
+    width: 35%;
 }
 #exp_reg_save_btn,#exp_reg_save_btn_edit {
     line-height:1;
@@ -60,6 +56,7 @@ body {
     margin-top: 10px;
     display: inline-block;
     margin-bottom: 20px;
+    width: 35%;
 }
 
 
@@ -155,25 +152,28 @@ body {
     font-family: Yu Gothic;
     background: #4472c4;
     color: white;
-    line-height: 1;    
+    line-height: 1.2;    
     margin-left: -204px; 
+    width: 40%;
 }
 .edit_explanation_btn{
     font-size: 10px;
     font-family: Yu Gothic;
     background: #4472c4;
     color: white;
-    line-height: 1.3;
+    line-height: 1.2;
     margin-left: -97px;
     float: left;
+    width: 40%;
 }
-.delete_role_btn{
+.delete_explanation_btn{
     font-size: 10px;
     font-family: Yu Gothic;
     background: white;
     color: red;
     line-height: 1.2;    
     border: 2px solid red !important;
+    width: 40%;
 }
 /**************
     Action: Add,Edit,Delete Button:End

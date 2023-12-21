@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "説明の登録、編集、削除 (Explanation Registration)";
+    ViewBag.Title = "説明の登録、編集、削除";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -8,7 +8,7 @@
 }
 
 <div class="content container-fluid">
-    <!-----------------Explanation Master: Explanation list are showing on this part----------------->
+    <!-----------------Explanation Master: Show Explanation list----------------->
     <div id="exp_list" style="display: block;">
         <div class="row">
             <div class="col-md-10">
@@ -21,11 +21,11 @@
                     <table class="" id="exp_list_tbl">
                         <thead>
                             <tr>
-                                <th colspan="6" class="explanation_th">説明 リスト(Explanation List)</th>
+                                <th colspan="6" class="explanation_th">説明 リスト</th>
                             </tr>
                             <tr>
                                 <th class="exp_list_theader explanation_th" >複数選択</th>
-                                <th class="exp_list_theader explanation_th">説明 (Explanation)</th>
+                                <th class="exp_list_theader explanation_th">説明</th>
                             </tr>
                         </thead>
                         <tbody id="explanations_list_tbody"></tbody>
@@ -34,6 +34,7 @@
             </div>
         </div>
 
+        <!-----------------User Authentication----------------->
         @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
         {            
             <div class="add_edit_delete_explanation" style="display: block;">
@@ -41,14 +42,14 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_role_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_explanation_btn" type="button">削除​</button>
                             </div>
                             
                             <div class="col-md-3">
-                                <button class="btn edit_explanation_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_explanation_btn" type="button">編集​​</button>
                             </div>
                             <div class="col-md-3" >
-                                <button class="btn add_explanation_btn" type="button">追加 (add)</button>
+                                <button class="btn add_explanation_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -60,14 +61,14 @@
     <input type="hidden" id="hid_explanation_id" />
 </div>
 
-<!-----------------Modal: Add Role----------------->
+<!-----------------Modal: Add Explanations----------------->
 <div class="modal custom-modal fade" id="add_explanation_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加 説明 (add explanation)</h3>
+                    <h3 id='add_modal_header'>追加 説明</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -77,7 +78,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="explanation_th">説明 (Explanation)</th>
+                                <th class="explanation_th">説明</th>
                                 <th class="explanation_th">操作</th>
                             </tr>
                         </thead>
@@ -87,8 +88,8 @@
                                     <input type="text" value="" placeholder="新規説明をここに入力" id="explanation_name">                                           
                                 </td>
                                 <td id="exp_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="undo_explation_add_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="undo_explation_add_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -102,14 +103,14 @@
     </div>
 </div>
 
-<!-----------------Modal: Edit Role----------------->
+<!-----------------Modal: Edit Explanations----------------->
 <div class="modal custom-modal fade" id="edit_explanation_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>説明を編集する (edit explanation)</h3>
+                    <h3 id='add_modal_header'>説明を編集する</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -119,7 +120,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="explanation_th">説明 (Explanation Name)</th>
+                                <th class="explanation_th">説明</th>
                                 <th class="explanation_th">操作</th>
                             </tr>
                         </thead>
@@ -129,8 +130,8 @@
                                     <input type="text" value="" placeholder="新規説明をここに入力" id="explanation_name_edit">                                           
                                 </td>
                                 <td id="exp_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="undo_explation_edit_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn_edit">更新​ (Update)</a>
+                                    <a href="javascript:void(0);" class="" id="undo_explation_edit_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="exp_reg_save_btn_edit">更新​</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -144,13 +145,13 @@
     </div>
 </div>
 
-<!-----------------Modal: Delete Roles----------------->
+<!-----------------Modal: Delete Explanations----------------->
 <div class="modal custom-modal fade" id="inactive_explanation_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class="add_edit_del_header">説明削除 (Delete Explanations)</h3>
+                    <h3 class="add_edit_del_header">説明削除</h3>
                     <ol class="explanation_count" style="text-align:left;"></ol>
                     <p>本当に削除しますか？</p>
                 </div>

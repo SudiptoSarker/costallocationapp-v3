@@ -200,7 +200,6 @@
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="BLL\UserRoleBLL.cs" />
     <Compile Include="ChatHub.cs" />
-    <Compile Include="Controllers\Api\CategoryController.cs" />
     <Compile Include="Controllers\Api\CompaniesController.cs" />
     <Compile Include="Controllers\Api\DashController.cs" />
     <Compile Include="Controllers\Api\DepartmentsController.cs" />
@@ -215,7 +214,6 @@
     <Compile Include="Controllers\Api\SubCategoryController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\Api\UtilitiesController.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
@@ -789,9 +787,6 @@
     <Content Include="Views\Forecasts\QaProportion.cshtml" />
     <Content Include="Views\Forecasts\CreateBudget.cshtml" />
     <Content Include="Views\Forecasts\EditBudget.cshtml" />
-    <Content Include="Views\Category\CreateCategory.cshtml" />
-    <Content Include="Views\Category\CreateSubCategory.cshtml" />
-    <Content Include="Views\Category\DepartmentsWithSubCategory.cshtml" />
     <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
     <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
     <Content Include="Views\Forecasts\TableFormat.cshtml" />

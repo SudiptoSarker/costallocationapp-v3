@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+    /***************************\                           
+        Show Explanation list on page load           
+    \***************************/
+    GetExplanationList();    
+
+    
     // Show Add Explanation Modal
     $(".add_explanation_btn").on("click",function(event){      
         $("#explanation_name").val('');  
@@ -46,21 +52,7 @@
             $('#edit_explanation_modal').modal('show');
         }        
     })
-    function FillTheEditModal(explanationId){            
-        var apiurl = `/api/utilities/GetExplanationNameByExplanationId`;
-        $.ajax({
-            url: apiurl,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "explanationId=" + explanationId,
-            success: function (data) { 
-                $("#explanation_name_edit").val(data.ExplanationName);   
-                $("#hid_explanation_id").val(data.Id);   
-            }
-        });            
-    }
+    
     //edit from modal
     $("#exp_reg_save_btn_edit").on("click",function(event){   
         
@@ -74,11 +66,7 @@
         else{
             UpdateInsertExplanations(explanation_name,explanation_id,true);
         }        
-    })
-    /***************************\                           
-        Show Explanation list on page load           
-    \***************************/
-    GetExplanationList();    
+    })    
 
     /***************************\                           
         Explanation Delete/Remove Confirm Button           
@@ -182,4 +170,21 @@ function UpdateInsertExplanations(explanationName,explanationId,isUpdate) {
             ToastMessageFailed("操作が失敗しました");
         }
     });
+}
+
+//get explantion detail by id and fill the edit form
+function FillTheEditModal(explanationId){            
+    var apiurl = `/api/utilities/GetExplanationNameByExplanationId`;
+    $.ajax({
+        url: apiurl,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "explanationId=" + explanationId,
+        success: function (data) { 
+            $("#explanation_name_edit").val(data.ExplanationName);   
+            $("#hid_explanation_id").val(data.Id);   
+        }
+    });            
 }

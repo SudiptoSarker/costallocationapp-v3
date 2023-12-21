@@ -22,6 +22,10 @@ namespace CostAllocationApp.Controllers.Api
             employeeAssignmentBLL = new EmployeeAssignmentBLL();
         }
 
+        /*
+          Description: Create an employee assignment.
+          Type: POST
+         */
         [HttpPost]
         public IHttpActionResult CreateAssignment(EmployeeAssignmentDTO employeeAssignmentDTO)
         {
@@ -33,23 +37,6 @@ namespace CostAllocationApp.Controllers.Api
             decimal tempUnitPrice = 0;
 
             #region validation of inputs
-            //if (!String.IsNullOrEmpty(employeeAssignmentDTO.EmployeeId))
-            //{
-            //    var checkResult = employeeAssignmentBLL.CheckEmployeeName(employeeAssignmentDTO.EmployeeName.Trim());
-            //    if (checkResult && employeeAssignmentDTO.SubCode == 1)
-            //    {
-            //        return BadRequest("要員は登録済みです");
-            //    }
-            //    else
-            //    {
-            //        employeeAssignment.EmployeeName = employeeAssignmentDTO.EmployeeName.Trim();
-            //    }
-                
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Employee Name");
-            //}
             if (String.IsNullOrEmpty(employeeAssignmentDTO.EmployeeId))
             {
                 return BadRequest("Invalid Employee Name");
@@ -75,19 +62,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.SectionId = Convert.ToInt32(employeeAssignmentDTO.SectionId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.SectionId, out tempValue))
-            //{
-            //    //if (tempValue <= 0)
-            //    //{
-            //    //    return BadRequest("Invalid Section Id");
-
-            //    //}
-            //    employeeAssignment.SectionId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Section Id");
-            //}
+            
             if (string.IsNullOrEmpty(employeeAssignmentDTO.DepartmentId))
             {
                 employeeAssignment.DepartmentId = 0;
@@ -96,19 +71,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.DepartmentId = Convert.ToInt32(employeeAssignmentDTO.DepartmentId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.DepartmentId, out tempValue))
-            //{
-            //    //if (tempValue <= 0)
-            //    //{
-
-            //    //    return BadRequest("Invalid Department Id");
-            //    //}
-            //    employeeAssignment.DepartmentId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Department Id");
-            //}
+           
             if (string.IsNullOrEmpty(employeeAssignmentDTO.InchargeId))
             {
                 employeeAssignment.InchargeId = 0;
@@ -117,19 +80,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.InchargeId = Convert.ToInt32(employeeAssignmentDTO.InchargeId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.InchargeId, out tempValue))
-            //{
-            //    //if (tempValue <= 0)
-            //    //{
-            //    //    return BadRequest("Invalid Incharge Id");
-
-            //    //}
-            //    employeeAssignment.InchargeId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Incharge Id");
-            //}
+           
             if (string.IsNullOrEmpty(employeeAssignmentDTO.RoleId))
             {
                 employeeAssignment.RoleId = 0;
@@ -138,19 +89,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.RoleId = Convert.ToInt32(employeeAssignmentDTO.RoleId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.RoleId, out tempValue))
-            //{
-            //    //if (tempValue <= 0)
-            //    //{
-            //    //    return BadRequest("Invalid Role Id");
-
-            //    //}
-            //    employeeAssignment.RoleId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Role Id");
-            //}
+           
             if (String.IsNullOrEmpty(employeeAssignmentDTO.ExplanationId))
             {
                 employeeAssignment.ExplanationId=null;
@@ -159,11 +98,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 if (int.TryParse(employeeAssignmentDTO.ExplanationId, out tempValue))
                 {
-                    //if (tempValue <= 0)
-                    //{
-
-                    //    return BadRequest("Invalid Explanation Id");
-                    //}
                     employeeAssignment.ExplanationId = tempValue.ToString();
                 }
                 else
@@ -180,19 +114,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.CompanyId = Convert.ToInt32(employeeAssignmentDTO.CompanyId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.CompanyId, out tempValue))
-            //{
-            //    if (tempValue <= 0)
-            //    {
-            //        return BadRequest("Invalid Company Id");
-
-            //    }
-            //    employeeAssignment.CompanyId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Company Id");
-            //}
+           
             if (string.IsNullOrEmpty(employeeAssignmentDTO.UnitPrice))
             {
                 employeeAssignment.UnitPrice = 0;
@@ -201,20 +123,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.UnitPrice = Convert.ToDecimal(employeeAssignmentDTO.UnitPrice);
             }
-            //if (decimal.TryParse(employeeAssignmentDTO.UnitPrice, out tempUnitPrice))
-            //{
-            //    if (tempValue < 0)
-            //    {
-            //        return BadRequest("Invalid Unit Price");
-
-            //    }
-            //    employeeAssignment.UnitPrice = tempUnitPrice;
-            //}
-
-            //else
-            //{
-            //    return BadRequest("Invalid Unit Price");
-            //}
             if (string.IsNullOrEmpty(employeeAssignmentDTO.GradeId))
             {
                 employeeAssignment.GradeId = 0;
@@ -223,27 +131,12 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.GradeId = Convert.ToInt32(employeeAssignmentDTO.GradeId);
             }
-            //if (int.TryParse(employeeAssignmentDTO.GradeId, out tempValue))
-            //{
-            //    if (tempValue <= 0)
-            //    {
-            //        return BadRequest("Invalid Grade Id");
-
-            //    }
-            //    employeeAssignment.GradeId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Grade Id");
-            //}
-
             if (String.IsNullOrEmpty(employeeAssignmentDTO.Remarks))
             {
                 employeeAssignmentDTO.Remarks = "";
             }
             #endregion
 
-            //employeeAssignment.ExplanationId = employeeAssignmentDTO.ExplanationId;
             employeeAssignment.CreatedBy = session["userName"].ToString();
             employeeAssignment.CreatedDate = DateTime.Now;
             employeeAssignment.IsActive = "1";
@@ -262,7 +155,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-
+        /*
+          Description: Update an employee assignment.
+          Type: PUT
+         */
         [HttpPut]
         public IHttpActionResult UpdateAssignment([FromBody]  EmployeeAssignmentDTO employeeAssignmentDTO)
         {
@@ -410,13 +306,16 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+          Description: Search an employee assignment.
+          Type: GET
+         */
         [HttpGet]
         public IHttpActionResult SearchAssignment(string EmployeeName="", string SectionId="", string DepartmentId="", string InchargeId="", string RoleId="", string ExplanationId="", string CompanyId="", bool Status=true)
         {
 
             int tempValue = 0;
-            // decimal tempUnitPrice = 0;
-
 
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
@@ -454,15 +353,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 }
             }
-            //if (int.TryParse(ExplanationId, out tempValue))
-            //{
-            //    if (tempValue > 0)
-            //    {
-
-            //        employeeAssignment.ExplanationId = tempValue;
-            //    }
-
-            //}
+          
 
             if (int.TryParse(CompanyId, out tempValue))
             {
@@ -472,32 +363,6 @@ namespace CostAllocationApp.Controllers.Api
 
                 }
             }
-            //if (decimal.TryParse(employeeAssignmentDTO.UnitPrice, out tempUnitPrice))
-            //{
-            //    if (tempValue < 0)
-            //    {
-            //        return BadRequest("Invalid Unit Price");
-
-            //    }
-            //    employeeAssignment.UnitPrice = tempUnitPrice;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Unit Price");
-            //}
-            //if (int.TryParse(employeeAssignmentDTO.GradeId, out tempValue))
-            //{
-            //    if (tempValue <= 0)
-            //    {
-            //        return BadRequest("Invalid Grade Id");
-
-            //    }
-            //    employeeAssignment.GradeId = tempValue;
-            //}
-            //else
-            //{
-            //    return BadRequest("Invalid Grade Id");
-            //}
             #endregion
 
             List<EmployeeAssignmentViewModel> employeeAssignmentViewModels = employeeAssignmentBLL.SearchAssignment(employeeAssignment);
@@ -513,6 +378,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+          Description: Remove an employee assignment.
+          Type: PUT
+         */
         [HttpPut]
         public IHttpActionResult RemoveAssignment(int id)
         {
@@ -527,7 +396,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        // remove employee
+        /*
+          Description: Remove multiple employees.
+          Type: DELETE
+         */
         [HttpDelete]
         public IHttpActionResult RemoveEmployees([FromUri] string employeeIds)
         {

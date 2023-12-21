@@ -38,14 +38,20 @@ namespace CostAllocationApp.BLL
         {
             return departmentDAL.CheckForBudgetInitialDataExists(budgetYear);
         }
+
+        //check if the year already exists second half budget data
         public bool CheckForBudgetSecondHalfDataExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetSecondHalfDataExists(budgetYear);
         }
+
+        //check if the year already exists initial budget finalize data
         public bool CheckForBudgetInitialDataFinalizeExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetInitialDataFinalizeExists(budgetYear);
         }
+
+        //check if the year already exists second half budget finalize data
         public bool CheckForBudgetSecondHalfDataFinalizeExists(int budgetYear)
         {
             return departmentDAL.CheckForBudgetSecondHalfDataFinalizeExists(budgetYear);
@@ -57,14 +63,19 @@ namespace CostAllocationApp.BLL
             return departmentDAL.RemoveDepartment(departmentIds);
         }
 
+        //Get Department list by section id
         public List<Department> GetAllDepartmentsBySectionId(int sectionId)
         {
             return departmentDAL.GetAllDepartmentsBySectionId(sectionId);
         }
+
+        // Department Name must be unique
         public bool CheckDepartment(Department department)
         {
             return departmentDAL.CheckDepartment(department);
-        }        
+        }      
+        
+
         public int GetDepartmentCountWithEmployeeAsignment(int departmentId)
         {
             return departmentDAL.GetDepartmentCountWithEmployeeAsignment(departmentId);

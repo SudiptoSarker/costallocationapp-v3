@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "会社の登録、編集、削除 (Company Registration)";
+    ViewBag.Title = "会社の登録、編集、削除";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -8,7 +8,7 @@
 }
 
     <div class="content container-fluid">
-        <!-----------------Company Master: Company list are showing on this part----------------->
+        <!-----------------Company Master: Show Company list----------------->
         <div id="company_list" style="display: block;">
             <div class="row">
                 <div class="col-md-10">
@@ -21,11 +21,11 @@
                         <table class="" id="company_list_tbl">
                             <thead>
                                 <tr>
-                                    <th colspan="6" class="company_th">会社名 リスト(Company List)</th>
+                                    <th colspan="6" class="company_th">会社名 リスト</th>
                                 </tr>
                                 <tr>
                                     <th class="company_list_theader company_th">複数選択</th>
-                                    <th class="company_list_theader company_th">会社名 (Company Name)</th>
+                                    <th class="company_list_theader company_th">会社名</th>
                                 </tr>
                             </thead>
                             <tbody id="company_list_tbody"></tbody>
@@ -33,6 +33,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-----------------User Authentication----------------->
             @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
             {
                 
@@ -41,13 +43,13 @@
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <button class="btn delete_master_btn" type="button">削除 (delete)​</button>
+                                    <button class="btn delete_master_btn" type="button">削除​</button>
                                 </div>                                
                                 <div class="col-md-3">
-                                    <button class="btn edit_master_btn" type="button">編集​ (edit)​</button>
+                                    <button class="btn edit_master_btn" type="button">編集​​</button>
                                 </div>
                                 <div class="col-md-3" >
-                                    <button class="btn add_master_btn" type="button">追加 (add)</button>
+                                    <button class="btn add_master_btn" type="button">追加</button>
                                 </div>
                             </div>
                         </div>
@@ -61,14 +63,14 @@
 <input type="hidden" id="company_warning_text" />
 <input type="hidden" id="edit_role_id" />
 
-<!-----------------Modal: Add Role----------------->
+<!-----------------Modal: Add Company----------------->
 <div class="modal custom-modal fade" id="add_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>追加の会社 (add company)</h3>
+                    <h3 id='add_modal_header'>追加の会社</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -78,7 +80,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="company_th">会社名 (Company Name)</th>
+                                <th class="company_th">会社名</th>
                                 <th class="company_th">操作</th>
                             </tr>
                         </thead>
@@ -88,8 +90,8 @@
                                     <input type="text" value="" placeholder="ここに新しい会社名を入力してください" id="company_name">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="undo_company_add_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="undo_company_add_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -104,14 +106,14 @@
     </div>
 </div>
 
-<!-----------------Modal: Edit Role----------------->
+<!-----------------Modal: Edit Company----------------->
 <div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>会社を編集する(edit company)</h3>
+                    <h3 id='add_modal_header'>会社を編集する</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -121,7 +123,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="company_th">会社名 (Company Name)</th>
+                                <th class="company_th">会社名</th>
                                 <th class="company_th">操作</th>
                             </tr>
                         </thead>
@@ -131,8 +133,8 @@
                                     <input type="text" value="" placeholder="ここに新しい会社名を入力してください" id="company_name_edit">                                            
                                 </td>
                                 <td id="company_reg_frm_td">
-                                    <a href="javascript:void(0);" class="" id="undo_company_edit_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn_edit">更新​ (Update)</a>
+                                    <a href="javascript:void(0);" class="" id="undo_company_edit_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="company_reg_save_btn_edit">更新</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -153,7 +155,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class="add_edit_del_header">会社削除 (Delete Company)</h3>
+                    <h3 class="add_edit_del_header">会社削除</h3>
                     <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>

@@ -1,21 +1,30 @@
 ﻿$(document).ready(function () {
+    //Show Salary List
+    GetSalaries();
+
+    //Add Salary Modal Show
     $(".add_master_btn").on("click",function(event){    
         $("#unit_price_from").val('');
         $("#unit_price_to").val('');
         $("#grae_point").val('');     
         $('#add_master_modal').modal('show');
     })
+
+    //Clear Add Modal input fields
     $("#salary_undo_btn").on("click",function(event){        
         $("#unit_price_from").val('');
         $("#unit_price_to").val('');
         $("#grae_point").val(''); 
     })
+
+    //Clear Edit Modal input fields
     $("#salary_edit_undo_btn").on("click",function(event){        
         $("#unit_price_from_edit").val('');
         $("#unit_price_to_edit").val('');
         $("#grae_point_edit").val(''); 
     })
    
+    //Insert Salary
     $("#salary_save_btn").on("click",function(event){ 
         let lowUnitPrice = $("#unit_price_from").val().trim();
         let highUnitPrice = $("#unit_price_to").val().trim();
@@ -33,9 +42,31 @@
             alert("グレード値を入力してください");
             return false;
         }
+        //Call Insert Salary Function
         UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,0,false);
     })
-    //edit from modal
+
+    //Edit Salary Modal Show
+    $(".edit_master_btn").on("click",function(event){          
+        let id = GetCheckedIds("salary_list_tbody");
+        var arrIds = id.split(',');        
+        var tempLength  =arrIds.length;
+
+        if (id == '' || id == null || id == undefined){
+            alert("グレードが選択されていません");
+            return false;
+        }
+        else if(parseInt(tempLength)>2){
+            alert("編集の場合、複数の選択はできません");
+            return false;
+        }else{   
+            FillTheEditModal(arrIds[0]);
+
+            $('#edit_master_modal').modal('show');
+        }        
+    })
+    
+    //Edit / Update Salary
     $("#salary_edit_btn").on("click",function(event){   
             
         let lowUnitPrice = $("#unit_price_from_edit").val().trim();
@@ -55,80 +86,24 @@
             alert("グレード値を入力してください");
             return false;
         }
+        //Call Update Function 
         UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,gradeId,true);       
-    })
-    //edit incharge
-    $(".edit_master_btn").on("click",function(event){          
-        let id = GetCheckedIds("salary_list_tbody");
-        var arrIds = id.split(',');        
-        var tempLength  =arrIds.length;
+    })    
 
-        if (id == '' || id == null || id == undefined){
-            alert("グレードが選択されていません");
-            return false;
-        }
-        else if(parseInt(tempLength)>2){
-            alert("編集の場合、複数の選択はできません");
-            return false;
-        }else{   
-            FillTheEditModal(arrIds[0]);
-
-            $('#edit_master_modal').modal('show');
-        }        
-    })
-
-    function FillTheEditModal(salaryId){            
-        var apiurl = `/api/utilities/GetSalaryBySalaryId`;
-        $.ajax({
-            url: apiurl,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "salaryId=" + salaryId,
-            success: function (data) { 
-                $("#unit_price_from_edit").val(data.SalaryLowPoint);   
-                $("#unit_price_to_edit").val(data.SalaryHighPoint);   
-                $("#grae_point_edit").val(data.SalaryGrade);   
-
-                $("#gradeId_edit").val(data.Id);   
-            }
-        });            
-    }
-    
-    //edit from modal
-    $("#exp_reg_save_btn_edit").on("click",function(event){   
-        
-        var explanation_name = $("#explanation_name_edit").val();   
-        var explanation_id= $("#hid_explanation_id").val();   
-
-        if (explanation_name == '' || explanation_name == null || explanation_name == undefined){
-            alert("please enter explanation name!");
-            return false;
-        }
-        else{
-            UpdateInsertExplanations(explanation_name,explanation_id,true);
-        }        
-    })
-
-     /***************************\                           
-        Check if the grade is checked for delete/remove
-    \***************************/
+    //Delete Salary Modal Show
     $('.delete_master_btn').on('click', function (event) {
-
         let id = GetCheckedIds("salary_list_tbody");
         if (id == "") {
             alert("グレードが選択されていません");
             return false;
         }else{
-            onSalaryInactiveClick();
-            $('#inactive_salary_modal').modal('show');
+            SalaryWithAssignment();
+            $('#delete_salary_modal').modal('show');
         }
     });
 
-    GetSalaries();
-
-    $('#salary_inactive_confirm_btn').on('click', function (event) {
+    //Delete Salary
+    $('#salary_del_confirm').on('click', function (event) {
         event.preventDefault();
         let id = GetCheckedIds("salary_list_tbody");
         id = id.slice(0, -1);        
@@ -144,34 +119,43 @@
             }
         });
 
-        $('#inactive_salary_modal').modal('toggle');
-    });
-
-
-    $(document).on('change', '#gradePoints', function () {        
-        var gradePoint = $("#gradePoints").val();
-        var apiurl = '/api/utilities/IsGradeExists?gradePoint=' + gradePoint;
-        $.ajax({
-            url: apiurl,
-            type: 'Get',
-            dataType: 'json',
-            success: function (data) {
-                if(parseInt(data)>0){
-                    $("#salary_registration").text('更新​ (Update)');
-                    
-                }else{
-                    $("#salary_registration").text('保存（save）');                    
-                }
-
-                $("#onchange_gradeId").val(data);                
-            },
-            error: function (data) {
-            }
-        });
+        $('#delete_salary_modal').modal('toggle');
     });
 });
 
-function onSalaryInactiveClick() {
+//Get Salary list
+function GetSalaries(){
+    $.getJSON('/api/Salaries/')
+    .done(function (data) {
+        $('#salary_list_tbody').empty();
+        $.each(data, function (key, item) {
+            $('#salary_list_tbody').append(`<tr><td><input type="checkbox" class="salary_list_chk" data-id='${item.Id}' /></td><td>${item.SalaryLowPointWithComma} ～ ${item.SalaryHighPointWithComma}</td><td>${item.SalaryGrade}</td></tr>`);
+        });
+    });
+}    
+
+//Get Salary Details by Id and fill the edit modal
+function FillTheEditModal(salaryId){            
+    var apiurl = `/api/utilities/GetSalaryBySalaryId`;
+    $.ajax({
+        url: apiurl,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "salaryId=" + salaryId,
+        success: function (data) { 
+            $("#unit_price_from_edit").val(data.SalaryLowPoint);   
+            $("#unit_price_to_edit").val(data.SalaryHighPoint);   
+            $("#grae_point_edit").val(data.SalaryGrade);   
+
+            $("#gradeId_edit").val(data.Id);   
+        }
+    });            
+}
+
+//Show the assignment count for the selected Salaries before delete Salary  
+function SalaryWithAssignment() {
     let salaryIds = GetCheckedIds("salary_list_tbody");
     var apiurl = '/api/utilities/SalaryCount?salaryIds=' + salaryIds;
     $.ajax({
@@ -189,17 +173,7 @@ function onSalaryInactiveClick() {
     });
 }
 
-
-function GetSalaries(){
-    $.getJSON('/api/Salaries/')
-    .done(function (data) {
-        $('#salary_list_tbody').empty();
-        $.each(data, function (key, item) {
-            $('#salary_list_tbody').append(`<tr><td><input type="checkbox" class="salary_list_chk" data-id='${item.Id}' /></td><td>${item.SalaryLowPointWithComma} ～ ${item.SalaryHighPointWithComma}</td><td>${item.SalaryGrade}</td></tr>`);
-        });
-    });
-}    
-
+//Insert / Update Function
 function UpdateInsertGrade(lowUnitPrice,highUnitPrice,gradePoints,gradeId,isUpdate) {
     var apiurl = "/api/Salaries/";
         

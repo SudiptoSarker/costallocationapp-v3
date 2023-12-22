@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "新規要員追加 (Create New Employee)";
+    ViewBag.Title = "新規要員追加";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -9,7 +9,7 @@
 
 <div class="content container-fluid">  
     <div id="" style="display: block;">        
-        <!-----------------Employee Master: Employee list are showing on this part----------------->   
+        <!-----------------Employee Master: Show Employee list----------------->   
         <div class="row">
             <div class="col-md-10">
                 <div class="table-responsive">
@@ -19,8 +19,7 @@
                         編集する場合は、１つのチェックボックスを選択し、選択ボタンをクリックしてください。
                         <br>
                         追加する場合は、追加ボタンをクリックしてください。要員データを削除すると、最新の年度データの要員データも削除されます。
-                    </label>                  
-                    @* <table id="employeeList_datatable" class="table table-striped table-bordered" style="width:100%"> *@
+                    </label>                                      
                     <table id="employeeList_datatable" style="width:100%">
                         <thead id="employeelist_thead">
                             <tr>
@@ -38,6 +37,7 @@
             </div>
         </div>
 
+        <!-----------------User Authentication----------------->
         @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
         {                
             <div class="add_edit_delete_btn_section" style="display: block;">
@@ -45,13 +45,13 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_master_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_master_btn" type="button">削除​</button>
                             </div>                                
                             <div class="col-md-3">
-                                <button class="btn edit_master_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_master_btn" type="button">編集​​</button>
                             </div>
                             <div class="col-md-3" >
-                                <button class="btn add_master_btn" type="button">追加 (add)</button>
+                                <button class="btn add_master_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>要員の追加 (add employee)</h3>
+                    <h3 id='add_modal_header'>要員の追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -80,7 +80,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="employee_add_th">要員名 (Employee)</th>
+                                <th class="employee_add_th">要員名</th>
                                 <th class="employee_add_th">操作</th>
                             </tr>
                         </thead>
@@ -90,8 +90,8 @@
                                     <input type="text" value="" placeholder="ここに新しい要員名を入力してください" id="employee_name_add">                                            
                                 </td>
                                 <td id="employee_add_td">
-                                    <a href="javascript:void(0);" class="" id="employee_add_undo">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="employee_add_save">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="employee_add_undo">取消</a>
+                                    <a href="javascript:void(0);" class="" id="employee_add_save">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -105,14 +105,14 @@
     </div>
 </div>
 
-<!-----------------Modal: Edit Role----------------->
+<!-----------------Modal: Edit Employee----------------->
 <div class="modal custom-modal fade" id="edit_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='edit_modal_header'>要員の編集 (edit employee)</h3>
+                    <h3 id='edit_modal_header'>要員の編集</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -122,7 +122,7 @@
                         <thead style="border:none;">
                             <tr></tr>
                             <tr>
-                                <th class="employee_edit_th">要員名 (Employee)</th>
+                                <th class="employee_edit_th">要員名</th>
                                 <th class="employee_edit_th">操作</th>
                             </tr>
                         </thead>
@@ -132,8 +132,8 @@
                                     <input type="text" value="" placeholder="ここに新しい要員名を入力してください" id="employee_name_edit">                                            
                                 </td>
                                 <td id="employee_edti_td">
-                                    <a href="javascript:void(0);" class="" id="employee_edit_undo">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="employee_edit_save">保存（save）</a>
+                                    <a href="javascript:void(0);" class="" id="employee_edit_undo">取消</a>
+                                    <a href="javascript:void(0);" class="" id="employee_edit_save">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -147,16 +147,16 @@
     </div>
 </div>
 
-<!-----------------Modal: Delete Company----------------->
+<!-----------------Modal: Delete Employee----------------->
 <div class="modal custom-modal fade" id="delete_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>Delete Employees</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
+                    <h3 class='add_edit_del_header'>人事削除</h3>
+                    <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？ 削除されたデータを承認すると、過去データも削除されることがあります。注意してください！！</p>
-                </div>
+                </div>                
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-6">
@@ -171,7 +171,6 @@
         </div>
     </div>
 </div>
-
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

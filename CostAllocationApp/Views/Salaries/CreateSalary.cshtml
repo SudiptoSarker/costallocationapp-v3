@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "グレードの登録、編集、削除 (Salary Unit Price Registration)";
+    ViewBag.Title = "グレードの登録、編集、削除";
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="/Content/common.css" />
@@ -22,7 +22,7 @@
                             <tr>
                                 <th class="salary_th">複数選択</th>
                                 <th class="salary_th">給与レンジ</th>
-                                <th class="salary_th">グレード (Grade)</th>
+                                <th class="salary_th">グレード</th>
                             </tr>
                         </thead>
                         <tbody id="salary_list_tbody"></tbody>
@@ -31,6 +31,7 @@
             </div>
         </div>    
 
+        <!--User Authentication-->
         @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor" )
         {            
             <div class="add_edit_delete_btn_section" style="display: block;">
@@ -38,13 +39,13 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-3">
-                                <button class="btn delete_master_btn" type="button">削除 (delete)​</button>
+                                <button class="btn delete_master_btn" type="button">削除</button>
                             </div>                            
                             <div class="col-md-3">
-                                <button class="btn edit_master_btn" type="button">編集​ (edit)​</button>
+                                <button class="btn edit_master_btn" type="button">編集​</button>
                             </div>
                             <div class="col-md-3" >
-                                <button class="btn add_master_btn" type="button">追加 (add)</button>
+                                <button class="btn add_master_btn" type="button">追加</button>
                             </div>
                         </div>
                     </div>
@@ -58,7 +59,6 @@
 <input type="hidden" id="onchange_gradeId" />
 <input type="hidden" id="gradeId_edit" />
 
-
 <!-----------------Modal: Add salary----------------->
 <div class="modal custom-modal fade" id="add_master_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
@@ -66,7 +66,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>グレードの追加 (add salary)</h3>
+                    <h3 id='add_modal_header'>グレードの追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -93,9 +93,9 @@
                                 <td id="salary_grade_point_td">
                                     <input type="text" value="" placeholder="新しいグレードを数値で入力してください" id="grae_point">                                           
                                 </td>
-                                <td id="salary_action_td">
-                                    <a href="javascript:void(0);" class="" id="salary_undo_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="salary_save_btn">保存（save）</a>
+                                <td class="salary_action_td">
+                                    <a href="javascript:void(0);" class="" id="salary_undo_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="salary_save_btn">保存</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -116,7 +116,7 @@
             <div class="modal-body">
                 
                 <div class="form-header">
-                    <h3 id='add_modal_header'>編集​ 説明 (edit salary)</h3>
+                    <h3 id='add_modal_header'>編集​ 説明</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
@@ -143,9 +143,9 @@
                                 <td id="salary_grade_point_td_edit">
                                     <input type="text" value="" placeholder="新しいグレードを数値で入力してください" id="grae_point_edit">                                           
                                 </td>
-                                <td id="salary_action_td">
-                                    <a href="javascript:void(0);" class="" id="salary_edit_undo_btn">取消(undo)</a>
-                                    <a href="javascript:void(0);" class="" id="salary_edit_btn">更新​ (Update)</a>
+                                <td class="salary_action_td">
+                                    <a href="javascript:void(0);" class="" id="salary_edit_undo_btn">取消</a>
+                                    <a href="javascript:void(0);" class="" id="salary_edit_btn">更新</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -159,13 +159,13 @@
     </div>
 </div>
 
-<!-- Inactive Salary Modal -->
-<div class="modal custom-modal fade" id="inactive_salary_modal" role="dialog">
+<!-- Delete Salary Modal -->
+<div class="modal custom-modal fade" id="delete_salary_modal" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 class="add_edit_del_header">選択したグレードを削除 (Delete Salary)</h3>
+                    <h3 class="add_edit_del_header">選択したグレードを削除</h3>
                     <ol class="del_confirm_warning"></ol>
                     <p>本当に削除しますか？</p>
                 </div>
@@ -175,7 +175,7 @@
                             <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">キャンセル</a>
                         </div>
                         <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="salary_inactive_confirm_btn">削除</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="salary_del_confirm">削除</a>
                         </div>
                     </div>
                 </div>

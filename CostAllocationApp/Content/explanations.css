@@ -211,6 +211,7 @@
     color: white;
     text-align: center;
 }
+
 /*common modal design*/
 .modal_return_btn{
     margin-top: 40px !important;
@@ -223,7 +224,6 @@
 .custom-modal .modal-footer {
     border: 0;
     justify-content: right;
-    /* padding: 0 30px 30px;*/
 }
 .custom-modal .modal-body{
     padding: 15px !important;

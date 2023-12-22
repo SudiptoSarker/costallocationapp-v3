@@ -14,7 +14,10 @@ namespace CostAllocationApp.Controllers.Api
             explanationsBLL = new ExplanationsBLL();
         }
 
-        // creating explanations
+        /*
+          Description: create explanation.
+          Type: POST
+         */
         [HttpPost]
         public IHttpActionResult CreateExplanation(Explanation explanation)
         {
@@ -52,7 +55,10 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
-        // retrive all the explanations
+        /*
+          Description: get explanations.
+          Type: GET
+         */
         [HttpGet]
         public IHttpActionResult Explanations()
         {
@@ -60,7 +66,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(explanations);
         }
 
-        // remove explanations
+        /*
+          Description: remove explanations.
+          Type: DELETE
+         */
         [HttpDelete]
         public IHttpActionResult RemoveExplanations([FromUri] string explanationIds)
         {

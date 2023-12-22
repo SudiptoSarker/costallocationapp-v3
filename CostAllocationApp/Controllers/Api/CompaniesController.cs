@@ -14,7 +14,10 @@ namespace CostAllocationApp.Controllers.Api
             companyBLL = new CompanyBLL();
         }
 
-        // create a company
+        /*
+         Description: create company.
+         Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateCompany(Company company)
         {
@@ -60,7 +63,12 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
-        // retrive all the companies
+
+        /*
+         Description: get companies.
+         Type: GET
+        */
+
         [HttpGet]
         public IHttpActionResult Companies()
         {
@@ -68,7 +76,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(companies);
         }
 
-        // remove companies
+        /*
+         Description: remove companies.
+         Type: DELETE
+        */
         [HttpDelete]
         public IHttpActionResult RemoveCompanies([FromUri] string companyIds)
         {

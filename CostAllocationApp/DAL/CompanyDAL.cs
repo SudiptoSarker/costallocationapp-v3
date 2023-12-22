@@ -34,6 +34,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public int UpdateCompany(Company company)
         {
             int result = 0;
@@ -59,6 +60,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<Company> GetAllCompanies()
         {
             List<Company> companies = new List<Company>();
@@ -93,6 +95,7 @@ namespace CostAllocationApp.DAL
                 return companies;
             }
         }
+
         public int RemoveCompanies(int companyIds)
         {
             int result = 0;            
@@ -115,7 +118,8 @@ namespace CostAllocationApp.DAL
             }
 
         }
-        public bool CheckComany(string companyName)
+
+        public bool CheckCompany(string companyName)
         {
             string query = "select * from Companies where Name=N'" + companyName + "'";
             bool result = false;
@@ -139,6 +143,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public int GetCompanyCountWithEmployeeAsignment(int companyId)
         {
             string query = "select * from EmployeesAssignments where CompanyId=" + companyId;
@@ -197,6 +202,7 @@ namespace CostAllocationApp.DAL
                 return company;
             }
         }
+
         public int GetCompanyIdByName(string companyName)
         {
             int companyId = 0;

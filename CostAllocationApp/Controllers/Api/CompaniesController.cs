@@ -30,7 +30,7 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 // checking existing company
-                if (companyBLL.CheckComany(company.CompanyName))
+                if (companyBLL.CheckCompany(company.CompanyName))
                 {
                     return BadRequest("既に登録済みです");
                 }

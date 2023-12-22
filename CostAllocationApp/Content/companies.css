@@ -217,8 +217,7 @@
 }
 .custom-modal .modal-footer {
     border: 0;
-    justify-content: right;
-    /* padding: 0 30px 30px;*/
+    justify-content: right;    
 }
 .custom-modal .modal-body{
     padding: 15px !important;

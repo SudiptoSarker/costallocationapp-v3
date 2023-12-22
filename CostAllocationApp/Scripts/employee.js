@@ -163,19 +163,11 @@ $(document).ready(function () {
     /***************************\                           
         Name Registration: namelist dropdown using select2 plugin.                
     \***************************/
-    //$("#employee_list").select2();
-
 });
 
 // Clear the filter
 $(document).on('click', '#clearFilter', function () {
     window.location.reload();
-});
-
-//search by employee name
-$(document).on('change', '#name_search', function () {
-    var employeeName = $('#name_search').val();
-    GetEmployeeSearchResults(employeeName);
 });
 
 //filter by emoloyee name
@@ -253,50 +245,14 @@ function ShowNameList_Datatable(data) {
     });    
 }
 
-// $(function () {
-
-//     var employeeContextMenu = $("#employeeContextMenu");
-
-//     $("body").on("contextmenu", "#employeeList_datatable tbody tr", function (e) {
-//         employeeContextMenu.css({
-//             display:'block',
-//             left: e.pageX-230,
-//             top: e.pageY-25
-//         });
-//         $('#employee_id_hidden').val($(this)[0].cells[0].innerText);
-//         $('#employee_name_edit').val($(this)[0].cells[1].innerText);
-//         //debugger;
-//         return false;
-//     });
-
-//     $('html').click(function () {
-//         employeeContextMenu.hide();
-//     });
-
-//     $("#employeeContextMenu li a").click(function (e) {
-//         var f = $(this);
-//         var elementText = f[0].innerText;
-//         if (elementText.toLowerCase() == 'edit') {
-//             $('#edit_employee_modal').modal();
-//         }
-//         if (elementText.toLowerCase() == 'inactive') {
-//             $('#inactive_employee_modal').modal();
-//         }
-        
-//         //debugger;
-//     });
-// });
-
 //employee update
 function UpdateEmployee() {
     var apiurl = "/api/utilities/UpdateEmployee/";
     let employeeName = $("#employee_name_edit").val().trim();
     let employeeId = $('#employee_id_hidden').val();
-    if (employeeName == "") {
-        $(".employee_err_edit").show();
+    if (employeeName == "") {        
         return false;
-    } else {
-        $(".employee_err_edit").hide();
+    } else {        
         var data = {
             Id: employeeId,
             FullName: employeeName

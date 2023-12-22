@@ -12,13 +12,13 @@ namespace CostAllocationApp.BLL
     public class EmployeeAssignmentBLL
     {
         EmployeeAssignmentDAL employeeAssignmentDAL = null;
-        ExplanationsBLL explanationsBLL = null;
+        ExplanationBLL explanationsBLL = null;
         ActualCostDAL actualCostDAL = null;
         TotalDAL totalDAL = null;
         public EmployeeAssignmentBLL()
         {
             employeeAssignmentDAL = new EmployeeAssignmentDAL();
-            explanationsBLL = new ExplanationsBLL();
+            explanationsBLL = new ExplanationBLL();
             actualCostDAL = new ActualCostDAL();
             totalDAL = new TotalDAL();
         }

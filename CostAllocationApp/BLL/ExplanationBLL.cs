@@ -7,10 +7,10 @@ using System.Web;
 
 namespace CostAllocationApp.BLL
 {
-    public class ExplanationsBLL
+    public class ExplanationBLL
     {
         ExplanationDAL explanationDAL = null;
-        public ExplanationsBLL()
+        public ExplanationBLL()
         {
             explanationDAL = new ExplanationDAL();
         }

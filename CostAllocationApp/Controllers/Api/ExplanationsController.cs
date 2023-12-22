@@ -8,10 +8,10 @@ namespace CostAllocationApp.Controllers.Api
 {
     public class ExplanationsController : ApiController
     {
-        ExplanationsBLL explanationsBLL = null;
+        ExplanationBLL explanationBLL = null;
         public ExplanationsController()
         {
-            explanationsBLL = new ExplanationsBLL();
+            explanationBLL = new ExplanationBLL();
         }
 
         /*
@@ -36,14 +36,14 @@ namespace CostAllocationApp.Controllers.Api
                     explanation.UpdatedBy = session["userName"].ToString();
                     explanation.UpdatedDate = DateTime.Now;
                     explanation.IsActive = true;
-                    result = explanationsBLL.UpdateExplanations(explanation);
+                    result = explanationBLL.UpdateExplanations(explanation);
                 }
                 else
                 {
                     explanation.CreatedBy = session["userName"].ToString();
                     explanation.CreatedDate = DateTime.Now;
                     explanation.IsActive = true;
-                    result = explanationsBLL.CreateExplanation(explanation);
+                    result = explanationBLL.CreateExplanation(explanation);
                 }
                 if (result > 0)
                 {
@@ -62,7 +62,7 @@ namespace CostAllocationApp.Controllers.Api
         [HttpGet]
         public IHttpActionResult Explanations()
         {
-            List<Explanation> explanations = explanationsBLL.GetAllExplanations();
+            List<Explanation> explanations = explanationBLL.GetAllExplanations();
             return Ok(explanations);
         }
 
@@ -82,7 +82,7 @@ namespace CostAllocationApp.Controllers.Api
 
                 foreach (var item in ids)
                 {
-                    result += explanationsBLL.RemoveExplanations(Convert.ToInt32(item));
+                    result += explanationBLL.RemoveExplanations(Convert.ToInt32(item));
                 }
 
                 if (result == ids.Length)

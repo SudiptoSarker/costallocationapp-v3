@@ -19,7 +19,7 @@ namespace CostAllocationApp.Controllers.Api
         CompanyBLL companyBLL = new CompanyBLL();
         InChargeBLL inChargeBLL = null;
         RoleBLL roleBLL = null;
-        ExplanationsBLL explanationsBLL = null;
+        ExplanationBLL explanationsBLL = null;
         ForecastBLL forecastBLL = null;
         EmployeeBLL employeeBLL = null;
         UserBLL userBLL = null;
@@ -40,7 +40,7 @@ namespace CostAllocationApp.Controllers.Api
             companyBLL = new CompanyBLL();
             inChargeBLL = new InChargeBLL();
             roleBLL = new RoleBLL();
-            explanationsBLL = new ExplanationsBLL();
+            explanationsBLL = new ExplanationBLL();
             forecastBLL = new ForecastBLL();
             employeeBLL = new EmployeeBLL();
             userBLL = new UserBLL();

@@ -34,7 +34,7 @@ namespace CostAllocationApp.Controllers
         DepartmentBLL departmentBLL = new DepartmentBLL();
         InChargeBLL inChargeBLL = new InChargeBLL();
         RoleBLL roleBLL = new RoleBLL();
-        ExplanationsBLL explanationsBLL = new ExplanationsBLL();
+        ExplanationBLL explanationsBLL = new ExplanationBLL();
         CompanyBLL companyBLL = new CompanyBLL();        
 
         ForecastBLL forecastBLL = new ForecastBLL();

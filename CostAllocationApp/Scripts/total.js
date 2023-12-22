@@ -27,61 +27,24 @@ $(document).ready(function () {
             dataType: 'json',
             data: { year: year },
             success: function (data) {
-                $('#company_list').empty();            
-                $.each(data, function (key, item) {
-                    //companyList.push(item);
-                    $('#company_list').append(`<option value="${item.Id}">${item.CompanyName}</option>`);
-                });
-                $("#company_list").multiselect('destroy');
-                $('#company_list').multiselect({
-                    allSelectedText: 'All',
-                    maxHeight: 200,
-                    includeSelectAllOption: true
-                })
-                // .multiselect('selectAll', true).multiselect('updateButtonText');
+
+                if (data == "" || data == null || data == undefined) {
+                    $('#edit_history_time_stamp').empty().append('<option value="">タイムスタンプの選択</option>');
+                } else {
+                    $('#edit_history_time_stamp').empty();
+                    $('#edit_history_time_stamp').append('<option value="">タイムスタンプの選択</option>');
+                    $.each(data, function (index, element) {
+                        $('#edit_history_time_stamp').append(`<option value="${element.Id}">${element.TimeStamp}</option>`);
+                    });
+                }
             }
         });
-    }
-    var dynamicSettings = [];
-    var uniqueTableList = [];
-    var selected_compannies = "";
-    var selected_year = "";
-    var timeStampId = "";    
-    
-    function ReplaceComma_2(returnValue){
-         //var returnValue  = 0;
-         //returnValue = differenceValue;
-        if(returnValue.includes(',')){
-             returnValue = returnValue.replace(',', '');
-         }
-         if(returnValue.includes(',')){
-             returnValue = returnValue.replace(',', '');
-         }
-         if(returnValue.includes(',')){
-             returnValue = returnValue.replace(',', '');
-         }        
-        return returnValue;
-     }
-
-    function ColorNegativeValue_2(){
-        var allTableData = $('#table_container table tbody td');
-                    
-        $.each(allTableData, (index,value) => {
-            if (value.innerText.includes('-')) {
-                //if (isNaN(value.innerText)) {
-                var colorValue = ReplaceComma_2(value.innerText);                            
-                if ($.isNumeric(colorValue)){                            
-                    $(value).css('color', 'red');
-                }
-                
-            }
     });
     GetAllForecastYears();
 
 
     // when search button is clicked.
     $('#show_dynamic_tables').on('click', () => {
-    $('#show_dynamic_tables').on('click', () => {                
         selected_compannies = $("#company_list").val();
         selected_year = $("#total_year_list").val();
         timeStampId = $("#edit_history_time_stamp").val();
@@ -244,7 +207,7 @@ function ColorNegativeValue() {
     $.each(allTableData, (index, value) => {
         if (value.innerText.includes('-')) {
             var colorValue = ReplaceComma(value.innerText);
-            if ($.isNumeric(colorValue)) {
+            if ($.isNumeric(value.innerText)) {
 
                 $(value).css('color', 'red');
             }
@@ -253,7 +216,7 @@ function ColorNegativeValue() {
     });
 }
 
-// replace comma from numbers
+// replace comma from numbers.
 function ReplaceComma(returnValue) {
 
     if (returnValue.includes(',')) {
@@ -430,7 +393,7 @@ function CreateDynamicSettingTablesWithCalculations(dynamicSettings, selected_co
                                     <tr data-item='${mainItem.MainItemName}'>
                                     <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
                                     <td></td>
-                                    <td class='${direction}'>${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td class='${direction}'>-${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.NovVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.DecVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.JanVal).toLocaleString('en-US')}</td>

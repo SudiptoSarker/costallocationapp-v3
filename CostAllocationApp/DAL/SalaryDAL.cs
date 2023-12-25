@@ -180,7 +180,6 @@ namespace CostAllocationApp.DAL
         {
             Salary salary = null;
             string query = "select * from Grades where Id = " + salaryId;
-            bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

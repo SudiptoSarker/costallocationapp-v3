@@ -14,7 +14,10 @@ namespace CostAllocationApp.Controllers.Api
         {
             salaryBLL = new SalaryBLL();
         }
-        // create grade
+        /*
+         Description: create salary.
+         Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateSalary(Salary salary)
         {
@@ -61,7 +64,10 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
-        // get all the salaries
+        /*
+         Description: get all salaries.
+         Type: GET
+        */
         [HttpGet]
         public IHttpActionResult Salaries()
         {
@@ -69,7 +75,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(salaries);
         }
 
-        // get specific salary
+        /*
+        Description: get single salary.
+        Type: GET
+       */
         [HttpGet]
         public IHttpActionResult Salary(int salaryGradeId)
         {
@@ -86,7 +95,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(salary);
         }
 
-        // remove salaries
+        /*
+        Description: remove salaries.
+        Type: DELETE
+       */
         [HttpDelete]
         public IHttpActionResult RemoveSalary([FromUri] string salaryIds)
         {

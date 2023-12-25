@@ -155,7 +155,6 @@ namespace CostAllocationApp.DAL
             List<User> users = new List<User>();
             string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
             query = query + "from users u ";
-            //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
             query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
 
             if(orderBy != "")
@@ -185,10 +184,6 @@ namespace CostAllocationApp.DAL
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
-
-                            //user.CreatedBy = rdr["CreatedBy"].ToString();
-                            //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
                             user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
                             {
@@ -224,7 +219,6 @@ namespace CostAllocationApp.DAL
             List<User> users = new List<User>();
             string query = "select u.Id,u.UserName,ur.Id as RoleId,ur.role,u.Title,u.DepartmentId,dpt.Name as DepartmentName,u.Email,u.Password,u.CreatedBy,u.CreatedDate,u.Isactive ";
             query = query + "from users u ";
-            //query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id Where u.IsActive = 1";
             query = query + "left join Departments dpt on u.DepartmentId = dpt.id left join userroles ur on u.UserRoleId=ur.Id ";
             query = query + whereQuery;
 
@@ -248,10 +242,6 @@ namespace CostAllocationApp.DAL
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
-
-                            //user.CreatedBy = rdr["CreatedBy"].ToString();
-                            //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
                             user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
                             {
@@ -321,10 +311,6 @@ namespace CostAllocationApp.DAL
                             user.Email = rdr["Email"].ToString();
                             user.Password = rdr["Password"].ToString();
                             user.UserRoleName = rdr["role"].ToString();
-
-                            //user.CreatedBy = rdr["CreatedBy"].ToString();
-                            //user.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-                            //user.UserRoleId = Convert.ToInt32(rdr["RoleId"]);
                             user.IsActive = Convert.ToBoolean(rdr["IsActive"]);
                             if (string.IsNullOrEmpty(rdr["RoleId"].ToString()))
                             {
@@ -478,7 +464,6 @@ namespace CostAllocationApp.DAL
                         {
                             user.Id = Convert.ToInt32(rdr["Id"]);
                             user.UserName = rdr["UserName"].ToString();
-                            //user.UserRoleId = Convert.ToInt32(rdr["UserRoleId"]);
                             user.UserRoleId = rdr["UserRoleId"].ToString();
                         }
                     }
@@ -491,46 +476,12 @@ namespace CostAllocationApp.DAL
                 return user;
             }
         }
-        public List<UserPermission> GetUserPermissionsByUserId(int userId)
-        {
-            List<UserPermission> userPermissions = new List<UserPermission>();
 
-            string query = "select * from UserPermissions where userid=" + userId;
-
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        while (rdr.Read())
-                        {
-                            UserPermission userPermission = new UserPermission();
-                            userPermission.Id = Convert.ToInt32(rdr["Id"]);
-                            userPermission.Link = rdr["Link"].ToString();
-                            userPermission.UserId = Convert.ToInt32(rdr["UserId"]);
-
-                            userPermissions.Add(userPermission);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return userPermissions;
-            }
-        }
         public int UpdateUserStatus(string userName, string changeRoleId, bool userStatus, string updatedBy, DateTime updatedDate)
         {
             int result = 0;
             string query = $@"update Users  set UserRoleId=@changeRoleId,IsActive=@userStatus,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where UserName=@userName";
 
-            //string query = $@"update Users set UserName=@userName,Title=@title,DepartmentId=@departmentId,Email=@email,Password=@password,UpdatedBy=@updatedBy,UpdatedDate=@updatedDate,UserRoleId=@userRoleId where Id=@id";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

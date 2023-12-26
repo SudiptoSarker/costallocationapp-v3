@@ -29,6 +29,10 @@ namespace CostAllocationApp.Controllers.Api
             totalBLL = new TotalBLL();
         }
 
+        /*
+        Description: get total cost.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/dash/GetTotalCost/")]
         public IHttpActionResult GetTotalCost()
@@ -229,6 +233,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(response);
         }
 
+        /*
+        Description: get budget cost.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/dash/GetBudgetCost/")]
         public IHttpActionResult GetBudgetCost()
@@ -394,6 +402,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(response);
         }
 
+        /*
+        Description: get head count.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/dash/GetHeadCount")]
         public IHttpActionResult GetHeadCount()
@@ -885,7 +897,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(response);
         }
 
-
+        /*
+        Description: get budget head count.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/dash/GetBudgetHeadCount")]
         public IHttpActionResult GetBudgetHeadCount()

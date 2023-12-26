@@ -1,5 +1,5 @@
 ﻿﻿@{
-    ViewBag.Title = "予算策定・編集 (Import/Replicate Budget)";
+    ViewBag.Title = "予算策定・編集";
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
@@ -8,7 +8,6 @@
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
-
     @{
         /***************************\
             Budget Loader
@@ -32,46 +31,43 @@
         /***************************\
         Budget: Import Excel
         \***************************/
-        <div id="budget_import_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 策定 (Create)</span></div>
-        <div class="import_year_wise_data" id="">
-            <table class="" id="">
-                <thead>
-                    <tr>
-                        <th class="section_list_theader">新規作成 (Create New Data)</th>
-                    </tr>
-                </thead>
-                <tbody id="section_list_tbody">
-                    <tr>
-                        <td style="border: none !important;">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="SelectImportBudgetYearAndType();" class="import_forecast_data">CSVからインポート (CSV Import)</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border: none !important;">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデータの複製 (Replicate Data)</a>
-                        </td>
-                    </tr>
-                    <br>
-                    <tr><td style="border: none !important;" id="validation_message">@Html.Raw(ViewBag.ValidationMessage)</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="budget_import_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 策定</span></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="import_replicate_tbl_header">新規作成</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: none !important;">
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#csv_import_modal" onclick="SelectImportBudgetYearAndType();" class="import_forecast_data">CSVからインポート</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: none !important;">
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#replicate_from_previous_year" onclick="CheckDuplicateYear();" class="replicate_forecast_data">過去のデータの複製</a>
+                    </td>
+                </tr>
+                <br>
+                <tr><td style="border: none !important;" id="validation_message">@Html.Raw(ViewBag.ValidationMessage)</td></tr>
+            </tbody>
+        </table>
         <br />
         <br />        
     }
 </div>
 
 <!-----------------Modal: CSV Import----------------->
-<div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
-    @* <div class="modal-dialog modal-dialog-centered"> *@
+<div class="modal custom-modal fade" id="csv_import_modal" role="dialog">    
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 @using (Html.BeginForm("CreateBudget", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "", @id = "frm_import_year_data" }))
                 {
                     <div class="form-header">
-                        <h3>予算策定・編集 (CSV Import)</h3>
-                        <ol class="company_count" style="text-align:left;"></ol>
+                        <h3>予算策定・編集</h3>
                         <div class="row">
                             <div class="col-4">
                                 <label style="margin-right: 67px;">予算年度を選択</label>
@@ -96,12 +92,12 @@
                     <div class="modal-btn delete-action">
                         <div class="row">
                             <div class="col-6">
-                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る</a>
                             </div>
                             <div class="col-6">
                                 <button type="submit" id="import_data_btn" class="btn btn-primary continue-btn">
                                     <i class="fa fa-upload" aria-hidden="true"></i>
-                                    作成 (Create)
+                                    作成
                                 </button>
                                 @Html.AntiForgeryToken()
                             </div>
@@ -112,14 +108,14 @@
         </div>
     </div>
 </div>
+
 <!-----------------Modal: Replciate from previous year----------------->
 <div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3 id='replicate_modal_header'>過去のデータの複製 (Replicate Data)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
+                    <h3 id='replicate_modal_header'>過去のデータの複製</h3>
                     <br>
                     <div class="row">
                         <div class="col-5">
@@ -127,7 +123,7 @@
                             <select id="duplicate_from" class="form-control" name="duplicate_from"></select>                            
                         </div>
                         <div class="col-5">
-                            <label id='approval_timestamp_title'>承認履歴 (Approval History)</label>
+                            <label id='approval_timestamp_title'>承認履歴</label>
                             <select id="approval_timestamps" class="form-control" name="approval_timestamps">                               
                             </select>                            
                         </div>                        
@@ -148,10 +144,10 @@
                 <div class="modal-btn delete-action">
                     <div class="row">
                         <div class="col-5">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
+                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る</a>
                         </div>
                         <div class="col-5">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year">作成 (Create)</a>
+                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year">作成</a>
                         </div>
                     </div>
                 </div>
@@ -159,6 +155,7 @@
         </div>
     </div>
 </div>
+
 <input type="hidden" id="selected_budget_year" value="" />
 
 @section Scripts{
@@ -166,6 +163,7 @@
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/budget.js"></script>
     
+    <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
     <script src="/Scripts/user_notifications.js"></script>    
 

@@ -1,4 +1,30 @@
-﻿$(document).ready(function () {   
+﻿$(document).ready(function () { 
+    var globalSearchObject = '';
+    var globalPreviousValue = '0.0';
+    var globalPreviousId = '';
+    var jss;
+    var globalX = 0;
+    var globalY = 0;
+    var newRowCount = 1;
+    var beforeChangedValue = 0;
+    var jssUpdatedData = [];
+    var jssInsertedData = [];
+    var allEmployeeName = [];
+    var allEmployeeName1 = [];
+    var cellwiseColorCode = [];
+    var cellwiseColorCodeForInsert = [];
+    var changeCount = 0;
+    var newRowChangeEventFlag = false;
+    var deletedExistingRowIds = [];
+
+
+    //get list of budget year
+    GetAllBudgetYear();
+
+    //get list of finalize budget year
+    GetAllFinalizeYear();
+
+    //import file default text change
     window.pressed = function(){
         var a = document.getElementById('import_file_excel');
         if(a.value == "")
@@ -10,160 +36,29 @@
             var theSplit = a.value.split('\\');
             fileLabel.innerHTML = theSplit[theSplit.length-1];
         }
-    };
-    // $("#select_import_year, #replicate_from,#duplciateYear").datepicker({
-    //     format: "yyyy",
-    //     viewMode: "years",
-    //     minViewMode: "years"
-    // });
+    };    
 
+    //replicate modal input field clear
     $('.replicate_forecast_data').on('click', function () {
         ClearReplicateModal();
     });    
 
-    function ClearReplicateModal(){
-        $('#duplicate_from').val('');    
-        $('#approval_timestamps').empty();
-        $('#approval_timestamps').val('');        
-        $("#duplciateYear").val('');
-        $("#duplciateYear").prop('disabled', true);
-        $('#select_duplicate_budget_type').val('');
-        $('#select_duplicate_budget_type').empty();        
-    }
-    
     //import budget selction menu
     $('#select_import_year').on('change', function() {
         var selectedBudgetYear = this.value;
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
+            
             //check the selected year is valid for import the excel.
             CheckIsValidYearForImport(selectedBudgetYear);       
         }    
     });
-
-    //check import year validation
-    function CheckIsValidYearForImport(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckIsValidYearForImport/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "select_year_type=" + selectedBudgetYear,
-            success: function (data) {
-                if(data == true){
-                    CreateBudgetTypeWithYear(selectedBudgetYear);              
-                }else{
-                    $('#select_budget_type').empty();
-                    $('#select_import_year').val('');
-                    alert("selected year is not valid to import!");
-                }
-            }
-        });
-    }
-
-    //check replicate year validation
-    function CheckIsValidYearForReplicate(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckIsValidYearForImport/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "select_year_type=" + selectedBudgetYear,
-            success: function (data) {
-                if(data == true){
-                    ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
-                }else{                    
-                    $('#select_duplicate_budget_type').empty();
-                    $('#duplciateYear').val('');
-                    alert("selected year is not valid to replicate!");
-                }
-            }
-        });
-    }
-
-    //create budget type dropdown and set as html
-    function CreateBudgetTypeWithYear(selectedBudgetYear){
-        $.ajax({
-            url: `/api/utilities/CheckBudgetWithYear/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "BudgetYear=" + selectedBudgetYear,
-            success: function (data) {
-                $('#select_budget_type').empty();
-                                               
-                $('#select_budget_type').append(`<option value="">予算時期を選択</option>`);
-                //create fist half budget dropdown                    
-                if(data.FirstHalfFinalize){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
-                }else if(data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
-                }else if(!data.FirstHalfBudget){
-                    $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
-                }  
-
-                //create second half budget dropdown
-                if(data.SecondHalfFinalize){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
-                }else if(data.SecondHalfBudget){
-                    $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
-                }else if(!data.SecondHalfBudget){
-                    if(data.FirstHalfBudget){
-                        $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
-                    }else{
-                        $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
-                    }                                               
-                }  
-            }
-        });
-    }
-
-    //replicate budget from selected year
-    function ReplicateBudgetFromPreviousYearData(selectedBudgetYear){
-        //get budget initial and 2nd half data if exists
-        $.ajax({
-            url: `/api/utilities/CheckBudgetWithYear/`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            data: "BudgetYear=" + selectedBudgetYear,
-            success: function (data) {
-                $('#select_duplicate_budget_type').empty();
-                                               
-                $('#select_duplicate_budget_type').append(`<option value="">予算時期を選択</option>`);
-                //create fist half budget dropdown                    
-                if(data.FirstHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
-                }else if(data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
-                }else if(!data.FirstHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
-                }  
-
-                //create second half budget dropdown
-                if(data.SecondHalfFinalize){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
-                }else if(data.SecondHalfBudget){
-                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
-                }else if(!data.SecondHalfBudget){                         
-                    if(data.FirstHalfBudget){
-                        $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
-                    }else{
-                        $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
-                    }                        
-                }  
-            }
-        });
-    }
 
     //duplicate budget selction menu
     $('#duplciateYear').on('change', function() {
         var selectedBudgetYear = this.value;
         
         if (selectedBudgetYear != '' && selectedBudgetYear != null || selectedBudgetYear != undefined) {
+            
             //check the selected year is valid for replicate data
 	        CheckIsValidYearForReplicate(selectedBudgetYear);             
         }    
@@ -185,12 +80,8 @@
             $("#duplciateYear").prop('disabled', true);
             $('#select_duplicate_budget_type').empty();
         }
-    });
-
-    GetAllBudgetYear();
-    GetAllFinalizeYear();
-
-    var year = $('#hidForecastYear').val();
+    });    
+        
     $("#jspreadsheet").hide();      
     var count = 1;
 
@@ -218,26 +109,9 @@
                 }
             });
         }       
-    });
+    });         
 
-    //search for section1
-    $(document).on('change', '#section_search', function () {
-        var sectionId = $(this).val();
-        $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
-            .done(function (data) {
-                $('#department_search').empty();
-                $('#department_search').append(`<option value=''>部署を選択</option>`);
-                $.each(data, function (key, item) {
-                    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-                });
-            });
-    });           
-
-
-    /*
-        author: sudipto.
-        replicate the budget data from previous year budget.
-    */
+    //replicate the budget data from previous year budget.
     $('#create_duplicate_of_previous_year').on('click',function(){
         $("#validation_message").html("");
 
@@ -297,1897 +171,16 @@
             return false;
         }
     });
-});
 
-
-var globalSearchObject = '';
-var globalPreviousValue = '0.0';
-var globalPreviousId = '';
-var jss;
-var globalX = 0;
-var globalY = 0;
-var newRowCount = 1;
-var beforeChangedValue = 0;
-var jssUpdatedData = [];
-var jssInsertedData = [];
-var allEmployeeName = [];
-var allEmployeeName1 = [];
-var cellwiseColorCode = [];
-var cellwiseColorCodeForInsert = [];
-var changeCount = 0;
-var newRowChangeEventFlag = false;
-var deletedExistingRowIds = [];
-
-function LoaderShow() {    
-    $("#loading").css("display", "block");
-}
-function LoaderHide() {    
-    $("#loading").css("display", "none");
-}
-
-//shorting columns
-function ColumnOrder(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_p_asc').css('background-color', 'lightsteelblue');
-        $('#search_p_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_p_asc').css('background-color', 'grey');
-        $('#search_p_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Section(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_section_asc').css('background-color', 'lightsteelblue');
-        $('#search_section_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_section_asc').css('background-color', 'grey');
-        $('#search_section_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Department(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_department_asc').css('background-color', 'lightsteelblue');
-        $('#search_department_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_department_asc').css('background-color', 'grey');
-        $('#search_department_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_InCharge(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_incharge_asc').css('background-color', 'lightsteelblue');
-        $('#search_incharge_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_incharge_asc').css('background-color', 'grey');
-        $('#search_incharge_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Role(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_role_asc').css('background-color', 'lightsteelblue');
-        $('#search_role_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_role_asc').css('background-color', 'grey');
-        $('#search_role_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Explanation(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_explanation_asc').css('background-color', 'lightsteelblue');
-        $('#search_explanation_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_explanation_asc').css('background-color', 'grey');
-        $('#search_explanation_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Company(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_company_asc').css('background-color', 'lightsteelblue');
-        $('#search_company_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_company_asc').css('background-color', 'grey');
-        $('#search_company_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_Grade(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_grade_asc').css('background-color', 'lightsteelblue');
-        $('#search_grade_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_grade_asc').css('background-color', 'grey');
-        $('#search_grade_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-function ColumnOrder_UnitPrice(columnNumber, orderBy) {
-    jss.orderBy(columnNumber, orderBy);
-    if (orderBy == 0) {
-        $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
-        $('#search_unit_price_desc').css('background-color', 'grey');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-        jexcelHeadTdEmployeeName.addClass('arrow-up');
-    }
-    if (orderBy == 1) {
-        $('#search_unit_price_asc').css('background-color', 'grey');
-        $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
-        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
-        jexcelHeadTdEmployeeName.addClass('arrow-down');
-    }
-}
-
-var expanded = false;
-$(function () {
     var chat = $.connection.chatHub;
     $.connection.hub.start();
     chat.client.addNewMessageToPage = function (name, message) {
         // Add the message to the page.
         $('#save_notifications').append(`<li>${name} ${message}</li>`);
     };
+
 });
 
-//show budget data
-function ShowBedgetResults(year) {
-    var employeeName = $('#name_search').val();
-    employeeName = "";
-    var sectionId = $('#section_multi_search').val();
-    sectionId = "";
-    var inchargeId = $('#incharge_multi_search').val();
-    inchargeId = "";
-    var roleId = $('#role_multi_search').val();
-    roleId = "";
-    var companyId = $('#company_multi_search').val();
-    companyId = "";
-    var departmentId = $('#dept_multi_search').val();
-    departmentId = "";
-    var explanationId = $('#explanation_multi_search').val();
-    explanationId = "";
-
-    if (year == '' || year == undefined) {
-        alert('予算年度を選択');
-        return false;
-    }
-
-    $('#cancel_forecast').css('display', 'inline-block');
-    $('#save_forecast').css('display', 'inline-block');
-
-    var sectionCheck = [];
-    var departmentCheck = [];
-    var inchargeCheck = [];
-    var roleCheck = [];
-    var explanationCheck = [];
-    var companyCheck = [];
-
-    var data_info = {
-        employeeName: employeeName,
-        sectionId: sectionId,
-        departmentId: departmentId,
-        inchargeId: inchargeId,
-        roleId: roleId,
-        explanationId: explanationId,
-        companyId: companyId,
-        status: '', year: year, timeStampId: ''
-    };
-    globalSearchObject = data_info;
-
-    var _retriveddata = [];
-    $.ajax({
-        url: `/api/utilities/GetAllBudgetData`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            _retriveddata = data;
-        }
-    });
-    
-    var sectionsForJexcel = [];
-    var departmentsForJexcel = [];
-    var inchargesForJexcel = [];
-    var rolesForJexcel = [];
-    var explanationsForJexcel = [];
-    var companiesForJexcel = [];
-    var gradesForJexcel = [];
-
-    $.ajax({
-        url: `/api/Sections`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                sectionsForJexcel.push({ id: value.Id, name: value.SectionName });
-            });
-        }
-    });
-    $.ajax({
-        url: `/api/Departments`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                departmentsForJexcel.push({ id: value.Id, name: value.DepartmentName });
-            });
-        }
-    });
-
-    $.ajax({
-        url: `/api/InCharges`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                inchargesForJexcel.push({ id: value.Id, name: value.InChargeName });
-            });
-        }
-    });
-
-    $.ajax({
-        url: `/api/Roles`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                rolesForJexcel.push({ id: value.Id, name: value.RoleName });
-            });
-        }
-    });
-
-    $.ajax({
-        url: `/api/Explanations`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                explanationsForJexcel.push({ id: value.Id, name: value.ExplanationName });
-            });
-        }
-    });
-
-    $.ajax({
-        url: `/api/Companies`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                companiesForJexcel.push({ id: value.Id, name: value.CompanyName });
-            });
-        }
-    });
-
-    $.ajax({
-        url: `/api/Salaries`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $.each(data, (index, value) => {
-                gradesForJexcel.push({ id: value.Id, name: value.SalaryGrade });
-            });
-        }
-    });
- 
-    if (jss != undefined) {
-        jss.destroy();
-        $('#jspreadsheet').empty();
-    }
-
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    
-    if (_retriveddata != "" && _retriveddata != null && _retriveddata != undefined) {
-        jss = $('#jspreadsheet').jspreadsheet({
-            data: _retriveddata,
-            filters: true,
-            tableOverflow: true,
-            freezeColumns: 3,
-            defaultColWidth: 50,
-            tableWidth: w-280+ "px",
-            tableHeight: (h-150) + "px",
-            
-            columns: [
-                { title: "Id", type: 'hidden', name: "Id" },
-                { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-                { title: "Remarks", type: "text", name: "Remarks", width: 60 },
-                { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
-                { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
-                { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
-                { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60 },
-                { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
-                { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
-                { 
-                    title: "グレード(Grade)", 
-                    type: "dropdown", 
-                    source: gradesForJexcel, 
-                    name: "GradeId", 
-                    width: 60,
-                    filter: (instance, cell, c, r, source) => {
-                        
-                        let row = parseInt(r);
-                        let column = parseInt(c) - 1;
-                        
-                        var value1 = instance.jexcel.getValueFromCoords(column, row);
-                        if (parseInt(value1) != 3) {
-                            return [];
-                        }
-                        else {
-                            return gradesForJexcel;
-                        }
-                    },
-                },
-                { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
-                {
-                    title: "10月",
-                    type: "decimal",
-                    name: "OctPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "11月",
-                    type: "decimal",
-                    name: "NovPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "12月",
-                    type: "decimal",
-                    name: "DecPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "1月",
-                    type: "decimal",
-                    name: "JanPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "2月",
-                    type: "decimal",
-                    name: "FebPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "3月",
-                    type: "decimal",
-                    name: "MarPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "4月",
-                    type: "decimal",
-                    name: "AprPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "5月",
-                    type: "decimal",
-                    name: "MayPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "6月",
-                    type: "decimal",
-                    name: "JunPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "7月",
-                    type: "decimal",
-                    name: "JulPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "8月",
-                    type: "decimal",
-                    name: "AugPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "9月",
-                    type: "decimal",
-                    name: "SepPoints",
-                    mask: '#.##,0',
-                    decimal: '.'
-                },
-                {
-                    title: "10月",
-                    type: "number",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "OctTotal",
-                    width: 60
-                },
-                {
-                    title: "11月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "NovTotal"
-                },
-                {
-                    title: "12月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "DecTotal"
-                },
-                {
-                    title: "1月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "JanTotal"
-                },
-                {
-                    title: "2月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "FebTotal"
-                },
-                {
-                    title: "3月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "MarTotal"
-                },
-                {
-                    title: "4月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "AprTotal"
-                },
-                {
-                    title: "5月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "MayTotal"
-                },
-                {
-                    title: "6月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "JunTotal"
-                },
-                {
-                    title: "7月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "JulTotal"
-                },
-                {
-                    title: "8月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "AugTotal"
-                },
-                {
-                    title: "9月",
-                    type: "decimal",
-                    readOnly: true,
-                    mask: "#,##0",
-                    name: "SepTotal"
-                },
-                { title: "Employee Id", type: 'hidden', name: "EmployeeId" },
-                { title: "BCYR", type: 'hidden', name: "BCYR" },
-                { title: "BCYRCell", type: 'hidden', name: "BCYRCell" },
-                { title: "IsActive", type: 'hidden', name: "IsActive" },
-                { title: "BCYRApproved", type: 'hidden', name: "BCYRApproved" },
-                { title: "BCYRCellApproved", type: 'hidden', name: "BCYRCellApproved" },
-                { title: "IsApproved", type: 'hidden', name: "IsApproved" },
-                { title: "BCYRCellPending", type: 'hidden', name: "BCYRCellPending" },
-
-                { title: "IsRowPending", type: 'hidden', name: "IsRowPending" },
-                { title: "IsDeletePending", type: 'hidden', name: "IsDeletePending" },
-                { title: "RowType", type: 'hidden', name: "RowType" }
-            ],
-            minDimensions: [6, 10],
-            columnSorting: true,
-            onbeforechange: function (instance, cell, x, y, value) {
-
-                //alert(value);
-                if (x == 11) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 12) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 13) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 14) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 15) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 16) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 17) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 18) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 19) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 20) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 21) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-                if (x == 22) {
-                    beforeChangedValue = jss.getValueFromCoords(x, y);
-                }
-            },
-            //onafterchanges: function () {
-            //},
-            onchange: function (instance, cell, x, y, value) {            
-                var checkId = jss.getValueFromCoords(0, y);
-                var employeeId = jss.getValueFromCoords(35, y);
-
-                if (checkId == null || checkId == '' || checkId == undefined) {
-
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    retrivedData.assignmentId = "new-" + newRowCount;
-
-                    jssInsertedData.push(retrivedData);
-                    newRowCount++;
-                    jss.setValueFromCoords(0, y, retrivedData.assignmentId, false);
-                    jss.setValueFromCoords(23, y, `=K${parseInt(y) + 1}*L${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(24, y, `=K${parseInt(y) + 1}*M${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(25, y, `=K${parseInt(y) + 1}*N${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(26, y, `=K${parseInt(y) + 1}*O${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(27, y, `=K${parseInt(y) + 1}*P${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(28, y, `=K${parseInt(y) + 1}*Q${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(29, y, `=K${parseInt(y) + 1}*R${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(30, y, `=K${parseInt(y) + 1}*S${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(31, y, `=K${parseInt(y) + 1}*T${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(32, y, `=K${parseInt(y) + 1}*U${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(33, y, `=K${parseInt(y) + 1}*V${parseInt(y) + 1}`, false);
-                    jss.setValueFromCoords(34, y, `=K${parseInt(y) + 1}*W${parseInt(y) + 1}`, false);
-                }
-                else {
-                    var retrivedData = retrivedObject(jss.getRowData(y));
-                    if (retrivedData.assignmentId.toString().includes('new')) {
-                        updateArrayForInsert(jssInsertedData, retrivedData, x,y, cell, value, beforeChangedValue);
-                    }
-                    else {
-                        var dataCheck = jssUpdatedData.filter(d => d.assignmentId == retrivedData.assignmentId);                    
-                    
-                        if (x == 2) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }                        
-                            cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
-                        }
-                        
-                        if (x == 3) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }                    
-
-                        if (x == 4) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-                        
-                        if (x == 5) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }                        
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 6) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 7) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 8) {                    
-                            var rowNumber = parseInt(y) + 1;
-                            if (parseInt(value) !== 3) {
-                                var element = $(`.jexcel > tbody > tr:nth-of-type(${rowNumber})`);
-                                element[0].cells[10].innerText = '';
-                                $(jss.getCell("J" + rowNumber)).addClass('readonly');
-                                $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                $(jss.getCell("J" + rowNumber)).css('background-color', 'white');
-                            }
-                            else {
-                                $(jss.getCell("J" + rowNumber)).removeClass('readonly');
-                                $(jss.getCell("J" + rowNumber)).css('color', 'black');
-                                $(jss.getCell("J" + rowNumber)).css('background-color', 'white'); 
-                            }
-
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
-                        }
-
-                        if (x == 9) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 10) {                        
-                            if (dataCheck.length == 0) {
-                                jssUpdatedData.push(retrivedData);
-                            }
-                            else {
-                                updateArray(jssUpdatedData, retrivedData);
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 11) {                        
-                            var octSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    octSum += parseFloat(parseFloat(dataValue[11]));
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || octSum > 1) {
-                                octSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-                                    updateArray(jssUpdatedData, retrivedData);
-                                }
-
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }                    
-
-                        if (x == 12) {                        
-                            var novSum = 0;
-
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    novSum += parseFloat(dataValue[12]);
-                                }
-
-                            });
-
-                            if (isNaN(value) || parseFloat(value) < 0 || novSum > 1) {
-                                novSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 13) {
-                            var decSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    decSum += parseFloat(dataValue[13]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || decSum > 1) {
-                                decSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 14) {                        
-                            var janSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    janSum += parseFloat(dataValue[14]);
-                                }
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || janSum > 1) {
-                                janSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 15) {                        
-                            var febSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    febSum += parseFloat(dataValue[15]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || febSum > 1) {
-                                febSum = 1;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 16) {                    
-                            var marSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    marSum += parseFloat(dataValue[16]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || marSum > 1) {
-                                marSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 17) {                        
-                            var aprSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    aprSum += parseFloat(dataValue[17]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || aprSum > 1) {
-                                aprSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 18) {                        
-                            var maySum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    maySum += parseFloat(dataValue[18]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || maySum > 1) {
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 19) {                        
-                            var junSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    junSum += parseFloat(dataValue[19]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || junSum > 1) {
-                                junSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 20) {                        
-                            var julSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    julSum += parseFloat(dataValue[20]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || julSum > 1) {
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-                        
-                        if (x == 21) {                        
-                            var augSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    augSum += parseFloat(dataValue[21]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(value) < 0 || augSum > 1) {
-                                augSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }
-
-                        if (x == 22) {                        
-                            var sepSum = 0;
-                            $.each(jss.getData(), (index, dataValue) => {
-                                if (dataValue[35].toString() == employeeId.toString() && dataValue[38] == true) {
-                                    sepSum += parseFloat(dataValue[22]);
-                                }
-
-                            });
-                            if (isNaN(value) || parseFloat(sepSum) < 0 || sepSum > 1) {
-                                sepSum = 0;
-                                alert('入力値が不正です');
-                                jss.setValueFromCoords(x, y, beforeChangedValue, false);
-                            }
-                            else {
-                                if (dataCheck.length == 0) {
-                                    jssUpdatedData.push(retrivedData);
-                                }
-                                else {
-
-                                    updateArray(jssUpdatedData, retrivedData);
-
-                                }
-                            }
-                            cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
-                        }                                        
-                    }
-
-                }
-
-            },
-            oninsertrow: newRowInserted,
-            //ondeleterow: deleted,
-            contextMenu: function (obj, x, y, e) {
-                var items = [];
-                        
-                return items;
-            }
-        });
-    }else{
-        $('#jspreadsheet').html("No Budget assign for this year!");
-    }
-
-    $("#save_bedget").css("display", "block");
-    $("#cancele_all_changed_budget").css("display", "block");
-    $("#budget_finalize").css("display", "block");
-    
-    jss.deleteColumn(46, 19);
-    var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
-    jexcelHeadTdEmployeeName.addClass('arrow-down');
-    var jexcelFirstHeaderRow = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    jexcelFirstHeaderRow.css('position', 'sticky');
-    jexcelFirstHeaderRow.css('top', '0px');
-    var jexcelSecondHeaderRow = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    jexcelFirstHeaderRow.css('position', 'sticky');
-    jexcelSecondHeaderRow.css('top', '20px');
-
-    //employee name column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {       
-        $('.search_p').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_p').fadeIn("slow");
-    });
-
-    //section column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)').on('click', function () {               
-        $('.search_section').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_section').fadeIn("slow");
-    });
-    
-    //department column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)').on('click', function () {               
-        $('.search_department').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_department').fadeIn("slow");
-    });    
-    //incharge column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)').on('click', function () {               
-        $('.search_incharge').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_incharge').fadeIn("slow");
-    });
-    //role column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)').on('click', function () {               
-        $('.search_role').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_role').fadeIn("slow");
-    });
-    //explanation column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)').on('click', function () {               
-        $('.search_explanation').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_explanation').fadeIn("slow");
-    });
-    //company column
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)').on('click', function () {               
-        $('.search_company').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_company').fadeIn("slow");
-    });
-    //grade column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)').on('click', function () {               
-        $('.search_grade').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_grade').fadeIn("slow");
-    });
-        //unit price column sorting
-    $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)').on('click', function () {               
-        $('.search_unit_price').css('display', 'block');        
-        $("#hider").fadeIn("slow");
-        $('.search_unit_price').fadeIn("slow");
-    });
-
-    var allRows = jss.getData();
-    var count = 1;
-    $.each(allRows, function (index,value) {
-        if (value['36'] == true && value['39'] == false) {            
-            SetColorCommonRow(count,"yellow","red","newrow");
-        }
-        else {
-            var isApprovedCells = value['41'];
-            var columnInfo = value['37'];
-            var infoArray = columnInfo.split(',');
-            $.each(infoArray, function (nextedIndex, nestedValue) {        
-                
-                if (parseInt(nestedValue) == 1) {
-                    jss.setStyle("B" + count, "background-color", "yellow");
-                    jss.setStyle("B" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("B" + count, "background-color", "red");
-                    //     jss.setStyle("B" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("B" + count, "background-color", "yellow");
-                    //     jss.setStyle("B" + count, "color", "red");
-                    // }                    
-                }
-                
-                if (parseInt(nestedValue) == 2) {
-                    jss.setStyle("C" + count, "background-color", "yellow");
-                    jss.setStyle("C" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("C" + count, "background-color", "red");
-                    //     jss.setStyle("C" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("C" + count, "background-color", "yellow");
-                    //     jss.setStyle("C" + count, "color", "red");
-                    // }  
-                }
-                
-                if (parseInt(nestedValue) == 3) {
-                    jss.setStyle("D" + count, "background-color", "yellow");
-                    jss.setStyle("D" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("D" + count, "background-color", "red");
-                    //     jss.setStyle("D" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("D" + count, "background-color", "yellow");
-                    //     jss.setStyle("D" + count, "color", "red");
-                    // }                      
-                }
-                
-                if (parseInt(nestedValue) == 4) {
-                    jss.setStyle("E" + count, "background-color", "yellow");
-                    jss.setStyle("E" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("E" + count, "background-color", "red");
-                    //     jss.setStyle("E" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("E" + count, "background-color", "yellow");
-                    //     jss.setStyle("E" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 5) {
-                    jss.setStyle("F" + count, "background-color", "yellow");
-                    jss.setStyle("F" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("F" + count, "background-color", "red");
-                    //     jss.setStyle("F" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("F" + count, "background-color", "yellow");
-                    //     jss.setStyle("F" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 6) {
-                    jss.setStyle("G" + count, "background-color", "yellow");
-                    jss.setStyle("G" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("G" + count, "background-color", "red");
-                    //     jss.setStyle("G" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("G" + count, "background-color", "yellow");
-                    //     jss.setStyle("G" + count, "color", "red");
-                    // }                   
-                }
-                
-                if (parseInt(nestedValue) == 7) {
-                    jss.setStyle("H" + count, "background-color", "yellow");
-                    jss.setStyle("H" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("H" + count, "background-color", "red");
-                    //     jss.setStyle("H" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("H" + count, "background-color", "yellow");
-                    //     jss.setStyle("H" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 8) {
-                    jss.setStyle("I" + count, "background-color", "yellow");
-                    jss.setStyle("I" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("I" + count, "background-color", "red");
-                    //     jss.setStyle("I" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("I" + count, "background-color", "yellow");
-                    //     jss.setStyle("I" + count, "color", "red");
-                    // } 
-                }
-                
-                if (parseInt(nestedValue) == 9) {
-                    jss.setStyle("J" + count, "background-color", "yellow");
-                    jss.setStyle("J" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("J" + count, "background-color", "red");
-                    //     jss.setStyle("J" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("J" + count, "background-color", "yellow");
-                    //     jss.setStyle("J" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 10) {
-                    jss.setStyle("K" + count, "background-color", "yellow");
-                    jss.setStyle("K" + count, "color", "red");
-
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("K" + count, "background-color", "red");
-                    //     jss.setStyle("K" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("K" + count, "background-color", "yellow");
-                    //     jss.setStyle("K" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 11) {
-                    jss.setStyle("L" + count, "background-color", "yellow");
-                    jss.setStyle("L" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("L" + count, "background-color", "red");
-                    //     jss.setStyle("L" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("L" + count, "background-color", "yellow");
-                    //     jss.setStyle("L" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 12) {
-                    jss.setStyle("M" + count, "background-color", "yellow");
-                    jss.setStyle("M" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("M" + count, "background-color", "red");
-                    //     jss.setStyle("M" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("M" + count, "background-color", "yellow");
-                    //     jss.setStyle("M" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 13) {
-                    jss.setStyle("N" + count, "background-color", "yellow");
-                    jss.setStyle("N" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("N" + count, "background-color", "red");
-                    //     jss.setStyle("N" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("N" + count, "background-color", "yellow");
-                    //     jss.setStyle("N" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 14) {
-                    jss.setStyle("O" + count, "background-color", "yellow");
-                    jss.setStyle("O" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("O" + count, "background-color", "red");
-                    //     jss.setStyle("O" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("O" + count, "background-color", "yellow");
-                    //     jss.setStyle("O" + count, "color", "red");
-                    // }
-                }  
-                          
-                if (parseInt(nestedValue) == 15) {
-                    jss.setStyle("P" + count, "background-color", "yellow");
-                    jss.setStyle("P" + count, "color", "red"); 
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("P" + count, "background-color", "red");
-                    //     jss.setStyle("P" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("P" + count, "background-color", "yellow");
-                    //     jss.setStyle("P" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "yellow");
-                    jss.setStyle("Q" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Q" + count, "background-color", "red");
-                    //     jss.setStyle("Q" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Q" + count, "background-color", "yellow");
-                    //     jss.setStyle("Q" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 17) {
-                    jss.setStyle("R" + count, "background-color", "yellow");
-                    jss.setStyle("R" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("R" + count, "background-color", "red");
-                    //     jss.setStyle("R" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("R" + count, "background-color", "yellow");
-                    //     jss.setStyle("R" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 18) {
-                    jss.setStyle("S" + count, "background-color", "yellow");
-                    jss.setStyle("S" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("S" + count, "background-color", "red");
-                    //     jss.setStyle("S" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("S" + count, "background-color", "yellow");
-                    //     jss.setStyle("S" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 19) {
-                    jss.setStyle("T" + count, "background-color", "yellow");
-                    jss.setStyle("T" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("T" + count, "background-color", "red");
-                    //     jss.setStyle("T" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("T" + count, "background-color", "yellow");
-                    //     jss.setStyle("T" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 20) {
-                    jss.setStyle("U" + count, "background-color", "yellow");
-                    jss.setStyle("U" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("U" + count, "background-color", "red");
-                    //     jss.setStyle("U" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("U" + count, "background-color", "yellow");
-                    //     jss.setStyle("U" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 21) {
-                    jss.setStyle("V" + count, "background-color", "yellow");
-                    jss.setStyle("V" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("V" + count, "background-color", "red");
-                    //     jss.setStyle("V" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("V" + count, "background-color", "yellow");
-                    //     jss.setStyle("V" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 22) {
-                    jss.setStyle("W" + count, "background-color", "yellow");
-                    jss.setStyle("W" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("W" + count, "background-color", "red");
-                    //     jss.setStyle("W" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("W" + count, "background-color", "yellow");
-                    //     jss.setStyle("W" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 23) {
-                    jss.setStyle("X" + count, "background-color", "yellow");
-                    jss.setStyle("X" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("X" + count, "background-color", "red");
-                    //     jss.setStyle("X" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("X" + count, "background-color", "yellow");
-                    //     jss.setStyle("X" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "yellow");
-                    jss.setStyle("Y" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Y" + count, "background-color", "red");
-                    //     jss.setStyle("Y" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Y" + count, "background-color", "yellow");
-                    //     jss.setStyle("Y" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "yellow");
-                    jss.setStyle("Z" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("Z" + count, "background-color", "red");
-                    //     jss.setStyle("Z" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("Z" + count, "background-color", "yellow");
-                    //     jss.setStyle("Z" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "yellow");
-                    jss.setStyle("AA" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AA" + count, "background-color", "red");
-                    //     jss.setStyle("AA" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AA" + count, "background-color", "yellow");
-                    //     jss.setStyle("AA" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "yellow");
-                    jss.setStyle("AB" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AB" + count, "background-color", "red");
-                    //     jss.setStyle("AB" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AB" + count, "background-color", "yellow");
-                    //     jss.setStyle("AB" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "yellow");
-                    jss.setStyle("AC" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AC" + count, "background-color", "red");
-                    //     jss.setStyle("AC" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AC" + count, "background-color", "yellow");
-                    //     jss.setStyle("AC" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "yellow");
-                    jss.setStyle("AD" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AD" + count, "background-color", "red");
-                    //     jss.setStyle("AD" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AD" + count, "background-color", "yellow");
-                    //     jss.setStyle("AD" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "yellow");
-                    jss.setStyle("AE" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AE" + count, "background-color", "red");
-                    //     jss.setStyle("AE" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AE" + count, "background-color", "yellow");
-                    //     jss.setStyle("AE" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "yellow");
-                    jss.setStyle("AF" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AF" + count, "background-color", "red");
-                    //     jss.setStyle("AF" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AF" + count, "background-color", "yellow");
-                    //     jss.setStyle("AF" + count, "color", "red");
-                    // }
-                }
-                
-                if (parseInt(nestedValue) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "yellow");
-                    jss.setStyle("AG" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AG" + count, "background-color", "red");
-                    //     jss.setStyle("AG" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AG" + count, "background-color", "yellow");
-                    //     jss.setStyle("AG" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "yellow");
-                    jss.setStyle("AH" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AH" + count, "background-color", "red");
-                    //     jss.setStyle("AH" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AH" + count, "background-color", "yellow");
-                    //     jss.setStyle("AH" + count, "color", "red");
-                    // }
-                }
-               
-                if (parseInt(nestedValue) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "yellow");
-                    jss.setStyle("AI" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AI" + count, "background-color", "red");
-                    //     jss.setStyle("AI" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AI" + count, "background-color", "yellow");
-                    //     jss.setStyle("AI" + count, "color", "red");
-                    // }                    
-                }
-                
-                if (parseInt(nestedValue) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "yellow");
-                    jss.setStyle("AJ" + count, "color", "red");
-                    // if(isApprovedCells == true){
-                    //     jss.setStyle("AJ" + count, "background-color", "red");
-                    //     jss.setStyle("AJ" + count, "color", "black");
-                    // }else{
-                    //     jss.setStyle("AJ" + count, "background-color", "yellow");
-                    //     jss.setStyle("AJ" + count, "color", "red");
-                    // }
-                }
-            });
-
-            //approved cells color
-            var approvedCells = value['40'];
-            var arrApprovedCells = approvedCells.split(',');
-            $.each(arrApprovedCells, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "LightBlue");
-                    jss.setStyle("B" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "LightBlue");
-                    jss.setStyle("C" + count, "color", "red");
-                }
-
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "LightBlue");
-                    jss.setStyle("D" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "LightBlue");
-                    jss.setStyle("E" + count, "color", "red");
-                }
- 
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "LightBlue");
-                    jss.setStyle("F" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "LightBlue");
-                    jss.setStyle("G" + count, "color", "red");
-                }
-
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "LightBlue");
-                    jss.setStyle("H" + count, "color", "red");
-                }
-             
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "LightBlue");
-                    jss.setStyle("I" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "LightBlue");
-                    jss.setStyle("J" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "LightBlue");
-                    jss.setStyle("K" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "LightBlue");
-                    jss.setStyle("L" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "LightBlue");
-                    jss.setStyle("M" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "LightBlue");
-                    jss.setStyle("N" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "LightBlue");
-                    jss.setStyle("O" + count, "color", "red");
-                }
-             
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "LightBlue");
-                    jss.setStyle("P" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "LightBlue");
-                    jss.setStyle("Q" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "LightBlue");
-                    jss.setStyle("R" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "LightBlue");
-                    jss.setStyle("S" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "LightBlue");
-                    jss.setStyle("T" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "LightBlue");
-                    jss.setStyle("U" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "LightBlue");
-                    jss.setStyle("V" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "LightBlue");
-                    jss.setStyle("W" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "LightBlue");
-                    jss.setStyle("X" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "LightBlue");
-                    jss.setStyle("Y" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "LightBlue");
-                    jss.setStyle("Z" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "LightBlue");
-                    jss.setStyle("AA" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "LightBlue");
-                    jss.setStyle("AB" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "LightBlue");
-                    jss.setStyle("AC" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "LightBlue");
-                    jss.setStyle("AD" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "LightBlue");
-                    jss.setStyle("AE" + count, "color", "red");
-                }
-                
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "LightBlue");
-                    jss.setStyle("AF" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "LightBlue");
-                    jss.setStyle("AG" + count, "color", "red");
-                }
-              
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "LightBlue");
-                    jss.setStyle("AH" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "LightBlue");
-                    jss.setStyle("AI" + count, "color", "red");
-                }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "LightBlue");
-                    jss.setStyle("AJ" + count, "color", "red");
-                }
-            });
-            
-            //pending cells color
-            var bCYRCellPending = value['42'];
-            var arrBCYRCellPending = bCYRCellPending.split(',');
-            $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
-                if (parseInt(nestedValue2) == 1) {
-                    jss.setStyle("B" + count, "background-color", "red");
-                    jss.setStyle("B" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 2) {
-                    jss.setStyle("C" + count, "background-color", "red");
-                    jss.setStyle("C" + count, "color", "black");
-                }
-
-                if (parseInt(nestedValue2) == 3) {
-                    jss.setStyle("D" + count, "background-color", "red");
-                    jss.setStyle("D" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 4) {
-                    jss.setStyle("E" + count, "background-color", "red");
-                    jss.setStyle("E" + count, "color", "black");
-                }
- 
-                if (parseInt(nestedValue2) == 5) {
-                    jss.setStyle("F" + count, "background-color", "red");
-                    jss.setStyle("F" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 6) {
-                    jss.setStyle("G" + count, "background-color", "red");
-                    jss.setStyle("G" + count, "color", "black");
-                }
-
-                if (parseInt(nestedValue2) == 7) {
-                    jss.setStyle("H" + count, "background-color", "red");
-                    jss.setStyle("H" + count, "color", "black");
-                }
-             
-                if (parseInt(nestedValue2) == 8) {
-                    jss.setStyle("I" + count, "background-color", "red");
-                    jss.setStyle("I" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 9) {
-                    jss.setStyle("J" + count, "background-color", "red");
-                    jss.setStyle("J" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 10) {
-                    jss.setStyle("K" + count, "background-color", "red");
-                    jss.setStyle("K" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 11) {
-                    jss.setStyle("L" + count, "background-color", "red");
-                    jss.setStyle("L" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 12) {
-                    jss.setStyle("M" + count, "background-color", "red");
-                    jss.setStyle("M" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 13) {
-                    jss.setStyle("N" + count, "background-color", "red");
-                    jss.setStyle("N" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 14) {
-                    jss.setStyle("O" + count, "background-color", "red");
-                    jss.setStyle("O" + count, "color", "black");
-                }
-             
-                if (parseInt(nestedValue2) == 15) {
-                    jss.setStyle("P" + count, "background-color", "red");
-                    jss.setStyle("P" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 16) {
-                    jss.setStyle("Q" + count, "background-color", "red");
-                    jss.setStyle("Q" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 17) {
-                    jss.setStyle("R" + count, "background-color", "red");
-                    jss.setStyle("R" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 18) {
-                    jss.setStyle("S" + count, "background-color", "red");
-                    jss.setStyle("S" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 19) {
-                    jss.setStyle("T" + count, "background-color", "red");
-                    jss.setStyle("T" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 20) {
-                    jss.setStyle("U" + count, "background-color", "red");
-                    jss.setStyle("U" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 21) {
-                    jss.setStyle("V" + count, "background-color", "red");
-                    jss.setStyle("V" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 22) {
-                    jss.setStyle("W" + count, "background-color", "red");
-                    jss.setStyle("W" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 23) {
-                    jss.setStyle("X" + count, "background-color", "red");
-                    jss.setStyle("X" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 24) {
-                    jss.setStyle("Y" + count, "background-color", "red");
-                    jss.setStyle("Y" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 25) {
-                    jss.setStyle("Z" + count, "background-color", "red");
-                    jss.setStyle("Z" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 26) {
-                    jss.setStyle("AA" + count, "background-color", "red");
-                    jss.setStyle("AA" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 27) {
-                    jss.setStyle("AB" + count, "background-color", "red");
-                    jss.setStyle("AB" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 28) {
-                    jss.setStyle("AC" + count, "background-color", "red");
-                    jss.setStyle("AC" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 29) {
-                    jss.setStyle("AD" + count, "background-color", "red");
-                    jss.setStyle("AD" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 30) {
-                    jss.setStyle("AE" + count, "background-color", "red");
-                    jss.setStyle("AE" + count, "color", "black");
-                }
-                
-                if (parseInt(nestedValue2) == 31) {
-                    jss.setStyle("AF" + count, "background-color", "red");
-                    jss.setStyle("AF" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 32) {
-                    jss.setStyle("AG" + count, "background-color", "red");
-                    jss.setStyle("AG" + count, "color", "black");
-                }
-              
-                if (parseInt(nestedValue2) == 33) {
-                    jss.setStyle("AH" + count, "background-color", "red");
-                    jss.setStyle("AH" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 34) {
-                    jss.setStyle("AI" + count, "background-color", "red");
-                    jss.setStyle("AI" + count, "color", "black");
-                }
-                if (parseInt(nestedValue2) == 35) {
-                    jss.setStyle("AJ" + count, "background-color", "red");
-                    jss.setStyle("AJ" + count, "color", "black");
-                }
-            });
-        }       
-        if (value['38'] == false && value['39'] == false && value['44'] == false) {
-            //DisableRow(count);
-            SetColorCommonRow(count,"gray","black","deleted");
-        }
-        else if(value['43'] == true || value['44'] == true){
-            SetColorCommonRow(count,"red","black","editable");
-        }        
-        count++;
-    });
-}
 
 $("#hider").hide();
 $(".search_p").hide();
@@ -2725,187 +718,7 @@ function AddEmployee() {
     $('#jexcel_add_employee_modal').modal('hide');
 }
 
-//updating the budget infromations
-function UpdateBudget() {    
-    $("#update_forecast").modal("hide");
-    $("#jspreadsheet").hide();    
-    //LoaderShow();
-
-    var userName = '';
-
-    $.ajax({
-        url: `/Registration/GetSession/`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            userName = data;
-        }
-    });
-
-
-    var updateMessage = "";
-    var insertMessage = "";
-    var promptValue = "";
-    
-    var dateObj = new Date();
-        var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        var day = dateObj.getDate();
-        var year = dateObj.getUTCFullYear();
-        var miliSeconds = dateObj.getMilliseconds();
-        var timestamp = `${year}${month}${day}${miliSeconds}_`;
-
-        if (jssUpdatedData.length > 0) {           
-                updateMessage = "Successfully data updated";
-                $.ajax({
-                    url: `/api/utilities/UpdateBudgetData`,
-                    contentType: 'application/json',
-                    type: 'POST',
-                    async: false,
-                    dataType: 'json',
-                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode }),
-                    success: function (data) {
-                        var year = $("#budget_years").val();
-                        ShowBedgetResults(year);
-
-                        $("#timeStamp_ForUpdateData").val(data);
-                        var chat = $.connection.chatHub;
-                        $.connection.hub.start();
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            //chat.server.send('data has been updated by ', userName);
-                        });
-                        $("#jspreadsheet").show();
-                        //$("#head_total").show();
-                        LoaderHide();
-                    }
-                });
-                jssUpdatedData = [];
-            
-            
-        }
-        else {
-            alert("There is no data to update.");
-            $("#jspreadsheet").show();
-            //$("#head_total").show();
-            LoaderHide();
-            //alert('追加、修正していないデータがありません!');
-            updateMessage = ""
-        }
-
-        if (jssInsertedData.length > 0) {
-            var elementIndex = jssInsertedData.findIndex(object => {
-                return object.employeeName.toLowerCase() == 'total';
-            });
-            if (elementIndex >= 0) {
-                jssInsertedData.splice(elementIndex, 1);
-            }
-
-            
-            var update_timeStampId = $("#timeStamp_ForUpdateData").val();
-            
-                insertMessage = "Successfully data inserted.";
-                $.ajax({
-                    url: `/api/utilities/ExcelAssignment/`,
-                    contentType: 'application/json',
-                    type: 'POST',
-                    async: false,
-                    dataType: 'json',
-                    //data: JSON.stringify(jssInsertedData),
-                    data: JSON.stringify({ ForecastUpdateHistoryDtos: jssInsertedData, HistoryName: timestamp + promptValue, CellInfo: cellwiseColorCode, TimeStampId: update_timeStampId }),
-                    success: function (data) {
-                        var allJexcelData = jss.getData();
-                        for (let i = 0; i < data.length; i++) {
-
-                            $.each(allJexcelData, (index, dataValue) => {
-                                if (data[i].assignmentId == dataValue[0]) {
-                                    jss.setValueFromCoords(0, index, data[i].returnedId, false);
-                                }
-
-                            });
-                        }
-
-                        $("#timeStamp_ForUpdateData").val('');
-                        var chat = $.connection.chatHub;
-                        $.connection.hub.start();
-                        // Start the connection.
-                        $.connection.hub.start().done(function () {
-                            chat.server.send('data has been inserted by ', userName);
-                        });
-                        $("#jspreadsheet").show();
-                        //$("#head_total").show();
-                        LoaderHide();
-                    }
-                });
-                jssInsertedData = [];
-                newRowCount = 1;
-        }
-
-        if (deletedExistingRowIds.length > 0) {
-            var year = $("#budget_years").val();
-            $.ajax({
-                url: `/api/utilities/ExcelDeleteAssignment/`,
-                contentType: 'application/json',
-                type: 'DELETE',
-                async: false,
-                dataType: 'json',
-                //data: JSON.stringify(deletedExistingRowIds),
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: "", HistoryName: timestamp + promptValue,TimeStampId: update_timeStampId,DeletedRowIds: deletedExistingRowIds,Year:year}),
-                success: function (data) {
-                    alert(data);
-                }
-            });
-
-            $("#timeStamp_ForUpdateData").val('');
-            var chat = $.connection.chatHub;
-            $.connection.hub.start();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                chat.server.send('data has been deleted by ', userName);
-            });
-            $("#jspreadsheet").show();
-            //$("#head_total").show();
-            LoaderHide();
-            deletedExistingRowIds = [];
-        }
-
-    if (updateMessage == "" && insertMessage == "") {
-        $("#header_show").html("");
-        $("#update_forecast").modal("show");
-        $("#save_modal_header").html("変更されていないので、保存できません");
-        $("#back_button_show").css("display", "none");
-        $("#save_btn_modal").css("display", "none");
-
-        $("#close_save_modal").css("display", "block");
-    }
-    else if (updateMessage != "" && insertMessage != "") {
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-    else if (updateMessage != "") {
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-    else if (insertMessage != "") {
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-}
-
-
+//
 function CompareUpdatedData() {
     if (jssUpdatedData.length > 0) {
         $.ajax({
@@ -3470,10 +1283,137 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     // $(jss.getCell("AJ" + (rowNumber))).addClass('readonly');
 }
 
-/*
-    author: sudipto
-    after cell change, store that cell information into hidden field.
-*/
+//Replicate modal input field clear
+function ClearReplicateModal(){
+    $('#duplicate_from').val('');    
+    $('#approval_timestamps').empty();
+    $('#approval_timestamps').val('');        
+    $("#duplciateYear").val('');
+    $("#duplciateYear").prop('disabled', true);
+    $('#select_duplicate_budget_type').val('');
+    $('#select_duplicate_budget_type').empty();        
+}
+
+//check import year validation
+function CheckIsValidYearForImport(selectedBudgetYear){
+    $.ajax({
+        url: `/api/utilities/CheckIsValidYearForImport/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "select_year_type=" + selectedBudgetYear,
+        success: function (data) {
+            if(data == true){
+                CreateBudgetTypeWithYear(selectedBudgetYear);              
+            }else{
+                $('#select_budget_type').empty();
+                $('#select_import_year').val('');
+                alert("selected year is not valid to import!");
+            }
+        }
+    });
+}
+
+//check replicate year validation
+function CheckIsValidYearForReplicate(selectedBudgetYear){
+    $.ajax({
+        url: `/api/utilities/CheckIsValidYearForImport/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "select_year_type=" + selectedBudgetYear,
+        success: function (data) {
+            if(data == true){
+                ReplicateBudgetFromPreviousYearData(selectedBudgetYear);              
+            }else{                    
+                $('#select_duplicate_budget_type').empty();
+                $('#duplciateYear').val('');
+                alert("selected year is not valid to replicate!");
+            }
+        }
+    });
+}
+
+//create budget type dropdown and set as html
+function CreateBudgetTypeWithYear(selectedBudgetYear){
+    $.ajax({
+        url: `/api/utilities/CheckBudgetWithYear/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "BudgetYear=" + selectedBudgetYear,
+        success: function (data) {
+            $('#select_budget_type').empty();
+                                           
+            $('#select_budget_type').append(`<option value="">予算時期を選択</option>`);
+            //create fist half budget dropdown                    
+            if(data.FirstHalfFinalize){
+                $('#select_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
+            }else if(data.FirstHalfBudget){
+                $('#select_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
+            }else if(!data.FirstHalfBudget){
+                $('#select_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
+            }  
+
+            //create second half budget dropdown
+            if(data.SecondHalfFinalize){
+                $('#select_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
+            }else if(data.SecondHalfBudget){
+                $('#select_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
+            }else if(!data.SecondHalfBudget){
+                if(data.FirstHalfBudget){
+                    $('#select_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
+                }else{
+                    $('#select_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
+                }                                               
+            }  
+        }
+    });
+}
+
+//replicate budget from selected year
+function ReplicateBudgetFromPreviousYearData(selectedBudgetYear){
+    //get budget initial and 2nd half data if exists
+    $.ajax({
+        url: `/api/utilities/CheckBudgetWithYear/`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        data: "BudgetYear=" + selectedBudgetYear,
+        success: function (data) {
+            $('#select_duplicate_budget_type').empty();
+                                           
+            $('#select_duplicate_budget_type').append(`<option value="">予算時期を選択</option>`);
+            //create fist half budget dropdown                    
+            if(data.FirstHalfFinalize){
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:red;'>${selectedBudgetYear} 初期予算が作成されました</option>`);
+            }else if(data.FirstHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="1" disabled style='color:orange;'>${selectedBudgetYear} 初期予算は確定されていません</option>`);
+            }else if(!data.FirstHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="1">${selectedBudgetYear} 初期予算</option>`);
+            }  
+
+            //create second half budget dropdown
+            if(data.SecondHalfFinalize){
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:red;'>${selectedBudgetYear} 下期修正予算が作成されました</option>`);
+            }else if(data.SecondHalfBudget){
+                $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:orange;'>${selectedBudgetYear} 下期修正予算は確定されていません</option>`);
+            }else if(!data.SecondHalfBudget){                         
+                if(data.FirstHalfBudget){
+                    $('#select_duplicate_budget_type').append(`<option value="2">${selectedBudgetYear} 下期修正予算</option>`);
+                }else{
+                    $('#select_duplicate_budget_type').append(`<option value="2" disabled style='color:gray;'>${selectedBudgetYear} 下期修正予算</option>`);
+                }                        
+            }  
+        }
+    });
+}
+
+//after cell change, store that cell information into hidden field.
 function CheckIfAlreadyExists(selectedCells,assignmentId){
     var isCellExists = false;    
 
@@ -3546,4 +1486,149 @@ function SetColorForCostsCells(strBackgroundColor,strTextColor,CellPosition){
     jss.setStyle(CellPosition,"background-color", strBackgroundColor);
 	jss.setStyle(CellPosition,"color", strTextColor);
     $(jss.getCell(CellPosition)).addClass('readonly');
+}
+
+//loader
+function LoaderShow() {    
+    $("#loading").css("display", "block");
+}
+function LoaderHide() {    
+    $("#loading").css("display", "none");
+}
+
+//shorting columns
+function ColumnOrder(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_p_asc').css('background-color', 'lightsteelblue');
+        $('#search_p_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_p_asc').css('background-color', 'grey');
+        $('#search_p_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Section(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_section_asc').css('background-color', 'lightsteelblue');
+        $('#search_section_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_section_asc').css('background-color', 'grey');
+        $('#search_section_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Department(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_department_asc').css('background-color', 'lightsteelblue');
+        $('#search_department_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_department_asc').css('background-color', 'grey');
+        $('#search_department_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_InCharge(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_incharge_asc').css('background-color', 'lightsteelblue');
+        $('#search_incharge_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_incharge_asc').css('background-color', 'grey');
+        $('#search_incharge_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Role(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_role_asc').css('background-color', 'lightsteelblue');
+        $('#search_role_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_role_asc').css('background-color', 'grey');
+        $('#search_role_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Explanation(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_explanation_asc').css('background-color', 'lightsteelblue');
+        $('#search_explanation_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_explanation_asc').css('background-color', 'grey');
+        $('#search_explanation_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Company(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_company_asc').css('background-color', 'lightsteelblue');
+        $('#search_company_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_company_asc').css('background-color', 'grey');
+        $('#search_company_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_Grade(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_grade_asc').css('background-color', 'lightsteelblue');
+        $('#search_grade_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_grade_asc').css('background-color', 'grey');
+        $('#search_grade_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
+}
+function ColumnOrder_UnitPrice(columnNumber, orderBy) {
+    jss.orderBy(columnNumber, orderBy);
+    if (orderBy == 0) {
+        $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
+        $('#search_unit_price_desc').css('background-color', 'grey');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+        jexcelHeadTdEmployeeName.addClass('arrow-up');
+    }
+    if (orderBy == 1) {
+        $('#search_unit_price_asc').css('background-color', 'grey');
+        $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
+        var jexcelHeadTdEmployeeName = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
+        jexcelHeadTdEmployeeName.addClass('arrow-down');
+    }
 }

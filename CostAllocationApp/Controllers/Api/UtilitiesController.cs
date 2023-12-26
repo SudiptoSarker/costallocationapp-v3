@@ -53,7 +53,10 @@ namespace CostAllocationApp.Controllers.Api
             detailsItemBLL = new DetailsItemBLL();
         }
 
-
+        /*
+        Description: get department by section.
+        Type: GET
+        */
         [Route("api/utilities/DepartmentsBySection/{id}")]
         [HttpGet]
         [ActionName("DepartmentsBySection")]
@@ -69,15 +72,19 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return BadRequest("Something Went Wrong!!!");
+                    return BadRequest("何か問題が発生しました");
                 }
             }
             else
             {
-                return BadRequest("Something Went Wrong!!!");
+                return BadRequest("何か問題が発生しました");
             }
         }
 
+        /*
+        Description: get assignment by id.
+        Type: GET
+        */
         [Route("api/utilities/AssignmentById/{id}")]
         [HttpGet]
         public IHttpActionResult AssignmentById(string id)
@@ -92,15 +99,19 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    return BadRequest("Something Went Wrong!!!");
+                    return BadRequest("何か問題が発生しました");
                 }
             }
             else
             {
-                return BadRequest("Something Went Wrong!!!");
+                return BadRequest("何か問題が発生しました");
             }
         }
 
+        /*
+        Description: search employee.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult SearchEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status)
         {
@@ -145,14 +156,6 @@ namespace CostAllocationApp.Controllers.Api
             {
                 employeeAssignment.RoleId = 0;
             }
-            //if (!string.IsNullOrEmpty(explanationId))
-            //{
-            //    employeeAssignment.ExplanationId = Convert.ToInt32(explanationId);
-            //}
-            //else
-            //{
-            //    employeeAssignment.ExplanationId = 0;
-            //}
 
             employeeAssignment.ExplanationId = explanationId;
             if (!string.IsNullOrEmpty(companyId))
@@ -179,6 +182,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: search forecast employee.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult SearchForecastEmployee(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
         {
@@ -255,14 +262,16 @@ namespace CostAllocationApp.Controllers.Api
             }
 
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
-            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
 
-
+        /*
+        Description: get all assignment data.
+        Type: GET
+        */
         [Route("api/utilities/GetAllAssignmentData")]
         [HttpGet]
         public IHttpActionResult GetAllAssignmentData(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
@@ -339,15 +348,17 @@ namespace CostAllocationApp.Controllers.Api
                 employeeAssignment.IsActive = "";
             }
 
-            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetAllAssignmentData(employeeAssignment);
-            //List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastBySearchFilter(employeeAssignment);
             List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
 
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
 
+        /*
+        Description: get all budget data.
+        Type: GET
+        */
         [Route("api/utilities/GetAllBudgetData")]
         [HttpGet]
         public IHttpActionResult GetAllBudgetData(string employeeName, string sectionId, string departmentId, string inchargeId, string roleId, string explanationId, string companyId, string status, string year, string timeStampId)
@@ -446,6 +457,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(forecsatEmployeeAssignmentViewModels);
         }
 
+        /*
+        Description: compare grade.
+        Type: GET
+        */
         [Route("api/utilities/CompareGrade/{unitPrice}")]
         [HttpGet]
         public IHttpActionResult CompareGrade(string unitPrice)
@@ -462,39 +477,36 @@ namespace CostAllocationApp.Controllers.Api
                     }
                     else
                     {
-                        return BadRequest("Invalid Unit Price");
+                        return BadRequest("無効な単価です");
                     }
                 }
                 else
                 {
-                    return BadRequest("Invalid Unit Price");
+                    return BadRequest("無効な単価です");
                 }
             }
             else
             {
-                return BadRequest("Invalid Unit Price");
+                return BadRequest("無効な単価です");
             }
         }
 
+        /*
+        Description: employee list by employee name.
+        Type: GET
+        */
         [Route("api/utilities/EmployeeListByNameFilter/{employeeName}")]
         [HttpGet]
         public IHttpActionResult EmployeeListByNameFilter(string employeeName)
         {
             List<Employee> employees = employeeBLL.EmployeeListByNameFilter(employeeName);
-            return Ok(employees);
-
-            //if (!string.IsNullOrEmpty(employeeName))
-            //{
-            //    List<Employee> employees = employeeBLL.EmployeeListByNameFilter(employeeName);
-            //    return Ok(employees);
-            //}
-            //else
-            //{
-            //    return BadRequest("Employee Name is empty");
-            //}                       
+            return Ok(employees);                      
         }
 
-
+        /*
+        Description: get employees by employee name.
+        Type: GET
+        */
         [Route("api/utilities/GetEmployeesByName/{employeeName}")]
         [HttpGet]
         public IHttpActionResult GetEmployeesByName(string employeeName)
@@ -519,6 +531,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: search multiple employee.
+        Type: POST
+        */
         [HttpPost]
         public IHttpActionResult SearchMultipleEmployee(EmployeeAssignmentDTO employeeAssignment)
         {
@@ -528,10 +544,9 @@ namespace CostAllocationApp.Controllers.Api
         }
 
         /*
-	    Get count of sections assigned in forecast	
-        Request: Get
-	    Response: string
-	    */
+        Description: count sectios from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult SectionCount(string sectionIds)
         {
@@ -580,7 +595,10 @@ namespace CostAllocationApp.Controllers.Api
             }
 
         }
-
+        /*
+        Description: count categories from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult CategoryCount(string categoryIds)
         {
@@ -603,12 +621,10 @@ namespace CostAllocationApp.Controllers.Api
                                 int result = sectionBLL.GetSectionCountWithEmployeeAsignment(tempCategoryId);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + section.CategoryName);
                                     countMessage.Add(result + " のプロジェクトが " + section.CategoryName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + section.CategoryName);
                                     countMessage.Add(result + " のプロジェクトが " + section.CategoryName + " にアサインされています");
                                 }
                             }
@@ -630,6 +646,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count departments from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult DepartmentCount(string departmentIds)
         {
@@ -650,15 +670,12 @@ namespace CostAllocationApp.Controllers.Api
                             if (department != null)
                             {
                                 int result = departmentBLL.GetDepartmentCountWithEmployeeAsignment(tempDepartmentId);
-                                //countMessage.Add(result + " rows counted for " + department.DepartmentName);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + department.DepartmentName);
                                     countMessage.Add(result + " の要員が " + department.DepartmentName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + department.DepartmentName);
                                     countMessage.Add(result + " の要員が " + department.DepartmentName + " にアサインされています");
                                 }
                             }
@@ -680,6 +697,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count companies from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult CompanyCount(string companyIds)
         {
@@ -700,15 +721,12 @@ namespace CostAllocationApp.Controllers.Api
                             if (company != null)
                             {
                                 int result = companyBLL.GetCompanyCountWithEmployeeAsignment(tempCompanyId);
-                                //countMessage.Add(result + " rows counted for " + company.CompanyName);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + company.CompanyName);
                                     countMessage.Add(result + " の要員が " + company.CompanyName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + company.CompanyName);
                                     countMessage.Add(result + " の要員が " + company.CompanyName + " にアサインされています");
                                 }
                             }
@@ -730,6 +748,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count incharges from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult InChargeCount(string inChargeIds)
         {
@@ -750,15 +772,12 @@ namespace CostAllocationApp.Controllers.Api
                             if (inCharge != null)
                             {
                                 int result = inChargeBLL.GetInChargeCountWithEmployeeAsignment(tempInChargeId);
-                                //countMessage.Add(result + " rows counted for " + inCharge.InChargeName);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + inCharge.InChargeName);
                                     countMessage.Add(result + " の要員が " + inCharge.InChargeName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + inCharge.InChargeName);
                                     countMessage.Add(result + " の要員が " + inCharge.InChargeName + " にアサインされています");
                                 }
                             }
@@ -780,6 +799,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count roles from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult RoleCount(string roleIds)
         {
@@ -800,15 +823,12 @@ namespace CostAllocationApp.Controllers.Api
                             if (role != null)
                             {
                                 int result = roleBLL.GetRoleCountWithEmployeeAsignment(tempRoleId);
-                                //countMessage.Add(result + " rows counted for " + role.RoleName);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + role.RoleName);
                                     countMessage.Add(result + " の要員が " + role.RoleName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + role.RoleName);
                                     countMessage.Add(result + " の要員が " + role.RoleName + " にアサインされています");
                                 }
                             }
@@ -830,6 +850,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count explanations from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult ExplanationCount(string explanationIds)
         {
@@ -853,12 +877,10 @@ namespace CostAllocationApp.Controllers.Api
                                 countMessage.Add(result + " rows counted for " + explanation.ExplanationName);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + explanation.ExplanationName);
                                     countMessage.Add(result + " の要員が " + explanation.ExplanationName + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + explanation.ExplanationName);
                                     countMessage.Add(result + " の要員が " + explanation.ExplanationName + " にアサインされています");
                                 }
                             }
@@ -880,6 +902,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: count salaries from assignment.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult SalaryCount(string salaryIds)
         {
@@ -900,15 +926,12 @@ namespace CostAllocationApp.Controllers.Api
                             if (salary != null)
                             {
                                 int result = salaryBLL.GetSalaryCountWithEmployeeAsignment(tempSalaryId);
-                                //countMessage.Add(result + " rows counted for " + salary.SalaryGrade);
                                 if (result > 1)
                                 {
-                                    //countMessage.Add(result + " projects assigned for " + salary.SalaryGrade);
                                     countMessage.Add(result + " の要員が " + salary.SalaryGrade + " にアサインされています");
                                 }
                                 else
                                 {
-                                    //countMessage.Add(result + " project assigned for " + salary.SalaryGrade);
                                     countMessage.Add(result + " の要員が " + salary.SalaryGrade + " にアサインされています");
                                 }
                             }
@@ -930,6 +953,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: delete assignments.
+        Type: GET
+        */
         [Route("api/utilities/DeleteAssignments/")]
         [HttpGet]
         [ActionName("DeleteAssignments")]
@@ -957,6 +984,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: create forecast history.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateHistory/")]
         public IHttpActionResult CreateForecastHistory(ForecastHistoryDto forecastHistoryDto)
@@ -1024,6 +1055,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
 
+        /*
+        Description: update forecast data.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/UpdateForecastData/")]
         public IHttpActionResult UpdateForecastData(ForecastHistoryDto forecastHistoryDto)
@@ -1800,19 +1835,11 @@ namespace CostAllocationApp.Controllers.Api
                         forecastPrevious.CreatedDate = DateTime.Now;
                     }
 
-                    //ForecastHisory forecastHisory = new ForecastHisory();
-                    //forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                    //forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                    //forecastHisory.Forecasts = forecastsPrevious;
-                    //forecastHisory.CreatedBy = session["userName"].ToString();
-                    //forecastHisory.CreatedDate = DateTime.Now;
 
                     //author: sudipto,31/5/23: history create
-                    //var resultTimeStamp = forecastBLL.CreateTimeStamp(forecastHisory);
                     bool isUpdate = true;
                     bool isDeleted = false;
 
-                    //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
                     var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, yearlyDataTimeStampId);
 
                     //assignment aganist timestamps store all other data with year
@@ -1848,12 +1875,6 @@ namespace CostAllocationApp.Controllers.Api
                         }
                     }
 
-                    ////edited data history: start
-                    //AssignmentHistory _originalAssignmentHistory = new AssignmentHistory();
-                    //_originalAssignmentHistory = forecastBLL.GetPreviousAssignmentDataById(employeeAssignment.Id);
-
-                    //_originalAssignmentHistory.CreatedBy = session["userName"].ToString();
-                    //_originalAssignmentHistory.CreatedDate = DateTime.Now;
                     if (assignmentHistoriesOriginal.Count > 0)
                     {
                         foreach (var item in assignmentHistoriesOriginal)
@@ -1927,7 +1948,6 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                                 if (isValidForUpdateCell)
                                 {
-                                    //result += "," + itemData[1];
                                     storePreviousCells += "," + itemData[1];
                                 }
                             }
@@ -1958,7 +1978,6 @@ namespace CostAllocationApp.Controllers.Api
                                     }
                                 }
                             }
-                            //employeeAssignmentBLL.UpdateBCYRCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells);
                             employeeAssignmentBLL.UpdateBCYRCellBCYRPendingCellByAssignmentId(Convert.ToInt32(itemData[0]), storePreviousCells, storePendingCells);
                         }
                     }
@@ -1974,6 +1993,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
 
+        /*
+        Description: update budget data.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/UpdateBudgetData/")]
         public IHttpActionResult UpdateBudgetData(ForecastHistoryDto forecastHistoryDto)
@@ -2025,7 +2048,6 @@ namespace CostAllocationApp.Controllers.Api
                         _assignmentHistory.CreatedDate = DateTime.Now;
 
                         employeeAssignment.IsActiveAssignment = true;
-                       // int updateResult = employeeAssignmentBLL.UpdateBudgetAssignment(employeeAssignment);
 
 
                         forecasts.Add(ExtraxctToForecast(Convert.ToInt32(item.AssignmentId), item.Year, 10, item.OctPoint));
@@ -2056,7 +2078,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(message);
         }
 
-
+        /*
+        Description: approved forecast data.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult ApprovedForecastData(string assignementId, bool isDeletedRow)
         {
@@ -2072,7 +2097,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(results);
         }
 
-        //un-approve add employee and delete employee
+        /*
+        Description: un-approve add employee and delete employee.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/UnApprovedForecastData/")]
         public IHttpActionResult UnApprovedForecastData(string assignementId, bool isDeletedRow)
@@ -2093,17 +2121,19 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(results);
         }
 
+        /*
+        Description: approved cell data.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult ApprovedCellData(string assignementId, string selectedCells)
         {
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
             bool isUpdateData = false;
 
-            //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             if (resultData > 0)
             {
-                //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
                 _employeeAssignment = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
 
                 if (string.IsNullOrEmpty(_employeeAssignment.BCYRCellApproved))
@@ -2125,38 +2155,6 @@ namespace CostAllocationApp.Controllers.Api
                 if (isUpdateData)
                 {
                     string storeBYCRCells = "";
-                    //commented out because: cell will not update while approve but only when saved.
-                    //if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
-                    //{
-                    //    var arrBYCRCells = _employeeAssignment.BCYRCell.Split(',');
-                    //    foreach (var bycrCell in arrBYCRCells)
-                    //    {
-                    //        if (bycrCell != selectedCells)
-                    //        {
-                    //            if (storeBYCRCells == "")
-                    //            {
-                    //                storeBYCRCells = bycrCell;
-                    //            }
-                    //            else
-                    //            {
-                    //                var arrCheckForCellValueIsExists = storeBYCRCells.Split(',');
-                    //                bool isCellExists = false;
-                    //                foreach (var cellIteam in arrCheckForCellValueIsExists)
-                    //                {
-                    //                    if (cellIteam == bycrCell)
-                    //                    {
-                    //                        isCellExists = true;
-                    //                        break;
-                    //                    }
-                    //                }
-                    //                if (!isCellExists)
-                    //                {
-                    //                    storeBYCRCells = storeBYCRCells + "," + bycrCell;
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
 
                     //updated change cells: because some cells value is duplicated.
                     if (!string.IsNullOrEmpty(_employeeAssignment.BCYRCell))
@@ -2188,7 +2186,6 @@ namespace CostAllocationApp.Controllers.Api
                         }
                     }
 
-                    //int results = employeeAssignmentBLL.UpdateBYCRCells(assignementId, _employeeAssignment.BCYRCellApproved,storeBYCRCells);
                     int results = employeeAssignmentBLL.UpdateBYCRCells(assignementId, _employeeAssignment.BCYRCellApproved, storeBYCRCells);
                     return Ok(results);
                 }
@@ -2203,16 +2200,24 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: is valid for approval cell.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/IsValidForApprovalCell/")]
         public IHttpActionResult IsValidForApprovalCell(string assignementId, string selectedCells)
         {
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
 
-            //bool isValidForApproved = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             int resultData = employeeAssignmentBLL.CheckForApprovedCells(assignementId, selectedCells);
             return Ok(resultData);
         }
+
+        /*
+        Description: is pending for delete.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/IsPendingForDelete/")]
         public IHttpActionResult IsPendingForDelete(string assignementId)
@@ -2222,18 +2227,21 @@ namespace CostAllocationApp.Controllers.Api
             isDeletePending = employeeAssignmentBLL.IsPendingForDelete(assignementId);            
             return Ok(isDeletePending);
         }
+
+        /*
+        Description: is valid for approval row.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/IsValidForApprovalRow/")]
         public IHttpActionResult IsValidForApprovalRow(string assignementId, bool isDeletedRow)
         {
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
-            bool isValidForApproved = false;
             _employeeAssignment = employeeAssignmentBLL.GetEmployeeAssignmentForCheckApproval(assignementId);
 
             if (!isDeletedRow)
             {
                 //check for delete
-                //if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) || _employeeAssignment.IsDeletePending)
                 if ((!Convert.ToBoolean(_employeeAssignment.IsActive) && !_employeeAssignment.IsDeleted) && !_employeeAssignment.IsDeletePending)
                 {
                     return Ok(3);
@@ -2250,7 +2258,6 @@ namespace CostAllocationApp.Controllers.Api
             else
             {
                 //check for add row data       
-                //if (_employeeAssignment.BCYR || _employeeAssignment.IsRowPending)
                 if (_employeeAssignment.BCYR)
                 {
                     return Ok(1);
@@ -2266,7 +2273,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        //un-approve cell wise data
+
+        /*
+        Description: un-approve cell wise data.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/UnApprovedCellData/")]
         public IHttpActionResult UnApprovedCellData(string assignementId, string selectedCells)
@@ -2274,7 +2285,6 @@ namespace CostAllocationApp.Controllers.Api
             EmployeeAssignment _employeeAssignment = new EmployeeAssignment();
             bool isUpdateData = false;
 
-            //string previousApprovedCells = employeeAssignmentBLL.GetPreviousApprovedCells(assignementId);
             bool isValidForUnapproved = employeeAssignmentBLL.CheckForUnApprovedCells(assignementId, selectedCells);
             if (isValidForUnapproved)
             {
@@ -2333,6 +2343,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get timestamps.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult GetTimeStamps(int year)
         {
@@ -2348,6 +2362,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get approval timestamps.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetApprovalTimeStamps/")]
         public IHttpActionResult GetApprovalTimeStamps(int year)
@@ -2363,6 +2381,7 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok(0);
             }
         }
+
 
         public Forecast ExtraxctToForecast(int assignmentId, int year, int monthId, decimal point)
         {
@@ -2381,7 +2400,10 @@ namespace CostAllocationApp.Controllers.Api
             return forecast;
         }
 
-
+        /*
+        Description: create new employee.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateEmployee/")]
         public IHttpActionResult CreateNewEmployee(Employee employee)
@@ -2429,6 +2451,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: create user name.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateUserName/")]
         public IHttpActionResult CreateUserName(User user)
@@ -2448,7 +2474,6 @@ namespace CostAllocationApp.Controllers.Api
                 else
                 {
                     user.IsActive = true;
-                    //user.CreatedBy = session["userName"].ToString();
                     user.CreatedBy = "";
                     user.CreatedDate = DateTime.Now;
                     int result = userBLL.CreateUserName(user);
@@ -2469,6 +2494,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: update user name.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/UpdateUserName/")]
         public IHttpActionResult UpdateUserName(User user)
@@ -2511,6 +2540,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get employee list.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/EmployeeList/")]
         public IHttpActionResult GetEmployeeList()
@@ -2527,6 +2560,11 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
+
+        /*
+        Description: get employee list for budget edit.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/EmployeeListBudgetEditFiltered/{budget_year}")]
         public IHttpActionResult GetEmployeeListForBudgetEdit(string budget_year)
@@ -2557,6 +2595,11 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
+
+        /*
+        Description: get employee list of assignment.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/EmployeeListForEmployeeAssignment/{assignment_year}")]
         public IHttpActionResult GetEmployeeListEmployeeAssignments(string assignment_year)
@@ -2579,6 +2622,11 @@ namespace CostAllocationApp.Controllers.Api
                 return NotFound();
             }
         }
+
+        /*
+        Description: get only admin.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetOnlyAdmin/")]
         public IHttpActionResult GetOnlyAdmin()
@@ -2601,6 +2649,11 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(filteredUser);
         }
+
+        /*
+        Description: get single user info.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetSingleUserInfo/")]
         public IHttpActionResult GetSingleUserInfo(string userName)
@@ -2621,6 +2674,11 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(filteredUser);
         }
+
+        /*
+        Description: update user status.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/UpdateUserStatus/")]
         public IHttpActionResult UpdateUserStatus(string changeUserName, string changeUserRole, string changeUserStatus)
@@ -2693,20 +2751,14 @@ namespace CostAllocationApp.Controllers.Api
             DateTime updatedDate = DateTime.Now;
 
             int results = userBLL.UpdateUserStatus(changeUserName, userRoleId, isActive, updatedBy, updatedDate);
-            //List<User> users = userBLL.GetAllUsers();
-            //if (users.Count > 0)
-            //{
-            //    foreach (var item in users)
-            //    {
-            //        if (item.Id == user.Id)
-            //        {
-            //            filteredUser = item;
-            //        }
-            //    }
-            //}
 
             return Ok(results);
         }
+
+        /*
+        Description: get user list.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetUserList/")]
         public IHttpActionResult GetUserList()
@@ -2758,17 +2810,17 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
+
+        /*
+        Description: get user list by search.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetSearchUserList/")]
         public IHttpActionResult GetSearchUserList()
         {
             string searchOption = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["searchOption"]) ? "" : HttpContext.Current.Request.QueryString["searchOption"];
             string searchBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["searchBy"]) ? "" : HttpContext.Current.Request.QueryString["searchBy"];
-            //string filterRole = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterRole"]) ? "" : HttpContext.Current.Request.QueryString["filterRole"];
-            //string filterTitle = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterTitle"]) ? "" : HttpContext.Current.Request.QueryString["filterTitle"];
-            //string filterDept = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterDept"]) ? "" : HttpContext.Current.Request.QueryString["filterDept"];
-            //string filterStatus = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterStatus"]) ? "" : HttpContext.Current.Request.QueryString["filterStatus"];
-            //string orderBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderBy"]) ? "" : HttpContext.Current.Request.QueryString["orderBy"];
 
             var session = System.Web.HttpContext.Current.Session;
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
@@ -2816,6 +2868,10 @@ namespace CostAllocationApp.Controllers.Api
             }           
         }
 
+        /*
+        Description: get user list by filter.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetFilterUserList/")]
         public IHttpActionResult GetFilterUserList()
@@ -2824,7 +2880,6 @@ namespace CostAllocationApp.Controllers.Api
             string filterTitle = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterTitle"]) ? "" : HttpContext.Current.Request.QueryString["filterTitle"];
             string filterDept = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterDepartment"]) ? "" : HttpContext.Current.Request.QueryString["filterDepartment"];
             string filterStatus = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["filterStatus"]) ? "" : HttpContext.Current.Request.QueryString["filterStatus"];
-            //string orderBy = string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["orderBy"]) ? "" : HttpContext.Current.Request.QueryString["orderBy"];
 
             var session = System.Web.HttpContext.Current.Session;
             var user = userBLL.GetUserByUserName(session["userName"].ToString());
@@ -2872,6 +2927,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: update employee.
+        Type: PUT
+        */
         [HttpPut]
         [Route("api/utilities/UpdateEmployee/")]
         public IHttpActionResult UpdateEmployee(Employee employee)
@@ -2900,6 +2960,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+        Description: inactive employee.
+        Type: DELETE
+        */
         [HttpDelete]
         [Route("api/utilities/InactiveEmployee/")]
         public IHttpActionResult InactiveEmployee(Employee employee)
@@ -2919,15 +2983,17 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: create assignment from excel.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/ExcelAssignment/")]
-        //public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
         public IHttpActionResult CreateAssignment_Excel(ForecastHistoryDto forecastHistoryDto)
         {
             List<object> returnedIdList = new List<object>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
 
-            string tempTimeStampId = "";
             var selected_year = 0;
             var strUpdatedAssignmentIds = "";
             string yearlyDataTimeStampId = "";
@@ -2941,7 +3007,6 @@ namespace CostAllocationApp.Controllers.Api
                         ForecastHisory forecastHisory = new ForecastHisory();
                         forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
                         forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                        //forecastHisory.Forecasts = forecastsPrevious;
                         forecastHisory.CreatedBy = session["userName"].ToString();
                         forecastHisory.CreatedDate = DateTime.Now;
                         yearlyDataTimeStampId = forecastHistoryDto.TimeStampId;
@@ -2954,14 +3019,12 @@ namespace CostAllocationApp.Controllers.Api
                             timestampId_add_employee = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
                             yearlyDataTimeStampId = timestampId_add_employee.ToString();
                         }
-                        //int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
                         Company company = companyBLL.GetAllCompanies().Where(c => c.CompanyName.ToLower() == "mw").SingleOrDefault();
 
                         foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                         {
                             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
-                            //tempTimeStampId = forecastHistoryDto.TimeStampId;
 
                             if (item.EmployeeId == "" || item.EmployeeId == null)
                             {
@@ -3099,14 +3162,6 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         else
                         {
-                            //ForecastHisory forecastHisory = new ForecastHisory();
-                            //forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                            //forecastHisory.Year = forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                            ////forecastHisory.Forecasts = forecastsPrevious;
-                            //forecastHisory.CreatedBy = session["userName"].ToString();
-                            //forecastHisory.CreatedDate = DateTime.Now;
-
-                            //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
                             var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, Convert.ToInt32(yearlyDataTimeStampId));
                         }
 
@@ -3135,12 +3190,10 @@ namespace CostAllocationApp.Controllers.Api
                                     {
                                         foreach (var forecast in forecastList)
                                         {
-                                            //forecastBLL.UpdateForecast(forecast);
                                             forecast.EmployeeAssignmentId = latestAssignmentId;
                                             forecast.CreatedBy = session["userName"].ToString();
                                             forecastBLL.InsertForecastWithTimeStamp(forecast);
                                         }
-                                        //forecasts = new List<Forecast>();
                                     }
                                 }
                             }
@@ -3176,7 +3229,6 @@ namespace CostAllocationApp.Controllers.Api
                             {
                                 foreach (var forecast in forecastList)
                                 {
-                                    //forecastBLL.UpdateForecast(forecast);
                                     forecast.EmployeeAssignmentId = latestAssignmentId;
                                     forecast.CreatedBy = session["userName"].ToString();
                                     forecastBLL.InsertForecastWithTimeStamp(forecast);
@@ -3190,15 +3242,17 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(returnedIdList);
         }
 
+        /*
+        Description: create budget assignment from excel.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/ExcelAssignmentBudget/")]
-        //public IHttpActionResult CreateAssignment_Excel(List<ExcelAssignmentDto> excelAssignmentDtos)
         public IHttpActionResult CreateAssignment_Excel_Budget(EmployeeBudgetDto forecastHistoryDto)
         {
             List<object> returnedIdList = new List<object>();
             List<AssignmentHistory> assignmentHistories = new List<AssignmentHistory>();
             var mwCompany = companyBLL.GetAllCompanies().Where(c=>c.CompanyName.ToLower()=="mw").SingleOrDefault();
-            string tempTimeStampId = "";
             var session = System.Web.HttpContext.Current.Session;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos != null)
             {
@@ -3313,9 +3367,12 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(returnedIdList);
         }
 
+        /*
+        Description: delete assignment.
+        Type: DELETE
+        */
         [HttpDelete]
         [Route("api/utilities/ExcelDeleteAssignment/")]
-        //public IHttpActionResult DeleteAssignment_Excel(int[] ids,string tempTimeStampId,string historyName,int year)
         public IHttpActionResult DeleteAssignment_Excel(ForecastHistoryDto forecastHistoryDto)
         {
             string tempTimeStampId = forecastHistoryDto.TimeStampId;
@@ -3330,8 +3387,7 @@ namespace CostAllocationApp.Controllers.Api
             {
                 ForecastHisory forecastHisory = new ForecastHisory();
                 forecastHisory.TimeStamp = forecastHistoryDto.HistoryName;
-                forecastHisory.Year = forecastHistoryDto.Year; //forecastHistoryDto.ForecastUpdateHistoryDtos[0].Year;
-                //forecastHisory.Forecasts = forecastsPrevious;
+                forecastHisory.Year = forecastHistoryDto.Year;
                 forecastHisory.CreatedBy = session["userName"].ToString();
                 forecastHisory.CreatedDate = DateTime.Now;
                 int yearlyDataTimeStampId = forecastBLL.CreateTimeStampsForYearlyEditData(forecastHisory);
@@ -3367,18 +3423,17 @@ namespace CostAllocationApp.Controllers.Api
                 }
                 else
                 {
-                    //ForecastHisory forecastHisory = new ForecastHisory();
-                    //forecastHisory.TimeStamp = historyName;
-                    //forecastHisory.Year = year;
-                    //forecastHisory.CreatedBy = session["userName"].ToString();
-                    //forecastHisory.CreatedDate = DateTime.Now;
-                    //var resultTimeStamp = forecastBLL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
                     var resultTimeStamp = forecastBLL.CreateAssignmentHistoryWithTimeStampId(assignmentHistories, isUpdate, isDeleted, yearlyDataTimeStampId);
                 }
             }
 
             return Ok("正常に処理されました");
         }
+
+        /*
+        Description: get user logs.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetUserLogs/")]
         public IHttpActionResult GetUserLogs()
@@ -3386,6 +3441,7 @@ namespace CostAllocationApp.Controllers.Api
             var result = userBLL.GetUserLogs();
             return Ok(result);
         }
+
         [HttpPost]
         [Route("api/utilities/GetMatchedRowNumber/")]
         public IHttpActionResult GetMatchedRowNumber(ForecastHistoryDto forecastHistoryDto)

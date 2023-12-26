@@ -20,23 +20,11 @@ namespace CostAllocationApp.BLL
             return departmentWithSubCategoryDAL.CreateDepartmentWithSubCategory(departmentWithSubCategory);
         }
 
-        //public List<SubCategory> GetAllSubCategories()
-        //{
-        //    return subCategoryDAL.GetAllSubCategories();
-        //}
-        //public int RemoveSubCategory(int subCategoryId)
-        //{
-        //    return subCategoryDAL.RemoveSubCategory(subCategoryId);
-        //}
-
         public bool CheckSubCategoryIsAssignedToDepartment(string departmentId)
         {
             return departmentWithSubCategoryDAL.CheckSubCategoryIsAssignedToDepartment(departmentId);
         }
-        //public Category GetCategoryByCategoryId(int categoryId)
-        //{
-        //    return subCategoryDAL.GetCategoryByCategoryId(categoryId);
-        //}
+
         public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
             return departmentWithSubCategoryDAL.GetSubCategoryByCategoryId(categoryId);

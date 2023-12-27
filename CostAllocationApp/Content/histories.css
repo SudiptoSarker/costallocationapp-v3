@@ -1,7 +1,4 @@
-﻿/* #timestamp_list thead tr th,td{
-    text-align:center;
-} */
-
+﻿
 #history_data_btn{
     margin-left: -63px;
     margin-top: -2px;
@@ -29,7 +26,6 @@
     font-size: 12px;
     font-family: "Yu Gothic";
     white-space: nowrap !important;
-    /* display: none !important; */
 }
 #filter_history_data{
     margin-top: 15px;
@@ -38,7 +34,6 @@
     margin-top: 2px;
 }
 
-/*modal size */
 .modal-body {
     max-width: 100%;
     overflow-x: auto;

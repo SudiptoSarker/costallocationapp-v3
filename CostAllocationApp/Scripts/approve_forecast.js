@@ -1,7 +1,4 @@
-﻿$(document).ready(function(){    
-    $(".sorting_custom_modal").css("display", "block");
-});
-var globalSearchObject = '';
+﻿var globalSearchObject = '';
 var globalPreviousValue = '0.0';
 var globalPreviousId = '';
 var jss;
@@ -14,7 +11,6 @@ var jssInsertedData = [];
 var allEmployeeName = [];
 var allEmployeeName1 = [];
 var cellwiseColorCode = [];
-
 
 var jssTableDefinition = {
     assignmentId: { index: 0, cellName: 'A' },
@@ -70,20 +66,26 @@ var jssTableDefinition = {
     isRowPending: { index: 50, cellName: 'AY' },
     isDeletePending: { index: 51, cellName: 'AZ' },
     rowType: { index: 52, cellName: 'BA' },
-
 };
 
-function LoaderShow() {
-    $("#jspreadsheet").css("display", "none");
-    $("#loading").css("display", "block");
-}
-function LoaderHide() {
-    $("#jspreadsheet").css("display", "block");
-    $("#loading").css("display", "none");
-}
+var _retriveddata = [];
+var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
 
-var expanded = false;
-$(function () {
+$("#hider").hide();
+$(".employee_sorting").hide();
+$(".section_sorting").hide();
+$(".department_sorting").hide();
+$(".incharge_sorting").hide();
+$(".role_sorting").hide();
+$(".explanation_sorting").hide();
+$(".company_sorting").hide();
+$(".grade_sorting").hide();
+$(".unit_sorting").hide();
+
+$(document).ready(function(){    
+    $(".sorting_custom_modal").css("display", "block");
+
+    //user notification message
     var chat = $.connection.chatHub;
     $.connection.hub.start();
     chat.client.addNewMessageToPage = function (name, message) {
@@ -91,13 +93,9 @@ $(function () {
         $('#save_notifications').append(`<li>${name} ${message}</li>`);
     };
 
-});
-
-
-
-
-$(document).ready(function () {
+    //year list function called
     GetAllForecastYears();
+
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") {
         $("#jspreadsheet").hide();  
@@ -105,7 +103,7 @@ $(document).ready(function () {
     var count = 1;
     $('#employee_list').select2();
     
-    
+    //approved data save into db
     $('#saved_approved_data').on('click', function () {
         var assignmentYear = $('#assignment_year_list').val();
         if (assignmentYear == '' || assignmentYear == null || assignmentYear == undefined) {
@@ -134,11 +132,9 @@ $(document).ready(function () {
 
         if (isValidRequest){
             var approvePromptValue = prompt("承認履歴ファイル保存名", '');
-            //$("#timeStamp_ForUpdateData").val('');
             if (approvePromptValue == null || approvePromptValue == undefined || approvePromptValue == "") {
                 return false;
             }else{ 
-
                 LoaderShow();        
                 var dateObj = new Date();
                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -173,7 +169,6 @@ $(document).ready(function () {
 
     //row and cell approve together and multi cell or row approve color at a time.
     $('#approve_forecast_data').on('click', function () {
-        //$("#all_selected_row_for_approve").val();
         var selectedRowsWithRowNumber = $("#all_selected_row_with_assignmentId_row_number").val();
         var selectedCellsWithPosition = $("#all_selected_cells_with_cellposition").val();
         var isRowApprovalRequest = true;
@@ -252,7 +247,6 @@ $(document).ready(function () {
         }    
                 
         var approvedCells = $("#all_selected_cells").val(); 
-        //$("#approved_selected_cells").val('');
         $("#all_selected_cells").val(''); 
         $("#all_selected_cells_with_cellposition").val('');
         
@@ -273,7 +267,6 @@ $(document).ready(function () {
         
         
         var approvedRows = $("#all_selected_row_for_approve").val();
-        //$("#approved_selected_rows").val('');
         $("#all_selected_row_for_approve").val('');
         $("#all_selected_row_with_assignmentId_row_number").val('');        
         
@@ -312,141 +305,8 @@ $(document).ready(function () {
         }                
     });
 
-
-    // $('#approve_forecast_data').on('click', function () {
-    //     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
-    //     var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
-
-    //     var approveAssignmentId = $("#hidSelectedRow_AssignementId").val();
-    //     var isDeleted = $("#hidIsRowDeleted").val();
-    //     if (approveAssignmentId =='' || typeof approveAssignmentId === "undefined"){
-    //         $("#hidSelectedRow_AssignementId").val('');
-    //         alert("承認するデータがありません");
-    //     }else{
-    //         // LoaderShow();
-    //         //return false;
-
-    //         var data_Info = {
-    //             Id: approveAssignmentId
-    //         };
-    //         var cellPosition = $("#hid_SelectedCellPosition").val();
-    //         var selectedCells = $("#hid_cellNo").val();
-    //         var isRowSelected = $("#hid_IsRowSelected").val();
-            
-    //         var strApprovedCellsStore = "";
-    //         var strApprovedRowsStore = "";
-
-    //         if(isRowSelected=="yes"){
-    //             //approve rows
-    //             $.ajax({
-    //                 //url: `/api/utilities/ApprovedForecastData`,
-    //                 url: `/api/utilities/IsValidForApprovalRow`,
-    //                 contentType: 'application/json',
-    //                 type: 'GET',
-    //                 async: true,
-    //                 dataType: 'json',
-    //                 data: "assignementId=" + approveAssignmentId+"&isDeletedRow="+isDeleted,
-    //                 success: function (data) {
-    //                     if(data==1){
-    //                         var approvedRows = $("#all_selected_row_for_approve").val();                               
-    //                         var isApprovedRowColorChanged = false;
-
-    //                         //store approved data!
-    //                         if(approvedRows =="" || typeof approvedRows === 'undefined' || approvedRows === null){
-    //                             strApprovedRowsStore = approveAssignmentId;
-    //                             $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-    //                             isApprovedRowColorChanged = true;
-    //                         }else{         
-    //                             var isValidForApprove = false;
-    //                             var arrCells = approvedRows.split(',');        
-    //                             $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-    //                                 if(approveAssignmentId == nestedValue){
-    //                                     isValidForApprove = false;
-    //                                 }
-    //                                 else{
-    //                                     isValidForApprove = true;
-    //                                     isApprovedRowColorChanged = true;
-    //                                 }                                                            
-    //                             });  
-    //                             if(isValidForApprove){
-    //                                 strApprovedRowsStore = approvedRows+","+approveAssignmentId;   
-    //                                 $("#all_selected_row_for_approve").val(strApprovedRowsStore);
-    //                             }else{
-    //                                 alert("There is no data to approved!")
-    //                             }                                           
-    //                         } 
-
-    //                         if(isApprovedRowColorChanged){
-    //                            var rowNumber = $("#hidSelectedRowNumber").val();
-    //                             if(isDeleted =='true'){
-    //                                 SetRowColor_AfterApproved(parseInt(rowNumber)+1);
-    //                             }else{
-    //                                 SetRowColor_ForDeletedRow(parseInt(rowNumber)+1);
-    //                             }
-    //                             $("#hidSelectedRow_AssignementId").val("");
-    //                             $("#hidIsRowDeleted").val("");                                                                          
-    //                         }                            
-    //                     }
-    //                     else{
-    //                         alert("There is no data to approved!")
-    //                     }
-    //                 }
-    //             });       
-    //         }else{                
-    //             $.ajax({
-    //                 url: `/api/utilities/IsValidForApprovalCell`,
-    //                 contentType: 'application/json',
-    //                 type: 'GET',
-    //                 async: true,
-    //                 dataType: 'json',
-    //                 data: "assignementId=" + approveAssignmentId+"&selectedCells="+selectedCells,
-    //                 success: function (data) {
-    //                     if(data==1){
-    //                         var approvedCells = $("#all_selected_cells").val();                               
-    //                         var isApprovedCellColorChanged = false;
-
-    //                         //store approved data!
-    //                         if(approvedCells =="" || typeof approvedCells === 'undefined' || approvedCells === null){
-    //                             strApprovedCellsStore = approveAssignmentId +"_"+ selectedCells;
-    //                             $("#all_selected_cells").val(strApprovedCellsStore);
-    //                             isApprovedCellColorChanged = true;
-    //                         }else{         
-    //                             var isValidForApprove = false;
-    //                             var arrCells = approvedCells.split(',');        
-    //                             $.each(arrCells, function (nextedIndex, nestedValue) {                                            
-    //                                 var arrNestedCells = nestedValue.split('_');
-    //                                 if(selectedCells == arrNestedCells[1] && approveAssignmentId == arrNestedCells[0]){
-    //                                     isValidForApprove = false;
-    //                                 }
-    //                                 else{
-    //                                     isValidForApprove = true;
-    //                                     isApprovedCellColorChanged = true;
-    //                                 }                                                            
-    //                             });  
-    //                             if(isValidForApprove){
-    //                                 strApprovedCellsStore = approvedCells+","+approveAssignmentId +"_"+ selectedCells;;   
-    //                                 $("#all_selected_cells").val(strApprovedCellsStore);
-    //                             }else{
-    //                                 alert("There is no data to approved!")
-    //                             }                                           
-    //                         } 
-    //                         if(isApprovedCellColorChanged){
-    //                             var assignmentYear = $('#assignment_year_list').val();                               
-    //                             var cellNo = $("#selectCellNumber").val();                                                                
-    //                             SetCellWiseColor(cellNo);       
-    //                         }
-    //                     }
-    //                     else{
-    //                         alert("There is no data to approved!")
-    //                     }
-    //                 }
-    //             });       
-    //         }            
-    //     }       
-    // });
-
-    $('#unapprove_forecast_data').on('click', function () {       
-        
+    //refresh saved data and other information 
+    $('#unapprove_forecast_data').on('click', function () {               
         LoaderShow();  
         var assignmentYear = $('#assignment_year_list').val();                
         ShowForecastResults(assignmentYear,'show');
@@ -460,21 +320,7 @@ $(document).ready(function () {
         $("#all_selected_row_with_assignmentId_row_number").val('');            
     });
 
-
-    $(document).on('change', '#section_search', function () {
-
-        var sectionId = $(this).val();
-
-        $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
-            .done(function (data) {
-                $('#department_search').empty();
-                $('#department_search').append(`<option value=''>部署を選択</option>`);
-                $.each(data, function (key, item) {
-                    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-                });
-            });
-    });
-    
+    //after select year, click on show button to show the forecast data
     $(document).on('click', '#assignment_year_data ', function () {            
         var assignmentYear = $('#assignment_year_list').val();
         $("#all_selected_cells").val("");
@@ -487,21 +333,48 @@ $(document).ready(function () {
         ShowForecastResults(assignmentYear,'show');                    
     });
 
-    $(document).on('click', '#cancel_forecast_history ', function () {    
-        var assignmentYear = $('#assignment_year_list').val();          
-        if(assignmentYear==''){
-            assignmentYear = 2023;
-        }        
-        setTimeout(function () {                               
-            ShowForecastResults(assignmentYear);
-        }, 3000);
-        
-    });    
+    $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
+        $("#hider").fadeOut("slow");
+        $('.employee_sorting').fadeOut("slow");
+        $('.section_sorting').fadeOut("slow");
+        $('.department_sorting').fadeOut("slow");
+        $('.incharge_sorting').fadeOut("slow");
+        $('.role_sorting').fadeOut("slow");
+        $('.explanation_sorting').fadeOut("slow");
+        $('.company_sorting').fadeOut("slow");
+        $('.grade_sorting').fadeOut("slow");
+        $('.unit_sorting').fadeOut("slow");
+    });
 });
 
-var _retriveddata = [];
-var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
+//loader show
+function LoaderShow() {
+    $("#jspreadsheet").css("display", "none");
+    $("#loading").css("display", "block");
+}
+//loader hide
+function LoaderHide() {
+    $("#jspreadsheet").css("display", "block");
+    $("#loading").css("display", "none");
+}
+//get year list
+function GetAllForecastYears() {
+    $.ajax({
+        url: `/api/utilities/GetForecatYear`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
+            $.each(data, function (index, element) {                
+                $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
+            });
+        }
+    });
+}
 
+//show all the forecast data with approve and unapprove color 
 function ShowApproveJexcel(){
     var sectionsForJexcel = [];
     var departmentsForJexcel = [];
@@ -616,8 +489,6 @@ function ShowApproveJexcel(){
         tableOverflow: true,
         freezeColumns: 3,
         defaultColWidth: 50,
-        // tableWidth: w - 500 + "px",
-        // tableHeight: (h - 300) + "px",
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",
         
@@ -732,7 +603,6 @@ function ShowApproveJexcel(){
             {
                 title: "10月",
                 type: "number",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "OctTotal",
                 width: 60
@@ -740,77 +610,66 @@ function ShowApproveJexcel(){
             {
                 title: "11月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "NovTotal"
             },
             {
                 title: "12月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "DecTotal"
             },
             {
                 title: "1月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "JanTotal"
             },
             {
                 title: "2月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "FebTotal"
             },
             {
                 title: "3月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "MarTotal"
             },
             {
                 title: "4月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "AprTotal"
             },
             {
                 title: "5月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "MayTotal"
             },
             {
                 title: "6月",
                 type: "decimal",
-                // readOnly: true,
                 mask: "#,##0",
                 name: "JunTotal"
             },
             {
                 title: "7月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "JulTotal"
             },
             {
                 title: "8月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "AugTotal"
             },
             {
                 title: "9月",
                 type: "decimal",
-                //readOnly: true,
                 mask: "#,##0",
                 name: "SepTotal"
             },
@@ -835,18 +694,9 @@ function ShowApproveJexcel(){
             return "";
         },
         onselection: selectionActive,   
-        // onfocus: focus,     
     });    
-
-    //jss.deleteColumn(52, 43);
     jss.deleteColumn(52, 25);
     
-    
-    //first header sticky
-    // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    // first_header_1.css('position', 'sticky');
-    // first_header_1.css('top', '0px');
-
     //sort arrow on load: employee
     var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     employee_asc_arow.addClass('arrow-down');
@@ -864,51 +714,30 @@ function ShowApproveJexcel(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
 
     //sort arrow on load: grade
     var grade_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
     grade_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_grade = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_grade.css('position', 'sticky');
-    // jexcelFirstHeaderRow_grade.css('top', '0px');
 
     //sort arrow on load: unit
     var unit_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
     unit_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_unit = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_unit.css('position', 'sticky');
-    // jexcelFirstHeaderRow_unit.css('top', '0px');
 
     //sort employee
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {            
@@ -967,17 +796,9 @@ function ShowApproveJexcel(){
         $('.unit_sorting').fadeIn("slow");
     });
 
-    // $(".jexcel_content").css("max-height",window.innerHeight+200+"px !important");    
-    // $("#head_total").css("width",w-300);
-
     var allRows = jss.getData();
     var count = 1;
     $.each(allRows, function (index,value) {
-        // if (value['36'] == true && value['38'] == true) {
-        //     SetRowColor_ApprovedRow(count);
-        // }else if (value['36'] == true && value['38'] == false) {
-        //     SetRowColor(count);
-        // }
         if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == true) {
             SetRowColor_ApprovedRow(count);
         } else if (value[jssTableDefinition.bcyr.index.toString()] == true && value[jssTableDefinition.bcyrApproved.index.toString()] == false) {
@@ -1192,12 +1013,6 @@ function ShowApproveJexcel(){
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "red");
                                      
                 }
-                
-                //if (parseInt(nestedValue) == 35) {
-                //    jss.setStyle("AJ" + count, "background-color", "yellow");
-                //    jss.setStyle("AJ" + count, "color", "red");
-                   
-                //}
             });
 
             // //approved cells color
@@ -1347,13 +1162,9 @@ function ShowApproveJexcel(){
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "background-color", "LightBlue");
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "red");
                 }
-                //if (parseInt(nestedValue2) == 35) {
-                //    jss.setStyle("AJ" + count, "background-color", "LightBlue");
-                //    jss.setStyle("AJ" + count, "color", "red");
-                //}
             });
 
-            // //pending cells color
+            //pending cells color
             var bCYRCellPending = value[jssTableDefinition.bcyrCellPending.index.toString()];
             var arrBCYRCellPending = bCYRCellPending.split(',');
             $.each(arrBCYRCellPending, function (nextedIndex, nestedValue2) {              
@@ -1500,10 +1311,6 @@ function ShowApproveJexcel(){
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "background-color", "red");
                     jss.setStyle(jssTableDefinition.sepT.cellName + count, "color", "black");
                 }
-                //if (parseInt(nestedValue2) == 35) {
-                //    jss.setStyle("AJ" + count, "background-color", "red");
-                //    jss.setStyle("AJ" + count, "color", "black");
-                //}
             });
             
         }
@@ -1524,189 +1331,150 @@ function ShowApproveJexcel(){
     $.each(allRows, function (index,value){
         $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"opacity", "1");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowCount))).addClass('readonly');        
         
         $(jss.getCell(jssTableDefinition.employeeName.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.employeeName.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.employeeName.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.remarks.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.remarks.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.remarks.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.remarks.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.section.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.section.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.section.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.department.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.department.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.department.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.incharge.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.incharge.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.incharge.cellName + (rowCount))).addClass('readonly');     
         
         $(jss.getCell(jssTableDefinition.role.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.role.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.role.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.explanation.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.explanation.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.explanation.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.company.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.company.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.company.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.grade.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.grade.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.grade.cellName + (rowCount))).addClass('readonly');     
 
 
         $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.unitPrice.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.octM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.octM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.octM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.novM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.novM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.novM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.decM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.decM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.decM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.janM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.janM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.janM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.febM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.febM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.febM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.marM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.marM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.marM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.aprM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.aprM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.aprM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.mayM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.mayM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.mayM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.junM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.junM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.junM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.julM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.julM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.julM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.augM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.augM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.augM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.sepM.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.sepM.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.sepM.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.octT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.octT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.octT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.novT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.novT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.novT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.decT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.decT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.decT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.janT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.janT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.janT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.febT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.febT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.febT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.marT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.marT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.marT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.aprT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.aprT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.aprT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.mayT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.mayT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.mayT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.junT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.junT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.junT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.julT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.julT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.julT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.augT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.augT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
         $(jss.getCell(jssTableDefinition.augT.cellName + (rowCount))).addClass('readonly');     
 
         $(jss.getCell(jssTableDefinition.sepT.cellName + (rowCount))).removeClass('readonly');
         jss.setStyle(jssTableDefinition.sepT.cellName+rowCount,"opacity", "1 !");
-        // jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
-        $(jss.getCell(jssTableDefinition.sepT.cellName + (rowCount))).addClass('readonly');     
-
-        //$(jss.getCell("AJ" + (rowCount))).removeClass('readonly');
-        //jss.setStyle("AJ"+rowCount,"opacity", "1 !");
-        //// jss.setStyle(jssTableDefinition.assignmentId.cellName+rowCount,"color", "black");
-        //$(jss.getCell("AJ" + (rowCount))).addClass('readonly');     
+        $(jss.getCell(jssTableDefinition.sepT.cellName + (rowCount))).addClass('readonly');       
 
         rowCount++;
     });
 }
 
+//show forecast table: calling function. this function called after several actions with showtype
 function ShowForecastResults(year,showType) {
     employeeName = $('#name_search').val();
     employeeName = "";
@@ -1777,31 +1545,6 @@ function ShowForecastResults(year,showType) {
     });    
 }
 
-$("#hider").hide();
-$(".employee_sorting").hide();
-$(".section_sorting").hide();
-$(".department_sorting").hide();
-$(".incharge_sorting").hide();
-$(".role_sorting").hide();
-$(".explanation_sorting").hide();
-$(".company_sorting").hide();
-$(".grade_sorting").hide();
-$(".unit_sorting").hide();
-
-$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
-
-    $("#hider").fadeOut("slow");
-    $('.employee_sorting').fadeOut("slow");
-    $('.section_sorting').fadeOut("slow");
-    $('.department_sorting').fadeOut("slow");
-    $('.incharge_sorting').fadeOut("slow");
-    $('.role_sorting').fadeOut("slow");
-    $('.explanation_sorting').fadeOut("slow");
-    $('.company_sorting').fadeOut("slow");
-    $('.grade_sorting').fadeOut("slow");
-    $('.unit_sorting').fadeOut("slow");
-});
-
 var deleted = function (instance, x, y, value) {
     var assignmentIds = [];
     if (value.length > 0) {
@@ -1824,16 +1567,14 @@ var deleted = function (instance, x, y, value) {
                 }
             });
         }
-
     }
-
 }
-
-
+//new row color
 var newRowInserted = function (instance, x, y, newRow) {
     var totalRow = jss.getData(false);
     jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');   
 }
+//cell color
 function SetCellWiseColor(cellName){
     $(jss.getCell(cellName)).removeClass('readonly');
     jss.setStyle(cellName,"background-color", "LightBlue");
@@ -1841,23 +1582,15 @@ function SetCellWiseColor(cellName){
     jss.setStyle(cellName,"color", "red");
     $(jss.getCell(cellName)).addClass('readonly');    
 }
-function SetCellWiseColor_ForUnApproved(cellName){
-    $(jss.getCell(cellName)).removeClass('readonly');
-    jss.setStyle(cellName,"background-color", "yellow");
-    jss.setStyle(cellName,"color", "blue");
-    jss.setStyle(cellName,"color", "red");
-    $(jss.getCell(cellName)).addClass('readonly');    
-}
 
+//check if the selected cell is already is approved or not
 function CheckForAlreadyApprovedCells(approveAssignmentId,selectedCells){
-
     var previousApprovedCells = $("#approved_selected_cells").val(); 
     var filteredPreviousApprovedCells = "";
 
     if(previousApprovedCells =="" || typeof previousApprovedCells === 'undefined' || previousApprovedCells === null){
         return false;
     }else{
-        //isAlreadyApprovedCell
         arrPreviousCells = previousApprovedCells.split(",");
         var isCellExists = false;
         $.each(arrPreviousCells, function (nextedIndex, nestedValue){
@@ -1878,6 +1611,7 @@ function CheckForAlreadyApprovedCells(approveAssignmentId,selectedCells){
     }
 }
 
+//this is backend validation before approving a cell, checking that if the approved request is valid or not
 function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPending,cellPosition,selectedCellNo,selectedRowNumber){
     $.ajax({
         url: `/api/utilities/IsValidForApprovalCell`,
@@ -1901,7 +1635,6 @@ function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPend
                 
                 //for multi cell approval 3 things needed:
                 //approveAssignmentId_selectedCells_selectedCellNo
-
                 //select multiple cells
                 var approvedCells = $("#all_selected_cells").val();                               
                 var approvedCellsWithPositions = $("#all_selected_cells_with_cellposition").val();                               
@@ -2008,6 +1741,7 @@ function CheckForValidCellRequest(approveAssignmentId,selectedCells,bCYRCellPend
     }); 
 }
 
+//check if the selected row is already is approved or not
 function CheckForAlreadyApprovedRows(approveAssignmentId){
 
     var previousApprovedRows = $("#approved_selected_rows").val(); 
@@ -2016,11 +1750,9 @@ function CheckForAlreadyApprovedRows(approveAssignmentId){
     if(previousApprovedRows =="" || typeof previousApprovedRows === 'undefined' || previousApprovedRows === null){
         return false;
     }else{
-        //isAlreadyApprovedCell
         arrPreviousRows = previousApprovedRows.split(",");
         var isRowsExists = false;
         $.each(arrPreviousRows, function (nextedIndex, nestedValue){
-            //var arrNestedRow = nestedValue.split("_");
             if(nestedValue == approveAssignmentId){
                 isRowsExists = true;
             }else{
@@ -2036,6 +1768,8 @@ function CheckForAlreadyApprovedRows(approveAssignmentId){
         return isRowsExists;
     }
 }
+
+//this is backend validation before approving a row, checking that if the approved request is valid or not
 function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDeletePending,rowNumber){    
     $.ajax({        
         url: `/api/utilities/IsValidForApprovalRow`,
@@ -2064,16 +1798,6 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                 var isPendingRowDisselect = false;
                 var isInactiveDisselect = false;
                 var isDeletePendingDisselect = false;
-
-                //store approved data!
-                //1->new row
-                //2->pending row
-                //3->inactive
-                //4->delete pending
-                
-                //10,11,12
-                //again:
-                //clicked: 13
                 var isCurrentRowStored = true;
                 
                 var isAlreadyApprovedRows = CheckForAlreadyApprovedRows(approveAssignmentId);
@@ -2106,7 +1830,6 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                             }else{
                                 if(selectedRowsStore == ""){
                                     selectedRowsStore = nestedValue;
-                                    //selectedRowWithAssignmentIdAndRowNumber = nestedValue+"_"+rowNumber;
                                 }else{
                                     //only assignment id with comma seperated value
                                     var isRowAlreadyExists = false;
@@ -2114,23 +1837,13 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                                     $.each(arrSelectedRowsStore, function (tempIndex, selectedItem) {
                                         if(selectedItem == nestedValue) {
                                             isRowAlreadyExists = true;
-                                            //selectedRowsStore = selectedRowsStore+ ","+nestedValue;
                                         }
                                     }); 
                                     if(!isRowAlreadyExists){
                                         selectedRowsStore = selectedRowsStore+ ","+nestedValue;
-                                        //selectedRowWithAssignmentIdAndRowNumber = selectedRowWithAssignmentIdAndRowNumber+","+nestedValue+"_"+rowNumber;
                                     }                                
                                 }
-                            }
-
-                            // if(approveAssignmentId == nestedValue){
-                            //     isValidForApprove = false;
-                            // }
-                            // else{
-                            //     isValidForApprove = true;
-                            //     isApprovedRowColorChanged = true;
-                            // }                                              
+                            }                                                                   
                         });  
                         
                         //assignment id with row number: start                                        
@@ -2147,7 +1860,6 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                                         var arrSelectedItem2 = selectedItem2.split('_');
                                         if(arrSelectedItem2[0] == arrNestedValue[0]) {
                                             isRowAlreadyExists = true;
-                                            //selectedRowsStore = selectedRowsStore+ ","+nestedValue2;
                                         }
                                     }); 
                                     if(!isRowAlreadyExists){
@@ -2157,7 +1869,6 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                             }
                         }); 
                         //assignment id with row number: end 
-
                         if(isCurrentRowStored){
                             if(selectedRowsStore ==""){
                                 selectedRowsStore = approveAssignmentId;
@@ -2190,7 +1901,6 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
                     }else{
                         SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
                     }
-                    //SetRowColor_MultiRowSelect(parseInt(rowNumber)+1);
                 }else{
                     if(isNewRowDisselect){
                         SetRowColor_AfterUnApproved(parseInt(rowNumber)+1);
@@ -2209,23 +1919,15 @@ function CheckForValidRowRequest(approveAssignmentId,isActive,isRowPending,isDel
     }); 
 }
 
+//onclick check for cell and rows and store some values for approving the data
 var selectionActive = function(instance, x1, y1, x2, y2, origin) {
-
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);
     var sCols = $("#jspreadsheet").jexcel("getSelectedColumns", true);
        
     var cellName1 = jexcel.getColumnNameFromId([x1, y1]);
     var cellName2 = jexcel.getColumnNameFromId([x2, y2]);
-    
-    //get cell information
-    //var retrivedData = retrivedObject_ApprovalData(jss.getRowData(y));
-    /*
-        cell info:x2/x1 ,1-employee name ,2-remarks, 3-sections, 4-dept. ,5-incharge ,6-role, 7-explanations ,8-company ,9-grade ,10-unit price, 11-oct, 12-nov, 13-dec, 14-jan, 15-feb, 16-mar,17-apr, 18-may, 19-jun, 20-july, 21-aug, 22-sept
-        x2-34 means row select
-    */
 
     var sRows = $("#jspreadsheet").jexcel("getSelectedRows", true);    
-    //var selectedRows = $("#jspreadsheet").getSelectedRows();
     var retrivedData = retrivedObject_ApprovalData(jss.getRowData(sRows));
 
     if(typeof retrivedData != "undefined"){        
@@ -2238,9 +1940,8 @@ var selectionActive = function(instance, x1, y1, x2, y2, origin) {
         }
     }
 }
-// var focus = function(instance) {
-//     $('#log').append('The table ' + $(instance).prop('id') + ' is focus');
-// }	
+
+//update array when changing a data
 function updateArray(array, retrivedData) {
     var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
@@ -2268,6 +1969,7 @@ function updateArray(array, retrivedData) {
     array[index].year = retrivedData.year;
 }
 
+//update array when changing a data
 function updateArrayForInsert(array, retrivedData) {
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
     array[index].employeeId = retrivedData.employeeId;
@@ -2295,36 +1997,9 @@ function updateArrayForInsert(array, retrivedData) {
     array[index].year = retrivedData.year;
 }
 
+//update array when changing a data
 function retrivedObject(rowData) {
-    return {
-        // assignmentId: rowData[0],
-        // employeeName: rowData[1],
-        // remarks: rowData[2],
-        // employeeId: rowData[42],
-        // sectionId: rowData[3],
-        // departmentId: rowData[4],
-        // inchargeId: rowData[5],
-        // roleId: rowData[6],
-        // explanationId: rowData[7],
-        // companyId: rowData[8],
-        // gradeId: rowData[9],
-        // unitPrice: parseFloat(rowData[10]),
-        // octPoint: parseFloat(rowData[11]),
-        // novPoint: parseFloat(rowData[12]),
-        // decPoint: parseFloat(rowData[13]),
-        // janPoint: parseFloat(rowData[14]),
-        // febPoint: parseFloat(rowData[15]),
-        // marPoint: parseFloat(rowData[16]),
-        // aprPoint: parseFloat(rowData[17]),
-        // mayPoint: parseFloat(rowData[18]),
-        // junPoint: parseFloat(rowData[19]),
-        // julPoint: parseFloat(rowData[20]),
-        // augPoint: parseFloat(rowData[21]),
-        // sepPoint: parseFloat(rowData[22]),
-        // year: document.getElementById('assignment_year_list').value,
-        // bcyr: rowData[43],
-        // bCYRApproved: rowData[46]
-
+    return {        
         assignmentId: rowData[jssTableDefinition.assignmentId.index],
         employeeName: rowData[jssTableDefinition.employeeName.index],
         remarks: rowData[jssTableDefinition.remarks.index],
@@ -2367,55 +2042,10 @@ function retrivedObject(rowData) {
 
     };
 }
-
+//update array when changing a data
 function retrivedObject_ApprovalData(rowData) {
     if(typeof rowData != "undefined"){
-        return {
-            // assignmentId: rowData[0],
-            // employeeName: rowData[1],
-            // remarks: rowData[2],
-            // employeeId: rowData[42],
-            // sectionId: rowData[3],
-            // departmentId: rowData[4],
-            // inchargeId: rowData[5],
-            // roleId: rowData[6],
-            // explanationId: rowData[7],
-            // companyId: rowData[8],
-            // gradeId: rowData[9],
-            // unitPrice: parseFloat(rowData[10]),
-
-            // octPoint: parseFloat(rowData[11]),
-            // novPoint: parseFloat(rowData[12]),
-            // decPoint: parseFloat(rowData[13]),
-            // janPoint: parseFloat(rowData[14]),
-            // febPoint: parseFloat(rowData[15]),
-            // marPoint: parseFloat(rowData[16]),
-            // aprPoint: parseFloat(rowData[17]),
-            // mayPoint: parseFloat(rowData[18]),
-            // junPoint: parseFloat(rowData[19]),
-            // julPoint: parseFloat(rowData[20]),
-            // augPoint: parseFloat(rowData[21]),
-            // sepPoint: parseFloat(rowData[22]),
-            // year: document.getElementById('assignment_year_list').value,
-            
-            // // bcyr: rowData[36],
-            // // bCYRApproved: rowData[37],
-            // // isActive: rowData[39],
-            // // BCYRCellApproved: rowData[40],
-            // // isApproved: rowData[41],
-            // // bCYRCellPending: rowData[42],
-            // // isRowPending: rowData[43],
-            // // isDeletePending: rowData[44]
-
-            // bcyr: rowData[43],
-            // bCYRApproved: rowData[46],
-            // isActive: rowData[45],
-            // BCYRCellApproved: rowData[47],
-            // isApproved: rowData[48],
-            // bCYRCellPending: rowData[49],
-            // isRowPending: rowData[50],
-            // isDeletePending: rowData[51]
-
+        return {           
             assignmentId: rowData[jssTableDefinition.assignmentId.index],
             employeeName: rowData[jssTableDefinition.employeeName.index],
             remarks: rowData[jssTableDefinition.remarks.index],
@@ -2460,361 +2090,7 @@ function retrivedObject_ApprovalData(rowData) {
     
 }
 
-function DeleteRecords() {
-    $.getJSON(`/api/utilities/DeleteAssignments/`)
-        .done(function (data) {
-            //$('#department_search').empty();
-            //$('#department_search').append(`<option value=''>部署を選択</option>`);
-            //$.each(data, function (key, item) {
-            //    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-            //});
-        });
-}
-
-
-//employee insert
-function InsertEmployee() {
-    var apiurl = "/api/utilities/CreateEmployee/";
-    let employeeName = $("#employee_name").val();
-    if (employeeName == "" || employeeName == null || employeeName == undefined) {
-        $(".employee_err").show();
-        return false;
-    } else {
-        $(".employee_err").hide();
-        var data = {
-            FullName: employeeName.trim()
-        };
-
-        $.ajax({
-            url: apiurl,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (result) {
-                if (result > 0) {
-                    jss.setValueFromCoords(1, globalY, data.FullName, false);
-                    jss.setValueFromCoords(34, globalY, result, false);
-                    $("#page_load_after_modal_close").val("yes");
-                    ToastMessageSuccess('データが保存されました!');
-                    $('#employee_name').val('');
-                    $('#jexcel_add_employee_modal').modal('hide');
-                }
-
-                //GetEmployeeList();
-            },
-            error: function (result) {
-                alert(result.responseJSON.Message);
-            }
-        });
-    }
-}
-
-//Get employee list
-function GetEmployeeList() {
-    $('#employee_list').empty();
-    $.getJSON('/api/utilities/EmployeeList/')
-        .done(function (data) {
-            $.each(data, function (key, item) {
-                $('#employee_list').append(`<option value='${item.Id}'>${item.FullName}</option>`);
-            });
-        });
-}
-
-/***************************\                           
-  Add Employee through Modal                      
-\***************************/
-function AddEmployee() {
-    var employeeId = $('#employee_list').val();
-    var employeeName = $('#employee_list').find("option:selected").text();
-    jss.setValueFromCoords(1, globalY, employeeName, false);
-    jss.setValueFromCoords(35, globalY, employeeId, false);
-    $('#jexcel_add_employee_modal').modal('hide');
-}
-function UpdateForecast(){   
-    $("#update_forecast").modal("hide");
-    $("#jspreadsheet").hide();
-    // $("#head_total").hide();
-    LoaderShow(); 
-    
-    var userName = '';
-
-    $.ajax({
-        url: `/Registration/GetSession/`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            userName = data;
-        }
-    });    
-
-    var updateMessage = "";
-    var insertMessage = "";
-
-    if (jssUpdatedData.length > 0) {
-        var dateObj = new Date();
-        var month = dateObj.getUTCMonth() + 1; //months from 1-12
-        var day = dateObj.getDate();
-        var year = dateObj.getUTCFullYear();
-        var miliSeconds= dateObj.getMilliseconds();    
-        var timestamp = `${year}${month}${day}${miliSeconds}_`;
-        var promptValue = prompt("履歴ファイル保存名", '');
-
-        if (promptValue == null || promptValue == undefined || promptValue == "") {
-            return false;
-        }
-        else {
-            updateMessage = "Successfully data updated";
-            $.ajax({
-                url: `/api/utilities/UpdateForecastData`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: true,
-                dataType: 'json',
-                data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: timestamp + promptValue, CellInfo:cellwiseColorCode }),
-                success: function (data) {
-                    var chat = $.connection.chatHub;
-                    $.connection.hub.start();
-                    // Start the connection.
-                    $.connection.hub.start().done(function () {
-                        chat.server.send('data has been updated by ', userName);
-                    });        
-                    $("#jspreadsheet").show();
-                    //$("#head_total").show();
-                    LoaderHide();             
-                }
-            });
-            jssUpdatedData = [];
-        }
-    }
-    else {
-        $("#jspreadsheet").show();        
-        //$("#head_total").show();
-        LoaderHide();    
-        //alert('追加、修正していないデータがありません!');
-        updateMessage = ""
-    }
-
-    if (jssInsertedData.length > 0) {
-        var elementIndex = jssInsertedData.findIndex(object => {
-            return object.employeeName.toLowerCase() == 'total';
-        });
-        if (elementIndex >= 0) {
-            jssInsertedData.splice(elementIndex, 1);
-        }
-
-        insertMessage = "Successfully data inserted.";
-        $.ajax({
-            url: `/api/utilities/ExcelAssignment/`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify(jssInsertedData),
-            success: function (data) {
-                var chat = $.connection.chatHub;
-                $.connection.hub.start();
-                // Start the connection.
-                $.connection.hub.start().done(function () {
-                    chat.server.send('data has been inserted by ', userName);
-                });
-                $("#jspreadsheet").show();
-                //$("#head_total").show();
-                LoaderHide(); 
-            }
-        });
-        jssInsertedData = [];
-        newRowCount = 1;
-    } 
-    if(updateMessage =="" && insertMessage==""){
-        $("#header_show").html("");
-        $("#update_forecast").modal("show");
-        $("#save_modal_header").html("変更されていないので、保存できません");
-        $("#back_button_show").css("display", "none");
-        $("#save_btn_modal").css("display", "none");
-
-        $("#close_save_modal").css("display", "block");
-    }
-    else if(updateMessage !="" && insertMessage !=""){
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-    else if(updateMessage !=""){
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-    else if(insertMessage !=""){
-        $("#save_modal_header").html("年度データー(Emp. Assignments)");
-        $("#back_button_show").css("display", "block");
-        $("#save_btn_modal").css("display", "block");
-        $("#close_save_modal").css("display", "none");
-
-        alert("保存されました.");
-    }
-}
-function CompareUpdatedData() {
-    
-   
-    if (jssUpdatedData.length > 0) {
-        
-
-        $.ajax({
-            url: `/api/utilities/GetMatchedRows`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
-            success: function (data) {
-                $('#display_matched_rows table tbody').empty();
-                $.each(data, function (index, element) {
-                    $('#display_matched_rows table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
-                });
-            }
-        });
-    }
-}
-function ImportCSVFile() {
-    var userName = '';
-
-
-    $.ajax({
-        url: `/Registration/GetSession/`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            userName = data;
-        }
-    });
-
-    $.ajax({
-        url: `/Forecasts/Index/`,
-        contentType: 'application/json',
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        data: JSON.stringify(jssInsertedData),
-        success: function (data) {
-            var chat = $.connection.chatHub;
-            $.connection.hub.start();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                chat.server.send('data has been inserted by ', userName);
-            });
-        }
-    });
-}
-
-function GetAllForecastYears() {
-    $.ajax({
-        url: `/api/utilities/GetForecatYear`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        //data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            $('#assignment_year_list').append(`<option value=''>年度データーの選択</option>`);
-            $('#select_year_to_import').append(`<option value=''>年度を選択してください</option>`);
-            $('#replicate_from').append(`<option value=''>年度を選択してください</option>`);
-            //var count =1;
-            $.each(data, function (index, element) {
-                // if(count==1){
-                //     $("#hidDefaultForecastYear").val(element.Year)
-                // }
-                $('#assignment_year_list').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#select_year_to_import').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                $('#replicate_from').append(`<option value='${element.Year}'>${element.Year}</option>`);
-                //count++;
-            });
-        }
-    });
-}
-
-
-
-function CheckForecastYear(){
-    //var year = $('#assignment_year_list').find(":selected").val();
-    var year = $('#select_year_to_import').find(":selected").val();
-    if(year!="" && typeof year != "undefined"){
-        // $('#inputState').val(parseInt(year)+1);
-        $('#select_import_year').val(parseInt(year)+1);
-    }
-}
-// function ValidateYear(){
-//     $("#csv_import_modal").modal("hide");
-//     LoaderShow();
-//     // var selectedYear = $('#inputState').find(":selected").val();
-//     var selectedYear = $('#select_import_year').find(":selected").val();
-//     if(selectedYear =="" || typeof selectedYear === "undefined"){
-//         alert("please 年度を選択してください!");
-//         return false;
-//     }
-    
-// }
-function CheckDuplicateYear(){
-    var year = $('#select_year_to_import').find(":selected").val();
-    if(year!=""){
-        $('#duplciateYear').val(parseInt(year)+1);
-        $('#replicate_from').val(year);
-    }else{
-        $('#duplciateYear').val('');
-        $('#replicate_from').val('');
-    }
-}
-function DuplicateForecast(){    
-    var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#replicate_from').find(":selected").val();
-
-    if(copyYear!="" && insertYear!=""){
-        $("#replicate_from_previous_year").modal("hide");
-        $("#loading").css("display", "block");
-        //LoaderShow();
-        $.ajax({
-            url: `/api/utilities/DuplicateForecastYear`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: "copyYear=" + copyYear+"&insertYear="+insertYear,
-            success: function (data) {               
-                LoaderHide();
-                window.location.reload();
-                alert("data has been replicated.")
-            }
-        });
-    }else{
-        alert("please select From and To year!");
-        return false;
-    }
-}
-function validate(){
-    var selectedYear = $('#select_import_year').find(":selected").val();
-    var import_file = $('#import_file_excel').val();
-   
-    if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please 年度を選択してください!");
-        return false;
-    }else if(import_file =="" || typeof import_file === "undefined"){
-        alert("please select import file!");
-        return false;
-    }else { 
-        return true; 
-    }
-}
-
-$('#frm_import_year_data').submit(validate);
+//set color for request data
 function SetRowColor(insertedRowNumber){
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
@@ -2838,7 +2114,6 @@ function SetRowColor(insertedRowNumber){
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "red");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "yellow");
     jss.setStyle(jssTableDefinition.unitPrice.cellName + insertedRowNumber, "color", "red");
-    // 5 columns.
     jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "background-color", "yellow");
     jss.setStyle(jssTableDefinition.dbId.cellName + insertedRowNumber, "color", "red");
     jss.setStyle(jssTableDefinition.duplicateFrom.cellName + insertedRowNumber, "background-color", "yellow");
@@ -2903,427 +2178,380 @@ function SetRowColor(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"color", "red");
 }
 
+//set approve color
 function SetRowColor_AfterApproved(insertedRowNumber){
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.employeeName.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.remarks.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.section.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.department.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.incharge.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.role.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.explanation.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.company.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
     
-    // 5 columns.
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).addClass('readonly');
     
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepM.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).addClass('readonly');
     
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepT.cellName+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "LightBlue");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
 
 function SetRowColor_AfterUnApproved(insertedRowNumber){    
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color","yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.employeeName.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.remarks.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.section.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.department.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.incharge.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.role.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.explanation.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.company.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
-    //5 column
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepM.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).addClass('readonly');
     
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepT.cellName+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
+    
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "yellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
 
+//set delete color
 function SetRowColor_AfterUnApproved_Delete(insertedRowNumber){
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "gray");
@@ -3382,7 +2610,6 @@ function SetRowColor_AfterUnApproved_Delete(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
-    //5 column
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "gray");
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
@@ -3535,6 +2762,8 @@ function SetRowColor_AfterUnApproved_Delete(insertedRowNumber){
     jss.setStyle("AJ"+insertedRowNumber,"color", "black");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
+
+//set deleted row color
 function SetRowColor_ForDeletedRow(insertedRowNumber){  
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "#ffcccc");
@@ -3768,7 +2997,6 @@ function SetRowColor_AfterSaved(insertedRowNumber){
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "white");
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "black");
     
-    //5 column
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "white");
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "black");
 
@@ -4076,7 +3304,6 @@ function DisableRow(rowNumber) {
 function SetRowColor_UnapprovedDeleteRow(insertedRowNumber){
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "red");
-    // jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "white");
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "black");
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).addClass('readonly');
 
@@ -4506,211 +3733,170 @@ function SetRowColor_MultiRowSelect(insertedRowNumber){
 function SetRowColor_OnlyLightYellow(insertedRowNumber){
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.assignmentId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.assignmentId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.employeeName.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.employeeName.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.employeeName.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.remarks.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.remarks.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.remarks.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.section.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.section.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.section.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.department.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.department.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.department.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.incharge.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.incharge.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.incharge.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.role.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.role.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.role.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.explanation.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.explanation.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.explanation.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.company.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.company.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.company.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.grade.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.grade.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.unitPrice.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPrice.cellName + (insertedRowNumber))).addClass('readonly');
 
     //5 column
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.dbId.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.dbId.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.duplicateFrom.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateFrom.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.duplicateCount.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.duplicateCount.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.roleChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.roleChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.unitPriceChanged.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (insertedRowNumber))).addClass('readonly');
 
 
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.octM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.octM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.novM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.novM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.decM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.decM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.janM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.janM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.febM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.febM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.marM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.marM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.aprM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.aprM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.mayM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.mayM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.junM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.junM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.julM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.julM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.augM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.augM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepM.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.sepM.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.sepM.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.octT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.octT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.octT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.novT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.novT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.novT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.decT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.decT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.decT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.janT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.janT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.janT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.febT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.febT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.febT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.marT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.marT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.marT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.aprT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.aprT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.aprT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.mayT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.mayT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.mayT.cellName + (insertedRowNumber))).addClass('readonly');
     
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.junT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.junT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.julT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.julT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.julT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.augT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.augT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.augT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.sepT.cellName+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle(jssTableDefinition.sepT.cellName+insertedRowNumber,"color", "red");
     $(jss.getCell(jssTableDefinition.sepT.cellName + (insertedRowNumber))).addClass('readonly');
 
     $(jss.getCell("AJ" + (insertedRowNumber))).removeClass('readonly');
     jss.setStyle("AJ"+insertedRowNumber,"background-color", "lightyellow");
-    //jss.setStyle("AJ"+insertedRowNumber,"color", "red");
     $(jss.getCell("AJ" + (insertedRowNumber))).addClass('readonly');
 }
 function SetColor_MultiCell(cellName){
@@ -4736,8 +3922,6 @@ function DeselectColor_PendingCells(cellName){
 }
 
 /*
-    author: sudipto.
-    date:18July23.
     approve,not approved and deleted rows color code functions.
 */
 function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
@@ -5084,63 +4268,42 @@ function ShowAllSortingAscIcon(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
     $('#search_department_asc').css('background-color', 'lightsteelblue');
     $('#search_department_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
     $('#search_incharge_asc').css('background-color', 'lightsteelblue');
     $('#search_incharge_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
     $('#search_role_asc').css('background-color', 'lightsteelblue');
     $('#search_role_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
     $('#search_explanation_asc').css('background-color', 'lightsteelblue');
     $('#search_explanation_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
     $('#search_company_asc').css('background-color', 'lightsteelblue');
     $('#search_company_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: grade
     var grade_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11)');
     grade_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_grade = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_grade.css('position', 'sticky');
-    // jexcelFirstHeaderRow_grade.css('top', '0px');
     $('#search_grade_asc').css('background-color', 'lightsteelblue');
     $('#search_grade_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: unit
     var unit_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12)');
     unit_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_unit = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_unit.css('position', 'sticky');
-    // jexcelFirstHeaderRow_unit.css('top', '0px');
     $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
     $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
 }

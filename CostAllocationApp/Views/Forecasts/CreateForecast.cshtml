@@ -1,106 +1,97 @@
 ﻿@model CostAllocationApp.ViewModels.ForecastViewModal
 
 @{
-    ViewBag.Title = "年度データー(Yearly Data Create)";
+    ViewBag.Title = "年度データー";
 }
-@section Styles {    
-    <link href="/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+@section Styles {        
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/create_forecasts.css" rel="stylesheet" type="text/css" />
 }
 
-    <div class="content container-fluid" style="position:relative;margin-top: -38px;">        
-        @* Show Loader            *@
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;">
-                            <br>
-                            <strong>しばらくお待ちください...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
+<div class="content container-fluid" style="position:relative;margin-top: -38px;">        
+    <!--------Loader-------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;">
+                        <br>
+                        <strong>しばらくお待ちください...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
-            </div>
-        </div>
-
-        <br/>
-        <div id="year_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 編集 (Edit)</span></div> 
-        <br/>
-
-        <div class="row" id="year_data_search">
-            <div class="col-3">
-                <select id="assignment_year_list" class="" ></select>
-            </div>                
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
-            </div>
-
-            <div class="col-1"></div>
-
-            <div class="col-2">
-            </div>
-            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
-                <div class="col-2">                    
-                    <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消(undo)</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="update_forecast_history">保存 (Save)</button>
-                </div>
-            }
-        </div>
-        <br>
-
-        @* Employee Assignment: Create Forecast *@
-        <div class="row" id="year_data_list">
-            <div class="col-md-12">
-            </div>
-
-            <div class="col-md-12">
-                <div id="hider"></div>
-                
-                <div id="jspreadsheet"></div>
-            </div>
-            <div class="col-12">
-                <table id="head_total" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>10月</th>
-                            <th>11月</th>
-                            <th>12月</th>
-                            <th>1月</th>
-                            <th>2月</th>
-                            <th>3月</th>
-                            <th>4月</th>
-                            <th>5月</th>
-                            <th>6月</th>
-                            <th>7月</th>
-                            <th>8月</th>
-                            <th>9月</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
             </div>
         </div>
     </div>
 
+    <br/>
+    <div id="year_data_table_header"><span id="nav1">年度データ </span>><span id="nav2"> 編集</span></div> 
+    <br/>
 
+    <!--------Year List and undo/Save action-------->
+    <div class="row" id="year_data_search">
+        <div class="col-3">
+            <select id="assignment_year_list" class="" ></select>
+        </div>                
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="assignment_year_data" >表示</button>
+        </div>
 
-<input type="hidden" id="hidSectionId" />
-<input type="hidden" id="hidDepartmentId" />
-<input type="hidden" id="hidInChargeId" />
-<input type="hidden" id="hidRoleId" />
-<input type="hidden" id="hidExplanationId" />
-<input type="hidden" id="hidCompanyid" />
+        <div class="col-1"></div>
+
+        <div class="col-2">
+        </div>
+        @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+            <div class="col-2">                    
+                <button type="button" class="btn btn-dark" id="cancel_forecast_history" style="">取消</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="update_forecast_history">保存</button>
+            </div>
+        }
+    </div>
+    <br>
+
+    <!--------Forecast Table-------->
+    <div class="row" id="year_data_list">
+        <div class="col-md-12">
+        </div>
+
+        <div class="col-md-12">
+            <div id="hider"></div>
+            
+            <div id="jspreadsheet"></div>
+        </div>
+        <div class="col-12">
+            <table id="head_total" style="display: none;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                        <th>4月</th>
+                        <th>5月</th>
+                        <th>6月</th>
+                        <th>7月</th>
+                        <th>8月</th>
+                        <th>9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--------hidden values-------->
 <input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
-<input type="hidden" id="hidDefaultForecastYear" value="" />
 <input type="hidden" id="timeStamp_ForUpdateData" value="" />
-
 <input type="hidden" id="changed_cell_with_assignmentid" value="" />
 <input type="hidden" id="user_role" value="@ViewBag.UserRole" />
 
@@ -110,7 +101,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>要員の追加 (add employee)</h3>
+                    <h3>要員の追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -120,16 +111,16 @@
                         新規の要員の場合、名前を入力して追加する。一旦要員リストから削除した、又は契約を解除した要員の再追加の場 合、要員マスターに登録してある要員から追加
                     </label>
                     <div class="form-group">
-                        <label for="employee_name">要員 氏名 (Name)</label>
-                        <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)">
+                        <label for="employee_name">要員 氏名</label>
+                        <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名">
                         <div class="employee_err">
                             要員の氏名を入力してください
                         </div>
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
-                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">追加(Add）</a>
+                            <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消</a>
+                            <a href="javascript:void(0);" class="employee_registration" onclick="InsertEmployee();">追加</a>
                         </div>
                     </div>
 
@@ -139,8 +130,8 @@
                     <select id="employee_list" style=""></select>
 
                     <div class="custom_button_group_employee_list">
-                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消(Undo）</a>
-                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">追加(Add）</a>
+                        <a href="javascript:void(0);" class="employee_cancel" data-dismiss="modal">取消</a>
+                        <a href="javascript:void(0);" class="employee_add" onclick="AddEmployee();">追加</a>
                     </div>
                 </div>
             </div>
@@ -148,199 +139,7 @@
     </div>
 </div>
 
-<!-----------------Modal: Update Forecast Confirm Dialog box----------------->
-<div class="modal custom-modal fade" id="update_forecast">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3 id="save_modal_header">年度データー(Emp. Assignments)</h3>
-                <div class="form-header" id="header_show">
-
-                    <p id="section_warning" style="display:none;"></p>
-                    <ol class="section_count" style="text-align:left;"></ol>
-                    <style>
-                        .forecast_save_confirm_text {
-                            text-align: left;
-                        }
-                    </style>
-                    <label class="forecast_save_confirm_text">
-                        @*Edited and saved by <span id="last_edited_user">user1</span>*@
-                        <span id="row_count"></span> rows are modified by <span id="user_names"></span> Click Back button to view details.
-                        <br>
-                        データを上書きをする可能性があります。
-                        <br>
-                        戻るボタンをクリックし、変更履歴をチェックし、問題がないことを確認できます。
-                        <br>
-                        今、保存しますか？
-                    </label>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" id="back_button_show" class="btn btn-primary cancel-btn" data-dismiss="modal" data-toggle="modal" data-target="#modal_change_history" onclick="CompareUpdatedData();">戻る(Back)</a>                            
-                        </div>
-                        <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="save_btn_modal" onclick="UpdateForecast();">保存(Save)</a>
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn" id="close_save_modal" style="display: none;">戻る(Close)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@* 
-<div class="product-options">
-  <a id="myWish" href="javascript:;" class="btn btn-mini">Add to Wishlist </a>
-  <a href="" class="btn btn-mini"> Purchase </a>
-</div>
-<div class="alert alert-success" id="success-alert">
-  <button type="button" class="close" data-dismiss="alert">x</button>
-  <strong>Success! </strong> Product have added to your wishlist.
-</div> *@
-
-<!-----------------Modal: CSV Import----------------->
-<div class="modal custom-modal fade" id="csv_import_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                @using (Html.BeginForm("Index", "Forecasts", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" ,@id = "frm_import_year_data" })){
-                <div class="form-header">
-                    <h3>予算策定・編集 (CSV Import)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
-                    <div class="row">                        
-                        <div class="col-6">
-                            <label>策定する年度を選択</label>
-                            <select id="select_import_year" class="form-control" name="upload_year">
-                                <option value="">年度を選択してください</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <input type="file" class="form-control-file" name="uploaded_file" style="margin-top: 38px;" id="import_file_excel">
-                        </div>                                               
-                    </div>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
-                        </div>
-                        <div class="col-6">
-                            @* <a type="submit" id="import_data_btn" class="btn btn-primary continue-btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</a> *@
-                            <button type="submit" class="btn btn-success mb-2" id="import_data_btn"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button>
-                            @* <button type="submit" class="btn btn-success mb-2" id="import_data_btn" onclick="ValidateYear();"><i class="fa fa-upload" aria-hidden="true"></i>作成 (Create)</button> *@
-                            @Html.AntiForgeryToken()
-                            @* <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="company_inactive_confirm_btn">作成 (Create)</a> *@
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<!-----------------Modal: Replciate from previous year----------------->
-<div class="modal custom-modal fade" id="replicate_from_previous_year" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-header">
-                    <h3>過去のデータの複製 (Replicate Data)</h3>
-                    <ol class="company_count" style="text-align:left;"></ol>
-                    <div class="row">
-                        <div class="col-6">
-                            <label style="font-size: 17px !important;margin-right: 16px;">From Year</label>
-                            <br>
-                            <select id="replicate_from" style="font-size: 15px !important;">                                
-                            </select>
-                        </div>
-
-                        <div class="col-6">
-                            <label style="font-size: 17px !important;margin-right: 43px;">To Year</label>
-                            <br>
-                            <select id="duplciateYear" style="font-size: 15px !important;">
-                                <option value="">年度を選択してください</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-btn delete-action">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">戻る(Return)</a>
-                        </div>
-                        <div class="col-6">
-                            <a href="javascript:void(0);" class="btn btn-primary continue-btn" id="create_duplicate_of_previous_year" onclick="DuplicateForecast();">作成 (Create)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal History -->
-<div class="modal" id="modal_change_history">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal_change_history_label">変更の概要</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#update_forecast">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="display_matched_rows">
-                                <h5>
-                                    一致した行
-                                </h5>
-                                <table style="width:100%;font-size:12px;text-align:center;">
-                                    <thead>
-                                        <tr>
-                                            <th>によって編集</th>
-                                            <th>従業員名</th>
-                                            <th>10月</th>
-                                            <th>11月</th>
-                                            <th>12月</th>
-                                            <th>1月</th>
-                                            <th>2月</th>
-                                            <th>3月</th>
-                                            <th>4月</th>
-                                            <th>5月</th>
-                                            <th>6月</th>
-                                            <th>7月</th>
-                                            <th>8月</th>
-                                            <th>9月</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#update_forecast">return</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-----------------Sorting----------------->
 <div class='sorting_custom_modal'>
     <!--------sort employee custom div-------->
     <div class="employee_sorting">
@@ -445,8 +244,7 @@
 @section Scripts{
     <script src="/Scripts/common.js"></script>
     <script src="/Scripts/create_forecast.js"></script>    
-    <script src="/Scripts/bootstrap-multiselect.js"></script>
-   
+    
     <!-- user login/logout notifications script -->
     <script src="~/signalr/hubs"></script>
     <script src="/Scripts/user_notifications_assignments.js"></script> 

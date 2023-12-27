@@ -1,131 +1,30 @@
-﻿/*-----------------
-	1. General
------------------------*/
-
-body {
-    overflow-x: auto;
-}
-
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover,
-.pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-    background-color: #3c4b5d !important;
-    border-color: #3c4b5d !important;
-    color: white !important;
-}
-
-.page-link {
-    color: black !important;
-}
-/***************************\                           
-	Total Head Table
-\***************************/
-
-#head_total {
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
-    display: none;
+﻿/***************************\                           
+	Year List and undo/Save action: Start
+\***************************/ 
+#year_data_table_header{
     font-size: 12px;
-    border-collapse: collapse;
-    border:1px solid black;
-}
-    #head_total th, td {
-        border: 1px solid black;
-    }
-/***************************\                           
-	Employee Registration : Modal Deisgn
-\***************************/
-.employee_cancel {
-    background-color: #FC4136;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    line-height: 1;
-}
-
-.employee_cancel:hover {
-    color: white;
-}
-
-.employee_registration, .employee_add {
-    background-color: green;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    line-height: 1;
-}
-
-.employee_registration:hover {
-    color: white;
-}
-
-.employee_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-}
-
-.custom_button_group_employee {
-    float: right;
-    margin-left: 55%;
-    margin-top: -21px;
-    font-size: 13px;
-}
-.custom_button_group_employee_list {
-    float: right;
-    margin-left: 55%;
-    margin-top: -5px;
-    font-size: 13px;
-}
-.select2-container{
-    width:100% !important;
-}
-
-/***************************\                           
-	Employee Registration : Modal Deisgn
-\***************************/
-.jexcel {
-   
-    font-size: 10px;
-    font-family: Yu Gothic;
-    /* line-height: -1; */
+    font-family: "Yu Gothic";
     white-space: nowrap !important;
+    display: block;
+    margin-top: -11px;
 }
-/* 
-.jexcel_content{
-    max-height:800px !important;
-} */
-
-/***************************\                           
-	Import and Replicate Data
-\***************************/
-.import_forecast_data {
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
+#nav1,#nav2{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;    
 }
-.replicate_forecast_data{
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
+#year_data_search, #year_data_list{
+    margin-top: -13px;
 }
-.section_list_theader{
-    border: none !important;
-    padding: 0px !important;
-    text-align: left;
-    font-size: 0.875rem;
+#assignment_year_list{
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 70%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
 }
 #assignment_year_data{
     margin-left: -63px;
@@ -139,378 +38,102 @@ body {
     width: 64px;
     line-height: 1;
 }
-#assignment_year_list{
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    width: 70%;
-    height: 30px;
-    border: 1px solid #ccc !important;
-    text-align: center;
-}
-#year_data_table_header{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;
-    display: block;
-    margin-top: -11px;
-}
-
-#nav1,#nav2{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;    
-}
-#year_data_search, #year_data_list{
-    margin-top: -13px;
-}
-/***************************\                           
-	Add Employee New Row Color Change
-\***************************/
-/* $("body").on("contextmenu", "table tr", function(e) {
-    $contextMenu.css({
-         display: "block",
-         left: e.pageX,
-         top: e.pageY
-    });
-    $('table tr').css("background-color", ""); //Remove previos color.
-     $(this).css("background-color", "yellow"); //Here Change color to yellow.
-    return false;
-}); */
-
-
-/***************************\                           
-    Jexcel table design
-\***************************/
-
-
-.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(2) {
-    left: 0px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3) {
-    left: 0px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(4) {
-    left: 150px;
-    z-index: 3 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-}
-
-
-.jexcel tbody tr td:nth-of-type(3) {
-    text-align: left !important;
-}
-.jexcel tbody tr td:nth-of-type(4) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(5) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(6) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(7) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(8) {
-    text-align:center !important;
-}
-.jexcel tbody tr td:nth-of-type(9) {
-    text-align:left !important;
-}
-.jexcel tbody tr td:nth-of-type(12) {
-    text-align:right !important;
-}
-
-/*totla man month column*/
-.jexcel tbody tr td:nth-of-type(30) {
-    text-align:center !important;
-    background-color: #eab676;
-    color: black;
-}
-/*totla man month column*/
-.jexcel tbody tr td:nth-of-type(43) {
-    text-align:right !important;
-    background-color: #eab676;
-    color: black;
-}
-.jexcel tbody tr td:nth-of-type(26) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(27) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(28) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(29) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(30) {
-    text-align:right !important;
-}
-/*month wise cost*/
-.jexcel tbody tr td:nth-of-type(31) {
-    text-align:right !important;    
-    white-space: nowrap !important;    
-}
-.jexcel tbody tr td:nth-of-type(32) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(33) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(34) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(35) {
-    text-align:right !important;
-}
-.jexcel tbody tr td:nth-of-type(36) {
-    text-align:right !important;
-}
-
-/*first header color*/
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1) {    
-    background-color: #ccc;    
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
-    background-color: #ccc;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) {
-    background-color: #d99a23;
-    white-space: nowrap !important;
-}
-/*total cost header*/
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
-    background-color: #d99a23;
-    text-align: right !important;
-}
-
-/*second header color*/
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(1) {    
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
-    background-color: #fce5cd;
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
-    background-color: #d0e0e3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5) {
-    background-color: #d0e0e3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6) {
-    background-color: #d0e0e3;
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
-    background-color: #fce5cd;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8) {
-    background-color: #fce5cd;   
-}
-/* 
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(9) {
-    background-color: #cfe2f3;   
-}
-.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(10) {
-    background-color: #cfe2f3;   
-} */
-/*
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) {
-    background-color: #d99a23;
- }
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
-    background-color: #d99a23;
-}
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
-    background-color: #d99a23;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
-    background-color: #d99a23;
-}.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
-    background-color: #d99a23;
-} */
-
-/*save and cancel button*/
 #cancel_forecast_history{
     display:none;    
-    margin-left: 33px; 
-
+    margin-left: 50px; 
     line-height: 1;
 	background-color: red;
 	border: none;
+    width: 50%;
 }
 #update_forecast_history{
     display:none;    
-    margin-left: 1px; 
-
+    margin-left: 0px; 
     line-height: 1;
 	background-color: green;
 	border: none;
+    width: 50%;
 }
+/***************************\                           
+	Year List and undo/Save action: End
+\***************************/ 
+
+/***********************\                           
+	Forecast Table: Start
+\***********************/ 
+#head_total {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+    font-size: 12px;
+    border-collapse: collapse;
+    border:1px solid black;
+}
+#head_total th, td {
+    border: 1px solid black;
+}
+/***********************\                          
+	Forecast Table: End
+\***********************/ 
+
+
+/*****************************\                          
+	Modal: Add Employee: Start
+\*****************************/
 .form-control{
     border-color: #e3e3e3;
     box-shadow: none;
     font-size: 14px;
     height: 29px !important;
+}
+.employee_err {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    color: #dc3545;
+}
+.custom_button_group_employee {    
+    margin-left: 67%;
+    margin-top: -20px;
+    font-size: 13px;
+}
+.employee_cancel {
+    background-color: #FC4136;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 9px;
+    display: inline-block;
+    line-height: 1;    
+    width: 54px;
+    text-align: center;
+}
+.employee_cancel:hover {
+    color: white;
+}
+.employee_registration, .employee_add {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    line-height: 1;
+    width: 54px;
+    text-align: center;
+}
+.employee_registration:hover {
+    color: white;
+}
+.custom_button_group_employee_list {    
+    margin-left: 67%;
+    margin-top: -5px;
+    font-size: 13px;
+}
+.select2-container{
+    width:100% !important;
 }
 .select2-selection.select2-selection--single{
     border-color: #e3e3e3 !important;
@@ -518,13 +141,16 @@ body {
     font-size: 14px !important;
     height: 29px !important;
 }
+/****************************\                          
+	Modal: Add Employee: End
+\*****************************/
 
-.jexcel > tbody > tr > td.readonly{
-    color: rgba(0,0,0,1) !important;
+/****************************\                          
+	Column Sorting: Start
+\*****************************/
+.sorting_custom_modal{
+    display: none;
 }
-
-
-/********** sorting **********/
 .employee_sorting {
     height: 157px;
     width: 160px;
@@ -642,8 +268,255 @@ body {
     border: 1px solid black;
     box-shadow: 0 10px 6px -6px #777;
 }
+/****************************\                          
+	Column Sorting: End
+\*****************************/
 
-/********cutome modal ***********/
-.sorting_custom_modal{
-    display: none;
-  }
+
+
+
+/*********************************\                           
+    Forecast: Jexcel Table: Start
+\*********************************/
+.jexcel {
+   
+    font-size: 10px;
+    font-family: Yu Gothic;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(2) {
+    left: 0px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3) {
+    left: 0px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(4) {
+    left: 150px;
+    z-index: 3 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+}
+.jexcel tbody tr td:nth-of-type(3) {
+    text-align: left !important;
+}
+.jexcel tbody tr td:nth-of-type(4) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(5) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(6) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(7) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(8) {
+    text-align:center !important;
+}
+.jexcel tbody tr td:nth-of-type(9) {
+    text-align:left !important;
+}
+.jexcel tbody tr td:nth-of-type(12) {
+    text-align:right !important;
+}
+/***************************************************\                           
+    Forecast: Jexcel Table: Totla man month column
+\***************************************************/
+.jexcel tbody tr td:nth-of-type(30) {
+    text-align:center !important;
+    background-color: #eab676;
+    color: black;
+}
+.jexcel tbody tr td:nth-of-type(43) {
+    text-align:right !important;
+    background-color: #eab676;
+    color: black;
+}
+
+.jexcel tbody tr td:nth-of-type(26) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(27) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(28) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(29) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(30) {
+    text-align:right !important;
+}
+/******************************************\                           
+    Forecast: Jexcel Table: Month wise cost
+\******************************************/
+.jexcel tbody tr td:nth-of-type(31) {
+    text-align:right !important;    
+    white-space: nowrap !important;    
+}
+.jexcel tbody tr td:nth-of-type(32) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(33) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(34) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(35) {
+    text-align:right !important;
+}
+.jexcel tbody tr td:nth-of-type(36) {
+    text-align:right !important;
+}
+/******************************************\                           
+    Forecast: Jexcel Table: First header color
+\******************************************/
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(1) {    
+    background-color: #ccc;    
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
+    background-color: #ccc;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(5) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(11) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(12) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(13) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(14) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(15) {
+    background-color: #d99a23;
+    white-space: nowrap !important;
+}
+/******************************************\                           
+    Forecast: Jexcel Table: Total cost header
+\******************************************/
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(16) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(17) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(18) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(19) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(20) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(21) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(22) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(23) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(24) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(25) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(26) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(27) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(28) {
+    background-color: #d99a23;
+    text-align: right !important;
+}
+/************************************************\                           
+    Forecast: Jexcel Table: Second header color
+\************************************************/
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(1) {    
+    background-color: #cfe2f3;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
+    background-color: #cfe2f3;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
+    background-color: #fce5cd;
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
+    background-color: #d0e0e3;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(5) {
+    background-color: #d0e0e3;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(6) {
+    background-color: #d0e0e3;
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(7) {
+    background-color: #fce5cd;   
+}
+.jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(8) {
+    background-color: #fce5cd;   
+}
+.jexcel > tbody > tr > td.readonly{
+    color: rgba(0,0,0,1) !important;
+}

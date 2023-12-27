@@ -1,26 +1,4 @@
-﻿/*-----------------
-	1. General
------------------------*/
-
-body {
-    overflow-x: auto;
-}
-
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover,
-.pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-    background-color: #3c4b5d !important;
-    border-color: #3c4b5d !important;
-    color: white !important;
-}
-
-.page-link {
-    color: black !important;
-}
-/***************************\                           
+﻿/***************************\                           
 	Total Head Table
 \***************************/
 
@@ -89,14 +67,8 @@ body {
    
     font-size: 10px;
     font-family: Yu Gothic;
-    /* line-height: -1; */
     white-space: nowrap !important;
 }
-/* 
-.jexcel_content{
-    max-height:800px !important;
-} */
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
     left: 0px;
     z-index: 3 !important;
@@ -174,21 +146,7 @@ body {
 .jexcel tbody tr td:nth-of-type(36) {
     text-align:right !important;
 }
-/***************************\                           
-	Import and Replicate Data
-\***************************/
-.import_forecast_data {
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
-}
-.replicate_forecast_data{
-    color: black;
-    text-decoration: underline;
-    margin-left: 28px;
-    font-size: 13px !important;
-}
+
 .section_list_theader{
     border: none !important;
     padding: 0px !important;
@@ -232,19 +190,6 @@ body {
 #year_data_search, #year_data_list{
     margin-top: -13px;
 }
-/***************************\                           
-	Add Employee New Row Color Change
-\***************************/
-/* $("body").on("contextmenu", "table tr", function(e) {
-    $contextMenu.css({
-         display: "block",
-         left: e.pageX,
-         top: e.pageY
-    });
-    $('table tr').css("background-color", ""); //Remove previos color.
-     $(this).css("background-color", "yellow"); //Here Change color to yellow.
-    return false;
-}); */
 
 /*cancel,approve and save button*/
 #unapprove_forecast_data{

@@ -1,12 +1,13 @@
 ﻿var jss;
+var sectionsForJexcel = [];
 
-$(document).ready(function () {
+$(document).ready(function () {    
     $('#change_history_tbl').hide();   
     var totalwidth = 190 * $('.modal-body').length;
     $('.container').css('width', totalwidth);
 
+    //history year list into dropdown
     $.ajax({
-        // url: `/api/utilities/GetYearFromHistory`,
         url: `/api/utilities/GetAssignmentYearList`,
         contentType: 'application/json',
         type: 'GET',
@@ -20,7 +21,8 @@ $(document).ready(function () {
             });
         }
     });
- 
+    
+    //after click on the search button, timestamp list will show
     $('#history_data_btn').on('click', function () {                      
         var year = $('#history_year').val();
         console.log(year);
@@ -48,105 +50,14 @@ $(document).ready(function () {
             }
         });                
     });
-
-});
-var sectionsForJexcel = [];
-
-function DownloadHistoryByTimeStamps(changeTimestampsId){
-    sectionsForJexcel.push({ id: 1, name: "test section"});
-    jss = $('#jspreadsheet').jspreadsheet({
-        //data: _retriveddata,
-        // filters: true,
-        // tableOverflow: true,
-        // freezeColumns: 3,
-        // defaultColWidth: 50,
-        // tableWidth: w-280+ "px",
-        // tableHeight: (h-150) + "px",
-        
-        columns: [            
-            // { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-            // { title: "Remarks", type: "text", name: "Remarks", width: 60 },
-            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },    
-            { title: "IsApproved", type: 'hidden', name: "IsApproved" },        
-        ],        
-    });
-}
-
-$('#btn_export_change_history_data').on('click', function () {
-    var timeStampId = $('#hidTimeStampid').val();
-    // DownloadHistoryByTimeStamps(timeStampId)
-    // $('#jspreadsheet').jexcel('download');
-    // return false;
-    var _retriveddata = [];
-    $.ajax({        
-        //url: `/api/utilities/DownloadHistoryData`,
-        url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        data: { timeStampId: timeStampId },
-        success: function (data) {           
-            _retriveddata = data;
-        }
-    });
-
-
-    if (jss != undefined) {
-        jss.destroy();
-        $('#jspreadsheet').empty();
-    }
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    
-    jss = $('#jspreadsheet').jspreadsheet({
-        data: _retriveddata,
-        csvHeaders: true,
-        //filters: true,
-        // tableOverflow: true,
-        // // freezeColumns: 3,
-        // // defaultColWidth: 50,
-        // tableWidth: w-280+ "px",
-        // tableHeight: (h-150) + "px",
-        
-        columns: [      
-            { title: "利用者", type: "text", name: "CreatedBy", width: 120},
-            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150},
-            { title: "操作内容 (Type)", type: "text", name: "OperationType", width: 100},
-            { title: "Remaks", type: "text", name: "Remarks", width: 100},
-            { title: "区分(Section)	", type: "text", name: "SectionName", width: 120},            
-            { title: "部署(Dept)", type: "text", name: "DepartmentName", width: 120},
-            { title: "担当作業(In chg)", type: "text", name: "InChargeName", width: 120},
-            { title: "役割(Role)", type: "text", name: "RoleName", width: 120},
-            { title: "説明(expl)", type: "text", name: "ExplanationName", width: 120},
-            { title: "会社(Com)", type: "text", name: "CompanyName", width: 120},
-            { title: "グレード(Grade)", type: "text", name: "GradePoints", width: 50},
-            { title: "単価(Unit Price)", type: "text", name: "UnitPrice", width: 100},
-            { title: "10月", type: "text", name: "OctPoints", width: 60},
-            { title: "11月", type: "text", name: "NovPoints", width: 60},
-            { title: "12月", type: "text", name: "DecPoints", width: 60},
-            { title: "1月", type: "text", name: "JanPoints", width: 60},
-            { title: "2月", type: "text", name: "FebPoints", width: 60},
-            { title: "3月", type: "text", name: "MarPoints", width: 60},
-            { title: "4月", type: "text", name: "AprPoints", width: 60},
-            { title: "5月", type: "text", name: "MayPoints", width: 60},
-            { title: "6月", type: "text", name: "JunPoints", width: 60},
-            { title: "7月", type: "text", name: "JulPoints", width: 60},
-            { title: "8月", type: "text", name: "AugPoints", width: 60},
-            { title: "9月", type: "text", name: "SepPoints", width: 60},
-        ],        
-    });
-
-    jss.download(true);
 });
 
-
+//show forecast history deatils on modal 
 function GetHistories(timeStampId) {    
     $('#modal_change_history').modal('show');
     $('#hidTimeStampid').val(timeStampId);
 
     $.ajax({
-        //url: `/api/utilities/GetHistoriesByTimeStampId`,
         url: `/api/utilities/GetAssignmentHistoriesByTimeStampId`,
         contentType: 'application/json',
         type: 'GET',
@@ -162,11 +73,10 @@ function GetHistories(timeStampId) {
 
                 $('#forecast_history_table thead').empty();
                 $('#forecast_history_table tbody').empty();
-                $('#forecast_history_table thead').append(`<th style='white-space:nowrap;'>利用者</th><th style='white-space:nowrap;'>従業員名(Emp)</th><th style='white-space:nowrap;'>操作内容(Type)</th><th style='white-space:nowrap;'>注記(Remaks)</th><th style='white-space:nowrap;'>区分(Section)</th><th style='white-space:nowrap;'>部署(Dept)</th><th style='white-space:nowrap;'>担当作業(In chg)</th><th style='white-space:nowrap;'>役割(Role)</th><th style='white-space:nowrap;'>説明(expl)</th><th style='white-space:nowrap;'>会社(Com)</th><th style='white-space:nowrap;'>グレード(Grade)</th><th style='white-space:nowrap;'>単価(Unit Price)</th><th style='white-space:nowrap;'>10月</th><th style='white-space:nowrap;'>11月</th><th style='white-space:nowrap;'>12月</th><th style='white-space:nowrap;'>1月</th><th style='white-space:nowrap;'>2月</th><th style='white-space:nowrap;'>3月</th><th style='white-space:nowrap;'>4月</th><th style='white-space:nowrap;'>5月</th><th style='white-space:nowrap;'>6月</th><th style='white-space:nowrap;'>7月</th><th style='white-space:nowrap;'>8月</th><th style='white-space:nowrap;'>9月</th>`);
+                $('#forecast_history_table thead').append(`<th style='white-space:nowrap;'>利用者</th><th style='white-space:nowrap;'>従業員名</th><th style='white-space:nowrap;'>操作内容</th><th style='white-space:nowrap;'>注記</th><th style='white-space:nowrap;'>区分</th><th style='white-space:nowrap;'>部署</th><th style='white-space:nowrap;'>担当作業</th><th style='white-space:nowrap;'>役割</th><th style='white-space:nowrap;'>説明</th><th style='white-space:nowrap;'>会社</th><th style='white-space:nowrap;'>グレード</th><th style='white-space:nowrap;'>単価</th><th style='white-space:nowrap;'>10月</th><th style='white-space:nowrap;'>11月</th><th style='white-space:nowrap;'>12月</th><th style='white-space:nowrap;'>1月</th><th style='white-space:nowrap;'>2月</th><th style='white-space:nowrap;'>3月</th><th style='white-space:nowrap;'>4月</th><th style='white-space:nowrap;'>5月</th><th style='white-space:nowrap;'>6月</th><th style='white-space:nowrap;'>7月</th><th style='white-space:nowrap;'>8月</th><th style='white-space:nowrap;'>9月</th>`);
                 $("#forecast_history").val('');
     
                 $.each(data, function (index, element) {
-                    //console.log(element);
                     var forecastType = "";
                     if(element.IsUpdate){
                         forecastType = "更新(Updated)";
@@ -183,10 +93,14 @@ function GetHistories(timeStampId) {
 
 
 }
+
+//loader show
 function LoaderShow() {    
     $("#timestamp_list").css("display", "none");
     $("#loading").css("display", "block");
 }
+
+//loader hide
 function LoaderHide() {    
     $("#loading").css("display", "none");
     $("#timestamp_list").css("display", "block");

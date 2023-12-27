@@ -1,84 +1,6 @@
-﻿/***************************\                           
-	Employee Registration : Modal Deisgn
-\***************************/
-.undo_budget_edit {
-    background-color: #FC4136;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    line-height: 1;
-}
-
-.undo_budget_edit:hover {
-    color: white;
-}
-
-.employee_registration, .employee_add {
-    background-color: green;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    line-height: 1;
-}
-
-.employee_registration:hover {
-    color: white;
-}
-
-.employee_err {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-}
-
-.custom_button_group_employee {
-  float: right;
-  margin-left: 55%;
-  margin-top: -21px;
-  font-size: 13px;
-}
-.custom_button_group_employee_list {
-  float: right;
-  margin-left: 55%;
-  margin-top: -5px;
-  font-size: 13px;
-}
-
-.select2-container{
-    width:100% !important;
-}
-
-/***************************\                           
-	Employee Registration : Modal Deisgn
-\***************************/
-.jexcel {
-   
-    font-size: 10px;
-    font-family: Yu Gothic;
-    white-space: nowrap !important;
-}
-
-/***************************\                           
-	Show budget
-\***************************/
-#show_budget_list{
-    margin-left: -63px;
-    margin-top: -2px;
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    height: 29px;
-    border: 1px solid #ccc !important;
-    width: 64px;
-    line-height: 1;
-}
+﻿/*********************************************\                           
+	Year List and undo/Save/Finalize action and Export budget: Start
+\*********************************************/ 
 #budget_edit_navigation_txt{
   font-size: 12px;
   font-family: "Yu Gothic";
@@ -87,12 +9,12 @@
   margin-top: -11px;
 }
 #nav1,#nav2{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;    
+  font-size: 12px;
+  font-family: "Yu Gothic";
+  white-space: nowrap !important;    
 }
 #year_data_search, #year_data_list{
-    margin-top: -13px;
+  margin-top: -13px;
 }
 #budget_years{
   transition: all 0.2s ease-in-out 0s;
@@ -104,10 +26,259 @@
   border: 1px solid #ccc !important;
   text-align: center;
 }
+#show_budget_list{
+  margin-left: -63px;
+  margin-top: -2px;
+  transition: all 0.2s ease-in-out 0s;
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 12px;
+  height: 29px;
+  border: 1px solid #ccc !important;
+  width: 64px;
+  line-height: 1;
+}
+#undo_edited_budget{
+  display: none;
+  margin-left: 72px;
+  line-height: .9;
+  background-color: red;
+  border: none;
+  width: 50%;
+  text-align: center;
+}
+#save_bedget{
+  display: none;
+  margin-left: 26px;
+  line-height: .9;
+  background-color: green;
+  border: none;
+  width: 50%;
+  text-align: center;
+}
+#budget_finalize{
+  display: none;
+  margin-left: -24px;
+  line-height: .9;
+  background-color: blue;
+  border: none;
+  width: 50%;
+  text-align: center;
+}
+#export_budget{
+  margin-left: 1px;
+  line-height:1;
+  background-color: #89CFF0;
+	border: none;  
+}
+/*********************************************\                           
+	Year List and undo/Save/Finalize action and Export budget: End
+\*********************************************/ 
 
-/***************************\                           
-    Jexcel table design
-\***************************/
+/*****************************\                          
+	Modal: Add Employee: Start
+\*****************************/
+.form-control{
+  border-color: #e3e3e3;
+  box-shadow: none;
+  font-size: 14px;
+  height: 29px !important;
+}
+.undo_budget_edit {
+  background-color: #FC4136;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: inline-block;
+  line-height: 1;
+  width: 54px;
+  text-align: center;
+}
+.undo_budget_edit:hover {
+  color: white;
+}
+.employee_registration, .employee_add {
+  background-color: green;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: inline-block;
+  line-height: 1;
+  width: 54px;
+  text-align: center;
+}
+.employee_registration:hover {
+  color: white;
+}
+.employee_err {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 100%;
+  color: #dc3545;
+}
+.custom_button_group_employee {
+margin-left: 67%;
+margin-top: -20px;
+font-size: 13px;
+}
+.custom_button_group_employee_list {  
+margin-left: 67%;
+margin-top: -5px;
+font-size: 13px;
+}
+.select2-container{
+  width:100% !important;
+}
+.select2-selection.select2-selection--single{
+  border-color: #e3e3e3 !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  height: 29px !important;
+}
+/*****************************\                          
+	Modal: Add Employee: End
+\*****************************/
+
+
+/****************************\                          
+	Column Sorting: Start
+\*****************************/
+.sorting_custom_modal{
+  display: none;
+}
+.employee_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 143px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.section_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 357px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.department_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 453px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.incharge_sorting{
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 554px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.role_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 653px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.explanation_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 713px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.company_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 864px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.grade_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 921px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.unit_sorting {
+  height: 157px;
+  width: 160px;
+  background-color: whitesmoke;
+  position: absolute;
+  top: 160px;
+  left: 899px;
+  z-index: 100;
+
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 10px 6px -6px #777;
+}
+/****************************\                          
+	Column Sorting: End
+\*****************************/
+
+
+/*********************************\                           
+    Budget: Jexcel Table: Start
+\*********************************/
+.jexcel {
+  font-size: 10px;
+  font-family: Yu Gothic;
+  white-space: nowrap !important;
+}
 .jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(2) {
   left: 0px;
   z-index: 3 !important;
@@ -395,168 +566,6 @@
   white-space: nowrap !important;
   color: black;
 }
-/*********
-budget buttons
-**********/
-#undo_edited_budget{
-  display:none;
-  margin-left: 18px;
-  line-height: 1;
-	background-color: red;
-	border: none;
-}
-#save_bedget{
-  display:none;
-  margin-left: 6px;
-  line-height:1;
-  background-color: green;
-	border: none;
-}
-#budget_finalize{
-  display:none;
-  margin-left: 1px;
-  line-height:1;
-  background-color: blue;
-	border: none;
-}
-#export_budget{
-  margin-left: 1px;
-  line-height:1;
-  background-color: #89CFF0;
-	border: none;  
-}
-.form-control{
-    border-color: #e3e3e3;
-    box-shadow: none;
-    font-size: 14px;
-    height: 29px !important;
-}
-.select2-selection.select2-selection--single{
-  border-color: #e3e3e3 !important;
-  box-shadow: none !important;
-  font-size: 14px !important;
-  height: 29px !important;
-}
-/********** budget edit **********/
-.employee_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 143px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.section_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 357px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.department_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 453px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.incharge_sorting{
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 554px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.role_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 653px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.explanation_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 713px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.company_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 864px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.grade_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 921px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-.unit_sorting {
-  height: 157px;
-  width: 160px;
-  background-color: whitesmoke;
-  position: absolute;
-  top: 160px;
-  left: 899px;
-  z-index: 100;
-
-  border-radius: 10px;
-  border: 1px solid black;
-  box-shadow: 0 10px 6px -6px #777;
-}
-
-/********cutome modal ***********/
-.sorting_custom_modal{
-  display: none;
-}
+/*********************************\                           
+    Budget: Jexcel Table: End
+\*********************************/

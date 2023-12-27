@@ -18,7 +18,7 @@
                 else
                 {
                     <li class="has-child parent_li">
-                        <a href="javascript:void();">予算</a>
+                        <a href="javascript:void(0);">予算</a>
                         <ul>
                             @if (ViewBag.UserRole != "visitor")
                             {
@@ -28,7 +28,7 @@
                         </ul>
                     </li>
                     <li class="has-child parent_li">
-                        <a href="javascript:void();">年度データ</a>
+                        <a href="javascript:void(0);">年度データ</a>
                         <ul>
                             <li><a href="/Forecasts/CreateForecast?forecastType=edit" title="年度データの編集">編集</a></li>
                             <li><a href="/Forecasts/GetHistories" title="変更履歴">変更履歴</a></li>
@@ -39,7 +39,7 @@
                     <li class="parent_li"><a href="/Forecasts/ActualCosts" title="実績">実績</a></li>
 
                     <li class="has-child parent_li">
-                        <a href="javascript:void();" title="合計">合計</a>
+                        <a href="javascript:void(0);" title="合計">合計</a>
                         <ul>
                             <li><a href="/Forecasts/Total" title="コスト表">コスト表</a></li>
                             @if (ViewBag.UserRole != "visitor")
@@ -53,7 +53,7 @@
                     <li class="parent_li"><a href="/Forecasts/QaProportion" title="按分">按分</a></li>
 
                     <li class="has-child parent_li">
-                        <a href="javascript:void();">マスター設定</a>
+                        <a href="javascript:void(0);">マスター設定</a>
                         <ul>
                             <li><a href="/Sections/CreateSection" title="区分マスター">区分マスター</a></li>
                             <li><a href="/Departments/CreateDepartment" title="部署マスター">部署マスター</a></li>

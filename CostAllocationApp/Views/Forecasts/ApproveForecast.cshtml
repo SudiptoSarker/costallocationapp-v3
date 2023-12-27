@@ -1,152 +1,98 @@
 ﻿@model CostAllocationApp.ViewModels.ForecastViewModal
 
 @{
-    ViewBag.Title = "年度データの承認 (Approval)";
+    ViewBag.Title = "年度データの承認";
 }
 @section Styles {
-    @* <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" /> *@
     <link href="/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/approve_forecast.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
-
-    @{
-        /***************************\
-        Show Loader
-        \***************************/        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;">
-                            <br>
-                            <strong>しばらくお待ちください...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
+    <!------Loader-------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;">
+                        <br>
+                        <strong>しばらくお待ちください...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
         </div>
+    </div>
 
-        <br/>
-        <div id="approve_data_table_header"><span id="nav1">年度データ (Yearly Data) </span>><span id="nav2"> 承認 (Approval)</span></div>      
-        <br/>
+    <br/>
+    <!------nagigation-------->
+    <div id="approve_data_table_header"><span id="nav1">年度データ</span>><span id="nav2"> 承認</span></div>      
+    <br/>
 
-        <div class="row" id="year_data_search">
-            <div class="col-3">
-                <select id="assignment_year_list" class=""></select>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
-            </div>
-            <div class="col-1"></div>
-            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor")
-            {
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="unapprove_forecast_data">取消(undo)</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="approve_forecast_data">承認(Approve)</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="saved_approved_data">保存 (Save)</button>
-                </div>
-            }
+    <!------search,approve button-------->
+    <div class="row" id="year_data_search">
+        <div class="col-3">
+            <select id="assignment_year_list" class=""></select>
         </div>
-        
-        @* <div class="container">
-            <div class="row" id="year_data_search">
-                <div class="col-sm">
-                    
-                </div>
-                <div class="col-sm">
-                    
-                </div>
-                <div class="col-sm">                    
-                </div>
-                <div class="col-sm">
-                    
-                </div>
-                <div class="col-sm">
-                    
-                </div>
-                <div class="col-sm">
-                    
-                </div>
-            </div>
-        </div> *@
-
-        @* <div class="row" id="year_data_search">
-            <div class="col-3">
-                <select id="assignment_year_list" class=""></select>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
+        </div>
+        <div class="col-1"></div>
+        <!------user authentication-------->
+        @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor")
+        {
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="unapprove_forecast_data">取消</button>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="assignment_year_data">表示</button>
-            </div>
-
-            <div class="col-2">
-                <button type="button" class="btn btn-dark" id="unapprove_forecast_data" style="display:none;line-height:1;background-color: red !important;,color:white;">Unapprove</button>
-            </div>
-
-            <div class="col-3">
-                <button type="button" class="btn btn-dark" id="approve_forecast_data" style="display:none;line-height:1;margin-left:95px;background-color: Blue !important;">承認(Approve)</button>
+                <button type="button" class="btn btn-dark" id="approve_forecast_data">承認</button>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-dark" id="saved_approved_data" style="display:none;line-height:1;margin-left:0px;background-color: green !important; ">保存 (Save)</button>
+                <button type="button" class="btn btn-dark" id="saved_approved_data">保存</button>
             </div>
-        </div> *@
-        <br>      
+        }
+    </div>        
+    <br>    
 
-        /***************************\
-        Employee Assignment: approved forecast
-        \***************************/
-        <div class="row" id="year_data_list">
-            <div class="col-md-12">
-            </div>
+    <!------Employee Assignment: approved forecast-------->
+    <div class="row" id="year_data_list">
+        <div class="col-md-12">
+        </div>
 
-            <div class="col-md-12">
-                <div id="hider"></div>
+        <div class="col-md-12">
+            <div id="hider"></div>
 
-                <div id="jspreadsheet"></div>
-            </div>
-            <div class="col-12">
-                <table id="head_total" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>10月</th>
-                            <th>11月</th>
-                            <th>12月</th>
-                            <th>1月</th>
-                            <th>2月</th>
-                            <th>3月</th>
-                            <th>4月</th>
-                            <th>5月</th>
-                            <th>6月</th>
-                            <th>7月</th>
-                            <th>8月</th>
-                            <th>9月</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>      
-    }
+            <div id="jspreadsheet"></div>
+        </div>
+        <div class="col-12">
+            <table id="head_total" style="display: none;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                        <th>4月</th>
+                        <th>5月</th>
+                        <th>6月</th>
+                        <th>7月</th>
+                        <th>8月</th>
+                        <th>9月</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>  
 </div>
 
-
-
-<input type="hidden" id="hidSectionId" />
-<input type="hidden" id="hidDepartmentId" />
-<input type="hidden" id="hidInChargeId" />
-<input type="hidden" id="hidRoleId" />
-<input type="hidden" id="hidExplanationId" />
-<input type="hidden" id="hidCompanyid" />
+<!------hidden field value-------->
 <input type="hidden" id="hidForecastYear" value="@ViewBag.ImportViewOrForecastView" />
 <input type="hidden" id="hidDefaultForecastYear" value="" />
 <input type="hidden" id="hidSelectedRow_AssignementId" />
@@ -167,11 +113,9 @@
 <input type="hidden" id="pending_selected_row"/>
 <input type="hidden" id="pending_selected_deleted_row"/>
 
-<input type="hidden" id="selected_cells_with_assignmentId"/>
-<input type="hidden" id="selected_rows_with_assignmentId"/>
-
 <input type="hidden" id="approved_selected_rows"/>
 <input type="hidden" id="approved_selected_cells"/>
+
 
 <div class='sorting_custom_modal'>
     <!--------sort employee custom div-------->
@@ -273,6 +217,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>

@@ -1,7 +1,7 @@
 ﻿@model CostAllocationApp.ViewModels.ForecastViewModal
 
 @{
-    ViewBag.Title = "予算策定・編集 (Edit/Finalize Budget)";
+    ViewBag.Title = "予算策定・編集";
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
@@ -9,71 +9,67 @@
 }
 
 <div class="content container-fluid" style="position:relative;margin-top: -38px;">
-    @{
-        /***************************\
-            Show Loader
-        \***************************/
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;" alt="loader image">
-                            <br>
-                            <strong>しばらくお待ちください...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
+    <!--------Loader-------->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;" alt="loader image">
+                        <br>
+                        <strong>しばらくお待ちください...</strong>
+                        <br>
+                        <br>
+                    </center>
                 </div>
             </div>
         </div>
+    </div>
 
-        <br/>
-        <div id="budget_edit_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 編集 (Edit)</span></div>                             
-
-        <br>
-        <div class="row" id="year_data_search">
-            <div class="col-3">
-                <select id="budget_years" class=""></select>
+    <!--------Budget Year List. Budget Save,Finalize and Undo Button-------->
+    <br/>
+    <div id="budget_edit_navigation_txt"><span id="nav1">予算 </span>><span id="nav2"> 編集</span></div>                                             
+    
+    <br>                
+    <div class="row" id="year_data_search">
+        <div class="col-3">
+            <select id="budget_years" class=""></select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-light mb-2" id="show_budget_list">表示</button>
+        </div>
+        <div class="col-1"></div>
+        @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="undo_edited_budget">取消</button>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-light mb-2" id="show_budget_list">表示</button>
+                <button type="button" class="btn btn-dark" id="save_bedget">保存</button>
             </div>
-            <div class="col-1"></div>
-            @if (ViewBag.UserRole == "admin" || ViewBag.UserRole == "editor"){
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="undo_edited_budget">取消(undo)</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="save_bedget">保存（save）</button>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-dark" id="budget_finalize">決定 (Finalize)</button>
-                </div>
-            }
+            <div class="col-2">
+                <button type="button" class="btn btn-dark" id="budget_finalize">決定</button>
+            </div>
+        }
+    </div>
+    <br>
+
+    <!--------Budget list-------->
+    <div class="row" id="year_data_list">
+        <div class="col-md-12">
         </div>
-        <br>
-    
-        /***************************\
-        Employee Assignment: Create Forecast
-        \***************************/
-        <div class="row" id="year_data_list">
-            <div class="col-md-12">
-            </div>
 
-            <div class="col-md-12">
-                <div id="hider"></div>
+        <div class="col-md-12">
+            <div id="hider"></div>
 
-                <div id="jspreadsheet"></div>
-            </div>
-            <div class="col-12">
-                <button type="button" class="btn btn-secondary" id="export_budget" style="display: none !important;">予算データのエクスポート</button> 
-            </div>
-        </div>                   
-    }
+            <div id="jspreadsheet"></div>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-secondary" id="export_budget" style="display: none !important;">予算データのエクスポート</button> 
+        </div>
+    </div>         
 </div>
 
+<!--------Download budget into excel file-------->
 <form action="/Forecasts/ExportBudgetByYear" method="post" id="frmExportBudget" style="display: none;">                    
 	<div class="form-group">
         <input type="hidden" id="hid_budget_year" name="hid_budget_year" value="">	
@@ -81,10 +77,12 @@
 	</div>
 </form>
 
+<!--------hidden values-------->
 <input type="hidden" id="selected_budget_year" value="" />
 <input type="hidden" id="is_finalize_budget" value="" />
 <input type="hidden" id="user_role" value="@ViewBag.UserRole" />
 
+<!--------sorting-------->
 <div class='sorting_custom_modal'>
     <!--------sort employee custom div-------->
     <div class="employee_sorting">
@@ -192,7 +190,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="form-header">
-                    <h3>要員の追加 (add employee)</h3>
+                    <h3>要員の追加</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -202,7 +200,7 @@
                         新規の要員の場合、名前を入力して追加する。一旦要員リストから削除した、又は契約を解除した要員の再追加の場 合、要員マスターに登録してある要員から追加
                     </label>
                     <div class="form-group">
-                        <label for="employee_name">要員 氏名 (Name)</label>
+                        <label for="employee_name">要員 氏名</label>
                         <input type="text" class="form-control" id="employee_name" placeholder="要員 氏名 (employee name)">
                         <div class="employee_err">
                             要員の氏名を入力してください
@@ -210,8 +208,8 @@
                     </div>
                     <div class="row">
                         <div class="custom_button_group_employee">
-                            <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消(Undo）</a>
-                            <a href="javascript:void(0);" class="employee_registration">追加(Add）</a>
+                            <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消</a>
+                            <a href="javascript:void(0);" class="employee_registration">追加</a>
                         </div>
                     </div>
 
@@ -221,8 +219,8 @@
                     <select id="employee_list" style=""></select>
 
                     <div class="custom_button_group_employee_list">
-                        <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消(Undo）</a>
-                        <a href="javascript:void(0);" class="employee_add">追加(Add）</a>
+                        <a href="javascript:void(0);" class="undo_budget_edit" data-dismiss="modal">取消</a>
+                        <a href="javascript:void(0);" class="employee_add">追加</a>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,6 @@
 var tableRowList = [];
 
 $(document).ready(function () {
-
     $('#company_list').multiselect({
         allSelectedText: 'All',
         maxHeight: 200,
@@ -40,6 +39,7 @@ $(document).ready(function () {
             }
         });
     });
+
     GetAllForecastYears();
 
 
@@ -163,9 +163,6 @@ $(document).ready(function () {
 
 
     });
-
-
-
 });
 
 // loader show function
@@ -201,6 +198,7 @@ function GetCompanyList() {
         }
     });
 }
+
 // making all the negetive value as red color function
 function ColorNegativeValue() {
     var allTableData = $('#table_container table tbody td');
@@ -231,7 +229,6 @@ function ReplaceComma(returnValue) {
 
     return returnValue;
 }
-
 
 // getting forcasted year function
 function GetAllForecastYears() {

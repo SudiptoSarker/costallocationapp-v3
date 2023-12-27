@@ -1,25 +1,17 @@
 ﻿
 @{
-    ViewBag.Title = "合計 (Total)";
+    ViewBag.Title = "合計";
 }
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="/Content/multi_select_dynamic_table.css" />    
+    <link href="/Content/multi_select_dynamic_table.css" rel="stylesheet" type="text/css"/>    
     <link href="/Content/total.css" rel="stylesheet" type="text/css" />
 }
     <div class="content container-fluid" style="position:relative;margin-top: -38px;display: inline-block;">
-        <div id="actual_cost_table_header">合計 (Total)</div>
-
-        <!-----------------Employee Assignment: Create Actual Cost----------------->
-        <div class="row" id="actual_cost_search">
+        <div id="total_cost_table_header">合計</div>
+        <div class="row" id="total_cost_search">
             <div class="col-3">
-                <!-- <select multiple name="companies" id="companies"></select> -->
-                <select multiple='multiple' id='company_list'>                    
-                    <!-- <option value='1'>sudipto</option>
-                    <option value='2'>mahbub</option>
-                    <option value='3'>ridoy</option>
-                    <option value='4'>raihan</option> -->
-                </select>
+                <select multiple='multiple' id='company_list'></select>
             </div>            
             <div class="col-3">
                 <select id="total_year_list" class="" ></select>
@@ -33,8 +25,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div id="table_container">
-                    
+                <div id="table_container">                    
                 </div>
             </div>
             

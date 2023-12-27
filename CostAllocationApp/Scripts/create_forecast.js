@@ -1,10 +1,4 @@
-﻿$(document).ready(function(){    
-    $(".sorting_custom_modal").css("display", "block");
-    
-    var isShowResults = false;
-});
-
-var globalSearchObject = '';
+﻿var globalSearchObject = '';
 var globalPreviousValue = '0.0';
 var globalPreviousId = '';
 var jss;
@@ -24,110 +18,37 @@ var deletedExistingRowIds = [];
 var insertedOnChangeList = [];
 var previousRowDataToDetech = [];
 
-var jssTableDefinition = {
-    assignmentId: { index: 0, cellName: 'A' },
-    employeeName: { index: 1, cellName: 'B' },
-    remarks: { index: 2, cellName: 'C' },
-    section: { index: 3, cellName: 'D' },
-    department: { index: 4, cellName: 'E' },
-    incharge: { index: 5, cellName: 'F' },
-    role: { index: 6, cellName: 'G' },
-    explanation: { index: 7, cellName: 'H' },
-    company: { index: 8, cellName: 'I' },
-    grade: { index: 9, cellName: 'J' },
-    unitPrice: { index: 10, cellName: 'K' },
-    dbId: { index: 11, cellName: 'L' },
-    duplicateFrom: { index: 12, cellName: 'M' },
-    duplicateCount: { index: 13, cellName: 'N' },
-    roleChanged: { index: 14, cellName: 'O' },
-    unitPriceChanged: { index: 15, cellName: 'P' },
-    octM: { index: 16, cellName: 'Q' },
-    novM: { index: 17, cellName: 'R' },
-    decM: { index: 18, cellName: 'S' },
-    janM: { index: 19, cellName: 'T' },
-    febM: { index: 20, cellName: 'U' },
-    marM: { index: 21, cellName: 'V' },
-    aprM: { index: 22, cellName: 'W' },
-    mayM: { index: 23, cellName: 'X' },
-    junM: { index: 24, cellName: 'Y' },
-    julM: { index: 25, cellName: 'Z' },
-    augM: { index: 26, cellName: 'AA' },
-    sepM: { index: 27, cellName: 'AB' },
-    totalM: { index: 28, cellName: 'AC' },
-    octT: { index: 29, cellName: 'AD' },
-    novT: { index: 30, cellName: 'AE' },
-    decT: { index: 31, cellName: 'AF' },
-    janT: { index: 32, cellName: 'AG' },
-    febT: { index: 33, cellName: 'AH' },
-    marT: { index: 34, cellName: 'AI' },
-    aprT: { index: 35, cellName: 'AJ' },
-    mayT: { index: 36, cellName: 'AK' },
-    junT: { index: 37, cellName: 'AL' },
-    julT: { index: 38, cellName: 'AM' },
-    augT: { index: 39, cellName: 'AN' },
-    sepT: { index: 40, cellName: 'AO' },
-    totalCost: { index: 41, cellName: 'AP' },
-    employeeId: { index: 42, cellName: 'AQ' },
-    bcyr: { index: 43, cellName: 'AR' },
-    bcyrCell: { index: 44, cellName: 'AS' },
-    isActive: { index: 45, cellName: 'AT' },
-    bcyrApproved: { index: 46, cellName: 'AU' },
-    bcyrCellApproved: { index: 47, cellName: 'AV' },
-    isApproved: { index: 48, cellName: 'AW' },
-    bcyrCellPending: { index: 49, cellName: 'AX' },
-    isRowPending: { index: 50, cellName: 'AY' },
-    isDeletePending: { index: 51, cellName: 'AZ' },
-    rowType: { index: 52, cellName: 'BA' },
+var _retriveddata = [];
+var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
+var _mwCompanyFromApi = '';
 
-};
+$("#hider").hide();
+$(".employee_sorting").hide();
+$(".section_sorting").hide();
+$(".department_sorting").hide();
+$(".incharge_sorting").hide();
+$(".role_sorting").hide();
+$(".explanation_sorting").hide();
+$(".company_sorting").hide();
+$(".grade_sorting").hide();
+$(".unit_sorting").hide();
 
+$(document).ready(function(){        
+    $(".sorting_custom_modal").css("display", "block");    
+    var isShowResults = false;
 
-function ClearnAllJexcelData(){
-    globalSearchObject = '';
-    globalPreviousValue = '0.0';
-    globalPreviousId = '';
-    jss;
-    globalX = 0;
-    globalY = 0;
-    newRowCount = 1;
-    beforeChangedValue = 0;
-    jssUpdatedData = [];
-    jssInsertedData = [];
-    allEmployeeName = [];
-    allEmployeeName1 = [];
-    cellwiseColorCode = [];
-    cellwiseColorCodeForInsert = [];
-    changeCount = 0;
-    newRowChangeEventFlag = false;
-    deletedExistingRowIds = [];
-}
-
-function LoaderShow() {
-    //$("#forecast_table_wrapper").css("display", "none");
-    $("#jspreadsheet").hide();  
-    $("#loading").css("display", "block");
-}
-function LoaderHide() {
-    $("#jspreadsheet").show();  
-    //$("#forecast_table_wrapper").css("display", "block");
-    $("#loading").css("display", "none");
-}
-
-var expanded = false;
-$(function () {
+    //add message for other page/users notifications
     var chat = $.connection.chatHub;
     $.connection.hub.start();
     chat.client.addNewMessageToPage = function (name, message) {
+        
         // Add the message to the page.
         $('#save_notifications').append(`<li>${name} ${message}</li>`);
     };
 
-});
-
-
-
-$(document).ready(function () {    
+    //get the forecast year list and show as a dropdown
     GetAllForecastYears();
+
     var year = $('#hidForecastYear').val();
     if (year.toLowerCase() != "imprt") { 
         $("#jspreadsheet").hide();  
@@ -136,6 +57,7 @@ $(document).ready(function () {
 
     $('#employee_list').select2();
 
+    //update/add/delete forecast data and create forecast history
     $('#update_forecast_history').on('click', function () {
         var storeMessage = [];
         var _duplicateFlag = false;
@@ -209,17 +131,8 @@ $(document).ready(function () {
                     }
                 }
             }
-
-            jssUpdatedData = tempUpdateData;
-
-            // for (var k = 0; k < jssUpdatedData.length; k++) {
-            //     if (jssUpdatedData[k].sectionId == '' || jssUpdatedData[k].departmentId == '' || jssUpdatedData[k].companyId == '' || (jssUpdatedData[k].unitPrice == 0 || isNaN(jssUpdatedData[k].unitPrice))) {
-            //         storeMessage.push('不正な入力値です ' + jssUpdatedData[k].employeeName);
-            //     }
-            // }            
+            jssUpdatedData = tempUpdateData;                       
         }
-
-        //added by sudipto,29th nov
         if (insertedOnChangeList.length > 0) {
             for (var i = 0; i < insertedOnChangeList.length; i++) {
                 if (insertedOnChangeList[i].sectionId == '' || insertedOnChangeList[i].sectionId == 0 || insertedOnChangeList[i].departmentId == '' || insertedOnChangeList[i].departmentId == 0 || insertedOnChangeList[i].roleId == '' || insertedOnChangeList[i].roleId == 0 || insertedOnChangeList[i].companyId == '' || insertedOnChangeList[i].companyId == 0 || (insertedOnChangeList[i].unitPrice == 0 || isNaN(insertedOnChangeList[i].unitPrice))) {
@@ -227,7 +140,6 @@ $(document).ready(function () {
                 }
             }
         }
-
         if (storeMessage.length > 0) {
             let displayMessage = '';
             $.each(storeMessage, (index, value) => {
@@ -330,10 +242,6 @@ $(document).ready(function () {
                 return false;
             }
         }
-
-        // if (insertedOnChangeList.length > 0) {                        
-        //     UpdateForecast(true);
-        // }
         if (jssInsertedData.length > 0) {
             var insertedUniqueEmployeeData_unitPrice = [];
             var insertedUniqueEmployeeData_role = [];
@@ -725,11 +633,6 @@ $(document).ready(function () {
             isUpdateInsertDelete = false;
         }
 
-         //if (insertedOnChangeList.length > 0) {                        
-         //    UpdateForecast(isUpdateInsertDelete);
-         //}
-
-
         if (jssUpdatedData.length > 0) {
 
             $.ajax({
@@ -786,29 +689,11 @@ $(document).ready(function () {
                 UpdateForecast(isUpdate);                       
             } else {
                 return false;
-            }                    
-            // alert("変更されていないので、保存できません 1");
-            // return false;
+            }            
         }        
-    });
-
-
-
-
-    $(document).on('change', '#section_search', function () {
-
-        var sectionId = $(this).val();
-
-        $.getJSON(`/api/utilities/DepartmentsBySection/${sectionId}`)
-            .done(function (data) {
-                $('#department_search').empty();
-                $('#department_search').append(`<option value=''>部署を選択</option>`);
-                $.each(data, function (key, item) {
-                    $('#department_search').append(`<option value='${item.Id}'>${item.DepartmentName}</option>`);
-                });
-            });
-    });
+    });  
     
+    //show forecast data
     $(document).on('click', '#assignment_year_data ', function () { 
         ClearnAllJexcelData();
         $('#changed_cell_with_assignmentid').val("");  
@@ -819,9 +704,10 @@ $(document).ready(function () {
             return false;
         }      
         LoaderShow();        
-        ShowForecastResults(assignmentYear,'show');
-        
+        ShowForecastResults(assignmentYear,'show');        
     });
+
+    //undo/clear forecast changed data before save
     $(document).on('click', '#cancel_forecast_history ', function () {    
         ClearnAllJexcelData();
 
@@ -834,12 +720,167 @@ $(document).ready(function () {
         LoaderShow();            
         ShowForecastResults(assignmentYear,'show');        
     });
+
+    //sorting close 
+    $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
+        $("#hider").fadeOut("slow");
+        $('.employee_sorting').fadeOut("slow");
+        $('.section_sorting').fadeOut("slow");
+        $('.department_sorting').fadeOut("slow");
+        $('.incharge_sorting').fadeOut("slow");
+        $('.role_sorting').fadeOut("slow");
+        $('.explanation_sorting').fadeOut("slow");
+        $('.company_sorting').fadeOut("slow");
+        $('.grade_sorting').fadeOut("slow");
+        $('.unit_sorting').fadeOut("slow");
+    });
 });
 
-var _retriveddata = [];
-var year="",employeeName="",sectionId="",inchargeId="",roleId="",companyId="",companyId="",departmentId="",explanationId="";
-var _mwCompanyFromApi = '';
+//common defination for jexcel 
+var jssTableDefinition = {
+    assignmentId: { index: 0, cellName: 'A' },
+    employeeName: { index: 1, cellName: 'B' },
+    remarks: { index: 2, cellName: 'C' },
+    section: { index: 3, cellName: 'D' },
+    department: { index: 4, cellName: 'E' },
+    incharge: { index: 5, cellName: 'F' },
+    role: { index: 6, cellName: 'G' },
+    explanation: { index: 7, cellName: 'H' },
+    company: { index: 8, cellName: 'I' },
+    grade: { index: 9, cellName: 'J' },
+    unitPrice: { index: 10, cellName: 'K' },
+    dbId: { index: 11, cellName: 'L' },
+    duplicateFrom: { index: 12, cellName: 'M' },
+    duplicateCount: { index: 13, cellName: 'N' },
+    roleChanged: { index: 14, cellName: 'O' },
+    unitPriceChanged: { index: 15, cellName: 'P' },
+    octM: { index: 16, cellName: 'Q' },
+    novM: { index: 17, cellName: 'R' },
+    decM: { index: 18, cellName: 'S' },
+    janM: { index: 19, cellName: 'T' },
+    febM: { index: 20, cellName: 'U' },
+    marM: { index: 21, cellName: 'V' },
+    aprM: { index: 22, cellName: 'W' },
+    mayM: { index: 23, cellName: 'X' },
+    junM: { index: 24, cellName: 'Y' },
+    julM: { index: 25, cellName: 'Z' },
+    augM: { index: 26, cellName: 'AA' },
+    sepM: { index: 27, cellName: 'AB' },
+    totalM: { index: 28, cellName: 'AC' },
+    octT: { index: 29, cellName: 'AD' },
+    novT: { index: 30, cellName: 'AE' },
+    decT: { index: 31, cellName: 'AF' },
+    janT: { index: 32, cellName: 'AG' },
+    febT: { index: 33, cellName: 'AH' },
+    marT: { index: 34, cellName: 'AI' },
+    aprT: { index: 35, cellName: 'AJ' },
+    mayT: { index: 36, cellName: 'AK' },
+    junT: { index: 37, cellName: 'AL' },
+    julT: { index: 38, cellName: 'AM' },
+    augT: { index: 39, cellName: 'AN' },
+    sepT: { index: 40, cellName: 'AO' },
+    totalCost: { index: 41, cellName: 'AP' },
+    employeeId: { index: 42, cellName: 'AQ' },
+    bcyr: { index: 43, cellName: 'AR' },
+    bcyrCell: { index: 44, cellName: 'AS' },
+    isActive: { index: 45, cellName: 'AT' },
+    bcyrApproved: { index: 46, cellName: 'AU' },
+    bcyrCellApproved: { index: 47, cellName: 'AV' },
+    isApproved: { index: 48, cellName: 'AW' },
+    bcyrCellPending: { index: 49, cellName: 'AX' },
+    isRowPending: { index: 50, cellName: 'AY' },
+    isDeletePending: { index: 51, cellName: 'AZ' },
+    rowType: { index: 52, cellName: 'BA' },
 
+};
+
+//clear all the global varibales for undo and seach button
+function ClearnAllJexcelData(){
+    globalSearchObject = '';
+    globalPreviousValue = '0.0';
+    globalPreviousId = '';
+    jss;
+    globalX = 0;
+    globalY = 0;
+    newRowCount = 1;
+    beforeChangedValue = 0;
+    jssUpdatedData = [];
+    jssInsertedData = [];
+    allEmployeeName = [];
+    allEmployeeName1 = [];
+    cellwiseColorCode = [];
+    cellwiseColorCodeForInsert = [];
+    changeCount = 0;
+    newRowChangeEventFlag = false;
+    deletedExistingRowIds = [];
+}
+
+//loader show
+function LoaderShow() {    
+    $("#jspreadsheet").hide();  
+    $("#loading").css("display", "block");
+}
+
+//loader hide
+function LoaderHide() {
+    $("#jspreadsheet").show();  
+    $("#loading").css("display", "none");
+}
+
+//get all forecast data with year and call the jexcel functions
+function ShowForecastResults(year,showType) {
+    employeeName = $('#name_search').val();
+    employeeName = "";
+    sectionId = $('#section_multi_search').val();
+    sectionId = "";
+    inchargeId = $('#incharge_multi_search').val();
+    inchargeId = "";
+    roleId = $('#role_multi_search').val();
+    roleId = "";
+    companyId = $('#company_multi_search').val();
+    companyId = "";
+    departmentId = $('#dept_multi_search').val();
+    departmentId = "";
+    explanationId = $('#explanation_multi_search').val();
+    explanationId = "";
+
+    if (year == '' || year == undefined) {
+        alert('年度を選択してください');
+        return false;
+    }    
+
+    var data_info = {
+        employeeName: employeeName,
+        sectionId: sectionId,
+        departmentId: departmentId,
+        inchargeId: inchargeId,
+        roleId: roleId,
+        explanationId: explanationId,
+        companyId: companyId,
+        status: '', year: year, timeStampId: ''
+    };
+    globalSearchObject = data_info;
+
+    _retriveddata = [];
+    $.ajax({
+        url: `/api/utilities/GetAllAssignmentData`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
+        success: function (data) {
+            _retriveddata = data;
+            ShowForecastJexcel();
+            LoaderHide();
+            if(showType=='save'){
+                ToastMessageSuccess_Center('保存されました.');
+            }
+        }
+    });    
+}
+
+//show forecast jexcel table
 function ShowForecastJexcel(){
     year = $("#assignment_year_list").val();
 
@@ -850,8 +891,6 @@ function ShowForecastJexcel(){
     var explanationsForJexcel = [];
     var companiesForJexcel = [];
     var gradesForJexcel = [];
-    
-
     $.ajax({
         url: `/api/utilities/GetMwCompany`,
         contentType: 'application/json',
@@ -993,7 +1032,6 @@ function ShowForecastJexcel(){
         allowComments:true,
         tableOverflow: true,
         freezeColumns: 3,
-        //defaultColWidth: 75,
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",           
         minDimensions: [6, 10],
@@ -1225,16 +1263,16 @@ function ShowForecastJexcel(){
         ],        
         columns: [
             { title: "Id", type: 'hidden', name: "Id" },
-            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150 },
-            { title: "Remarks", type: "text", name: "Remarks", width: 60 },
-            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
-            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
-            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
-            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60 },
-            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
-            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
+            { title: "要員", type: "text", name: "EmployeeName", width: 150 },
+            { title: "注記", type: "text", name: "Remarks", width: 60 },
+            { title: "区分", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100 },
+            { title: "部署", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100 },
+            { title: "担当作業", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100 },
+            { title: "役割", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60 },
+            { title: "説明", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150 },
+            { title: "会社", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100 },
             { 
-                title: "グレード(Grade)", 
+                title: "グレード", 
                 type: "dropdown", 
                 source: gradesForJexcel, 
                 name: "GradeId", 
@@ -1253,7 +1291,7 @@ function ShowForecastJexcel(){
                     }
                 },
             },
-            { title: "単価(Unit Price)", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
+            { title: "単価", type: "number", name: "UnitPrice", mask: "#,##0", width: 85 },
 
             { title: "ID", type: 'text', name: "Id" },
             { title: "複製元", type: 'text', name: "DuplicateFrom" },
@@ -1704,16 +1742,13 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId+'_'+x);
                     }
                     else{                         
                         if(isUnapprovedDeletedRow){
@@ -1730,19 +1765,14 @@ function ShowForecastJexcel(){
                         if(isUnapprovedDeletedRow){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
-                        if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
-                            
+                        if (dataCheckForInsertOnChange.length == 0) {                            
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
-                            //retrivedObjectForOnChangeInsert.bcyrCell += retrivedObjectForOnChangeInsert + '_' + x;
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }
                     else{ 
                         if(isUnapprovedDeletedRow){
@@ -1760,17 +1790,14 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1787,17 +1814,14 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1814,17 +1838,14 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1841,16 +1862,13 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1888,17 +1906,14 @@ function ShowForecastJexcel(){
                         dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedObjectForOnChangeInsert.assignmentId);
 
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                            //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x); 
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1935,19 +1950,16 @@ function ShowForecastJexcel(){
                         retrivedObjectForOnChangeInsert.bcyrCell = retrivedObjectForOnChangeInsert.bCYRCell + '_' + x;
                         dataCheckForInsertOnChange = insertedOnChangeList.filter(d => d.assignmentId == retrivedObjectForOnChangeInsert.assignmentId);
                         if (dataCheckForInsertOnChange.length == 0) {
-                           //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
                         else {
-                           //updateArray(jssUpdatedData, retrivedData);
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                        
 
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -1964,18 +1976,14 @@ function ShowForecastJexcel(){
                             StoreChangeCellData(x,retrivedData.assignmentId);
                         }
                         if (dataCheckForInsertOnChange.length == 0) {
-                            //jssUpdatedData.push(retrivedData);
                             
                             insertedOnChangeList.push(retrivedObjectForOnChangeInsert);
                         }
-                        else {
-                            
-                            //updateArray(jssUpdatedData, retrivedData);
+                        else {                            
                             updateArrayForInsertOnChange(insertedOnChangeList, retrivedObjectForOnChangeInsert);
                         }
                         $(cell).css('color', 'red');
                         $(cell).css('background-color', 'yellow');
-                        //cellwiseColorCode.push(retrivedData.assignmentId + '_' + x);
                     }else{ 
                         if(isUnapprovedDeletedRow){
                             var isCellAlreadyChanged = false;
@@ -2657,7 +2665,6 @@ function ShowForecastJexcel(){
             }
 
         },        
-        //ondeleterow: deleted,
         contextMenu: function (obj, x, y, e) {
             var items = []; 
             var user_role = $("#user_role").val();
@@ -2806,7 +2813,6 @@ function ShowForecastJexcel(){
                         _unitPriceChanged = '1';
                         _roleChanged = '0';
                         _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                        //newCountedEmployeeName = masterEmployeeName + " (" + (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1) + ")";
                         obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
                         allSameEmployeeId = [];
     
@@ -3003,7 +3009,6 @@ function ShowForecastJexcel(){
                         _unitPriceChanged = '0';
                         _roleChanged = '1';
                         _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                        //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")*";
                         obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
                         allSameEmployeeId = [];
     
@@ -3205,7 +3210,6 @@ function ShowForecastJexcel(){
                         _unitPriceChanged = '1';
                         _roleChanged = '1';
                         _duplicateCount = (parseInt(activeEmployeeCount) + parseInt(inactiveEmployeeCount) + 1);
-                        //newCountedEmployeeName =   masterEmployeeName +" ("+(parseInt(activeEmployeeCount)+parseInt(inactiveEmployeeCount)+1)+")**";
                         obj.setValueFromCoords(jssTableDefinition.employeeName.index, nextRow, retrivedData.employeeName, false);
                         allSameEmployeeId = [];
     
@@ -3311,13 +3315,7 @@ function ShowForecastJexcel(){
     $("#cancel_forecast_history").css("display", "block");
 
     //delete unwanted column from jexcel table
-    jss.deleteColumn(53, 23);
-    //jss.deleteColumn(52, 43);
-
-    //first header sticky
-    // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    // first_header_1.css('position', 'sticky');
-    // first_header_1.css('top', '0px');
+    jss.deleteColumn(53, 23);    
 
     //sort arrow on load: employee
     var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)');
@@ -3336,52 +3334,31 @@ function ShowForecastJexcel(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
-
+   
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)');
-    incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
+    incharge_asc_arow.addClass('arrow-down');   
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
-
+   
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
-
+   
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
-
+    
     //sort arrow on load: grade
     var grade_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)');
     grade_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_grade = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_grade.css('position', 'sticky');
-    // jexcelFirstHeaderRow_grade.css('top', '0px');
-
+    
     //sort arrow on load: unit
     var unit_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)');
     unit_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_unit = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_unit.css('position', 'sticky');
-    // jexcelFirstHeaderRow_unit.css('top', '0px');
-
+    
     //sort employee
     $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(3)').on('click', function () {           
         $('.employee_sorting').css('display', 'block');        
@@ -3942,89 +3919,13 @@ function ShowForecastJexcel(){
     });
 }
 
-function ShowForecastResults(year,showType) {
-    employeeName = $('#name_search').val();
-    employeeName = "";
-    sectionId = $('#section_multi_search').val();
-    sectionId = "";
-    inchargeId = $('#incharge_multi_search').val();
-    inchargeId = "";
-    roleId = $('#role_multi_search').val();
-    roleId = "";
-    companyId = $('#company_multi_search').val();
-    companyId = "";
-    departmentId = $('#dept_multi_search').val();
-    departmentId = "";
-    explanationId = $('#explanation_multi_search').val();
-    explanationId = "";
-
-    if (year == '' || year == undefined) {
-        alert('年度を選択してください');
-        return false;
-    }    
-
-    var data_info = {
-        employeeName: employeeName,
-        sectionId: sectionId,
-        departmentId: departmentId,
-        inchargeId: inchargeId,
-        roleId: roleId,
-        explanationId: explanationId,
-        companyId: companyId,
-        status: '', year: year, timeStampId: ''
-    };
-    globalSearchObject = data_info;
-
-    _retriveddata = [];
-    $.ajax({
-        url: `/api/utilities/GetAllAssignmentData`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: true,
-        dataType: 'json',
-        data: "employeeName=" + employeeName + "&sectionId=" + sectionId + "&departmentId=" + departmentId + "&inchargeId=" + inchargeId + "&roleId=" + roleId + "&explanationId=" + explanationId + "&companyId=" + companyId + "&status=" + year + "&year=" + year + "&timeStampId=",
-        success: function (data) {
-            _retriveddata = data;
-            ShowForecastJexcel();
-            LoaderHide();
-            if(showType=='save'){
-                ToastMessageSuccess_Center('保存されました.');
-            }
-        }
-    });    
-}
-
-$("#hider").hide();
-$(".employee_sorting").hide();
-$(".section_sorting").hide();
-$(".department_sorting").hide();
-$(".incharge_sorting").hide();
-$(".role_sorting").hide();
-$(".explanation_sorting").hide();
-$(".company_sorting").hide();
-$(".grade_sorting").hide();
-$(".unit_sorting").hide();
-
-$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
-
-    $("#hider").fadeOut("slow");
-    $('.employee_sorting').fadeOut("slow");
-    $('.section_sorting').fadeOut("slow");
-    $('.department_sorting').fadeOut("slow");
-    $('.incharge_sorting').fadeOut("slow");
-    $('.role_sorting').fadeOut("slow");
-    $('.explanation_sorting').fadeOut("slow");
-    $('.company_sorting').fadeOut("slow");
-    $('.grade_sorting').fadeOut("slow");
-    $('.unit_sorting').fadeOut("slow");
-});
-
+//add color to new created rows
 var newRowInserted = function (instance, x, y, newRow) {
     var totalRow = jss.getData(false);
     jss.setStyle(`A${totalRow.length - 2}`, 'color', 'red');    
 }
 
-
+//update jexcel values for update
 function updateArray(array, retrivedData) {
     var index = jssUpdatedData.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
@@ -4052,6 +3953,7 @@ function updateArray(array, retrivedData) {
     array[index].year = retrivedData.year;
 }
 
+//update jexcel values for insert
 function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChangedValue) {
     var index = array.findIndex(d => d.assignmentId == retrivedData.assignmentId);
     array[index].assignmentId = retrivedData.assignmentId;
@@ -4416,6 +4318,7 @@ function updateArrayForInsert(array, retrivedData, x,y, cell, value, beforeChang
     }            
 }
 
+//update jexcel values for new row create
 function updateArrayForInsertOnChange(array, retrivedData) {
     var index = insertedOnChangeList.findIndex(d => d.assignmentId == retrivedData.assignmentId);
 
@@ -4448,6 +4351,7 @@ function updateArrayForInsertOnChange(array, retrivedData) {
     array[index].bcyrCell = array[index].bcyrCell+',' + retrivedData.bcyrCell;
 }
 
+//store change value into jexcel object
 function retrivedObject(rowData) {
     return {
         assignmentId: rowData[jssTableDefinition.assignmentId.index],
@@ -4493,6 +4397,7 @@ function retrivedObject(rowData) {
     };
 }
 
+//store change value into jexcel object: insert new row
 function retrivedObjectForInsertOnChange(rowData) {
 
     var allData = jss.getData();
@@ -4532,19 +4437,6 @@ function retrivedObjectForInsertOnChange(rowData) {
             }
         }
     }
-
-    //var bcyrCellVal = rowData[jssTableDefinition.assignmentId.index] + '_' + x;
-    //var newEmployeeId = rowData[jssTableDefinition.employeeId.index];
-    //if (_roleChanged > 0) {
-    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8`;
-    //}
-    //else if (_unitPriceChanged > 0) {
-    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_9,${newEmployeeId}_10`;
-    //}
-    //else {
-    //    bcyrCellVal = `${newEmployeeId}_1,${newEmployeeId}_3,${newEmployeeId}_4,${newEmployeeId}_5,${newEmployeeId}_6,${newEmployeeId}_8,${newEmployeeId}_9,${newEmployeeId}_10`;
-    //}
-
 
     return {
         assignmentId: rowData[jssTableDefinition.assignmentId.index],
@@ -4589,12 +4481,6 @@ function retrivedObjectForInsertOnChange(rowData) {
         roleChanged: _roleChanged,
         unitPriceChanged: _unitPriceChanged,
     };
-}
-
-function DeleteRecords() {
-    $.getJSON(`/api/utilities/DeleteAssignments/`)
-        .done(function (data) {
-        });
 }
 
 //employee insert
@@ -4646,7 +4532,7 @@ function GetEmployeeList() {
 }
 
 /***************************\                           
-  Add Employee through Modal                      
+  Add Employee to jexcel page through Modal                      
 \***************************/
 function AddEmployee() {
     var employeeId = $('#employee_list').val();
@@ -4685,6 +4571,7 @@ function AddEmployee() {
     $('#jexcel_add_employee_modal').modal('hide');
 }
 
+//update forecast data
 function UpdateForecast(isUpdate) {
     $("#update_forecast").modal("hide");        
     var userName = '';
@@ -4864,80 +4751,10 @@ function UpdateForecast(isUpdate) {
         }else{
             LoaderHide();
         }
-    }
-
-    // if (updateMessage == "" && insertMessage == "" && deleteMessage == "" && timestampMessage =="") {       
-    //     alert("変更されていないので、保存できません");       
-    // }
-    // else{   
-    //     ToastMessageSuccess_Center('保存されました.');
-    // }    
+    } 
 }
 
-/*
-    author: sudipto.
-    get all the forecasted year. and build the year dropdown.
-*/
-function CompareUpdatedData() {
-    if (jssUpdatedData.length > 0) {
-        $.ajax({
-            url: `/api/utilities/GetMatchedRows`,
-            contentType: 'application/json',
-            type: 'POST',
-            async: false,
-            dataType: 'json',
-            data: JSON.stringify({ ForecastUpdateHistoryDtos: jssUpdatedData, HistoryName: '' }),
-            success: function (data) {
-                $('#display_matched_rows table tbody').empty();
-                $.each(data, function (index, element) {
-                    $('#display_matched_rows table tbody').append(`<tr><td>${element.CreatedBy}</td><td>${element.EmployeeName}</td><td>${element.OctPoints}</td><td>${element.NovPoints}</td><td>${element.DecPoints}</td><td>${element.JanPoints}</td><td>${element.FebPoints}</td><td>${element.MarPoints}</td><td>${element.AprPoints}</td><td>${element.MayPoints}</td><td>${element.JunPoints}</td><td>${element.JulPoints}</td><td>${element.AugPoints}</td><td>${element.SepPoints}</td></tr>`);
-                });
-            }
-        });
-    }
-}
-
-
-/*
-    author: sudipto.
-    import data from excel file.
-*/
-function ImportCSVFile() {
-    var userName = '';
-
-
-    $.ajax({
-        url: `/Registration/GetSession/`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            userName = data;
-        }
-    });
-
-    $.ajax({
-        url: `/Forecasts/Index/`,
-        contentType: 'application/json',
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        data: JSON.stringify(jssInsertedData),
-        success: function (data) {
-            var chat = $.connection.chatHub;
-            $.connection.hub.start();
-            $.connection.hub.start().done(function () {
-                chat.server.send('data has been inserted by ', userName);
-            });
-        }
-    });
-}
-
-/*
-    author: sudipto.
-    get all the forecasted year. and build the year dropdown.
-*/
+//get all the forecasted year. and build the year dropdown.
 function GetAllForecastYears() {
     $.ajax({
         url: `/api/utilities/GetForecatYear`,
@@ -4954,82 +4771,7 @@ function GetAllForecastYears() {
     });
 }
 
-function CheckForecastYear(){
-    var year = $('#select_year_to_import').find(":selected").val();
-    if(year!="" && typeof year != "undefined"){
-        $('#select_import_year').val(parseInt(year)+1);
-    }
-}
-
-/*
-    author: sudipto.
-    validate replicate data. 
-*/
-function CheckDuplicateYear(){
-    var year = $('#select_year_to_import').find(":selected").val();
-    if(year!=""){
-        $('#duplciateYear').val(parseInt(year)+1);
-        $('#replicate_from').val(year);
-    }else{
-        $('#duplciateYear').val('');
-        $('#replicate_from').val('');
-    }
-}
-
-/*
-    author: sudipto.
-    replicate the budget data from previous year budget.
-*/
-function DuplicateForecast(){    
-    var insertYear  = $('#duplciateYear').find(":selected").val();
-    var copyYear = $('#replicate_from').find(":selected").val();
-
-    if(copyYear!="" && insertYear!=""){
-        $("#replicate_from_previous_year").modal("hide");
-        $("#loading").css("display", "block");
-        $.ajax({
-            url: `/api/utilities/DuplicateForecastYear`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            data: "copyYear=" + copyYear+"&insertYear="+insertYear,
-            success: function (data) {               
-                LoaderHide();
-                window.location.reload();
-                alert("data has been replicated.")
-            }
-        });
-    }else{
-        alert("please select From and To year!");
-        return false;
-    }
-}
-
-/*
-    author: sudipto.
-    budget validation and submit the import file to server.
-*/
-function validate(){
-    var selectedYear = $('#select_import_year').find(":selected").val();
-    var import_file = $('#import_file_excel').val();
-   
-    if(selectedYear =="" || typeof selectedYear === "undefined"){
-        alert("please 年度を選択してください!");
-        return false;
-    }else if(import_file =="" || typeof import_file === "undefined"){
-        alert("please select import file!");
-        return false;
-    }else { return true; }
-}
-
-$('#frm_import_year_data').submit(validate);
-
-/*
-    author: sudipto.
-    date:17July23.
-    approve,not approved and deleted rows color code functions.
-*/
+//approve,not approved and deleted rows color code functions.
 function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){         
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.assignmentId.cellName + (rowNumber))).removeClass('readonly');
@@ -5130,9 +4872,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     if(requestType == "readonly" || requestType == "deleted"){
         $(jss.getCell(jssTableDefinition.unitPrice.cellName + (rowNumber))).addClass('readonly');
     }
-
-    //for 5 column delete color:start  
-    //db id color 
+   
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.dbId.cellName + (rowNumber))).removeClass('readonly');
     }  
@@ -5177,7 +4917,6 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     if(requestType == "readonly" || requestType == "deleted"){
         $(jss.getCell(jssTableDefinition.unitPriceChanged.cellName + (rowNumber))).addClass('readonly');
     }
-    //for 5 column delete color:end
 
     if(requestType != "deleted"){
         $(jss.getCell(jssTableDefinition.octM.cellName + (rowNumber))).removeClass('readonly');
@@ -5326,11 +5065,6 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     jss.setStyle(jssTableDefinition.aprT.cellName+rowNumber,"background-color", backgroundColor);
     jss.setStyle(jssTableDefinition.aprT.cellName+rowNumber,"color", textColor);
     $(jss.getCell(jssTableDefinition.aprT.cellName + (rowNumber))).addClass('readonly');
-    
-    // $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).removeClass('readonly');
-    // jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"background-color", backgroundColor);
-    // jss.setStyle(jssTableDefinition.mayT.cellName+rowNumber,"color", textColor);
-    // $(jss.getCell(jssTableDefinition.mayT.cellName + (rowNumber))).addClass('readonly');
 
     $(jss.getCell(jssTableDefinition.junT.cellName + (rowNumber))).removeClass('readonly');
     jss.setStyle(jssTableDefinition.junT.cellName+rowNumber,"background-color", backgroundColor);
@@ -5358,10 +5092,7 @@ function SetColorCommonRow(rowNumber,backgroundColor,textColor,requestType){
     $(jss.getCell("AK" + (rowNumber))).addClass('readonly');
 }
 
-/*
-    author: sudipto
-    after cell change, store that cell information into hidden field.
-*/
+//after cell change, store that cell information into hidden field.
 function CheckIfAlreadyExists(selectedCells,assignmentId){
     var previousChangedCells = $("#changed_cell_with_assignmentid").val();
     var isCellExists = false;    
@@ -5378,6 +5109,7 @@ function CheckIfAlreadyExists(selectedCells,assignmentId){
     return isCellExists;  
 }
 
+//store data into object when changing from table
 function StoreChangeCellData(selectedCells,assignmentId){
 	var previousChangedCells = $("#changed_cell_with_assignmentid").val();
 	var changedCellStored = "";
@@ -5423,10 +5155,14 @@ function StoreChangeCellData(selectedCells,assignmentId){
     }	
     $("#changed_cell_with_assignmentid").val(changedCellStored);
 }
+
+//set color when change value into cells
 function SetColorForCells(strBackgroundColor,strTextColor,CellPosition){
 	jss.setStyle(CellPosition,"background-color", strBackgroundColor);
 	jss.setStyle(CellPosition,"color", strTextColor);
 }
+
+//set color when change value into man month cells 
 function SetColorForCostsCells(strBackgroundColor,strTextColor,CellPosition){
 	$(jss.getCell(CellPosition)).removeClass('readonly');
     jss.setStyle(CellPosition,"background-color", strBackgroundColor);
@@ -5456,63 +5192,42 @@ function ShowAllSortingAscIcon(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
     $('#search_department_asc').css('background-color', 'lightsteelblue');
     $('#search_department_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
     $('#search_incharge_asc').css('background-color', 'lightsteelblue');
     $('#search_incharge_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
     $('#search_role_asc').css('background-color', 'lightsteelblue');
     $('#search_role_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
     $('#search_explanation_asc').css('background-color', 'lightsteelblue');
     $('#search_explanation_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
     $('#search_company_asc').css('background-color', 'lightsteelblue');
     $('#search_company_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: grade
     var grade_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(11)');
     grade_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_grade = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_grade.css('position', 'sticky');
-    // jexcelFirstHeaderRow_grade.css('top', '0px');
     $('#search_grade_asc').css('background-color', 'lightsteelblue');
     $('#search_grade_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: unit
     var unit_asc_arow = $('.jexcel > thead > tr:nth-of-type(3) > td:nth-of-type(12)');
     unit_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_unit = $('.jexcel > thead > tr:nth-of-type(3) > td');
-    // jexcelFirstHeaderRow_unit.css('position', 'sticky');
-    // jexcelFirstHeaderRow_unit.css('top', '0px');
     $('#search_unit_price_asc').css('background-color', 'lightsteelblue');
     $('#search_unit_price_desc').css('background-color', 'lightsteelblue');
 }

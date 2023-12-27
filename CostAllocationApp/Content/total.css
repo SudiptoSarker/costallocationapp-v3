@@ -1,22 +1,12 @@
-﻿#actual_cost_table_header {
+﻿#total_cost_table_header {
     font-size: 12px;
     font-family: "Yu Gothic";
     white-space: nowrap !important;
     display: block;
     margin-top: 5px;
 }
-#actual_cost_search {
+#total_cost_search {
     margin-top: 11px;
-}
-#actual_cost {
-    margin-left: -11px;
-    margin-top: -1px;
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    height: 30px;
-    border: 1px solid #ccc !important;
 }
 #show_dynamic_tables {
     border: 1px solid black;

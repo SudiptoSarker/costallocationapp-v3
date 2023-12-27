@@ -3442,6 +3442,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(result);
         }
 
+        /*
+        Description: get matched row number.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/GetMatchedRowNumber/")]
         public IHttpActionResult GetMatchedRowNumber(ForecastHistoryDto forecastHistoryDto)
@@ -3455,10 +3459,7 @@ namespace CostAllocationApp.Controllers.Api
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
                     var result = forecastBLL.MatchForecastHistoryByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
-                    //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay,result.CreatedDate.TimeOfDay);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
-                    //if (compareDate>=0)
-                    //{
                     if (compareDate >= 0)
                     {
                         if (user.UserName == result.CreatedBy)
@@ -3467,7 +3468,6 @@ namespace CostAllocationApp.Controllers.Api
                         }
                         matchedCount++;
                     }
-                    //}
 
                 }
 
@@ -3475,6 +3475,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(matchedCount);
         }
 
+        /*
+        Description: get matched user names.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/GetMatchedUserNames/")]
         public IHttpActionResult GetMatchedUserNames(ForecastHistoryDto forecastHistoryDto)
@@ -3484,13 +3488,11 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             User user = userBLL.GetUserLog(session["userName"].ToString());
 
-            //int matchedCount = 0;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
                 {
                     var result = forecastBLL.MatchForecastHistoryUsernamesByAssignmentId(Convert.ToInt32(item.AssignmentId), user.LoginTime);
-                    //var compareResult = TimeSpan.Compare(user.LoginTime.TimeOfDay, result.CreatedDate.TimeOfDay);
                     var compareDate = DateTime.Compare(result.CreatedDate, user.LoginTime);
                     if (compareDate >= 0)
                     {
@@ -3520,6 +3522,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(userNames);
         }
 
+        /*
+        Description: get matched rows.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/GetMatchedRows/")]
         public IHttpActionResult GetMatchedRows(ForecastHistoryDto forecastHistoryDto)
@@ -3528,7 +3534,6 @@ namespace CostAllocationApp.Controllers.Api
             User user = userBLL.GetUserLog(session["userName"].ToString());
 
             List<Object> matchedRows = new List<object>();
-            int matchedCount = 0;
             if (forecastHistoryDto.ForecastUpdateHistoryDtos.Count > 0)
             {
                 foreach (var item in forecastHistoryDto.ForecastUpdateHistoryDtos)
@@ -3685,6 +3690,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(matchedRows);
         }
 
+        /*
+        Description: get forecast year.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetForecatYear/")]
         public IHttpActionResult GetForecatYear()
@@ -3692,7 +3701,10 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetForecastYear();
             return Ok(result);
         }
-
+        /*
+        Description: get budget year.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetBudgetYear/")]
         public IHttpActionResult GetBudgetYear()
@@ -3700,6 +3712,11 @@ namespace CostAllocationApp.Controllers.Api
             var result = forecastBLL.GetBudgetYear();
             return Ok(result);
         }
+
+        /*
+        Description: get budget finalize year.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetBudgetFinalizeYear/")]
         public IHttpActionResult GetBudgetFinalizeYear()
@@ -3708,10 +3725,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(result);
         }
 
+
         /*
-        Get Year and Budget type for import csv
-        Request: get
-        Response: object of ForecastYear
+        Description: get year and budget type for import csv.
+        Type: GET
         */
         [HttpGet]
         [Route("api/utilities/GetImportYearAndBudgetType/")]
@@ -3774,6 +3791,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(_forecastYear);
         }
 
+        /*
+        Description: get duplicate forecast year.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/DuplicateForecastYear/")]
         public IHttpActionResult DuplicateForecastYear(string copyYear, string insertYear, string budgetType,string approve_timestamp)
@@ -3818,7 +3839,6 @@ namespace CostAllocationApp.Controllers.Api
                                 Forecast _forecast = new Forecast();
                                 _forecast.Points = forecastItem.Points;
                                 _forecast.Total = Convert.ToDecimal(forecastItem.Total);
-                                //_forecast.Year = forecastItem.Year;
                                 _forecast.Year = Convert.ToInt32(insertYear);
                                 _forecast.EmployeeAssignmentId = budgetItem.Id;
                                 _forecast.Month = forecastItem.Month;
@@ -3935,6 +3955,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(results);
         }
 
+        /*
+        Description: get histories by timestamp id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetHistoriesByTimeStampId/")]
         public IHttpActionResult GetHistoriesByTimeStampId(int timeStampId)
@@ -4000,6 +4024,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(forecastHistoryList);
         }
 
+        /*
+        Description: get assignment histories by timestamp id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetAssignmentHistoriesByTimeStampId/")]
         public IHttpActionResult GetAssignmentHistoriesByTimeStampId(int timeStampId)
@@ -4017,10 +4045,6 @@ namespace CostAllocationApp.Controllers.Api
                     _assignmentHistoryViewModal = forecastBLL.GetAssignmentNamesForHistory(item, timeStampId, false);
                     var employeeName = _assignmentHistoryViewModal.EmployeeName;
                     var rootEmployeeName = _assignmentHistoryViewModal.RootEmployeeName;
-                    //if (string.IsNullOrEmpty(employeeName))
-                    //{
-                    //    employeeName = rootEmployeeName;
-                    //}
                     employeeName = rootEmployeeName;
                     var sectionName = _assignmentHistoryViewModal.SectionName;
                     var departmentName = _assignmentHistoryViewModal.DepartmentName;

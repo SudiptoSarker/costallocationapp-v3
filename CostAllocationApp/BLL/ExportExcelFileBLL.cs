@@ -2332,61 +2332,61 @@ namespace CostAllocationApp.BLL
         }
         public ExcelWorksheet GetOriginalExcelSheetHeader(ExcelWorksheet sheet)
         {
-            sheet.Cells["A1"].Value = "区分(Section)	";
+            sheet.Cells["A1"].Value = "区分";
             sheet.Cells["A1"].Style.Font.Bold = true;
             sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["A1"].AutoFitColumns();
 
-            sheet.Cells["B1"].Value = "部署(Dept)";
+            sheet.Cells["B1"].Value = "部署";
             sheet.Cells["B1"].Style.Font.Bold = true;
             sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["B1"].AutoFitColumns();
 
-            sheet.Cells["C1"].Value = "担当作業(In chg)	";
+            sheet.Cells["C1"].Value = "担当作業";
             sheet.Cells["C1"].Style.Font.Bold = true;
             sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["C1"].AutoFitColumns();
 
-            sheet.Cells["D1"].Value = "役割(Role)";
+            sheet.Cells["D1"].Value = "役割";
             sheet.Cells["D1"].Style.Font.Bold = true;
             sheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["D1"].AutoFitColumns();
 
-            sheet.Cells["E1"].Value = "説明(expl)";
+            sheet.Cells["E1"].Value = "説明";
             sheet.Cells["E1"].Style.Font.Bold = true;
             sheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["E1"].AutoFitColumns();
 
-            sheet.Cells["F1"].Value = "従業員名(Emp)";
+            sheet.Cells["F1"].Value = "従業員名";
             sheet.Cells["F1"].Style.Font.Bold = true; ;
             sheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["F1"].AutoFitColumns();
 
-            sheet.Cells["G1"].Value = "Remaks";
+            sheet.Cells["G1"].Value = "注記";
             sheet.Cells["G1"].Style.Font.Bold = true;
             sheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["G1"].AutoFitColumns();
 
-            sheet.Cells["H1"].Value = "会社(Com)	";
+            sheet.Cells["H1"].Value = "会社";
             sheet.Cells["H1"].Style.Font.Bold = true;
             sheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["H1"].AutoFitColumns();
 
-            sheet.Cells["I1"].Value = "グレード(Grade)";
+            sheet.Cells["I1"].Value = "グレード";
             sheet.Cells["I1"].Style.Font.Bold = true;
             sheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["I1"].AutoFitColumns();
 
-            sheet.Cells["J1"].Value = "単価(Unit Price)	";
+            sheet.Cells["J1"].Value = "単価";
             sheet.Cells["J1"].Style.Font.Bold = true;
             sheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
@@ -2498,31 +2498,31 @@ namespace CostAllocationApp.BLL
         }
         public ExcelWorksheet GetEachPersonExcelSheetHeader(ExcelWorksheet eachPersonSheet)
         {
-            eachPersonSheet.Cells["A1"].Value = "氏名(Name)";
+            eachPersonSheet.Cells["A1"].Value = "氏名";
             eachPersonSheet.Cells["A1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["A1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["B1"].Value = "区分(Sec)";
+            eachPersonSheet.Cells["B1"].Value = "区分";
             eachPersonSheet.Cells["B1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["B1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["C1"].Value = "企画/開発(Plan/Dev)";
+            eachPersonSheet.Cells["C1"].Value = "企画/開発";
             eachPersonSheet.Cells["C1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["C1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["D1"].Value = "会社(Com)";
+            eachPersonSheet.Cells["D1"].Value = "会社";
             eachPersonSheet.Cells["D1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["D1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["E1"].Value = "グレード (Grade)";
+            eachPersonSheet.Cells["E1"].Value = "グレード";
             eachPersonSheet.Cells["E1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
@@ -2605,37 +2605,37 @@ namespace CostAllocationApp.BLL
 
         public ExcelWorksheet GetPlanningAndDevelopmentDistributionExcelSheetHeader(ExcelWorksheet eachPersonSheet)
         {
-            eachPersonSheet.Cells["A1"].Value = "氏名(Name)";
+            eachPersonSheet.Cells["A1"].Value = "氏名";
             eachPersonSheet.Cells["A1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["A1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["B1"].Value = "区分(Sec)";
+            eachPersonSheet.Cells["B1"].Value = "区分";
             eachPersonSheet.Cells["B1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["B1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["C1"].Value = "企画/開発(Plan/Dev)";
+            eachPersonSheet.Cells["C1"].Value = "企画/開発";
             eachPersonSheet.Cells["C1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["C1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["D1"].Value = "Department";
+            eachPersonSheet.Cells["D1"].Value = "部署";
             eachPersonSheet.Cells["D1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["D1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["E1"].Value = "会社(Com)";
+            eachPersonSheet.Cells["E1"].Value = "会社";
             eachPersonSheet.Cells["E1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
             eachPersonSheet.Cells["E1"].AutoFitColumns();
 
-            eachPersonSheet.Cells["F1"].Value = "グレード (Grade)";
+            eachPersonSheet.Cells["F1"].Value = "グレード";
             eachPersonSheet.Cells["F1"].Style.Font.Bold = true; ;
             eachPersonSheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             eachPersonSheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.Orange);
@@ -2895,61 +2895,61 @@ namespace CostAllocationApp.BLL
         public ExcelWorksheet ExportBudgetExcelSheetHeader(ExcelWorksheet sheet)
         {
             /******** Budget Assignment Header ********/
-            sheet.Cells["A1"].Value = "要員(Employee)";
+            sheet.Cells["A1"].Value = "要員";
             sheet.Cells["A1"].Style.Font.Bold = true;
             sheet.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["A1"].AutoFitColumns();
 
-            sheet.Cells["B1"].Value = "Remaks";
+            sheet.Cells["B1"].Value = "注記";
             sheet.Cells["B1"].Style.Font.Bold = true;
             sheet.Cells["B1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["B1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["B1"].AutoFitColumns();
 
-            sheet.Cells["C1"].Value = "区分(Section)";
+            sheet.Cells["C1"].Value = "区分";
             sheet.Cells["C1"].Style.Font.Bold = true;
             sheet.Cells["C1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["C1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["C1"].AutoFitColumns();
 
-            sheet.Cells["D1"].Value = "部署(Dept)";
+            sheet.Cells["D1"].Value = "部署";
             sheet.Cells["D1"].Style.Font.Bold = true;
             sheet.Cells["D1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["D1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["D1"].AutoFitColumns();
 
-            sheet.Cells["E1"].Value = "担当作業(In chg)";
+            sheet.Cells["E1"].Value = "担当作業";
             sheet.Cells["E1"].Style.Font.Bold = true;
             sheet.Cells["E1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["E1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["E1"].AutoFitColumns();
 
-            sheet.Cells["F1"].Value = "役割(Role)";
+            sheet.Cells["F1"].Value = "役割";
             sheet.Cells["F1"].Style.Font.Bold = true; ;
             sheet.Cells["F1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["F1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["F1"].AutoFitColumns();
 
-            sheet.Cells["G1"].Value = "説明(Expl)";
+            sheet.Cells["G1"].Value = "説明";
             sheet.Cells["G1"].Style.Font.Bold = true;
             sheet.Cells["G1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["G1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["G1"].AutoFitColumns();
 
-            sheet.Cells["H1"].Value = "会社(Com)	";
+            sheet.Cells["H1"].Value = "会社	";
             sheet.Cells["H1"].Style.Font.Bold = true;
             sheet.Cells["H1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["H1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["H1"].AutoFitColumns();
             
-            sheet.Cells["I1"].Value = "グレード(Grade)";
+            sheet.Cells["I1"].Value = "グレード";
             sheet.Cells["I1"].Style.Font.Bold = true;
             sheet.Cells["I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["I1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             sheet.Cells["I1"].AutoFitColumns();
 
-            sheet.Cells["J1"].Value = "単価(Unit Price)	";
+            sheet.Cells["J1"].Value = "単価";
             sheet.Cells["J1"].Style.Font.Bold = true;
             sheet.Cells["J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             sheet.Cells["J1"].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);

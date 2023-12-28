@@ -1,62 +1,34 @@
-.user_inputs{
-    border:1px solid black;
-}
-#user_department{
-    width: 186px;
-}
-#registration_form{
-    background-color: aliceblue;
-    margin-left: 110px;
-}
-#rest_btn,#register_btn{
-    width: 100px;
-}
-.registrer_row{
-    margin-left: 50px;      
-}
-/***************************\                           
-	User Registration Form
-\***************************/ 
-/*-----------------Employee Master-----------------------*/
-body {
-    overflow-x: auto;
-}
 
-/***************************\                           
-	Employee Registration Form
-\***************************/ 
-#users_reg_tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    border: 1px solid;
-    font-family: Yu Gothic;
-}
-
-#users_reg_tbl thead {
-    background-color: #3c4b5d;
+/*********************************\                           
+	Employee Registration : Start
+\*********************************/
+.user_edit_undo_btn {
+    background-color: #FC4136;
     color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    line-height: 1;
+    width: 30%;
     text-align: center;
 }
-#create_users_tbody_td{
-    height: 25px;
-    border: none;
-    border: 1px solid #f5e7e7 !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
+.user_edit_undo_btn:hover {
+    color: white;
 }
-#userName, #userTitle, #userEmail, #userPass, #userRole {
-    width: 90% !important;
-    height: 100% !important;
-    border: none;
-    border: 1px solid #ccc !important;
-    border-collapse: separate;
-    border-spacing: 4px;
+.user_edit_update_btn {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    line-height: 1;
+    width: 30%;
     text-align: center;
-    margin-left: -79px !important;
+    margin-left: 12px;
 }
- #department_list{
+#department_list{
     width: 90% !important;
     height: 29px !important;
     border: none;
@@ -65,179 +37,14 @@ body {
     border-spacing: 4px;
     text-align: center;
     margin-left: -79px !important;
-    /* line-height: 25px */
 }
-
-
-#users_reg_cancel_btn {
-    background-color: red;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-#users_reg_save_btn {
-    background-color: green;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-#search_users {
-    width: 100% !important;
-    text-indent: 1em;
-}
-/***************************\                           
-	Employee List Show
-\***************************/
-/* #employeeList_datatable {
-    table-layout: fixed;
-} */
-#employeelist_thead {
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    /*line-height: -1;*/
-    white-space: nowrap !important;
-}
-#employeelist_tbody {
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    line-height: 0;
-    white-space: nowrap !important;
-}
-.employee_list_theader{
-    border: 1px solid #ccc !important;
-    border-spacing: 4px;
-}
-#employeelist_tbody {
-    text-align: left;
-    text-indent: 1em;
-}
-/***************************\                           
-	Employee List Delete Button
-\***************************/ 
-#employee_inactive_btn {
-    width: 83%;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    background: indianred;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    display: inline-block;
-}
-#employee_delete_btn {
-    padding-left: 382px;
-}
-
-/***************************\                           
-	Employee List : right click menue
-\***************************/
-#employeeContextMenu {
-    position: absolute;
-    display: none;
-    top:0px;
-    left:0px;
-}
-#employeeContextMenu ul {
-    display: block;
-    position: static;
-    margin-bottom: 5px;
-    background-color: #202020;
-}
-#employeeContextMenu ul li a{
-    color: white;
-    padding: 10px;
-}
-#employeeContextMenu ul li:hover {
-    background-color: #616161;
-}
-
-/***************************\                           
-	Employee Registration : Modal Deisgn
-\***************************/
-
-.employee_cancel {
-    background-color: #FC4136;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-}
-.employee_cancel:hover {
-    color: white;
-}
-.employee_registration, .employee_update {
-    background-color: #3c4b5d;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: inline-block;
-}
-.employee_registration:hover, .employee_update:hover {
-    color: white;
-}
-.employee_err, .employee_err_edit {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-}
-.custom_button_group_employee {
-    float: right;
-    margin-left: 69%;
-}
-
 label {
     display: block;
     font: 0.9rem 'Fira Sans', sans-serif;
 }
-
 input[type='submit'],
 label {
     margin-top: 1rem;
-}
-
-#user_name_list_header {
-    border: 1px solid;
-    padding: 0px !important;
-    text-align: center;
-}
-
-#admin_table{
-    font-size:10px;
-    width:100%;
-}
-.user_edit_button {
-    font-size: 10px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
-/*input form*/
-.username-error {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
-}
-
-.password-error {
-    display: none;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 100%;
-    color: #dc3545;
 }
 .nav-item.dropdown.has-arrow.main-drop {
     display: none;
@@ -246,8 +53,6 @@ label {
     font-size: 100%;
     color: #dc3545;
 }
-
-/*new input form*/
 .input_title{
     text-align: left !important;
     margin-left: 46px;
@@ -258,14 +63,19 @@ label {
     font-size: 14px;
     border: 1px solid;
 }
-
 .form-control{
     margin-left: -79px !important;
     width: 90% !important;
+    margin-top: 7px !important;
+    border-color: #e3e3e3 !important;
+    box-shadow: none !important;
+    font-size: 14px !important;
+    height: 29px !important;
 }
+
 .user_registration_action {
     float: right;
-    width: 77% !important;
+    width: 214px !important;
     font-size: 13px;
 }
 .select2-container{
@@ -280,18 +90,14 @@ label {
     font-size: 13px;
     font-family: Yu Gothic;
     font-weight: normal;
-    /* line-height: 42px; */
     line-height: 25px
 }
-
-/*error message*/
 .reg_error_message{
     margin-left: -79px !important;
     width: 90% !important;
     color: red;
     display: none;
 }
-/*password validation*/
 .field-icon {
     float: right !important;
     margin-right: 157px !important;
@@ -303,3 +109,6 @@ label {
     padding-top:50px;
     margin: auto;
 }
+/*********************************\                           
+	Employee Registration : End
+\*********************************/

@@ -1,6 +1,15 @@
-$(document).ready(function () {        
+var userName = "";
+var userTitle = "";
+var departmentId = "";
+var userEmail = "";
+var userPass = "";
+var userRoleId = "";
+
+$(document).ready(function () {    
+    //define select2 dropdown for department list
     $('#department_list').select2();      
 
+    //get department dropdown list
     $.getJSON('/api/Departments/')
     .done(function(data) {
         $('#department_list').append(`<option value=''>部署を選択</option>`);
@@ -13,112 +22,7 @@ $(document).ready(function () {
     $(document).on('click','.user_edit_undo_btn',function(){
         ClearEntry();
     });  
-    function ClearEntry(){
-        $("#user_name_reg").val('');
-        $("#reg_user_title").val('');        
-        $("#department_list").val('').trigger('change');  
-        $("#reg_user_email").val('');
-        $("#reg_user_pass").val('');
-    }
-
-    var userName = "";
-    var userTitle = "";
-    var departmentId = "";
-    var userEmail = "";
-    var userPass = "";
-    var userRoleId = "";
-
-    function ValidateRegistration(){
-        var isValid = true;
-        userName = $("#user_name_reg").val();
-        userTitle = $("#reg_user_title").val();
-        departmentId = $("#department_list").val();
-        userEmail = $("#reg_user_email").val();
-        userPass = $("#reg_user_pass").val();
-        userRoleId = $("#hid_userRole").val();
-
-
-        var isUserNameEmpty = false;
-        var isUserTitleEmpty = false;
-        var isUserDeptEmpty = false;
-        var isUserEmailEmpty = false;
-        var isUserPassEmpty = false;
-
-        if (userName == '' || userName == null || userName == undefined){            
-            isUserNameEmpty = true;
-            $("#name_lbl").css("display", "block");                   
-            isValid =  false;
-        }else{
-            isUserNameEmpty = false;
-            $("#name_lbl").css("display", "none");
-        }
-
-        if (userTitle == '' || userTitle == null || userTitle == undefined){            
-            isUserTitleEmpty = true;
-            $("#title_lbl").css("display", "block");
-            isValid =  false;
-        }else{
-            isUserTitleEmpty = false;
-            $("#title_lbl").css("display", "none");
-        }
-
-        if (departmentId == '' || departmentId == null || departmentId == undefined){  
-            isUserDeptEmpty = true;          
-            $("#department_lbl").css("display", "block");
-            isValid =  false;
-        }else{
-            isUserDeptEmpty = false;
-            $("#department_lbl").css("display", "none");
-        }
-
-        if (userEmail == '' || userEmail == null || userEmail == undefined){ 
-            isUserEmailEmpty = true;           
-            $("#email_lbl").css("display", "block");
-            isValid =  false;
-        }else{
-            var isValidEmail = isEmail(userEmail);
-            if(!isValidEmail){
-                isUserEmailEmpty = true;           
-                $("#email_lbl").css("display", "block");
-                isValid =  false;
-            }else{
-                isUserEmailEmpty = false;
-                $("#email_lbl").css("display", "none");
-            }            
-        }
-
-        if (userPass == '' || userPass == null || userPass == undefined){     
-            isUserPassEmpty = true;       
-            $("#pass_lbl").css("display", "block");
-            isValid =  false;
-        }else{
-            isUserPassEmpty = false;
-            $("#pass_lbl").css("display", "none");
-        }
-
-        if(isUserNameEmpty){
-            $("#user_name_reg").focus();
-        }
-        else if(isUserTitleEmpty){
-            $("#reg_user_title").focus();
-        }
-        else if(isUserDeptEmpty){
-            $("#department_list").focus();
-        }
-        else if(isUserEmailEmpty){
-            $("#reg_user_email").focus();
-        }
-        else if(isUserPassEmpty){
-            $("#reg_user_pass").focus();
-        }
-
-        return isValid;
-    }
-    //email validation
-    function isEmail(email) {
-        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        return regex.test(email);
-    }
+    
     //password validation
     $(".toggle-password").click(function() {
         $(this).toggleClass("fa-eye fa-eye-slash");
@@ -130,6 +34,7 @@ $(document).ready(function () {
         }
     });
 
+    //show confirm modal after validation success
     $(document).on('click','.user_edit_update_btn',function(){  
         var isValid = false;
         isValid = ValidateRegistration();
@@ -140,6 +45,7 @@ $(document).ready(function () {
             $("#register_modal").modal('hide');
         }
     }); 
+
     //create new user
     $(document).on('click','#register_user',function(){
         userName = userName.trim();
@@ -165,17 +71,12 @@ $(document).ready(function () {
             data: data,
             success: function (result) {            
                 if (result > 0) {
-                    ClearEntry();
-                    //ToastMessageSuccess('Registration is completed, please wait for the approval!');                
-                    $('#user_name_reg').val('');
-                    //GetUserList();
+                    ClearEntry();                    
+                    $('#user_name_reg').val('');                    
                     $('#register_modal').modal('hide');
                     $('#register_modal').on('hidden.bs.modal', function () {
                         alert("登録が完了しました。ログインしてください。");
                         window.location.href = "/Registration/Login";
-
-                        // Load up a new modal...
-                        //$('#registration_success').modal('show')
                     })
                 }
             },
@@ -185,3 +86,106 @@ $(document).ready(function () {
         });    
     });
 });
+
+//clear registration input fileds
+function ClearEntry(){
+    $("#user_name_reg").val('');
+    $("#reg_user_title").val('');        
+    $("#department_list").val('').trigger('change');  
+    $("#reg_user_email").val('');
+    $("#reg_user_pass").val('');
+}
+
+//user creation validation before save
+function ValidateRegistration(){
+    var isValid = true;
+    userName = $("#user_name_reg").val();
+    userTitle = $("#reg_user_title").val();
+    departmentId = $("#department_list").val();
+    userEmail = $("#reg_user_email").val();
+    userPass = $("#reg_user_pass").val();
+    userRoleId = $("#hid_userRole").val();
+
+    var isUserNameEmpty = false;
+    var isUserTitleEmpty = false;
+    var isUserDeptEmpty = false;
+    var isUserEmailEmpty = false;
+    var isUserPassEmpty = false;
+
+    if (userName == '' || userName == null || userName == undefined){            
+        isUserNameEmpty = true;
+        $("#name_lbl").css("display", "block");                   
+        isValid =  false;
+    }else{
+        isUserNameEmpty = false;
+        $("#name_lbl").css("display", "none");
+    }
+
+    if (userTitle == '' || userTitle == null || userTitle == undefined){            
+        isUserTitleEmpty = true;
+        $("#title_lbl").css("display", "block");
+        isValid =  false;
+    }else{
+        isUserTitleEmpty = false;
+        $("#title_lbl").css("display", "none");
+    }
+
+    if (departmentId == '' || departmentId == null || departmentId == undefined){  
+        isUserDeptEmpty = true;          
+        $("#department_lbl").css("display", "block");
+        isValid =  false;
+    }else{
+        isUserDeptEmpty = false;
+        $("#department_lbl").css("display", "none");
+    }
+
+    if (userEmail == '' || userEmail == null || userEmail == undefined){ 
+        isUserEmailEmpty = true;           
+        $("#email_lbl").css("display", "block");
+        isValid =  false;
+    }else{
+        var isValidEmail = isEmail(userEmail);
+        if(!isValidEmail){
+            isUserEmailEmpty = true;           
+            $("#email_lbl").css("display", "block");
+            isValid =  false;
+        }else{
+            isUserEmailEmpty = false;
+            $("#email_lbl").css("display", "none");
+        }            
+    }
+
+    if (userPass == '' || userPass == null || userPass == undefined){     
+        isUserPassEmpty = true;       
+        $("#pass_lbl").css("display", "block");
+        isValid =  false;
+    }else{
+        isUserPassEmpty = false;
+        $("#pass_lbl").css("display", "none");
+    }
+
+    if(isUserNameEmpty){
+        $("#user_name_reg").focus();
+    }
+    else if(isUserTitleEmpty){
+        $("#reg_user_title").focus();
+    }
+    else if(isUserDeptEmpty){
+        $("#department_list").focus();
+    }
+    else if(isUserEmailEmpty){
+        $("#reg_user_email").focus();
+    }
+    else if(isUserPassEmpty){
+        $("#reg_user_pass").focus();
+    }
+
+    return isValid;
+}
+
+//email validation
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+}
+

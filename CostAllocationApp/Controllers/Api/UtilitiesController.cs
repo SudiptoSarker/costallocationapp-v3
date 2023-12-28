@@ -4019,11 +4019,11 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         if (isDeleted)
                         {
-                            operationType = "削除(Deleted)";
+                            operationType = "削除";
                         }
                         else
                         {
-                            operationType = "追加 (Inserted)";
+                            operationType = "追加";
                         }
                     }
 
@@ -4059,7 +4059,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == unitPriceOrg ? "" : "(" + Convert.ToInt32(unitPrice).ToString("N0") + ") " + Convert.ToInt32(unitPriceOrg).ToString("N0"),
                             Remarks = remarks == remarksOrg ? "" : "(" + remarks + ") " + remarksOrg,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "更新 (Updated)",
+                            OperationType = "更新",
                             OctPoints = octP == octPOriginal ? "" : "(" + octP.ToString("0.0") + ") " + octPOriginal.ToString("0.0"),
                             NovPoints = novP == novPOriginal ? "" : "(" + novP.ToString("0.0") + ") " + novPOriginal.ToString("0.0"),
                             DecPoints = decP == decPOriginal ? "" : "(" + decP.ToString("0.0") + ") " + decPOriginal.ToString("0.0"),
@@ -4196,7 +4196,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "追加 (Add Employee)",
+                            OperationType = "追加",
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
@@ -4227,7 +4227,7 @@ namespace CostAllocationApp.Controllers.Api
                             UnitPrice = unitPrice == "0" ? "" : Convert.ToInt32(unitPrice).ToString("N0"),
                             Remarks = remarks == "" ? "" : remarks,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "削除 (Delete Employee)",
+                            OperationType = "削除",
                             OctPoints = octP == 0 ? "" : octP.ToString("0.0"),
                             NovPoints = novP == 0 ? "" : novP.ToString("0.0"),
                             DecPoints = decP == 0 ? "" : decP.ToString("0.0"),
@@ -4514,7 +4514,7 @@ namespace CostAllocationApp.Controllers.Api
                             GradePoints = gradePoints_Cells,
                             UnitPrice = unitPrice_Cells,
                             CreatedBy = historyList[0].CreatedBy,
-                            OperationType = "更新 (Cell Update)",
+                            OperationType = "更新",
                             IsUpdate = isUpdate,
                             OctPoints = oct_Cell,
                             NovPoints = nov_Cell,

@@ -13321,28 +13321,30 @@ namespace CostAllocationApp.Controllers.Api
 
                             if (item == item3.MainItemName && item2 == item3.SubItemName)
                             {
-                                subItem.SubItemName = item2;
+                                if (!item3.IsMainTotal)
+                                {
+                                    subItem.SubItemName = item2;
 
-                                subItem.OctVal = item3.SukeyQADtos[0].OctCost[2];
-                                subItem.NovVal = item3.SukeyQADtos[0].NovCost[2];
-                                subItem.DecVal = item3.SukeyQADtos[0].DecCost[2];
-                                subItem.JanVal = item3.SukeyQADtos[0].JanCost[2];
-                                subItem.FebVal = item3.SukeyQADtos[0].FebCost[2];
-                                subItem.MarVal = item3.SukeyQADtos[0].MarCost[2];
-                                subItem.AprVal = item3.SukeyQADtos[0].AprCost[2];
-                                subItem.MayVal = item3.SukeyQADtos[0].MayCost[2];
-                                subItem.JunVal = item3.SukeyQADtos[0].JunCost[2];
-                                subItem.JulVal = item3.SukeyQADtos[0].JulCost[2];
-                                subItem.AugVal = item3.SukeyQADtos[0].AugCost[2];
-                                subItem.SepVal = item3.SukeyQADtos[0].SepCost[2];
-                                subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
-                                subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
-                                subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
-                                subItem.MethodId = item3.MethodId;
+                                    subItem.OctVal = item3.SukeyQADtos[0].OctCost[2];
+                                    subItem.NovVal = item3.SukeyQADtos[0].NovCost[2];
+                                    subItem.DecVal = item3.SukeyQADtos[0].DecCost[2];
+                                    subItem.JanVal = item3.SukeyQADtos[0].JanCost[2];
+                                    subItem.FebVal = item3.SukeyQADtos[0].FebCost[2];
+                                    subItem.MarVal = item3.SukeyQADtos[0].MarCost[2];
+                                    subItem.AprVal = item3.SukeyQADtos[0].AprCost[2];
+                                    subItem.MayVal = item3.SukeyQADtos[0].MayCost[2];
+                                    subItem.JunVal = item3.SukeyQADtos[0].JunCost[2];
+                                    subItem.JulVal = item3.SukeyQADtos[0].JulCost[2];
+                                    subItem.AugVal = item3.SukeyQADtos[0].AugCost[2];
+                                    subItem.SepVal = item3.SukeyQADtos[0].SepCost[2];
+                                    subItem.Total = item3.SukeyQADtos[0].RowTotal[2];
+                                    subItem.FirstHalf = item3.SukeyQADtos[0].FirstSlot[2];
+                                    subItem.SecondHalf = item3.SukeyQADtos[0].SecondSlot[2];
+                                    subItem.MethodId = item3.MethodId;
 
 
-                                mainItem.SubItems.Add(subItem);
-
+                                    mainItem.SubItems.Add(subItem);
+                                }
                             }
                         }
                     }
@@ -13467,37 +13469,34 @@ namespace CostAllocationApp.Controllers.Api
                                         {
                                             if (item2 == item5.SubItemName &&  item4 == item5.DetailsItemName)
                                             {
-                                                DetailsItem detailsItem = new DetailsItem();
-                                                detailsItem.DetailsItemName = item4;
+                                                if (!item5.IsSubTotal)
+                                                {
+                                                    DetailsItem detailsItem = new DetailsItem();
+                                                    detailsItem.DetailsItemName = item4;
 
-                                                detailsItem.OctVal = item5.SukeyQADtos[0].OctCost[2];
-                                                detailsItem.NovVal = item5.SukeyQADtos[0].NovCost[2];
-                                                detailsItem.DecVal = item5.SukeyQADtos[0].DecCost[2];
-                                                detailsItem.JanVal = item5.SukeyQADtos[0].JanCost[2];
-                                                detailsItem.FebVal = item5.SukeyQADtos[0].FebCost[2];
-                                                detailsItem.MarVal = item5.SukeyQADtos[0].MarCost[2];
-                                                detailsItem.AprVal = item5.SukeyQADtos[0].AprCost[2];
-                                                detailsItem.MayVal = item5.SukeyQADtos[0].MayCost[2];
-                                                detailsItem.JunVal = item5.SukeyQADtos[0].JunCost[2];
-                                                detailsItem.JulVal = item5.SukeyQADtos[0].JulCost[2];
-                                                detailsItem.AugVal = item5.SukeyQADtos[0].AugCost[2];
-                                                detailsItem.SepVal = item5.SukeyQADtos[0].SepCost[2];
-                                                detailsItem.MethodId = item5.MethodId;
+                                                    detailsItem.OctVal = item5.SukeyQADtos[0].OctCost[2];
+                                                    detailsItem.NovVal = item5.SukeyQADtos[0].NovCost[2];
+                                                    detailsItem.DecVal = item5.SukeyQADtos[0].DecCost[2];
+                                                    detailsItem.JanVal = item5.SukeyQADtos[0].JanCost[2];
+                                                    detailsItem.FebVal = item5.SukeyQADtos[0].FebCost[2];
+                                                    detailsItem.MarVal = item5.SukeyQADtos[0].MarCost[2];
+                                                    detailsItem.AprVal = item5.SukeyQADtos[0].AprCost[2];
+                                                    detailsItem.MayVal = item5.SukeyQADtos[0].MayCost[2];
+                                                    detailsItem.JunVal = item5.SukeyQADtos[0].JunCost[2];
+                                                    detailsItem.JulVal = item5.SukeyQADtos[0].JulCost[2];
+                                                    detailsItem.AugVal = item5.SukeyQADtos[0].AugCost[2];
+                                                    detailsItem.SepVal = item5.SukeyQADtos[0].SepCost[2];
+                                                    detailsItem.MethodId = item5.MethodId;
 
-                                                subItem.DetailsItems.Add(detailsItem);
+                                                    subItem.DetailsItems.Add(detailsItem);
+                                                }
+                                                
                                             }
                                         }
                                     }
 
                                     mainItem.SubItems.Add(subItem);
                                 }
-                                
-
-                                
-
-
-                                
-
                             }
                         }
                     }

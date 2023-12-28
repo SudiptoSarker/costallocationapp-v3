@@ -10007,7 +10007,10 @@ namespace CostAllocationApp.Controllers.Api
         }
 
 
-
+        /*
+        Description: get subcategory by categoryid.
+        Type: GET
+        */
         [Route("api/utilities/GetSubCategoryByCategoryId/{id}")]
         // have to check.......
         [HttpGet]
@@ -10042,6 +10045,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get all unAssigned departments.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetAllUnAssignedDepartments/")]
         public IHttpActionResult GetAllUnAssignedDepartments(string sub_categoryId)
@@ -10074,6 +10081,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: delete budget assignment.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/DeleteBudgetAssignment/")]
         public IHttpActionResult DeleteBudgetAssignment(string assignementId)
@@ -10089,6 +10100,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: delete QA proration employee.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/DeleteQAProrationEmployee/")]
         public IHttpActionResult DeleteQAProrationEmployee(string qaProrationId)
@@ -10103,6 +10118,11 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("0");
             }
         }
+
+        /*
+        Description: delete approtionment.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/DeleteApprotionment/")]
         public IHttpActionResult DeleteApprotionment(string apportionmentId)
@@ -10117,6 +10137,11 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("0");
             }
         }
+
+        /*
+        Description: create dynamic table.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateDynamicTable/")]
         public IHttpActionResult CreateDynamicTable(DynamicTable dynamicTable)
@@ -10158,6 +10183,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get dynamic tables.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicTables/")]
         public IHttpActionResult GetDynamicTables()
@@ -10167,7 +10196,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
-        //get all the tables with calculations
+        /*
+        Description: create dynamic total tables (get all the tables with calculations).
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/CreateDynamicTotalTables/")]
         public IHttpActionResult CreateDynamicTotalTables(string companiIds, string year,string timestampsId)
@@ -10496,6 +10528,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(strTotalTalbe);                   
         }
 
+        /*
+        Description: update dynamic table.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/UpdateDynamicTable/")]
         public IHttpActionResult UpdateDynamicTable(DynamicTable dynamicTable)
@@ -10532,26 +10568,13 @@ namespace CostAllocationApp.Controllers.Api
                     }
                 }
 
-            }
-            //bool isExists = totalBLL.IsNameAndPositionExists(dynamicTable.TableName,dynamicTable.TablePosition,dynamicTable.Id,"edit");
-            //if (isExists) {
-            //    return Ok(1);
-            //}
-            //else
-            //{
-            //    var result = totalBLL.UpdateDynamicTable(dynamicTable);
-            //    if (result > 0)
-            //    {
-            //        return Ok("データが保存されました.");
-            //    }
-            //    else
-            //    {
-            //        return BadRequest("Something went wrong!!!");
-            //    }
-            //}                
+            }               
         }
 
-
+        /*
+        Description: remove dynamic table.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/RemoveDynamicTable/")]
         public IHttpActionResult RemoveDynamicTable(string tableId)
@@ -10579,6 +10602,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: delete dynamic table settings.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/DeleteDynamicTableSettings/")]
         public IHttpActionResult DeleteDynamicTableSettings(string tableId, string settingIds)
@@ -10608,6 +10635,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: insert update dynamic settings.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/InsertUpdateDynamicSettings/")]
         public IHttpActionResult InsertUpdateDynamicSettings(string tableSettingsParameters, string tableId)
@@ -10615,7 +10646,6 @@ namespace CostAllocationApp.Controllers.Api
             var session = System.Web.HttpContext.Current.Session;
             if (!string.IsNullOrEmpty(tableSettingsParameters))
             {
-                bool duplicateFlag = false;
                 bool flagError = false;
                 int finalResults = 0;
                 var arrTableSettingParams = tableSettingsParameters.Split('-');
@@ -10664,12 +10694,10 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var _item2 in uniqueMainItems)
                         {
                             mainFlagCount = 0;
-                            //List<string> _subItems = new List<string>();
                             foreach (var _item3 in dynamicSettings)
                             {
                                 if (_item2 == _item3.CategoryId)
                                 {
-                                    //_subItems.Add(_item3.SubCategoryId);
                                     if (_item3.IsMainTotal)
                                     {
                                         mainFlagCount++;
@@ -10678,7 +10706,6 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                             }
 
-                            //_lists.Add(_item2,_subItems);
                             _mainItemFlag.Add(_item2, mainFlagCount);
 
                         }
@@ -10706,12 +10733,10 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var _item2 in uniqueSubItems)
                         {
                             subFlagCount = 0;
-                            //List<string> _subItems = new List<string>();
                             foreach (var _item3 in dynamicSettings)
                             {
                                 if (_item2 == _item3.SubCategoryId)
                                 {
-                                    //_subItems.Add(_item3.SubCategoryId);
                                     if (_item3.IsSubTotal)
                                     {
                                         subFlagCount++;
@@ -10720,7 +10745,6 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                             }
 
-                            //_lists.Add(_item2,_subItems);
                             _subItemFlag.Add(_item2, subFlagCount);
 
                         }
@@ -10740,7 +10764,6 @@ namespace CostAllocationApp.Controllers.Api
                     {
                         // for sub item
                         List<string> mainItems = new List<string>();
-                        //Dictionary<string, List<string>> _lists = new Dictionary<string, List<string>>();
                         Dictionary<string, int> _mainItemFlag = new Dictionary<string, int>();
 
                         foreach (var _item1 in dynamicSettings)
@@ -10754,12 +10777,10 @@ namespace CostAllocationApp.Controllers.Api
                         foreach (var _item2 in uniqueMainItems)
                         {
                             mainFlagCount = 0;
-                            //List<string> _subItems = new List<string>();
                             foreach (var _item3 in dynamicSettings)
                             {
                                 if (_item2 == _item3.CategoryId)
                                 {
-                                    //_subItems.Add(_item3.SubCategoryId);
                                     if (_item3.IsMainTotal)
                                     {
                                         mainFlagCount++;
@@ -10768,22 +10789,10 @@ namespace CostAllocationApp.Controllers.Api
                                 }
                             }
 
-                            //_lists.Add(_item2,_subItems);
                             _mainItemFlag.Add(_item2, mainFlagCount);
 
                         }
                        
-
-                        //foreach (var item in _lists)
-                        //{
-                        //    var normalCount = item.Value.ToList().Count;
-                        //    var distinctCount = item.Value.ToList().Distinct().ToList().Count;
-                        //    if (normalCount != distinctCount)
-                        //    {
-                        //        duplicateFlag = true;
-                        //        break;
-                        //    }
-                        //}
 
                         foreach (var item in _mainItemFlag)
                         {
@@ -10870,6 +10879,11 @@ namespace CostAllocationApp.Controllers.Api
                 return Ok("Data not found!");
             }
         }
+
+        /*
+        Description: get dynamic table by id.
+        Type: GET
+        */
         [Route("api/utilities/GetDynamicTableById/{table_id}")]
         [HttpGet]
         [ActionName("GetDynamicTableById")]
@@ -10879,6 +10893,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(result);
         }
 
+        /*
+        Description: get method list.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetMethodList/")]
         public IHttpActionResult GetMethodList()
@@ -10886,6 +10904,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(DynamicMethodDefinition.GetMethods());
         }
 
+
+        /*
+        Description: create subcategory.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateSubCategory/")]
         public IHttpActionResult CreateSubCategory(SubCategory subCategory)
@@ -10911,6 +10934,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: create category.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateCategory/")]
         public IHttpActionResult CreateCategory(Category category)
@@ -10936,6 +10963,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get category by id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetCategoryById/")]
         public IHttpActionResult GetCategoryById(string categoryId)
@@ -10953,6 +10985,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(category);
         }
 
+
+        /*
+        Description: update category.
+        Type: PUT
+        */
         [HttpPut]
         [Route("api/utilities/UpdateCategory/")]
         public IHttpActionResult UpdateCategory(Category category)
@@ -10979,6 +11016,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: remove category.
+        Type: DELETE
+        */
         [HttpDelete]
         [Route("api/utilities/RemoveCategory/")]
         public IHttpActionResult RemoveCategory(string categoryId)
@@ -11007,6 +11048,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: remove subcategory.
+        Type: DELETE
+        */
         [HttpDelete]
         [Route("api/utilities/RemoveSubCategory/")]
         public IHttpActionResult RemoveSubCategory(string subCategoryId)
@@ -11035,6 +11081,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: create details item.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateDetailsItem/")]
         public IHttpActionResult CreateDetailsItem(DeatailsItem deatailsItem)
@@ -11064,6 +11115,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get details item by subitems id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDetailsItemBySubItemsId/")]
         public IHttpActionResult GetDetailsItemBySubItemsId(int subItemId)
@@ -11073,6 +11129,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(deatailsItems);
         }
 
+
+        /*
+        Description: get details item by id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDetailsItemById/")]
         public IHttpActionResult GetDetailsItemById(int detailsId)
@@ -11082,6 +11143,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(deatailsItem);
         }
 
+        /*
+        Description: update detail item.
+        Type: PUT
+        */
         [HttpPut]
         [Route("api/utilities/UpdateDetailItem/")]
         public IHttpActionResult UpdateDetailItem(DeatailsItem deatailsItem)
@@ -11108,6 +11173,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: remove detail item.
+        Type: DELETE
+        */
         [HttpDelete]
         [Route("api/utilities/RemoveDetailItem/")]
         public IHttpActionResult RemoveDetailItem(string detailId)
@@ -11136,6 +11206,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get subcategory by id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetSubCategorieById/")]
         public IHttpActionResult GetSubCategorieById(int subCategoryId)
@@ -11144,6 +11219,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(subCategory);
         }
 
+
+        /*
+        Description: update subcategory.
+        Type: PUT
+        */
         [HttpPut]
         [Route("api/utilities/UpdateSubCategory/")]
         public IHttpActionResult UpdateSubCategory(SubCategory subCategory)
@@ -11170,6 +11250,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+        /*
+        Description: get categories.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetCategories/")]
         public IHttpActionResult GetCategories(string dynamicTableId)
@@ -11178,14 +11262,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(categoryBLL.GetAllCategoriesByDynamicTableId(Convert.ToInt32(dynamicTableId)));
         }
 
-        //[HttpGet]
-        //[Route("api/utilities/GetCategories/")]
-        //public IHttpActionResult GetCategories()
-        //{
-        //    CategoryBLL categoryBLL = new CategoryBLL();
-        //    return Ok(categoryBLL.GetAllCategoriesByDynamicTableId(Convert.ToInt32(dynamicTableId)));
-        //}
 
+        /*
+        Description: get subcategories by category.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetSubCategoriesByCategory/")]
         public IHttpActionResult GetSubCategoriesByCategory(int categoryId)
@@ -11195,6 +11276,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(subCategories);
         }
 
+
+        /*
+        Description: create dynamic setting.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/CreateDynamicSetting/")]
         public IHttpActionResult CreateDynamicSetting(DynamicSetting dynamicSettingData)
@@ -11226,6 +11312,11 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+
+        /*
+        Description: get dynamic settings by dynamic table id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicSettingsByDynamicTableId/")]
         public IHttpActionResult GetDynamicSettingsByDynamicTableId(int dynamicTableId)
@@ -11235,6 +11326,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(dynamicSettings);
         }
 
+
+        /*
+        Description: get dynamic settings.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicSettings/")]
         public IHttpActionResult GetDynamicSettings()
@@ -11244,6 +11340,11 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(dynamicSettings);
         }
 
+
+        /*
+        Description: update dynamic tables title.
+        Type: POST
+        */
         [HttpPost]
         [Route("api/utilities/UpdateDynamicTablesTitle/")]
         public IHttpActionResult UpdateDynamicTablesTitle(int dynamicTableId, string categoryTitle, string subCategoryTitle, string detailsTitle)
@@ -11266,6 +11367,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get dynamic cost talbes.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicCostTalbes/")]
         public IHttpActionResult GetDynamicCostTalbes(string companiIds, string year, string strTableType,string timestampsId)
@@ -12289,259 +12395,13 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return Ok("Table not created!");
             }
-
-            //int year = 0;
-            //double _octHinsho = 0;
-            //double _novHinsho = 0;
-            //double _decHinsho = 0;
-            //double _janHinsho = 0;
-            //double _febHinsho = 0;
-            //double _marHinsho = 0;
-            //double _aprHinsho = 0;
-            //double _mayHinsho = 0;
-            //double _junHinsho = 0;
-            //double _julHinsho = 0;
-            //double _augHinsho = 0;
-            //double _sepHinsho = 0;
-            //List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
-            //int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
-            ////int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
-            //year = forecastLeatestYear;
-            //List<Department> departments = departmentBLL.GetAllDepartments();
-            //Department qaDepartmentByName = departments.Where(d => d.DepartmentName == "品証").SingleOrDefault();
-            //if (qaDepartmentByName == null)
-            //{
-            //    return NotFound();
-            //}
-            //var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
-            //if (hinsoData.Count > 0)
-            //{
-            //    _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
-            //    _novHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.NovTotal));
-            //    _decHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.DecTotal));
-            //    _janHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JanTotal));
-            //    _febHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.FebTotal));
-            //    _marHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MarTotal));
-            //    _aprHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AprTotal));
-            //    _mayHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MayTotal));
-            //    _junHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JunTotal));
-            //    _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
-            //    _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
-            //    _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
-            //}
-
-            //foreach (var department in departments)
-            //{
-            //    double rowTotal = 0;
-            //    double firstSlot = 0;
-            //    SukeyQADto sukeyDto = new SukeyQADto();
-            //    sukeyDto.DepartmentId = department.Id.ToString();
-            //    sukeyDto.DepartmentName = department.DepartmentName;
-            //    //if (department.Id==8)
-            //    //{
-            //    //    continue;
-            //    //}
-            //    var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
-            //    if (apportionmentByDepartment == null)
-            //    {
-            //        apportionmentByDepartment = new Apportionment();
-            //    }
-
-
-            //    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
-            //    if (forecastAssignmentViewModels.Count > 0)
-            //    {
-            //        double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
-            //        double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
-            //        double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
-            //        double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
-            //        double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
-            //        double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
-            //        double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
-            //        double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
-            //        double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
-            //        double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
-            //        double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
-            //        double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
-
-            //        double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
-            //        double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
-            //        double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
-            //        double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
-            //        double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
-            //        double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
-            //        double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
-            //        double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
-            //        double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
-            //        double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
-            //        double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
-            //        double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
-
-            //        var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
-            //        if (_octActualCostTotal > 0)
-            //        {
-            //            sukeyDto.OctCost.Add(_octActualCostTotal + _octCalculation);
-            //            rowTotal += _octActualCostTotal + _octCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.OctCost.Add(_octTotal + _octCalculation);
-            //            rowTotal += _octTotal + _octCalculation;
-            //        }
-            //        var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
-            //        if (_novActualCostTotal > 0)
-            //        {
-            //            sukeyDto.NovCost.Add(_novActualCostTotal + _novCalculation);
-            //            rowTotal += _novActualCostTotal + _novCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.NovCost.Add(_novTotal + _novCalculation);
-            //            rowTotal += _novTotal + _novCalculation;
-            //        }
-            //        var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
-            //        if (_decActualCostTotal > 0)
-            //        {
-            //            sukeyDto.DecCost.Add(_decActualCostTotal + _decCalculation);
-            //            rowTotal += _decActualCostTotal + _decCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.DecCost.Add(_decTotal + _decCalculation);
-            //            rowTotal += _decTotal + _decCalculation;
-            //        }
-            //        var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
-            //        if (_janActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JanCost.Add(_janActualCostTotal + _janCalculation);
-            //            rowTotal += _janActualCostTotal + _janCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JanCost.Add(_janTotal + _janCalculation);
-            //            rowTotal += _janTotal + _janCalculation;
-            //        }
-            //        var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
-            //        if (_febActualCostTotal > 0)
-            //        {
-            //            sukeyDto.FebCost.Add(_febActualCostTotal + _febCalculation);
-            //            rowTotal += _febActualCostTotal + _febCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.FebCost.Add(_febTotal + _febCalculation);
-            //            rowTotal += _febTotal + _febCalculation;
-            //        }
-            //        var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
-            //        if (_marActualCostTotal > 0)
-            //        {
-            //            sukeyDto.MarCost.Add(_marActualCostTotal + _marCalculation);
-            //            rowTotal += _marActualCostTotal + _marCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.MarCost.Add(_marTotal + _marCalculation);
-            //            rowTotal += _marTotal + _marCalculation;
-            //        }
-            //        sukeyDto.FirstSlot.Add(rowTotal);
-            //        firstSlot = rowTotal;
-
-            //        var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
-            //        if (_aprActualCostTotal > 0)
-            //        {
-            //            sukeyDto.AprCost.Add(_aprActualCostTotal + _aprCalculation);
-            //            rowTotal += _aprActualCostTotal + _aprCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.AprCost.Add(_aprTotal + _aprCalculation);
-            //            rowTotal += _aprTotal + _aprCalculation;
-            //        }
-            //        var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
-            //        if (_mayActualCostTotal > 0)
-            //        {
-            //            sukeyDto.MayCost.Add(_mayActualCostTotal + _mayCalculation);
-            //            rowTotal += _mayActualCostTotal + _mayCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.MayCost.Add(_mayTotal + _mayCalculation);
-            //            rowTotal += _mayTotal + _mayCalculation;
-            //        }
-            //        var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
-            //        if (_junActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JunCost.Add(_junActualCostTotal + _junCalculation);
-            //            rowTotal += _junActualCostTotal + _junCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JunCost.Add(_junTotal + _junCalculation);
-            //            rowTotal += _junTotal + _junCalculation;
-            //        }
-            //        var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
-            //        if (_julActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JulCost.Add(_julActualCostTotal + _julCalculation);
-            //            rowTotal += _julActualCostTotal + _julCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JulCost.Add(_julTotal + _julCalculation);
-            //            rowTotal += _julTotal + _julCalculation;
-            //        }
-            //        var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
-            //        if (_augActualCostTotal > 0)
-            //        {
-            //            sukeyDto.AugCost.Add(_augActualCostTotal + _augCalculation);
-            //            rowTotal += _augActualCostTotal + _augCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.AugCost.Add(_augTotal + _augCalculation);
-            //            rowTotal += _augTotal + _augCalculation;
-            //        }
-            //        var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
-            //        if (_sepActualCostTotal > 0)
-            //        {
-            //            sukeyDto.SepCost.Add(_sepActualCostTotal + _sepCalculation);
-            //            rowTotal += _sepActualCostTotal + _sepCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.SepCost.Add(_sepTotal + _sepCalculation);
-            //            rowTotal += _sepTotal + _sepCalculation;
-            //        }
-            //        sukeyDto.RowTotal.Add(rowTotal);
-            //        sukeyDto.SecondSlot.Add(rowTotal - firstSlot);
-
-            //    }
-            //    else
-            //    {
-            //        sukeyDto.OctCost.Add(0);
-            //        sukeyDto.NovCost.Add(0);
-            //        sukeyDto.DecCost.Add(0);
-            //        sukeyDto.JanCost.Add(0);
-            //        sukeyDto.FebCost.Add(0);
-            //        sukeyDto.MarCost.Add(0);
-            //        sukeyDto.AprCost.Add(0);
-            //        sukeyDto.MayCost.Add(0);
-            //        sukeyDto.JunCost.Add(0);
-            //        sukeyDto.JulCost.Add(0);
-            //        sukeyDto.AugCost.Add(0);
-            //        sukeyDto.SepCost.Add(0);
-            //        sukeyDto.RowTotal.Add(0);
-            //        sukeyDto.FirstSlot.Add(0);
-            //        sukeyDto.SecondSlot.Add(0);
-            //    }
-
-
-
-            //    sukeyQADtos.Add(sukeyDto);
-            //}
-            //return Ok(sukeyQADtos);
         }
-       
+
+
+        /*
+        Description: get dynamic table title by position.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicTableTitleByPosition/")]
         public IHttpActionResult GetDynamicTableTitleByPosition(string tablePosition)
@@ -12558,6 +12418,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get dynamic table title.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetDynamicTableTitle/")]
         public IHttpActionResult GetDynamicTableTitle(string tableId)
@@ -12574,6 +12439,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get head count  header part.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetHeadCount_Headerpart/")]
         public IHttpActionResult GetHeadCount_Headerpart(string companiIds, string year, string strTableType,string timestampsId)
@@ -12624,259 +12494,13 @@ namespace CostAllocationApp.Controllers.Api
             {
                 return Ok("Table not created!");
             }
-
-            //int year = 0;
-            //double _octHinsho = 0;
-            //double _novHinsho = 0;
-            //double _decHinsho = 0;
-            //double _janHinsho = 0;
-            //double _febHinsho = 0;
-            //double _marHinsho = 0;
-            //double _aprHinsho = 0;
-            //double _mayHinsho = 0;
-            //double _junHinsho = 0;
-            //double _julHinsho = 0;
-            //double _augHinsho = 0;
-            //double _sepHinsho = 0;
-            //List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
-            //int forecastLeatestYear = actualCostBLL.GetLeatestForcastYear();
-            ////int actualCostLeatestYear = actualCostBLL.GetLeatestActualCostYear();
-            //year = forecastLeatestYear;
-            //List<Department> departments = departmentBLL.GetAllDepartments();
-            //Department qaDepartmentByName = departments.Where(d => d.DepartmentName == "品証").SingleOrDefault();
-            //if (qaDepartmentByName == null)
-            //{
-            //    return NotFound();
-            //}
-            //var hinsoData = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(qaDepartmentByName.Id, companiIds, year);
-            //if (hinsoData.Count > 0)
-            //{
-            //    _octHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.OctTotal));
-            //    _novHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.NovTotal));
-            //    _decHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.DecTotal));
-            //    _janHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JanTotal));
-            //    _febHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.FebTotal));
-            //    _marHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MarTotal));
-            //    _aprHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AprTotal));
-            //    _mayHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.MayTotal));
-            //    _junHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JunTotal));
-            //    _julHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.JulTotal));
-            //    _augHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.AugTotal));
-            //    _sepHinsho = hinsoData.Sum(fa => Convert.ToDouble(fa.SepTotal));
-            //}
-
-            //foreach (var department in departments)
-            //{
-            //    double rowTotal = 0;
-            //    double firstSlot = 0;
-            //    SukeyQADto sukeyDto = new SukeyQADto();
-            //    sukeyDto.DepartmentId = department.Id.ToString();
-            //    sukeyDto.DepartmentName = department.DepartmentName;
-            //    //if (department.Id==8)
-            //    //{
-            //    //    continue;
-            //    //}
-            //    var apportionmentByDepartment = actualCostBLL.GetAllApportionmentData(year).Where(ap => ap.DepartmentId == department.Id).SingleOrDefault();
-            //    if (apportionmentByDepartment == null)
-            //    {
-            //        apportionmentByDepartment = new Apportionment();
-            //    }
-
-
-            //    List<ForecastAssignmentViewModel> forecastAssignmentViewModels = employeeAssignmentBLL.GetEmployeesForecastByDepartments_Company(department.Id, companiIds, year);
-            //    if (forecastAssignmentViewModels.Count > 0)
-            //    {
-            //        double _octTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.OctTotal));
-            //        double _novTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.NovTotal));
-            //        double _decTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.DecTotal));
-            //        double _janTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JanTotal));
-            //        double _febTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.FebTotal));
-            //        double _marTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MarTotal));
-            //        double _aprTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AprTotal));
-            //        double _mayTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.MayTotal));
-            //        double _junTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JunTotal));
-            //        double _julTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.JulTotal));
-            //        double _augTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.AugTotal));
-            //        double _sepTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.SepTotal));
-
-            //        double _octActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].OctCost));
-            //        double _novActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].NovCost));
-            //        double _decActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].DecCost));
-            //        double _janActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JanCost));
-            //        double _febActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].FebCost));
-            //        double _marActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MarCost));
-            //        double _aprActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AprCost));
-            //        double _mayActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].MayCost));
-            //        double _junActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JunCost));
-            //        double _julActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].JulCost));
-            //        double _augActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].AugCost));
-            //        double _sepActualCostTotal = forecastAssignmentViewModels.Sum(fa => Convert.ToDouble(fa.ActualCosts[0].SepCost));
-
-            //        var _octCalculation = _octHinsho * (apportionmentByDepartment.OctPercentage / 100);
-            //        if (_octActualCostTotal > 0)
-            //        {
-            //            sukeyDto.OctCost.Add(_octActualCostTotal + _octCalculation);
-            //            rowTotal += _octActualCostTotal + _octCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.OctCost.Add(_octTotal + _octCalculation);
-            //            rowTotal += _octTotal + _octCalculation;
-            //        }
-            //        var _novCalculation = _novHinsho * (apportionmentByDepartment.NovPercentage / 100);
-            //        if (_novActualCostTotal > 0)
-            //        {
-            //            sukeyDto.NovCost.Add(_novActualCostTotal + _novCalculation);
-            //            rowTotal += _novActualCostTotal + _novCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.NovCost.Add(_novTotal + _novCalculation);
-            //            rowTotal += _novTotal + _novCalculation;
-            //        }
-            //        var _decCalculation = _decHinsho * (apportionmentByDepartment.DecPercentage / 100);
-            //        if (_decActualCostTotal > 0)
-            //        {
-            //            sukeyDto.DecCost.Add(_decActualCostTotal + _decCalculation);
-            //            rowTotal += _decActualCostTotal + _decCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.DecCost.Add(_decTotal + _decCalculation);
-            //            rowTotal += _decTotal + _decCalculation;
-            //        }
-            //        var _janCalculation = _janHinsho * (apportionmentByDepartment.JanPercentage / 100);
-            //        if (_janActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JanCost.Add(_janActualCostTotal + _janCalculation);
-            //            rowTotal += _janActualCostTotal + _janCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JanCost.Add(_janTotal + _janCalculation);
-            //            rowTotal += _janTotal + _janCalculation;
-            //        }
-            //        var _febCalculation = _febHinsho * (apportionmentByDepartment.FebPercentage / 100);
-            //        if (_febActualCostTotal > 0)
-            //        {
-            //            sukeyDto.FebCost.Add(_febActualCostTotal + _febCalculation);
-            //            rowTotal += _febActualCostTotal + _febCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.FebCost.Add(_febTotal + _febCalculation);
-            //            rowTotal += _febTotal + _febCalculation;
-            //        }
-            //        var _marCalculation = _marHinsho * (apportionmentByDepartment.MarPercentage / 100);
-            //        if (_marActualCostTotal > 0)
-            //        {
-            //            sukeyDto.MarCost.Add(_marActualCostTotal + _marCalculation);
-            //            rowTotal += _marActualCostTotal + _marCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.MarCost.Add(_marTotal + _marCalculation);
-            //            rowTotal += _marTotal + _marCalculation;
-            //        }
-            //        sukeyDto.FirstSlot.Add(rowTotal);
-            //        firstSlot = rowTotal;
-
-            //        var _aprCalculation = _aprHinsho * (apportionmentByDepartment.AprPercentage / 100);
-            //        if (_aprActualCostTotal > 0)
-            //        {
-            //            sukeyDto.AprCost.Add(_aprActualCostTotal + _aprCalculation);
-            //            rowTotal += _aprActualCostTotal + _aprCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.AprCost.Add(_aprTotal + _aprCalculation);
-            //            rowTotal += _aprTotal + _aprCalculation;
-            //        }
-            //        var _mayCalculation = _mayHinsho * (apportionmentByDepartment.MayPercentage / 100);
-            //        if (_mayActualCostTotal > 0)
-            //        {
-            //            sukeyDto.MayCost.Add(_mayActualCostTotal + _mayCalculation);
-            //            rowTotal += _mayActualCostTotal + _mayCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.MayCost.Add(_mayTotal + _mayCalculation);
-            //            rowTotal += _mayTotal + _mayCalculation;
-            //        }
-            //        var _junCalculation = _junHinsho * (apportionmentByDepartment.JunPercentage / 100);
-            //        if (_junActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JunCost.Add(_junActualCostTotal + _junCalculation);
-            //            rowTotal += _junActualCostTotal + _junCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JunCost.Add(_junTotal + _junCalculation);
-            //            rowTotal += _junTotal + _junCalculation;
-            //        }
-            //        var _julCalculation = _julHinsho * (apportionmentByDepartment.JulPercentage / 100);
-            //        if (_julActualCostTotal > 0)
-            //        {
-            //            sukeyDto.JulCost.Add(_julActualCostTotal + _julCalculation);
-            //            rowTotal += _julActualCostTotal + _julCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.JulCost.Add(_julTotal + _julCalculation);
-            //            rowTotal += _julTotal + _julCalculation;
-            //        }
-            //        var _augCalculation = _augHinsho * (apportionmentByDepartment.AugPercentage / 100);
-            //        if (_augActualCostTotal > 0)
-            //        {
-            //            sukeyDto.AugCost.Add(_augActualCostTotal + _augCalculation);
-            //            rowTotal += _augActualCostTotal + _augCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.AugCost.Add(_augTotal + _augCalculation);
-            //            rowTotal += _augTotal + _augCalculation;
-            //        }
-            //        var _sepCalculation = _sepHinsho * (apportionmentByDepartment.SepPercentage / 100);
-            //        if (_sepActualCostTotal > 0)
-            //        {
-            //            sukeyDto.SepCost.Add(_sepActualCostTotal + _sepCalculation);
-            //            rowTotal += _sepActualCostTotal + _sepCalculation;
-            //        }
-            //        else
-            //        {
-            //            sukeyDto.SepCost.Add(_sepTotal + _sepCalculation);
-            //            rowTotal += _sepTotal + _sepCalculation;
-            //        }
-            //        sukeyDto.RowTotal.Add(rowTotal);
-            //        sukeyDto.SecondSlot.Add(rowTotal - firstSlot);
-
-            //    }
-            //    else
-            //    {
-            //        sukeyDto.OctCost.Add(0);
-            //        sukeyDto.NovCost.Add(0);
-            //        sukeyDto.DecCost.Add(0);
-            //        sukeyDto.JanCost.Add(0);
-            //        sukeyDto.FebCost.Add(0);
-            //        sukeyDto.MarCost.Add(0);
-            //        sukeyDto.AprCost.Add(0);
-            //        sukeyDto.MayCost.Add(0);
-            //        sukeyDto.JunCost.Add(0);
-            //        sukeyDto.JulCost.Add(0);
-            //        sukeyDto.AugCost.Add(0);
-            //        sukeyDto.SepCost.Add(0);
-            //        sukeyDto.RowTotal.Add(0);
-            //        sukeyDto.FirstSlot.Add(0);
-            //        sukeyDto.SecondSlot.Add(0);
-            //    }
-
-
-
-            //    sukeyQADtos.Add(sukeyDto);
-            //}
-            //return Ok(sukeyQADtos);
         }
-        
+
+
+        /*
+        Description: is grade exists.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/IsGradeExists/")]
         public IHttpActionResult IsGradeExists(string gradePoint)
@@ -12893,6 +12517,11 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
+
+        /*
+        Description: get section name by section id.
+        Type: GET
+        */
         [HttpGet]
         [Route("api/utilities/GetSectionNameBySectionId/")]
         public IHttpActionResult GetSectionNameBySectionId(string sectionIds)
@@ -12906,6 +12535,12 @@ namespace CostAllocationApp.Controllers.Api
             
             return Ok(section);                            
         }
+
+
+        /*
+         Description: get department by departemnt id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetDepartmentByDepartemntId/")]
         public IHttpActionResult GetDepartmentByDepartemntId(string departmentId)
@@ -12919,6 +12554,12 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(department);
         }
+
+
+        /*
+         Description: get incharge name by incharge id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetInchargeNameByInchargeId/")]
         public IHttpActionResult GetInchargeNameByInchargeId(string inchargeId)
@@ -12932,6 +12573,12 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(inCharge);
         }
+
+
+        /*
+         Description: get role name by role id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetRoleNameByRoleId/")]
         public IHttpActionResult GetRoleNameByRoleId(string roleId)
@@ -12945,6 +12592,12 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(role);
         }
+
+
+        /*
+         Description: get explanation name by explanation id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetExplanationNameByExplanationId/")]
         public IHttpActionResult GetExplanationNameByExplanationId(string explanationId)
@@ -12958,6 +12611,12 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(explanation);
         }
+
+
+        /*
+         Description: get company by company id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetCompanyByCompanyId/")]
         public IHttpActionResult GetCompanyByCompanyId(string companyId)
@@ -12971,6 +12630,13 @@ namespace CostAllocationApp.Controllers.Api
 
             return Ok(company);
         }
+
+
+
+        /*
+         Description: get salary by salary id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetSalaryBySalaryId/")]
         public IHttpActionResult GetSalaryBySalaryId(string salaryId)
@@ -12985,6 +12651,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(salary);
         }
 
+        /*
+         Description: get employee by id.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetEmployeeById/")]
         public IHttpActionResult GetEmployeeById(string employeeId)
@@ -13001,9 +12671,9 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(employee);
         }
 
-        //Cost difference with QA by department
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceWithQAByDepartment/")]
+        /*
+         Description: get difference with QA by department.
+         */
         public List<SukeyQADto> GetDifferenceWithQAByDepartment(string companiIds, string departmentIds, int year,string timestampsId)
         {
             if (!string.IsNullOrEmpty(timestampsId)) { 
@@ -13024,9 +12694,9 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        //Cost difference without QA by department
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceWithoutQAByDepartment/")]
+        /*
+         Description: get difference without QA by department.
+         */
         public List<SukeyQADto> GetDifferenceWithoutQAByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
@@ -13042,9 +12712,10 @@ namespace CostAllocationApp.Controllers.Api
             return _objDifferenceTotals;
         }
 
-        //Cost difference by incharge
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceCostByIncharge/")]
+
+        /*
+         Description: get difference cost by incharge.
+         */
         public List<SukeyQADto> GetDifferenceCostByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotals = new List<SukeyQADto>();
@@ -13060,9 +12731,9 @@ namespace CostAllocationApp.Controllers.Api
             return _objDifferenceTotals;
         }
 
-        //Man month difference by departments
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceManmonthByDepartment/")]
+        /*
+         Description: get difference manmonth by department.
+         */
         public List<SukeyQADto> GetDifferenceManmonthByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
@@ -13077,10 +12748,11 @@ namespace CostAllocationApp.Controllers.Api
 
             return _objDifferenceTotalsManmonth;
         }
-        
-        //Man month difference by incharge
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceManmonthByIncharge/")]
+
+
+        /*
+         Description: get difference manmonth by incharge.
+         */
         public List<SukeyQADto> GetDifferenceManmonthByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsManmonth = new List<SukeyQADto>();
@@ -13090,15 +12762,14 @@ namespace CostAllocationApp.Controllers.Api
 
             List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
             _objTotalBudgetCost = totalBLL.GetBudgetManmonthByIncharge(companiIds, inchargeIds, year);
-            //_objTotalBudgetCost = totalBLL.GetBudgetManmonthByDepartments(companiIds, departmentIds, year);
             _objDifferenceTotalsManmonth = totalBLL.GetDifferenceCostByDepartments(_objTotalManmonthByDepartment, _objTotalBudgetCost);
 
             return _objDifferenceTotalsManmonth;
         }
 
-        //Headcount difference by department
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceHeadCountByDepartment/")]
+        /*
+         Description: get difference head count by department.
+         */
         public List<SukeyQADto> GetDifferenceHeadCountByDepartment(string companiIds, string departmentIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
@@ -13114,9 +12785,9 @@ namespace CostAllocationApp.Controllers.Api
             return _objDifferenceTotalsHeadCount;
         }
 
-        //Headcount difference by incharge
-        //[HttpGet]
-        //[Route("api/utilities/GetDifferenceHeadCountByIncharge/")]
+        /*
+         Description: get difference head count by incharge.
+         */
         public List<SukeyQADto> GetDifferenceHeadCountByIncharge(string companiIds, string inchargeIds, int year, string timestampsId)
         {
             List<SukeyQADto> _objDifferenceTotalsHeadCount = new List<SukeyQADto>();
@@ -13125,7 +12796,6 @@ namespace CostAllocationApp.Controllers.Api
             _objTotalHeadCountByIncharge = totalBLL.GetTotalHeadCountForDifferenceByIncharges(companiIds, inchargeIds, year,timestampsId);
 
             List<SukeyQADto> _objTotalBudgetCost = new List<SukeyQADto>();
-            //_objTotalBudgetCost = totalBLL.GetTotalBudgetCostByDepartment(companiIds, inchargeIds, year);
             _objTotalBudgetCost = totalBLL.GetBudgetHeadCountByInchargeAndCompany(companiIds, inchargeIds, year);
 
             _objDifferenceTotalsHeadCount = totalBLL.GetDifferenceCostByDepartments(_objTotalHeadCountByIncharge, _objTotalBudgetCost);
@@ -13133,6 +12803,11 @@ namespace CostAllocationApp.Controllers.Api
             return _objDifferenceTotalsHeadCount;
         }
 
+
+        /*
+         Description: get MW company.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetMwCompany/")]
         public IHttpActionResult GetMwCompany()
@@ -13141,11 +12816,15 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(mwCompany);
         }
 
+
+        /*
+         Description: get table wise total.
+         Type: GET
+         */
         [HttpGet]
         [Route("api/utilities/GetTableWiseTotal/")]
         public IHttpActionResult GetTableWiseTotal(int tableId, string companiIds,int year, string timestampsId)
         {
-            //List<SukeyQADto> sukeyQADtos = new List<SukeyQADto>();
             List<DynamicSetting> dynamicSettings = totalBLL.GetDynamicSettingsByDynamicTableId(tableId);
             List<MainItem> mainItems = new List<MainItem>();
             List<OnlyMainItem> onlyMainItems = new List<OnlyMainItem>();
@@ -13626,6 +13305,9 @@ namespace CostAllocationApp.Controllers.Api
         }
 
 
+        /*
+         Description: get setting wise data.
+         */
         public List<SukeyQADto> GetSettingWiseData(DynamicSetting dynamicSetting, string companiIds, int year, string timestampsId)
         {
             List<SukeyQADto> data = null;
@@ -13683,5 +13365,7 @@ namespace CostAllocationApp.Controllers.Api
             }
             return data;
         }
+
+
     }
 }

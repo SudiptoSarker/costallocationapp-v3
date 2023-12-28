@@ -6,20 +6,226 @@ var allEmployeeName1 = [];
 var distributionCount = 0;
 
 const channel = new BroadcastChannel("actualCost");
+var queryStrings = getUrlVars();
+var year = queryStrings['year'];
 
+$("#hider").hide();
+$(".employee_sorting").hide();
+$(".section_sorting").hide();
+$(".department_sorting").hide();
+$(".incharge_sorting").hide();
+$(".role_sorting").hide();
+$(".explanation_sorting").hide();
+$(".company_sorting").hide();
+$(".grade_sorting").hide();
+$(".unit_sorting").hide();
 
+$(document).ready(function(){
+    $(".sorting_custom_modal").css("display", "block");
+
+    //distribute actual cost
+    $('#distribute').on('click', function () {
+        distributionCount++;
+
+        var _newEmployeeGroupList = [];
+        var _uniqueEmnployeeIdList = [];
+        var _actualCostFlag = 0;
+        var _actualCostAmount = 0;  
+        var totalManmonth = 0;      
+        var allData = jss.getData();
+        var _allRows = $(`.jexcel > tbody > tr`);
+
+        for (var i = 0; i < allData.length; i++) {
+            if (_uniqueEmnployeeIdList.length > 0) {
+                if (!_uniqueEmnployeeIdList.includes(allData[i][14])) {
+                    _uniqueEmnployeeIdList.push(allData[i][14]);
+                }
+            }
+            else {
+                _uniqueEmnployeeIdList.push(allData[i][14]);
+            }
+        }
+
+        if (_uniqueEmnployeeIdList.length > 0) {
+
+            for (var j = 0; j < _uniqueEmnployeeIdList.length; j++) {
+                _actualCostCount = 0;
+                _actualCostAmount = 0;
+                _actualCostFlag = 0;
+                totalManmonth = 0;
+                for (var k = 0; k < allData.length; k++) {
+                    if (allData[k][14] == _uniqueEmnployeeIdList[j]) {
+
+                        if (allData[k][13] > 0) {
+                            _actualCostAmount = parseFloat(allData[k][13]);
+                        }
+                        var _changedValue = allData[k][15];
+                        if (parseInt(_changedValue) == 1) {
+                            _actualCostFlag++;
+                        }
+                        totalManmonth+= parseFloat(allData[k][10]);
+                        _newEmployeeGroupList.push({
+                            assignmentId: allData[k][0],
+                            manMonth: allData[k][10],
+                            actualCost: allData[k][13]
+                        });
+                    }
+                }
+                if (_actualCostFlag > 0) {
+                    for (var l = 0; l < _newEmployeeGroupList.length; l++) {
+
+                        var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
+                        var ac = _actualCostAmount;
+                        var newCost = (mm * ac) / totalManmonth;
+                        if (isNaN(newCost)) {
+                            newCost = 0;
+                        }
+                        newCost = newCost.toFixed(2);
+                        for (var m = 0; m < _allRows.length; m++) {
+                            if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {                                
+                                jss.setValueFromCoords(13, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
+                                jss.setValueFromCoords(15, parseInt(_allRows[m].cells[0].dataset.y), '', false);
+                            }
+                        }
+                    }
+                }
+                _newEmployeeGroupList = [];
+            }
+        }
+
+       
+    });
+    
+    //save actual cost
+    $('#create_actual_cost').on('click', function () {
+
+        if (distributionCount == 0) {
+            alert("最初に配布してください!");
+            return false;
+        }
+
+        var _uniqueEmnployeeIdList = [];
+        var _allData = jss.getData(false);
+        var _newEmployeeGroupList = [];
+        var saveFlag = true;
+        for (var i = 0; i < _allData.length; i++) {
+            if (_uniqueEmnployeeIdList.length > 0) {
+                if (!_uniqueEmnployeeIdList.includes(_allData[i][14])) {
+                    _uniqueEmnployeeIdList.push(_allData[i][14]);
+                }
+            }
+            else {
+                _uniqueEmnployeeIdList.push(_allData[i][14]);
+            }
+        }
+
+        for (var e = 0; e < _uniqueEmnployeeIdList.length; e++) {
+            _newEmployeeGroupList = [];
+            var employeeId = _uniqueEmnployeeIdList[e];
+            $.each(_allData, (index, value) => {
+                if (employeeId == value[14]) {
+                    _newEmployeeGroupList.push({ manMonth : value[10],actualCost : value[13] });
+                }
+            });
+
+            if (_newEmployeeGroupList.length > 1) {
+                var employeeCostCount = 0;
+                $.each(_newEmployeeGroupList, (index, value) => {
+                    if (parseFloat(value.actualCost) > 0) {
+                        employeeCostCount++;
+                    }
+                });
+
+                if (employeeCostCount > 0) {
+                    $.each(_newEmployeeGroupList, (index, value) => {
+                        if (parseFloat(value.manMonth) > 0) {
+                            if (parseFloat(value.actualCost) <= 0) {
+                                saveFlag = false;
+                            }
+                        }
+                        
+                    });
+                }
+                
+            }
+        }
+
+        if (saveFlag == false) {
+            alert("最初に配布してください!");
+            return false;
+        }
+
+        var queryStrings = getUrlVars();
+        var dataToSend = [];
+        if (jss != undefined) {
+            $.each(_allData, function (index, value) {
+                var obj = {
+                    assignmentId: value[0],
+                    manHour: parseFloat(value[12]),
+                    actualCostAmount: parseFloat(value[13])
+                };
+
+                dataToSend.push(obj);
+            });
+
+            console.log(dataToSend);
+            $.ajax({
+                url: `/api/utilities/CreateActualCost`,
+                contentType: 'application/json',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: JSON.stringify({
+                    ActualCosts: dataToSend,
+                    Year: queryStrings['year'],
+                    Month: queryStrings['month'],
+                }),
+                success: function (data) {
+                    alert("保存されました.");
+                    channel.postMessage('done');
+                    window.close();
+                }
+            });
+        }
+        else {
+            alert('追加、修正していないデータがありません!');
+        }
+    });
+
+    //return to actual cost page
+    $('#cancel_actual_cost').on('click', function () {
+        channel.postMessage('done');
+        window.close();
+    });
+
+    //sorting modal close
+    $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
+        $("#hider").fadeOut("slow");
+        $('.employee_sorting').fadeOut("slow");
+        $('.section_sorting').fadeOut("slow");
+        $('.department_sorting').fadeOut("slow");
+        $('.incharge_sorting').fadeOut("slow");
+        $('.role_sorting').fadeOut("slow");
+        $('.explanation_sorting').fadeOut("slow");
+        $('.company_sorting').fadeOut("slow");
+        $('.grade_sorting').fadeOut("slow");
+        $('.unit_sorting').fadeOut("slow");
+    });
+});
+
+//show loader
 function LoaderShow() {
     $("#jspreadsheet").hide();
     $("#loading").css("display", "block");
 }
+
+//hide loader
 function LoaderHide() {
     $("#jspreadsheet").show();
     $("#loading").css("display", "none");
 }
 
-var queryStrings = getUrlVars();
-var year = queryStrings['year'];
-
+//actual cost confirm jexcel table
 function ShowActualCostConfrimJexcel(){
     if (jss != undefined) {
         jss.destroy();
@@ -132,12 +338,6 @@ function ShowActualCostConfrimJexcel(){
             { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150, readOnly: true },
             { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100, readOnly: true },
             
-            //{ title: "ID", type: 'text', name: "Id", width: 100, readOnly: true },
-            //{ title: "Duplicate From", type: 'text', name: "DuplicateFrom", width: 100, readOnly: true },
-            //{ title: "Duplicate Count", type: 'text', name: "DuplicateCount", width: 100, readOnly: true },
-            //{ title: "Role Changed", type: 'text', name: "RoleChanged", width: 100, readOnly: true },
-            //{ title: "Unit Price Changed", type: 'text', name: "UnitPriceChanged", width: 100, readOnly: true },
-            
             {
                 title: `${queryStrings['month']}月単価(uc)`,
                 type: "decimal",
@@ -194,7 +394,6 @@ function ShowActualCostConfrimJexcel(){
                         }
                     }
                 });
-
                 if (employeeCostCount == 1) {
                     jss.setValueFromCoords(15, y, 1, false);
                 }
@@ -202,23 +401,12 @@ function ShowActualCostConfrimJexcel(){
                     if (distributionCount == 0) {
                         alert('同一情報の要員が複製されています');
                         jss.setValueFromCoords(13, y, 0, false);
-                    }
-                   
+                    }                   
                 }
-            }
-
-            
-
-
-
+            }            
         }
     });
     jss.deleteColumn(16, 22);
-    
-    //first header sticky
-    // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    // first_header_1.css('position', 'sticky');
-    // first_header_1.css('top', '0px');
 
     //sort arrow on load: employee
     var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
@@ -237,37 +425,22 @@ function ShowActualCostConfrimJexcel(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
 
     //sort employee
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {                         
@@ -315,238 +488,7 @@ function ShowActualCostConfrimJexcel(){
     });
 }
 
-
-$(document).ready(function () {
-    $(".sorting_custom_modal").css("display", "block");
-
-    $('#distribute').on('click', function () {
-
-        distributionCount++;
-
-        var _newEmployeeGroupList = [];
-        var _uniqueEmnployeeIdList = [];
-        var _actualCostFlag = 0;
-        var _actualCostAmount = 0;  
-        var totalManmonth = 0;      
-        var allData = jss.getData();
-        var _allRows = $(`.jexcel > tbody > tr`);
-
-        for (var i = 0; i < allData.length; i++) {
-            if (_uniqueEmnployeeIdList.length > 0) {
-                if (!_uniqueEmnployeeIdList.includes(allData[i][14])) {
-                    _uniqueEmnployeeIdList.push(allData[i][14]);
-                }
-            }
-            else {
-                _uniqueEmnployeeIdList.push(allData[i][14]);
-            }
-        }
-
-        if (_uniqueEmnployeeIdList.length > 0) {
-
-            for (var j = 0; j < _uniqueEmnployeeIdList.length; j++) {
-                _actualCostCount = 0;
-                _actualCostAmount = 0;
-                _actualCostFlag = 0;
-                totalManmonth = 0;
-                for (var k = 0; k < allData.length; k++) {
-                    if (allData[k][14] == _uniqueEmnployeeIdList[j]) {
-
-                        if (allData[k][13] > 0) {
-                            _actualCostAmount = parseFloat(allData[k][13]);
-                            //_actualCostCount++;
-                        }
-                        var _changedValue = allData[k][15];
-                        if (parseInt(_changedValue) == 1) {
-                            _actualCostFlag++;
-                        }
-                        //if (_actualCostCount > 1) {
-                        //    alert('Duplicate actual cost found!');
-                        //    return;
-                        //}
-                        totalManmonth+= parseFloat(allData[k][10]);
-                        _newEmployeeGroupList.push({
-                            assignmentId: allData[k][0],
-                            manMonth: allData[k][10],
-                            actualCost: allData[k][13]
-                        });
-                    }
-                }
-
-                //console.log(jss.options.rows);
-                //console.log(_allRows);
-                if (_actualCostFlag > 0) {
-                    for (var l = 0; l < _newEmployeeGroupList.length; l++) {
-
-                        var mm = parseFloat(_newEmployeeGroupList[l].manMonth);
-                        var ac = _actualCostAmount;
-                        var newCost = (mm * ac) / totalManmonth;
-                        if (isNaN(newCost)) {
-                            newCost = 0;
-                        }
-                        newCost = newCost.toFixed(2);
-                        for (var m = 0; m < _allRows.length; m++) {
-                            //var _changedValue = jss.getValueFromCoords(20, parseInt(_allRows[m].cells[0].dataset.y));
-                            if (parseInt(_newEmployeeGroupList[l].assignmentId) == parseInt(_allRows[m].cells[1].innerText)) {                                
-                                jss.setValueFromCoords(13, parseInt(_allRows[m].cells[0].dataset.y), newCost, false);
-                                jss.setValueFromCoords(15, parseInt(_allRows[m].cells[0].dataset.y), '', false);
-                            }
-                        }
-                    }
-                }
-                _newEmployeeGroupList = [];
-            }
-        }
-
-       
-    });
-    
-
-    // loading jexcel
-    {               
-        if (year == null || year == '' || year == undefined) {
-            alert('年度を選択してください!!!');
-            return false;
-        }
-        LoaderShow();
-        
-        $.ajax({
-            url: '/Registration/GetUserRole',
-            contentType: 'application/json',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data)
-                if (parseInt(data) === 1 || parseInt(data) === 2) {
-                    userRoleflag = false;
-                }
-                else {
-                    userRoleflag = true;
-                }
-            }
-        });
-
-        $.ajax({
-            url: `/api/utilities/GetActualCostConfirmData?year=${year}&monthId=${queryStrings['month']}`,
-            contentType: 'application/json',
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            success: function (data) {                                        
-                _retriveddata = data;
-                ShowActualCostConfrimJexcel();
-                LoaderHide();                    
-            }
-        });
-    }
-
-
-    $('#create_actual_cost').on('click', function () {
-
-        if (distributionCount == 0) {
-            alert("最初に配布してください!");
-            return false;
-        }
-
-        var _uniqueEmnployeeIdList = [];
-        var _allData = jss.getData(false);
-        var _newEmployeeGroupList = [];
-        var saveFlag = true;
-        for (var i = 0; i < _allData.length; i++) {
-            if (_uniqueEmnployeeIdList.length > 0) {
-                if (!_uniqueEmnployeeIdList.includes(_allData[i][14])) {
-                    _uniqueEmnployeeIdList.push(_allData[i][14]);
-                }
-            }
-            else {
-                _uniqueEmnployeeIdList.push(_allData[i][14]);
-            }
-        }
-
-        for (var e = 0; e < _uniqueEmnployeeIdList.length; e++) {
-            _newEmployeeGroupList = [];
-            var employeeId = _uniqueEmnployeeIdList[e];
-            $.each(_allData, (index, value) => {
-                if (employeeId == value[14]) {
-                    _newEmployeeGroupList.push({ manMonth : value[10],actualCost : value[13] });
-                }
-            });
-
-            if (_newEmployeeGroupList.length > 1) {
-                var employeeCostCount = 0;
-                $.each(_newEmployeeGroupList, (index, value) => {
-                    if (parseFloat(value.actualCost) > 0) {
-                        employeeCostCount++;
-                    }
-                });
-
-                if (employeeCostCount > 0) {
-                    $.each(_newEmployeeGroupList, (index, value) => {
-                        if (parseFloat(value.manMonth) > 0) {
-                            if (parseFloat(value.actualCost) <= 0) {
-                                saveFlag = false;
-                            }
-                        }
-                        
-                    });
-                }
-                
-            }
-        }
-
-        if (saveFlag == false) {
-            alert("最初に配布してください!");
-            return false;
-        }
-
-        var queryStrings = getUrlVars();
-        var dataToSend = [];
-        //var year = $('#assignment_year').val();
-
-        if (jss != undefined) {
-            $.each(_allData, function (index, value) {
-                var obj = {
-                    assignmentId: value[0],
-                    manHour: parseFloat(value[12]),
-                    actualCostAmount: parseFloat(value[13])
-                };
-
-                dataToSend.push(obj);
-            });
-
-            console.log(dataToSend);
-            $.ajax({
-                url: `/api/utilities/CreateActualCost`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify({
-                    ActualCosts: dataToSend,
-                    Year: queryStrings['year'],
-                    Month: queryStrings['month'],
-                }),
-                success: function (data) {
-                    alert("保存されました.");
-                    channel.postMessage('done');
-                    window.close();
-                }
-            });
-        }
-        else {
-            alert('追加、修正していないデータがありません!');
-        }
-    });
-
-    $('#cancel_actual_cost').on('click', function () {
-        channel.postMessage('done');
-        window.close();
-    });
-
-
-});
-
+//get the url variables 
 function getUrlVars() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -558,32 +500,7 @@ function getUrlVars() {
     return vars;
 }
 
-
-$("#hider").hide();
-$(".employee_sorting").hide();
-$(".section_sorting").hide();
-$(".department_sorting").hide();
-$(".incharge_sorting").hide();
-$(".role_sorting").hide();
-$(".explanation_sorting").hide();
-$(".company_sorting").hide();
-$(".grade_sorting").hide();
-$(".unit_sorting").hide();
-
-$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
-
-    $("#hider").fadeOut("slow");
-    $('.employee_sorting').fadeOut("slow");
-    $('.section_sorting').fadeOut("slow");
-    $('.department_sorting').fadeOut("slow");
-    $('.incharge_sorting').fadeOut("slow");
-    $('.role_sorting').fadeOut("slow");
-    $('.explanation_sorting').fadeOut("slow");
-    $('.company_sorting').fadeOut("slow");
-    $('.grade_sorting').fadeOut("slow");
-    $('.unit_sorting').fadeOut("slow");
-});
-
+//on page load show soring icon as a asc icon
 function ShowAllSortingAscIcon(){
     //sort arrow on load: employee
     var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
@@ -606,45 +523,30 @@ function ShowAllSortingAscIcon(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
     $('#search_department_asc').css('background-color', 'lightsteelblue');
     $('#search_department_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
     $('#search_incharge_asc').css('background-color', 'lightsteelblue');
     $('#search_incharge_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
     $('#search_role_asc').css('background-color', 'lightsteelblue');
     $('#search_role_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
     $('#search_explanation_asc').css('background-color', 'lightsteelblue');
     $('#search_explanation_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
     $('#search_company_asc').css('background-color', 'lightsteelblue');
     $('#search_company_desc').css('background-color', 'lightsteelblue');
 }

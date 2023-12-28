@@ -1,8 +1,9 @@
 ﻿@model CostAllocationApp.ViewModels.ForecastViewModal
 
 @{
-    ViewBag.Title = "実績（Actual Cost）";
+    ViewBag.Title = "実績";
 }
+
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/actualcost.css" rel="stylesheet" type="text/css" />
@@ -27,7 +28,7 @@
     </div>
 
     <br/>
-    <div id="actual_cost_table_header"><span id="nav1">実績（Actual Cost) </span>><span id="nav2"> 実績</span></div>  
+    <div id="actual_cost_table_header"><span id="nav1">実績</span>><span id="nav2"> 実績</span></div>  
 
     <!-----------------Employee Assignment: Create Actual Cost----------------->
     <div class="row" id="actual_cost_search">
@@ -38,18 +39,14 @@
             <button type="submit" class="btn btn-light mb-2" id="actual_cost" >表示</button>
         </div>
     </div>
-    <br> 
-    
+    <br>     
     <div class="row" id="actual_cost_list">
         <div class="col-md-12">
             <div id="hider"></div>            
             <div id="jspreadsheet"></div>
         </div>
-
     </div>
-
 </div>
-
 
 <div class='sorting_custom_modal'>
     <!--------sort employee custom div-------->

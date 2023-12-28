@@ -187,8 +187,7 @@ function GetDynamicTables() {
         .done(function (data) {
             $('#dynamic_list_tbody').empty();
             $.each(data, function (key, item) {
-                $('#dynamic_list_tbody').append(`<tr><td></thead><div class="form-check"><input class="form-check-input table_list_radio" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="${item.Id}"><label class="form-check-label" for="flexRadioDefault1">    </label></div></td><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td></tr>`);
-                // <td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td>
+                $('#dynamic_list_tbody').append(`<tr><td></thead><div class="form-check"><input class="form-check-input table_list_radio" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="${item.Id}"><label class="form-check-label" for="flexRadioDefault1">    </label></div></td><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td></tr>`);                
             });
         });
 }
@@ -1922,7 +1921,7 @@ function GetAllSettingValue() {
         .done(function (data) {
             $('#setting_list_body').empty();
             $.each(data, function (key, item) {
-                $('#setting_list_body').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table" onClick="DeleteDynmaicTalbe(${item.Id})">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
+                $('#setting_list_body').append(`<tr><td>${item.TableName}</td><td>${item.TableTitle}</td><<td>${item.TablePosition}</td><td><label id="dynamic_table_delete"><a id="dynamic_table_delete_link" href="javascript:void(0);" data-toggle="modal" data-target="#delete_dynamic_table">削除</a></label><label id="dynamic_table_edit_label"><a id="dynamic_table_edit_link" href="javascript:void(0);" data-toggle="modal" data-target="#edit_dynamic_table_modal" onClick="GetDynamicTalbeById(${item.Id})">編集</a></label></td></tr>`);                
             });
         });
 }

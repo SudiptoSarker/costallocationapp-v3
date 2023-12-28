@@ -1,9 +1,4 @@
-﻿/*-----------------Employee Master-----------------------*/
-body {
-    overflow-x: auto;
-}
-
-/***************************\                           
+﻿/***************************\                           
 	Employee Registration Form
 \***************************/ 
 #users_reg_tbl {
@@ -420,7 +415,6 @@ div.dataTables_wrapper div.dataTables_filter{
     font-size: 13px;
     font-family: Yu Gothic;
     font-weight: normal;
-    /* line-height: 42px; */
     line-height: 25px;
     color: black;
 }

@@ -130,30 +130,6 @@ namespace CostAllocationApp.DAL
 
         }
 
-        public bool CheckCategory(string categoryName)
-        {
-            string query = "select * from Categories where CategoryName=N'" + categoryName + "'";
-            bool result = false;
-            using (SqlConnection sqlConnection = this.GetConnection())
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                try
-                {
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
-                    {
-                        result = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                return result;
-            }
-        }
 
         public Category GetCategoryByCategoryId(int categoryId)
         {

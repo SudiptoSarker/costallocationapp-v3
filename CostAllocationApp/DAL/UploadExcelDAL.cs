@@ -335,54 +335,5 @@ namespace CostAllocationApp.DAL
             return unitPrice;
         }
 
-
-
-        public int GetGradeIdByUnitPrice(int unitPrice)
-        {
-            
-
-            int gradeId = 0;
-            string where = "";
-            string query = "";
-            if (!string.IsNullOrEmpty(unitPrice.ToString()))
-            {
-
-                //query = "SELECT Id, GradePoints, GradeLowPoints, GradeHighPoints ";
-                //query = query + "FROM Grades ";
-                //query = query + "WHERE (GradeLowPoints BETWEEN  890000 AND 890000) OR(GradeHighPoints BETWEEN  890000 AND 890000)";
-
-                where += $"(GradeLowPoints BETWEEN  {unitPrice} AND {unitPrice}) OR(GradeHighPoints BETWEEN  {unitPrice} AND {unitPrice})";
-                where += " AND IsActive=1 ";
-
-                query = $@"SELECT Id, GradePoints, GradeLowPoints, GradeHighPoints  FROM Grades
-                        where {where}";
-
-                using (SqlConnection sqlConnection = this.GetConnection())
-                {
-                    sqlConnection.Open();
-                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                    try
-                    {
-                        SqlDataReader rdr = cmd.ExecuteReader();
-                        if (rdr.HasRows)
-                        {
-                            while (rdr.Read())
-                            {
-                                gradeId = Convert.ToInt32(rdr["Id"]);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        HttpContext.Current.Response.Write(ex);
-                        HttpContext.Current.Response.End();
-                    }
-                }
-
-            }
-
-            return gradeId;
-        }
-
     }
 }

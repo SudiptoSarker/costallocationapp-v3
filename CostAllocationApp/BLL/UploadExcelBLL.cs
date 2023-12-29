@@ -61,9 +61,8 @@ namespace CostAllocationApp.BLL
                 if (tempVal > 0)
                 {
                     salary = salaryBLL.CompareSalary(tempVal);                    
+                }
             }
-            }
-            //return _uploadExcelDAL.GetGradeIdByUnitPrice(unitPrice);
             if(salary == null)
             {
                 return 0;
@@ -73,14 +72,6 @@ namespace CostAllocationApp.BLL
                 return salary.Id;
             }            
         }
-        public bool IsValidMasterSetting(int masterSettingId)
-        {
-            bool returnValue = true;
-            if (string.IsNullOrEmpty(masterSettingId.ToString()))
-            {
-                returnValue = false;
-            }
-            return returnValue;
-        }
+
     }
 }

@@ -102,8 +102,6 @@ namespace CostAllocationApp.DAL
             double unitPrice = 0;
             string query = $@"select UnitPrice from EmployeesAssignments where Id={assignmentId}";
 
-            //EmployeeAssignmentViewModel employeeAssignmentViewModel = new EmployeeAssignmentViewModel();
-
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();
@@ -176,31 +174,6 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-
-        //public bool CheckQaProportion(int employeeId, int departmentId ,int year)
-        //{
-        //    bool result = false;
-        //    string query = "select * from ActualCosts where EmployeeId=" + employeeId + " and DepartmentId = " + year;
-        //    using (SqlConnection sqlConnection = this.GetConnection())
-        //    {
-        //        sqlConnection.Open();
-        //        SqlCommand cmd = new SqlCommand(query, sqlConnection);
-        //        try
-        //        {
-        //            SqlDataReader rdr = cmd.ExecuteReader();
-        //            if (rdr.HasRows)
-        //            {
-        //                result = true;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-
-        //        }
-
-        //        return result;
-        //    }
-        //}
 
         public List<QaProportionViewModel> GetQaProportionDataByYear(int year)
         {

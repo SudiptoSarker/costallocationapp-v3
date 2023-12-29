@@ -66,11 +66,6 @@ namespace CostAllocationApp.BLL
         {
             return userDAL.GetUserByUserName(userName);
         }
-
-        public List<UserPermission> GetUserPermissionsByUserId(int userId)
-        {
-            return userDAL.GetUserPermissionsByUserId(userId);
-        }
         public int UpdateUserName(User user)
         {
             return userDAL.UpdateUserName(user);

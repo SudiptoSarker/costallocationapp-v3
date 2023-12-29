@@ -181,7 +181,6 @@ namespace CostAllocationApp.DAL
         {
             Explanation explanation = null;
             string query = "select * from Explanations where Id = " + explanationId;
-            bool result = false;
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open();

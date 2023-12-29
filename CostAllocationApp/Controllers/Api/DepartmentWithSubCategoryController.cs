@@ -17,9 +17,10 @@ namespace CostAllocationApp.Controllers.Api
             departmentWithSubCategoryBLL = new DepartmentWithSubCategoryBLL();
         }
 
-        /***************************\                           
-            DepartmentWithSubCategory Master Api: DepartmentWithSubCategory created through this api.                               
-        \***************************/
+        /*
+        Description: create department with sub-category.
+        Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateDepartmentWithSubCategory(DepartmentWithSubCategory departmentWithSubCategory)
         {
@@ -58,9 +59,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        ///***************************\                           
-        //    SubCategory Master Api: All the SubCategory are fetched using this api.                            
-        //\***************************/
+        /*
+        Description: get all  department with sub-categories.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult DepartmentWithSubCategory()
         {
@@ -68,38 +70,5 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(departmentWithSubCategories);
         }
 
-        ///***************************\                           
-        //    Category Master Api: Category are removed using this api.                          
-        //\***************************/
-        //[HttpDelete]
-        //public IHttpActionResult RemoveSubCategory([FromUri] string subCategoryId)
-        //{
-        //    int result = 0;
-
-
-        //    if (!String.IsNullOrEmpty(subCategoryId))
-        //    {
-        //        string[] ids = subCategoryId.Split(',');
-
-        //        foreach (var item in ids)
-        //        {
-        //            result += subCategoryBLL.RemoveSubCategory(Convert.ToInt32(item));
-        //        }
-
-        //        if (result == ids.Length)
-        //        {
-        //            return Ok("正常に削除がされました!");
-        //        }
-        //        else
-        //        {
-        //            return BadRequest("Something Went Wrong!!!");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("Select SubCategory Id!");
-        //    }
-
-        //}
     }
 }

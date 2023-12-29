@@ -17,7 +17,10 @@ namespace CostAllocationApp.Controllers.Api
         {
             _userBLL = new UserBLL();
         }
-        // GET: Users
+        /*
+         Description: check user.
+         Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CheckUser(User user)
         {

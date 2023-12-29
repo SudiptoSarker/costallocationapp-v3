@@ -54,10 +54,6 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.CreateTimeStamp(forecastHisory);
         }
-        //public int CreateTimeStampAndAssignmentHistory(ForecastHisory forecastHisory,List<AssignmentHistory> assignmentHistories,bool isUpdate,bool isDeleted)
-        //{
-        //    return forecastDAL.CreateTimeStampAndAssignmentHistory(forecastHisory, assignmentHistories, isUpdate, isDeleted);
-        //}
         public int CreateTimeStampsForYearlyEditData(ForecastHisory forecastHisory)
         {
             return forecastDAL.CreateTimeStampsForYearlyEditData(forecastHisory);
@@ -79,10 +75,7 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetApprovalTimeStamps(year);
         }
-        public List<Forecast> GetForecastHistories(int timeStampId)
-        {
-            return forecastDAL.GetForecastHistories(timeStampId);
-        }
+
         public List<Forecast> GetForecastsByAssignmentId(int assignmentId)
         {
             return forecastDAL.GetForecastsByAssignmentId(assignmentId);
@@ -137,69 +130,6 @@ namespace CostAllocationApp.BLL
             return forecastDAL.GetLatestBudgetYear();
         }
 
-        public int DuplicateForecastYear(int copyYear,int insertYear)
-        {
-            List<ExcelAssignmentDto> excelAssignmentDtos = new List<ExcelAssignmentDto>();
-            excelAssignmentDtos = forecastDAL.GetEmployeesForecastByYear(copyYear);
-            int resultSave = 0;
-            if (excelAssignmentDtos.Count > 0)
-            {
-                foreach (var item in excelAssignmentDtos)
-                {
-                    //insert forecast assignment here
-                    EmployeeBudget employeeAssignment = new EmployeeBudget();
-                    employeeAssignment.Id = item.Id;
-                    employeeAssignment.Remarks = item.Remarks;
-                    employeeAssignment.UpdatedBy = "";
-                    employeeAssignment.UpdatedDate = DateTime.Now;
-                    employeeAssignment.EmployeeId = item.EmployeeId.ToString();                    
-                    employeeAssignment.SectionId = Convert.ToInt32(item.SectionId);
-                    employeeAssignment.DepartmentId = Convert.ToInt32(item.DepartmentId);
-                    employeeAssignment.InchargeId = Convert.ToInt32(item.InchargeId);
-                    employeeAssignment.RoleId = Convert.ToInt32(item.RoleId);
-                    employeeAssignment.ExplanationId = item.ExplanationId.ToString();
-                    employeeAssignment.CompanyId = Convert.ToInt32(item.CompanyId);
-                    employeeAssignment.GradeId = Convert.ToInt32(item.GradeId);
-                    employeeAssignment.UnitPrice = Convert.ToInt32(item.UnitPrice);
-                    employeeAssignment.Year = insertYear.ToString();
-                    employeeAssignment.EmployeeName = item.EmployeeName;
-                    employeeAssignment.FirstHalfBudget = true;
-                    employeeAssignment.SecondHalfBudget = false;
-                    employeeAssignment.FinalizedBudget = false;
-
-                    int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
-                    if (result == 1)
-                    {
-                        int employeeAssignmentLastId = employeeAssignmentBLL.GetBudgetLastId();
-                        List<Forecast> forecasts = new List<Forecast>();
-
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.OctPoint, Month = 10, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.NovPoint, Month = 11, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.DecPoint, Month = 12, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JanPoint, Month = 1, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.FebPoint, Month = 2, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MarPoint, Month = 3, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AprPoint, Month = 4, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.MayPoint, Month = 5, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JunPoint, Month = 6, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.JulPoint, Month = 7, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.AugPoint, Month = 8, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts.Add(new Forecast { EmployeeAssignmentId = employeeAssignmentLastId, Points = item.SepPoint, Month = 9, Total = 0, CreatedDate = DateTime.Now, CreatedBy = "", Year = Convert.ToInt32(insertYear) });
-                        //forecasts = forecastDAL.GetForecastDetails(employeeAssignment.Id,copyYear);
-                        forecasts = forecastDAL.GetBudgetForecastDetails(employeeAssignment.Id, copyYear);
-                        foreach (var forecastItem in forecasts)
-                        {
-                            forecastItem.Year = insertYear;
-                            forecastItem.EmployeeAssignmentId = employeeAssignmentLastId;
-                            resultSave = forecastDAL.CreateBudgetForecast(forecastItem);
-                        }
-                    }
-                }
-            }
-               
-            return resultSave;
-        }
-        
         public int GetReplicateYearForecastType(int replicateYear)
         {
             bool isSecondHalfBudgetFinalize = forecastDAL.GetReplicateYearForecastType(replicateYear);
@@ -334,10 +264,6 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.GetApprovalAssignmentYearList();
         }
-        public List<Forecast> GetForecastDetails(int assignmentId, int copyYear)
-        {
-            return forecastDAL.GetForecastDetails(assignmentId, copyYear);
-        }
         public AssignmentHistory GetPreviousAssignmentDataById(int assignmentId)
         {
             return forecastDAL.GetPreviousAssignmentDataById(assignmentId);
@@ -349,10 +275,6 @@ namespace CostAllocationApp.BLL
         public ApprovalHistoryViewModal GetApprovalNamesForHistory(int assignmentId,int timeStampId)
         {
             return forecastDAL.GetApprovalNamesForHistory(assignmentId, timeStampId);
-        }
-        public AssignmentHistoryViewModal GetOriginalForecastedData(int assignmentId)
-        {
-            return forecastDAL.GetOriginalForecastedData(assignmentId);
         }
         public AssignmentHistoryViewModal GetOriginalForecastedDataForApproval(int assignmentId,int timeStampId)
         {
@@ -506,22 +428,12 @@ namespace CostAllocationApp.BLL
 
             }
         }
-        public string GetHistoryTimeStampName(int timeStampId)
-        {
-            return forecastDAL.GetHistoryTimeStampName(timeStampId);
-        }
+
         public string GetApproveHistoryTimeStampName(int timeStampId)
         {
             return forecastDAL.GetApproveHistoryTimeStampName(timeStampId);
         }
-        public List<ForecastAssignmentViewModel> GetAllOriginalDataForDownloadFiles()
-        {
-            EmployeeAssignmentForecast employeeAssignment = new EmployeeAssignmentForecast();            
-            List<ForecastAssignmentViewModel> forecsatEmployeeAssignmentViewModels = employeeAssignmentBLL.GetApprovalEmployeesBySearchFilter(employeeAssignment);
-            return forecsatEmployeeAssignmentViewModels;
-            //List<ForecastAssignmentViewModel> _forecsatEmployeeAssignmentViewModels = new List<ForecastAssignmentViewModel>();
 
-        }
         public int UpdateEmployeeAssignmentApprovedCellsByAssignmentId(AssignmentHistory assignmentHistory)
         {
             return forecastDAL.UpdateEmployeeAssignmentApprovedCellsByAssignmentId(assignmentHistory);
@@ -606,10 +518,7 @@ namespace CostAllocationApp.BLL
         {
             return forecastDAL.UpdateApprovedData_DeleteRow(assignmentHistory, approveTimeStampId, assignmentYear);
         }
-        public string GetPreviousApprovedCells(string employeeAssignmentId)
-        {
-            return forecastDAL.GetPreviousApprovedCells(employeeAssignmentId);
-        }
+
         public int UpdateApprovedCells(int assingmentId,string cellNo,int approvedTimestampId,int year)
         {
             return forecastDAL.UpdateApprovedCells(assingmentId,cellNo,approvedTimestampId,year);

@@ -18,30 +18,37 @@ namespace CostAllocationApp.BLL
         {
             return companyDAL.CreateCompany(company);
         }
+
         public int UpdateCompany(Company company)
         {
             return companyDAL.UpdateCompany(company);
         }
+
         public List<Company> GetAllCompanies()
         {
             return companyDAL.GetAllCompanies();
         }
+
         public int RemoveCompanies(int companyIds)
         {
             return companyDAL.RemoveCompanies(companyIds);
         }
-        public bool CheckComany(string companyName)
+
+        public bool CheckCompany(string companyName)
         {
-            return companyDAL.CheckComany(companyName);
+            return companyDAL.CheckCompany(companyName);
         }
+
         public int GetCompanyCountWithEmployeeAsignment(int companyId)
         {
             return companyDAL.GetCompanyCountWithEmployeeAsignment(companyId);
         }
+
         public Company GetCompanyByCompanyId(int companyId)
         {
             return companyDAL.GetCompanyByCompanyId(companyId);
         }
+
         public int RetrieveCompanyIdByCompanyName(string companyName, string userName)
         {
             Company company = new Company();

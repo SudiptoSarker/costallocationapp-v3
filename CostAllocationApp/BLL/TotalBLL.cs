@@ -24,7 +24,7 @@ namespace CostAllocationApp.BLL
         SectionBLL sectionBLL = null;
         CompanyBLL companyBLL = null;
         RoleBLL roleBLL = null;
-        ExplanationsBLL explanationsBLL = null;
+        ExplanationBLL explanationsBLL = null;
         ForecastBLL forecastBLL = null;
         EmployeeBLL employeeBLL = null;
         UserBLL userBLL = null;
@@ -47,7 +47,7 @@ namespace CostAllocationApp.BLL
             sectionBLL = new SectionBLL();
             companyBLL = new CompanyBLL();
             roleBLL = new RoleBLL();
-            explanationsBLL = new ExplanationsBLL();
+            explanationsBLL = new ExplanationBLL();
             forecastBLL = new ForecastBLL();
             employeeBLL = new EmployeeBLL();
             userBLL = new UserBLL();

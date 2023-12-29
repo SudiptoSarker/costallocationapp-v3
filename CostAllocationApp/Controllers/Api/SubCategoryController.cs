@@ -17,9 +17,10 @@ namespace CostAllocationApp.Controllers.Api
             subCategoryBLL = new SubCategoryBLL();
         }
 
-        /***************************\                           
-            SubCategory Master Api: SubCategory created through this api.                               
-        \***************************/
+        /*
+        Description: create sub-category.
+        Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateSubCategory(SubCategory subCategory)
         {
@@ -60,9 +61,10 @@ namespace CostAllocationApp.Controllers.Api
             }
         }
 
-        ///***************************\                           
-        //    SubCategory Master Api: All the SubCategory are fetched using this api.                            
-        //\***************************/
+        /*
+        Description: get all sub-categories.
+        Type: GET
+        */
         [HttpGet]
         public IHttpActionResult SubCategory()
         {
@@ -70,9 +72,10 @@ namespace CostAllocationApp.Controllers.Api
             return Ok(categories);
         }
 
-        ///***************************\                           
-        //    Category Master Api: Category are removed using this api.                          
-        //\***************************/
+        /*
+        Description: remove sub-categories.
+        Type: DELETE
+        */
         [HttpDelete]
         public IHttpActionResult RemoveSubCategory([FromUri] string subCategoryId)
         {

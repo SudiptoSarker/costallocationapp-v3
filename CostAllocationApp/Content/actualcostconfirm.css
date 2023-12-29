@@ -1,87 +1,65 @@
-﻿/*-----------------
-	1. General
------------------------*/
-
-body {
-    overflow-x: auto;
-}
-
+﻿/******************************\                           
+	Actual Cost Confirm: Jexcel: Start
+\******************************/ 
 .jexcel {
     font-size: 10px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
-
 .jexcel_content {
     max-height: 800px !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
     left: 0px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
     left: 0px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
     left: 150px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel tbody tr td:nth-of-type(3) {
     text-align: left !important;
 }
-
 .jexcel tbody tr td:nth-of-type(4) {
     text-align: center !important;
 }
-
 .jexcel tbody tr td:nth-of-type(5) {
     text-align: center !important;
 }
-
 .jexcel tbody tr td:nth-of-type(6) {
     text-align: center !important;
 }
-
 .jexcel tbody tr td:nth-of-type(7) {
     text-align: center !important;
 }
-
 .jexcel tbody tr td:nth-of-type(8) {
     text-align: center !important;
 }
-
 .jexcel tbody tr td:nth-of-type(9) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(10) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(11) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(12) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(13) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(14) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(15) {
     text-align: right !important;
 }
@@ -89,50 +67,40 @@ body {
 .jexcel tbody tr td:nth-of-type(16) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(17) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(18) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(19) {
     text-align: right !important;
 }
-
 .jexcel tbody tr td:nth-of-type(20) {
     text-align: right !important;
 }
-
-#actual_cost {
-    margin-left: -11px;
-    margin-top: -1px;
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    height: 30px;
-    border: 1px solid #ccc !important;
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
+    left: 0px;
+    z-index: 4 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
-#assignment_year {
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    width: 100%;
-    height: 30px;
-    border: 1px solid #ccc !important;
-    text-align: center;
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
+left: 0px;
+z-index: 4 !important;
+-webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
-#nav1, #nav2 {
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
+left: 0px;
+z-index: 4 !important;
+-webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
+/******************************\                           
+	Actual Cost Confirm: Jexcel: End
+\******************************/ 
+
+/*********************************\                           
+	Actual Cost Confirm Page: Start
+\*********************************/ 
 
 #actual_cost_table_header {
     font-size: 12px;
@@ -142,17 +110,14 @@ body {
     margin-top: -11px;
 }
 
-#actual_cost_list {
-    margin-top: -13px;
-}
+/*********************************\                           
+	Actual Cost Confirm Page: End
+\*********************************/ 
 
-#actual_cost_search {
-    margin-top: 11px;
-}
-
-
-
-/********** sorting **********/
+/**********Actual Cost Confirm Sorting **********/
+.sorting_custom_modal{
+    display: none;
+  }
 .employee_sorting {
     height: 157px;
     width: 160px;
@@ -244,26 +209,3 @@ body {
     border: 1px solid black;
     box-shadow: 0 10px 6px -6px #777;
 }
-
-/********cutome modal ***********/
-.sorting_custom_modal{
-    display: none;
-  }
-    /***************************\                           
-    Jexcel table design
-\***************************/
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }
-  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }
-  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }

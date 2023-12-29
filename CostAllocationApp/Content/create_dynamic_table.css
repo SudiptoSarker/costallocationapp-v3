@@ -1,40 +1,13 @@
-﻿/*-----------------Dynamic Table Format-----------------------*/
-body {
-    overflow-x: auto;
-}
-
-#dynamic_input_frm_header{
-    border: 1px solid black !important;
-    background-color: lightgray;
-}
-#dynamic_input_frm{
-    border: 1px solid black !important;    
-}
-.dynamic_page_title{
-    text-align: left;
-    font-size: 12px !important;
-    margin: 4px;
-    margin-left: -8px;
-    float:left;
-}
-.form_title{
-    font-size: 11px;
-    margin-right: 77px;
-    padding-top: 8px;
-}
-.input-container-1{
-    margin-left:50px;
-}
-.input-container-2 {
-    margin:30px 0px 30px 0px;
-}
-.input-container-3 {
-    margin-left: 50px;
+﻿/******************************\                           
+    Dynamic Table Format: Start
+\******************************/
+#dynamic_table_list {
+    border: none;
+    margin-top: -31px;
 }
 #dynamic_column_title_block {
     margin-left: 50px;
 }
-
 .input_table_frm_lbl {
     font-size: 12px;
 }
@@ -59,19 +32,6 @@ body {
     border: 1px solid black;
     color: white;
 }
-
-.frm_add_btn {
-    line-height: .7;
-    background-color: #bfbfbf;
-    border: 1px solid black;
-    color: white;
-    /* padding: 2px; */
-    /* border-radius: 5px; */
-    /* margin-top: 10px; */
-    display: inline-block;
-    margin-bottom: 20px;
-    width: 111px;
-}
 .frm_setting_btn{
     font-size: 10px;
     font-family: Yu Gothic;
@@ -81,36 +41,9 @@ body {
     width: 66px;
     text-align: center; 
 }
-.frm_cancel_btn{
-    line-height: .7;
-    background-color: #bfbfbf;
-    border: 1px solid black;
-    color: white;
-    /* padding: 2px; */
-    /* border-radius: 5px; */
-    /* margin-top: 10px; */
-    display: inline-block;
-    margin-bottom: 20px;
-    margin-left: -44px;
-    width: 111px;
-}
-/*dynamic table list*/
-#dynamic_table_list {
-    border: none;
-    margin-top: -31px;
-}
 #dynamic_table_list_for_setting{
     border: none;
 }
-.dynamic_table_list_for_setting_td{
-    height: 25px;
-    border: none;
-    border: 1px solid black !important;
-    border-collapse: separate;
-    border-spacing: 4px;
-    text-align: center;
-}
-
 #dynamic_list_tbl{
     width: 100%;
     border-collapse: collapse;
@@ -154,7 +87,6 @@ body {
 .table_heading{
     font-size: 12px;
 }
-/*list action button*/
 .dynamic_table_list_action{
     margin-top: 8px;
     margin-left: 24%;
@@ -187,16 +119,7 @@ body {
     margin-left: 5px;
     width: 65px;
 }
-
-
-/*delete confirm modal*/
 .delete_confirm_header{
-    /* color: #333;
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    border: 1px solid black;
-    background: lightgray; */
     text-align: left;
 }
 .confrim_del_btn, .confrim_del_btn_main_item, .confrim_del_btn_sub_item, .confrim_del_btn_detail_item {
@@ -206,7 +129,6 @@ body {
     background: darkgray;
     color: black !important;
     line-height: 1.1;
-    /* margin-left: 188px; */
     border: 1px solid black !important;
 }
 .confrim_cancel_btn, .confrim_cancel_btn_main_item, .confrim_cancel_btn_sub_item, .confrim_cancel_btn_detail_item {
@@ -216,10 +138,8 @@ body {
     background: darkgray;
     color: black !important;
     line-height: 1.1;
-    /* margin-left: 84px; */
     border: 1px solid black !important;
 }
-
 /*main list modal*/
 .main_list_header, .sub_list_header, .detail_list_header, .main_item_edit_header, .sub_item_edit_header, .detail_item_edit_header {
     height: 48px !important;
@@ -234,10 +154,8 @@ body {
     padding: 3px;
     border-radius: 5px;
     margin-top: 10px;
-    /* display: inline-block; */
     margin-bottom: 20px;
 }
-
 .main_item_del_btn, .sub_item_del_btn, .detail_item_del_btn {
     line-height: 1;
     background-color: white;
@@ -246,8 +164,7 @@ body {
     border: 1px solid red;
     padding: 3px;
     border-radius: 5px;
-    margin-top: 10px;
-    /* display: inline-block; */
+    margin-top: 10px;    
     margin-bottom: 20px;
 }
 #main_item_input_tbl, #sub_item_input_tbl, #detail_item_input_tbl, #main_item_edit_tbl, #sub_item_edit_tbl, #detail_item_edit_tbl {
@@ -257,13 +174,11 @@ body {
     border: 1px solid;
     font-family: Yu Gothic;
 }
-
 #main_item_input_tbl thead, #sub_item_input_tbl thead, #detail_item_input_tbl thead, #main_item_edit_tbl thead, #sub_item_edit_tbl thead, #detail_item_edit_tbl thead {
     background-color: #3c4b5d;
     color: white;
     text-align: center;
 }
-
 .main_item_input_td, .sub_item_input_td, .detail_item_input_td, .main_item_edit_input_td, .sub_item_edit_input_td, .detail_item_edit_input_td {
     height: 26px;
     border: none;
@@ -303,7 +218,6 @@ body {
     font-family: Yu Gothic;
     margin-bottom: 20px;
 }
-
 .main_item_list_tbl thead,.sub_item_list_tbl thead,.detail_item_list_tbl thead {
     background-color: #3c4b5d;
     color: white;
@@ -312,24 +226,6 @@ body {
 .main_item_link, .sub_item_link, .detail_item_link {
     text-decoration: underline;
 }
-
-
-/*************
-    Modal Footer
-************/
-/* .modal_return_btn{
-    margin-top: 40px !important;
-    line-height: 1 !important;
-    margin-right: -12px  !important;
-}
-.modal-footer{
-    margin-top: -38px !important;
-}
-.custom-modal .modal-footer {
-    border: 0;
-    justify-content: right;    
-}
-.custom-modal .modal-body{
-    padding: 15px !important;
-    margin-top: 1px !important;
-} */
+/******************************\                           
+    Dynamic Table Format: End
+\******************************/ 

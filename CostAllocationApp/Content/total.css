@@ -1,4 +1,7 @@
-﻿#total_cost_table_header {
+﻿/******************************\                           
+	Total Cost Tables
+\******************************/ 
+#total_cost_table_header {
     font-size: 12px;
     font-family: "Yu Gothic";
     white-space: nowrap !important;
@@ -16,15 +19,12 @@
     margin-top: 5px;
     height: 31px;
 }
-
-/*style for total table*/
 .generated_table {
     font-size: 10px;
     margin-top: 20px;
     font-family: Yu Gothic;
     white-space: nowrap !important;
 }
-
 .generated_table thead {
     background-color: #B8DAFF;
     text-align:center;
@@ -69,190 +69,32 @@
 .hidden-row {
     display: none;
 }
-
-/*style for budget table*/
-
-#total_budget_table {
-    font-size: 10px;
-    margin-top: 20px;
-    font-family: Yu Gothic;
-    white-space: nowrap !important;
-}
-
-    #total_budget_table thead {
-        background-color: #B8DAFF;
-        text-align: center;
-    }
-
-    #total_budget_table tr {
-        white-space: nowrap;
-    }
-
-    #total_budget_table
-    td:nth-of-type(3),
-    td:nth-of-type(4),
-    td:nth-of-type(5),
-    td:nth-of-type(6),
-    td:nth-of-type(7),
-    td:nth-of-type(8),
-    td:nth-of-type(9),
-    td:nth-of-type(10),
-    td:nth-of-type(11),
-    td:nth-of-type(12),
-    td:nth-of-type(13),
-    td:nth-of-type(14),
-    td:nth-of-type(15),
-    td:nth-of-type(16),
-    td:nth-of-type(17) {
-        min-width: 100px;
-    }
-
-#total_budget_table, tr, th, td {
-    border: 1px solid black !important;
-}
-
-    #total_budget_table tr {
-        line-height: 0px !important;
-    }
-
-    #total_budget_table td {
-        padding: 7px !important;
-    }
-
-
-/*style for difference table*/
-
-#difference_table {
-    font-size: 10px;
-    margin-top: 20px;
-    font-family: Yu Gothic;
-    white-space: nowrap !important;
-}
-
-    #difference_table thead {
-        background-color: #B8DAFF;
-        text-align: center;
-    }
-
-    #difference_table tr {
-        white-space: nowrap;
-    }
-
-    #difference_table
-    td:nth-of-type(3),
-    td:nth-of-type(4),
-    td:nth-of-type(5),
-    td:nth-of-type(6),
-    td:nth-of-type(7),
-    td:nth-of-type(8),
-    td:nth-of-type(9),
-    td:nth-of-type(10),
-    td:nth-of-type(11),
-    td:nth-of-type(12),
-    td:nth-of-type(13),
-    td:nth-of-type(14),
-    td:nth-of-type(15),
-    td:nth-of-type(16),
-    td:nth-of-type(17) {
-        min-width: 100px;
-        margin-top: auto;
-        margin-bottom: auto;
-    }
-
-#difference_table, tr, th, td {
-    border: 1px solid black !important;
-}
-
-    #difference_table tr {
-        line-height: 0px !important;
-    }
-
-    #difference_table td {
-        padding: 7px !important;
-    }
-
-    /* make minus amounts show up in red */
-    #difference_table td[data-monetary-amount^="-"] {
-        color: red !important;
-    }
-
-/*style for head count table*/
-
-#headcount_table {
-    font-size: 10px;
-    margin-top: 20px;
-    font-family: Yu Gothic;
-    white-space: nowrap !important;
-}
-
-#headcount_table thead {
-    background-color: #B8DAFF;
+#total_year_list{
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 70%;
+    height: 38px;
+    border: 1px solid #ccc !important;
     text-align: center;
 }
-    #headcount_table tr {
-        white-space: nowrap;
-        
-    }
-
-#headcount_table, tr, th, td {
-    border: 1px solid black !important;
+#edit_history_time_stamp{
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 70%;
+    height: 38px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+    margin-left: -62px;
+}
+#companies{
+    height: 30px !important;
 }
 
-    #headcount_table tr {
-        line-height: 0px !important;
-    }
-
-    #headcount_table td {
-        padding: 7px !important;
-        vertical-align: middle;
-    }
-
-    #headcount_table
-    td:nth-of-type(2),
-    td:nth-of-type(3),
-    td:nth-of-type(4),
-    td:nth-of-type(5),
-    td:nth-of-type(6),
-    td:nth-of-type(7),
-    td:nth-of-type(8),
-    td:nth-of-type(9),
-    td:nth-of-type(10),
-    td:nth-of-type(11),
-    td:nth-of-type(12),
-    td:nth-of-type(13) {
-        min-width: 100px;
-    }
-
-
-
-
-    /*filters*/
-    #total_year_list{
-        transition: all 0.2s ease-in-out 0s;
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 12px;
-        width: 70%;
-        height: 38px;
-        border: 1px solid #ccc !important;
-        text-align: center;
-    }
-    #edit_history_time_stamp{
-        transition: all 0.2s ease-in-out 0s;
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 12px;
-        width: 70%;
-        height: 38px;
-        border: 1px solid #ccc !important;
-        text-align: center;
-        margin-left: -62px;
-    }
-    #companies{
-        height: 30px !important;
-    }
-
-/*multi select*/
+/*multi select custom*/
 .btn-group, .btn-group-vertical
 {
     transition: all 0.2s ease-in-out 0s;
@@ -264,6 +106,7 @@
     border: 1px solid #ccc !important;
     text-align: center;
 }
+
 .multiselect-container.dropdown-menu.show{
     position: absolute;
     will-change: transform;

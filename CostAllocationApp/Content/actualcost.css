@@ -1,39 +1,30 @@
-﻿/*-----------------
-	1. General
------------------------*/
-
-body {
-    overflow-x: auto;
-}
-
+﻿
+/******************************\                           
+	Actual Cost: Jexcel: Start
+\******************************/ 
 .jexcel {
     font-size: 10px;
     font-family: Yu Gothic;
-    /* line-height: -1; */
     white-space: nowrap !important;
 }
 .jexcel_content {
     max-height: 800px !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(2) {
     left: 0px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(3) {
     left: 0px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel > thead > tr:nth-of-type(2) > td:nth-of-type(4) {
     left: 150px;
     z-index: 3 !important;
     -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
 }
-
 .jexcel tbody tr td:nth-of-type(3) {
     text-align:left !important;
 }
@@ -88,7 +79,28 @@ body {
 .jexcel tbody tr td:nth-of-type(20) {
     text-align:right !important;
 }
+.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
+    left: 0px;
+    z-index: 4 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+  }
+  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
+    left: 0px;
+    z-index: 4 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+  }
+  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
+    left: 0px;
+    z-index: 4 !important;
+    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
+  }
+/******************************\                           
+	Actual Cost: Jexcel: End
+\******************************/ 
 
+/******************************\                           
+	Actual Cost
+\******************************/ 
 #actual_cost{
     margin-left: -63px;
     margin-top: -2px;
@@ -129,8 +141,6 @@ body {
 #actual_cost_search{
     margin-top: 15px;
 }
-
-
 
 /********** sorting **********/
 .employee_sorting {
@@ -228,23 +238,4 @@ body {
 /********cutome modal ***********/
 .sorting_custom_modal{
     display: none;
-  }
-
-  /***************************\                           
-    Jexcel table design
-\***************************/
-.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(2) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }
-  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }
-  .jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(4) {
-    left: 0px;
-    z-index: 4 !important;
-    -webkit-box-shadow: 2px 0px 2px 0.2px #ccc !important;
-  }
+}

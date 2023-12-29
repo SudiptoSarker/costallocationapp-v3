@@ -3,9 +3,11 @@ var tableRowList = [];
 
 $(document).ready(function () {
     $('#company_list').multiselect({
-        allSelectedText: 'All',
+        allSelectedText: '全て',
         maxHeight: 200,
-        includeSelectAllOption: true
+        includeSelectAllOption: true,
+        nonSelectedText: 'すべて選択',
+        nSelectedText  : "選ばれた"
     })
         .multiselect('selectAll', true).multiselect('updateButtonText');
     GetCompanyList();
@@ -191,9 +193,11 @@ function GetCompanyList() {
             });
             $("#company_list").multiselect('destroy');
             $('#company_list').multiselect({
-                allSelectedText: 'All',
+                allSelectedText: '全て',
                 maxHeight: 200,
-                includeSelectAllOption: true
+                includeSelectAllOption: true,
+                nonSelectedText: 'すべて選択',
+                nSelectedText  : "選ばれた"
             })
         }
     });

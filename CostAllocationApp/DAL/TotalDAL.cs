@@ -334,7 +334,37 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+        public List<DynamicSetting> GetDynamicSettingListByTableId(int tableId)
+        {
+            List<DynamicSetting> _dynamicSettings = new List<DynamicSetting>();
+            string query = "";
+            query = "select Id from dynamicsettings where DynamicTableId="+ tableId;
+            using (SqlConnection sqlConnection = this.GetConnection())
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                try
+                {
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            DynamicSetting _dynamicSetting = new DynamicSetting();
+                            _dynamicSetting.Id = Convert.ToInt32(rdr["Id"]);
 
+                            _dynamicSettings.Add(_dynamicSetting);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return _dynamicSettings;
+            }
+        }
         public int RemoveDynamicTableSettings(DynamicTable dynamicTable)
         {
             int result = 0;

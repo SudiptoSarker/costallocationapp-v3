@@ -2,52 +2,54 @@
 @{
     ViewBag.Title = "合計";
 }
+
 @section Styles {
     <link href="/Content/common.css" rel="stylesheet" type="text/css" />
     <link href="/Content/multi_select_dynamic_table.css" rel="stylesheet" type="text/css"/>    
     <link href="/Content/total.css" rel="stylesheet" type="text/css" />
 }
-    <div class="content container-fluid" style="position:relative;margin-top: -38px;display: inline-block;">
-        <div id="total_cost_table_header">合計</div>
-        <div class="row" id="total_cost_search">
-            <div class="col-3">
-                <select multiple='multiple' id='company_list'></select>
-            </div>            
-            <div class="col-3">
-                <select id="total_year_list" class="" ></select>
-            </div>
-            <div class="col-3">
-                <select id="edit_history_time_stamp" class="" ></select>
-            </div>
-            <div class="col-2" id="btn_submit">
-                <button type="submit" class="btn btn-light mb-2" id="show_dynamic_tables" >表示</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="table_container">                    
-                </div>
-            </div>
-            
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="forecast">
-                    <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
-                        <center>
-                            <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;" alt="loader image">
-                            <br>
-                            <strong>しばらくお待ちください...</strong>
-                            <br>
-                            <br>
-                        </center>
-                    </div>
-                </div>
+<div class="content container-fluid" style="position:relative;margin-top: -38px;display: inline-block;">
+    <div id="total_cost_table_header">合計</div>
+    <div class="row" id="total_cost_search">
+        <div class="col-3">
+            <select multiple='multiple' id='company_list'></select>
+        </div>            
+        <div class="col-3">
+            <select id="total_year_list" class="" ></select>
+        </div>
+        <div class="col-3">
+            <select id="edit_history_time_stamp" class="" ></select>
+        </div>
+        <div class="col-2" id="btn_submit">
+            <button type="submit" class="btn btn-light mb-2" id="show_dynamic_tables" >表示</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="table_container">                    
             </div>
         </div>
         
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="forecast">
+                <div id="loading" style="display:none;position:absolute;left:0;top:-147px;  width:100%;height:100%;">
+                    <center>
+                        <img src="~/img/forecast_loader.gif" height="250" width="250" style="margin-top:265px;" alt="loader image">
+                        <br>
+                        <strong>しばらくお待ちください...</strong>
+                        <br>
+                        <br>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
 
 @section Scripts{
     <script src="/Scripts/common.js"></script>    

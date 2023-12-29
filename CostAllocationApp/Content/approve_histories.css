@@ -1,62 +1,6 @@
-﻿/* #timestamp_list thead tr th,td{
-    text-align:center;
-} */
-
-#history_data_btn{
-    margin-left: -63px;
-    margin-top: -2px;
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    height: 29px;
-    border: 1px solid #ccc !important;
-    width: 64px;
-    line-height: 1;
-}
-#history_year{
-    transition: all 0.2s ease-in-out 0s;
-    display: inline-block;
-    white-space: nowrap;
-    font-size: 12px;
-    width: 70%;
-    height: 30px;
-    border: 1px solid #ccc !important;
-    text-align: center;
-}
-
-#timestamp_list{
-    font-size: 12px;
-    font-family: "Yu Gothic";
-    white-space: nowrap !important;
-    display: block;
-}
-#filter_history_data{
-    margin-top: 15px;
-}
-#btn_submit{
-    margin-top: 2px;
-}
-
-/*modal size */
-.modal-body {
-    max-width: 100%;
-    overflow-x: auto;
-}
-.container {
-    width:5000px;
-}
-/* #btn_export_approve_history_data{
-    background-color: #009ef7;
-    border-collapse: collapse;
-    font-size: 10px;
-    font-family: Yu Gothic;
-    line-height: -1;
-    height: 32px;
-    white-space: nowrap !important;
-    padding-top: 4px;
-    margin-left: 831px;
-} */
+﻿/***************************************************************\                           
+	Approve History: YearList,Navigation,Timestamp list: Start
+\***************************************************************/ 
 #approve_history_navigation{
     font-size: 12px;
     font-family: "Yu Gothic";
@@ -69,3 +13,47 @@
     font-family: "Yu Gothic";
     white-space: nowrap !important;    
 }
+#filter_history_data{
+    margin-top: 15px;
+}
+#history_year{
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 70%;
+    height: 30px;
+    border: 1px solid #ccc !important;
+    text-align: center;
+}
+#btn_submit{
+    margin-top: 2px;
+}
+#history_data_btn{
+    margin-left: -63px;
+    margin-top: -2px;
+    transition: all 0.2s ease-in-out 0s;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    height: 29px;
+    border: 1px solid #ccc !important;
+    width: 64px;
+    line-height: 1;
+}
+#timestamp_list{
+    font-size: 12px;
+    font-family: "Yu Gothic";
+    white-space: nowrap !important;
+    display: block;
+}
+.modal-body {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.container {
+    width:5000px;
+}
+/***************************************************************\                           
+	Approve History: YearList,Navigation,Timestamp list: End
+\***************************************************************/ 

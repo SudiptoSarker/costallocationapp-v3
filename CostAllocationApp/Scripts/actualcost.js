@@ -1,17 +1,67 @@
-﻿$(document).ready(function(){    
-    $(".sorting_custom_modal").css("display", "block");
-});
-
-var jss;
+﻿var jss;
 var _retriveddata;
 var userRoleflag;
 var allEmployeeName = [];
 var allEmployeeName1 = [];
-
-
 const channel = new BroadcastChannel("actualCost");
-
 var year = "";
+
+$(document).ready(function(){    
+    $(".sorting_custom_modal").css("display", "block");
+    
+    $("#hider").hide();
+    $(".employee_sorting").hide();
+    $(".section_sorting").hide();
+    $(".department_sorting").hide();
+    $(".incharge_sorting").hide();
+    $(".role_sorting").hide();
+    $(".explanation_sorting").hide();
+    $(".company_sorting").hide();
+    $(".grade_sorting").hide();
+    $(".unit_sorting").hide();
+
+    channel.addEventListener("message", e => {
+        LoadJexcel();
+    });
+
+    //year list
+    $.ajax({
+        url: `/api/utilities/GetForecatYear`,
+        contentType: 'application/json',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            $('#assignment_year').empty();
+            $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
+            $.each(data, function (index, element) {
+                $('#assignment_year').append(`<option value='${element.Year}'>${element.Year}</option>`);
+            });
+        }
+    });
+
+    //call jexcel function
+    $('#actual_cost').on('click', function () {
+        LoadJexcel();
+    });
+
+    //shorting modal close
+    $("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
+        $("#hider").fadeOut("slow");
+        $('.employee_sorting').fadeOut("slow");
+        $('.section_sorting').fadeOut("slow");
+        $('.department_sorting').fadeOut("slow");
+        $('.incharge_sorting').fadeOut("slow");
+        $('.role_sorting').fadeOut("slow");
+        $('.explanation_sorting').fadeOut("slow");
+        $('.company_sorting').fadeOut("slow");
+        $('.grade_sorting').fadeOut("slow");
+        $('.unit_sorting').fadeOut("slow");
+    });
+        
+});
+
+//show actual cost and forecast data into 
 function ActualCostJexcel(){
     if (jss != undefined) {
         jss.destroy();
@@ -108,47 +158,43 @@ function ActualCostJexcel(){
         tableOverflow: true,
         freezeColumns: 3,
         defaultColWidth: 50,
-        // tableWidth: w - 500 + "px",
-        // tableHeight: (h - 300) + "px",
         tableWidth: w-280+ "px",
         tableHeight: (h-150) + "px",
 
         columns: [
             { title: "Assignment Id", type: 'hidden', name: "AssignmentId" },
             { 
-                title: "要員(Employee)", 
+                title: "要員", 
                 type: "text", 
                 name: "EmployeeName", 
                 width: 150,
                 readOnly: true
             },
             { 
-                title: "Remarks", 
+                title: "注記", 
                 type: "text", 
                 name: "Remarks", 
                 width: 60,
                 readOnly: true
             },
             { 
-                title: "区分(Section)", 
+                title: "区分", 
                 type: "dropdown", 
                 source: sectionsForJexcel, 
                 name: "SectionId", 
                 width: 100,
                 readOnly: true 
             },
-            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100,readOnly: true },
-            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100,readOnly: true },
-            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60,readOnly: true },
-            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
-            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },
-            //{ type: 'number', title:'Price', mask:'$ #.##0,00', decimal:',' }
+            { title: "部署", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100,readOnly: true },
+            { title: "担当作業", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100,readOnly: true },
+            { title: "役割", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60,readOnly: true },
+            { title: "説明", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150,readOnly: true },
+            { title: "会社", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100,readOnly: true },            
             {
                 title: "10月 実績",
                 type: "decimal",
                 name: "OctCost",
                 mask: "#,##0",
-                //decimal:'.',
                 width: 100,
                 readOnly: true
             },
@@ -157,7 +203,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "NovCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -166,7 +211,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "DecCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -175,7 +219,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "JanCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -184,7 +227,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "FebCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -193,7 +235,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "MarCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -202,7 +243,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "AprCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -211,7 +251,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "MayCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -220,7 +259,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "JunCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -229,7 +267,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "JulCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -238,7 +275,6 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "AugCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
@@ -247,24 +283,16 @@ function ActualCostJexcel(){
                 type: "decimal",
                 name: "SepCost",
                 mask: "#,##0",
-                //decimal: '.',
                 width: 100,
                 readOnly: true
             },
         ],
         columnSorting: false,
         contextMenu: function (obj, x, y, e) {
-
         }
     });
     jss.deleteColumn(21, 4);
-    
-    
-    //first header sticky
-    // var first_header_1 = $('.jexcel > thead > tr:nth-of-type(2) > td');
-    // first_header_1.css('position', 'sticky');
-    // first_header_1.css('top', '0px');
-
+        
     //sort arrow on load: employee
     var employee_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)');
     employee_asc_arow.addClass('arrow-down');
@@ -282,37 +310,22 @@ function ActualCostJexcel(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
    
     //sort employee
     $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(3)').on('click', function () {                         
@@ -558,6 +571,7 @@ function ActualCostJexcel(){
     } 
 }
 
+//actual cost show in jexcel
 function LoadJexcel() {
     year = $('#assignment_year').val();
 
@@ -595,148 +609,19 @@ function LoadJexcel() {
             LoaderHide();
         }
     });
-
-
-
-
 }
 
+//show loader
 function LoaderShow() {
     $("#jspreadsheet").hide();     
     $("#loading").css("display", "block");
 }
+
+//hide loader
 function LoaderHide() {
     $("#jspreadsheet").show(); 
     $("#loading").css("display", "none");
 }
-
-$(document).ready(function () {
-    channel.addEventListener("message", e => {
-        LoadJexcel();
-    });
-
-    // LoaderHide();
-    $.ajax({
-        url: `/api/utilities/GetForecatYear`,
-        contentType: 'application/json',
-        type: 'GET',
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-            $('#assignment_year').empty();
-            $('#assignment_year').append(`<option value=''>年度データーの選択</option>`);
-            $.each(data, function (index, element) {
-                $('#assignment_year').append(`<option value='${element.Year}'>${element.Year}</option>`);
-            });
-        }
-    });
-
-    $('#actual_cost').on('click', function () {
-        LoadJexcel();
-    });
-
-    
-
-  
-$("#hider").hide();
-$(".employee_sorting").hide();
-$(".section_sorting").hide();
-$(".department_sorting").hide();
-$(".incharge_sorting").hide();
-$(".role_sorting").hide();
-$(".explanation_sorting").hide();
-$(".company_sorting").hide();
-$(".grade_sorting").hide();
-$(".unit_sorting").hide();
-
-$("#buttonClose,#buttonClose_section,#buttonClose_department,#buttonClose_incharge,#buttonClose_role,#buttonClose_explanation,#buttonClose_company,#buttonClose_grade,#buttonClose_unit_price").click(function () {
-
-    $("#hider").fadeOut("slow");
-    $('.employee_sorting').fadeOut("slow");
-    $('.section_sorting').fadeOut("slow");
-    $('.department_sorting').fadeOut("slow");
-    $('.incharge_sorting').fadeOut("slow");
-    $('.role_sorting').fadeOut("slow");
-    $('.explanation_sorting').fadeOut("slow");
-    $('.company_sorting').fadeOut("slow");
-    $('.grade_sorting').fadeOut("slow");
-    $('.unit_sorting').fadeOut("slow");
-});
-
-
-    $('#create_actual_cost').on('click', function () {
-        var dataToSend = [];
-        var year = $('#assignment_year').val();
-
-        var oct_flag = $('#oct_chk').is(":checked");
-        var nov_flag = $('#nov_chk').is(":checked");
-        var dec_flag = $('#dec_chk').is(":checked");
-        var jan_flag = $('#jan_chk').is(":checked");
-        var feb_flag = $('#feb_chk').is(":checked");
-        var mar_flag = $('#mar_chk').is(":checked");
-        var apr_flag = $('#apr_chk').is(":checked");
-        var may_flag = $('#may_chk').is(":checked");
-        var jun_flag = $('#jun_chk').is(":checked");
-        var jul_flag = $('#jul_chk').is(":checked");
-        var aug_flag = $('#aug_chk').is(":checked");
-        var sep_flag = $('#sep_chk').is(":checked");
-
-        if (jss != undefined) {
-            var data = jss.getData(false);
-            $.each(data, function (index,value) {
-                var obj = {
-                    assignmentId: value[0],
-                    octCost: parseFloat(value[9]),
-                    novCost: parseFloat(value[10]),
-                    decCost: parseFloat(value[11]),
-                    janCost: parseFloat(value[12]),
-                    febCost: parseFloat(value[13]),
-                    marCost: parseFloat(value[14]),
-                    aprCost: parseFloat(value[15]),
-                    mayCost: parseFloat(value[16]),
-                    junCost: parseFloat(value[17]),
-                    julCost: parseFloat(value[18]),
-                    augCost: parseFloat(value[19]),
-                    sepCost: parseFloat(value[20])
-                };
-
-                dataToSend.push(obj);
-            });
-
-            console.log(dataToSend);
-            $.ajax({
-                url: `/api/utilities/CreateActualCost`,
-                contentType: 'application/json',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify({
-                    ActualCosts: dataToSend,
-                    Year: year,
-                    OctFlag: oct_flag,
-                    NovFlag: nov_flag,
-                    DecFlag: dec_flag,
-                    JanFlag: jan_flag,
-                    FebFlag: feb_flag,
-                    MarFlag: mar_flag,
-                    AprFlag: apr_flag,
-                    MayFlag: may_flag,
-                    JunFlag: jun_flag,
-                    JulFlag: jul_flag,
-                    AugFlag: aug_flag,
-                    SepFlag: sep_flag,
-                }),
-                success: function (data) {
-                    alert("保存されました.");
-                }
-            });
-        }
-        else {
-            alert('追加、修正していないデータがありません!');
-        }
-    });
-});
-
 
 function ShowAllSortingAscIcon(){
     //sort arrow on load: employee
@@ -760,45 +645,30 @@ function ShowAllSortingAscIcon(){
     //sort arrow on load: department
     var dept_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(6)');
     dept_asc_arow.addClass('arrow-down');
-    // var dept_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // dept_header.css('position', 'sticky');
-    // dept_header.css('top', '0px');
     $('#search_department_asc').css('background-color', 'lightsteelblue');
     $('#search_department_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: inchrg
     var incharge_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(7)');
     incharge_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // incharge_header.css('position', 'sticky');
-    // incharge_header.css('top', '0px');
     $('#search_incharge_asc').css('background-color', 'lightsteelblue');
     $('#search_incharge_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: role
     var role_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(8)');
     role_asc_arow.addClass('arrow-down');
-    // var incharge_header = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_role.css('position', 'sticky');
-    // jexcelFirstHeaderRow_role.css('top', '0px');
     $('#search_role_asc').css('background-color', 'lightsteelblue');
     $('#search_role_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: exp
     var explanation_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(9)');
     explanation_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_exp = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_exp.css('position', 'sticky');
-    // jexcelFirstHeaderRow_exp.css('top', '0px');
     $('#search_explanation_asc').css('background-color', 'lightsteelblue');
     $('#search_explanation_desc').css('background-color', 'lightsteelblue');
 
     //sort arrow on load: com
     var company_asc_arow = $('.jexcel > thead > tr:nth-of-type(1) > td:nth-of-type(10)');
     company_asc_arow.addClass('arrow-down');
-    // var jexcelFirstHeaderRow_com = $('.jexcel > thead > tr:nth-of-type(1) > td');
-    // jexcelFirstHeaderRow_com.css('position', 'sticky');
-    // jexcelFirstHeaderRow_com.css('top', '0px');
     $('#search_company_asc').css('background-color', 'lightsteelblue');
     $('#search_company_desc').css('background-color', 'lightsteelblue');
 }

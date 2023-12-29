@@ -1,49 +1,9 @@
 ﻿$(document).ready(function () {    
     $(".data_for_dropdown").select2();    
+    
     //get table lsit and show it to the dropdown
     GetDynamicTables();    
 
-    function GetDynamicTables() {
-        $.getJSON('/api/Utilities/GetDynamicTables')
-            .done(function (data) {           
-                $('#table_list').empty();
-                $('#table_list').append(`<option value=''>クリックして集計表を選択</option>`);
-                $.each(data, function (key, item) {
-                    $('#table_list').append(`<option value='${item.Id}'>${item.TableName}</option>`);
-                });
-            });
-    }    
-    function GetDynamicTablesByTableId(tableId){
-        var tableMainItemTitle="";
-        var tableSubItemTitle = "";
-        var tableDetialItemTitle = "";
-        var resultsItem = "";
-
-        $.ajax({
-            url: `/api/utilities/GetDynamicTableById/${tableId}`,
-            type: 'Get',
-            async: false,
-            dataType: 'json',
-            success: function (data) {
-                if (data.CategoryTitle != '' && data.CategoryTitle != null && data.CategoryTitle != undefined) {
-                    tableMainItemTitle =  data.CategoryTitle;     
-                    resultsItem = tableMainItemTitle;
-                    if (data.SubCategoryTitle != '' && data.SubCategoryTitle != null && data.SubCategoryTitle != undefined) {
-                        tableSubItemTitle =  data.SubCategoryTitle;       
-                        resultsItem = resultsItem+"##"+tableSubItemTitle;
-                        if (data.DetailsTitle != '' && data.DetailsTitle != null && data.DetailsTitle != undefined){
-                            tableDetialItemTitle = data.DetailsTitle;
-                            resultsItem = resultsItem+"##"+tableDetialItemTitle;
-                        }                        
-                    }                                  
-                }                
-            },
-            error: function (data) {
-            }
-        });
-
-        return resultsItem;
-    }
     //show table details
     $(document).on('click', '#search_dynamic_table ', function () {
         var tableId = $("#table_list").val();
@@ -67,507 +27,8 @@
         }
     });
     
-    //get dynamic table settings by table id
-    function GetDynamicSettings(dynamicTableId,resultsItem) {            
-        $.ajax({
-            url: `/api/utilities/GetDynamicSettingsByDynamicTableId?dynamicTableId=${dynamicTableId}`,
-            type: 'Get',
-            dataType: 'json',
-            success: function (data) {   
-                console.log(data)      ;
-                var tableheaderStartHtml = "<tr>"       
-                var tableheaderEndHtml = "</tr>"
-                var tableheaderHtml = ""
-
-                var arrResultsItem = resultsItem.split('##');
-                //alert(resultsItem);
-                //alert(arrResultsItem.length);
-                //return false;
-                var count =1;                
-                if (parseInt(data.length) > 0) {
-                    console.log(data);
-                    $.each(data, function (key, item) {
-                        //debugger;
-                        var startTR = "";
-                        var endTR = "";
-                        var checkItem = "";
-                        var mainItem = "";
-                        var subItem = "";
-                        var detailItem = "";
-                        var methodList = "";
-                        var dataForList = "";
-                        var totalListItem = "";                        
-                        var settingColCount = 0;
-                        var mainTotalCheck = '';
-                        var subTotalCheck = '';
-
-
-                        $("#main_item_settings").val('');
-                        $("#sub_item_settings").val('');
-                        $("#detail_item_settings").val('');
-
-                        
-                        startTR = "<tr data-count='1' class='setting_tbl_tr'>";
-                        endTR = "</tr>";        
-                        if (item.Id != '' && item.Id != null && item.Id != undefined){
-                            settingColCount = parseInt(settingColCount)+1;
-
-                            if(parseInt(count) ==1){
-                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";
-                            }                            
-                            checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                                               
-                        }
-
-                        
-        
-
-                        var tempCatId = 0;
-                        if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
-                            if (item.CategoryId != '' && item.CategoryId != null && item.CategoryId != undefined){
-                                tempCatId = item.CategoryId;
-                            }
-
-                            settingColCount = parseInt(settingColCount)+1;
-                            $("#main_item_settings").val(1);
-                            if(parseInt(count) ==1){                                
-                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[0]+"</th>";
-                            }                            
-                            mainItem = GetMainItemList(tempCatId);
-                        }
-
-                        var tempSubCatId = 0;
-                        if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                            
-                            if (item.SubCategoryId != '' && item.SubCategoryId != null && item.SubCategoryId != undefined){
-                                tempSubCatId = item.SubCategoryId;
-                            }
-
-                            settingColCount = parseInt(settingColCount)+1;
-                            $("#sub_item_settings").val(1);
-                            if(parseInt(count) ==1){
-                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[1]+"</th>";
-                            }                            
-                            subItem = GetSubItemList(tempCatId,tempSubCatId);  
-                        }                             
-
-                        var tempDetailId = 0;
-                        if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){
-                            if (item.DetailsId != '' && item.DetailsId != null && item.DetailsId != undefined){
-                                tempDetailId = item.DetailsId;
-                            }
-
-                            $("#detail_item_settings").val(1);
-                            settingColCount = parseInt(settingColCount)+1;
-                            if(parseInt(count) == 1){                                
-                                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[2]+"</th>";
-                            }                            
-                            detailItem = GetDetailItemList(tempSubCatId,tempDetailId);  
-                        }                        
-                        
-                        methodList = GetMethodList(item.MethodId,count);
-                                            
-                        dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
-                        dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
-                        dataForList = dataForList +"</select>   ";                      
-                        dataForList = dataForList +" </td>";
-                        
-                        var dependency = "";                        
-                        
-                        if(item.ParameterType == 'department'){
-                            dependency = "dp";
-                        }else{
-                            dependency = "in";
-                        }
-
-                        totalListItem = "";
-
-                        if (item.IsMainTotal) {
-                            mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_main_total_chk'></td>`;
-                        }
-                        else {
-                            mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
-                        }
-                        
-
-                        if (detailItem != '') {
-                            if (item.IsSubTotal) {
-                                subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_sub_total_chk'></td>`;
-                            }
-                            else {
-                                subTotalCheck = `<td class='setting_items_td'><input  type='checkbox'  class='is_sub_total_chk'></td>`;
-                            }
-                            
-                            totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck +""+ endTR;
-                        }
-                        else {
-                            totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + endTR;
-                        }
-
-                              
-                        
-                        
-                        if(parseInt(count) == 1){
-                            settingColCount = parseInt(settingColCount)+2;
-                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
-                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>集計データ​(data)</th>";
-                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Main Total</th>";
-                            if (detailItem != '') {
-                                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Sub Total</th>";
-                            }
-
-                            tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
-                            $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
-                            $("#setting_column_count").val(settingColCount);
-                        }
-
-                        $('#total_menu_list_tbody').append(`${totalListItem}`);  
-                        
-                        var optionDataFor = "";
-                        optionDataFor = DataForDropdown(item.ParameterId,dependency,count);                    
-                        $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
-                        $(".data_for_dropdown").select2();
-                        
-                        count = count +1;
-                    });
-                }
-                else{ 
-                    var startTR = "";
-                    var endTR = "";
-                    var checkItem = "";
-                    var mainItem = "";
-                    var subItem = "";
-                    var detailItem = "";
-                    var methodList = "";
-                    var dataForList = "";
-                    var totalListItem = "";                        
-                    var settingColCount = 0;
-                    var mainTotalCheck = '';
-                    var subTotalCheck = '';
-
-                    $("#main_item_settings").val('');
-                    $("#sub_item_settings").val('');
-                    $("#detail_item_settings").val('');
-
-                    
-                    startTR = "<tr data-count='1' class='setting_tbl_tr'>";
-                    endTR = "</tr>";
-                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>選択​</th>";        
-                    checkItem = `<td class='setting_items_td'><input  type='checkbox' value='0' class='setting_tbl_chk'></td>`;
-                    settingColCount = parseInt(settingColCount)+1;                                                                
-
-                    var tempCatId = 0;
-                    if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
-                        settingColCount = parseInt(settingColCount)+1;
-                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[0]+"</th>";
-                        $("#main_item_settings").val(1);                                                    
-                        mainItem = GetMainItemList(tempCatId);
-                    }
-
-                    var tempSubCatId = 0;
-                    if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                                                    
-                        settingColCount = parseInt(settingColCount)+1;                        
-                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[1]+"</th>";                            
-                        $("#sub_item_settings").val(1);
-                        subItem = GetSubItemList(tempCatId,tempSubCatId);  
-                    }                             
-
-                    var tempDetailId = 0;
-                    if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){                        
-                        $("#detail_item_settings").val(1);
-                        settingColCount = parseInt(settingColCount)+1;
-                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>"+arrResultsItem[2]+"</th>";                            
-                        detailItem = GetDetailItemList(tempSubCatId,tempDetailId);   
-                    }                        
-                    var tempMethodId=0;
-                    methodList = GetMethodList(tempMethodId,count);
-                                        
-                    dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
-                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
-                    dataForList = dataForList +"</select>   ";                      
-                    dataForList = dataForList +" </td>";
-                    
-                    var dependency = "";
-                    mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
-                    
-                    totalListItem = "";
-                    if (detailItem != '') {
-                        subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_sub_total_chk'></td>`;
-                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck+"" + endTR;
-                    }
-                    else {
-                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck+"" + endTR;
-                    }
-                    
-                    
-                    settingColCount = parseInt(settingColCount)+2;
-                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header'>集計方式​(methods)</th>";
-                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>集計データ​(data)</th>";
-                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Main Total</th>";
-                    if (detailItem != '') {
-                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header'>Sub Total</th>";
-                    }
-
-                    tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
-                    $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
-                    $("#setting_column_count").val(settingColCount);
-
-                    $('#total_menu_list_tbody').append(`${totalListItem}`);  
-                    
-                    var optionDataFor = "";
-                    $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
-                    $(".data_for_dropdown").select2();                                                                                                    
-                }
-                $('.dynamic_table_list_action').show();  
-            },
-            error: function (data) {
-            }
-        });
-    }
-
-    //get main item list
-    function GetMainItemList(mainItemId){        
-        var tableId = $("#table_list").val();
-        var mainItem = "";
-        $.ajax({
-            url: `/api/utilities/GetCategories?dynamicTableId=${tableId}`,
-            type: 'Get',
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                
-                mainItem = mainItem +" <td class='setting_items_td'>";
-                mainItem = mainItem +"    <select class='main_item_dropdown'>";
-                mainItem = mainItem +"      <option value=''>設定する大項目を入力</option>";
-                $.each(data, function (key, item) {
-                    if(parseInt(mainItemId) == parseInt(item.Id)){
-                        mainItem = mainItem +`<option value='${item.Id}' selected>${item.CategoryName}</option>`;
-                    }else{
-                        mainItem = mainItem +`<option value='${item.Id}'>${item.CategoryName}</option>`;
-                    }                   
-                });
-                mainItem = mainItem +"    </select>";
-                mainItem = mainItem +" </td>"; 
-                
-                
-            },
-            error: function (data) {
-            }
-        });
-
-        return mainItem;
-    }
-
-    //get sub item list
-    function GetSubItemList(categoryId,subCategoryId){
-        var subItem = "";
-        if(parseInt(categoryId)==0){
-            subItem = subItem +" <td class='setting_items_td'>";
-            subItem = subItem +"    <select class='sub_item_dropdown'> ";
-            subItem = subItem +"    </select>";
-            subItem = subItem +" </td>";
-        }else{
-            $.ajax({
-                url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
-                type: 'Get',
-                dataType: 'json',
-                async: false,
-                success: function (data) { 
-                    if (data != '' && data != null && data != undefined){
-                        if(parseInt(subCategoryId) ==0)  {
-                            subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
-                        }else{
-                            subItem = subItem +" <td class='setting_items_td'>";
-                            subItem = subItem +"    <select class='sub_item_dropdown'> ";
-                            subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
-                        }               
-                        
-                        $.each(data, function (key, item) { 
-                            if(subCategoryId ==0)  {
-                                subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
-                            }else{
-                                if (subCategoryId != '' && subCategoryId != null && subCategoryId != undefined){
-                                    if(parseInt(subCategoryId) == parseInt(item.Id)){
-                                        subItem = subItem +`<option value='${item.Id}' selected>${item.SubCategoryName}</option>`;
-                                    }else{
-                                        subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
-                                    }                         
-                                }
-                            }                    
-                        });  
-                        if(parseInt(subCategoryId) !=0)  {                    
-                            subItem = subItem +"    </select>";
-                            subItem = subItem +" </td>";                                                                
-                        } 
-                    }else{
-                        subItem = subItem +" <td class='setting_items_td'>";
-                        subItem = subItem +"    <select class='sub_item_dropdown'> ";
-                        subItem = subItem +"      <option value=''>select sub item</option>";  
-                        subItem = subItem +"    </select>";
-                        subItem = subItem +" </td>";       
-                    }        
-                },
-                error: function (data) {
-                }
-            });
-        }
-        return subItem;
-    }
-
-    //get sub item list
-    function GetDetailItemList(subItemId,detailItemId){        
-        var detailItem = "";       
-        //alert("subItemId: "+subItemId);
-        //alert("detailItemId: "+detailItemId);
-        if(parseInt(subItemId)==0){
-            detailItem = detailItem +" <td class='setting_items_td'>";
-            detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
-            detailItem = detailItem +"    </select>";
-            detailItem = detailItem +" </td>"; 
-        }else{        
-            $.ajax({
-                url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItemId}`,
-                type: 'Get',
-                dataType: 'json',
-                async: false,
-                success: function (data) {   
-                    if (data != '' && data != null && data != undefined){
-                        if(detailItemId=='new'){                            
-                            detailItem = detailItem +"      <option value=''>select detail item</option>";   
-                        }else{
-                            detailItem = detailItem +" <td class='setting_items_td'>";
-                            detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
-                            detailItem = detailItem +"      <option value=''>select detail item</option>";   
-                        }
-                        
-                        $.each(data, function (key, item) {   
-                            if (detailItemId != '' && detailItemId != null && detailItemId != undefined){
-                                if(parseInt(detailItemId) == parseInt(item.Id)){
-                                    detailItem = detailItem +`<option value='${item.Id}' selected>${item.DetailsItemName}</option>`;
-                                }else{
-                                    detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
-                                }                         
-                            }else{
-                                detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
-                            }                                                             
-                        }); 
-
-                        if(detailItemId=='new'){                            
-                            //detailItem = detailItem +"      <option value=''>select detail item</option>";   
-                        }else{
-                            detailItem = detailItem +"    </select>";
-                            detailItem = detailItem +" </td>";    
-                        } 
-                           
-                    }
-                    else{
-                        detailItem = detailItem +" <td class='setting_items_td'>";
-                        detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
-                        detailItem = detailItem +"      <option value=''>select detail item</option>"; 
-                        detailItem = detailItem +"    </select>";
-                        detailItem = detailItem +" </td>";    
-                    }
-                },
-                error: function (data) {
-                }
-            });
-        }
-        return detailItem;
-    }
-
-    //get method list
-    function GetMethodList(methodId,rowCount){
-        var methodList = "";        
-        $.ajax({
-            url: '/api/utilities/GetMethodList/',
-            type: 'Get',
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                methodList = methodList +" <td class='setting_items_td'>";
-                methodList = methodList +"    <select class='method_dropdown'> ";
-                methodList = methodList +"      <option value=''>select method</option>";
-                $.each(data, function (key, item) {
-                    if(parseInt(methodId) == parseInt(item.Id)){
-                        methodList = methodList +`<option value='${item.Id}'data-dependency=${item.Dependency} row-count=${rowCount} selected>${item.MethodName}</option>`;
-                    }else{
-                        methodList = methodList +`<option value='${item.Id}'data-dependency=${item.Dependency} row-count=${rowCount} >${item.MethodName}</option>`;
-                    }                      
-                });
-                methodList = methodList +"    </select>";
-                methodList = methodList +" </td>";
-            },
-            error: function (data) {
-            }
-        }); 
-        return methodList;
-    }
-
-    function DataForDropdown(parameterIds,dependency,indexCount){       
-        var dataForList = "";
-        // pull data for dependency
-        var arrParameters = parameterIds.split(",");    
-        if (dependency == "dp") {
-            $.ajax({
-                url: `/api/Departments`,
-                type: 'Get',
-                async:false,
-                dataType: 'json',
-                success: function (data) {                                                         
-                    $.each(data, function (key, item) {    
-                        var isDepartmentSelected = false;
-
-                        for (i = 0; i < arrParameters.length; ++i) {
-                            if(parseInt(item.Id) == parseInt(arrParameters[i])){
-                                isDepartmentSelected = true;
-                            }
-                        }    
-                        if(isDepartmentSelected){
-                            dataForList = dataForList +`<option value='${item.Id}' selected>${item.DepartmentName}</option>`;
-                        }else{
-                            dataForList = dataForList +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
-                        }                        
-                    });                       
-                },
-                error: function (data) {
-                }
-            });
-        }
-        if (dependency == "in") {
-            $.ajax({
-                url: `/api/InCharges`,
-                type: 'Get',
-                async:false,
-                dataType: 'json',
-                success: function (data) {                     
-                    $.each(data, function (key, item) {
-                        var isInchageSelected = false;
-                        for (i = 0; i < arrParameters.length; ++i) {
-                            if(parseInt(item.Id) == parseInt(arrParameters[i])){
-                                isInchageSelected = true;
-                            }
-                        }  
-                        if(isInchageSelected){
-                            dataForList = dataForList +`<option value='${item.Id}' selected>${item.InChargeName}</option>`;
-                        }else{
-                            dataForList = dataForList +`<option value='${item.Id}'>${item.InChargeName}</option>`;
-                        } 
-                    });                        
-                },
-                error: function (data) {
-                }
-            });
-        }
-        return dataForList;
-    }
-
     //get data for list, when method is changed
     $(document).on('change', '.method_dropdown', function () {
-
-        // var optionDataFor = "";
-        // optionDataFor = DataForDropdown(item.ParameterId,dependency,count);                    
-        // $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
-        // $(".data_for_dropdown").select2();
-
-        
         var data_for_options = "";
         var methodId = $(this).val();    
         var dependency = $('option:selected', this).attr('data-dependency');        
@@ -618,14 +79,13 @@
         }
     });   
     
+    //when table changed from the table dropdown
     $(document).on('change', '#table_list', function () {
         $(".total_menu_list_tbl").hide();    
     });
 
     //add new row for table settings
-    $(document).on('click', '.list_table_add_btn ', function () {
-        //var row_count = $('option:selected', this).attr('row-count');       
-
+    $(document).on('click', '.list_table_add_btn ', function () { 
         var $lastRow = $("#total_menu_list_tbody").find("tr").last();        
         var $newRow = $lastRow.clone();
 
@@ -663,10 +123,6 @@
         }        
     });
 
-    function RemoveDeletedRows(){
-
-    }
-
     //delete settings for the selected table
     $(document).on('click', '.confrim_del_btn ', function () {
         var tableId = $("#table_list").val();    
@@ -678,12 +134,6 @@
 
         $('.setting_tbl_chk:checkbox:checked').each(function(i){
             $('table tr').has('.setting_tbl_chk:checkbox:checked').remove();    
-
-            //$('.setting_tbl_tr .setting_tbl_chk:checkbox:checked').remove();            
-            
-            //$('table tr').has('input[name="vehicle"]:checked').remove();
-            //return false;
-
             val[i] = $(this).val();
             if(parseInt(val[i]) ==0){
                 isNotSavedRow = true;
@@ -703,13 +153,7 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function (data) {                
-                    ToastMessageSuccess(data);                                
-                    
-                    //$('.dynamic_table_list_action').hide(); 
-                   // $('#total_menu_list_thead').empty();    
-                    //$('#total_menu_list_tbody').empty();    
-
-                    //GetDynamicSettings(tableId,resultsItem);
+                    ToastMessageSuccess(data);      
                     $("#delete_settings_table").modal("hide");
                 },
                 error: function (data) {
@@ -717,61 +161,19 @@
                 }
             });
         }else{
-            ToastMessageSuccess("設定が削除されました");                                
-            //$('.dynamic_table_list_action').hide(); 
-            //$('#total_menu_list_thead').empty();    
-            //$('#total_menu_list_tbody').empty();          
-            //GetDynamicSettings(tableId,resultsItem);
+            ToastMessageSuccess("設定が削除されました");    
             $("#delete_settings_table").modal("hide"); 
         }        
-    
         $('#delete_dynamic_table').modal('toggle');
     }); 
 
     $(document).on('click', '.list_table_edit_btn ', function () {
-        debugger;
-        var tableSettingsParameters = "";
-        //tableSettingsParameters = "settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1,2,3)_insertType(update/insert)###settingsId_mainItemId_subItemId_detailItemId_methodId_parameterList(1#2#3#)_insertType(update/insert)"
-        
+        var tableSettingsParameters = "";        
         var is_main_item_colmn = $("#main_item_settings").val();
         var is_sub_item_colmn = $("#sub_item_settings").val();
         var is_detail_item_colmn = $("#detail_item_settings").val();
 
         var isValidRequest = true;
-
-        // code for validation.
-        //{
-        //    var itemFlag = 0;
-
-        //    if (is_main_item_colmn != '' && is_main_item_colmn != null && is_main_item_colmn != undefined) {
-        //        itemFlag = 1;
-        //    }
-        //    if (is_sub_item_colmn != '' && is_sub_item_colmn != null && is_sub_item_colmn != undefined) {
-        //        itemFlag = 2;
-        //    }
-        //    if (is_detail_item_colmn != '' && is_detail_item_colmn != null && is_detail_item_colmn != undefined) {
-        //        itemFlag = 3;
-        //    }
-
-
-
-        //    if (itemFlag == 1) {
-
-        //    }
-        //    if (itemFlag == 2) {
-
-        //    }
-        //    if (itemFlag == 3) {
-
-        //    }
-
-        //    $('.setting_tbl_tr').each(function (i) {
-
-        //    });
-        //}
-      
-
-
         $('.setting_tbl_tr').each(function(i){
             var settingsId = "";
             var mainItemId = "";
@@ -845,8 +247,6 @@
             }
 
             isMainTotal = $(this).find(".is_main_total_chk").is(':checked');
-            //console.log($(this).find(".is_main_total_chk"));
-
             isSubTotal = $(this).find(".is_sub_total_chk").is(':checked');
 
             if (isSubTotal == undefined) {
@@ -874,33 +274,6 @@
         }        
     });
 
-    //udpate insert dynamic table settings.
-    function UpdateInsertSettings(tableSettingsParameters) {       
-        var tableId = $("#table_list").val();  
-        var resultsItem = GetDynamicTablesByTableId(tableId);
-        if (tableSettingsParameters != '' && tableSettingsParameters != null && tableSettingsParameters != undefined){
-            var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters+"&tableId="+tableId;
-            
-            $.ajax({
-                url: apiurl,
-                type: 'POST',
-                dataType: 'json',
-                success: function (data) {                
-                    ToastMessageSuccess(data);                                
-                    $('.dynamic_table_list_action').hide(); 
-                    $('#total_menu_list_thead').empty();    
-                    $('#total_menu_list_tbody').empty();        
-                    GetDynamicSettings(tableId,resultsItem);
-                    $("#delete_settings_table").modal("hide");
-                },
-                error: function (data) {
-                    ToastMessageFailed("操作が失敗しました"); 
-                }
-            });            
-        }else{
-        }        
-    }  
-
     //cascading dropdown for main item 
     $(document).on('change', '.main_item_dropdown', function () {
         var categoryId = $(this).val();  
@@ -913,8 +286,550 @@
     $(document).on('change', '.sub_item_dropdown', function () {
         var subItemId = $(this).val();  
         var detailItemHtml = GetDetailItemList(subItemId,'new');        
-        //alert(detailItemHtml)
         $(this).closest('tr').find('.detail_item_dropdown').empty().append(detailItemHtml);        
     }); 
 
 });
+
+//get dynamic table dropdown list on pageload
+function GetDynamicTables() {
+    $.getJSON('/api/Utilities/GetDynamicTables')
+        .done(function (data) {           
+            $('#table_list').empty();
+            $('#table_list').append(`<option value=''>クリックして集計表を選択</option>`);
+            $.each(data, function (key, item) {
+                $('#table_list').append(`<option value='${item.Id}'>${item.TableName}</option>`);
+            });
+        });
+}
+
+//get dynamic tables information by table id
+function GetDynamicTablesByTableId(tableId){
+    var tableMainItemTitle="";
+    var tableSubItemTitle = "";
+    var tableDetialItemTitle = "";
+    var resultsItem = "";
+
+    $.ajax({
+        url: `/api/utilities/GetDynamicTableById/${tableId}`,
+        type: 'Get',
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            if (data.CategoryTitle != '' && data.CategoryTitle != null && data.CategoryTitle != undefined) {
+                tableMainItemTitle =  data.CategoryTitle;     
+                resultsItem = tableMainItemTitle;
+                if (data.SubCategoryTitle != '' && data.SubCategoryTitle != null && data.SubCategoryTitle != undefined) {
+                    tableSubItemTitle =  data.SubCategoryTitle;       
+                    resultsItem = resultsItem+"##"+tableSubItemTitle;
+                    if (data.DetailsTitle != '' && data.DetailsTitle != null && data.DetailsTitle != undefined){
+                        tableDetialItemTitle = data.DetailsTitle;
+                        resultsItem = resultsItem+"##"+tableDetialItemTitle;
+                    }                        
+                }                                  
+            }                
+        },
+        error: function (data) {
+        }
+    });
+
+    return resultsItem;
+}
+
+//get dynamic table settings by table id
+function GetDynamicSettings(dynamicTableId,resultsItem) {            
+    $.ajax({
+        url: `/api/utilities/GetDynamicSettingsByDynamicTableId?dynamicTableId=${dynamicTableId}`,
+        type: 'Get',
+        dataType: 'json',
+        success: function (data) {   
+            console.log(data)      ;
+            var tableheaderStartHtml = "<tr>"       
+            var tableheaderEndHtml = "</tr>"
+            var tableheaderHtml = ""
+
+            var arrResultsItem = resultsItem.split('##');
+            var count =1;                
+            if (parseInt(data.length) > 0) {
+                console.log(data);
+                $.each(data, function (key, item) {
+                    var startTR = "";
+                    var endTR = "";
+                    var checkItem = "";
+                    var mainItem = "";
+                    var subItem = "";
+                    var detailItem = "";
+                    var methodList = "";
+                    var dataForList = "";
+                    var totalListItem = "";                        
+                    var settingColCount = 0;
+                    var mainTotalCheck = '';
+                    var subTotalCheck = '';
+
+
+                    $("#main_item_settings").val('');
+                    $("#sub_item_settings").val('');
+                    $("#detail_item_settings").val('');
+
+                    
+                    startTR = "<tr data-count='1' class='setting_tbl_tr'>";
+                    endTR = "</tr>";        
+                    if (item.Id != '' && item.Id != null && item.Id != undefined){
+                        settingColCount = parseInt(settingColCount)+1;
+
+                        if(parseInt(count) ==1){
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_checkbox'>選択​</th>";
+                        }                            
+                        checkItem = `<td class='setting_items_td'><input  type='checkbox' value='${item.Id}' class='setting_tbl_chk'></td>`;                                               
+                    }
+                    var tempCatId = 0;
+                    if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
+                        if (item.CategoryId != '' && item.CategoryId != null && item.CategoryId != undefined){
+                            tempCatId = item.CategoryId;
+                        }
+
+                        settingColCount = parseInt(settingColCount)+1;
+                        $("#main_item_settings").val(1);
+                        if(parseInt(count) ==1){                                
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_main_item'>"+arrResultsItem[0]+"</th>";
+                        }                            
+                        mainItem = GetMainItemList(tempCatId);
+                    }
+
+                    var tempSubCatId = 0;
+                    if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                            
+                        if (item.SubCategoryId != '' && item.SubCategoryId != null && item.SubCategoryId != undefined){
+                            tempSubCatId = item.SubCategoryId;
+                        }
+
+                        settingColCount = parseInt(settingColCount)+1;
+                        $("#sub_item_settings").val(1);
+                        if(parseInt(count) ==1){
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_sub_item'>"+arrResultsItem[1]+"</th>";
+                        }                            
+                        subItem = GetSubItemList(tempCatId,tempSubCatId);  
+                    }                             
+
+                    var tempDetailId = 0;
+                    if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){
+                        if (item.DetailsId != '' && item.DetailsId != null && item.DetailsId != undefined){
+                            tempDetailId = item.DetailsId;
+                        }
+
+                        $("#detail_item_settings").val(1);
+                        settingColCount = parseInt(settingColCount)+1;
+                        if(parseInt(count) == 1){                                
+                            tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_detail_item'>"+arrResultsItem[2]+"</th>";
+                        }                            
+                        detailItem = GetDetailItemList(tempSubCatId,tempDetailId);  
+                    }                        
+                    
+                    methodList = GetMethodList(item.MethodId,count);
+                                        
+                    dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
+                    dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
+                    dataForList = dataForList +"</select>   ";                      
+                    dataForList = dataForList +" </td>";   
+
+                    var dependency = "";                                        
+                    if(item.ParameterType == 'department'){
+                        dependency = "dp";
+                    }else{
+                        dependency = "in";
+                    }
+                    totalListItem = "";
+                    if (item.IsMainTotal) {
+                        mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_main_total_chk'></td>`;
+                    }
+                    else {
+                        mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
+                    }                    
+                    if (detailItem != '') {
+                        if (item.IsSubTotal) {
+                            subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' checked class='is_sub_total_chk'></td>`;
+                        }
+                        else {
+                            subTotalCheck = `<td class='setting_items_td'><input  type='checkbox'  class='is_sub_total_chk'></td>`;
+                        }
+                        
+                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck +""+ endTR;
+                    }
+                    else {
+                        totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + endTR;
+                    }                        
+                    if(parseInt(count) == 1){
+                        settingColCount = parseInt(settingColCount)+2;
+                        tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式​</th>";
+                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
+                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>Main Total</th>";
+                        if (detailItem != '') {
+                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>Sub Total</th>";
+                        }
+                        tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
+                        $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
+                        $("#setting_column_count").val(settingColCount);
+                    }
+                    $('#total_menu_list_tbody').append(`${totalListItem}`);  
+                    
+                    var optionDataFor = "";
+                    optionDataFor = DataForDropdown(item.ParameterId,dependency,count);                    
+                    $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
+                    $(".data_for_dropdown").select2();
+                    
+                    count = count +1;
+                });
+            }
+            else{ 
+                var startTR = "";
+                var endTR = "";
+                var checkItem = "";
+                var mainItem = "";
+                var subItem = "";
+                var detailItem = "";
+                var methodList = "";
+                var dataForList = "";
+                var totalListItem = "";                        
+                var settingColCount = 0;
+                var mainTotalCheck = '';
+                var subTotalCheck = '';
+
+                $("#main_item_settings").val('');
+                $("#sub_item_settings").val('');
+                $("#detail_item_settings").val('');
+
+                
+                startTR = "<tr data-count='1' class='setting_tbl_tr'>";
+                endTR = "</tr>";
+                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_checkbox'>選択​</th>";        
+                checkItem = `<td class='setting_items_td'><input  type='checkbox' value='0' class='setting_tbl_chk'></td>`;
+                settingColCount = parseInt(settingColCount)+1;                                                                
+
+                var tempCatId = 0;
+                if (arrResultsItem[0] != '' && arrResultsItem[0] != null && arrResultsItem[0] != undefined){                            
+                    settingColCount = parseInt(settingColCount)+1;
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_main_item'>"+arrResultsItem[0]+"</th>";
+                    $("#main_item_settings").val(1);                                                    
+                    mainItem = GetMainItemList(tempCatId);
+                }
+
+                var tempSubCatId = 0;
+                if (arrResultsItem[1] != '' && arrResultsItem[1] != null && arrResultsItem[1] != undefined){                                                    
+                    settingColCount = parseInt(settingColCount)+1;                        
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_sub_item'>"+arrResultsItem[1]+"</th>";                            
+                    $("#sub_item_settings").val(1);
+                    subItem = GetSubItemList(tempCatId,tempSubCatId);  
+                }                             
+
+                var tempDetailId = 0;
+                if (arrResultsItem[2] != '' && arrResultsItem[2] != null && arrResultsItem[2] != undefined){                        
+                    $("#detail_item_settings").val(1);
+                    settingColCount = parseInt(settingColCount)+1;
+                    tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_detail_item'>"+arrResultsItem[2]+"</th>";                            
+                    detailItem = GetDetailItemList(tempSubCatId,tempDetailId);   
+                }                        
+                var tempMethodId=0;
+                methodList = GetMethodList(tempMethodId,count);
+                                    
+                dataForList = dataForList +" <td class='setting_items_td data_for'>";                             
+                dataForList = dataForList +"<select class='data_for_dropdown' multiple='multiple' id='data_for_id_"+count+"'>";                                            
+                dataForList = dataForList +"</select>   ";                      
+                dataForList = dataForList +" </td>";
+                
+                var dependency = "";
+                mainTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_main_total_chk'></td>`;
+                
+                totalListItem = "";
+                if (detailItem != '') {
+                    subTotalCheck = `<td class='setting_items_td'><input  type='checkbox' class='is_sub_total_chk'></td>`;
+                    totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck + "" + subTotalCheck+"" + endTR;
+                }
+                else {
+                    totalListItem = startTR + "" + checkItem + "" + mainItem + "" + subItem + "" + detailItem + "" + methodList + "" + dataForList + "" + mainTotalCheck+"" + endTR;
+                }
+                
+                
+                settingColCount = parseInt(settingColCount)+2;
+                tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式</th>";
+                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
+                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>Main Total</th>";
+                if (detailItem != '') {
+                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>Sub Total</th>";
+                }
+
+                tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
+                $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
+                $("#setting_column_count").val(settingColCount);
+
+                $('#total_menu_list_tbody').append(`${totalListItem}`);  
+                
+                var optionDataFor = "";
+                $('.setting_items_td').find('#data_for_id_'+count).empty().append(optionDataFor);
+                $(".data_for_dropdown").select2();                                                                                                    
+            }
+            $('.dynamic_table_list_action').show();  
+        },
+        error: function (data) {
+        }
+    });
+}
+
+//get main item list
+function GetMainItemList(mainItemId){        
+    var tableId = $("#table_list").val();
+    var mainItem = "";
+    $.ajax({
+        url: `/api/utilities/GetCategories?dynamicTableId=${tableId}`,
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            
+            mainItem = mainItem +" <td class='setting_items_td'>";
+            mainItem = mainItem +"    <select class='main_item_dropdown'>";
+            mainItem = mainItem +"      <option value=''>設定する大項目を入力</option>";
+            $.each(data, function (key, item) {
+                if(parseInt(mainItemId) == parseInt(item.Id)){
+                    mainItem = mainItem +`<option value='${item.Id}' selected>${item.CategoryName}</option>`;
+                }else{
+                    mainItem = mainItem +`<option value='${item.Id}'>${item.CategoryName}</option>`;
+                }                   
+            });
+            mainItem = mainItem +"    </select>";
+            mainItem = mainItem +" </td>"; 
+            
+            
+        },
+        error: function (data) {
+        }
+    });
+
+    return mainItem;
+}
+
+//get sub item list
+function GetSubItemList(categoryId,subCategoryId){
+    var subItem = "";
+    if(parseInt(categoryId)==0){
+        subItem = subItem +" <td class='setting_items_td'>";
+        subItem = subItem +"    <select class='sub_item_dropdown'> ";
+        subItem = subItem +"    </select>";
+        subItem = subItem +" </td>";
+    }else{
+        $.ajax({
+            url: `/api/utilities/GetSubCategoriesByCategory?categoryId=${categoryId}`,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) { 
+                if (data != '' && data != null && data != undefined){
+                    if(parseInt(subCategoryId) ==0)  {
+                        subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
+                    }else{
+                        subItem = subItem +" <td class='setting_items_td'>";
+                        subItem = subItem +"    <select class='sub_item_dropdown'> ";
+                        subItem = subItem +"      <option value=''>select sub item</option>";                                                                   
+                    }               
+                    
+                    $.each(data, function (key, item) { 
+                        if(subCategoryId ==0)  {
+                            subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                        }else{
+                            if (subCategoryId != '' && subCategoryId != null && subCategoryId != undefined){
+                                if(parseInt(subCategoryId) == parseInt(item.Id)){
+                                    subItem = subItem +`<option value='${item.Id}' selected>${item.SubCategoryName}</option>`;
+                                }else{
+                                    subItem = subItem +`<option value='${item.Id}'>${item.SubCategoryName}</option>`;
+                                }                         
+                            }
+                        }                    
+                    });  
+                    if(parseInt(subCategoryId) !=0)  {                    
+                        subItem = subItem +"    </select>";
+                        subItem = subItem +" </td>";                                                                
+                    } 
+                }else{
+                    subItem = subItem +" <td class='setting_items_td'>";
+                    subItem = subItem +"    <select class='sub_item_dropdown'> ";
+                    subItem = subItem +"      <option value=''>select sub item</option>";  
+                    subItem = subItem +"    </select>";
+                    subItem = subItem +" </td>";       
+                }        
+            },
+            error: function (data) {
+            }
+        });
+    }
+    return subItem;
+}
+
+//get sub item list
+function GetDetailItemList(subItemId,detailItemId){        
+    var detailItem = "";       
+    if(parseInt(subItemId)==0){
+        detailItem = detailItem +" <td class='setting_items_td'>";
+        detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
+        detailItem = detailItem +"    </select>";
+        detailItem = detailItem +" </td>"; 
+    }else{        
+        $.ajax({
+            url: `/api/utilities/GetDetailsItemBySubItemsId?subItemId=${subItemId}`,
+            type: 'Get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {   
+                if (data != '' && data != null && data != undefined){
+                    if(detailItemId=='new'){                            
+                        detailItem = detailItem +"      <option value=''>select detail item</option>";   
+                    }else{
+                        detailItem = detailItem +" <td class='setting_items_td'>";
+                        detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
+                        detailItem = detailItem +"      <option value=''>select detail item</option>";   
+                    }
+                    
+                    $.each(data, function (key, item) {   
+                        if (detailItemId != '' && detailItemId != null && detailItemId != undefined){
+                            if(parseInt(detailItemId) == parseInt(item.Id)){
+                                detailItem = detailItem +`<option value='${item.Id}' selected>${item.DetailsItemName}</option>`;
+                            }else{
+                                detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                            }                         
+                        }else{
+                            detailItem = detailItem +`<option value='${item.Id}'>${item.DetailsItemName}</option>`;
+                        }                                                             
+                    }); 
+
+                    if(detailItemId=='new'){                            
+                    }else{
+                        detailItem = detailItem +"    </select>";
+                        detailItem = detailItem +" </td>";    
+                    } 
+                       
+                }
+                else{
+                    detailItem = detailItem +" <td class='setting_items_td'>";
+                    detailItem = detailItem +"    <select class='detail_item_dropdown'> ";
+                    detailItem = detailItem +"      <option value=''>select detail item</option>"; 
+                    detailItem = detailItem +"    </select>";
+                    detailItem = detailItem +" </td>";    
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+    return detailItem;
+}
+
+//get method list
+function GetMethodList(methodId,rowCount){
+    var methodList = "";        
+    $.ajax({
+        url: '/api/utilities/GetMethodList/',
+        type: 'Get',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            methodList = methodList +" <td class='setting_items_td'>";
+            methodList = methodList +"    <select class='method_dropdown'> ";
+            methodList = methodList +"      <option value=''>select method</option>";
+            $.each(data, function (key, item) {
+                if(parseInt(methodId) == parseInt(item.Id)){
+                    methodList = methodList +`<option value='${item.Id}'data-dependency=${item.Dependency} row-count=${rowCount} selected>${item.MethodName}</option>`;
+                }else{
+                    methodList = methodList +`<option value='${item.Id}'data-dependency=${item.Dependency} row-count=${rowCount} >${item.MethodName}</option>`;
+                }                      
+            });
+            methodList = methodList +"    </select>";
+            methodList = methodList +" </td>";
+        },
+        error: function (data) {
+        }
+    }); 
+    return methodList;
+}
+
+//get data for list
+function DataForDropdown(parameterIds,dependency,indexCount){       
+    var dataForList = "";
+    // pull data for dependency
+    var arrParameters = parameterIds.split(",");    
+    if (dependency == "dp") {
+        $.ajax({
+            url: `/api/Departments`,
+            type: 'Get',
+            async:false,
+            dataType: 'json',
+            success: function (data) {                                                         
+                $.each(data, function (key, item) {    
+                    var isDepartmentSelected = false;
+
+                    for (i = 0; i < arrParameters.length; ++i) {
+                        if(parseInt(item.Id) == parseInt(arrParameters[i])){
+                            isDepartmentSelected = true;
+                        }
+                    }    
+                    if(isDepartmentSelected){
+                        dataForList = dataForList +`<option value='${item.Id}' selected>${item.DepartmentName}</option>`;
+                    }else{
+                        dataForList = dataForList +`<option value='${item.Id}'>${item.DepartmentName}</option>`;
+                    }                        
+                });                       
+            },
+            error: function (data) {
+            }
+        });
+    }
+    if (dependency == "in") {
+        $.ajax({
+            url: `/api/InCharges`,
+            type: 'Get',
+            async:false,
+            dataType: 'json',
+            success: function (data) {                     
+                $.each(data, function (key, item) {
+                    var isInchageSelected = false;
+                    for (i = 0; i < arrParameters.length; ++i) {
+                        if(parseInt(item.Id) == parseInt(arrParameters[i])){
+                            isInchageSelected = true;
+                        }
+                    }  
+                    if(isInchageSelected){
+                        dataForList = dataForList +`<option value='${item.Id}' selected>${item.InChargeName}</option>`;
+                    }else{
+                        dataForList = dataForList +`<option value='${item.Id}'>${item.InChargeName}</option>`;
+                    } 
+                });                        
+            },
+            error: function (data) {
+            }
+        });
+    }
+    return dataForList;
+}
+
+//udpate insert dynamic table settings.
+function UpdateInsertSettings(tableSettingsParameters) {       
+    var tableId = $("#table_list").val();  
+    var resultsItem = GetDynamicTablesByTableId(tableId);
+    if (tableSettingsParameters != '' && tableSettingsParameters != null && tableSettingsParameters != undefined){
+        var apiurl = "/api/Utilities/InsertUpdateDynamicSettings?tableSettingsParameters=" + tableSettingsParameters+"&tableId="+tableId;
+        
+        $.ajax({
+            url: apiurl,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {                
+                ToastMessageSuccess(data);                                
+                $('.dynamic_table_list_action').hide(); 
+                $('#total_menu_list_thead').empty();    
+                $('#total_menu_list_tbody').empty();        
+                GetDynamicSettings(tableId,resultsItem);
+                $("#delete_settings_table").modal("hide");
+            },
+            error: function (data) {
+                ToastMessageFailed("操作が失敗しました"); 
+            }
+        });            
+    }else{
+    }        
+}  

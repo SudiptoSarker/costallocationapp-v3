@@ -12,13 +12,13 @@ namespace CostAllocationApp.BLL
     public class EmployeeAssignmentBLL
     {
         EmployeeAssignmentDAL employeeAssignmentDAL = null;
-        ExplanationsBLL explanationsBLL = null;
+        ExplanationBLL explanationsBLL = null;
         ActualCostDAL actualCostDAL = null;
         TotalDAL totalDAL = null;
         public EmployeeAssignmentBLL()
         {
             employeeAssignmentDAL = new EmployeeAssignmentDAL();
-            explanationsBLL = new ExplanationsBLL();
+            explanationsBLL = new ExplanationBLL();
             actualCostDAL = new ActualCostDAL();
             totalDAL = new TotalDAL();
         }
@@ -38,10 +38,7 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateAssignment(employeeAssignment);
         }
-        public int UpdateBudgetAssignment(EmployeeAssignment employeeAssignment)
-        {
-            return employeeAssignmentDAL.UpdateBudgetAssignment(employeeAssignment);
-        }
+
         public List<EmployeeAssignmentViewModel> SearchAssignment(EmployeeAssignment employeeAssignment)
         {
             var employees = employeeAssignmentDAL.SearchAssignment(employeeAssignment);
@@ -446,56 +443,8 @@ namespace CostAllocationApp.BLL
             return forecastAssignments;
         }
 
-        public List<ForecastAssignmentViewModel> GetEmployeesForecastByIncharge_Company(string inchargeIds, string companyIds, int year)
-        {
-            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetEmployeesForecastByIncharge_Company(inchargeIds, companyIds, year);
-            if (forecastAssignments.Count > 0)
-            {
-                foreach (var forecastAssignment in forecastAssignments)
-                {
-                    forecastAssignment.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(forecastAssignment.Id, year.ToString());
-                    if (forecastAssignment.forecasts.Count > 0)
-                    {
-                        forecastAssignment.OctPoints = forecastAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
-                        forecastAssignment.NovPoints = forecastAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
-                        forecastAssignment.DecPoints = forecastAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JanPoints = forecastAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
-                        forecastAssignment.FebPoints = forecastAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
-                        forecastAssignment.MarPoints = forecastAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
-                        forecastAssignment.AprPoints = forecastAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
-                        forecastAssignment.MayPoints = forecastAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JunPoints = forecastAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JulPoints = forecastAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
-                        forecastAssignment.AugPoints = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
-                        forecastAssignment.SepPoints = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
 
-                        forecastAssignment.OctTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.OctPoints)).ToString();
-                        forecastAssignment.NovTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.NovPoints)).ToString();
-                        forecastAssignment.DecTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.DecPoints)).ToString();
-                        forecastAssignment.JanTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JanPoints)).ToString();
-                        forecastAssignment.FebTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.FebPoints)).ToString();
-                        forecastAssignment.MarTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MarPoints)).ToString();
-                        forecastAssignment.AprTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AprPoints)).ToString();
-                        forecastAssignment.MayTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MayPoints)).ToString();
-                        forecastAssignment.JunTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JunPoints)).ToString();
-                        forecastAssignment.JulTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JulPoints)).ToString();
-                        forecastAssignment.AugTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AugPoints)).ToString();
-                        forecastAssignment.SepTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.SepPoints)).ToString();
-
-                    }
-                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.Id);
-                    if (forecastAssignment.ActualCosts.Count == 0)
-                    {
-                        forecastAssignment.ActualCosts = new List<ActualCost>();
-                        forecastAssignment.ActualCosts.Add(new ActualCost { });
-                    }
-
-                }
-            }
-            return forecastAssignments;
-        }
-
-        //public List<ForecastAssignmentViewModel> GetEmployeesForecastBySearchFilter(EmployeeAssignment employeeAssignment)
+        
         public List<ForecastAssignmentViewModel> GetEmployeesForecastBySearchFilter(EmployeeAssignmentForecast employeeAssignment)
         {
             var employees = employeeAssignmentDAL.GetEmployeesForecastBySearchFilter(employeeAssignment);
@@ -1108,10 +1057,6 @@ namespace CostAllocationApp.BLL
             return employees;
         }
 
-        public bool CheckEmployeeName(string employeeName)
-        {
-            return employeeAssignmentDAL.CheckEmployeeName(employeeName);
-        }
 
         public List<EmployeeAssignmentViewModel> MarkedAsRedForAddName(List<EmployeeAssignmentViewModel> employees)
         {
@@ -1203,10 +1148,7 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.GetBudgetLastId();
         }
-        public void DeleteAssignment_Excel(int assignmentId)
-        {
-            employeeAssignmentDAL.DeleteAssignment_Excel(assignmentId);
-        }
+
         public List<EmployeeAssignmentViewModel> GetAssignmentsByYear(int year)
         {
             return employeeAssignmentDAL.GetAssignmentsByYear(year);
@@ -1563,14 +1505,7 @@ namespace CostAllocationApp.BLL
             }
             return employees;
         }
-        public int UpdateApprovedData(string assignmentYear)
-        {
-            return employeeAssignmentDAL.UpdateApprovedData(assignmentYear);
-        }
-        public int UpdateApprovedDataForDeleteRows(string assignmentYear)
-        {
-            return employeeAssignmentDAL.UpdateApprovedDataForDeleteRows(assignmentYear);
-        }
+
         public EmployeeAssignment GetPreviousApprovedCells(string assignementId)
         {
             return employeeAssignmentDAL.GetPreviousApprovedCells(assignementId);
@@ -1579,48 +1514,20 @@ namespace CostAllocationApp.BLL
         {
             return employeeAssignmentDAL.UpdateBYCRCells(assignementId, bCYRCellApproved, storeBYCRCells);
         }
-        public int UpdateCellWiseApprovdData(string assignmentYear)
-        {
-            return employeeAssignmentDAL.UpdateCellWiseApprovdData(assignmentYear);
-        }
-        public List<EmployeeAssignment> GetPendingCells(string assignmentYear)
-        {
-            return employeeAssignmentDAL.GetPendingCells(assignmentYear);
-        }
-        public int UpdatePendingCells(EmployeeAssignment employeeAssignments)
-        {
-            return employeeAssignmentDAL.UpdatePendingCells(employeeAssignments);
-        }
+
+
+
         public int UpdateCellsByAssignmentid(string updatedApprovedCells, string updatePendingCells, int assignmentId)
         {
             return employeeAssignmentDAL.UpdateCellsByAssignmentid(updatedApprovedCells, updatePendingCells, assignmentId);
         }
 
-        public List<EmployeeAssignment> GetPendingDeleteRows(string assignmentYear)
-        {
-            return employeeAssignmentDAL.GetPendingDeleteRows(assignmentYear);
-        }
-        public List<EmployeeAssignment> GetPendingAddEmployee(string assignmentYear)
-        {
-            return employeeAssignmentDAL.GetPendingAddEmployee(assignmentYear);
-        }
-        public int UpdatePendingDeleteRows(EmployeeAssignment employeeAssignments)
-        {
-            return employeeAssignmentDAL.UpdatePendingDeleteRows(employeeAssignments);
-        }
-        public int UpdatePendingAddEmployee(EmployeeAssignment employeeAssignments)
-        {
-            return employeeAssignmentDAL.UpdatePendingAddEmployee(employeeAssignments);
-        }
 
         public List<EmployeeAssignmentViewModel> GetSpecificAssignmentDataData(int year, int monthId)
         {
             return employeeAssignmentDAL.GetSpecificAssignmentDataData(year, monthId);
         }
-        public int UpdateUnapprovedData(int year)
-        {
-            return employeeAssignmentDAL.UpdateUnapprovedData(year);
-        }
+
         public bool CheckForUnApprovedCells(string assignementId, string selectedCells)
         {
             return employeeAssignmentDAL.CheckForUnApprovedCells(assignementId, selectedCells);
@@ -1888,10 +1795,7 @@ namespace CostAllocationApp.BLL
 
             return isApprovedCell;
         }
-        public List<ForecastDistributdViewModal> GetQCAssignemntsPercentage(int assignmentId)
-        {
-            return employeeAssignmentDAL.GetQCAssignemntsPercentage(assignmentId);
-        }
+
 
         public List<ForecastDistributdViewModal> GetQCAssignemntsPercentageByEmployeeIdAndYear(int employeeId, int year)
         {
@@ -3096,55 +3000,6 @@ namespace CostAllocationApp.BLL
         /************
          * Difference Methods: Starts
         *************/
-        public List<ForecastAssignmentViewModel> GetForecastedDataByTimestampId(string departmentIds, string companyIds, int year,string timestampsId)
-        {            
-            List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetForecastedAssignmentDataByTimestampId(departmentIds, companyIds, year, timestampsId);
-
-            if (forecastAssignments.Count > 0)
-            {
-                foreach (var forecastAssignment in forecastAssignments)
-                {
-                    forecastAssignment.forecasts = employeeAssignmentDAL.GetForecastedDataByTimestampAssignmentId(forecastAssignment.Id, year.ToString());
-                    if (forecastAssignment.forecasts.Count > 0)
-                    {
-                        forecastAssignment.OctPoints = forecastAssignment.forecasts.Where(f => f.Month == 10).SingleOrDefault().Points.ToString();
-                        forecastAssignment.NovPoints = forecastAssignment.forecasts.Where(f => f.Month == 11).SingleOrDefault().Points.ToString();
-                        forecastAssignment.DecPoints = forecastAssignment.forecasts.Where(f => f.Month == 12).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JanPoints = forecastAssignment.forecasts.Where(f => f.Month == 1).SingleOrDefault().Points.ToString();
-                        forecastAssignment.FebPoints = forecastAssignment.forecasts.Where(f => f.Month == 2).SingleOrDefault().Points.ToString();
-                        forecastAssignment.MarPoints = forecastAssignment.forecasts.Where(f => f.Month == 3).SingleOrDefault().Points.ToString();
-                        forecastAssignment.AprPoints = forecastAssignment.forecasts.Where(f => f.Month == 4).SingleOrDefault().Points.ToString();
-                        forecastAssignment.MayPoints = forecastAssignment.forecasts.Where(f => f.Month == 5).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JunPoints = forecastAssignment.forecasts.Where(f => f.Month == 6).SingleOrDefault().Points.ToString();
-                        forecastAssignment.JulPoints = forecastAssignment.forecasts.Where(f => f.Month == 7).SingleOrDefault().Points.ToString();
-                        forecastAssignment.AugPoints = forecastAssignment.forecasts.Where(f => f.Month == 8).SingleOrDefault().Points.ToString();
-                        forecastAssignment.SepPoints = forecastAssignment.forecasts.Where(f => f.Month == 9).SingleOrDefault().Points.ToString();
-
-                        forecastAssignment.OctTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.OctPoints)).ToString();
-                        forecastAssignment.NovTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.NovPoints)).ToString();
-                        forecastAssignment.DecTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.DecPoints)).ToString();
-                        forecastAssignment.JanTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JanPoints)).ToString();
-                        forecastAssignment.FebTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.FebPoints)).ToString();
-                        forecastAssignment.MarTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MarPoints)).ToString();
-                        forecastAssignment.AprTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AprPoints)).ToString();
-                        forecastAssignment.MayTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.MayPoints)).ToString();
-                        forecastAssignment.JunTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JunPoints)).ToString();
-                        forecastAssignment.JulTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.JulPoints)).ToString();
-                        forecastAssignment.AugTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.AugPoints)).ToString();
-                        forecastAssignment.SepTotal = (Convert.ToDouble(forecastAssignment.UnitPrice) * Convert.ToDouble(forecastAssignment.SepPoints)).ToString();
-
-                    }
-                    forecastAssignment.ActualCosts = actualCostDAL.GetActualCostsByYear_AssignmentId(year, forecastAssignment.AssignmentTimeStampId);
-                    if (forecastAssignment.ActualCosts.Count == 0)
-                    {
-                        forecastAssignment.ActualCosts = new List<ActualCost>();
-                        forecastAssignment.ActualCosts.Add(new ActualCost { });
-                    }
-
-                }
-            }
-            return forecastAssignments;
-        }
 
         public List<ForecastAssignmentViewModel> GetCostByCompanyAndInchargeIds(string inchargeId, string companyIds, int year, string timestampsId)
         {

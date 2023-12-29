@@ -34,6 +34,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public int UpdateIncharge(InCharge inCharge)
         {
             int result = 0;
@@ -59,6 +60,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public List<InCharge> GetAllInCharges()
         {
             List<InCharge> inCharges = new List<InCharge>();
@@ -96,6 +98,7 @@ namespace CostAllocationApp.DAL
                 return inCharges;
             }
         }
+
         public int RemoveInCharge(int inChargeIds)
         {
             int result = 0;            
@@ -118,6 +121,7 @@ namespace CostAllocationApp.DAL
             }
 
         }
+
         public bool CheckInCharge(string incharegeName)
         {
             string query = "select * from InCharges where Name=N'" + incharegeName + "'";
@@ -142,6 +146,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
+
         public int GetInChargeCountWithEmployeeAsignment(int inChargeId)
         {
             string query = "select * from EmployeesAssignments where InChargeId=" + inChargeId;
@@ -200,6 +205,7 @@ namespace CostAllocationApp.DAL
                 return incharge;
             }
         }
+
         public int GetInchargeIdByName(string inchargeName)
         {
             int inchargeId = 0;

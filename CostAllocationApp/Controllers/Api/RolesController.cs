@@ -14,6 +14,10 @@ namespace CostAllocationApp.Controllers.Api
             roleBLL = new RoleBLL();
         }
 
+        /*
+          Description: Create role.
+          Type: POST
+         */
         [HttpPost]
         public IHttpActionResult CreateRole(Role role)
         {
@@ -58,13 +62,20 @@ namespace CostAllocationApp.Controllers.Api
                 }
             }
         }
+        /*
+          Description: get all roles.
+          Type: GET
+         */
         [HttpGet]
         public IHttpActionResult Roles()
         {
             List<Role> roles = roleBLL.GetAllRoles();
             return Ok(roles);
         }
-
+        /*
+         Description: remove roles.
+         Type: DELETE
+        */
         [HttpDelete]
         public IHttpActionResult RemoveRoles([FromUri] string roleIds)
         {

@@ -12,16 +12,11 @@ namespace CostAllocationApp.DAL
         public int CreateDepartmentWithSubCategory(DepartmentWithSubCategory departmentWithSubCategory)
         {
             int result = 0;
-            //string query = $@"UPDATE Departments SET SubCategoryId=@subCategoryId,UpdatedDate=@updatedDate,UpdatedBy=@updatedBy where Id In"++"";
             string query = "UPDATE Departments SET SubCategoryId="+ departmentWithSubCategory.SubCategoryId + ",UpdatedDate='"+ departmentWithSubCategory.UpdatedDate + "',UpdatedBy='"+ departmentWithSubCategory.UpdatedBy + "' where Id In ("+ departmentWithSubCategory.DepartmentId + ") ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
                 sqlConnection.Open(); 
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                //cmd.Parameters.AddWithValue("@subCategoryId", );
-                //cmd.Parameters.AddWithValue("@departmentId", );
-                //cmd.Parameters.AddWithValue("@updatedDate", );
-                //cmd.Parameters.AddWithValue("@updatedBy", );
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -35,69 +30,6 @@ namespace CostAllocationApp.DAL
             }
 
         }
-        //public List<SubCategory> GetAllSubCategories()
-        //{
-        //    List<SubCategory> subCategories = new List<SubCategory>();
-        //    string query = "";
-        //    query = query + "SELECT d.Id 'SubCategoryId',d.SubCategoryName,s.Id 'CategoryId',s.CategoryName ,d.CreatedDate,d.CreatedBy ";
-        //    query = query + "FROM SubCategories d ";
-        //    query = query + "   INNER JOIN Categories s ON d.CategoryId = s.Id ";
-        //    query = query + "WHERE d.IsActive=1";
-
-        //    using (SqlConnection sqlConnection = this.GetConnection())
-        //    {
-        //        sqlConnection.Open();
-        //        SqlCommand cmd = new SqlCommand(query, sqlConnection);
-        //        try
-        //        {
-        //            SqlDataReader rdr = cmd.ExecuteReader();
-        //            if (rdr.HasRows)
-        //            {
-        //                while (rdr.Read())
-        //                {
-        //                    SubCategory subCategory = new SubCategory();
-        //                    subCategory.Id = Convert.ToInt32(rdr["SubCategoryId"]);
-        //                    subCategory.CategoryId = rdr["CategoryId"].ToString();
-        //                    subCategory.SubCategoryName = rdr["SubCategoryName"].ToString();
-        //                    subCategory.CategoryName = rdr["CategoryName"].ToString();
-        //                    subCategory.CreatedDate = Convert.ToDateTime(rdr["CreatedDate"]);
-        //                    subCategory.CreatedBy = rdr["CreatedBy"].ToString();
-
-        //                    subCategories.Add(subCategory);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-
-        //        }
-
-        //        return subCategories;
-        //    }
-        //}
-
-        //public int RemoveSubCategory(int subCategoryId)
-        //{
-        //    int result = 0;
-        //    string query = $@"update SubCategories set isactive=0 where id=@id";
-        //    using (SqlConnection sqlConnection = this.GetConnection())
-        //    {
-        //        sqlConnection.Open();
-        //        SqlCommand cmd = new SqlCommand(query, sqlConnection);
-        //        cmd.Parameters.AddWithValue("@id", subCategoryId);
-        //        try
-        //        {
-        //            result = cmd.ExecuteNonQuery();
-        //        }
-        //        catch (Exception ex)
-        //        {
-
-        //        }
-
-        //        return result;
-        //    }
-
-        //}
 
         public bool CheckSubCategoryIsAssignedToDepartment(string departmentId)
         {
@@ -128,36 +60,7 @@ namespace CostAllocationApp.DAL
                 return result;
             }
         }
-        //public Category GetCategoryByCategoryId(int categoryId)
-        //{
-        //    Category category = null;
-        //    string query = "select * from Categories where Id = " + categoryId;
-
-        //    using (SqlConnection sqlConnection = this.GetConnection())
-        //    {
-        //        sqlConnection.Open();
-        //        SqlCommand cmd = new SqlCommand(query, sqlConnection);
-        //        try
-        //        {
-        //            SqlDataReader rdr = cmd.ExecuteReader();
-        //            if (rdr.HasRows)
-        //            {
-        //                while (rdr.Read())
-        //                {
-        //                    category = new Category();
-        //                    category.CategoryName = rdr["CategoryName"].ToString();
-        //                    category.Id = Convert.ToInt32(rdr["Id"]);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            category = null;
-        //        }
-
-        //        return category;
-        //    }
-        //}
+       
         public List<SubCategory> GetSubCategoryByCategoryId(int categoryId)
         {
             List<SubCategory> subCategories = new List<SubCategory>();

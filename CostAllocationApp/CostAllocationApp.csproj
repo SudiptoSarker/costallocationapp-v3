@@ -186,7 +186,7 @@
     <Compile Include="BLL\DetailsItemBLL.cs" />
     <Compile Include="BLL\EmployeeBLL.cs" />
     <Compile Include="BLL\EmployeeAssignmentBLL.cs" />
-    <Compile Include="BLL\ExplanationsBLL.cs" />
+    <Compile Include="BLL\ExplanationBLL.cs" />
     <Compile Include="BLL\ExportExcelFileBLL.cs" />
     <Compile Include="BLL\ForecastBLL.cs" />
     <Compile Include="BLL\InChargeBLL.cs" />

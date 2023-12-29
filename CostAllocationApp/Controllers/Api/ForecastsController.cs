@@ -19,10 +19,13 @@ namespace CostAllocationApp.Controllers.Api
             forecastBLL = new ForecastBLL();
         }
 
+        /*
+         Description: create forecast.
+         Type: GET
+        */
         [HttpGet]
         public IHttpActionResult CreateForecast(string data,string year,string assignmentId)
         {
-            //var session = System.Web.HttpContext.Current.Session;
             var session = HttpContext.Current.Session;
 
             string[] monthData = data.Split(',');
@@ -66,8 +69,6 @@ namespace CostAllocationApp.Controllers.Api
                 forecast.Year = Convert.ToInt32(year);
                 forecast.EmployeeAssignmentId = Convert.ToInt32(assignmentId);
                 //forecast.CreatedBy = session["userName"].ToString();
-                //commented by sudipto on 19April2023
-                //forecast.CreatedBy = session["userName"].ToString();
 
                 forecast.CreatedBy = "admin";    
 
@@ -75,17 +76,17 @@ namespace CostAllocationApp.Controllers.Api
                 forecast.UpdatedBy = "";
                 forecast.UpdatedDate = DateTime.Now;
 
-                //var result = forecastBLL.CheckAssignmentId(int.Parse(assignmentId),int.Parse(year), Convert.ToInt32(temp[0]));
+                
                 var result = forecastBLL.CheckBudgetId(int.Parse(assignmentId), int.Parse(year), Convert.ToInt32(temp[0]));
                 if (result==true)
                 {
                     int resultEdit = forecastBLL.UpdateBudgetForecast(forecast);
-                    //int resultEdit = forecastBLL.UpdateForecast(forecast);
+                    
                 }
                 else
                 {
                     int resultSave = forecastBLL.CreateBudgetForecast(forecast);
-                    //int resultSave = forecastBLL.CreateForecast(forecast);
+                    
                 }
 
                 
@@ -94,6 +95,10 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
+        /*
+         Description: create forecast record.
+         Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateForecastRecord(string data, string year, string assignmentId)
         {
@@ -159,14 +164,6 @@ namespace CostAllocationApp.Controllers.Api
 
         }
 
-        //[HttpGet]
-        //public IHttpActionResult GetForecatYear()
-        //{
-        //    List<ForecastYear> forecastYears = new List<ForecastYear>();
-
-        //    forecastYears = forecastBLL.GetForecastYear();
-        //    return Ok(forecastYears);
-        //}
 
     }
 }

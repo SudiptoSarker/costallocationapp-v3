@@ -12,8 +12,11 @@ namespace CostAllocationApp.Controllers.Api
         public InChargesController()
         {
             inChargeBLL = new InChargeBLL();
-        } 
-
+        }
+        /*
+         Description: create in-charge.
+         Type: POST
+        */
         [HttpPost]
         public IHttpActionResult CreateInCharge(InCharge inCharge)
         {
@@ -62,13 +65,20 @@ namespace CostAllocationApp.Controllers.Api
                 
             }
         }
+        /*
+        Description: get in-charges.
+        Type: GET
+       */
         [HttpGet]
         public IHttpActionResult InCharges()
         {
             List<InCharge> inCharges = inChargeBLL.GetAllInCharges();
             return Ok(inCharges);
         }
-
+        /*
+           Description: remove in-charges.
+           Type: DELETE
+        */
         [HttpDelete]
         public IHttpActionResult RemoveInCharge([FromUri] string inChargeIds)
         {

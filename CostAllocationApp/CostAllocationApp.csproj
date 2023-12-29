@@ -767,32 +767,22 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Companies\CreateCompany.cshtml" />
     <Content Include="Views\Salaries\CreateSalary.cshtml" />
-    <Content Include="Views\Employees\NameList.cshtml" />
-    <Content Include="Views\Employees\CreateAssignment.cshtml" />
-    <Content Include="Views\Employees\CreateEmployee.cshtml" />
     <Content Include="Views\Forecasts\CreateForecast.cshtml" />
-    <Content Include="Views\Employees\NameRegistration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Employees\CreateNewEmployee.cshtml" />
     <Content Include="Views\Forecasts\GetHistories.cshtml" />
     <Content Include="Views\Forecasts\ActualCosts.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Users\CreateUsers.cshtml" />
     <Content Include="Views\Registration\UserRegistration.cshtml" />
-    <Content Include="Views\Forecasts\CalculateActualCost.cshtml" />
-    <Content Include="Views\Forecasts\GetTotal.cshtml" />
-    <Content Include="Views\Forecasts\Apportionment.cshtml" />
-    <Content Include="Views\Forecasts\GetSukeyWithQA.cshtml" />
     <Content Include="Views\Forecasts\ActualCostConfirm.cshtml" />
     <Content Include="Views\Forecasts\QaProportion.cshtml" />
     <Content Include="Views\Forecasts\CreateBudget.cshtml" />
     <Content Include="Views\Forecasts\EditBudget.cshtml" />
     <Content Include="Views\Forecasts\ApproveForecast.cshtml" />
     <Content Include="Views\Forecasts\ApproveHistories.cshtml" />
-    <Content Include="Views\Forecasts\TableFormat.cshtml" />
     <Content Include="Views\Forecasts\CreateDynamicTable.cshtml" />
     <Content Include="Views\Forecasts\DynamicTableView.cshtml" />
     <Content Include="Views\Users\EditUsers.cshtml" />
+    <Content Include="Views\Forecasts\Total.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

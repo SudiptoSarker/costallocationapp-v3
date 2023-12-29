@@ -239,7 +239,11 @@ namespace CostAllocationApp.BLL
             int restult = totalDAL.RemoveDynamicTable(dynamicTable);
             if (restult > 0)
             {
-                restult = totalDAL.RemoveDynamicTableSettings(dynamicTable);
+                List<DynamicSetting> _dynamicSettings = totalDAL.GetDynamicSettingListByTableId(dynamicTable.Id);
+                if (_dynamicSettings.Count > 0)
+                {
+                    restult = totalDAL.RemoveDynamicTableSettings(dynamicTable);
+                }                
             }
             return restult;
         }

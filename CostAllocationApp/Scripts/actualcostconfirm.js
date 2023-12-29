@@ -211,6 +211,45 @@ $(document).ready(function(){
         $('.grade_sorting').fadeOut("slow");
         $('.unit_sorting').fadeOut("slow");
     });
+
+    // loading jexcel
+    {               
+        if (year == null || year == '' || year == undefined) {
+            alert('年度を選択してください!!!');
+            return false;
+        }
+        LoaderShow();
+        
+        $.ajax({
+            url: '/Registration/GetUserRole',
+            contentType: 'application/json',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                if (parseInt(data) === 1 || parseInt(data) === 2) {
+                    userRoleflag = false;
+                }
+                else {
+                    userRoleflag = true;
+                }
+            }
+        });
+
+        $.ajax({
+            url: `/api/utilities/GetActualCostConfirmData?year=${year}&monthId=${queryStrings['month']}`,
+            contentType: 'application/json',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            success: function (data) {                                        
+                _retriveddata = data;
+                ShowActualCostConfrimJexcel();
+                LoaderHide();                    
+            }
+        });
+    }
 });
 
 //show loader
@@ -329,14 +368,14 @@ function ShowActualCostConfrimJexcel(){
 
         columns: [
             { title: "Assignment Id", type: 'hidden', name: "Id" },
-            { title: "要員(Employee)", type: "text", name: "EmployeeName", width: 150, readOnly: true },
-            { title: "Remarks", type: "text", name: "Remarks", width: 60, readOnly: true },
-            { title: "区分(Section)", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100, readOnly: true },
-            { title: "部署(Dept)", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100, readOnly: true },
-            { title: "担当作業(In chg)", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100, readOnly: true },
-            { title: "役割 ( Role)", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60, readOnly: true },
-            { title: "説明(expl)", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150, readOnly: true },
-            { title: "会社(Com)", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100, readOnly: true },
+            { title: "要員", type: "text", name: "EmployeeName", width: 150, readOnly: true },
+            { title: "注記", type: "text", name: "Remarks", width: 60, readOnly: true },
+            { title: "区分", type: "dropdown", source: sectionsForJexcel, name: "SectionId", width: 100, readOnly: true },
+            { title: "部署", type: "dropdown", source: departmentsForJexcel, name: "DepartmentId", width: 100, readOnly: true },
+            { title: "担当作業", type: "dropdown", source: inchargesForJexcel, name: "InchargeId", width: 100, readOnly: true },
+            { title: "役割", type: "dropdown", source: rolesForJexcel, name: "RoleId", width: 60, readOnly: true },
+            { title: "説明", type: "dropdown", source: explanationsForJexcel, name: "ExplanationId", width: 150, readOnly: true },
+            { title: "会社", type: "dropdown", source: companiesForJexcel, name: "CompanyId", width: 100, readOnly: true },
             
             {
                 title: `${queryStrings['month']}月単価(uc)`,

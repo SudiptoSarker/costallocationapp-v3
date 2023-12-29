@@ -33,18 +33,7 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.UpdateActualCost(year, assignmentId, costColumnName, pointColumnName, costAmount, pointAmount, updatedBy, updatedDate);
         }
-        public bool CheckSukeyAssignmentId(int assignmentId, int year)
-        {
-            return actualCostDAL.CheckSukeyAssignmentId(assignmentId, year);
-        }
-        public int CreateSukey(Sukey sukey)
-        {
-            return actualCostDAL.CreateSukey(sukey);
-        }
-        public int UpdateSukey(Sukey sukey)
-        {
-            return actualCostDAL.UpdateSukey(sukey);
-        }
+
         public List<SukeyDto> GetAllSukeyData(int year)
         {
             List<SukeyDto> sukeyListWithDepartment = new List<SukeyDto>();
@@ -119,13 +108,7 @@ namespace CostAllocationApp.BLL
         {
             return actualCostDAL.GetLeatestForcastYear();
         }
-        public int GetLeatestActualCostYear()
-        {
-            return actualCostDAL.GetLeatestActualCostYear();
-        }
-        public int UpdateAssignmentIds(int previousId, int updateId) {
-            return actualCostDAL.UpdateAssignmentIds(previousId, updateId);
-        }
+
 
     }
 }

@@ -658,7 +658,6 @@ namespace CostAllocationApp.DAL
         {
 
             int result = 0;
-            //string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate where Id=@id AND DynamicTableId=@dynamicTableId";
             string query = $@"update DynamicSettings set CategoryId = @categoryId, SubCategoryId=@subCategoryId,DetailsId=@detailsId,MethodId=@methodId,ParameterId=@parameterId, UpdatedBy=@updatedBy,UpdatedDate=@updatedDate, IsMainTotal=@isMainTotal, IsSubTotal=@isSubTotal where Id=@id AND DynamicTableId=@dynamicTableId";
             using (SqlConnection sqlConnection = this.GetConnection())
             {
@@ -691,7 +690,7 @@ namespace CostAllocationApp.DAL
 
         public string GetDynamicTableTitleByPosition(string tablePosition)
         {
-            //
+            
             DynamicTable dynamicTable = new DynamicTable();
             string query = "";
             string strTableTitle = "";
@@ -723,7 +722,7 @@ namespace CostAllocationApp.DAL
 
         public string GetDynamicTableTitle(string tableId)
         {
-            //
+            
             DynamicTable dynamicTable = new DynamicTable();
             string query = "";
             string strTableTitle = "";

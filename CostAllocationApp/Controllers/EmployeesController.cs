@@ -17,26 +17,6 @@ namespace CostAllocationApp.Controllers
             userBLL = new UserBLL();
             _utility = new Utility();
         }
-        [NonAction]
-        public ActionResult CreateEmployee()
-        {
-            return View();
-        }
-        // GET: Employees
-        [NonAction]
-        public ActionResult NameList()
-        {
-            return View();
-        }
-        [NonAction]
-        public ActionResult CreateAssignment()
-        {
-            return View();
-        }
-        public ActionResult NameRegistration()
-        {
-            return View();
-        }
 
         public ActionResult CreateNewEmployee()
         {

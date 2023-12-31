@@ -65,13 +65,6 @@ namespace CostAllocationApp.Controllers
             return Json(user.UserRoleId, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpGet]
-        //public JsonResult RemoveOtherSessions(string userName)
-        //{
-        //    int result = userBLL.RemoveUser(userName);
-        //    return Json("ok", JsonRequestBehavior.AllowGet);
-        //}
-
         public JsonResult RemoveSession(string userName)
         {
             Session.Abandon();

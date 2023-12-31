@@ -45,7 +45,6 @@ namespace CostAllocationApp.Controllers
         {
             userBLL = new UserBLL();
         }
-        // GET: Forecasts
         public ActionResult CreateForecast()
         {
             //authentication
@@ -369,28 +368,20 @@ namespace CostAllocationApp.Controllers
 
         }
 
-        //public int CreateAssignmentForExcelUpload(DataTable dt_, int i, int subCodeCount = 0)
         public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i, int upload_year = 0, int subCodeCount = 0)
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();
             EmployeeAssignment employeeAssignment = new EmployeeAssignment();
 
             employeeAssignmentDTO = new EmployeeAssignmentDTO();
-            //employeeAssignment.EmployeeName = dt_.EmployeeName;
             employeeAssignment.EmployeeId = dt_.EmployeeId.ToString();
-            //employeeAssignment.SectionId = Convert.ToInt32(dt_.SectionId.ToString().Trim(trimElements));
             employeeAssignment.SectionId = String.IsNullOrEmpty(dt_.SectionId.ToString()) ? null : dt_.SectionId;
-            //employeeAssignment.InchargeId = Convert.ToInt32(dt_.InchargeId.ToString().Trim(trimElements));
             employeeAssignment.InchargeId = String.IsNullOrEmpty(dt_.InchargeId.ToString()) ? null : dt_.InchargeId;
-            //employeeAssignment.DepartmentId = Convert.ToInt32(dt_.DepartmentId.ToString().Trim(trimElements));
             employeeAssignment.DepartmentId = String.IsNullOrEmpty(dt_.DepartmentId.ToString()) ? null : dt_.DepartmentId;
-            //employeeAssignment.RoleId = Convert.ToInt32(dt_.RoleId.ToString().Trim(trimElements));
             employeeAssignment.RoleId = String.IsNullOrEmpty(dt_.RoleId.ToString()) ? null : dt_.RoleId;
-            //employeeAssignment.CompanyId = Convert.ToInt32(dt_.CompanyId.ToString().Trim(trimElements));
             employeeAssignment.CompanyId = String.IsNullOrEmpty(dt_.CompanyId.ToString()) ? null : dt_.CompanyId;
             employeeAssignment.ExplanationId = String.IsNullOrEmpty(dt_.ExplanationId.ToString()) ? null : dt_.ExplanationId.ToString().Trim(trimElements);
             employeeAssignment.UnitPrice = Convert.ToInt32(dt_.UnitPrice.ToString().Trim(trimElements));
-            //employeeAssignment.GradeId = Convert.ToInt32(dt_.GradeId.ToString().Trim(trimElements));
             employeeAssignment.GradeId = String.IsNullOrEmpty(dt_.GradeId.ToString()) ? null : dt_.GradeId;
             employeeAssignment.SubCode = subCodeCount + 1;
             employeeAssignment.BCYR = false;
@@ -417,21 +408,14 @@ namespace CostAllocationApp.Controllers
             EmployeeBudget employeeAssignment = new EmployeeBudget();
 
             employeeAssignmentDTO = new EmployeeAssignmentDTO();
-            //employeeAssignment.EmployeeName = dt_.EmployeeName;
             employeeAssignment.EmployeeId = dt_.EmployeeId.ToString();
-            //employeeAssignment.SectionId = Convert.ToInt32(dt_.SectionId.ToString().Trim(trimElements));
             employeeAssignment.SectionId = String.IsNullOrEmpty(dt_.SectionId.ToString()) ? null : dt_.SectionId;
-            //employeeAssignment.InchargeId = Convert.ToInt32(dt_.InchargeId.ToString().Trim(trimElements));
             employeeAssignment.InchargeId = String.IsNullOrEmpty(dt_.InchargeId.ToString()) ? null : dt_.InchargeId;
-            //employeeAssignment.DepartmentId = Convert.ToInt32(dt_.DepartmentId.ToString().Trim(trimElements));
             employeeAssignment.DepartmentId = String.IsNullOrEmpty(dt_.DepartmentId.ToString()) ? null : dt_.DepartmentId;
-            //employeeAssignment.RoleId = Convert.ToInt32(dt_.RoleId.ToString().Trim(trimElements));
             employeeAssignment.RoleId = String.IsNullOrEmpty(dt_.RoleId.ToString()) ? null : dt_.RoleId;
-            //employeeAssignment.CompanyId = Convert.ToInt32(dt_.CompanyId.ToString().Trim(trimElements));
             employeeAssignment.CompanyId = String.IsNullOrEmpty(dt_.CompanyId.ToString()) ? null : dt_.CompanyId;
             employeeAssignment.ExplanationId = String.IsNullOrEmpty(dt_.ExplanationId.ToString()) ? null : dt_.ExplanationId.ToString().Trim(trimElements);
             employeeAssignment.UnitPrice = Convert.ToInt32(dt_.UnitPrice.ToString().Trim(trimElements));
-            //employeeAssignment.GradeId = Convert.ToInt32(dt_.GradeId.ToString().Trim(trimElements));
             employeeAssignment.GradeId = String.IsNullOrEmpty(dt_.GradeId.ToString()) ? null : dt_.GradeId;
             employeeAssignment.SubCode = subCodeCount + 1;
             employeeAssignment.BCYR = false;
@@ -469,7 +453,6 @@ namespace CostAllocationApp.Controllers
             employeeAssignment.FinalizedBudget = false;
 
 
-            //int result = employeeAssignmentBLL.CreateAssignment(employeeAssignment);
             int result = employeeAssignmentBLL.CreateBudgets(employeeAssignment);
             if (result == 0)
             {
@@ -555,66 +538,6 @@ namespace CostAllocationApp.Controllers
 
         }
 
-        public ActionResult CalculateActualCost()
-        {
-            if (Session["token"] == null)
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            return View();
-        }
-
-        public ActionResult GetTotal()
-        {
-            if (Session["token"] == null)
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            return View();
-        }
-
-        public ActionResult Apportionment()
-        {
-            if (Session["token"] == null)
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            return View();
-        }
-
-        public ActionResult GetSukeyWithQA()
-        {
-            if (Session["token"] == null)
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            {
-                Session["token"] = null;
-                Session["userName"] = null;
-                return RedirectToAction("Login", "Registration");
-            }
-            return View();
-        }
-        // GET: Approve Forecasts
         public ActionResult ApproveForecast()
         {
             //authentications
@@ -735,7 +658,6 @@ namespace CostAllocationApp.Controllers
             {
                 return File("", "", ""); ;
             }
-            //return Ok(forecastHistoryList);
         }
 
 
@@ -852,11 +774,6 @@ namespace CostAllocationApp.Controllers
 
                         IExcelDataReader reader = null;
 
-
-                        //if (uploaded_file.FileName.EndsWith(".xls"))
-                        //{
-                        //    reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                        //}
                         if (uploaded_file.FileName.EndsWith(".xlsx"))
                         {
                             reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
@@ -925,7 +842,6 @@ namespace CostAllocationApp.Controllers
                                             else
                                             {
                                                 _uploadExcel.SectionId = sectionBLL.RetrieveSectionIdBySectionName("未設定", userName);
-                                                //_uploadExcel.SectionId = 0;
                                             }
                                             //department : read/write
                                             if (!string.IsNullOrEmpty(_row[1].ToString()))
@@ -1007,16 +923,6 @@ namespace CostAllocationApp.Controllers
                                                 _uploadExcel.UnitPrice = Convert.ToInt32(_row[8].ToString().Trim(trimElements));
                                             }
 
-                                            //remarks: read/write
-                                            //if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
-                                            //{
-                                            //    _uploadExcel.Remarks = dt_.Rows[i][21].ToString().Trim(trimElements);
-                                            //}
-                                            //else
-                                            //{
-                                            //    _uploadExcel.Remarks = "";
-                                            //}
-
                                             // new code added by shekhar
                                             if (_matchedItems.Count > 0)
                                             {
@@ -1066,7 +972,6 @@ namespace CostAllocationApp.Controllers
                                             {
                                                 _uploadExcel.UnitPriceChanged = "0";
                                             }
-                                            // ------------------
                                             _uploadExcel.Remarks = "";
 
                                             //name: read/write
@@ -1079,7 +984,6 @@ namespace CostAllocationApp.Controllers
                                                 employee.IsActive = true;
                                                 employee.CreatedBy = "";
                                                 employee.CreatedDate = DateTime.Now;
-                                                //employee.FullName = dt_.Rows[i][5].ToString().Trim(trimElements);
                                                 employee.FullName = employeeBLL.GetFullNameFromCSV(_row[5].ToString().Trim(trimElements));
                                                 if (string.IsNullOrEmpty(employee.FullName))
                                                 {
@@ -1099,37 +1003,6 @@ namespace CostAllocationApp.Controllers
 
                                                     _uploadExcel.EmployeeId = result;
 
-                                                    //duplicate employee count
-                                                    //string duplicateFrom = "0";
-                                                    //if (!string.IsNullOrEmpty(dt_.Rows[i][21].ToString()))
-                                                    //{
-                                                    //    duplicateFrom = dt_.Rows[i][21].ToString().Trim(trimElements);
-                                                    //}
-
-                                                    ////duplicate employee count
-                                                    //string duplicateCount = "0";
-                                                    //if (!string.IsNullOrEmpty(dt_.Rows[i][22].ToString()))
-                                                    //{
-                                                    //    duplicateCount = dt_.Rows[i][22].ToString().Trim(trimElements);
-                                                    //}
-
-                                                    ////role change for employee
-                                                    //string roleChange = "0";
-                                                    //if (!string.IsNullOrEmpty(dt_.Rows[i][23].ToString()))
-                                                    //{
-                                                    //    roleChange = dt_.Rows[i][23].ToString().Trim(trimElements);
-                                                    //}
-
-                                                    ////unit price change for employee
-                                                    //string unitPriceChange = "0";
-                                                    //if (!string.IsNullOrEmpty(dt_.Rows[i][24].ToString()))
-                                                    //{
-                                                    //    unitPriceChange = dt_.Rows[i][24].ToString().Trim(trimElements);
-                                                    //}
-
-                                                    //get duplicate name for employee assignment
-
-                                                    //string employeeFullName = employeeBLL.GetEmployeeNameWithNamingConvension(employee.FullName, duplicateCount, roleChange, unitPriceChange);
                                                     _uploadExcel.EmployeeName = employee.FullName;
                                                 }
                                             }
@@ -1354,13 +1227,9 @@ namespace CostAllocationApp.Controllers
                             ViewBag.ValidationMessage = "<span id='validation_message_failed' style='margin-left: 28px;'>インポートに失敗しました</span>";
                             return View();
                         }
-
-                        //DataSet result = new DataSet();
-                        //result.Tables.Add(dt);
                         reader.Close();
                         reader.Dispose();
-                        //DataTable tmp = result.Tables[0];
-                        //Session["tmpdata"] = tmp;  //store datatable into session
+                        //store datatable into session
                         TempData["seccess"] = "Data imported successfully";
                         ViewBag.ValidationMessage = "<span id='validation_message_success' style='margin-left: 28px;'>インポートデータは正常に処理されました </span>";
                         return View();
@@ -1435,20 +1304,6 @@ namespace CostAllocationApp.Controllers
             return View();
         }
 
-        public ActionResult TableFormat()
-        {
-            //if (Session["token"] == null)
-            //{
-            //    return RedirectToAction("Login", "Registration");
-            //}
-            //if (BLL.UserBLL.GetUserLogByToken(Session["token"].ToString()) == false)
-            //{
-            //    Session["token"] = null;
-            //    Session["userName"] = null;
-            //    return RedirectToAction("Login", "Registration");
-            //}
-            return View();
-        }
         public ActionResult CreateDynamicTable()
         {
             //authentications
@@ -1561,7 +1416,6 @@ namespace CostAllocationApp.Controllers
             {
                 return File("", "", ""); ;
             }
-            //return Ok(forecastHistoryList);
         }
 
     }

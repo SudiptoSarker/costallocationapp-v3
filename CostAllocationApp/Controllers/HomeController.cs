@@ -305,10 +305,6 @@ namespace CostAllocationApp.Controllers
             return View("CreateForecast", "Forecasts");
         }
 
-        public int EmployeeAssignment()
-        {
-            return 0;
-        }
         public void SendToApi(int assignmentId, string row, int year)
         {
 
@@ -327,13 +323,12 @@ namespace CostAllocationApp.Controllers
                 var result = postTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    //return RedirectToAction("Index");
+                    // write code here if needed.
                 }
             }
 
         }
 
-        //public int CreateAssignmentForExcelUpload(DataTable dt_, int i, int subCodeCount = 0)
         public int CreateAssignmentForExcelUpload(UploadExcel dt_, int i, int subCodeCount = 0)
         {
             EmployeeAssignmentDTO employeeAssignmentDTO = new EmployeeAssignmentDTO();

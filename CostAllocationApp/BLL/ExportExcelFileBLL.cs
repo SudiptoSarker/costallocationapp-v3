@@ -2188,18 +2188,18 @@ namespace CostAllocationApp.BLL
                 var augPOriginal = item.AugPoints;
                 var sepPOriginal = item.SepPoints;
 
-                var octTotal = Convert.ToDecimal(octPOriginal) * Convert.ToDecimal(unitPrice);//item.OctTotal;
-                var novTotal = Convert.ToDecimal(novPOriginal) * Convert.ToDecimal(unitPrice);//item.NovTotal;
-                var decTotal = Convert.ToDecimal(decPOriginal) * Convert.ToDecimal(unitPrice);//item.DecTotal;
-                var janTotal = Convert.ToDecimal(janPOriginal) * Convert.ToDecimal(unitPrice);//item.JanTotal;
-                var febTotal = Convert.ToDecimal(febPOriginal) * Convert.ToDecimal(unitPrice);//item.FebTotal;
-                var marTotal = Convert.ToDecimal(marPOriginal) * Convert.ToDecimal(unitPrice);//item.MarTotal;
-                var aprTotal = Convert.ToDecimal(aprPOriginal) * Convert.ToDecimal(unitPrice);//item.AprTotal;
-                var mayTotal = Convert.ToDecimal(mayPOriginal) * Convert.ToDecimal(unitPrice);//item.MayTotal;
-                var junTotal = Convert.ToDecimal(junPOriginal) * Convert.ToDecimal(unitPrice);//item.JunTotal;
-                var julTotal = Convert.ToDecimal(julPOriginal) * Convert.ToDecimal(unitPrice);//item.JulTotal;
-                var augTotal = Convert.ToDecimal(augPOriginal) * Convert.ToDecimal(unitPrice);//item.AugTotal;
-                var septTotal = Convert.ToDecimal(sepPOriginal) * Convert.ToDecimal(unitPrice);//item.SepTotal;
+                var octTotal = Convert.ToDecimal(octPOriginal) * Convert.ToDecimal(unitPrice);
+                var novTotal = Convert.ToDecimal(novPOriginal) * Convert.ToDecimal(unitPrice);
+                var decTotal = Convert.ToDecimal(decPOriginal) * Convert.ToDecimal(unitPrice);
+                var janTotal = Convert.ToDecimal(janPOriginal) * Convert.ToDecimal(unitPrice);
+                var febTotal = Convert.ToDecimal(febPOriginal) * Convert.ToDecimal(unitPrice);
+                var marTotal = Convert.ToDecimal(marPOriginal) * Convert.ToDecimal(unitPrice);
+                var aprTotal = Convert.ToDecimal(aprPOriginal) * Convert.ToDecimal(unitPrice);
+                var mayTotal = Convert.ToDecimal(mayPOriginal) * Convert.ToDecimal(unitPrice);
+                var junTotal = Convert.ToDecimal(junPOriginal) * Convert.ToDecimal(unitPrice);
+                var julTotal = Convert.ToDecimal(julPOriginal) * Convert.ToDecimal(unitPrice);
+                var augTotal = Convert.ToDecimal(augPOriginal) * Convert.ToDecimal(unitPrice);
+                var septTotal = Convert.ToDecimal(sepPOriginal) * Convert.ToDecimal(unitPrice);
 
                 /********* Budget Assignment Data into excel sheet *********/
                 sheet.Cells["A" + count].Value = employeeName;

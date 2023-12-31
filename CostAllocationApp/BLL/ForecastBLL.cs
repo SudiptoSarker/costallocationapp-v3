@@ -347,12 +347,10 @@ namespace CostAllocationApp.BLL
                     }
                     else
                     {
-                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
                         tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
                     }
                     
                     return tempCellValue;
-                    //return "(" + previousCellName + ")" + originalCellName;
                 }
             }
             else
@@ -376,11 +374,9 @@ namespace CostAllocationApp.BLL
                     }
                     else
                     {
-                        //var tempCellValue = previousCellName == originalCellName ? "" : "(" + previousCellName + ") " + originalCellName;
                         tempCellValue = previousCellName == originalCellName ? originalCellName : "(" + previousCellName + ") " + originalCellName;
                     }                        
                     return tempCellValue;
-                    //return "(" + previousCellName + ")" + originalCellName;
                 }
                 
             }
@@ -408,7 +404,6 @@ namespace CostAllocationApp.BLL
                 }
                 else
                 {
-                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
                     var cellManMonths = "";
                     return cellManMonths;
                 }
@@ -421,7 +416,6 @@ namespace CostAllocationApp.BLL
                 }
                 else
                 {
-                    //var cellManMonths = previousCellName == originalCellName ? "" : "(" + previousCellName.ToString("0.0") + ") " + originalCellName.ToString("0.0");
                     var cellManMonths = "";
                     return cellManMonths;
                 }
@@ -491,10 +485,6 @@ namespace CostAllocationApp.BLL
                         {
                             int approvedEmployeeAssignmentLastId = employeeAssignmentBLL.GetApprovedAssignmentLastId();
                             List<Forecast> forecasts = new List<Forecast>();
-                            if (employeeAssignment.Id == 24)
-                            {
-                                //test
-                            }
                             forecasts = forecastDAL.GetApprovedForecastedDataByAssignmentId(employeeAssignment.Id, year);
 
                             foreach (var forecastItem in forecasts)
